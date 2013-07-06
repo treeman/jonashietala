@@ -1,3 +1,5 @@
 *.hi
 _*
 *.o
+site
+images

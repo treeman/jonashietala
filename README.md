@@ -9,14 +9,14 @@ My site written in [Hakyll][]
 TODO
 ----
 
-* Correct post links, without trailing "index.html"
+* Startpage
 * Partial posts by year etc?
     /blog/:year
     /blog/:year/:month
     /blog/:year/:month/:day
 * Youtube shorthand
-* Correct html
 * Design, design design!
+    * Correct html
     * Header
     * Footer
     * Post header
