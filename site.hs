@@ -40,9 +40,9 @@ main = hakyll $ do
             >>= relativizeUrls
             >>= deIndexUrls
 
-    match "*.markdown" $ version "raw" $ do
-        route   $ setExtension ".txt"
-        compile   getResourceBody
+        version "raw" $ do
+            route   $ setExtension ".txt"
+            compile   getResourceBody
 
     match "posts/*" $ do
         route   postRoute

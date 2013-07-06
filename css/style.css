@@ -28,6 +28,17 @@ a:visited {
     margin: 0 auto 2em;
 }
 
+
+footer nav {
+    display: inline;
+    float: left;
+    padding: 1em;
+}
+
+footer .lower {
+    clear: both;
+}
+
 /* Syntax highlighting. */
 code {
     font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
