@@ -10,51 +10,46 @@ TODO
 ----
 
 * Startpage
-* Partial posts by year etc?
-    /blog/:year
-    /blog/:year/:month
-    /blog/:year/:month/:day
+    List of posts and about. Remove about page.
+    List tags below posts.
+    Use index.markdown instead of index.html
+* /blog
+    Recent and full 10 posts.
+* Archive section
+    List of posts and dates
+* Remove "book recommendations" and replace with Recommendations?
+* Tag handling
 * Youtube shorthand
 * Design, design design!
-    * Correct html
-    * Header
-    * Footer
-    * Post header
-    * Text
+    * Correct usage of html5 etc.
+    * Header - only links
+    * Footer - slightly more links
+    * Post header - Pretty date + title, tags
+    * Text for main page
     * 404 page
     * Archive page
     * Projects page
-    * Games page (what to do? remove? keep?)
+        Link to games
     * Color scheme
-* Archive section
-* Tag handling
+* Sitemap
+* SCSS? sass? less? Or regular?
 * Convert posts from the old format to the new
     * Different syntax highlighting
     * Youtube links
     * Remove excerpts
-* Sitemap
-* SCSS or sass? Or regular?
 
 Sitemap
 -------
 
     /
-    /about
     /projects
-    /books
+    /recommendations
     /blog
-    /blog/:year
-    /blog/:year/:month
-    /blog/:year/:month/:day
     /blog/:year/:month/:day/:title
-    /blog/categories
-    /blog/categories/:category
     /blog/tags
     /blog/tags/:tags
     /archive
     /404
-    /games
-    /games/:title
     /sitemap
     /sitemap.xml
 

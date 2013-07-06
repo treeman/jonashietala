@@ -1,0 +1,70 @@
+---
+title: Teh Codez
+tags: Haskell, C, C++, Programming, Etc
+---
+
+# Css
+
+
+```css
+#header nav a { border: none; }
+
+li time {
+    float:right;
+    font-size:small;
+    margin:2px 0 0 0;
+}
+```
+
+# uva 11172
+
+``` {.C}
+#include <cstdio>
+
+int main() {
+    int N;
+    scanf("%d", &N);
+    while (N--) {
+        int a, b;
+        scanf("%d %d", &a, &b);
+        if (a < b)
+            printf("<");
+        else if (a > b)
+            printf(">");
+        else
+            printf("=");
+        printf("\n");
+}
+```
+
+# Some haskell...
+
+```haskell
+metaKeywordCtx :: Context String
+metaKeywordCtx = field "metaKeywords" $ \item -> do
+    tags <- getMetadataField (itemIdentifier item) "tags"
+    return $ maybe "" showMetaTags tags
+      where
+        showMetaTags t = "<meta name=\"keywords\" content=\"" ++ t ++ "\">"
+```
+
+Inlined code here: `"hello" <$> "goodbye"`{.haskell} haskell style!
+
+# Some perl...
+```perl
+
+my ($match) = /[he]he?(ll|aa)ooo.*/gi =~ "hehehehellloooooooo";
+my $options = {
+    format => $output_format,
+    limit => $limit,
+    type => $type,
+};
+
+Ticker::clear_info () if $clear;
+
+if ($help) {
+    Ticker::display_help ();
+    exit;
+}
+```
+
