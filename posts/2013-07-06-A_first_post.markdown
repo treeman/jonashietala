@@ -1,6 +1,6 @@
 ---
 title: A first post
-tags: Cthulhu, Yog-Sothoth, Shub-Niggurath
+tags: Programming, Taekwond-do
 ---
 
 # Header

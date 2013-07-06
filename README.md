@@ -15,6 +15,9 @@ TODO
     Use index.markdown instead of index.html
 * /blog
     Recent and full 10 posts.
+        -or-
+    All full posts!
+* /blog/tags/:tags
 * Archive section
     List of posts and dates
 * Remove "book recommendations" and replace with Recommendations?
@@ -46,7 +49,6 @@ Sitemap
     /recommendations
     /blog
     /blog/:year/:month/:day/:title
-    /blog/tags
     /blog/tags/:tags
     /archive
     /404

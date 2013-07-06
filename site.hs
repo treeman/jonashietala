@@ -1,13 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
-import Data.Monoid (mappend)
+import Data.Monoid (mappend, mconcat)
 import Hakyll
 import Data.List
 import Data.List.Utils
 import System.FilePath  (dropExtension, splitFileName, joinPath)
 
 
-myMail = "mail@jonashietala.se"
-myName = "Jonas Hietala"
+mail = "mail@jonashietala.se"
+name = "Jonas Hietala"
 siteRoot = "http://jonashietala.se"
 
 
@@ -15,8 +15,8 @@ myFeedConfiguration :: FeedConfiguration
 myFeedConfiguration = FeedConfiguration
     { feedTitle       = "Feed title TODO"
     , feedDescription = "Description TODO"
-    , feedAuthorName  = myName
-    , feedAuthorEmail = myMail
+    , feedAuthorName  = name
+    , feedAuthorEmail = mail
     , feedRoot        = siteRoot
     }
 
@@ -30,6 +30,8 @@ main = hakyll $ do
     match "css/*" $ do
         route   idRoute
         compile compressCssCompiler
+
+    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
     match "*.markdown" $ do
         route   dropIndexRoute
@@ -45,9 +47,9 @@ main = hakyll $ do
     match "posts/*" $ do
         route   postRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html" postCtx
+            >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
             >>= saveSnapshot "content"
-            >>= loadAndApplyTemplate "templates/site.html" postCtx
+            >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
             >>= relativizeUrls
             >>= deIndexUrls
 
@@ -59,7 +61,7 @@ main = hakyll $ do
         route   idRoute
         compile $ do
             let archiveCtx =
-                    field "posts" (\_ -> postList recentFirst) `mappend`
+                    field "posts" (\_ -> postList tags "posts/*" recentFirst) `mappend`
                     constField "title" "Archives"              `mappend`
                     siteCtx
 
@@ -85,12 +87,15 @@ main = hakyll $ do
     match "index.html" $ do
         route   idRoute
         compile $ do
-            let indexCtx = field "posts" $ \_ ->
-                                postList $ fmap (take 3) . recentFirst
+            list <- postList tags "posts/*" $ fmap (take 3) . recentFirst
+            let ctx = constField "posts" list `mappend`
+                      field "tags" (\_ -> renderTagList tags) `mappend`
+                      --field "tags" (\_ -> renderTagCloud 80 120 tags) `mappend`
+                      siteCtx
 
             getResourceBody
-                >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/site.html" postCtx
+                >>= applyAsTemplate ctx
+                >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
                 >>= relativizeUrls
                 >>= deIndexUrls
 
@@ -99,24 +104,27 @@ main = hakyll $ do
     create ["atom.xml"] $ do
         route idRoute
         compile $ do
-            let feedCtx = postCtx `mappend` bodyField "description"
+            let feedCtx = (postCtx tags) `mappend` bodyField "description"
             posts <- fmap (take 10) . recentFirst =<<
                 loadAllSnapshots ("posts/*" .&&. hasNoVersion) "content"
             renderAtom myFeedConfiguration feedCtx posts
 
 
 siteCtx :: Context String
-siteCtx =
-    constField "mail" myMail `mappend`
-    constField "name" myName `mappend`
-    metaKeywordCtx `mappend`
-    defaultContext
+siteCtx = mconcat
+    [ constField "mail" mail
+    , constField "name" name
+    , metaKeywordCtx
+    , defaultContext
+    ]
 
 
-postCtx :: Context String
-postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    siteCtx
+postCtx :: Tags -> Context String
+postCtx tags = mconcat
+    [ dateField "date" "%B %e, %Y"
+    , tagsField "tags" tags
+    , siteCtx
+   ]
 
 
 -- 'metaKeywords' from tags for insertion in header. Empty if no tags are found.
@@ -128,11 +136,11 @@ metaKeywordCtx = field "metaKeywords" $ \item -> do
         showMetaTags t = "<meta name=\"keywords\" content=\"" ++ t ++ "\">"
 
 
-postList :: ([Item String] -> Compiler [Item String]) -> Compiler String
-postList sortFilter = do
-    posts   <- sortFilter =<< loadAll ("posts/*" .&&. hasNoVersion)
+postList :: Tags -> Pattern -> ([Item String] -> Compiler [Item String]) -> Compiler String
+postList tags pattern filter = do
+    posts   <- filter =<< loadAll (pattern .&&. hasNoVersion)
     itemTpl <- loadBody "templates/post-item.html"
-    list    <- applyTemplateList itemTpl postCtx posts
+    list    <- applyTemplateList itemTpl (postCtx tags) posts
     return list
 
 
