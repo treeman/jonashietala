@@ -42,45 +42,40 @@ main = hakyll $ do
 
         version "raw" $ do
             route   $ setExtension ".txt"
-            compile   getResourceBody
+            compile   getResourceString
 
     match "posts/*" $ do
         route   postRoute
         compile $ pandocCompiler
+            >>= return . fmap demoteHeaders
             >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
             >>= relativizeUrls
             >>= deIndexUrls
 
-    match "posts/*" $ version "raw" $ do
-        route   rawPostRoute
-        compile getResourceBody
+        version "raw" $ do
+            route   rawPostRoute
+            compile getResourceString
 
     create ["archive/index.html"] $ do
         route   idRoute
-        compile $ do
-            let archiveCtx =
-                    field "posts" (\_ -> postList tags "posts/*" recentFirst) `mappend`
-                    constField "title" "Archives"              `mappend`
-                    siteCtx
+        compile $ archiveCompiler "The Archives" tags "posts/*"
 
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/site.html" archiveCtx
-                >>= relativizeUrls
-                >>= deIndexUrls
+    tagsRules tags $ \tag pattern -> do
+        let title = "Posts tagged " ++ tag
+
+        route   tagRoute
+        compile $ archiveCompiler title tags pattern
 
     create ["projects/index.html"] $ do
         route   idRoute
         compile $ do
-            let projectsCtx =
-                    constField "title" "Projects" `mappend`
-                    siteCtx
+            let ctx = constField "title" "Projects" `mappend` siteCtx
 
             makeItem ""
-                >>= loadAndApplyTemplate "templates/projects.html" projectsCtx
-                >>= loadAndApplyTemplate "templates/site.html" projectsCtx
+                >>= loadAndApplyTemplate "templates/projects.html" ctx
+                >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= relativizeUrls
                 >>= deIndexUrls
 
@@ -108,6 +103,22 @@ main = hakyll $ do
             posts <- fmap (take 10) . recentFirst =<<
                 loadAllSnapshots ("posts/*" .&&. hasNoVersion) "content"
             renderAtom myFeedConfiguration feedCtx posts
+
+
+archiveCompiler :: String -> Tags -> Pattern -> Compiler (Item String)
+archiveCompiler title tags pattern = do
+    list <- postList tags pattern recentFirst
+    let ctx = mconcat
+            [ constField "posts" list
+            , constField "title" title
+            , siteCtx
+            ]
+
+    makeItem ""
+        >>= loadAndApplyTemplate "templates/archive.html" ctx
+        >>= loadAndApplyTemplate "templates/site.html" ctx
+        >>= relativizeUrls
+        >>= deIndexUrls
 
 
 siteCtx :: Context String
@@ -154,6 +165,11 @@ rawPostRoute :: Routes
 rawPostRoute = replacePosts `composeRoutes`
             dateRoute `composeRoutes`
             setExtension ".txt"
+
+
+tagRoute :: Routes
+tagRoute = gsubRoute "tags/" (const "blog/tags/") `composeRoutes`
+           dropIndexRoute
 
 
 replacePosts :: Routes

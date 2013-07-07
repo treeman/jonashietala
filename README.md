@@ -11,17 +11,12 @@ TODO
 
 * Startpage
     List of posts and about. Remove about page.
-    List tags below posts.
     Use index.markdown instead of index.html
 * /blog
     Recent and full 10 posts.
         -or-
     All full posts!
-* /blog/tags/:tags
-* Archive section
-    List of posts and dates
 * Remove "book recommendations" and replace with Recommendations?
-* Tag handling
 * Youtube shorthand
 * Design, design design!
     * Correct usage of html5 etc.
