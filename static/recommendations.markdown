@@ -1,15 +1,20 @@
 ---
-layout: page
-title: "Book Recommendations"
+title: "Recommendations"
 ---
 
-Book Recommendations
-====================
+Recommendations
+===============
 
-Updated November 11, 2012
-------
+## Updated November 11, 2012
 
-This is an unordered list of books I like so much I would like to promote them a bit. There are programming books but also fiction and manga.
+...
+
+
+## Table of contents
+
+* [Programming Books]
+* [Fiction]
+* [Manga]
 
 Programming Books
 ================

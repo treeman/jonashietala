@@ -1,10 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
-import Data.Monoid (mappend, mconcat)
-import Hakyll
+import Control.Applicative ((<$>))
+import Data.Monoid (mappend, mconcat, (<>))
 import Data.List
 import Data.List.Utils
 import System.FilePath  (dropExtension, splitFileName, joinPath)
-
+import Hakyll
 
 mail = "mail@jonashietala.se"
 name = "Jonas Hietala"
@@ -33,8 +33,8 @@ main = hakyll $ do
 
     tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
-    match "*.markdown" $ do
-        route   dropIndexRoute
+    match "static/*" $ do
+        route   staticRoute
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
             >>= relativizeUrls
@@ -47,9 +47,11 @@ main = hakyll $ do
     match "posts/*" $ do
         route   postRoute
         compile $ pandocCompiler
-            >>= return . fmap demoteHeaders
-            >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
             >>= saveSnapshot "content"
+            >>= return . fmap demoteHeaders
+            >>= saveSnapshot "demoted_content"
+            >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
+            >>= saveSnapshot "post"
             >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
             >>= relativizeUrls
             >>= deIndexUrls
@@ -57,6 +59,19 @@ main = hakyll $ do
         version "raw" $ do
             route   rawPostRoute
             compile getResourceString
+
+    create ["blog/index.html"] $ do
+        route idRoute
+
+        compile $ do
+            let ctx = constField "title" "My Weblog" <> siteCtx
+            loadAllSnapshots ("posts/*" .&&. hasNoVersion) "demoted_content"
+                >>= recentFirst
+                >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
+                >>= makeItem
+                >>= loadAndApplyTemplate "templates/site.html" ctx
+                >>= relativizeUrls
+                >>= deIndexUrls
 
     create ["archive/index.html"] $ do
         route   idRoute
@@ -71,7 +86,7 @@ main = hakyll $ do
     create ["projects/index.html"] $ do
         route   idRoute
         compile $ do
-            let ctx = constField "title" "Projects" `mappend` siteCtx
+            let ctx = constField "title" "Projects" <> siteCtx
 
             makeItem ""
                 >>= loadAndApplyTemplate "templates/projects.html" ctx
@@ -79,17 +94,17 @@ main = hakyll $ do
                 >>= relativizeUrls
                 >>= deIndexUrls
 
-    match "index.html" $ do
-        route   idRoute
+    match "about.markdown" $ do
+        route   $ customRoute (const "index.html")
         compile $ do
-            list <- postList tags "posts/*" $ fmap (take 3) . recentFirst
-            let ctx = constField "posts" list `mappend`
-                      field "tags" (\_ -> renderTagList tags) `mappend`
-                      --field "tags" (\_ -> renderTagCloud 80 120 tags) `mappend`
+            list <- renderPostList tags "posts/*" $ fmap (take 3) . recentFirst
+            let ctx = constField "posts" list <>
+                      field "tags" (\_ -> renderTagList tags) <>
+                      --field "tags" (\_ -> renderTagCloud 80 120 tags) <>
                       siteCtx
 
-            getResourceBody
-                >>= applyAsTemplate ctx
+            pandocCompiler
+                >>= loadAndApplyTemplate "templates/index.html" ctx
                 >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
                 >>= relativizeUrls
                 >>= deIndexUrls
@@ -99,15 +114,29 @@ main = hakyll $ do
     create ["atom.xml"] $ do
         route idRoute
         compile $ do
-            let feedCtx = (postCtx tags) `mappend` bodyField "description"
+            let feedCtx = (postCtx tags) <> bodyField "description"
             posts <- fmap (take 10) . recentFirst =<<
-                loadAllSnapshots ("posts/*" .&&. hasNoVersion) "content"
+                loadAllSnapshots ("posts/*" .&&. hasNoVersion) "post"
             renderAtom myFeedConfiguration feedCtx posts
+
+    create ["sitemap.xml"] $ do
+        route idRoute
+        compile $ do
+            list <- renderPostList tags "posts/*" recentFirst
+            let ctx = mconcat
+                    [ constField "posts" list
+                    , constField "siteRoot" siteRoot
+                    , siteCtx
+                    ]
+
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/sitemap.xml" ctx
+                >>= deIndexUrls
 
 
 archiveCompiler :: String -> Tags -> Pattern -> Compiler (Item String)
 archiveCompiler title tags pattern = do
-    list <- postList tags pattern recentFirst
+    list <- renderPostList tags pattern recentFirst
     let ctx = mconcat
             [ constField "posts" list
             , constField "title" title
@@ -147,12 +176,17 @@ metaKeywordCtx = field "metaKeywords" $ \item -> do
         showMetaTags t = "<meta name=\"keywords\" content=\"" ++ t ++ "\">"
 
 
-postList :: Tags -> Pattern -> ([Item String] -> Compiler [Item String]) -> Compiler String
-postList tags pattern filter = do
-    posts   <- filter =<< loadAll (pattern .&&. hasNoVersion)
-    itemTpl <- loadBody "templates/post-item.html"
-    list    <- applyTemplateList itemTpl (postCtx tags) posts
-    return list
+postList :: Pattern -> ([Item String] -> Compiler [Item String])
+         -> Compiler [Item String]
+postList pattern filter = filter =<< loadAll (pattern .&&. hasNoVersion)
+
+
+renderPostList :: Tags -> Pattern -> ([Item String] -> Compiler [Item String])
+               -> Compiler String
+renderPostList tags pattern filter = do
+    posts <- postList pattern filter
+    tmpl  <- loadBody "templates/post-item.html"
+    applyTemplateList tmpl (postCtx tags) posts
 
 
 postRoute :: Routes
@@ -165,6 +199,11 @@ rawPostRoute :: Routes
 rawPostRoute = replacePosts `composeRoutes`
             dateRoute `composeRoutes`
             setExtension ".txt"
+
+
+staticRoute :: Routes
+staticRoute = gsubRoute "static/" (const "") `composeRoutes`
+              dropIndexRoute
 
 
 tagRoute :: Routes
@@ -196,4 +235,13 @@ stripIndex url =
     if "index.html" `isSuffixOf` url && elem (head url) "/."
     then take (length url - 10) url
     else url
+
+
+loadAndApplyTemplateList :: Identifier
+                         -> Context a
+                         -> [Item a]
+                         -> Compiler String
+loadAndApplyTemplateList i c is = do
+    t <- loadBody i
+    applyTemplateList t c is
 

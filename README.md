@@ -7,37 +7,44 @@ My site written in [Hakyll][]
 [Hakyll]: http://jaspervdj.be/hakyll/
 
 TODO
+====
+
+Code
 ----
 
-* Startpage
-    List of posts and about. Remove about page.
-    Use index.markdown instead of index.html
-* /blog
-    Recent and full 10 posts.
-        -or-
-    All full posts!
-* Remove "book recommendations" and replace with Recommendations?
-* Youtube shorthand
-* Design, design design!
-    * Correct usage of html5 etc.
-    * Header - only links
-    * Footer - slightly more links
-    * Post header - Pretty date + title, tags
-    * Text for main page
-    * 404 page
-    * Archive page
-    * Projects page
-        Link to games
-    * Color scheme
 * Sitemap
+* Projects site
 * SCSS? sass? less? Or regular?
+* Youtube shorthand
 * Convert posts from the old format to the new
     * Different syntax highlighting
     * Youtube links
     * Remove excerpts
 
+Write
+-----
+
+* Recommendations - Don't write far too much of them, link to posts instead!
+* About - A "flashy" about section thx.
+* 404 - Some funky thing
+* Contact - More text
+
+Design
+------
+
+* Correct usage of html5 etc.
+* Header - only links
+* Footer - slightly more links
+* Post header - Pretty date + title, tags
+* Text for main page
+* 404 page
+* Archive page
+* Projects page
+    Link to games
+* Color scheme
+
 Sitemap
--------
+=======
 
     /
     /projects

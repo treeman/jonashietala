@@ -13,13 +13,13 @@ h1, h2, h3, h4, h5 {
     color:#296894;
 }
 
+a:visited {
+    color: #299494;
+}
+
 a:hover {
     border-bottom:1px solid;
     color: #B0255D;
-}
-
-a:visited {
-    color: #299494;
 }
 
 #wrapper {

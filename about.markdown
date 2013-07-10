@@ -1,12 +1,11 @@
 ---
-title: About
+title: Home
 ---
 
-# The Site
+Hi!
 
 Oh hello there and welcome to my webpage/blog/thingie. It's a place where I can practice my [writing][home]. You can find other stuff on my [projects][] page or on [github][]. This site is built with [Hakyll][].
 
-# Me
 
 My name is Jonas hietala and I'm currently studying Computer Science at Linköpings University and I do like it here. It's a mix of new stuff, fun stuff and admittedly some boring stuff. Math, programming and generally building stuff makes me happy but assignments and exams makes me less happy. Out of school I like to read, practice taekwon-do and play games.
 
