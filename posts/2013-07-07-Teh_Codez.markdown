@@ -1,6 +1,6 @@
 ---
 title: Teh Codez
-tags: Haskell, C, C++, Programming, Etc
+tags: Haskell, C, C++, Programming
 ---
 
 # Css

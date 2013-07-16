@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 import Control.Applicative ((<$>))
 import Data.Monoid (mappend, mconcat, (<>))
 import Data.List

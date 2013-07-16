@@ -1,7 +1,5 @@
-body {
-    /*font-size:1.4em;*/
-    font-size:18px;
-}
+html { font-size: 62.5%; }
+body { font-size: 18px; font-size: 1.8rem; }
 
 a {
     text-decoration:none;
@@ -22,17 +20,51 @@ a:hover {
     color: #B0255D;
 }
 
+h1 { font-size: 37px; font-size: 3.7rem; }
+h2 { font-size: 28px; font-size: 2.8rem; }
+h3, header nav { font-size: 21px; font-size: 2.1rem; }
+h4 { font-size: 16px; font-size: 1.6rem; }
+h5 { font-size: 12px; font-size: 1.2rem; }
+
 #wrapper {
     max-width: 60em;
     width: 90%;
     margin: 0 auto 2em;
 }
 
+header nav {
+    margin: 0 auto;
+    padding: 0;
+}
+
+header nav ul {
+    margin: 0 auto;
+    padding: 0;
+    width: 25em;
+    height: 2.2em;
+}
+
+header nav li {
+    display:block;
+}
+
+header nav li a {
+    float: left;
+    padding: 0.25em 0.2em;
+}
 
 footer nav {
     display: inline;
     float: left;
-    padding: 1em;
+    padding: 0 2em;
+}
+
+footer nav ul {
+    padding: 0;
+}
+
+footer nav li {
+    display: block;
 }
 
 footer .lower {
@@ -45,8 +77,10 @@ code {
 }
 
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre
-   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+{ margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+
 td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
+
 td.sourceCode { padding-left: 5px; }
 code.sourceCode span.kw { color: #007020; }
 code.sourceCode span.dt { color: #902000; }
