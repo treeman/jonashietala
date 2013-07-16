@@ -14,7 +14,6 @@ Code
 
 * Sitemap
 * Projects site
-* SCSS? sass? less? Or regular?
 * Youtube shorthand
 * Convert posts from the old format to the new
     * Different syntax highlighting
@@ -33,10 +32,7 @@ Design
 ------
 
 * Correct usage of html5 etc.
-* Header - only links
-* Footer - slightly more links
-* Post header - Pretty date + title, tags
-* Text for main page
+* Post headers. Date? Title?
 * 404 page
 * Archive page
 * Projects page
@@ -51,9 +47,9 @@ Sitemap
     /recommendations
     /blog
     /blog/:year/:month/:day/:title
-    /blog/tags/:tags
     /archive
+    /contact
     /404
-    /sitemap
     /sitemap.xml
+    /atom.xml           feed.xml ?
 

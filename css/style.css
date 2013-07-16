@@ -3,8 +3,8 @@ body { font-size: 18px; font-size: 1.8rem; }
 
 a {
     text-decoration:none;
-    border-bottom:1px dotted;
-    color:#296894;
+    border-bottom: 1px dotted;
+    color: #296894;
 }
 
 h1, h2, h3, h4, h5 {
@@ -16,7 +16,7 @@ a:visited {
 }
 
 a:hover {
-    border-bottom:1px solid;
+    border-bottom: 1px solid;
     color: #B0255D;
 }
 
@@ -26,10 +26,18 @@ h3, header nav { font-size: 21px; font-size: 2.1rem; }
 h4 { font-size: 16px; font-size: 1.6rem; }
 h5 { font-size: 12px; font-size: 1.2rem; }
 
+.date {
+    color: #333;
+}
+
 #wrapper {
     max-width: 60em;
     width: 90%;
     margin: 0 auto 2em;
+}
+
+#content {
+    clear: both;
 }
 
 header nav {
@@ -37,50 +45,30 @@ header nav {
     padding: 0;
 }
 
-header nav ul {
-    margin: 0 auto;
+nav ul {
     padding: 0;
-    width: 25em;
-    height: 2.2em;
+    height: 1.0em;
 }
 
-header nav li {
+nav li {
     display:block;
 }
 
-header nav li a {
+nav li a {
     float: left;
-    padding: 0.25em 0.2em;
+    margin-right: 0.5em;
 }
 
-footer nav {
-    display: inline;
-    float: left;
-    padding: 0 2em;
-}
-
-footer nav ul {
-    padding: 0;
-}
-
-footer nav li {
-    display: block;
-}
-
-footer .lower {
-    clear: both;
+footer {
+    margin: 2em 0;
 }
 
 /* Syntax highlighting. */
-code {
-    font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
-}
-
+code { font-family: Monaco,Menlo,Consolas,"Courier New",monospace; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre
-{ margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
-
-td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
-
+    { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
+td.lineNumbers
+    { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
 td.sourceCode { padding-left: 5px; }
 code.sourceCode span.kw { color: #007020; }
 code.sourceCode span.dt { color: #902000; }
