@@ -1,0 +1,95 @@
+---
+layout: post
+title: 2012 in Review
+category: Yearly Review
+tags: Rants, 2011, General
+time: 23:07:00
+---
+
+
+Like the [last][2011] [two][2010] years I'm summarizing the year. At the end of the year like this it always feel like I didn't accomplish much, but after the yearly summary it always feels better.
+
+[2011]: /blog/2012/01/04/2011_in_review/
+[2010]: /blog/2011/01/06/2010_in_review/
+
+
+2012 Geek Achievements
+=======================
+
+1. [Designed a processor][MARC] which fulfills the [Core Wars 88 standard][corewars88]. Includes a redcode assembler.
+2. Went through [pintos][] in school and learned a lot about operating systems.
+3. Began a [new website][website].
+4. Wrote some Ruby in conjunction with [Jekyll][].
+5. Learned some [Rust][] and wrote a [small irc bot][rustbot] with it.
+6. Took an advanced mathematics course in *Linear Algebra*, it was fun!
+7. I was a mathematics mentor to the first years in *Discrete Math*.
+8. Won the "best CV" award from Ericsson during Linkdagarna.  
+   [Here's the CV (in Swedish)][CV] and [here's the latex file][CV.tex] which produced it.
+9. Got top 3 in [IMPA][], I did participate three turns out of five.
+10. Participated in prog-SM and won a t-shirt! (Or three...)
+11. Solved a lot of problems on [UVa][].
+12. Migrated all my private projects from [github][] to [bitbucket][].
+13. Wrote a lot of C.
+14. Wrote some C++.
+15. Wrote some Perl.
+16. [Made a robot][trap14].
+17. Read one programming book - [The C Programming Language][kr].
+
+2012 Non-Geek Achievements
+===========================
+
+1. Me and Veronica had a good year.
+2. Achieved 5-kup in Taekwon-do.
+3. [Read 20 books][read_books].
+4. Read a lot of manga. *Battle Royale* was the highlight of the year I think.
+5. Read some manwha. Possibly better than manga??
+   * *Tower of God* (my favourite manga/manwha atm)
+   * *Magician*
+   * *The Breaker New Waves*
+   * *Noblesse*
+6. Discovered [Power Grid][], a [German Style Boardgame][german].
+
+2012 Failures
+==============
+
+1. Did not write enough code.
+2. Did not participate in [Ludum Dare][].
+3. Did not write a new game.
+4. I have a mechanic course behind me...
+
+Plans for 2013
+===============
+
+1. Take care of Veronica.
+1. Complete a hardware project
+2. Try out some yoga.
+3. Learn about compilers.
+4. Take some fun courses.
+5. Achieve kup 3 in Taekwon-do.
+6. Develop this site a bit.
+7. Bigger and better blog posts.
+8. Work hard(er?) in school.
+9. Code more.
+10. Read more books.
+11. Fix the Failures of 2012.
+
+[pintos]: http://www.stanford.edu/class/cs140/projects/pintos/pintos.html
+[corewars88]: http://corewar.co.uk/icws88.txt
+[MARC]: /projects/MARC
+[website]: /projects/madeoftree
+[Jekyll]: https://github.com/mojombo/jekyll
+[Rust]: http://www.rust-lang.org/
+[rustbot]: /projects/rustbot
+[CV]: /media/cv-2012.pdf
+[CV.tex]: /media/cv-2012.tex
+[IMPA]: https://www.ida.liu.se/projects/impa/new/
+[read_books]: /blog/2012/12/31/2012_read_books/
+[UVa]: http://uva.onlinejudge.org/
+[github]: https://github.com/
+[bitbucket]: https://bitbucket.org/
+[Ludum Dare]: http://www.ludumdare.com/
+[trap14]: #
+[german]: http://en.wikipedia.org/wiki/German-style_board_game
+[Power Grid]: http://boardgamegeek.com/boardgame/2651/power-gridboardgamegeek.com/boardgame/2651/power-grid
+[kr]: http://en.wikipedia.org/wiki/The_C_Programming_Language
+

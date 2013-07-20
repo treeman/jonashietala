@@ -1,0 +1,65 @@
+---
+layout: post
+title: 2010 in review
+category: Yearly Review
+tags: Rants, 2010, General
+time: 00:13:06
+---
+I saw a [post on briancarper](http://briancarper.net/blog/574/2010-in-review) where he reviews the past year and it sounds like a great idea actually.
+
+2010 Geek Achievements
+===============================
+1. Wrote a few games earlier this year;  
+  <ul>
+    <li><a href="/games/the_chronicles_of_bim_the_100_fake_afros">The Chronicles of Bim: The 100 Fake Afros</a></li>
+    <li><a href="/games/a_geek_valentine">A Geek Valentine</a></li>
+    <li><a href="/games/beebop_the_island_hopper">Beebop The Island Hopper</a></li>
+    <li><a href="/games/wheres_teddy">Where's Teddy?</a></li>
+  </ul>
+2. Updated [this site](https://github.com/treeman/Made-of-Tree-site) a bit.
+3. In the process I learned a lot of PHP, Javascript, mysql and design. Fun and useful.
+4. Switched to [Slackware](http://www.slackware.com) which I like a *ton* better than Ubuntu.
+5. Learned a lot more linux. Thanks Slackware.
+6. Learned a lot more [git](http://git-scm.com/).
+7. Learned a lot more [vim](www.vim.org/).
+8. Tried out and configured [uzbl](www.uzbl.org) which I still use.
+9. Learned a bit of Haskell.
+10. Tried out Perl a bit.
+11. Learned a lot more Lisp.
+12. Switched to zsh. It's fine after a bit of config
+13. Rebuilt a custom Kernel a few times, some failures but learned a lot.  And got starcraft 2 to work!
+14. Read a lot. This years high were One Piece and Jefferey Deaver. Real World Haskell scores the highest Geek score.
+
+2010 Non-Geek Achievements
+===============================
+1. Moved to Linköping with my girlfriend Veronica and I didn't just survive but I also liked it!
+1. Enrolled in a Linköpings University in Computer Science. We'll see if it'll get geeky later, atm it's a breeze but we have a ton of seemingly fun courses to go.
+2. Took a massage course.
+3. Learned how to cook more than one dish.
+4. Did the dishes, expertly maneuvered our vacuum cleaner and did the laundry. *More than once!*
+5. Started Taekwondo and after a few months of hard work I even got a yellow stripe for my white belt!
+
+2010 Failures
+================
+1. Didn't produce enough games.
+2. Didn't write enough code.
+3. Got worse in my stumach towards the end of the year. Too stressed and not enough regular meals I guess.
+4. Didn't blog enough. Sorry :(
+
+Plans for 2011
+==================
+1. Get good results in school.
+2. Make more games.
+3. Code more!
+4. Blog more!
+5. Learn more Haskell (again). This time continue with the small irc bot I'm writing.
+6. Learn a few more languages and expand my knowledge. Maybe some low level stuff with C or assembly? Or some more higher level?
+7. Get a better sense of algorithms.
+8. Try to be a bit more social
+9. Get a new belt in Taekwondo.
+10. Be a bit more disciplined with training, coding and school.
+11. Loosen up a bit more so the stumach won't mess anymore.
+12. Last but not least, keep Veronica happy and help around at home.
+
+I thought I didn't do anything this year I guess it's been a productive year anyway. But in 2011 I think I'll do a lot more still.
+

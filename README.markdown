@@ -15,10 +15,12 @@ Code
 * Sitemap
 * Youtube shorthand
 * Convert posts from the old format to the new
-    * Different syntax highlighting
-    * Youtube links
-    * Remove excerpts
+    * Fix all images
+    * Check validity of all links
 * Link games correctly
+    * Downloadable files
+    * Move to blog posts
+    * Images
 
 Write
 -----
@@ -30,6 +32,9 @@ Write
 Design
 ------
 
+* Code
+    * background
+    * font
 * Correct usage of html5 etc.
 * Post headers. Date? Title?
 * 404 page

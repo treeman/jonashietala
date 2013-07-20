@@ -3,3 +3,5 @@ _*
 *.o
 site
 images
+old-posts
+*~

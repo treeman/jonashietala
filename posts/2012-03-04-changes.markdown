@@ -1,0 +1,23 @@
+---
+layout: post
+title: Changes
+category: Life
+tags: Life, Changes
+time: 20:21:17
+---
+
+
+A lot has been going on lately and it feels like I'm being swamped. I can't complain too much but there are things I'd like to change after the exam period this week.
+
+
+1. Program more!  
+I have seriously done *nothing* since christmas or someting. I need to finish:  
+  1. Ada project for school. Can't believe I still haven't done it.
+  1. New web page. Need to track down a good perl hosting service and actually finish the site.
+  1. Game for my little brother to create graphics and tweak some code in, I want to teach him to code during the summer! That's a good healthy challange for me.
+  1. Ludum Dare 23 in April, yay!  
+1. Serious Taekwon-do training.
+1. Don't fall behind too much in school.  This time I'm hurrying like mad to catch up before exam and I'm actually worried. This shouldn't happen! I didn't even go to *a single* lesson this time.
+
+Just wanted to get that out there.
+

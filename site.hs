@@ -38,7 +38,6 @@ main = hakyll $ do
         route   staticRoute
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
-            >>= relativizeUrls
             >>= deIndexUrls
 
         version "raw" $ do
@@ -54,7 +53,6 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
             >>= saveSnapshot "post"
             >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
-            >>= relativizeUrls
             >>= deIndexUrls
 
         version "raw" $ do
@@ -76,7 +74,6 @@ main = hakyll $ do
                 >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
                 >>= makeItem
                 >>= loadAndApplyTemplate "templates/site.html" ctx
-                >>= relativizeUrls
                 >>= deIndexUrls
 
     create ["archive/index.html"] $ do
@@ -99,7 +96,6 @@ main = hakyll $ do
                 >>= loadAndApplyTemplateList "templates/project.html" defaultContext
                 >>= makeItem
                 >>= loadAndApplyTemplate "templates/site.html" ctx
-                >>= relativizeUrls
                 >>= deIndexUrls
 
     match "about.markdown" $ do
@@ -114,7 +110,6 @@ main = hakyll $ do
             pandocCompiler
                 >>= loadAndApplyTemplate "templates/index.html" ctx
                 >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
-                >>= relativizeUrls
                 >>= deIndexUrls
 
     match "templates/*" $ compile templateCompiler
@@ -155,7 +150,6 @@ archiveCompiler title tags pattern = do
     makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" ctx
         >>= loadAndApplyTemplate "templates/site.html" ctx
-        >>= relativizeUrls
         >>= deIndexUrls
 
 

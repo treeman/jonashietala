@@ -1,0 +1,83 @@
+---
+layout: post
+title: 2011 in Review
+category: Yearly Review
+tags: Rants, 2011, General
+time: 10:49:12
+---
+It's time to wrap up the year that's been. Be warned for slight ego boosting here.
+
+2011 Geek Achievements
+===============================
+
+1. Wrote three games this year:
+   <ul>
+     <li><a href="/games/my_minions">My-Minions</a></li>
+     <li><a href="/games/grand_thief_arto">Grand Thief Arto</a></li>
+     <li><a href="/games/sat-e">Sat-E</a></li>
+   </ul>
+2. Bought a [new computer](/blog/2011/08/21/new_computer)!
+3. Bought a mechanical keyboard.
+4. Bought [custom Starcraft 2 keycaps](/blog/2011/12/16/starcraft_2_keycaps) for the keyboard.
+5. Learned 68k assembly.
+6. Learned about algorithms and data structures.
+7. Bought a lot of programming books.
+   <ul>
+     <li>The Pragmatic Programmer</li>
+     <li>Structure and Interpretation of Computer Programs</li>
+     <li>Introduction to Algorithms</li>
+     <li>Modern Perl</li>
+     <li>Effective Java</li>
+     <li>Learn You a Haskell for Great Good!</li>
+     <li>Land of Lisp</li>
+     <li>Maybe something more...</li>
+   </ul>
+8. Read a lot of programming books. Modern Perl and The Pragmatic Programmer were my favourites.
+8. Learned some Ada.
+8. Learned a lot of Perl.
+8. Learned a tiny bit of Haskell.
+9. Learned some [emacs](http://www.gnu.org/software/emacs/)
+9. Got a hint of design understanding thanks to [Design for Hackers](http://www.designforhackers.com/)
+
+2011 Non-Geek Achievements
+===============================
+1. Went to a dance course with Veronica.
+2. My stumach is in good shape!
+3. Read and loved A Song of Ice and Fire.
+5. Achieved 7 kup in Taekwon-do.
+10. Read a *lot* of manga. Some recommendations:
+    <li>Bakuman. A nice slice of life manga about... making manga. Surprisingly captivating.</li>
+    <li>Gamaran. A slightly brutal battle manga with loads of weapons.</li>
+    <li>Vinland Saga. A bit more brutal battle manga about vikings and war.</li>
+    <li>Beelzebub. Battle manga but with a ton of light hearted humor.</li>
+    <li>The Breaker. Another battle manga, a bit more direct perhaps.</li>
+
+2011 Failures
+================
+1. Didn't produce enough games.
+2. Didn't write enough code.
+3. Did not learn enough Haskell.
+4. Have a lot of books I haven't read yet.
+5. Did not have enough free time.
+
+Plans for 2012
+==================
+1. Keep Veronica happy!
+2. Make more games.
+3. Code more! Much more!
+4. Blog more!
+5. Learn more Haskell (yet again)...
+6. Transform my site to something new, something that I don't dread to use.
+7. Improve in Taekwon-do.
+8. Be more disciplined in studying, coding, training and cleaning.
+9. Read the programming books I have but have not read yet.
+   <li>A book about Erlang.</li>
+   <li>K&amp;R C Programming language.</li>
+   <li>SICP, all important for every programmers. I hear.</li>
+   <li>Probably missed something... Damn I've got many.</li>
+10. Get good results in school.
+11. Try to be a bit more social (it's hard).
+12. Get more free time somehow.
+13. Complete a larger personal project.
+14. Learn more mathematics.
+

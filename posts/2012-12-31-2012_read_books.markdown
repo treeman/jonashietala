@@ -1,0 +1,46 @@
+---
+layout: post
+title: 2012 Read Books
+category: Read Books
+tags: 2012, Books, Read Books
+---
+
+
+I read a post, sadly lost the link, where the author had recorded all books she had read during the year and I thought it'd be pretty fun to do. So here goes, in a mostly ordered list.
+
+
+1. **The Art of Learning** - *Josh Waitzkin*
+1. **Världens Whiskey**  
+    More of a reference book.
+1. **Linear Algebra Done Right**  
+    Course book.
+1. **Linear Algebra Done Wrong**  
+    Course book.
+1. **Effective Prototyping for Software Makers**  
+    Course book, selected chapters.
+1. **Över Näktergalens Golv**
+1. **På en kudde av gräs**
+1. **Optimeringslära** - *Kaj Holmberg*  
+    Course book, great both as a learning tool and reference book.
+1. **Dune** - *Frank Herbert*  
+    A truly great book, the sci-fi world is amazing.
+1. **Under lysande måne**
+1. **Fit Forever** - *Dolhp Lundgren*
+1. **The Book of Cain**
+1. **Dune Messiah** - *Frank Herbert*  
+    Not quite like the first book, but still brilliant.
+1. **Lärjungen**
+1. **The C programming Language** - *Kernighan and Ritchie*  
+    Did not do all exercises, really good book.
+1. **Software Engineering**  
+    Course book.
+1. **Operating System Concepts**  
+    Course book. Pretty good, although a bit wordy at times.
+1. **Linear Systems and Signals** - *B. P. Lathi*  
+    Course book. Quite good.
+1. **XO** - *Jeffery Deaver*
+1. **The Definite Book of Body Language** - *Allan & Barbara Pease*  
+    Very informative and also pretty funny.
+
+All in all, I did not read that many books this year. I did start on a few which I never finished for various reasons.
+
