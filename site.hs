@@ -61,11 +61,16 @@ main = hakyll $ do
             route   rawPostRoute
             compile getResourceString
 
+    match "projects/*" $ do
+        compile $ pandocCompiler
+            >>= saveSnapshot "content"
+
     create ["blog/index.html"] $ do
         route idRoute
 
         compile $ do
             let ctx = constField "title" "My Weblog" <> siteCtx
+
             loadAllSnapshots ("posts/*" .&&. hasNoVersion) "demoted_content"
                 >>= recentFirst
                 >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
@@ -89,8 +94,10 @@ main = hakyll $ do
         compile $ do
             let ctx = constField "title" "Projects" <> siteCtx
 
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/projects.html" ctx
+            loadAllSnapshots "projects/*.markdown" "content"
+                -- Should be able to apply template in project?
+                >>= loadAndApplyTemplateList "templates/project.html" defaultContext
+                >>= makeItem
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= relativizeUrls
                 >>= deIndexUrls

@@ -13,7 +13,6 @@ Code
 ----
 
 * Sitemap
-* Projects site
 * Youtube shorthand
 * Convert posts from the old format to the new
     * Different syntax highlighting
