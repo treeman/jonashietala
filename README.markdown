@@ -22,6 +22,11 @@ Code
     * Move to blog posts
     * Images
 
+Misc
+----
+
+* Remove/Rename tags... They are clogging up the front page!
+
 Write
 -----
 
