@@ -18,6 +18,7 @@ Code
     * Different syntax highlighting
     * Youtube links
     * Remove excerpts
+* Link games correctly
 
 Write
 -----
