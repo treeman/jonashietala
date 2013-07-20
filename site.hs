@@ -120,6 +120,7 @@ main = hakyll $ do
                 loadAllSnapshots ("posts/*" .&&. hasNoVersion) "post"
             renderAtom myFeedConfiguration feedCtx posts
 
+    -- TODO complete.
     create ["sitemap.xml"] $ do
         route idRoute
         compile $ do
