@@ -13,6 +13,7 @@ Code
 ----
 
 * Sitemap
+* Correct feed
 * Youtube shorthand
 * Convert posts from the old format to the new
     * Different syntax highlighting
@@ -23,10 +24,9 @@ Code
 Write
 -----
 
-* Recommendations - Don't write far too much of them, link to posts instead!
-* About - A "flashy" about section thx.
-* 404 - Some funky thing
-* Contact - More text
+* Recommendations
+    * Link to posts describing the best books/series!
+* 404 - Some funky thing. A game perhaps?
 
 Design
 ------
@@ -35,8 +35,6 @@ Design
 * Post headers. Date? Title?
 * 404 page
 * Archive page
-* Projects page
-    Link to games
 * Color scheme
 
 Sitemap

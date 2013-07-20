@@ -14,8 +14,8 @@ siteRoot = "http://jonashietala.se"
 
 myFeedConfiguration :: FeedConfiguration
 myFeedConfiguration = FeedConfiguration
-    { feedTitle       = "Feed title TODO"
-    , feedDescription = "Description TODO"
+    { feedTitle       = name ++ ": All posts"
+    , feedDescription = "Personal blog of " ++ name
     , feedAuthorName  = name
     , feedAuthorEmail = mail
     , feedRoot        = siteRoot
@@ -24,7 +24,7 @@ myFeedConfiguration = FeedConfiguration
 
 main :: IO ()
 main = hakyll $ do
-    match "images/*" $ do
+    match ("images/*" .||. "favicon.ico" .||. "files/**") $ do
         route   idRoute
         compile copyFileCompiler
 
@@ -119,7 +119,7 @@ main = hakyll $ do
 
     match "templates/*" $ compile templateCompiler
 
-    create ["atom.xml"] $ do
+    create ["feed.xml"] $ do
         route idRoute
         compile $ do
             let feedCtx = (postCtx tags) <> bodyField "description"
