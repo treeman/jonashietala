@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Beginning Programming
-category: Learning Programming
-tags: Learning, Programming, Learning Programming
+category: Programming
+tags: Programming
 time: 15:26:46
 ---
 

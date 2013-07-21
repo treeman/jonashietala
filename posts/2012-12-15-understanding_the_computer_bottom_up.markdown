@@ -2,7 +2,7 @@
 layout: post
 title: Understanding the Computer
 category: Computer
-tags: Computer, Hardware, Programming
+tags: Computer, Programming
 ---
 
 

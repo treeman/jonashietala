@@ -2,7 +2,7 @@
 layout: post
 title: 5 Kup
 category: Taekwon-do
-tags: Taekwon-do, TKD
+tags: Taekwon-do
 ---
 
 

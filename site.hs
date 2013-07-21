@@ -85,7 +85,7 @@ main = hakyll $ do
         compile $ archiveCompiler "The Archives" tags "posts/*" "templates/archive.html"
 
     tagsRules tags $ \tag pattern -> do
-        let title = "Posts tagged " ++ tag
+        let title = "Posts tagged: " ++ tag
 
         route   tagRoute
         compile $ archiveCompiler title tags pattern "templates/tags-archive.html"

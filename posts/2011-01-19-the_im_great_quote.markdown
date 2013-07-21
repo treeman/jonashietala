@@ -2,7 +2,7 @@
 layout: post
 title: The I'm Great quote
 category: Rants
-tags: Rants, General, Personal Development
+tags: Rants
 time: 23:45:03
 ---
 A new semester at the uni and so far it looks promising; I got a hold of some new books even though the bookstore had a snakelike queue similar to the [Jörmungandr](http://en.wikipedia.org/wiki/J%C3%B6rmungandr) (the snake that encircled the earth in nordic mythology) and our new programming course started. This time it's Ada's turn and as always it should be interesting. At a first glance it doesn't look like it's introducing anything completely new from what I'm used with. I guess it looks like a cross between C and Haskell's type system spiced up with some other stuff. 

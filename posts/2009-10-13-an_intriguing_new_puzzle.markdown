@@ -1,8 +1,8 @@
 ---
 layout: post
 title: An intriguing new puzzle
-category: Puzzles
-tags: Random, Puzzles
+category: Games
+tags: Games
 time: 23:40:09
 ---
 Here's another game made for the [experimental gameplay project](http://experimentalgameplay.com/blog/):

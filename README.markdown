@@ -26,6 +26,7 @@ Misc
 ----
 
 * Remove/Rename tags... They are clogging up the front page!
+    * Remove the 'General' tag!
 
 Write
 -----

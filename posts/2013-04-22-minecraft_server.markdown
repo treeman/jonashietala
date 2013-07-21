@@ -2,7 +2,7 @@
 layout: post
 title: Minecraft Server Hosting
 category: Minecraft
-tags: Minecraft, Hosting
+tags: Minecraft
 ---
 
 I play the phenomena that is Minecraft on and off. Sometimes the laid back building or the exploring is just what I need. Sometimes I can challange myself to build cool complex stuff and I'm even an avid follower of [Doc'M][] and [Etho][] and the other mindcrackers over at the youtube. Now brother Filip is an even more Minecraft follower than me and that's the perfect setup for having my own minecraft server!

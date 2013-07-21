@@ -2,7 +2,7 @@
 layout: post
 title: It's Time for More School
 category: School
-tags: School, University, New Start
+tags: School
 ---
 
 Today it's finally starting again and it's off with a flying start. We have 11 lectures this first week and an absolutely smacked schedule. If that wasn't enough I also have a mentor time to prepare for and I need to start Taekwon-do again.

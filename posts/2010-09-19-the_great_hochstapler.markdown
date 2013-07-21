@@ -1,8 +1,8 @@
 ---
 layout: post
 title: The great Hochstapler
-category: General
-tags: Games, News, General
+category: Games
+tags: Games
 time: 11:17:32
 ---
 Hey there. A lot has happened lately since my last update and my last game here.
