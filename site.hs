@@ -5,6 +5,10 @@ import Data.Monoid (mappend, mconcat, (<>))
 import Data.List
 import Data.List.Utils
 import System.FilePath  (dropExtension, splitFileName, joinPath)
+import Text.Blaze.Html (toHtml, toValue, (!))
+import Text.Blaze.Html.Renderer.String (renderHtml)
+import qualified Text.Blaze.Html5 as H
+import qualified Text.Blaze.Html5.Attributes as A
 import Hakyll
 
 mail = "mail@jonashietala.se"
@@ -78,13 +82,13 @@ main = hakyll $ do
 
     create ["archive/index.html"] $ do
         route   idRoute
-        compile $ archiveCompiler "The Archives" tags "posts/*"
+        compile $ archiveCompiler "The Archives" tags "posts/*" "templates/archive.html"
 
     tagsRules tags $ \tag pattern -> do
         let title = "Posts tagged " ++ tag
 
         route   tagRoute
-        compile $ archiveCompiler title tags pattern
+        compile $ archiveCompiler title tags pattern "templates/tags-archive.html"
 
     create ["projects/index.html"] $ do
         route   idRoute
@@ -98,13 +102,15 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
+    -- Main page
     match "about.markdown" $ do
         route   $ customRoute (const "index.html")
         compile $ do
-            list <- renderPostList tags "posts/*" $ fmap (take 3) . recentFirst
+            list <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
             let ctx = constField "posts" list <>
+                      --field "tags" (\_ -> renderTagHtmlList tags) <>
                       field "tags" (\_ -> renderTagList tags) <>
-                      --field "tags" (\_ -> renderTagCloud 80 120 tags) <>
+                      --field "tags" (\_ -> renderTagCloud 40 160 tags) <>
                       siteCtx
 
             pandocCompiler
@@ -138,8 +144,8 @@ main = hakyll $ do
                 >>= deIndexUrls
 
 
-archiveCompiler :: String -> Tags -> Pattern -> Compiler (Item String)
-archiveCompiler title tags pattern = do
+archiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
+archiveCompiler title tags pattern tpl = do
     list <- renderPostList tags pattern recentFirst
     let ctx = mconcat
             [ constField "posts" list
@@ -148,7 +154,7 @@ archiveCompiler title tags pattern = do
             ]
 
     makeItem ""
-        >>= loadAndApplyTemplate "templates/archive.html" ctx
+        >>= loadAndApplyTemplate tpl ctx
         >>= loadAndApplyTemplate "templates/site.html" ctx
         >>= deIndexUrls
 
@@ -190,6 +196,14 @@ renderPostList tags pattern filter = do
     posts <- postList pattern filter
     tmpl  <- loadBody "templates/post-item.html"
     applyTemplateList tmpl (postCtx tags) posts
+
+
+renderTagHtmlList :: Tags -> Compiler (String)
+renderTagHtmlList = renderTags makeLink makeList
+  where
+    makeLink tag url count _ _ = renderHtml $ H.li $
+        H.a ! A.href (toValue url) $ toHtml (tag ++ " (" ++ show count ++ ")")
+    makeList tags = renderHtml $ H.ul $ H.preEscapedToHtml (intercalate "" tags)
 
 
 postRoute :: Routes
