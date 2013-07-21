@@ -2,7 +2,7 @@
 layout: post
 title: Doing Stuff
 category: Life
-tags: Life, General, Doing Stuff
+tags: Life, General
 time: 13:34:39
 ---
 The school and my life is trotting along. I'm handling the extra course fine, but instead I've left the standard math course behind a bit. Actually more than a bit but hopefully I'll correct things later.

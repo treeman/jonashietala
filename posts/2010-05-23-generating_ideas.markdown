@@ -2,7 +2,7 @@
 layout: post
 title: Generating ideas
 category: Game Design Course
-tags: Game Design, Game Ideas
+tags: Game Design
 time: 09:39:54
 ---
 So I got a fairly fun assignment from the game design course I'm taking for once. I should come up with 50 ideas using my own idea generation technique.

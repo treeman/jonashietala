@@ -2,7 +2,7 @@
 layout: post
 title: Focusing Attention: Drawing
 category: Attention
-tags: Rants, Drawing, Attention
+tags: Attention
 time: 12:49:52
 ---
 In my [last post](/blog/2011/01/14/the_top_idea) I wrote about some ideas and projects I have and how it's a little bit too much at a time, so now I'm going to try something new here. In the beginning of every week I'll declare something I'll be focusing on and then that's the only thing I should focus on on my free time. Just so I don't drift off from irc bots in haskell to opening a new Erlang book or starting a game and then move on with another.

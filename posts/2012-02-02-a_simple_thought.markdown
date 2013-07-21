@@ -1,8 +1,7 @@
 ---
 layout: post
 title: A Simple Thought
-category: Microprogramming
-tags: Microprogramming, Thoughts, School
+tags: School
 time: 13:14:35
 ---
 [I wrote][] that we where doing some microprogramming, making the processor work etc. We had a lab about that yesterday and I was very, very nervous. The preparations weren't that hard, but they where very bothersome. Converting the instructions to binary/hex by hand is never nice. Turns out the lab was very easy! You also had the option to prepare everything before on their simulator, which dumb be didn't do.

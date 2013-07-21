@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Before the Games: The Site
-category: Webpage
-tags: General, Webpage
+category: Meta
+tags: General, Meta
 time: 12:39:55
 ---
 I've got some things I want to do before I start with my next game and they're all about improving the site. The last week or so has been extremely productive with me throwing out a lot of wasted code, speeding up the site and adding/removing features and I want to continue with that and get the things done now when I'm in the flow.

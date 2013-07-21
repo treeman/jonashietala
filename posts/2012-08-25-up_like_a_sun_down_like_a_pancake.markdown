@@ -2,7 +2,7 @@
 layout: post
 title: Up like a Sun, Down like a Pancake
 category: Ludum Dare
-tags: Ludum Dare, Evolution
+tags: Ludum Dare, Status
 ---
 
 I was looking forward to this weekend, for Ludum Dare and for me to finally make a game again. But it just don't feel right to me. I'm not prepared, I feel a little bit stressed and I don't really have faith in my game so I'm gonna step down this one as well. But it's fine, Ludum Dare is supposed to be fun and challenging with an emphasis on fun but as it is now I just don't really feel it.

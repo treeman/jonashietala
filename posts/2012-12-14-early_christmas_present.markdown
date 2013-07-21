@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Early Christmas Present
-category: Christmas
-tags: Christmas, Raspberry Pi
+category: New stuff
+tags: New stuff
 ---
 
 

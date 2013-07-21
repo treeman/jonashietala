@@ -2,7 +2,7 @@
 layout: post
 title: My Dream Game: The RTS
 category: Dream Games
-tags: Dream Games, General
+tags: Dream Games, Games
 time: 20:14:17
 ---
 Even if there are a million great games there's one that has a very special place in my heart: *Supreme Commander*. It's not the game I've played the most and there might even be games which are better and more fun but *supcom* was the game that introduced me to competitive gaming and it made it me feel like no game had done before. I took gaming seriously for once; sure I had played online with cs but I was never serious. I did nothing to improve myself, I didn't really care - as long as I didn't have 1-10 or a silly just-beginning-stat. 

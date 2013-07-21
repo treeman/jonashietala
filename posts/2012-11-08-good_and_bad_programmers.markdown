@@ -2,7 +2,7 @@
 layout: post
 title: Good and Bad Programmers
 category: Programming
-tags: Programming, Blog
+tags: Programming
 ---
 
 

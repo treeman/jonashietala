@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Poking at Emacs
-category: Editors
-tags: Vim, Emacs, Editors
+category: Text Editors
+tags: Text Editors
 time: 19:19:03
 ---
 I've been a vim [vim][vim] fan for a while now and with some [recent configs][update] I'm starting to feel pretty confident and happy with it. For those who don't know it's basically a text editor, like notepad, but with a lot of keycommands which allows you to edit code (and text in general) faster. For writing a simple straight up text it might not be worth it, the learning curve is pretty steep, but for someone who codes a lot it's really good in the long run. [Here's][nutheads] an article I read when I read when I started with vim.

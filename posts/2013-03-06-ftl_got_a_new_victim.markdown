@@ -1,8 +1,8 @@
 ---
 layout: post
 title: FTL got a new victim
-category: Gaming
-tags: Gaming, FTL, Veronica
+category: Games
+tags: Games
 ---
 
 

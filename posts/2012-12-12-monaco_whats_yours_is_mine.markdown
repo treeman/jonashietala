@@ -1,8 +1,6 @@
 ---
-layout: post
 title: Monaco What's Yours is Mine
-category: Gaming
-tags: Gaming, Monaco, Beta
+tags: Games
 ---
 
 

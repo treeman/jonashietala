@@ -2,7 +2,7 @@
 layout: post
 title: 2012 Read Books
 category: Read Books
-tags: 2012, Books, Read Books
+tags: Read Books
 ---
 
 

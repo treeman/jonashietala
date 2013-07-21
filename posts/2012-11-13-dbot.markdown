@@ -2,7 +2,7 @@
 layout: post
 title: Dbot
 category: Programming
-tags: Programming, Perl, Fun
+tags: Programming, Perl
 ---
 
 

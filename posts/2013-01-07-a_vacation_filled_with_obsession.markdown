@@ -1,8 +1,8 @@
 ---
 layout: post
 title: A Vacation Filled with Obsession
-category: Gaming
-tags: Gaming, Vacation, Power Grid
+category: Games
+tags: Games
 ---
 
 

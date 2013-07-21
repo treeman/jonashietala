@@ -1,8 +1,7 @@
 ---
 layout: post
 title: Christmas break
-category: General
-tags: General, News, University
+tags: University
 time: 22:35:43
 ---
 So school is on a break and I welcome it with all of my heart. The semester has been pretty fun and I really enjoy studying here. We had <a href="http://en.wikipedia.org/wiki/Lisp_(programming_language)">lisp</a> the whole time which is a pretty sweet little language and if you haven't, give it a shot. Then we had math and I do like math, although I wasn't really motivated this time around and I dunno why. Maybe because I think I got it pretty fast and that didn't really motivate me to study when the test came around and I got far too many dumb mistakes I think.. Not good, not good.

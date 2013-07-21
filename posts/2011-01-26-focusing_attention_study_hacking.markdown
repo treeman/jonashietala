@@ -2,7 +2,7 @@
 layout: post
 title: Focusing Attention: Study Hacking
 category: Attention
-tags: Rants, Study, Attention
+tags: Attention
 time: 00:26:45
 ---
 A week of drawing is over, but I didn't draw that much. It was a little bit of a fail from my part.

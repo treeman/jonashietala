@@ -2,7 +2,7 @@
 layout: post
 title: Changes
 category: Life
-tags: Life, Changes
+tags: Life
 time: 20:21:17
 ---
 

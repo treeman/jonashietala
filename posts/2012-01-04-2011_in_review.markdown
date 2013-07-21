@@ -2,7 +2,7 @@
 layout: post
 title: 2011 in Review
 category: Yearly Review
-tags: Rants, 2011, General
+tags: Yearly Review
 time: 10:49:12
 ---
 It's time to wrap up the year that's been. Be warned for slight ego boosting here.
