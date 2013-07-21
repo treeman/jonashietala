@@ -17,27 +17,31 @@ Code
 * Convert posts from the old format to the new
     * Fix all images
     * Check validity of all links
-* Link games correctly
+* Games
     * Downloadable files
-    * Move to blog posts
+    * Links in posts to downloads
+    * Links in posts to source
     * Images
+* 404 - Some funky thing. A game perhaps?
 
 Misc
 ----
 
 * Remove/Rename tags... They are clogging up the front page!
     * Remove the 'General' tag!
+    * Make the tag 'Games' or similar only for my made games and something else for gaming discussion?
 
 Write
 -----
 
 * Recommendations
     * Link to posts describing the best books/series!
-* 404 - Some funky thing. A game perhaps?
+* Some more blog posts...?
 
 Design
 ------
 
+* Front page tags list!!
 * Code
     * background
     * font
@@ -54,6 +58,7 @@ Sitemap
     /projects
     /recommendations
     /blog
+    /blog/tags/:tag
     /blog/:year/:month/:day/:title
     /archive
     /contact

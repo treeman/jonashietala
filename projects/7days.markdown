@@ -20,15 +20,15 @@ A list of games I've made with it:
 * [Balls][] *Experimental Gameplay Project*
 
 [SFML]: http://www.sfml-dev.org/ "SFML graphics library for C++"
-[Sat-E]: #
-[My Minions]: #
-[Where's Teddy?]: #
-[Beebop The Island Hopper]: #
-[A Geek Valentine]: #
-[The Chronicles of Bim: The 100 Fake Afros]: #
-[Jonas IceCream Stand]: #
-[MenuCity]: #
-[Bugger]: #
-[Black and White]: #
-[Balls]: #
+[Sat-E]: /blog/2011/12/19/sat-e/ "Sat-E"
+[My Minions]: /blog/2011/05/02/my_minions/ "My Minions"
+[Where's Teddy?]: /blog/2010/06/06/wheres_teddy/ "Where's Teddy?"
+[Beebop The Island Hopper]: /blog/2010/04/26/beebop_the_island_hopper/ "Beebop The Island Hopper"
+[A Geek Valentine]: /blog/2010/02/28/a_geek_valentine/ "A Geek Valentine"
+[The Chronicles of Bim: The 100 Fake Afros]: /blog/2010/01/16/the_chronicles_of_bim_the_100_fake_afros/ "The Chronicles of Bim: The 100 Fake Afros"
+[Jonas IceCream Stand]: /blog/2009/11/25/jonas_icecream_stand/ "Jonas IceCream Stand"
+[MenuCity]: /blog/2009/10/13/menucity/ "MenuCity"
+[Bugger]: /blog/2009/09/20/bugger/ "Bugger"
+[Black and White]: /blog/2009/08/20/black_and_white/ "Black and White"
+[Balls]: /blog/2009/08/01/balls/ "Balls"
 
