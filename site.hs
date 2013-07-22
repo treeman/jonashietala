@@ -61,19 +61,11 @@ main = hakyll $ do
 
         version "raw" $ do
             route   txtPostRoute
-            compile getResourceString
-
-    match "projects/*" $ do
-        compile $ pandocCompiler
-            >>= saveSnapshot "content"
-
-        version "raw" $ do
             compile $ getResourceString
                 >>= saveSnapshot "content"
 
     create ["blog/index.html"] $ do
         route idRoute
-
         compile $ do
             let ctx = constField "title" "My Weblog" <> siteCtx
 
@@ -84,6 +76,13 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
+        version "raw" $ do
+            route indexToTxtRoute
+            compile $ loadAllSnapshots ("posts/*" .&&. hasVersion "raw") "content"
+                >>= recentFirst
+                >>= joinBodies
+                >>= makeItem
+
     create ["archive/index.html"] $ do
         route   idRoute
         compile $ archiveCompiler "The Archives" tags "posts/*" "templates/archive.html"
@@ -93,6 +92,14 @@ main = hakyll $ do
 
         route   tagRoute
         compile $ archiveCompiler title tags pattern "templates/tags-archive.html"
+
+    match "projects/*" $ do
+        compile $ pandocCompiler
+            >>= saveSnapshot "content"
+
+        version "raw" $ do
+            compile $ getResourceString
+                >>= saveSnapshot "content"
 
     create ["projects/index.html"] $ do
         route   idRoute
@@ -119,8 +126,8 @@ main = hakyll $ do
         compile $ do
             list <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
             let ctx = constField "posts" list <>
-                      --field "tags" (\_ -> renderTagHtmlList tags) <>
                       field "tags" (\_ -> renderTagList tags) <>
+                      --field "tags" (\_ -> renderTagHtmlList tags) <>
                       --field "tags" (\_ -> renderTagCloud 40 160 tags) <>
                       siteCtx
 
@@ -128,6 +135,10 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/index.html" ctx
                 >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
                 >>= deIndexUrls
+
+        version "raw" $ do
+            route $ customRoute (const "index.txt")
+            compile $ getResourceString
 
     match "templates/*" $ compile templateCompiler
 
