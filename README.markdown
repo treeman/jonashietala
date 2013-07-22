@@ -12,7 +12,7 @@ TODO
 Code
 ----
 
-* Sitemap
+* .txt version of things
 * Youtube shorthand
 * Convert posts from the old format to the new
     * Fix all images
@@ -23,6 +23,7 @@ Code
     * Links in posts to source
     * Images
 * 404 - Some funky thing. A game perhaps?
+* Sitemap (How to autogenerate??)
 
 Misc
 ----
@@ -63,6 +64,5 @@ Sitemap
     /archive
     /contact
     /404
-    /sitemap.xml
-    /atom.xml           feed.xml ?
+    /feed.xml
 

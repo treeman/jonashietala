@@ -45,8 +45,8 @@ main = hakyll $ do
             >>= deIndexUrls
 
         version "raw" $ do
-            route   $ setExtension ".txt"
-            compile   getResourceString
+            route   txtStaticRoute
+            compile getResourceString
 
     match "posts/*" $ do
         route   postRoute
@@ -60,12 +60,16 @@ main = hakyll $ do
             >>= deIndexUrls
 
         version "raw" $ do
-            route   rawPostRoute
+            route   txtPostRoute
             compile getResourceString
 
     match "projects/*" $ do
         compile $ pandocCompiler
             >>= saveSnapshot "content"
+
+        version "raw" $ do
+            compile $ getResourceString
+                >>= saveSnapshot "content"
 
     create ["blog/index.html"] $ do
         route idRoute
@@ -95,12 +99,19 @@ main = hakyll $ do
         compile $ do
             let ctx = constField "title" "Projects" <> siteCtx
 
-            loadAllSnapshots "projects/*.markdown" "content"
+            loadAllSnapshots ("projects/*.markdown" .&&. hasNoVersion) "content"
                 -- Should be able to apply template in project?
                 >>= loadAndApplyTemplateList "templates/project.html" defaultContext
                 >>= makeItem
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
+
+        version "raw" $ do
+            route indexToTxtRoute
+            compile $ do
+                loadAllSnapshots ("projects/*.markdown" .&&. hasVersion "raw") "content"
+                    >>= joinBodies
+                    >>= makeItem
 
     -- Main page
     match "about.markdown" $ do
@@ -127,21 +138,6 @@ main = hakyll $ do
             posts <- fmap (take 10) . recentFirst =<<
                 loadAllSnapshots ("posts/*" .&&. hasNoVersion) "post"
             renderAtom myFeedConfiguration feedCtx posts
-
-    -- TODO complete.
-    create ["sitemap.xml"] $ do
-        route idRoute
-        compile $ do
-            list <- renderPostList tags "posts/*" recentFirst
-            let ctx = mconcat
-                    [ constField "posts" list
-                    , constField "siteRoot" siteRoot
-                    , siteCtx
-                    ]
-
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/sitemap.xml" ctx
-                >>= deIndexUrls
 
 
 archiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
@@ -194,8 +190,7 @@ renderPostList :: Tags -> Pattern -> ([Item String] -> Compiler [Item String])
                -> Compiler String
 renderPostList tags pattern filter = do
     posts <- postList pattern filter
-    tmpl  <- loadBody "templates/post-item.html"
-    applyTemplateList tmpl (postCtx tags) posts
+    loadAndApplyTemplateList "templates/post-item.html" (postCtx tags) posts
 
 
 renderTagHtmlList :: Tags -> Compiler (String)
@@ -212,8 +207,8 @@ postRoute = replacePosts `composeRoutes`
             dropIndexRoute
 
 
-rawPostRoute :: Routes
-rawPostRoute = replacePosts `composeRoutes`
+txtPostRoute :: Routes
+txtPostRoute = replacePosts `composeRoutes`
             dateRoute `composeRoutes`
             setExtension ".txt"
 
@@ -221,6 +216,11 @@ rawPostRoute = replacePosts `composeRoutes`
 staticRoute :: Routes
 staticRoute = gsubRoute "static/" (const "") `composeRoutes`
               dropIndexRoute
+
+
+txtStaticRoute :: Routes
+txtStaticRoute = gsubRoute "static/" (const "") `composeRoutes`
+            setExtension ".txt"
 
 
 tagRoute :: Routes
@@ -243,6 +243,10 @@ dropIndexRoute = customRoute $
      (++ "/index.html"). dropExtension . toFilePath
 
 
+indexToTxtRoute :: Routes
+indexToTxtRoute = gsubRoute "/index.html" (const ".txt")
+
+
 deIndexUrls :: Item String -> Compiler (Item String)
 deIndexUrls item = return $ fmap (withUrls stripIndex) item
 
@@ -261,4 +265,11 @@ loadAndApplyTemplateList :: Identifier
 loadAndApplyTemplateList i c is = do
     t <- loadBody i
     applyTemplateList t c is
+
+
+-- Haxy way of joining snapshots of text.
+joinBodies :: [Item String] -> Compiler String
+joinBodies items =
+    let tpl = readTemplate $ "$body$"
+    in applyJoinTemplateList "" tpl defaultContext items
 
