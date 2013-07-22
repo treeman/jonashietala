@@ -36,7 +36,7 @@ main = hakyll $ do
         route   idRoute
         compile compressCssCompiler
 
-    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+    tags <- buildTags "posts/*" (fromCapture "tags/*")
 
     match "static/*" $ do
         route   staticRoute
@@ -84,14 +84,23 @@ main = hakyll $ do
                 >>= makeItem
 
     create ["archive/index.html"] $ do
+        let title = "The Archives"
+        let pattern = "posts/*"
+
         route   idRoute
-        compile $ archiveCompiler "The Archives" tags "posts/*" "templates/archive.html"
+        compile $ archiveCompiler title tags pattern "templates/archive.html"
+
+        version "raw" $ do
+            route indexToTxtRoute
+            compile $ rawArchiveCompiler title tags pattern "templates/archive.txt"
 
     tagsRules tags $ \tag pattern -> do
         let title = "Posts tagged: " ++ tag
 
         route   tagRoute
         compile $ archiveCompiler title tags pattern "templates/tags-archive.html"
+
+        -- Raw version forces re-update of tag pages. Wtf?
 
     match "projects/*" $ do
         compile $ pandocCompiler
@@ -146,7 +155,7 @@ main = hakyll $ do
         route idRoute
         compile $ do
             let feedCtx = (postCtx tags) <> bodyField "description"
-            posts <- fmap (take 10) . recentFirst =<<
+            posts <- fmap (take 30) . recentFirst =<<
                 loadAllSnapshots ("posts/*" .&&. hasNoVersion) "post"
             renderAtom myFeedConfiguration feedCtx posts
 
@@ -166,6 +175,20 @@ archiveCompiler title tags pattern tpl = do
         >>= deIndexUrls
 
 
+rawArchiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
+rawArchiveCompiler title tags pattern tpl = do
+    let ctx = mconcat
+            [ constField "title" title
+            , siteCtx
+            ]
+
+    loadAllSnapshots (pattern .&&. hasVersion "raw") "content"
+        >>= recentFirst
+        >>= loadAndApplyTemplateList "templates/short-post-item.txt" (postCtx tags)
+        >>= makeItem
+        >>= loadAndApplyTemplate tpl ctx
+
+
 siteCtx :: Context String
 siteCtx = mconcat
     [ constField "mail" mail
@@ -178,6 +201,7 @@ siteCtx = mconcat
 postCtx :: Tags -> Context String
 postCtx tags = mconcat
     [ dateField "date" "%B %e, %Y"
+    , dateField "ymd" "%F"
     , tagsField "tags" tags
     , siteCtx
    ]
@@ -192,12 +216,17 @@ metaKeywordCtx = field "metaKeywords" $ \item -> do
         showMetaTags t = "<meta name=\"keywords\" content=\"" ++ t ++ "\">"
 
 
-postList :: Pattern -> ([Item String] -> Compiler [Item String])
+postList :: Pattern
+         -> ([Item String]
+         -> Compiler [Item String])
          -> Compiler [Item String]
 postList pattern filter = filter =<< loadAll (pattern .&&. hasNoVersion)
 
 
-renderPostList :: Tags -> Pattern -> ([Item String] -> Compiler [Item String])
+renderPostList :: Tags
+               -> Pattern
+               -> ([Item String]
+               -> Compiler [Item String])
                -> Compiler String
 renderPostList tags pattern filter = do
     posts <- postList pattern filter
@@ -237,6 +266,11 @@ txtStaticRoute = gsubRoute "static/" (const "") `composeRoutes`
 tagRoute :: Routes
 tagRoute = gsubRoute "tags/" (const "blog/tags/") `composeRoutes`
            dropIndexRoute
+
+
+rawTagRoute :: Routes
+rawTagRoute = gsubRoute "tags/" (const "blog/tags/") `composeRoutes`
+              setExtension ".txt"
 
 
 replacePosts :: Routes
