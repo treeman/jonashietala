@@ -1,0 +1,41 @@
+#!/usr/bin/env perl
+
+use autodie;
+use Modern::Perl;
+use File::Basename;
+
+# Set website url
+my $url = "jonashietala.se";
+
+# Custom domain must have the same name as bucket
+my $bucket = $url;
+
+# Fetch path to current directory
+my $root = dirname(__FILE__);
+
+say "Uploading to S3";
+
+# Sync media files (cache: 10 weeks)
+say "Syncing images";
+sync ("images", "max-age=6048000");
+
+say "Syncing files";
+sync ("files", "max-age=6048000");
+
+# Sync css (cache: 1 week)
+say "Syncing css";
+sync ("css", "max-age=604800", "-m text/css");
+
+# Sync rest (cache: 1 hour)
+say "Syncing rest";
+sync ("", "max-age=3600, must-revalidate");
+
+sub sync {
+    my ($dir, $cache, $option) = @_;
+
+    $option = "" unless $option;
+
+    my $s = "s3cmd sync $option --acl-public --add-header=\"Cache-Control: $cache\" $root/_site/$dir s3://$bucket/";
+    system("$s 2>&1");
+}
+

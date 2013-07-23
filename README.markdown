@@ -12,7 +12,7 @@ TODO
 Code
 ----
 
-* Upload to S3 bucket
+* DNS redirects
 * Games
     * Downloadable files
 * Youtube shorthand
@@ -44,7 +44,6 @@ Design
     * font
 * Correct usage of html5 etc.
 * Post headers. Date? Title?
-* 404 page
 * Color scheme
 
 Sitemap
