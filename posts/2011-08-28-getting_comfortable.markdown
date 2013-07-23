@@ -9,12 +9,6 @@ So I physically built [the computer](/blog/2011/08/21/new_computer) and now I've
 
 And while we're at dissing the old - I can never ever like another keyboard again! Well, at least not another rubber dome or scissor switch one.
 
-<div class="center">
-  <img src="http://geekhack.org/attachment.php?attachmentid=21009&amp;d=1310786771" width="300" height="200" /> 
-  <img src="http://geekhack.org/attachment.php?attachmentid=20092&amp;d=1309957367" width="300" height="200" /><br />
-  <em>Rubber dome and scissor switch</em>
-</div>
-
 No this day forward I'm a mechanical keyboard fantast. You might think I'm crazy but the difference is pretty huge, before my fingers got tired but now they don't and it's even fun to type again!
 
 If that got you interested you need to read [this geekhack post](http://geekhack.org/showwiki.php?title=START+HERE+--+The+Geekhack+Mechanical+Keyboard+Guide+-+Includes+Glossary+and+Links), it's nice to say the least.

@@ -6,7 +6,7 @@ tags: News, Ludum Dare
 time: 09:16:36
 ---
 
-I've gotta do a lab today at school, tomorrow I need to do the exam I missed when I had my glasses-missing headaches and I'm going to Ikea and some other shops for, you guessed it, shopping! Sure it's fun and sure I need to do these things but the only thing on my mind now is making a new game. This weekend [Ludum Dare](http://www.ludumdare.com/compo/) is on again and I would really, really like to enter it! It's been [over a year](http://www.ludumdare.com/compo/) since my last Ludum Dare and almost 11 months since my [last game](/games/wheres_teddy).
+I've gotta do a lab today at school, tomorrow I need to do the exam I missed when I had my glasses-missing headaches and I'm going to Ikea and some other shops for, you guessed it, shopping! Sure it's fun and sure I need to do these things but the only thing on my mind now is making a new game. This weekend [Ludum Dare](http://www.ludumdare.com/compo/) is on again and I would really, really like to enter it! It's been [over a year](http://www.ludumdare.com/compo/) since my last Ludum Dare and almost 11 months since my [last game](/blog/2010/06/06/wheres_teddy/).
 
 I want to make games again..
 
@@ -19,7 +19,7 @@ I haven't made a game since I switched to Slackware either, luckily [SFML](http:
 For graphics I think I'm aiming for some pixelated cool stuff with [mtPaint](http://mtpaint.sourceforge.net/). Pixelated stuff looks awesome, if you're good at it, and I'd like to make something similar.. At least a little similar.
 
 <div class="center">
-  <img src="/images/koncept.png" /><br />
+  <img src="/images/games/koncept.png" /><br />
   <em>Unreleased fun pixel graphics</em>
 </div>
 

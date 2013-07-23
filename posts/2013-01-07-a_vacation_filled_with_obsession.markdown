@@ -20,7 +20,7 @@ A summary from [Wikipedia][german]:
 [Power Grid]: http://boardgamegeek.com/boardgame/2651/power-grid
 [Minecraft]: http://minecraft.net/
 [World of Tanks]: http://worldoftanks.com/
-[hacker news]: http://news.ycombinator.com/
+[hacker news]: https://news.ycombinator.com/
 [board games]: http://timharford.com/2010/07/why-we-still-love-board-games/
 [german]: http://en.wikipedia.org/wiki/German-style_board_game
 

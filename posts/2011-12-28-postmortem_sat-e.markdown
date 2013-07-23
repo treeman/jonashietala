@@ -7,12 +7,12 @@ time: 19:22:02
 ---
 This is my postmortem for my [Ludum Dare 22](http://www.ludumdare.com/compo/ludum-dare-22/?action=preview) entry, [Sat-E](http://www.ludumdare.com/compo/ludum-dare-22/?action=preview&uid=1895). You can find the timelapse [over here](http://www.ludumdare.com/compo/2011/12/19/sat-e-timelapse).
 
-<img src="/images/ld22-lone.png" width="600"/>
+<img src="/images/games/ld22-lone.png" width="600"/>
 
 ## The Good
 
 **Motivation**  
-I was really motivated for [this dare](http://www.ludumdare.com/compo/ludum-dare-22/?action=preview) and it showed in the game and outside it. It's super hard to make a game in only 48 hours but this time it went pretty well. My [previous](/games/my_minions) [attempts](/games/beebop_the_island_hopper) went okay, but there were always something lacking. [This time](/games/sat-e) the game feels a little bit more finished so I'm going in the right direction.
+I was really motivated for [this dare](http://www.ludumdare.com/compo/ludum-dare-22/?action=preview) and it showed in the game and outside it. It's super hard to make a game in only 48 hours but this time it went pretty well. My [previous](/blog/2011/05/02/my_minions/) [attempts](/blog/2010/04/26/beebop_the_island_hopper/) went okay, but there were always something lacking. [This time](/blog/2011/12/19/sat-e/) the game feels a little bit more finished so I'm going in the right direction.
 
 After the game the programming motivation continued and with it I've been improving [my small fast prototyping framework](https://github.com/treeman/7days) I use when making games. I got a lot of ideas on improvements during the weekend so that's great.
 
@@ -33,7 +33,7 @@ My thougts? Wait that's a bug! Hmm...
 **My girlfriend**  
 Of course as I live together with someone it's quite hard to devote an entire weekend, plus the extra time before and after, with my computer. Veronica handled it wonderfully well and she was very supportive which means a lot to me and it helped a ton.
 
-<img src="/images/ld22-lots.png" width="600" />
+<img src="/images/games/ld22-lots.png" width="600" />
 
 ## The Bad 
 
@@ -41,7 +41,7 @@ Of course as I live together with someone it's quite hard to devote an entire we
 There's no music but I had grand plans for making music for the first time ever! It failed hard though. Which brings me to the next point...
 
 **Not familiar with the tools**  
-I used [my own framework](https://github.com/treeman/7days) for the game, which is fine, but my [last game](/games/my_minions) with it was in May 2011! Which is a looong time ago. I was a bit (a lot) out of practice with this whole pixel arts thing. And of course I had never used [LMMS](http://lmms.sourceforge.net/) to make music and that didn't happen. I was short of time and it was too big of a deal to start it with the last minute.
+I used [my own framework](https://github.com/treeman/7days) for the game, which is fine, but my [last game](/blog/2011/05/02/my_minions/) with it was in May 2011! Which is a looong time ago. I was a bit (a lot) out of practice with this whole pixel arts thing. And of course I had never used [LMMS](http://lmms.sourceforge.net/) to make music and that didn't happen. I was short of time and it was too big of a deal to start it with the last minute.
 
 **Not enough time**  
 Even though I had the whole weekend planned for the dare and I skipped practice on Sunday I was *still* short on time. I'm not really sure why though. I made a pretty simple game, not a lot of art and I generated sound with [bfxr](http://www.bfxr.net/) which took no time at all... The reasons really must be:

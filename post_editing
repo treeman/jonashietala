@@ -50,10 +50,10 @@ for my $file (@ARGV) {
 
         # I used to insert level 2 headings in posts
         # but now we downvote headers after parse instead.
-        if ($s =~ /^-+$/) {
-            $h2_count++;
-            $s = "=" x length($s) . "\n" if $h2_count > 2;
-        }
+        #if ($s =~ /^-+$/) {
+            #$h2_count++;
+            #$s = "=" x length($s) . "\n" if $h2_count > 2;
+        #}
 
         # Move images subdirectory
         #$s =~ s|<img src="/media/images|<img src="/images|sg;

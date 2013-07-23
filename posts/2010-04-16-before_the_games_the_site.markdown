@@ -7,7 +7,7 @@ time: 12:39:55
 ---
 I've got some things I want to do before I start with my next game and they're all about improving the site. The last week or so has been extremely productive with me throwing out a lot of wasted code, speeding up the site and adding/removing features and I want to continue with that and get the things done now when I'm in the flow.
 
-You can find the whole source for the site, excluding a few security related files ofc, [on github][site] where I've also uploaded a [small to-do list][todo] and some ideas I might want to implement.
+You can find the whole source for the site, excluding a few security related files ofc, [on github][site] where I've also uploaded a small to-do list and some ideas I might want to implement.
 
 Here's a small summary of the stuff:
 
@@ -23,6 +23,5 @@ Here's a small summary of the stuff:
 
 I'm itching a little bit about a new game, but first thing's first.
 
-[site]: http://github.com/treeman/Made-of-Tree-site
-[todo]: http://github.com/treeman/Made-of-Tree-site/blob/master/readme.txt
+[site]: http://github.com/treeman/
 

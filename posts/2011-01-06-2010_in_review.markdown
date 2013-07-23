@@ -11,18 +11,18 @@ I saw a [post on briancarper](http://briancarper.net/blog/574/2010-in-review) wh
 ===============================
 1. Wrote a few games earlier this year;  
   <ul>
-    <li><a href="/games/the_chronicles_of_bim_the_100_fake_afros">The Chronicles of Bim: The 100 Fake Afros</a></li>
-    <li><a href="/games/a_geek_valentine">A Geek Valentine</a></li>
-    <li><a href="/games/beebop_the_island_hopper">Beebop The Island Hopper</a></li>
-    <li><a href="/games/wheres_teddy">Where's Teddy?</a></li>
+    <li><a href="/blog/2010/01/16/the_chronicles_of_bim_the_100_fake_afros/">The Chronicles of Bim: The 100 Fake Afros</a></li>
+    <li><a href="/blog/2010/02/28/a_geek_valentine/">A Geek Valentine</a></li>
+    <li><a href="/blog/2010/04/26/beebop_the_island_hopper/">Beebop The Island Hopper</a></li>
+    <li><a href="/blog/2010/06/06/wheres_teddy/">Where's Teddy?</a></li>
   </ul>
-2. Updated [this site](https://github.com/treeman/Made-of-Tree-site) a bit.
+2. Updated this site a bit.
 3. In the process I learned a lot of PHP, Javascript, mysql and design. Fun and useful.
 4. Switched to [Slackware](http://www.slackware.com) which I like a *ton* better than Ubuntu.
 5. Learned a lot more linux. Thanks Slackware.
 6. Learned a lot more [git](http://git-scm.com/).
-7. Learned a lot more [vim](www.vim.org/).
-8. Tried out and configured [uzbl](www.uzbl.org) which I still use.
+7. Learned a lot more [vim](http://www.vim.org/).
+8. Tried out and configured [uzbl](http://www.uzbl.org) which I still use.
 9. Learned a bit of Haskell.
 10. Tried out Perl a bit.
 11. Learned a lot more Lisp.

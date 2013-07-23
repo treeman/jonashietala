@@ -27,7 +27,7 @@ Console: *F1*
 
 **Credits**   
 *Sound effects:* Random from [freesound](http://www.freesound.org/)  
-*Music:* [Joshua Holtz - Sounds of Insects](http://ccmixter.org/content/j2theoshgosh/)   
+*Music:* Joshua Holtz - Sounds of Insects  
 *Rest:* Me
 
 **Source**   

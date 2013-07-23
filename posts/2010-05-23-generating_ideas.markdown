@@ -9,7 +9,7 @@ So I got a fairly fun assignment from the game design course I'm taking for once
 
 I used a sort of "notes in the basket" approach where you placed some notes with words in a basket and randomly drew two and then you should come up with something with the two words. But I'm too lazy to write a lot of notes and it's pretty damn hard to come up with a lot of good words too, so I tried to automate the process.
 
-I searched for some random words and found this site: <http://www.wordswarm.net/> and I pulled out a few pages and got a few thousand words. Then I made a very [simple tool][tool] which randomly combines two lines from a file and creates a sentence, much like the you would with the notes but this is just so much faster. Granted I had a lot of shitty words and I got a lot of garbage lines but I could go through so many lines it was a very simple task to get these 50 one-lined game ideas.
+I searched for some random words and found this site: <http://www.wordswarm.net/> and I pulled out a few pages and got a few thousand words. Then I made a very simple tool which randomly combines two lines from a file and creates a sentence, much like the you would with the notes but this is just so much faster. Granted I had a lot of shitty words and I got a lot of garbage lines but I could go through so many lines it was a very simple task to get these 50 one-lined game ideas.
 
 These are not fully fledged game ideas, but merely seeds from which you could grow a game.
 
@@ -62,6 +62,4 @@ These are not fully fledged game ideas, but merely seeds from which you could gr
 +  The life of a Bacteria, birth, mutation and world conquering
 +  Put the surfing Duck
 +  Butler who's carrying silver
-
-[tool]: /files/download/random_words.zip
 

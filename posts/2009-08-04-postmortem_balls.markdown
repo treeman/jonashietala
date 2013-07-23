@@ -26,7 +26,7 @@ But what I did find was [kloonigames](http://www.kloonigames.com/blog/), some gu
 
 > My experiences told my that creating, even a small, game takes months, if not years. So to do it in 7 days seem frightening. And not only the code, but graphics, music, sound, levels and all things included. I shit my pants even thinking about it and almost gave up. Luckily I realized that the worst thing that could happen (beside shitting my pants) was wasting a week of my life. I could do that easily with a Buffy the Vampire Slayer marathon.
 
-And here's a summary of my first *ever* game **Balls**. It's available [here](/games/balls/) for download.
+And here's a summary of my first *ever* game **Balls**. It's available [here](/blog/2009/08/01/balls//) for download.
 
 **The Good**
 

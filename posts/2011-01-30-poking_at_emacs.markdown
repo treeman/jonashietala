@@ -18,14 +18,9 @@ No this shouldn't be allowed to continue so now I'm going to give emacs a try. I
 <div class="center">*I've used notepad, visual studio and vim. Emacs seems though.*</div>
 
 [vim]: http://www.vim.org/
-
 [update]: https://github.com/treeman/dotfiles/blob/c6bb8c790303367286a34744004f2032de996bc0/.vimrc
-
-[nutheads]: www.viemu.com/a-why-vi-vim.html
-
+[nutheads]: http://www.viemu.com/a-why-vi-vim.html
 [editor_war]: http://en.wikipedia.org/wiki/Editor_war
-
 [learning_curve]: http://unix.rulez.org/~calver/pictures/curves.jpg
-
 [good_comparison]: http://www.io.com/~dierdorf/emacsvi.html
 

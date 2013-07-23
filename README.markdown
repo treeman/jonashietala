@@ -33,6 +33,7 @@ Misc
     * Sort on number of tags and take a few? Generate a tags list page?
     * Remove the 'General' tag!
     * Make the tag 'Games' or similar only for my made games and something else for gaming discussion?
+* Check header tags in posts?
 
 Write
 -----
@@ -40,6 +41,9 @@ Write
 * Recommendations
     * Link to posts describing the best books/series!
 * Some more blog posts...?
+* Recommended posts
+    * Game design analysis
+    * The history of RTS games
 
 Design
 ------

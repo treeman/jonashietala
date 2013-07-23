@@ -5,7 +5,7 @@ repository: git://github.com/treeman/Sat-E.git
 tags: Games, 7days
 ---
 
-So I entered [Ludum Dare 22](www.ludumdare.com/compo/) this weekend as a preamble for tomorrow's linear algebra exam. The theme this time around was *Alone* and the game I came up with is about a lonely satellite in space, kinda like Wall-E.
+So I entered [Ludum Dare 22](http://www.ludumdare.com/compo/) this weekend as a preamble for tomorrow's linear algebra exam. The theme this time around was *Alone* and the game I came up with is about a lonely satellite in space, kinda like Wall-E.
 
 **Download**  
 [Windows](#)

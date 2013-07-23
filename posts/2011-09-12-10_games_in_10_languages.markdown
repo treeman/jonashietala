@@ -7,7 +7,7 @@ time: 11:18:19
 ---
 For school we have this programming course for Java. It isn't anything special really and it would be really boring if I don't like to program, it almost is anyway, if it weren't for the fact that we're to create a game! Just any game will do and we're in a group of two and we have about a month to complete it. Mmh I like.
 
-Me and Li, my conspiring friend, have a pretty decent idea of something we can make. The only minor thing is that neither he nor I know anything about Java. Turns out I've done [some gamemaking](/games) in mostly C++ and it's really not different so we'll see how the game finishes.
+Me and Li, my conspiring friend, have a pretty decent idea of something we can make. The only minor thing is that neither he nor I know anything about Java. Turns out I've done [some gamemaking](/blog/tags/Games/) in mostly C++ and it's really not different so we'll see how the game finishes.
 
 Now this game me a bit of an idea, or rather it resurfaces and older idea, namely to make a few games in a couple of different languages. I like to explore different languages and I like to make games so why not combine them?
 

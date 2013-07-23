@@ -39,6 +39,6 @@ The coolness factor = amount of games rated. I wasn't motivated at all sadly... 
 
 [res]: http://www.ludumdare.com/compo/ludum-dare-22/?action=preview&uid=1895
 [Ludum Dare 22]: http://www.ludumdare.com/compo/2012/01/09/ludum-dare-22-results/
-[Sat-E]: /games/sat-e
+[Sat-E]: /blog/2011/12/19/sat-e/
 [postmortem]: /blog/2011/12/28/postmortem_sat-e
 

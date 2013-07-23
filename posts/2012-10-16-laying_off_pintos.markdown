@@ -16,7 +16,7 @@ Exam period is here which means all courses should be wrapping up and a week or 
 
 All in all pretty darn fun. I was considering sharing the code publicly, but that might not be a too bright of an idea. I'll keep it private for now.
 
-[lab]: blog/2012/09/03/entering_pintos/
+[lab]: /blog/2012/09/03/entering_pintos/
 [pintos]: http://www.stanford.edu/class/cs140/projects/pintos/pintos_1.html
 
 

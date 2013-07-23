@@ -15,8 +15,6 @@ time: 10:00:40
 1. [Conclusion][]
 1. [References][]
 
-[Original essay here](/files/download/rts_final.doc). This post is just a reformatted version with pictures.
-
 Introduction
 ============
 

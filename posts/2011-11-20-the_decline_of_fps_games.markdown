@@ -8,7 +8,7 @@ time: 11:39:25
 I read [an article about the decline of FPS games](http://au.pc.ign.com/articles/121/1212393p1.html) and it made me think a bit. When was the last time I actually enjoyed an FPS game? I installed old [Deus Ex](http://en.wikipedia.org/wiki/Deus_Ex) a while ago but it's what 12 years old? [Team Fortress](http://www.teamfortress.com/) was okay, the one or two times I tried it, but I can't say I truly enjoyed it, hell I never even played it apart from trying it at a friends pc. Well I bought [Duke Nukem Forever](http://en.wikipedia.org/wiki/Duke_Nukem_Forever) but I haven't even completed it, it's best server collecting dust at the bookshelf now. No the truly last FPS I enjoyed was [CSS](http://store.steampowered.com/app/240/). How is this possible?
 
 <div class="center">
-  <img src="http://www.gotfrag.com/files/upload/monstro_dust2b_rushdubssmoked.jpg" width="400" /><br />
+  <img src="http://techreport.com/r.x/cssource-audio/shot.jpg" width="400" /><br />
   <em>CSS: my one favorite FPS game.</em>
 </div>
 

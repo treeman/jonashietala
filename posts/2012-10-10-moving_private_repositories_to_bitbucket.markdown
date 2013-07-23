@@ -10,8 +10,8 @@ Long overdue, I recently moved my private repositories from [Github][] to [Bitbu
 
 [Github]: https://github.com/treeman
 [Bitbucket]: https://bitbucket.org/
-[hacker news]: http://news.ycombinator.net/news
-[final push]: http://news.ycombinator.net/item?id=4631926
+[hacker news]: https://news.ycombinator.net/
+[final push]: https://news.ycombinator.net/item?id=4631926
 
 
 The transition was as smooth as a... a sine wave...? Pretty damn smooth that is. Sign up took 30 seconds, copy paste my ssh key and redefine some remotes and I'm basically done. Decentralized source code management (git in this case) is pretty damn awesome.

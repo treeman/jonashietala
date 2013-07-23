@@ -5,7 +5,7 @@ category: Timelapse
 tags: Timelapse, Ludum Dare, Gaming
 time: 14:14:56
 ---
-So this time I managed to compose a timelapse of my weekend and the making of [My Minions](/games/my_minions). Sadly I lost the first few hours as I forgot to turn it on...
+So this time I managed to compose a timelapse of my weekend and the making of [My Minions](/blog/2011/05/02/my_minions/). Sadly I lost the first few hours as I forgot to turn it on...
 
 Anyway here's the result:  
 

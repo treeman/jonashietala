@@ -32,7 +32,7 @@ Overall I like it, but it's nothing really special. If I would try to give it an
 The pressure of a deadline is a powerful motivator and now I've found that no more than a week, or even a weekend, is enough to make a game. And it might even end up being enjoyable.
 
 [ld]: http://ludumdare.com/
-[beebop]: /games/beebop_the_island_hopper
+[beebop]: /blog/2010/04/26/beebop_the_island_hopper/
 [lde]: http://www.ludumdare.com/compo/ludum-dare-17/?action=preview
 [info]: http://www.ludumdare.com/compo/about-ludum-dare/
 

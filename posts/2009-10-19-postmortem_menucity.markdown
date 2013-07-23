@@ -5,10 +5,10 @@ category: Postmortems
 tags: Postmortems, 7days
 time: 21:01:52
 ---
-Good times, good times. [MenuCity](/games/menucity/) has been out a while and thanks for all the positive and constructive feedback guys, it's like my food doing this (programming is my air and the fun is the water... err). Anyway here's the postmortem of my latest, and greatest, game.
+Good times, good times. [MenuCity](/blog/2009/10/13/menucity//) has been out a while and thanks for all the positive and constructive feedback guys, it's like my food doing this (programming is my air and the fun is the water... err). Anyway here's the postmortem of my latest, and greatest, game.
 
 Let's start with a hideous graph:
-![](/images/menucitygraph.png)
+![](/images/games/menucitygraph.png)
 God it's ugly, but it works I guess. I spent about 32 hours on this game which is the most I've spent on an experimental game so far. The bulk of the game was actually done really, really quickly like the second day or so. All the gameplay was there and with pacemaker art too! The last 5 days of production was focused on polish, level design and art.
 
 **Art**

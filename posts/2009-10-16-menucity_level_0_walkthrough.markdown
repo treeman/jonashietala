@@ -5,7 +5,7 @@ category: Walkthroughs
 tags: Walkthroughs
 time: 14:18:27
 ---
-It hasn't even been a week since I released my latest game [MenyCity](/games/menucity/) and already so much positive feedback! I'm so thrilled :) However, all isn't blue skies and nice sunshine. A lot of times the first question is: How do you play it? or How do you get past the first level? I admit yes, the tutorial is really bad...
+It hasn't even been a week since I released my latest game [MenyCity](/blog/2009/10/13/menucity//) and already so much positive feedback! I'm so thrilled :) However, all isn't blue skies and nice sunshine. A lot of times the first question is: How do you play it? or How do you get past the first level? I admit yes, the tutorial is really bad...
 
 So this is me trying to redeem myself! I can't go back and change the game and make a better tutorial - that would violate my limit of 7 days for each game so here's the next thing. A nice walkthrough with a lot of pictures explaining the basics and it'll show you how to actually complete the tutorial! :p
 

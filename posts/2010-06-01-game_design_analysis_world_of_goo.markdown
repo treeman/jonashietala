@@ -17,8 +17,6 @@ time: 16:00:10
 1. [Conclusion][]
 1. [References][]
 
-[Original essay here](/files/download/world_of_goo_analysis.doc).
-
 Introduction
 ============
 
@@ -56,7 +54,7 @@ If you like challenges there's more to do: for every level there's this extra ha
 
 The game is quite large with 5 different chapters and there's around 10 levels each. Every chapter has it's own theme and they vary quite a lot; there's focus on explosions, balloons and there's even Goo balls you can shoot! This gives the game fairly long but it manages to stay fresh all the way through.
 
-![](/images/wog)  
+![](/images/wog/chapters.png)  
 *The 5 chapters + sandbox (Tower of Goo) is the World of Goo*
 
 [Back to top](#top)
@@ -98,7 +96,7 @@ The concept of the whole game is really quite simple, create structures with dra
 One thing the game does is introduce new Goo balls all the time; balls you can remove multiple times force you to climb and restructure, balloon Goos create interesting aerial acrobatics and a sticky Goo makes the structure mobile.
 
 ![](/images/wog/liftoff.png)
-![](/images/wog)  
+![](/images/wog/climb.png)  
 *Lifting off and climbing is possible thanks to different Goo balls*
 
 Even Goo's with minor changes like industrial Goo which you can't control or dangling Goo which will only dangle down gives a lot of depth to the game thanks to the great level design.
@@ -114,7 +112,7 @@ It's not just build straight up; it's build around, use balloons to topple the t
 Perhaps the most radical experiment is the fourth chapter. We get new Goo's that shoot! This is different from our regular balls that we can move around freely and they usually build or attach when we release them but these launch themselves when we drag n drop them. It's the only way we can move them around and with one type we get to shoot and build.
 
 ![](/images/wog/shoot-build.png)
-![](/images/wog/world-g)  
+![](/images/wog/world-gravity.png)  
 *Shooting Goo?*
 
 Still staying true to the basic mechanics, select ball, drag n drop for effect with some physics and this could easily have been a game of it's own.
@@ -166,7 +164,7 @@ Mods
 The game is more or less a closed system but if you're interested it isn't too hard to create new levels, alter the online scoreboard (which has happened a lot) or even add new Goo balls. The site goofans.com is a dedicated site which collects fan-made levels and mods.
 
 ![](/images/wog/color.png)
-![](/images/wog/jing)  
+![](/images/wog/jingleballs2.png)  
 *Colorful balloons and a new Christmas level*
 
 There's even a tool, [GooTool][gootools], which is a tool which let's you manage your installed mods, manage your profile stats, general options like screen resolution and even add in your own language.
