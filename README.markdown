@@ -12,28 +12,21 @@ TODO
 Code
 ----
 
-* .txt version of things
-    * Only tags left! Seems fruitless
-* Youtube shorthand
-* Convert posts from the old format to the new
-    * Fix all images
+* Upload to S3 bucket
 * Games
     * Downloadable files
-    * Links in posts to downloads
-    * Links in posts to source
-    * Images
+* Youtube shorthand
 * 404 - Some funky thing. A game perhaps?
 * Sitemap (How to autogenerate??)
-* Upload to S3 bucket
+* .txt version of things
+    * Only tags left! Seems fruitless
 
 Misc
 ----
 
 * Remove/Rename tags... They are clogging up the front page!
-    * Sort on number of tags and take a few? Generate a tags list page?
-    * Remove the 'General' tag!
-    * Make the tag 'Games' or similar only for my made games and something else for gaming discussion?
-* Check header tags in posts?
+    * Remove the 'General' tag! Too much stuff there...
+* Check header tags in posts? Some are too low.
 
 Write
 -----
