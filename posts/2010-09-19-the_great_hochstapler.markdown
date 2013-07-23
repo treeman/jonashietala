@@ -2,7 +2,7 @@
 layout: post
 title: The great Hochstapler
 category: Games
-tags: Games
+tags: Gaming
 time: 11:17:32
 ---
 Hey there. A lot has happened lately since my last update and my last game here.

@@ -1,6 +1,7 @@
 ---
 title: Grand Thief Arto
 date: 2011-10-19
+tags: Games
 ---
 
 Here's me and Li's game for our school course. The game isn't tweaked too much but it's a game with some fairly cool ideas.

@@ -2,7 +2,7 @@
 layout: post
 title: FTL got a new victim
 category: Games
-tags: Games
+tags: Gaming
 ---
 
 

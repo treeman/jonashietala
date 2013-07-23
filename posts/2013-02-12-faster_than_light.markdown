@@ -2,7 +2,7 @@
 layout: post
 title: Faster than Light
 category: Games
-tags: Games
+tags: Gaming
 ---
 
 So I returned to [Faster than Light][FTL] again this weekend, this time for real. I bought it when it came out and I played it only in passing, but this weekend I played it a *ton*.

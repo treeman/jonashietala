@@ -2,7 +2,7 @@
 layout: post
 title: 10 Games in 10 Languages
 category: Game Making
-tags: Games, News
+tags: Gaming, News
 time: 11:18:19
 ---
 For school we have this programming course for Java. It isn't anything special really and it would be really boring if I don't like to program, it almost is anyway, if it weren't for the fact that we're to create a game! Just any game will do and we're in a group of two and we have about a month to complete it. Mmh I like.

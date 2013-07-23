@@ -2,7 +2,7 @@
 layout: post
 title: An intriguing new puzzle
 category: Games
-tags: Games
+tags: Gaming
 time: 23:40:09
 ---
 Here's another game made for the [experimental gameplay project](http://experimentalgameplay.com/blog/):

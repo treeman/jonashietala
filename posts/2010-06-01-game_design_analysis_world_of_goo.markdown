@@ -70,7 +70,7 @@ Analysis
 1. [Mods][]
 
 Actions and confirmation
-------------------------
+=========================
 
 One of the things World of Goo does really well is to communicate to the player. When a first time player loads the first level it's almost always clear what to do, you have this helpful sign showing your first move (drop a goo ball here) and you have this curious looking pipe just above you and not much else to distract you. After each level you get a score screen on how you did and both the level and world screen are helpfully showing your progress and what to do next. But to me the most impressive thing is how your actions are handled.
 
@@ -91,7 +91,7 @@ Although simple the visual and auditive feedback works absolutely wonderful and 
 [Back to top](#top)
 
 Varying the mechanics
----------------------
+======================
 
 The concept of the whole game is really quite simple, create structures with drag n' drop Goo balls, add in some simple physics and you're done. It's amazing how captivating something simple as this can be and I believe it has a lot to do with the small incremental changes the game makes all the time.
 
@@ -130,7 +130,7 @@ All in all World of Goo uses their simple core concept to it's limit with a ton 
 [Back to top](#top)
 
 Consequences of the rules
--------------------------
+==========================
 
 World of Goo is a physics based game; when building structures you need to compensate against gravity so your tower won't collapse and you need to make sure your structure has enough joints so it can withstand tension and compression. Physics games are hard to create, you can't rely on a perfect representation as it's too hard to simulate perfectly and there are many edge cases you'll have to handle.
 
@@ -161,7 +161,7 @@ In a level there's a huge head which hangs from a small hook. When you've explod
 [Back to top](#top)
 
 Mods
-----
+=====
 
 The game is more or less a closed system but if you're interested it isn't too hard to create new levels, alter the online scoreboard (which has happened a lot) or even add new Goo balls. The site goofans.com is a dedicated site which collects fan-made levels and mods.
 

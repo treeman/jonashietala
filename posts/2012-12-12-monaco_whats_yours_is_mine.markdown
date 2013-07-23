@@ -1,6 +1,6 @@
 ---
 title: Monaco What's Yours is Mine
-tags: Games
+tags: Gaming
 ---
 
 

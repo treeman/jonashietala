@@ -37,6 +37,7 @@ for my $file (@ARGV) {
             my @tags = split /,\s*/, $1;
             my $res = "tags: ";
             map { $_ =~ s/^"(.*)"$/$1/ } @tags;
+            map { $_ =~ s/^Games$/Gaming/ } @tags;
             $res .= join ", ", @tags;
             $res .= "\n";
             $s = $res;

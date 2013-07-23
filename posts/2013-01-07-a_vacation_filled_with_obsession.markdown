@@ -2,7 +2,7 @@
 layout: post
 title: A Vacation Filled with Obsession
 category: Games
-tags: Games
+tags: Gaming
 ---
 
 
