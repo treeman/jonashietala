@@ -5,7 +5,7 @@ use Modern::Perl;
 use File::Basename;
 
 # Set website url
-my $url = "jonashietala.se";
+my $url = "www.jonashietala.se";
 
 # Custom domain must have the same name as bucket
 my $bucket = $url;
