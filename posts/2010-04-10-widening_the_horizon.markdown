@@ -25,7 +25,7 @@ Yeah that's what I've been doing; I've been widening my horizon and I've been ha
 [haskell]: http://haskell.org/
 [vim]: http://www.vim.org/
 [saw]: http://www.codinghorror.com/blog/2009/03/sharpening-the-saw.html
-[kohana]: hhttp://kohanaframework.org/
+[kohana]: http://kohanaframework.org/
 [ruby]: http://rubyonrails.org/
 [jquery]: http://jquery.com/
 

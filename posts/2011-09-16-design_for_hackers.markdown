@@ -19,5 +19,5 @@ Hrrmm...
 
 [dexter]: http://www.tvrage.com/Dexter
 [post]: http://www.kadavy.net/blog/posts/d4h-is-here/
-[hackernews]: http://news.ycombinator.net/
+[hackernews]: https://news.ycombinator.com/
 

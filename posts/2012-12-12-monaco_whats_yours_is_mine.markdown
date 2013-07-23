@@ -12,6 +12,6 @@ Tomorrow is preorder release, yes I'm going to buy a 4-pack directly, and they w
 
     http://www.youtube.com/watch?v=NtpLP4_losA
 
-[monaco]: http://www.pocketwatchgames.com/Monaco/
+[monaco]: http://www.monacoismine.com/
 
 

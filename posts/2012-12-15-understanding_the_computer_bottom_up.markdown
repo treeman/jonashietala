@@ -47,7 +47,7 @@ Ah, we've come a whole circle. I'm still writing programs, that's practically al
 
 There are still things I'd like to do more of. More games, more assembly code, more hardware controlling stuff, using my [newly gotten][] [raspberry pi][] perhaps?, and I definately want to make my own programming language sometime.
 
-[MARC]: /projects/MARC/
+[MARC]: https://github.com/treeman/MARC/
 [pintos]: http://www.stanford.edu/class/cs140/projects/pintos/pintos_1.html
 [newly gotten]: /blog/2012/12/14/early_christmas_present/
 [raspberry pi]: http://www.raspberrypi.org/

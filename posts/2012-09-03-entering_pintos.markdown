@@ -13,5 +13,5 @@ First week of school is over and it's been full throttle from the start, in a go
 
 It's one of the things I've been wanting to learn every since I first came in contact with programming; How does the connection hardware to software work? How does an operating system work? And how does a programming language work? After two years, with [implementing a processor][MARC] last year as a high point, I think I can answer how hardware connect with software. I still need to implement my own language but for now I'm having fun with OS programming. Yesterday I implemented basic System Calls and next on the agenda is altering some thread stuff. I might make the code available when the course is over, and maybe even add even more stuff? Fun, Fun!
 
-[MARC]: /projects/MARC
+[MARC]: https://github.com/treeman/MARC
 

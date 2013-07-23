@@ -32,6 +32,6 @@ Today I read the best comment so far about the topic by [hacker news][] regular 
 
 > To a blogger, the programmer who best fits the profile of the point he is trying to make is a good programmer.
 
-[hacker news]: http://news.ycombinator.com/
+[hacker news]: https://news.ycombinator.com/
 
 

@@ -13,7 +13,7 @@ Recently I've been having a dozen ideas and projects I've been poking around wit
 
 3. Totally not related to the other two I want to learn how to draw. On a little whim I bought the book [Drawing on the Right Side of the Brain](http://www.drawright.com/) and I was totally blown away. I was a bit sceptic at first but she's explaining everything so scientifically and [the results look amazing](http://drawright.com/gallery.htm). Almost too good to be true. But as always I started but I'm not there yet, in fact a pretty long way from finished.
 
-4. Back to the programming business. I'd like to update the backend of [this site](https://github.com/treeman/Made-of-Tree-site), but to be fair it's not *that* important. Just something that'd be nice to do.
+4. Back to the programming business. I'd like to update the backend of this site, but to be fair it's not *that* important. Just something that'd be nice to do.
 
 5. What's worse is my game projects. What projects you ask? Well I started a few much bigger games this time and they have just faded away from my brain little by little and now I'm not that into them. I mean the ideas are amazing, but I haven't done anything with them.
 

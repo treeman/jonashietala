@@ -17,6 +17,7 @@ And finally my little [timelapse recording hack](https://github.com/treeman/Tree
 
 And of course here's where I'll be spending most of my waking hours:
 
-![Ludum Dare 22 setup](/media/images/LD_setup.JPG)
+![Ludum Dare 22 setup](/images/LD_setup.jpg)
+
 I'm planning on getting some new food during all this, but I'm not entirely sure yet.
 
