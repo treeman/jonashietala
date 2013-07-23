@@ -1,14 +1,18 @@
 ---
 title: A Geek Valentine
 date: 2010-02-28
-repository: git://github.com/treeman/Rejection.git
 tags: Games, 7days
 ---
 
 Yes! I made it! It's 22:22 on the very last day of February and I've been programming virtually non-stop for the past two days, my brain feels like mashed potatoes...
 
+**Download**  
+[Windows](#)
+
 **A Geek Valentine**   
-![](/media/images/thumbs/geek1.png) ![](/media/images/thumbs/geek2.png) ![](/media/images/thumbs/geek3.png)
+![](/images/games/thumbs/geek1.png)
+![](/images/games/thumbs/geek2.png)
+![](/images/games/thumbs/geek3.png)
 
 **Controls**   
 Steer with the arrow keys.

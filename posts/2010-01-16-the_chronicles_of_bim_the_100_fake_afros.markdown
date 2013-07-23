@@ -1,14 +1,18 @@
 ---
 title: The Chronicles of Bim: The 100 Fake Afros
 date: 2010-01-16
-repository: git://github.com/treeman/100-things.git
-tags: Gaming, 7days
+tags: Games, 7days
 ---
 
 Aaah feels good having a game ready after the last month's failure! This time it's a small shooter.
 
+**Download**  
+[Windows](#)
+
 **The Chronicles of Bim: The 100 Fake Afros**   
-![](/media/images/thumbs/afro1.png) ![](/media/images/thumbs/afro2.png) ![](/media/images/thumbs/afro3.png)
+![](/images/games/thumbs/afro1.png)
+![](/images/games/thumbs/afro2.png)
+![](/images/games/thumbs/afro3.png)
 
 Bullet masher - can you keep up with 100 enemies at the screen? Try it!
 

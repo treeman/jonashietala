@@ -7,10 +7,14 @@ tags: Games, 7days
 
 So I entered [Ludum Dare 22](www.ludumdare.com/compo/) this weekend as a preamble for tomorrow's linear algebra exam. The theme this time around was *Alone* and the game I came up with is about a lonely satellite in space, kinda like Wall-E.
 
+**Download**  
+[Windows](#)
+[Linux 64bit](#)
+
 **Sat-E**  
-![](/media/images/ld22-lone-small.png)
-![](/media/images/ld22-dock-small.png)
-![](/media/images/ld22-lots-small.png)
+![](/images/games/ld22-lone-small.png)
+![](/images/games/ld22-dock-small.png)
+![](/images/games/ld22-lots-small.png)
 
 **Instructions**  
 Collect junk and other items for you to buy upgrades, and finally, your friend to finish the game. Be careful not to run out of battery, you need to return home to base for a recharge between runs.

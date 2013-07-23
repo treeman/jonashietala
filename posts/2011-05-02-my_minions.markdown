@@ -1,14 +1,19 @@
 ---
 title: My Minions
 date: 2011-05-02
-repository: git://github.com/treeman/My-Minions.git
 tags: Games, 7days
 ---
 
 So I think I made it! It became a pretty different game from what I set out to create, but I'm glad with how it turned out.
 
+**Download**  
+[Windows](#)
+[Linux 64bit](#)
+
 **My Minions**   
-![](/media/images/thumbs/minion2.png) ![](/media/images/thumbs/minion3.png) ![](/media/images/thumbs/minion1.png)
+![](/images/games/thumbs/minion2.png)
+![](/images/games/thumbs/minion3.png)
+![](/images/games/thumbs/minion1.png)
 
 **Instructions**  
 Build a pathway and then place objects or release minions on it, everything must be on a path. Place musical objects or make the minions turn or split to make sound and create some music. Or you can create a digital circuit and make it do something fun.

@@ -37,7 +37,7 @@ for my $file (@ARGV) {
             my @tags = split /,\s*/, $1;
             my $res = "tags: ";
             map { $_ =~ s/^"(.*)"$/$1/ } @tags;
-            map { $_ =~ s/^Games$/Gaming/ } @tags;
+            #map { $_ =~ s/^Games$/Gaming/ } @tags;
             $res .= join ", ", @tags;
             $res .= "\n";
             $s = $res;
@@ -56,7 +56,8 @@ for my $file (@ARGV) {
         }
 
         # Move images subdirectory
-        $s =~ s|<img src="/media/images|<img src="/images|sg;
+        #$s =~ s|<img src="/media/images|<img src="/images|sg;
+        #$s =~ s"!\[\]\(/media/images"![](/images"sg;
 
         push @lines, $s;
     }
@@ -66,7 +67,7 @@ for my $file (@ARGV) {
     my $s = join "", @lines;
 
     # Replace depcrated <center>
-    $s =~ s|<center>(.+?)</center>|<div class="center">$1</div>|sg;
+    #$s =~ s|<center>(.+?)</center>|<div class="center">$1</div>|sg;
 
     # Replace old links with new
     while (my ($old, $new) = each %redirects) {

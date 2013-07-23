@@ -6,8 +6,13 @@ tags: Games, 7days
 
 Ahoy there! This time I'll take you along for a ride with an arty Tycoon game.
 
+**Download**  
+[Windows](#)
+
 **Jonas IceCream Stand**  
-![](/media/images/thumbs/ice3.png) ![](/media/images/thumbs/ice1.png) ![](/media/images/thumbs/ice2.png)   
+![](/images/games/thumbs/ice3.png)
+![](/images/games/thumbs/ice1.png)
+![](/images/games/thumbs/ice2.png)   
 Get wild and become a Crazy Dealer of IceCream!
 
 **Instructions**  

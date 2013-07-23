@@ -8,8 +8,13 @@ Ahhh... Finally another game! Theme of this beauty is *Failure* and your mission
 
 The gameplay wasn't what I was planning on - yet again - but I'm actually quite content with the game. It's able to grab your attention for at least a few minutes before loosing you and it's absolutely the prettiest one I've ever made! Enjoy! ^^
 
+**Download**  
+[Windows](#)
+
 **Bugger**   
-![](/media/images/thumbs/bugger1.png) ![](/media/images/thumbs/bugger2.png) ![](/media/images/thumbs/bugger3.png)
+![](/images/games/thumbs/bugger1.png)
+![](/images/games/thumbs/bugger2.png)
+![](/images/games/thumbs/bugger3.png)
 
 **Instructions**   
 Type the text on the bugs to make them disappear, that's all folks!

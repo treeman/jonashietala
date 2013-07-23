@@ -6,9 +6,13 @@ tags: Games
 
 Here's me and Li's game for our school course. The game isn't tweaked too much but it's a game with some fairly cool ideas.
 
+**Download**  
+[Windows](#)
+
 **Grand Thief Arto**   
-![](/media/images/arto1.png) 
-![](/media/images/arto2.png) ![](/media/images/arto3.png)
+![](/images/games/arto1.png)
+![](/images/games/arto2.png)
+![](/images/games/arto3.png)
 
 **Instructions**  
 Your goal is to collect loot until you can escape through the entry point when you've collected enough to complete the level.

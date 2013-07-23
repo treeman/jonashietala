@@ -8,7 +8,7 @@ time: 15:03:04
 Ah my latest game [Jonas IceCream Stand](/games/jonas_icecream_stand) is finished and up and running and I'm really proud of it! And thanks for the feedback guys, it's always welcome.
 
 I spent almost exactly fifty hours on this game and that's by far the most I've spent on a 7day project. To be honest it's probably more but I'm not really good at logging all the hours...   
-![](/media/images/icecreamgraph.png)
+![](/images/icecreamgraph.png)
 
 ##A Race   
 This game was a race against time from start to finish. I understood right from the beginning this wouldn't be easy. Creating a whole GUI from scratch, composing animation and a focus on graphics(!). I've never done a GUI, it would be really easy with a decent framework for it... But I don't have one for it so all the GUI code is *really* messy and hard to maintain.

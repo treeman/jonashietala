@@ -11,6 +11,6 @@ There are still a few homework things I need to do from time to time, but those 
 
 I should really begin with the game making again now when my schedual is opening up a bit.
 
-![](/media/images/gents.jpg)   
+![](/images/gents.jpg)   
 *A secret preview of my latest game project.*
 
