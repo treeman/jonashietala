@@ -24,6 +24,7 @@ Code
     * Images
 * 404 - Some funky thing. A game perhaps?
 * Sitemap (How to autogenerate??)
+* Upload to S3 bucket
 
 Misc
 ----

@@ -24,8 +24,8 @@ Back to my screen setup again - yes everything with my new computer is either th
 I set up a nice looking statusbar and some stuff on the desktop with [conky](http://conky.sourceforge.net/). I've been wanting to set up a todo list and while I was at it I put up my assignment due dates and my schedule too. And never forget the ever so important manga updates!
 
 <div class="center">
-  <a href="/media/images/xmonad-left.png" ><img src="/media/images/xmonad-left.png" width="180" /></a>
-  <a href="/media/images/xmonad-right.png" ><img src="/media/images/xmonad-right.png" width="400" /></a><br />
+  <a href="/images/xmonad-left.png" ><img src="/images/xmonad-left.png" width="180" /></a>
+  <a href="/images/xmonad-right.png" ><img src="/images/xmonad-right.png" width="400" /></a><br />
   <em>My dual screen setup, click to enlarge</em>
 </div>
 

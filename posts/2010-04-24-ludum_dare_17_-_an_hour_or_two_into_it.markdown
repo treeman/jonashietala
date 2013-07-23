@@ -8,7 +8,7 @@ time: 22:56:54
 I decided to participate in the [Ludum Dare][ld] this time, even though I've spent the whole day on a massage course (which by the way was pretty darn good), and about halfway there this is what I've done:
 
 <div class="center">
-    <img src="/media/images/ld17.png" /><br />
+    <img src="/images/ld17.png" /><br />
     <em>Chockingly... ugly</em>
 </div>
 

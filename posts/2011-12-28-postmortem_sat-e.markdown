@@ -7,7 +7,7 @@ time: 19:22:02
 ---
 This is my postmortem for my [Ludum Dare 22](http://www.ludumdare.com/compo/ludum-dare-22/?action=preview) entry, [Sat-E](http://www.ludumdare.com/compo/ludum-dare-22/?action=preview&uid=1895). You can find the timelapse [over here](http://www.ludumdare.com/compo/2011/12/19/sat-e-timelapse).
 
-<img src="/media/images/ld22-lone.png" width="600"/>
+<img src="/images/ld22-lone.png" width="600"/>
 
 ## The Good
 
@@ -33,7 +33,7 @@ My thougts? Wait that's a bug! Hmm...
 **My girlfriend**  
 Of course as I live together with someone it's quite hard to devote an entire weekend, plus the extra time before and after, with my computer. Veronica handled it wonderfully well and she was very supportive which means a lot to me and it helped a ton.
 
-<img src="/media/images/ld22-lots.png" width="600" />
+<img src="/images/ld22-lots.png" width="600" />
 
 ## The Bad 
 

@@ -10,7 +10,7 @@ So it has begun, the long road until christmas when we're supposed to have a wor
 
 
 <div class="center">
-  <img src="/media/images/R_wars.jpg" /><br />
+  <img src="/images/R_wars.jpg" /><br />
   <em>We could maybe cheat a little...</em>
 </div>
 

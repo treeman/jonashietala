@@ -18,7 +18,7 @@ Don't try to make the game perfect from the start cause it won't be perfect and 
 Fun isn't created on the spot - it's created through iterations. It's like carving a wood figure. You don't create it with a big slash, you carefully chop the wood off little by little until the figure is complete. This is how I think good, fun games are made.
 
 <div class="center">
-  <img src="/media/images/balls-leap.png"><br />
+  <img src="/images/balls-leap.png"><br />
   <em>This quantum leap wasn't achieved with a big chop, but with many smaller ones</em>
 </div>
 

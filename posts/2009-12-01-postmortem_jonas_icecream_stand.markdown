@@ -21,7 +21,7 @@ I keep saying it again and again but I'm not a graphics designer but I should st
 The fading effect on the sky was pretty cool, but it's kinda crude and it doesn't fit the overall theme very well. The theme has a few distinct colors with a little "childish" feel to them. I feel the fading adds a bit too many colors to it. But I do think the end points (in the middle of the night with all the stars and when it's as light as possible) looks pretty good. And I'm not sure it was a very good idea to include a MenuCity silhouette in the background.
 
 <div class="center">
-  <img src="/media/images/bugger-time-spent.png" /><br />
+  <img src="/images/bugger-time-spent.png" /><br />
   <em>A beautiful night sky.</em>
 </div>
 

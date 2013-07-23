@@ -36,7 +36,7 @@ Dune II (1992) wasn't the first RTS game, there had been several games with RTS 
 The game introduced the concept of a tech-tree (Technology Tree) where you could “tech up” to stronger but more expensive tanks or you could continue to build cheap tanks. Gone where the days when you had to rely on a rock-paper-scissor balance between units, such as tank beats artillery which beats infantry which beats tanks, and instead you had the choice of countering a tank with a bigger tank! Or with a mind-control tank or you could choose to destroy the factory producing the tanks. Choosing the right time to climb up the tech-tree became vital to your success but it was complicated by “the shroud” which was a black fog covering the map where you haven't been. This in turn forced players to scout and check what the opponent is doing having to constantly revise what units he should build and if he had to tech up.
 
 <div class="center">
-  <img src="/media/images/rts/dune-2.png" /><br />
+  <img src="/images/rts/dune-2.png" /><br />
   <em>The sandy land of Dune 2</em>
 </div>  
 
@@ -58,7 +58,7 @@ Command & Conquer Red Alert (1996) was the original C&C but more and better. It 
 
 
 <div class="center">
-  <img src="/media/images/rts/redalert.png" /><br />
+  <img src="/images/rts/redalert.png" /><br />
   <em>We can spot Red Alert's mighty mammoth tank</em>
 </div>  
 
@@ -75,7 +75,7 @@ Until this day, almost 12 years later, Starcraft (1998) is still the most compet
 Why did this game become so popular? I don't know; it took almost a decade to get it balanced good and it isn't extremely fast paced. It's really fun to play but almost more importantly is that it's fun to watch, the immersion factor and the excitement of a high skilled game is unparalleled and I think that's what sparked the formation of a dedicated community. Then the community in itself is a reason why Starcraft has stood the test of time – the formation of pro leagues, great map support and excellent coverage has made sure the community has flourished.
 
 <div class="center">
-  <img src="/media/images/rts/sc.png" /><br />
+  <img src="/images/rts/sc.png" /><br />
   <em>Starcraft, the most successful RTS game yet</em>
 </div>  
 
@@ -93,7 +93,7 @@ Warcraft III (2002) continued on where Warcraft II left but with added focus on 
 The focus on heroes and abilities made the game really micro intense (taking care of individual units) as opposed to the very macro (economy) centered Starcraft. (It's pretty amusing in the current Starcraft 2 beta where you can actually see what game the top players used to play, Starcraft players usually have great macro but pretty bad micro whereas top Warcraft 3 players micro a few units but their economy is bad.)
 
 <div class="center">
-  <img src="/media/images/rts/Warcraft-3.png" /><br />
+  <img src="/images/rts/Warcraft-3.png" /><br />
   <em>A human player harassing an Orc in Warcraft 3</em>
 </div>  
 
@@ -109,7 +109,7 @@ Dawn of War: Warhammer 40,000 (2004) changed the well known resource system, ins
 Company of Heroes (2006) is a pretty special game. It fuses the cinematic experience from an FPS with the tactical and strategical depth from an RTS. You command a lot less units and you're a lot closer to the battlefield. The environment is almost fully destructible and your units will take shelter behind anything they can find. Things like where you attack a tank became important as the armor was considerably weaker in the back and ammunition and fuel was considered a scarce resource.
 
 <div class="center">
-  <img src="/media/images/rts/coh.png" /><br />
+  <img src="/images/rts/coh.png" /><br />
   <em>The immersion of Company of Heroes is simply stunning</em>
 </div>  
 
@@ -118,7 +118,7 @@ World in Conflict (2009) took the tactics even further and is considered an RTT 
 Supreme Commander (2007) is the spiritual successor to Total Annihilation and it stands in stark contrast to WiC's tactical focus – here it's about the broad strokes man. Given the strategic zoom you can zoom out until you can see the whole battlefield and all the hundreds of units are there for you to command. The scale is huge, nukes and experimental super units trashing around gives the game an epic feel. But there's a lot more to Supcom than watching huge battles, it's using the whole TA system with infinite economy, wreckages and no hard counters. We have new intelligence modes; in addition to line of sight as in almost every other games there are radar, sonar and omni (see all). To counter these we get cloaking and radar jamming units. Another thing Supcom does well is the improved interface with infinite queues which tie well with the infinite resources so you don't have to babysit your factories to get them to continually produce units.
 
 <div class="center">
-  <img src="/media/images/rts/fa.png" /><br />
+  <img src="/images/rts/fa.png" /><br />
   <em>Me and Toejams showing off in Supreme Commander</em>
 </div>  
 

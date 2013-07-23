@@ -7,7 +7,7 @@ tags: Games
 
 So I returned to [Faster than Light][FTL] again this weekend, this time for real. I bought it when it came out and I played it only in passing, but this weekend I played it a *ton*.
 
-<img src="/media/images/ftl_start.png" width=800 />  
+<img src="/images/ftl_start.png" width=800 />  
 *Aaahh a new beginning in FTL. Will it be death once more?*
 
 [FTL]: http://www.ftlgame.com/

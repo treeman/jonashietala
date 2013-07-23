@@ -54,6 +54,9 @@ for my $file (@ARGV) {
             $s = "=" x length($s) . "\n" if $h2_count > 2;
         }
 
+        # Move images subdirectory
+        $s =~ s|<img src="/media/images|<img src="/images|sg;
+
         push @lines, $s;
     }
     close $fh;

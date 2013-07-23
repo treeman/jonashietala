@@ -11,7 +11,7 @@ This is why I'm giving me an early Christmas gift: *I won't make the December ga
 
 But there are downsides of course. I'm breaking my rules which is... bad and I don't have that productivity boost I always get when under a deadline so now I'm pretty far behind.
 
-<div class="center"><img src="/media/images/pow.png" /></div>
+<div class="center"><img src="/images/pow.png" /></div>
 
 But the screenshot looks promising doesn't it?
 

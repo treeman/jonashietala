@@ -7,26 +7,26 @@ tags: 7days, Timeline
 
 While working on [Jonas IceCream Stand](/blog/2009/12/01/postmortem_jonas_icecream_stand) I took a screenshot every day and I thought they looked pretty cool so here they are:
 
-<a href="/media/images/art/day1.png">
-<img src="/media/images/art/day1.png" height="100" width="160" />
+<a href="/images/art/day1.png">
+<img src="/images/art/day1.png" height="100" width="160" />
 </a>
-<a href="/media/images/art/day2.png">
-<img src="/media/images/art/day2.png" height="100" width="160" />
+<a href="/images/art/day2.png">
+<img src="/images/art/day2.png" height="100" width="160" />
 </a>
-<a href="/media/images/art/day3.png">
-<img src="/media/images/art/day3.png" height="100" width="160" />
+<a href="/images/art/day3.png">
+<img src="/images/art/day3.png" height="100" width="160" />
 </a>
-<a href="/media/images/art/day4.png">
-<img src="/media/images/art/day4.png" height="100" width="160" />
+<a href="/images/art/day4.png">
+<img src="/images/art/day4.png" height="100" width="160" />
 </a>
-<a href="/media/images/art/day5.png">
-<img src="/media/images/art/day5.png" height="100" width="160" />
+<a href="/images/art/day5.png">
+<img src="/images/art/day5.png" height="100" width="160" />
 </a>
-<a href="/media/images/art/day6.png">
-<img src="/media/images/art/day6.png" height="100" width="160" />
+<a href="/images/art/day6.png">
+<img src="/images/art/day6.png" height="100" width="160" />
 </a>
-<a href="/media/images/art/day7.png">
-<img src="/media/images/art/day7.png" height="100" width="160" />
+<a href="/images/art/day7.png">
+<img src="/images/art/day7.png" height="100" width="160" />
 </a>
 
 And now I'm off with [New World Order](/blog/2009/12/04/december_theme_new_world_order) and (for once) I've got a really really good idea!

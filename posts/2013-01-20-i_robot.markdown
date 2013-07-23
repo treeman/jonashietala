@@ -31,25 +31,25 @@ Gallery
 
 Here's a bunch of nice photos of our robot.
 
-<a href="/media/images/trap14/Robot_0001.jpg"><img src="/media/images/trap14/Robot_0001.jpg" width="200" /></a>
-<a href="/media/images/trap14/Robot_0002.jpg"><img src="/media/images/trap14/Robot_0002.jpg" width="200" /></a>
-<a href="/media/images/trap14/Robot_0005.jpg"><img src="/media/images/trap14/Robot_0005.jpg" width="200" /></a>
-<a href="/media/images/trap14/Robot_0010.JPG"><img src="/media/images/trap14/Robot_0010.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0001.jpg"><img src="/images/trap14/Robot_0001.jpg" width="200" /></a>
+<a href="/images/trap14/Robot_0002.jpg"><img src="/images/trap14/Robot_0002.jpg" width="200" /></a>
+<a href="/images/trap14/Robot_0005.jpg"><img src="/images/trap14/Robot_0005.jpg" width="200" /></a>
+<a href="/images/trap14/Robot_0010.JPG"><img src="/images/trap14/Robot_0010.JPG" width="200" /></a>
 
-<a href="/media/images/trap14/Robot_0012.JPG"><img src="/media/images/trap14/Robot_0012.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0013.JPG"><img src="/media/images/trap14/Robot_0013.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0016.JPG"><img src="/media/images/trap14/Robot_0016.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0017.JPG"><img src="/media/images/trap14/Robot_0017.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0012.JPG"><img src="/images/trap14/Robot_0012.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0013.JPG"><img src="/images/trap14/Robot_0013.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0016.JPG"><img src="/images/trap14/Robot_0016.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0017.JPG"><img src="/images/trap14/Robot_0017.JPG" width="200" /></a>
 
-<a href="/media/images/trap14/Robot_0018.JPG"><img src="/media/images/trap14/Robot_0018.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0021.JPG"><img src="/media/images/trap14/Robot_0021.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0024.JPG"><img src="/media/images/trap14/Robot_0024.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0029.JPG"><img src="/media/images/trap14/Robot_0029.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0018.JPG"><img src="/images/trap14/Robot_0018.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0021.JPG"><img src="/images/trap14/Robot_0021.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0024.JPG"><img src="/images/trap14/Robot_0024.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0029.JPG"><img src="/images/trap14/Robot_0029.JPG" width="200" /></a>
 
-<a href="/media/images/trap14/Robot_0031.JPG"><img src="/media/images/trap14/Robot_0031.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0032.JPG"><img src="/media/images/trap14/Robot_0032.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0033.JPG"><img src="/media/images/trap14/Robot_0033.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0034.JPG"><img src="/media/images/trap14/Robot_0034.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0035.JPG"><img src="/media/images/trap14/Robot_0035.JPG" width="200" /></a>
-<a href="/media/images/trap14/Robot_0037.JPG"><img src="/media/images/trap14/Robot_0037.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0031.JPG"><img src="/images/trap14/Robot_0031.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0032.JPG"><img src="/images/trap14/Robot_0032.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0033.JPG"><img src="/images/trap14/Robot_0033.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0034.JPG"><img src="/images/trap14/Robot_0034.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0035.JPG"><img src="/images/trap14/Robot_0035.JPG" width="200" /></a>
+<a href="/images/trap14/Robot_0037.JPG"><img src="/images/trap14/Robot_0037.JPG" width="200" /></a>
 

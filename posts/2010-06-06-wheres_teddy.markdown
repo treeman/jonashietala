@@ -1,5 +1,5 @@
 ---
-title: "Where's Teddy?"
+title: Where's Teddy?
 date: 2010-06-06
 repository: git://github.com/treeman/A-Game.git
 tags: Games, 7days

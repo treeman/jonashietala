@@ -28,7 +28,7 @@ myFeedConfiguration = FeedConfiguration
 
 main :: IO ()
 main = hakyll $ do
-    match ("images/*" .||. "favicon.ico" .||. "files/**") $ do
+    match ("images/**" .||. "favicon.ico" .||. "files/**") $ do
         route   idRoute
         compile copyFileCompiler
 

@@ -19,7 +19,7 @@ I haven't made a game since I switched to Slackware either, luckily [SFML](http:
 For graphics I think I'm aiming for some pixelated cool stuff with [mtPaint](http://mtpaint.sourceforge.net/). Pixelated stuff looks awesome, if you're good at it, and I'd like to make something similar.. At least a little similar.
 
 <div class="center">
-  <img src="/media/images/koncept.png" /><br />
+  <img src="/images/koncept.png" /><br />
   <em>Unreleased fun pixel graphics</em>
 </div>
 
