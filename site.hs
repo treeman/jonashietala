@@ -2,13 +2,17 @@
 
 import Control.Applicative ((<$>))
 import Data.Monoid (mappend, mconcat, (<>))
+import Data.Char (toLower)
 import Data.List
 import Data.List.Utils
+import Data.Ord (comparing)
 import System.FilePath  (dropExtension, splitFileName, joinPath)
+
 import Text.Blaze.Html (toHtml, toValue, (!))
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
+
 import Hakyll
 
 mail = "mail@jonashietala.se"
@@ -135,7 +139,7 @@ main = hakyll $ do
         compile $ do
             list <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
             let ctx = constField "posts" list <>
-                      field "tags" (\_ -> renderTagList tags) <>
+                      field "tags" (\_ -> renderTagList (sortTagsBy tagSort tags)) <>
                       --field "tags" (\_ -> renderTagHtmlList tags) <>
                       --field "tags" (\_ -> renderTagCloud 40 160 tags) <>
                       siteCtx
@@ -158,6 +162,11 @@ main = hakyll $ do
             posts <- fmap (take 30) . recentFirst =<<
                 loadAllSnapshots ("posts/*" .&&. hasNoVersion) "post"
             renderAtom myFeedConfiguration feedCtx posts
+
+
+-- Sort tags after number of posts in tag
+tagSort :: (String, [Identifier]) -> (String, [Identifier]) -> Ordering
+tagSort a b = comparing (length . snd) b a
 
 
 archiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
