@@ -34,9 +34,6 @@ Write
 * Recommendations
     * Link to posts describing the best books/series!
 * Some more blog posts...?
-* Recommended posts
-    * Game design analysis
-    * The history of RTS games
 
 Design
 ------
@@ -48,7 +45,6 @@ Design
 * Correct usage of html5 etc.
 * Post headers. Date? Title?
 * 404 page
-* Archive page
 * Color scheme
 
 Sitemap
