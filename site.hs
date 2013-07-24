@@ -32,7 +32,7 @@ myFeedConfiguration = FeedConfiguration
 
 config :: Configuration
 config = defaultConfiguration
-    { deployCommand = "sync" }
+    { deployCommand = "sync --site" }
 
 
 -- Recommended posts on home page
@@ -46,7 +46,7 @@ recommended = [ "posts/2013-01-20-i_robot.markdown"
 
 main :: IO ()
 main = hakyllWith config $ do
-    match ("images/**" .||. "favicon.ico" .||. "files/**") $ do
+    match ("images/**" .||. "favicon.ico") $ do
         route   idRoute
         compile copyFileCompiler
 

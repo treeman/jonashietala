@@ -12,7 +12,6 @@ TODO
 Code
 ----
 
-* DNS redirects
 * Games
     * Downloadable files
 * Youtube shorthand
