@@ -23,3 +23,10 @@
 
 # Spring break
 
+
+# Rss reader
+
+* bazgux
+* justreader android client
+* no newsblur
+
