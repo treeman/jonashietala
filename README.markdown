@@ -19,6 +19,7 @@ Code
 * Sitemap (How to autogenerate??)
 * .txt version of things
     * Only tags left! Seems fruitless
+* Modernizer or similar to show html 5 tags for older browsers
 
 Misc
 ----
