@@ -1,0 +1,82 @@
+---
+layout: post
+title: 2013 in Review
+category: Yearly Review
+tags: Yearly Review
+---
+
+The year is almost over and I think I accomplished a lot this year. You can read my reviews of [2010][], [2011][] and [2012][].
+
+[2012]: /blog/2012/12/31/2012_in_review/
+[2011]: /blog/2012/01/04/2011_in_review/
+[2010]: /blog/2011/01/06/2010_in_review/
+
+2013 Geek Achievements
+======================
+1. Solved [213 UVa problems][UVa].
+1. Got 43rd at [NWERC 2013][].
+1. Placed high in [IMPA][], with one turn won.
+1. Completed the online course [Programming Languages][] in Coursera.
+1. Wrote some ML, Racket and Ruby.
+1. Won the [TDDD56][] Parallel Sorting Contest.
+1. Got my first summer job as a programmer at Configura. Great fun, great place to work.
+1. Wrote a lot of C and C++.
+1. Switched my [site][] generator from Jekyll to [Hakyll][] and wrote a little Haskell.
+1. For the first time achieved full marks in an exam - TDDD20 Construction and Analysis of Algorithms.
+1. Completed an extra math course: TATA64 Graph Theory. Fun course.
+1. Finished my 3 first years in University, now I can choose my own courses!
+1. Completed the compiler course in school and learned a bunch.
+1. Unlocked all ships in [FTL][] and beat it a bunch of times. Fantastic game!
+
+[UVa]: http://uhunt.felix-halim.net/id/115705
+[NWERC 2013]: https://chipcie.ch.tudelft.nl/
+[IMPA]: http://www.ida.liu.se/projects/impa/new/results
+[Programming Languages]: https://class.coursera.org/proglang-002/class
+[TDDD56]: http://www.ida.liu.se/~TDDD56/
+[site]: https://github.com/treeman/jonashietala
+[Hakyll]: http://jaspervdj.be/hakyll/
+[FTL]: http://www.ftlgame.com/
+
+2013 Non-Geek Achievements
+===========================
+1. Had a good year with Veronica.
+1. Visited Karlskrona with Veronica.
+1. Achieved 4-kup in Taekwon-do.
+1. Been a kids trainer in Taekwon-do. Very rewarding.
+1. [Read 30 books][books read].
+1. Discovered [Agricola][], a great German Style board game.
+1. Discovered [Terra Mystica][], another great board game.
+1. Did a bit of yoga.
+
+[books read]: /blog/2013/12/31/2013_read_books/
+[Agricola]: http://boardgamegeek.com/boardgame/31260/agricola
+[Terra Mystica]: http://boardgamegeek.com/boardgame/120677/terra-mystica
+
+2013 Failures
+==============
+1. Did not complete (or start) a hardware project.
+1. Did not achieve 3-kup in Taekwon-do.
+1. Did not participate in Ludum Dare.
+1. Missed two exams. I didn't fail them, but I missed the dates...
+
+Plans for 2014
+===============
+1. Take care of Veronica.
+1. Achieve 2-kup in Taekwon-do.
+1. Achieve a full split.
+1. Do 300 morning stretches.
+1. Visit the gym 100 times.
+1. Write a game.
+1. Participate in [Ludum Dare][].
+1. Code some rust.
+1. Read 31 books.
+1. Write 52 blog posts.
+1. Solve 100 UVa problems.
+1. Take more fun courses.
+1. Construct a custom keyboard.
+1. Successfully read 1 Korean speech bubble in Tower of God, without reference.
+1. Complete all exams.
+1. Prettify the site.
+
+[Ludum Dare]: http://www.ludumdare.com/
+

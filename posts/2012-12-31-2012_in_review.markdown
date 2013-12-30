@@ -32,7 +32,7 @@ Like the [last][2011] [two][2010] years I'm summarizing the year. At the end of 
 13. Wrote a lot of C.
 14. Wrote some C++.
 15. Wrote some Perl.
-16. Made a robot].
+16. Made a robot.
 17. Read one programming book - [The C Programming Language][kr].
 
 2012 Non-Geek Achievements

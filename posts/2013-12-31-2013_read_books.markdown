@@ -1,0 +1,61 @@
+---
+layout: post
+title: 2013 Read Books
+category: Read Books
+tags: Read Books
+---
+
+I actually read more books in 2013 than in [2012](/blog/2012/12/31/2012_read_books/).
+
+In a somewhat unorganized list:
+
+Fiction
+=======
+
+1. **Livet Deluxe** - Jens Lapidius
+1. **Escape from camp 14** - Blaine Harden  
+    Wonderful. A great book.
+1. **Edge** - Jeffery Deaver
+1. **Dollar** - Lee Child
+1. **Gisslan** - Lee Child
+1. **Bränd** - Lee Child
+1. **Besökaren** - Lee Child
+1. **Hetta** - Lee Child
+1. **Värt att dö för** - Lee Child
+1. **Livvakt** - Lee Child
+
+Non-fiction
+===========
+
+1. **Graph Theory** - Reinhard Diestel  
+    Course book. Good but difficult.
+1. **Graph Theory With Applications** - Bondy and Murty  
+    Course book. Good explanations, but quite old (30 years).
+1. **Modern Physics**  
+    Course book. Only read parts of it. Huge and wordy.
+1. **Signals, Infomation and Communications** - Erik G. Larsson  
+    Course book.
+1. **Reglerteknik. Grundläggande teori** - Torkel Glad & Lennart Ljung  
+    Course book.
+1. **Världens 99 bästa investerare**
+1. **Total Recall** - Arnold Schwarzenigger
+1. **Stora stretchboken**
+1. **Matrevolutionen** - Andreas Eenfeldt
+1. **Kundaliniyoga**
+1. **Stretching Scientifically** - Thomas Kurz  
+    By far the best book on stretching. (which I've read)
+1. **Statistics course book**  
+    Don't have the name atm.
+1. **Automata and Computability** - Kozen  
+    Course book.
+1. **Artificial Intelligence** - Stuart Russell, Peter Norvig  
+    Course book. Selected chapters. Huge.
+1. **Competitive Programming 3**
+1. **Introduction to Algorithms**  
+    Course book. Only a few selected sections.
+1. **Compilers: Principles, techniques and tools** - Aho, Lam, Sethi, Ullman  
+    Course book. Read most of it without going in deep.
+1. **Numeriska beräkningar** - Eldén, Wittmeyer-Koch  
+    Course book.
+1. **Love and Math** - Frenkel
+1. **Children & Sports Training**
