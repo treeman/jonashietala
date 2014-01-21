@@ -64,7 +64,10 @@ footer {
 }
 
 /* Syntax highlighting. */
-code { font-family: Monaco,Menlo,Consolas,"Courier New",monospace; }
+code {
+    font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+    font-size: 16px; font-size: 1.6rem;
+}
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre
     { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
 td.lineNumbers
