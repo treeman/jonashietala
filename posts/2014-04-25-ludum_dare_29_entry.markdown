@@ -5,7 +5,7 @@ category: rust
 tags: Ludum Dare
 ---
 
-After months of procrastrination it is time for me to enter [Ludum Dare](http://www.ludumdare.com/compo/) again!
+After months of procrastination it is time for me to enter [Ludum Dare](http://www.ludumdare.com/compo/) again!
 
 I am totally unprepared, but I did setup a setup which actually compiles. I never got audio to run but hopefully I can manage something.
 
