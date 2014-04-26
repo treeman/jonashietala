@@ -1,0 +1,14 @@
+---
+layout: post
+title: A *
+category: Ludum Dare
+tags: Ludum Dare
+time: 07:07
+---
+
+After a few hours of coding I've made a little, little, bit of progress but it took a lot longer than I would have liked.
+
+I've basically managed to make a world and some tiles in the world and we have a worker who can move around on the tiles and he can't move on all tiles.
+
+![A\*](/images/ld29/astar.png)  
+*Look! He can pathfind! But here the real coding begins...*
