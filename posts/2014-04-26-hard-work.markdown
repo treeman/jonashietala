@@ -1,0 +1,14 @@
+---
+layout: post
+title: Hard Work
+category: Ludum Dare
+tags: Ludum Dare
+time: 21:25
+---
+
+I've spent literally the whole day coding and it feels like I've only done a small parts of the actual game mechanics... I know this isn't going to end well.
+
+![More Hard Work!](/images/ld29/hard_work.png)  
+*I can allow myself a small pause I feel...*
+
+Not sure where this is going to end, but I'm having a blast anyway!

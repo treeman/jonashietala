@@ -1,0 +1,14 @@
+---
+layout: post
+title: We can build things!
+category: Ludum Dare
+tags: Ludum Dare
+time: 11:12
+---
+
+Finally we have some sort of progress!
+
+![We can build things!](/images/ld29/can_build.png)  
+*We can now build rooms and place and remove objects!*
+
+Yay!! But we still haven't even begun with the game logic, resource management, the actual mining mechanic, multiple levels, actual tasks for our workers. But it's something.
