@@ -8,6 +8,7 @@ time: 00:27
 
 **Download**  
 [Linux 64bit](https://s3-eu-west-1.amazonaws.com/jonashietala-files/mining_incorporated_ld29_linux64.tgz)
+[Windows](https://s3-eu-west-1.amazonaws.com/jonashietala-files/mining_incorporated_ld29_win.zip)
 
 **Timelapse**  
 <https://www.youtube.com/watch?v=NIbr-mLi4DU>
