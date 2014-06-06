@@ -16,7 +16,8 @@ Code
 * Games
     * Downloadable files (should just add links... but where are the files?)
 * Youtube shorthand  
-    <https://xinitrc.de/2013/06/22/3.26-Lightyears-away.html>
+    * Just make a custom filter: <https://github.com/yogsototh/yblog/blob/master/site.hs>
+    * <https://xinitrc.de/2013/06/22/3.26-Lightyears-away.html>
 * 404 - Some funky thing. A game perhaps?
 * Sitemap (How to autogenerate??)
 * HTML5  
