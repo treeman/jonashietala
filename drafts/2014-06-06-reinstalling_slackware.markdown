@@ -42,6 +42,8 @@ Basic
     * get dual screen support!
     * get toolbar
     * get background
+    * dzen2
+    * conky
 3. Get flash
 3. Get adblock etc
 4. Fix fonts (??)  
@@ -69,6 +71,7 @@ Misc
 10. groovebasin
 11. xpdf (or other pdf reader)
 12. mirage
+13. scrot
 
 Games etc
 ---------

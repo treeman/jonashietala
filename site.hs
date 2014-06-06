@@ -38,7 +38,6 @@ config = defaultConfiguration
 -- Recommended posts on home page
 recommended :: [Pattern]
 recommended = [ "posts/2013-01-20-i_robot.markdown"
-              , "posts/2012-12-31-2012_read_books.markdown"
               , "posts/2010-06-01-game_design_analysis_world_of_goo.markdown"
               , "posts/2010-04-23-evolution_of_rts_games.markdown"
               ]
