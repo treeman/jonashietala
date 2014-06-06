@@ -12,14 +12,18 @@ TODO
 Code
 ----
 
+* Drafts
 * Games
-    * Downloadable files
-* Youtube shorthand
+    * Downloadable files (should just add links... but where are the files?)
+* Youtube shorthand  
+    <https://xinitrc.de/2013/06/22/3.26-Lightyears-away.html>
 * 404 - Some funky thing. A game perhaps?
 * Sitemap (How to autogenerate??)
+* HTML5  
+    * Pandoc: <http://hub.darcs.net/co-dan/website/browse/site.hs#214>
+    * Modernizer or similar to show html 5 tags for older browsers?
 * .txt version of things
     * Only tags left! Seems fruitless
-* Modernizer or similar to show html 5 tags for older browsers
 
 Misc
 ----

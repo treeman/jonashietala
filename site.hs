@@ -82,6 +82,14 @@ main = hakyllWith config $ do
             compile $ getResourceString
                 >>= saveSnapshot "content"
 
+    match "drafts/*" $ do
+        route   draftRoute
+        compile $ pandocCompiler
+            >>= return . fmap demoteHeaders
+            >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
+            >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
+            >>= deIndexUrls
+
     create ["blog/index.html"] $ do
         route idRoute
         compile $ do
@@ -103,7 +111,7 @@ main = hakyllWith config $ do
 
     create ["archive/index.html"] $ do
         let title = "The Archives"
-        let pattern = "posts/*"
+        let pattern = "posts/*.markdown"
 
         route   idRoute
         compile $ archiveCompiler title tags pattern "templates/archive.html"
@@ -111,6 +119,13 @@ main = hakyllWith config $ do
         version "raw" $ do
             route indexToTxtRoute
             compile $ rawArchiveCompiler title tags pattern "templates/archive.txt"
+
+    create ["drafts/index.html"] $ do
+        let title = "All drafts"
+        let pattern = "drafts/*.markdown"
+
+        route   idRoute
+        compile $ archiveCompiler title tags pattern "templates/drafts.html"
 
     tagsRules tags $ \tag pattern -> do
         let title = "Posts tagged: " ++ tag
@@ -282,6 +297,9 @@ staticRoute :: Routes
 staticRoute = gsubRoute "static/" (const "") `composeRoutes`
               dropIndexRoute
 
+draftRoute :: Routes
+draftRoute = dateRoute `composeRoutes`
+             dropIndexRoute
 
 txtStaticRoute :: Routes
 txtStaticRoute = gsubRoute "static/" (const "") `composeRoutes`
