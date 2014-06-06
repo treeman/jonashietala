@@ -34,13 +34,13 @@ if ($sync_site) {
     say "Syncing images";
     sync ($site_bucket, "$site/images", "max-age=6048000");
 
-    # Sync css (cache: 1 week)
+    # Sync css (cache: 1 hour)
     say "Syncing css";
-    sync ($site_bucket, "$site/css", "max-age=604800", "-m text/css");
+    sync ($site_bucket, "$site/css", "max-age=3600", "-m text/css");
 
-    # Sync rest (cache: 1 hour)
+    # Sync rest (cache: 1 min)
     say "Syncing rest";
-    sync ($site_bucket, "$site/", "max-age=3600, must-revalidate");
+    sync ($site_bucket, "$site/", "max-age=60, must-revalidate");
 
     say "Removing deleted";
     sync ($site_bucket, "$site/", "", "--delete-removed");
