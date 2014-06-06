@@ -48,7 +48,7 @@ The year is almost over and I think I accomplished a lot this year. You can read
 1. Discovered [Terra Mystica][], another great board game.
 1. Did a bit of yoga.
 
-[books read]: /blog/2013/12/31/2013_read_books/
+[books read]: /blog/2014/01/03/2013_read_books/
 [Agricola]: http://boardgamegeek.com/boardgame/31260/agricola
 [Terra Mystica]: http://boardgamegeek.com/boardgame/120677/terra-mystica
 

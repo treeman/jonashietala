@@ -9,5 +9,5 @@ When I ordered this computer I was compelled, utterly compelled to buy a mechani
 
 I'm bringing this up again because I decided to spend my money on something possibly even more useless (or awesome?). I ordered some starcraft II modifier keys for the keyboard and now they are fitted onto the keyboard. Yay!
 
-![](/images/starcraft2_kb.JPG)
+![](/images/starcraft2_kb.jpg)
 
