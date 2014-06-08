@@ -206,9 +206,9 @@ Install minecraft
 
 Get OpenAL from slackbuilds.
 
-Get alien minecraft package: <http://www.slackware.com/~alien/slackbuilds/minecraft/>
-
 Get jdk <http://docs.slackware.com/howtos:software:java>
+
+Launch
 
 
 Install Hakyll
@@ -242,7 +242,7 @@ make
 make install
 ```
 
-terminal
+Terminal
 --------
 
 Fetch urxvt from slackbuilds. Make `.Xresources`.
@@ -261,12 +261,27 @@ Fix git diff colors `git config --global core.pager "less -r"`
 Also korean signs.
 
 
+Prettier fonts
+--------
+
+/usr/bin/startx
+
+`defaultserverargs="-dpi 96"`
+
+
+Groovebasin
+-----------
+
+Need `libgroove`.  Which also needs `speex` from slackbuilds apart from the clear dependencies. Run groovebasin as user.
+
+
 Random slackbuilds
 ------------------
 
 ```
 s3cmd, scrot, mirage, urxvt-unicode
 ```
+
 
 Rest
 ----
@@ -281,13 +296,11 @@ Misc
 
 1. SFML
 3. algm
-5. nextep perl dependencies (cpan)
-5. setup ticker
+5. setup ticker (bork?)
 6. mojolicious
 7. mtpaint
 8. skype
 9. korean input style
-10. groovebasin
 11. torrent
 12. Skype
 13. irssi
@@ -297,8 +310,7 @@ Misc
 Games etc
 ---------
 
-1. Install minecraft, check sound
-5. Install multilib slackware
+1. Install multilib slackware
 5. Install wine
 5. Install csgo
 5. Install diablo
