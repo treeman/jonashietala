@@ -5,50 +5,224 @@ category: Slackware
 tags: Slackware
 ---
 
-Steps
-=====
+Basic steps
+===========
 
-Basic
+Make slackware usb loader
+-------------------------
+
+See `README_USB.TXT`
+
+Create
+
+`dd if=usbboot.img of=/dev/sdX bs=1M`
+
+Be sure /dev/sdX is the usb, dd will wipe everything!
+
+Boot with bios f2, f10 (?)
+Reset later
+
+And, keyboard ENTER does not work!!! Just wait =)
+
+
+Make partitions
+---------------
+
+Make partitions <http://slackbook.org/html/installation-partitioning.html>
+
+`fdisk /dev/sda`
+
+Print partitions `p`
+
+```
+tmpfs       2G      swap
+/dev/sda2   15G     /
+/dev/sda3   50G     /usr
+/dev/sda5   rest    /home
+```
+
+Current:
+
+```
+tmpfs       4G      swap
+/dev/sda2   50G     /
+/dev/sda3   50G     /usr/local
+/dev/sda5   rest    /home
+```
+
+Make sure that swap is of type Linux Swap, change with `t`
+
+
+Setup
 -----
 
-0. Make slackware usb loader  
-    See README_USB.TXT
+type setup
 
-    `dd if=usbboot.img of=/dev/sdX bs=1M`
+Install from FTP/HTTP server
 
-    Be sure /dev/sdX is the usb, dd will wipe everything!
-0. Reinstall  
-    Make partitions
+1. ftp://ftp.slackware.com
+2. /pub/slackware/slackware64-14.1/slackware64
 
-    ```
-    /dev/sda2   15G     /
-    /dev/sda3   50G     /usr
-    /dev/sda5   rest    /home
-    tmpfs       2G      swap
-    ```
-1. Install wicd, get online
-1. Update graphics drivers  
-    NVIDIA-Linux 319.76  
-    /etc/X11/xorg.conf.d/xorg.conf -> .workspace/xorg.conf  
-    .workspace -> dotfiles/.workspace  
-1. Recompile and update linux kernel  
-    0. <http://alien.slackbook.org/dokuwiki/doku.php?id=linux:kernelbuilding>
-    1. Update lilo conf, with fallback
-2. startx  
-    Fix keyboard switching/remapping
-3. Install xmonad  
-    * use ghc so we can get haskell-platform
-    * gtk theme use lxappearance (slackbuild)
-    * get dual screen support!
-    * get toolbar
-    * get background
-    * dzen2
-    * conky
-3. Get flash
-3. Get adblock etc
-4. Fix fonts (??)  
-    * Copy .ttf fonts into /usr/local/share/fonts
-    * Set path in xorg.conf
+For example.
+
+Don't pick KDE or Games. Use terse installation.
+
+Config
+------
+
+`adduser`
+
+Set zsh as basic shell. Set for root in `/etc/passwd`
+
+Update name in HOSTNAME
+
+
+Install wicd, get online
+------------------------
+
+In `/extra/wicd`
+
+```
+installpkg ...
+chmod +x /etc/rc.d/rc.wicd
+/etc/rc.d/rc/wicd start
+wicd-curses
+```
+
+Custom Kernel
+-------------
+
+<http://alien.slackbook.org/dokuwiki/doku.php?id=linux:kernelbuilding>
+
+Fetch latest kernel
+
+```
+wget ...
+cd /usr/src
+rm linux
+ln -s linux-... linux
+```
+
+Use slackware custom as base
+
+```
+wget ftp://ftp.slackware.com/pub/slackware/slackware64-14.1/source/k/config-x86_64/config-generic-3.10.17.x64
+make oldconfig
+make menuconfig
+```
+
+Make sure to select processor type, preemptive low latency desktop. Remove nvidia/riba.
+
+```
+make bzImage modules
+make modules_install
+```
+
+Update lilo conf, with fallback
+
+
+Fix X
+-----
+
+```
+ln -s dotfiles/.workspace .
+ln -s /etc/X11/xorg.conf.d/xorg.conf .workspace/xorg.conf
+```
+
+NVIDIA drivers 337.25
+
+Install firefox
+---------------
+
+Download latest
+
+```
+tar xf ...
+mv firefox /usr/local/lib64/
+cd /usr/bin
+rm firefox
+ln -s /usr/local/lib64/firefox/firefox .
+```
+
+Get `libflashplayer.so` into `/usr/local/lib64/firefox/browser/plugins`
+
+
+Install xmonad
+--------------
+
+* Install ghc
+* Install hscolour from slackbuilds (for haskell-platform warnings)
+* Install haskell-platform
+
+As user:
+
+```
+cabal update
+cabal install cabal-install
+cabal install xmonad
+cabal install xmonad-contrib
+ln -s dotfiles/.xmonad ~
+```
+
+Install `conky` with dependencies from slackbuilds. Build conky with lua support.
+
+Install `dzen2` by cloning from github. In config.mk, choose option 8 (XPM, XFT, Xinerama). This is actually not workeing as `
+
+Get `.backgrounds` and `.icons`.
+
+Could not get nitrogen to build properly (I stole it from my other installation...!!)
+
+Fix borders on firefox etc `lxappearance`, get from slackbuilds.
+
+Install fonts
+-------------
+
+Copy ttf fonts to `/usr/share/fonts/TTF`, in that dir run
+
+```
+mkfontscale
+mkfontdir
+fc-cache -fv
+```
+
+
+Install perl things
+-------------------
+
+As root:
+
+```
+cpan install cpan
+cpan install App::Ack
+cpan install Modern::Perl
+cpan install DateTime
+cpan install Data::ICal
+cpan install LWP
+...
+```
+
+Install minecraft
+-----------------
+
+Get OpenAL from slackbuilds.
+
+Get alien minecraft package: <http://www.slackware.com/~alien/slackbuilds/minecraft/>
+
+Get jdk <http://docs.slackware.com/howtos:software:java>
+
+
+Install Hakyll
+--------------
+
+```
+cabal install hakyll
+cabal install MissingH
+```
+
+
+Rest
+----
+
 5. irssi, remove flashing
 6. Fix dual-screen/single-screen switching
 7. If sound ok, spotify
