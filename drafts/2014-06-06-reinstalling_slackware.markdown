@@ -220,10 +220,58 @@ cabal install MissingH
 ```
 
 
+vim
+---
+
+For xterm copying and support for more plugins. Get vim source.
+
+```
+hg clone https://vim.googlecode.com/hg/ vim
+cd vim
+./configure --with-features=huge \
+            --enable-multibyte \
+            --enable-rubyinterp \
+            --enable-pythoninterp \
+            --enable-perlinterp \
+            --enable-luainterp \
+            --prefix=/usr/local \
+            --enable-gui \
+            --enable-hangulinput \
+            --with-x
+make
+make install
+```
+
+terminal
+--------
+
+Fetch urxvt from slackbuilds. Make `.Xresources`.
+
+Color schemes with ls listings will be ugly, so copy `DIR_COLORS` to `.dir_colors`
+
+``` {.C}
+STICKY_OTHER_WRITABLE 35;40
+OTHER_WRITABLE 34;40
+```
+
+Set in .zshrc.
+
+Fix git diff colors `git config --global core.pager "less -r"`
+
+Also korean signs.
+
+
+Random slackbuilds
+------------------
+
+```
+s3cmd, scrot, mirage, urxvt-unicode
+```
+
 Rest
 ----
 
-5. irssi, remove flashing
+1. irssi, remove flashing
 6. Fix dual-screen/single-screen switching
 7. If sound ok, spotify
 7. Faster startup
@@ -232,10 +280,7 @@ Misc
 ----
 
 1. SFML
-1. lua
-2. Hakyll
 3. algm
-4. conky
 5. nextep perl dependencies (cpan)
 5. setup ticker
 6. mojolicious
@@ -243,9 +288,11 @@ Misc
 8. skype
 9. korean input style
 10. groovebasin
-11. xpdf (or other pdf reader)
-12. mirage
-13. scrot
+11. torrent
+12. Skype
+13. irssi
+14. reset firefox bookmarks...
+15. setup left screen
 
 Games etc
 ---------
