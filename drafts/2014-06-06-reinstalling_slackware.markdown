@@ -34,14 +34,7 @@ Make partitions <http://slackbook.org/html/installation-partitioning.html>
 
 Print partitions `p`
 
-```
-tmpfs       2G      swap
-/dev/sda2   15G     /
-/dev/sda3   50G     /usr
-/dev/sda5   rest    /home
-```
-
-Current:
+Current setup:
 
 ```
 tmpfs       4G      swap
@@ -146,6 +139,8 @@ ln -s /usr/local/lib64/firefox/firefox .
 
 Get `libflashplayer.so` into `/usr/local/lib64/firefox/browser/plugins`
 
+Restore bookmark backup from `.mozilla/firefox/X.default/bookmarkbackups`
+
 
 Install xmonad
 --------------
@@ -173,6 +168,7 @@ Get `.backgrounds` and `.icons`.
 Could not get nitrogen to build properly (I stole it from my other installation...!!)
 
 Fix borders on firefox etc `lxappearance`, get from slackbuilds.
+
 
 Install fonts
 -------------
@@ -218,6 +214,8 @@ Install Hakyll
 cabal install hakyll
 cabal install MissingH
 ```
+
+For upload scripts fetch `python-magic` slackbuilds.
 
 
 vim
@@ -275,47 +273,76 @@ Groovebasin
 Need `libgroove`.  Which also needs `speex` from slackbuilds apart from the clear dependencies. Run groovebasin as user.
 
 
+SFML
+----
+
+Get source. `cmake` and install.
+
+
+Multilib
+--------
+
+<http://alien.slackbook.org/dokuwiki/doku.php?id=slackware:multilib> Also add blacklist.
+
+When installing 32bit run `. /etc/profile.d/32dev.sh`
+
+
+Skype
+-----
+
+Install multilib. Install skype from slackbuilds, use 32bit mode.
+
+
 Random slackbuilds
 ------------------
 
 ```
-s3cmd, scrot, mirage, urxvt-unicode
+s3cmd, scrot, mirage, urxvt-unicode, rtorrent
 ```
+
+
+Better latex
+------------
+
+Install `texlive` from slackbuilds. Remove `tetex` first.
 
 
 Rest
 ----
 
-1. irssi, remove flashing
+0. Prettier fonts!
 6. Fix dual-screen/single-screen switching
 7. If sound ok, spotify
 7. Faster startup
 
+
 Misc
 ----
 
-1. SFML
-3. algm
+1. mtpaint
+3. spotify?
 5. setup ticker (bork?)
-6. mojolicious
-7. mtpaint
-8. skype
 9. korean input style
-11. torrent
-12. Skype
-13. irssi
-14. reset firefox bookmarks...
-15. setup left screen
+1. Schedule left screen
+1. todo left screen
+
+
+Change config
+-------------
+
+1. irssi, notifications and remove flashing
+1. left screen
+1. Groovebasin
+
 
 Games etc
 ---------
 
-1. Install multilib slackware
-5. Install wine
-5. Install csgo
-5. Install diablo
-5. Install hearthstone
-6. Setup treecraft autogen
+1. Install wine
+1. Install csgo
+1. Install diablo
+1. Install hearthstone
+1. Setup treecraft autogen
 
 Final
 -----
