@@ -307,6 +307,12 @@ Better latex
 Install `texlive` from slackbuilds. Remove `tetex` first.
 
 
+Spotify
+-------
+
+Fetch from slackbuilds. Have some flickering issues.
+
+
 Rest
 ----
 
@@ -321,10 +327,7 @@ Misc
 
 1. mtpaint
 3. spotify?
-5. setup ticker (bork?)
 9. korean input style
-1. Schedule left screen
-1. todo left screen
 
 
 Change config
@@ -333,6 +336,8 @@ Change config
 1. irssi, notifications and remove flashing
 1. left screen
 1. Groovebasin
+1. calendar.pl, specify urls and filters
+1. ticker.pl, more parsing or whatever?
 
 
 Games etc
