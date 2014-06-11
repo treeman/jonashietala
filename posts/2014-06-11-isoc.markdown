@@ -1,0 +1,18 @@
+---
+layout: post
+title: IDA Summer of Code 2014
+category: IDA Summer of Code
+tags: IDA Summer of Code
+---
+
+[IDA Summer of Code][] is [Linköping University's][liu] response to [Google Summer of Code][]. Students can send in a project of their choice and if selected they get paid to work on it for 4 weeks during the summer. In return the university get to show off the students and their projects in marketing purposes.
+
+As I'm writing this, my application got accepted and I will work on [rust][] sometime during July/August. rust is mozilla's new systems programming language focusing on safety and concurrency. I'm quite excited as one of my goals this year was to contribute, and now I will get paid to!
+
+I am not completely sure exactly what I'm going to do, but things will get clearer when I actually start working on it. I will also make occassional blog posts of my thoughts and progress as I start working on it. As of now I'm working on my other summer job at [Configura][], which is also quite amazing and I should post a bit about that as well.
+
+[IDA Summer of Code]: http://www.ida.liu.se/projects/isoc/ "IDA Summer of Code"
+[Google Summer of Code]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014?PageSpeed=noscript "Google Summer of Code"
+[liu]: http://www.liu.se/ "LiU"
+[rust]: http://www.rust-lang.org/ "rust"
+[Configura]: http://www.configura.com/ "Configura"
