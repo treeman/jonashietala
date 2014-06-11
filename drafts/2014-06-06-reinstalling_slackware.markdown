@@ -313,20 +313,226 @@ Spotify
 Fetch from slackbuilds. Have some flickering issues.
 
 
+freetype
+--------
+
+From <http://www.linuxquestions.org/questions/slackware-14/how-to-optimize-fonts-in-slackware-640468/page29.html#post5067546>, <http://blog.lysender.com/2013/11/optimizing-fonts-for-slackware-14-1-without-infinality/>
+
+Enable subpixel rendering from source slackbuild <http://ftp.slackware.com/pub/slackware/slackware-14.1/source/l/freetype/>. Edit freetype.Slackbuild
+
+Save as `freetype_cleartype.diff`:
+
+``` {.diff}
+diff -rupN freetype.orig/cleartype.diff freetype/cleartype.diff
+--- freetype.orig/cleartype.diff	1969-12-31 16:00:00.000000000 -0800
++++ freetype/cleartype.diff	2013-11-19 15:32:04.811346576 -0800
+@@ -0,0 +1,12 @@
++diff -rupN freetype-2.5.0.1.orig/include/freetype/config/ftoption.h freetype-2.5.0.1/include/freetype/config/ftoption.h
++--- freetype-2.5.0.1.orig/include/freetype/config/ftoption.h	2013-06-19 14:20:04.000000000 -0700
+++++ freetype-2.5.0.1/include/freetype/config/ftoption.h	2013-11-19 15:27:47.456737625 -0800
++@@ -591,7 +591,7 @@ FT_BEGIN_HEADER
++   /*   This option requires TT_CONFIG_OPTION_BYTECODE_INTERPRETER to be    */
++   /*   defined.                                                            */
++   /*                                                                       */
++-/* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING */
+++#define TT_CONFIG_OPTION_SUBPIXEL_HINTING
++ 
++ 
++   /*************************************************************************/
+diff -rupN freetype.orig/freetype.SlackBuild freetype/freetype.SlackBuild
+--- freetype.orig/freetype.SlackBuild	2013-11-19 15:31:53.895891885 -0800
++++ freetype/freetype.SlackBuild	2013-11-19 15:33:17.885864416 -0800
+@@ -78,7 +78,8 @@ zcat $CWD/freetype.illadvisederror.diff.
+ # for doing so.
+ # Please see this web site for more details:
+ #   http://www.freetype.org/patents.html
+-#zcat $CWD/freetype.subpixel.rendering.diff.gz | patch -p1 --verbose || exit 1
++zcat $CWD/freetype.subpixel.rendering.diff.gz | patch -p1 --verbose || exit 1
++patch -p1 --verbose < $CWD/cleartype.diff
+ 
+ chown -R root:root .
+ CFLAGS="$SLKCFLAGS" make setup CFG="--prefix=/usr --libdir=/usr/lib${LIBDIRSUFFIX} --build=$ARCH-slackware-linux"
+```
+
+Then
+
+```
+lftp -c 'open ftp.slackware.com ; mirror pub/slackware/slackware64-14.1/source/l/freetype/'
+cd freetype
+patch -p1 < ../freetype_cleartype.diff
+./freetype.SlackBuild
+removepkg freetype-2.5.0.1-x86_64-1
+installpkg /tmp/freetype-2.5.0.1-x86_64-1.txz
+```
+
+Enable subpixel rendering. Test <http://www.lagom.nl/lcd-test/subpixel.php>, choose rgb, gbr, or whatever. Also useful: <https://wiki.archlinux.org/index.php/Font_configuration>
+
+```
+ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
+ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
+```
+
+Also use `~/.config/fontconfig/fonts.conf`:
+
+```
+<?xml version='1.0'?>
+<!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+<fontconfig>
+	<match target="font">
+		<edit mode="assign" name="antialias">
+			<bool>true</bool>
+		</edit>
+		<edit mode="assign" name="hinting">
+			<bool>true</bool>
+		</edit>
+
+		<edit mode="assign" name="hintstyle">
+			<const>hintslight</const>
+		</edit>
+
+		<!-- Ignore any embedded bitmaps in TTF, etc (Microsoft's Calibri and others from Office 07/Vista have these) -->
+		<edit mode="assign" name="embeddedbitmap">
+			<bool>false</bool>
+		</edit>
+
+		<!-- MS fonts use full hinting -->
+
+		<test name="family">
+			<string>Andale Mono</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Arial</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Arial Black</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Calibri</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Cambria</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Candara</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Comic Sans MS</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Consolas</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Constantia</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Corbel</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Courier New</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Georgia</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Impact</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Symbol</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Tahoma</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Times New Roman</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Trebuchet MS</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Verdana</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Webdings</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+		<test name="family">
+			<string>Wingdings</string>
+		</test>
+		<edit mode="assign" name="hintstyle">
+			<const>hintfull</const>
+		</edit>
+	</match>
+</fontconfig>
+```
+
 Rest
 ----
 
-0. Prettier fonts!
-6. Fix dual-screen/single-screen switching
-7. If sound ok, spotify
-7. Faster startup
+1. Fix dual-screen/single-screen switching
+1. Faster startup
 
 
 Misc
 ----
 
+1. Printer via cups
 1. mtpaint
-3. spotify?
 9. korean input style
 
 
