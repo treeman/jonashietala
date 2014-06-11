@@ -1,0 +1,194 @@
+#!/usr/bin/env perl
+
+use autodie;
+use Modern::Perl;
+use File::Basename;
+use Getopt::Long;
+use DateTime;
+
+my $help;
+my $new;
+my $edit;
+my $draft;
+
+GetOptions(
+    'help|h' => \$help,
+    'new|n=s' => \$new,
+    'edit|e=s' => \$edit,
+    'draft|d=s' => \$draft,
+);
+
+if ($help) {
+    help();
+}
+elsif ($new) {
+    create_new_post($new);
+}
+elsif ($draft) {
+    create_new_draft($draft);
+}
+elsif ($edit) {
+    edit_post($edit);
+}
+else {
+    help();
+}
+
+sub help {
+    say <<END
+--help -h
+
+-n id
+--new id
+    Create a new post with url /blog/yyyy/mm/dd/id
+
+-d id
+--draft ud
+    Create a new draft with url /blog/yyyy/mm/dd/id
+
+-e pattern
+--edit pattern
+    Edit post, either url or title, matching pattern.
+    If several matches, print a list of matches.
+    If unique match launch editor.
+END
+}
+
+sub make_date {
+    my $dt = DateTime->today();
+    return $dt->ymd('-');
+}
+
+# Keep alphanumerics and -. Transform spaces to underscores. Throw away rest.
+# "Pretty" url
+sub id_from_title {
+    my $title = shift;
+    $title = lc($title);
+    $title =~ s/[^a-z0-9 -]//g;
+    $title =~ s/ /_/g;
+    return $title;
+}
+
+sub path_from_id {
+    my $id = shift;
+    my $date = make_date();
+    return "$date-$id.markdown";
+}
+
+sub path_from_title {
+    my $title = shift;
+    my $id = id_from_title($title);
+    return path_from_id($id);
+}
+
+sub post_path_from_title {
+    return "posts/" . path_from_title(@_);
+}
+
+sub draft_path_from_title {
+    return "drafts/" . path_from_title(@_);
+}
+
+sub create_post {
+    my ($path, $title) = @_;
+    open my $fh, '>', $path or die "Could not open '$path'";
+    print $fh
+"---
+layout: post
+title: $title
+category:
+tags:
+---
+
+Lorem ipsum...
+";
+
+    close $fh;
+}
+
+sub create_new_post {
+    my $title = shift;
+    my $path = post_path_from_title($title);
+    unless (-e $path) {
+        say "Creating $path";
+        create_post($path, $title);
+    }
+    else {
+        say "Opening $path";
+    }
+    exec ("vim $path");
+}
+
+sub create_new_draft {
+    my $title = shift;
+    my $path = draft_path_from_title($title);
+    unless (-e $path) {
+        say "Creating $path";
+        create_post($path, $title);
+    }
+    else {
+        say "Opening $path";
+    }
+    exec ("vim $path");
+}
+
+sub find_matches {
+    my ($pattern, $dir) = @_;
+    my @matches;
+
+    opendir (my $dh, $dir);
+    while (my $file = readdir($dh)) {
+        next if $file =~ /^\./;
+
+        my $found = 0;
+
+        # Can match against id as well
+        if ($file =~ /$pattern/i) {
+            $found = 1;
+        }
+
+        # Open and look for title
+        my $path = "$dir/$file";
+        open my $fh, '<', $path;
+        my $title;
+        while (my $line = <$fh>) {
+            if ($line =~ /^\s*title:\s+(.*?)\s*$/) {
+                $title = $1;
+                last;
+            }
+        }
+        close $fh;
+        if ($title =~ /$pattern/i || $found) {
+            my $info = {title => $title, path => $path};
+            push (@matches, $info);
+        }
+
+    }
+    return @matches;
+}
+
+sub edit_post {
+    my $pattern = shift;
+
+    my @matches;
+    push (@matches, find_matches ($pattern, "drafts"));
+    push (@matches, find_matches ($pattern, "posts"));
+
+    my $num = scalar @matches;
+    if ($num == 0) {
+        say "No matching posts";
+    }
+    elsif ($num == 1) {
+        my $info = $matches[0];
+        exec ("vim $info->{path}");
+    }
+    else {
+        say "$num matching posts";
+
+        for my $info (@matches) {
+            say $info->{title};
+            say "  " . $info->{path};
+        }
+    }
+}
+
