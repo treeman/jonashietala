@@ -74,24 +74,17 @@ sub id_from_title {
     return $title;
 }
 
-sub path_from_id {
-    my $id = shift;
-    my $date = make_date();
-    return "$date-$id.markdown";
-}
-
-sub path_from_title {
-    my $title = shift;
-    my $id = id_from_title($title);
-    return path_from_id($id);
-}
-
 sub post_path_from_title {
-    return dirname($0) . "/posts/" . path_from_title(@_);
+    my $title = shift;
+    my $date = make_date();
+    my $id = id_from_title($title);
+    return dirname($0) . "/posts/$date-$id.markdown";
 }
 
 sub draft_path_from_title {
-    return dirname($0) . "/drafts/" . path_from_title(@_);
+    my $title = shift;
+    my $id = id_from_title($title);
+    return dirname($0) . "/drafts/$id.markdown";
 }
 
 sub create_post {
@@ -216,7 +209,8 @@ sub find_matches {
 sub print_post {
     my $info = shift;
     say $info->{title};
-    say "  tags: " . join(", ", $info->{tags});
+    my $tags = join(", ", $info->{tags});
+    say "  tags: $tags" if $tags;
     say "  path: " . $info->{path};
 }
 

@@ -85,8 +85,8 @@ main = hakyllWith config $ do
         route   draftRoute
         compile $ pandocCompiler
             >>= return . fmap demoteHeaders
-            >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
-            >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
+            >>= loadAndApplyTemplate "templates/draft.html" (draftCtx tags)
+            >>= loadAndApplyTemplate "templates/site.html" (draftCtx tags)
             >>= deIndexUrls
 
     create ["blog/index.html"] $ do
@@ -124,7 +124,7 @@ main = hakyllWith config $ do
         let pattern = "drafts/*.markdown"
 
         route   idRoute
-        compile $ archiveCompiler title tags pattern "templates/drafts.html"
+        compile $ draftArchiveCompiler title tags pattern "templates/drafts.html"
 
     tagsRules tags $ \tag pattern -> do
         let title = "Posts tagged: " ++ tag
@@ -214,6 +214,21 @@ archiveCompiler title tags pattern tpl = do
         >>= deIndexUrls
 
 
+draftArchiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
+draftArchiveCompiler title tags pattern tpl = do
+    list <- renderDraftList tags pattern recentFirst
+    let ctx = mconcat
+            [ constField "posts" list
+            , constField "title" title
+            , siteCtx
+            ]
+
+    makeItem ""
+        >>= loadAndApplyTemplate tpl ctx
+        >>= loadAndApplyTemplate "templates/site.html" ctx
+        >>= deIndexUrls
+
+
 rawArchiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
 rawArchiveCompiler title tags pattern tpl = do
     let ctx = mconcat
@@ -243,8 +258,14 @@ postCtx tags = mconcat
     , dateField "ymd" "%F"
     , tagsField "tags" tags
     , siteCtx
-   ]
+    ]
 
+draftCtx :: Tags -> Context String
+draftCtx tags = mconcat
+    [ constField "date" "unknown date" -- FIXME todays date?
+    , tagsField "tags" tags
+    , siteCtx
+    ]
 
 -- 'metaKeywords' from tags for insertion in header. Empty if no tags are found.
 metaKeywordCtx :: Context String
@@ -272,6 +293,16 @@ renderPostList tags pattern filter = do
     loadAndApplyTemplateList "templates/post-item.html" (postCtx tags) posts
 
 
+renderDraftList :: Tags
+               -> Pattern
+               -> ([Item String]
+               -> Compiler [Item String])
+               -> Compiler String
+renderDraftList tags pattern filter = do
+    drafts <- loadAll "drafts/*.markdown"
+    loadAndApplyTemplateList "templates/draft-item.html" (draftCtx tags) drafts
+
+
 renderTagHtmlList :: Tags -> Compiler (String)
 renderTagHtmlList = renderTags makeLink makeList
   where
@@ -297,7 +328,7 @@ staticRoute = gsubRoute "static/" (const "") `composeRoutes`
               dropIndexRoute
 
 draftRoute :: Routes
-draftRoute = dateRoute `composeRoutes`
+draftRoute = --dateRoute `composeRoutes`
              dropIndexRoute
 
 txtStaticRoute :: Routes
