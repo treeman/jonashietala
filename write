@@ -5,6 +5,7 @@ use Modern::Perl;
 use File::Basename;
 use Getopt::Long;
 use DateTime;
+use Data::Dumper;
 
 my $help;
 my $new;
@@ -13,37 +14,41 @@ my $draft;
 
 GetOptions(
     'help|h' => \$help,
-    'new|n=s' => \$new,
-    'edit|e=s' => \$edit,
-    'draft|d=s' => \$draft,
+    'new|n' => \$new,
+    'edit|e' => \$edit,
+    'draft|d' => \$draft,
 );
 
 if ($help) {
     help();
 }
 elsif ($new) {
-    create_new_post($new);
+    my $title = join (" ", @ARGV);
+    create_new_post($title);
 }
 elsif ($draft) {
-    create_new_draft($draft);
+    my $title = join (" ", @ARGV);
+    create_new_draft($title);
 }
 elsif ($edit) {
-    edit_post($edit);
+    edit_post(@ARGV);
 }
 else {
     help();
 }
 
+my $basedir = dirname($0);
+
 sub help {
     say <<END
 --help -h
 
--n id
---new id
+-n [title...]
+--new [title...]
     Create a new post with url /blog/yyyy/mm/dd/id
 
--d id
---draft ud
+-d [title...]
+--draft [title...]
     Create a new draft with url /blog/yyyy/mm/dd/id
 
 -e pattern
@@ -82,11 +87,11 @@ sub path_from_title {
 }
 
 sub post_path_from_title {
-    return "posts/" . path_from_title(@_);
+    return dirname($0) . "/posts/" . path_from_title(@_);
 }
 
 sub draft_path_from_title {
-    return "drafts/" . path_from_title(@_);
+    return dirname($0) . "/drafts/" . path_from_title(@_);
 }
 
 sub create_post {
@@ -96,7 +101,6 @@ sub create_post {
 "---
 layout: post
 title: $title
-category:
 tags:
 ---
 
@@ -129,12 +133,56 @@ sub create_new_draft {
     else {
         say "Opening $path";
     }
-    exec ("vim $path");
+    exec("vim $path");
+}
+
+sub has_match {
+    my ($what, @patterns) = @_;
+    for my $p (@patterns) {
+        return 1 if $what =~ /$p/i;
+    }
+    return 0;
+}
+
+sub matches_post {
+    my ($post, @patterns) = @_;
+
+    my @items = qw(title tags);
+    for my $item (@items) {
+        if (has_match($post->{$item}, @patterns)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+sub get_post_metadata {
+    my $path = shift;
+
+    my $post = {};
+
+    open my $fh, '<', $path;
+    my $title;
+    <$fh>; # Skip first '---'
+    while (my $line = <$fh>) {
+        last if $line =~ /^---$/;
+
+        if ($line =~ /^\s*([^:]+):\s+(.+?)\s*$/) {
+            $post->{$1} = $2;
+        }
+    }
+    close $fh;
+
+    #say Dumper($post);
+
+    return $post;
 }
 
 sub find_matches {
-    my ($pattern, $dir) = @_;
+    my ($dir, @patterns) = @_;
     my @matches;
+
+    $dir = dirname($0) . "/$dir";
 
     opendir (my $dh, $dir);
     while (my $file = readdir($dh)) {
@@ -143,23 +191,21 @@ sub find_matches {
         my $found = 0;
 
         # Can match against id as well
-        if ($file =~ /$pattern/i) {
+        if (has_match($file, @patterns)) {
             $found = 1;
         }
 
         # Open and look for title
         my $path = "$dir/$file";
-        open my $fh, '<', $path;
-        my $title;
-        while (my $line = <$fh>) {
-            if ($line =~ /^\s*title:\s+(.*?)\s*$/) {
-                $title = $1;
-                last;
-            }
+        my $info = get_post_metadata($path);
+        my $title = $info->{title};
+
+        if (matches_post($info, @patterns)) {
+            $found = 1;
         }
-        close $fh;
-        if ($title =~ /$pattern/i || $found) {
-            my $info = {title => $title, path => $path};
+
+        if ($found) {
+            $info->{path} = $path;
             push (@matches, $info);
         }
 
@@ -167,12 +213,19 @@ sub find_matches {
     return @matches;
 }
 
+sub print_post {
+    my $info = shift;
+    say $info->{title};
+    say "  tags: " . join(", ", $info->{tags});
+    say "  path: " . $info->{path};
+}
+
 sub edit_post {
-    my $pattern = shift;
+    my @patterns = @_;
 
     my @matches;
-    push (@matches, find_matches ($pattern, "drafts"));
-    push (@matches, find_matches ($pattern, "posts"));
+    push (@matches, find_matches ("drafts", @patterns));
+    push (@matches, find_matches ("posts", @patterns));
 
     my $num = scalar @matches;
     if ($num == 0) {
@@ -180,14 +233,15 @@ sub edit_post {
     }
     elsif ($num == 1) {
         my $info = $matches[0];
+        say "One match, opening";
+        print_post($info);
         exec ("vim $info->{path}");
     }
     else {
         say "$num matching posts";
 
-        for my $info (@matches) {
-            say $info->{title};
-            say "  " . $info->{path};
+        for my $post (@matches) {
+            print_post($post);
         }
     }
 }

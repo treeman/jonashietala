@@ -12,7 +12,9 @@ TODO
 Code
 ----
 
-* Drafts
+* drafts
+    * write script should be able to promote a draft to a post
+    * drafts should be storable without date
 * Games
     * Downloadable files (should just add links... but where are the files?)
 * Youtube shorthand  
@@ -32,13 +34,13 @@ Misc
 * Remove/Rename tags... They are clogging up the front page!
     * Remove the 'General' tag! Too much stuff there...
 * Check header tags in posts? Some are too low.
+* Update sitemap
 
 Write
 -----
 
 * Recommendations
     * Link to posts describing the best books/series!
-* Some more blog posts...?
 
 Design
 ------
