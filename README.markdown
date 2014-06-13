@@ -12,8 +12,11 @@ TODO
 Code
 ----
 
-* drafts
-    * write script should be able to promote a draft to a post
+* blog script
+    * update readme
+    * should be able to promote a draft to a post
+    * flag to edit multiple files
+    * flag to only list files, not edit
 * Games
     * Downloadable files (should just add links... but where are the files?)
 * Youtube shorthand  
