@@ -6,27 +6,42 @@ use File::Basename;
 use Getopt::Long;
 use DateTime;
 use Data::Dumper;
+use File::stat;
+use Time::localtime;
+use POSIX qw(strftime);
 
 my $help;
 my $new;
 my $edit;
 my $draft;
-my $promote;
+my $publish;
+my $demote;
 my $tag = "";
 my $date = "";
+my $list;
+my $edit_all;
+my $list_drafts;
 
 GetOptions(
     'help|h' => \$help,
-    'new|n' => \$new,
-    'draft|d' => \$draft,
-    'promote' => \$promote,
+    'new-post|n' => \$new,
+    'new-draft|d' => \$draft,
+    'publish' => \$publish,
+    'demote' => \$demote,
     'edit|e' => \$edit,
     'tag=s' => \$tag,
     'date=s' => \$date,
+    'list|l' => \$list,
+    'edit-all|E' => \$edit_all,
+    'list-drafts' => \$list_drafts,
 );
 
 if ($help) {
     help();
+}
+elsif ($list_drafts) {
+    my $title_pattern = join (" ", @ARGV);
+    list_drafts($tag, $date, $title_pattern);
 }
 elsif ($new) {
     my $title = join (" ", @ARGV);
@@ -36,9 +51,17 @@ elsif ($draft) {
     my $title = join (" ", @ARGV);
     create_new_draft($title);
 }
-elsif ($edit) {
+elsif ($edit || $edit_all || $list) {
     my $title_pattern = join (" ", @ARGV);
     edit_post($tag, $date, $title_pattern);
+}
+elsif ($publish) {
+    my $title_pattern = join (" ", @ARGV);
+    publish($tag, $date, $title_pattern);
+}
+elsif ($demote) {
+    my $title_pattern = join (" ", @ARGV);
+    demote($tag, $date, $title_pattern);
 }
 else {
     help();
@@ -47,22 +70,32 @@ else {
 my $basedir = dirname($0);
 
 sub help {
+    my $name = basename($0);
     say <<END
---help -h
+Blog editing script.
 
--n [title...]
---new [title...]
-    Create a new post with url /blog/yyyy/mm/dd/id
+Usage:
+  $name -h | --help
+  $name --new-post <This is the new post title...>
+  $name --new-draft <This is the new draft title...>
+  $name --list [--tag] [--date] <pattern>
+  $name --edit [--tag] [--date] [--edit-all] <pattern>
+  $name --publish [--tag] [--date] <pattern>
+  $name --demote [--tag] [--date] <pattern>
+  $name --list-drafts [--tag] [--date] <pattern>
 
--d [title...]
---draft [title...]
-    Create a new draft with url /blog/yyyy/mm/dd/id
-
--e pattern
---edit pattern
-    Edit post, either url or title, matching pattern.
-    If several matches, print a list of matches.
-    If unique match launch editor.
+Options:
+  -h --help                     Show this screen.
+  -n --new-post                 Create a new post with todays date.
+  -d --new-draft                Create a new draft.
+  -e --edit [pattern...]        Edit a matching post or draft.
+  -l --list [pattern...]        List all posts and drafts matching patterns.
+  --publish [pattern...]        Move a draft to a post with todays date.
+  --demote [pattern...]         Move a post to a draft, discard the current date set.
+  --list-drafts [pattern...]    List all drafts.
+  --tag=<pat>                   Add a tag filter pattern.
+  --date=<pat>                  Add a date filter pattern.
+  --edit-all                    Open up all matching files for editing.
 END
 }
 
@@ -162,7 +195,12 @@ sub get_post_metadata {
     my $post = {};
 
     open my $fh, '<', $path;
-    my $title;
+
+    # Fetch latest edited
+    my $dt = DateTime->from_epoch(epoch => stat($fh)->mtime);
+    $post->{last_edit} = $dt->ymd() . " " . $dt->hms();
+
+    # Load metadata
     <$fh>; # Skip first '---'
     while (my $line = <$fh>) {
         last if $line =~ /^---$/;
@@ -247,22 +285,26 @@ sub print_post {
     my $tags = join(", ", $info->{tags});
     say "  tags: $tags" if $tags;
     say "  path: " . $info->{path};
+    if ($info->{date}) {
+        say "  date: " . $info->{date};
+    }
+    else {
+        say "  edit: " . $info->{last_edit};
+    }
 }
 
 sub is_matching {
     my ($info, $tag_pattern, $date_pattern, $title_pattern) = @_;
 
-    #say "info $info->{title}, tag: $tag_pattern date: $date_pattern, title: $title_pattern";
-
     return 0 if $info->{title} !~ /$title_pattern/i;
 
     if ($tag_pattern) {
-        return 0 if $info->{tags} eq "";
+        return 0 if !$info->{tags};
         return 0 if $info->{tags} !~ /$tag_pattern/i;
     }
 
     if ($date_pattern) {
-        return 0 if $info->{date} eq "";
+        return 0 if !$info->{date};
         return 0 if $info->{date} !~ /$date_pattern/i;
     }
 
@@ -289,9 +331,12 @@ sub edit_post {
     }
     elsif ($num == 1) {
         my $info = $matches[0];
-        say "One match, opening";
+        say "One matching post";
         print_post($info);
-        exec ("vim $info->{path}");
+        if (!$list) {
+            say "Opening...";
+            exec ("vim $info->{path}");
+        }
     }
     else {
         say "$num matching posts";
@@ -299,6 +344,118 @@ sub edit_post {
         for my $post (@matches) {
             print_post($post);
         }
+
+        if (!$list && $edit_all) {
+            say "Opening...";
+            my $cmd = "vim";
+            $cmd .= " " . $_->{path} for (@matches);
+            exec ($cmd);
+        }
+    }
+}
+
+sub publish {
+    my @patterns = @_;
+
+    my @drafts;
+    push (@drafts, collect_posts("drafts"));
+
+    my @matches;
+    for my $draft (@drafts) {
+        if (is_matching ($draft, @patterns)) {
+            push (@matches, $draft);
+        }
+    }
+
+    my $num = scalar @matches;
+    if ($num == 0) {
+        say "No matching drafts";
+    }
+    elsif ($num == 1) {
+        my $info = $matches[0];
+        say "One matching draft";
+        print_post($info);
+        if (!$list) {
+            say "Promoting...";
+
+            my $curr_path = $info->{path};
+            my $today = make_date();
+            if ($curr_path =~ m|drafts/(.+)$|) {
+                my $new_path = "posts/$today-$1";
+                say "Moved to $new_path";
+                exec ("mv $curr_path $new_path");
+            }
+            else {
+                die "Failed to publish $curr_path";
+            }
+        }
+    }
+    else {
+        say "$num matching drafts";
+
+        for my $draft (@matches) {
+            print_post($draft);
+        }
+    }
+}
+
+sub demote {
+    my @patterns = @_;
+
+    my @posts;
+    push (@posts, collect_posts("posts"));
+
+    my @matches;
+    for my $post (@posts) {
+        if (is_matching ($post, @patterns)) {
+            push (@matches, $post);
+        }
+    }
+
+    my $num = scalar @matches;
+    if ($num == 0) {
+        say "No matching posts";
+    }
+    elsif ($num == 1) {
+        my $info = $matches[0];
+        say "One matching post";
+        print_post($info);
+        if (!$list) {
+            say "Demoting...";
+
+            my $curr_path = $info->{path};
+            if ($curr_path =~ m|posts/\d{4}-\d{2}-\d{2}-(.+)$|) {
+                my $new_path = "drafts/$1";
+                say "Moved to $new_path";
+                exec ("mv $curr_path $new_path");
+            }
+            else {
+                die "Failed to demote $curr_path";
+            }
+        }
+    }
+    else {
+        say "$num matching posts";
+
+        for my $post (@matches) {
+            print_post($post);
+        }
+    }
+}
+
+sub list_drafts {
+    my @patterns = @_;
+
+    my @drafts = collect_posts("drafts");
+    my @matches;
+    for my $draft (@drafts) {
+        if (is_matching ($draft, @patterns)) {
+            push (@matches, $draft);
+        }
+    }
+
+    for my $draft (@matches) {
+        print_post($draft);
     }
 }
 
