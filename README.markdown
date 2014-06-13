@@ -33,6 +33,7 @@ Code
 Misc
 ----
 
+* Prettier color scheme/design!
 * Remove/Rename tags... They are clogging up the front page!
     * Remove the 'General' tag! Too much stuff there...
 * Check header tags in posts? Some are too low.
