@@ -14,7 +14,6 @@ Code
 
 * drafts
     * write script should be able to promote a draft to a post
-    * drafts should be storable without date
 * Games
     * Downloadable files (should just add links... but where are the files?)
 * Youtube shorthand  

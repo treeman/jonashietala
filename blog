@@ -11,12 +11,18 @@ my $help;
 my $new;
 my $edit;
 my $draft;
+my $promote;
+my $tag = "";
+my $date = "";
 
 GetOptions(
     'help|h' => \$help,
     'new|n' => \$new,
-    'edit|e' => \$edit,
     'draft|d' => \$draft,
+    'promote' => \$promote,
+    'edit|e' => \$edit,
+    'tag=s' => \$tag,
+    'date=s' => \$date,
 );
 
 if ($help) {
@@ -31,7 +37,8 @@ elsif ($draft) {
     create_new_draft($title);
 }
 elsif ($edit) {
-    edit_post(@ARGV);
+    my $title_pattern = join (" ", @ARGV);
+    edit_post($tag, $date, $title_pattern);
 }
 else {
     help();
@@ -206,6 +213,34 @@ sub find_matches {
     return @matches;
 }
 
+sub collect_posts {
+    my $dir = shift;
+
+    my @posts;
+    $dir = dirname($0) . "/$dir";
+
+    opendir (my $dh, $dir);
+    while (my $file = readdir($dh)) {
+        next if $file =~ /^\./;
+
+        # Open and look for metadata
+        my $path = "$dir/$file";
+        my $post = get_post_metadata($path);
+
+        $post->{path} = $path;
+        if ($post->{published}) { # Hakyll will treat date as published field
+            $post->{date} = $post->{published};
+        }
+
+        if (!$post->{date} && $file =~ m|^(\d{4}-\d{2}-\d{2})-|) {
+            $post->{date} = $1;
+        }
+        #say Dumper $post;
+        push (@posts, $post);
+    }
+    return @posts;
+}
+
 sub print_post {
     my $info = shift;
     say $info->{title};
@@ -214,12 +249,39 @@ sub print_post {
     say "  path: " . $info->{path};
 }
 
+sub is_matching {
+    my ($info, $tag_pattern, $date_pattern, $title_pattern) = @_;
+
+    #say "info $info->{title}, tag: $tag_pattern date: $date_pattern, title: $title_pattern";
+
+    return 0 if $info->{title} !~ /$title_pattern/i;
+
+    if ($tag_pattern) {
+        return 0 if $info->{tags} eq "";
+        return 0 if $info->{tags} !~ /$tag_pattern/i;
+    }
+
+    if ($date_pattern) {
+        return 0 if $info->{date} eq "";
+        return 0 if $info->{date} !~ /$date_pattern/i;
+    }
+
+    return 1;
+}
+
 sub edit_post {
     my @patterns = @_;
 
+    my @posts;
+    push (@posts, collect_posts("drafts"));
+    push (@posts, collect_posts("posts"));
+
     my @matches;
-    push (@matches, find_matches ("drafts", @patterns));
-    push (@matches, find_matches ("posts", @patterns));
+    for my $post (@posts) {
+        if (is_matching ($post, @patterns)) {
+            push (@matches, $post);
+        }
+    }
 
     my $num = scalar @matches;
     if ($num == 0) {

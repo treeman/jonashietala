@@ -133,6 +133,7 @@ main = hakyllWith config $ do
         compile $ archiveCompiler title tags pattern "templates/tags-archive.html"
 
         -- Raw version forces re-update of tag pages. Wtf?
+        -- Actually everything does...
 
     match "projects/*" $ do
         compile $ pandocCompiler
@@ -299,7 +300,7 @@ renderDraftList :: Tags
                -> Compiler [Item String])
                -> Compiler String
 renderDraftList tags pattern filter = do
-    drafts <- loadAll "drafts/*.markdown"
+    drafts <- loadAll pattern
     loadAndApplyTemplateList "templates/draft-item.html" (draftCtx tags) drafts
 
 
@@ -323,13 +324,16 @@ txtPostRoute = replacePosts `composeRoutes`
             setExtension ".txt"
 
 
+txtDraftRoute :: Routes
+txtDraftRoute = setExtension ".txt"
+
+
 staticRoute :: Routes
 staticRoute = gsubRoute "static/" (const "") `composeRoutes`
               dropIndexRoute
 
 draftRoute :: Routes
-draftRoute = --dateRoute `composeRoutes`
-             dropIndexRoute
+draftRoute = dropIndexRoute
 
 txtStaticRoute :: Routes
 txtStaticRoute = gsubRoute "static/" (const "") `composeRoutes`
