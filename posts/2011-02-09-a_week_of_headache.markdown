@@ -1,8 +1,8 @@
 ---
 layout: post
 title: A Week of Headache
-category: General
-tags: General, Rants, Glasses
+category: Life
+tags: Life
 time: 18:00:46
 ---
 This was supposed to be a productive week with lots and lots of Perl and Ada but instead I've had this big headache all week, and some the week before and it's gotten pretty bad so I can't really concentrate on anything really. The electronics assignment was a bitch and it took a looong time to complete, even if all I had to do was to rewrite some stuff. You just love when the result is completely wrong just thanks to a misplaced minus sign.

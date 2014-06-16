@@ -1,8 +1,8 @@
 ---
 layout: post
 title: The End of the Tunnel
-category: General
-tags: General, Status
+category: Life
+tags: Life
 time: 21:18:24
 ---
 Lately I've been feeling like there's been a shit-ton of stuff going on, quite a turn-around from the [last time](/blog/2011/09/30/being_productive).

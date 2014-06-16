@@ -1,8 +1,7 @@
 ---
 layout: post
 title: Getting Comfortable
-category: Computer
-tags: General, Computer
+tags: New Stuff, Computer
 time: 14:01:27
 ---
 So I physically built [the computer](/blog/2011/08/21/new_computer) and now I've been using it a while, configuring stuff and getting used to my new screens. I think they're about three times wide as my old laptop and now I have this one huge vertical space which is absolutely wonderful for surfing forums and reading code. Damn I love coding on it! When I go back to the laptop I feel cramped..

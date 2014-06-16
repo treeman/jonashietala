@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Ugly and Slow Progress
-tags: Ludum Dare, Status
+tags: Ludum Dare
 ---
 
 Ludum Dare is coming along... Slowly. The rust on me is probably so brown it's nearly black. But I have an idea and it might be good, all I need to do is execute it. Right?

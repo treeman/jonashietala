@@ -2,7 +2,7 @@
 layout: post
 title: New Year, New Theme: 100 Things
 category: Themes
-tags: News, Themes, 7days
+tags: Themes, 7days
 time: 21:39:52
 ---
 Happy New Year, Everyone! 2009 was great in many ways; I drove a submarine (yeah quite literally), I released 6 experimental games and recently I discovered the completely amazing game *Evil Genius* but lets try to make 2010 even better! 

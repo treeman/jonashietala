@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Done this, done that. What now?
-category: General
-tags: General, Status, Books
+category: Life
+tags: Life
 time: 16:01:17
 ---
 Finished and uploaded our java game [Grand Thief Arto](/blog/2011/10/19/grand_thief_arto/), done an exam (didn't quite go as intended) and starting some new courses in school. I'm liking my choice of Computer Science more and more. *Data structures and Algorithms* was a super fun course, I actually ordered a [new book about the subject](http://highered.mcgraw-hill.com/sites/0070131511/) just yesterday. *Linear Algebra* is really fun now as we're getting deeper into it and we're looking into assembly and processor structures now too. *Awesome*. I can't believe I considered doing physics or electronics when I could take these courses. Now if I only could do operating systems, compiler construction and language design...

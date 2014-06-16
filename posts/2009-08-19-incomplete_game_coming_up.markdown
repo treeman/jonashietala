@@ -1,8 +1,7 @@
 ---
 layout: post
 title: Incomplete game coming up
-category: News
-tags: Update, News
+tags: Game Making
 time: 19:24:20
 ---
 Man I'm far too much of a perfectionist, with this mentality I'll never get anything done - seriously. I spent far too many hours, even days, figuring out in my mind how the game should be and I started off going for nothing less than just that. But it turned out to be a lot harder and a lot bigger but still I couldn't let it go and start over with something new, something fresh.

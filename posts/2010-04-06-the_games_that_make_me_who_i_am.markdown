@@ -1,8 +1,8 @@
 ---
 layout: post
 title: The games that make me who I am
-category: General
-tags: General
+category: Gaming
+tags: Life, Gaming
 time: 11:51:36
 ---
 I read [an article](http://pathdependent.com/2010/04/04/on-fiction/) the other day where he met someone who didn't read fiction:

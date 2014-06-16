@@ -2,7 +2,7 @@
 layout: post
 title: No game this month
 category: News
-tags: News, 7days
+tags: 7days
 time: 12:14:22
 ---
 Well here I am in the end of the month - without a game. It's a failure I know but once again I lack inspiration and then it's really hard to do something. Instead I've been thinking of something I could do that would make me wanna code like really bad again. I'm thinking of patching up this website, the forums are bugging me like hell as I didn't write it, switching rendering framework for my games and just now today I've done a few [Project Euler](http://projecteuler.net/) challenges in Haskell which was pretty fun (but hard as I'm really bad with it).

@@ -1,8 +1,7 @@
 ---
 layout: post
 title: My Dream Game: The Tycoon
-category: Dream Games
-tags: Dream Games, Gaming
+tags: Game Design, Gaming
 time: 13:55:12
 ---
 I've been playing [Starcraft 2](http://eu.battle.net/sc2/en/) a little this christmas. It wasn't dead serious 1v1 which really is my favorite but I've played 2v2 with some friends and I actually played the campaign a bit and it was pretty fun! Usually I never play the campaign on RTS games but this one I liked. I even bought it to my little brother and he seems to like it.

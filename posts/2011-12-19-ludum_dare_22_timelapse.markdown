@@ -2,7 +2,7 @@
 layout: post
 title: Ludum Dare 22 Timelapse
 category: Timelapse
-tags: Timelapse, Ludum Dare, Gaming
+tags: Timelapse, Ludum Dare
 time: 20:13:37
 ---
 Here's the timelapse for my entry to [Ludum Dare 22](http://www.ludumdare.com/compo/), [Sat-E](/blog/2011/12/19/sat-e/).

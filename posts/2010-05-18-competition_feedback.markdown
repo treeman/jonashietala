@@ -2,7 +2,7 @@
 layout: post
 title: Competition Feedback
 category: Feedback
-tags: Gaming, Ludum Dare
+tags: Ludum Dare
 time: 18:49:04
 ---
 The voting is over and I got a few ratings I want to comment on. You can view all ratings and comments [here][ld].

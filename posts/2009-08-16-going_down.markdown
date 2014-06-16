@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Going down
-category: News
-tags: Update
+category: Life
+tags: Life
 time: 16:32:02
 ---
 Ah my first game was so painless so I thought I could do any game I could imagine! Shooters, and mario bros kinda stuff. Well now I'm not so upbeat anymore, I've worked on this game for 7 days now and it's not playable at all. With seven days I don't mean a week, I've had a big break in the middle with no reason at all!

@@ -2,7 +2,7 @@
 layout: post
 title: Design for Hackers
 category: Books
-tags: General, Design, Books, New stuff
+tags: Books
 time: 16:28:48
 ---
 I get these.. urges sometimes. Not like [Dexter][dexter] no, but sometimes I just *have* to buy a specific thing. It happened again yesterday (or was it the day before I don't know) when I saw [this post][post] on [hackernews][hackernews].

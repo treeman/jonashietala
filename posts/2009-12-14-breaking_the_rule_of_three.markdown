@@ -2,7 +2,7 @@
 layout: post
 title: Breaking the rule of three
 category: News
-tags: News, 7days
+tags: 7days
 time: 11:49:31
 ---
 It's pretty darn stressful making a game in a week, especially when you have this big great vision on how your game should be (which is *always* grand). For me making *Balls*, *Black and White* and *Jonas IceCream Stand* where truly stressful, *MenuCity* and *Bugger* not so much but still.

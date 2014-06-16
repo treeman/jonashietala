@@ -2,7 +2,7 @@
 layout: post
 title: Robot Project Start
 category: School
-tags: School, Robot, Project
+tags: School
 ---
 
 

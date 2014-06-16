@@ -2,7 +2,7 @@
 layout: post
 title: Back to Training
 category: Taekwon-do
-tags: General, Taekwon-do
+tags: Taekwon-do
 time: 13:56:19
 ---
 Five days of school now and things are starting to settle down a bit. The courses are pretty cool; we have linear algebra which is pretty interesting, we have a java course where we're going to make a game (!) and one about structures and algorithms. Pretty promising but we'll see how things pan out.

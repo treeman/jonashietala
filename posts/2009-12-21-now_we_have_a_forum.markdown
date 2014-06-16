@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Now we have a Forum
-category: Meta
-tags: Meta, General
+category: Webpage
+tags: Webpage
 ---
 In a burst of random energy I made a forum for madeoftree. Well okay I just made an awesome style for the awesome phpBB - the forum itself was up and running in say 10min and the rest of the latest days has been all about customizing. Now it's finally *kinda* complete so [here](#) it is (it is now taken down)!
 

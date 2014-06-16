@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Speeding Ahead
-category: General
-tags: General, School
+category: Life
+tags: Life, School
 time: 20:44:15
 ---
 Life is slowly settling down over here. School has started with some pretty interesting stuff this year. Firstly we have a math analysis course in multiple variables which is ok. I'm not a fan of the previous analysis courses but maybe this will be a bit different. We're contining with computer hardware, microprogramming and such, and I enjoy it a little. 

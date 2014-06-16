@@ -1,8 +1,8 @@
 ---
 layout: post
 title: The Top Idea
-category: Productivity
-tags: General, Productivity, Rants
+category: Life Hacking
+tags: Life Hacking
 time: 10:05:25
 ---
 Recently I've been having a dozen ideas and projects I've been poking around with:

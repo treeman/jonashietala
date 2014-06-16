@@ -6,8 +6,7 @@ My site written in [Hakyll][]
 
 [Hakyll]: http://jaspervdj.be/hakyll/
 
-TODO
-====
+TODO ====
 
 Code
 ----
@@ -64,4 +63,48 @@ Sitemap
     /contact
     /404
     /feed.xml
+
+Tags
+====
+
+## Game tags
+
+Game Design - Designing games and thoughts about game design
+Game Making - Creating games
+Games - Actually made games
+Gaming - Playing games
+
+7days
+Timelapse
+Timeline
+Postmortems
+
+## To Keep!
+
+Life - Kindof a rest
+Life Hacking
+Site
+New Stuff
+
+Attention
+Bitbucket
+Books
+Computer
+Eduroam
+Git
+Goals
+IDA Summer of Code
+Keyboard
+Ludum Dare
+Minecraft
+Perl
+Programming
+Read Books
+School
+Slackware
+Taekwon-do
+Walkthrough
+Xmonad
+Yearly Review
+rust
 

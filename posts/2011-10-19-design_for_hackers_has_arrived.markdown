@@ -2,7 +2,7 @@
 layout: post
 title: Design for Hackers has arrived!
 category: Books
-tags: General, Design, Books, New stuff
+tags: Books
 time: 21:25:57
 ---
 <div class="center"><img src="http://designforhackers.com/wp-content/themes/D4H/img/book-image.jpg" /></div>

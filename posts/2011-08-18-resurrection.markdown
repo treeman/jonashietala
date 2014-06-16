@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Resurrection
-category: General
-tags: General, Summer Break
+category: Life
+tags: Life
 time: 16:28:50
 ---
 Aah what a nice summer!

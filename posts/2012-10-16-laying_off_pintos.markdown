@@ -2,7 +2,7 @@
 layout: post
 title: Laying off Pintos
 category: Pintos
-tags: School, Pintos, OS
+tags: School, Programming
 ---
 
 

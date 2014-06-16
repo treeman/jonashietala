@@ -1,8 +1,7 @@
 ---
 layout: post
 title: Ludum Dare 22 results!
-category: Feedback
-tags: Gaming, Ludum Dare
+tags: Ludum Dare
 time: 21:27:47
 ---
 [The results][res] from [Ludum Dare 22][] are in! I made the game [Sat-E][] for the 48 hour competition and I was [quite happy][postmortem] with it.

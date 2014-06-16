@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Long Term Goals
-category: Goals
-tags: Goals, Life
+category: Life Hacking
+tags: Life Hacking
 ---
 
 

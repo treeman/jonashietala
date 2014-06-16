@@ -1,8 +1,8 @@
 ---
 layout: post
 title: An invisible Remake
-category: Meta
-tags: Meta, General
+category: Webpage
+tags: Webpage
 time: 22:51:36
 ---
 What does a guy like me do when not working on a new game? Except living my life, being a coach for my little brother's hockey team and eating strawberries? The last week or so I've been working hard with my webpage, yes this page. If you've visited my site before today you'll know what I'm talking about.

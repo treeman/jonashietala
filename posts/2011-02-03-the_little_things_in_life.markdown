@@ -1,8 +1,8 @@
 ---
 layout: post
 title: The Little Things in Life
-category: Programming
-tags: Programming, Books, General, Life
+category: Life
+tags: Programming, Books, Life
 time: 21:32:10
 ---
 It's the little things in life that makes it extra special. Sometimes it's the luxury of coffee together with the morning paper and other times it's just a small simple smile from a random stranger, kid or dog. Today when I got this bad headache I got saved by a two hour nap and my [Programming in Ada][ada] book. It was quite a pleasure to just read it and not worrying about anything else. I even think my headache disappeared a while there.

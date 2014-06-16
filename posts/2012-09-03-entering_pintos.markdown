@@ -2,7 +2,7 @@
 layout: post
 title: Entering Pintos
 category: School
-tags: School, Pintos, OS
+tags: School, Programming
 ---
 
 

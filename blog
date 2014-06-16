@@ -22,6 +22,7 @@ my $list;
 my $edit_all;
 my $list_drafts;
 
+Getopt::Long::Configure ("bundling");
 GetOptions(
     'help|h' => \$help,
     'new-post|n' => \$new,
@@ -29,8 +30,8 @@ GetOptions(
     'publish' => \$publish,
     'demote' => \$demote,
     'edit|e' => \$edit,
-    'tag=s' => \$tag,
-    'date=s' => \$date,
+    'tag|t=s' => \$tag,
+    'date|d=s' => \$date,
     'list|l' => \$list,
     'edit-all|E' => \$edit_all,
     'list-drafts' => \$list_drafts,
@@ -93,8 +94,8 @@ Options:
   --publish [pattern...]        Move a draft to a post with todays date.
   --demote [pattern...]         Move a post to a draft, discard the current date set.
   --list-drafts [pattern...]    List all drafts.
-  --tag=<pat>                   Add a tag filter pattern.
-  --date=<pat>                  Add a date filter pattern.
+  -t --tag=<pat>                Add a tag filter pattern.
+  -d --date=<pat>               Add a date filter pattern.
   --edit-all                    Open up all matching files for editing.
 END
 }

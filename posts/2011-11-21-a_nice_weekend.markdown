@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A Nice Weekend
-tags: General, Status
+tags: Life
 time: 11:07:14
 ---
 I've had a pretty nice weekend. On Friday MLG Orlando began and I've been staying up to 2 and sleeping until at least 10 the last days. My inner night-owl is very happy about it, my early-rising girlfriend perhaps not as much, but I think she's a bit understanding?

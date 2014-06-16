@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Being Productive
-category: General
-tags: General, Productivity, Status
+category: Life Hacking
+tags: Life Hacking
 time: 14:30:21
 ---
 School's been going on now for... Is it a month and a half maybe? I don't know really but it's all going so fast, week after week is disappearing and I don't know where they go but I know that I'm at least not wasting them like I did most of last year!

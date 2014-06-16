@@ -1,8 +1,8 @@
 ---
 layout: post
 title: MenuCity: Level 0 Walkthrough
-category: Walkthroughs
-tags: Walkthroughs
+category: Walkthrough
+tags: Walkthrough
 time: 14:18:27
 ---
 It hasn't even been a week since I released my latest game [MenyCity](/blog/2009/10/13/menucity//) and already so much positive feedback! I'm so thrilled :) However, all isn't blue skies and nice sunshine. A lot of times the first question is: How do you play it? or How do you get past the first level? I admit yes, the tutorial is really bad...

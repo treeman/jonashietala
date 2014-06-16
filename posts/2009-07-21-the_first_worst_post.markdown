@@ -1,8 +1,8 @@
 ---
 layout: post
 title: The first (worst) post
-category: General
-tags: General
+category: Webpage
+tags: Webpage
 time: 13:34:38
 ---
 Well, here it is: The opening post. What will come here? Here's where I'll outline what the blog will be about and maybe, if I'm dedicated, it won't die before Christmas you think.

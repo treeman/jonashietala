@@ -2,7 +2,7 @@
 layout: post
 title: Making a Game Again?
 category: News
-tags: News, Ludum Dare
+tags: Ludum Dare
 time: 09:16:36
 ---
 

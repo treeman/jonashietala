@@ -1,7 +1,6 @@
 ---
 layout: post
 title: The great Hochstapler
-category: Games
 tags: Gaming
 time: 11:17:32
 ---

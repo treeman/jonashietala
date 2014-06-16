@@ -2,7 +2,7 @@
 layout: post
 title: I, Robot
 category: School
-tags: School, Robot, Project
+tags: School
 ---
 
 

@@ -2,7 +2,7 @@
 layout: post
 title: New Computer!
 category: Computer
-tags: General, Computer
+tags: New Stuff, Computer
 time: 13:23:41
 ---
 I briefly mentioned my new computer in [the last post](/blog/2011/08/18/resurrection) and I thought I'd make a post about it, as it's awesome (as all new computers are).

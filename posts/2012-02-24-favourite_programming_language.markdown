@@ -2,7 +2,7 @@
 layout: post
 title: Favourite Programming Language
 category: Programming
-tags: Programming, Rants
+tags: Programming
 time: 20:05:47
 ---
 
