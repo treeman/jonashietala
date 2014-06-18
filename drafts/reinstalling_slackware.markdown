@@ -17,6 +17,7 @@ tags: Slackware
     1. [vim][]
     1. [Skype][]
     1. [Spotify][]
+    1. [Office][]
 1. [Appearance][]
     1. [xmonad][]
     1. [Fonts][]
@@ -27,6 +28,7 @@ tags: Slackware
     1. [Multilib][]
     1. [Better latex][]
     1. [Groovebasin][]
+    1. [Java][]
 1. [Programming][]
     1. [Hakyll][]
     1. [SFML][]
@@ -377,6 +379,10 @@ Spotify
 Install [Multilib][]. Fetch from slackbuilds. I'm having some flickering issues, but no idea what to do.
 
 
+Office
+------
+
+Install [Java][]. Install `libreoffice` from slackbuilds.
 
 
 
@@ -701,6 +707,12 @@ Groovebasin
 Need `libgroove`.  Which also needs `speex` from slackbuilds apart from the clear dependencies. Run groovebasin as user.
 
 
+Java
+----
+
+Get `OpenAL` from slackbuilds.  Get Java JDK <http://docs.slackware.com/howtos:software:java>, not OpenJDK.
+
+
 Programming
 ===========
 
@@ -728,9 +740,7 @@ Games
 Minecraft
 ---------
 
-Get `OpenAL` from slackbuilds.  Get Java JDK <http://docs.slackware.com/howtos:software:java>, not OpenJDK.
-
-Launch with:
+Requires [Java][]. Launch with:
 
 ``` {.bash}
 java -Xmx2048M -Xms1024M -jar ~/.minecraft/launcher/Minecraft.jar

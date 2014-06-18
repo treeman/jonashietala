@@ -12,6 +12,7 @@ import Text.Blaze.Html (toHtml, toValue, (!))
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
+import Text.Regex (subRegex, mkRegex)
 
 import Hakyll
 
@@ -53,9 +54,9 @@ main = hakyllWith config $ do
         route   idRoute
         compile compressCssCompiler
 
-    tags <- buildTags "posts/*" (fromCapture "tags/*")
+    tags <- buildTags "posts/*.markdown" (fromCapture "tags/*")
 
-    match "static/*" $ do
+    match "static/*.markdown" $ do
         route   staticRoute
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
@@ -65,9 +66,10 @@ main = hakyllWith config $ do
             route   txtStaticRoute
             compile getResourceString
 
-    match "posts/*" $ do
+    match "posts/*.markdown" $ do
         route   postRoute
         compile $ pandocCompiler
+            >>= applyFilter youtubeFilter
             >>= saveSnapshot "content"
             >>= return . fmap demoteHeaders
             >>= saveSnapshot "demoted_content"
@@ -81,7 +83,7 @@ main = hakyllWith config $ do
             compile $ getResourceString
                 >>= saveSnapshot "content"
 
-    match "drafts/*" $ do
+    match "drafts/*.markdown" $ do
         route   draftRoute
         compile $ pandocCompiler
             >>= return . fmap demoteHeaders
@@ -94,7 +96,7 @@ main = hakyllWith config $ do
         compile $ do
             let ctx = constField "title" "My Weblog" <> siteCtx
 
-            loadAllSnapshots ("posts/*" .&&. hasNoVersion) "demoted_content"
+            loadAllSnapshots ("posts/*.markdown" .&&. hasNoVersion) "demoted_content"
                 >>= recentFirst
                 >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
                 >>= makeItem
@@ -135,7 +137,7 @@ main = hakyllWith config $ do
         -- Raw version forces re-update of tag pages. Wtf?
         -- Actually everything does...
 
-    match "projects/*" $ do
+    match "projects/*.markdown" $ do
         compile $ pandocCompiler
             >>= saveSnapshot "content"
 
@@ -191,13 +193,29 @@ main = hakyllWith config $ do
         compile $ do
             let feedCtx = (postCtx tags) <> bodyField "description"
             posts <- fmap (take 30) . recentFirst =<<
-                loadAllSnapshots ("posts/*" .&&. hasNoVersion) "post"
+                loadAllSnapshots ("posts/*.markdown" .&&. hasNoVersion) "post"
             renderAtom myFeedConfiguration feedCtx posts
 
 
 -- Sort tags after number of posts in tag
 tagSort :: (String, [Identifier]) -> (String, [Identifier]) -> Ordering
 tagSort a b = comparing (length . snd) b a
+
+
+-- This does not work and I have no frickin idea why. Copy directly from html into post works.
+-- Coding errors? Or what?
+youtubeFilter :: String -> String
+youtubeFilter x = subRegex regex x result
+  where
+    regex = mkRegex "<p>https?://www\\.youtube\\.com/watch\\?v=([A-Za-z0-9_-]+)</p>"
+    result = "<iframe src=\"//www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen/>"
+    --result = "<iframe src=\"//www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen/>"
+    --result = "<iframe src=\"//www.youtube.com/embed/NIbr-mLi4DU\" frameborder=\"0\" allowfullscreen/>"
+    --result = "<iframe src=\"//www.youtube.com/embed/NIbr-mLi4DU\" frameborder=\"0\" allowfullscreen/>"
+    --result = "\\1"
+
+applyFilter :: (Monad m, Functor f) => (String-> String) -> f String -> m (f String)
+applyFilter transformator str = return $ (fmap $ transformator) str
 
 
 archiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
