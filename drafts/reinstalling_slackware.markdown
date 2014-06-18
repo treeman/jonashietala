@@ -12,28 +12,26 @@ tags: Slackware
     1. [Install wicd, get online][]
     1. [Custom Kernel][]
     1. [Fix X][]
+1. [Programs][]
     1. [Firefox][]
-    1. [xmonad][]
-    1. [Install fonts][]
-    1. [Install perl things][]
-1. [Minecraft][]
-    1. [Install Hakyll][]
     1. [vim][]
-    1. [Terminal][]
-    1. [Prettier fonts][]
-    1. [Groovebasin][]
-    1. [SFML][]
-    1. [Multilib][]
     1. [Skype][]
-    1. [Random slackbuilds][]
-    1. [Better latex][]
     1. [Spotify][]
-    1. [freetype][]
-    1. [Rest][]
-    1. [Misc][]
-    1. [Change config][]
-    1. [Games etc][]
-    1. [Final][]
+1. [Appearance][]
+    1. [xmonad][]
+    1. [Fonts][]
+    1. [Terminal][]
+1. [Random Installs][]
+    1. [Slackbuilds][]
+    1. [Perl][]
+    1. [Multilib][]
+    1. [Better latex][]
+    1. [Groovebasin][]
+1. [Programming][]
+    1. [Hakyll][]
+    1. [SFML][]
+1. [Games][]
+    1. [Minecraft][]
 
 Basic steps
 ===========
@@ -323,6 +321,8 @@ Section "Screen"
 EndSection
 ```
 
+Programs
+========
 
 Firefox
 -------
@@ -342,8 +342,49 @@ Get `libflashplayer.so` into `/usr/local/lib64/firefox/browser/plugins`.
 Restore bookmark backup from `.mozilla/firefox/X.default/bookmarkbackups` if you want.
 
 
+vim
+---
+
+For xterm copying and support for more plugins. Get vim source.
+
+``` {.bash}
+hg clone https://vim.googlecode.com/hg/ vim
+cd vim
+./configure --with-features=huge \
+            --enable-multibyte \
+            --enable-rubyinterp \
+            --enable-pythoninterp \
+            --enable-perlinterp \
+            --enable-luainterp \
+            --prefix=/usr/local \
+            --enable-gui \
+            --enable-hangulinput \
+            --with-x
+make
+make install
+```
+
+
+Skype
+-----
+
+Install [Multilib][]. Install skype from slackbuilds, use 32bit mode.
+
+
+Spotify
+-------
+
+Install [Multilib][]. Fetch from slackbuilds. I'm having some flickering issues, but no idea what to do.
+
+
+
+
+
+Appearance
+==========
+
 xmonad
---------------
+------
 
 1. Install ghc linked <http://www.haskell.org/platform/>
 1. Install hscolour from slackbuilds (for haskell-platform warnings)
@@ -369,9 +410,8 @@ Could not get nitrogen to build properly (I stole it from my other installation.
 
 Fix borders on firefox etc with `lxappearance`, install from slackbuilds.
 
-
-Install fonts
--------------
+Fonts
+-----
 
 Copy ttf fonts to `/usr/share/fonts/TTF`, in that dir run
 
@@ -381,141 +421,8 @@ mkfontdir
 fc-cache -fv
 ```
 
+In `/usr/bin/startx` mod a line with `defaultserverargs="-dpi 96"`.
 
-Install perl things
--------------------
-
-As root:
-
-``` {.bash}
-cpan install cpan
-cpan install App::Ack
-cpan install Modern::Perl
-cpan install DateTime
-cpan install Data::ICal
-cpan install LWP
-# And possibly other things
-```
-
-
-Minecraft
-=========
-
-Get `OpenAL` from slackbuilds.
-
-Get jdk <http://docs.slackware.com/howtos:software:java>
-
-Launch
-
-
-Install Hakyll
---------------
-
-``` {.bash}
-cabal install hakyll
-cabal install MissingH
-```
-
-For upload scripts fetch `python-magic` slackbuilds.
-
-
-vim
----
-
-For xterm copying and support for more plugins. Get vim source.
-
-``` {.bash}
-hg clone https://vim.googlecode.com/hg/ vim
-cd vim
-./configure --with-features=huge \
-            --enable-multibyte \
-            --enable-rubyinterp \
-            --enable-pythoninterp \
-            --enable-perlinterp \
-            --enable-luainterp \
-            --prefix=/usr/local \
-            --enable-gui \
-            --enable-hangulinput \
-            --with-x
-make
-make install
-```
-
-Terminal
---------
-
-Fetch urxvt from slackbuilds. Make `.Xresources`.
-
-Color schemes with ls listings will be ugly, so copy `DIR_COLORS` to `.dir_colors`
-
-``` {.C}
-STICKY_OTHER_WRITABLE 35;40
-OTHER_WRITABLE 34;40
-```
-
-Set in .zshrc.
-
-Fix git diff colors `git config --global core.pager "less -r"`
-
-Also korean signs.
-
-
-Prettier fonts
---------
-
-/usr/bin/startx
-
-`defaultserverargs="-dpi 96"`
-
-
-Groovebasin
------------
-
-Need `libgroove`.  Which also needs `speex` from slackbuilds apart from the clear dependencies. Run groovebasin as user.
-
-
-SFML
-----
-
-Get source. `cmake` and install.
-
-
-Multilib
---------
-
-<http://alien.slackbook.org/dokuwiki/doku.php?id=slackware:multilib> Also add blacklist.
-
-When installing 32bit run `. /etc/profile.d/32dev.sh`
-
-
-Skype
------
-
-Install multilib. Install skype from slackbuilds, use 32bit mode.
-
-
-Random slackbuilds
-------------------
-
-```
-s3cmd, scrot, mirage, urxvt-unicode, rtorrent
-```
-
-
-Better latex
-------------
-
-Install `texlive` from slackbuilds. Remove `tetex` first.
-
-
-Spotify
--------
-
-Fetch from slackbuilds. Have some flickering issues.
-
-
-freetype
---------
 
 From <http://www.linuxquestions.org/questions/slackware-14/how-to-optimize-fonts-in-slackware-640468/page29.html#post5067546>, <http://blog.lysender.com/2013/11/optimizing-fonts-for-slackware-14-1-without-infinality/>
 
@@ -722,16 +629,126 @@ Also use `~/.config/fontconfig/fonts.conf`:
 </fontconfig>
 ```
 
-Rest
+Terminal
+--------
+
+Fetch `rxvt-unicode` from slackbuilds. Make `.Xresources`.
+
+Color schemes with ls listings will be ugly, so copy `DIR_COLORS` to `.dir_colors`
+
+``` {.C}
+STICKY_OTHER_WRITABLE 35;40
+OTHER_WRITABLE 34;40
+```
+
+Set in .zshrc.
+
+Fix git diff colors `git config --global core.pager "less -r"`
+
+Also korean signs.
+
+
+Stuff
+=====
+
+
+Random Installs
+===============
+
+Slackbuilds
+------------------
+
+Download from <http://slackbuilds.org/>. Install with `installpkg`. Remove with `removepkg`.
+
+```
+s3cmd, scrot, mirage, rtorrent
+```
+
+
+Perl
 ----
+
+Install perl libs from cpan. As root:
+
+``` {.bash}
+cpan install cpan
+cpan install App::Ack
+cpan install Modern::Perl
+cpan install DateTime
+cpan install Data::ICal
+cpan install LWP
+# And possibly other things
+```
+
+
+Multilib
+--------
+
+<http://alien.slackbook.org/dokuwiki/doku.php?id=slackware:multilib> Also add blacklist.
+
+When installing 32bit run `. /etc/profile.d/32dev.sh`
+
+
+Better latex
+------------
+
+Install `texlive` from slackbuilds. Remove `tetex` first.
+
+
+Groovebasin
+-----------
+
+Need `libgroove`.  Which also needs `speex` from slackbuilds apart from the clear dependencies. Run groovebasin as user.
+
+
+Programming
+===========
+
+
+Hakyll
+--------------
+
+``` {.bash}
+cabal install hakyll
+cabal install MissingH
+```
+
+For upload scripts fetch `python-magic` slackbuilds.
+
+
+SFML
+----
+
+Get source. `cmake` and install.
+
+
+Games
+=====
+
+Minecraft
+---------
+
+Get `OpenAL` from slackbuilds.  Get Java JDK <http://docs.slackware.com/howtos:software:java>, not OpenJDK.
+
+Launch with:
+
+``` {.bash}
+java -Xmx2048M -Xms1024M -jar ~/.minecraft/launcher/Minecraft.jar
+```
+
+I copied `.minecraft` folder with saves etc.
+
+
+TODO
+====
 
 1. Fix dual-screen/single-screen switching
 1. Faster startup
-
-
-Misc
-----
-
+1. Install wine
+1. Install csgo
+1. Install diablo
+1. Install hearthstone
+1. Setup treecraft autogen
 1. Printer via cups
 1. mtpaint
 9. korean input style
@@ -745,19 +762,3 @@ Change config
 1. Groovebasin
 1. calendar.pl, specify urls and filters
 1. ticker.pl, more parsing or whatever?
-
-
-Games etc
----------
-
-1. Install wine
-1. Install csgo
-1. Install diablo
-1. Install hearthstone
-1. Setup treecraft autogen
-
-Final
------
-
-1. Blog about this!
-
