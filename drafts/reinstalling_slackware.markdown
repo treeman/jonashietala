@@ -18,6 +18,7 @@ tags: Slackware
     1. [Skype][]
     1. [Spotify][]
     1. [Office][]
+    1. [cron][]
 1. [Appearance][]
     1. [xmonad][]
     1. [Fonts][]
@@ -88,6 +89,12 @@ Config
 ------
 
 Add a new user with `adduser`.  Set zsh as basic shell. Set for root in `/etc/passwd` (or update user info there).
+
+Add user to groups.
+
+```
+# usermod -a -G netdev username
+```
 
 Update name in `/etc/HOSTNAME`.
 
@@ -384,6 +391,16 @@ Office
 
 Install [Java][]. Install `libreoffice` from slackbuilds.
 
+
+cron
+----
+
+`crontab -e`
+
+```
+# Every 5 minutes
+*/5 * * * * /home/tree/bin/ticker --update
+```
 
 
 Appearance
