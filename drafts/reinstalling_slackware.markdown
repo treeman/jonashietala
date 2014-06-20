@@ -30,6 +30,7 @@ tags: Slackware
     1. [Better latex][]
     1. [Groovebasin][]
     1. [Java][]
+    1. [Anki][]
 1. [Programming][]
     1. [Hakyll][]
     1. [SFML][]
@@ -728,6 +729,17 @@ Java
 ----
 
 Get `OpenAL` from slackbuilds.  Get Java JDK <http://docs.slackware.com/howtos:software:java>, not OpenJDK.
+
+
+Anki
+----
+
+Download anki.
+
+```
+mv anki-2.0.26 /usr/local/lib64
+ln -s /usr/local/lib64/anki-2.0.26/runanki /usr/local/bin
+```
 
 
 Programming
