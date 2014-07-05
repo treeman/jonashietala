@@ -5,6 +5,8 @@ category: Slackware
 tags: Slackware
 ---
 
+So I reinstalled slackware on my machine and decided to take some rough notes of the most important steps I made. I did not document the steps in detail, and some are very specific for my setup. But maybe it can be useful for someone, or myself.
+
 1. [Basic steps][]
     1. [Make partitions][]
     1. [Setup][]
@@ -777,27 +779,3 @@ java -Xmx2048M -Xms1024M -jar ~/.minecraft/launcher/Minecraft.jar
 
 I copied `.minecraft` folder with saves etc.
 
-
-TODO
-====
-
-1. Fix dual-screen/single-screen switching
-1. Faster startup
-1. Install wine
-1. Install csgo
-1. Install diablo
-1. Install hearthstone
-1. Setup treecraft autogen
-1. Printer via cups
-1. mtpaint
-9. korean input style
-
-
-Change config
--------------
-
-1. irssi, notifications and remove flashing
-1. left screen
-1. Groovebasin
-1. calendar.pl, specify urls and filters
-1. ticker.pl, more parsing or whatever?
