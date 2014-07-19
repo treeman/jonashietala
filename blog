@@ -27,7 +27,7 @@ GetOptions(
     'help|h' => \$help,
     'new-post|n' => \$new,
     'new-draft|d' => \$draft,
-    'publish' => \$publish,
+    'promote' => \$publish,
     'demote' => \$demote,
     'edit|e' => \$edit,
     'tag|t=s' => \$tag,
@@ -81,7 +81,7 @@ Usage:
   $name --new-draft <This is the new draft title...>
   $name --list [--tag] [--date] <pattern>
   $name --edit [--tag] [--date] [--edit-all] <pattern>
-  $name --publish [--tag] [--date] <pattern>
+  $name --promote [--tag] [--date] <pattern>
   $name --demote [--tag] [--date] <pattern>
   $name --list-drafts [--tag] [--date] <pattern>
 
@@ -91,7 +91,7 @@ Options:
   -d --new-draft                Create a new draft.
   -e --edit [pattern...]        Edit a matching post or draft.
   -l --list [pattern...]        List all posts and drafts matching patterns.
-  --publish [pattern...]        Move a draft to a post with todays date.
+  --promote [pattern...]        Move a draft to a post with todays date.
   --demote [pattern...]         Move a post to a draft, discard the current date set.
   --list-drafts [pattern...]    List all drafts.
   -t --tag=<pat>                Add a tag filter pattern.
