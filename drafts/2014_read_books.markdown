@@ -8,6 +8,10 @@ tags: Read Books
 Fiction
 =======
 
+1. **How to Be a Woman** - Catilin Moran  
+    *Fun*!
+1. **The Kill Room** - Jefferey Deaver
+
 Non-Fiction
 ===========
 
@@ -28,20 +32,27 @@ Non-Fiction
 Unread
 ======
 
-1. How to be a woman
-1. The Design of everyday things
-1. The Kill Room - Deaver
-1. A Song of Ice and Fire (re-read!)
+Fiction
+-------
+
+1. V for Vendetta
 1. Food Junkie
 1. The Five Rings
+1. A Song of Ice and Fire (re-read!)
+1. Some Lee Child books...
+
+
+Non-Fiction
+--------
+
+1. Bayesian Learning
+1. Code Breakers
+1. CODE
+1. The Design of everyday things
+
 1. Stretching scientifically (re-read)
 1. Taekwon-do sparring
 1. Land of Lisp
 1. Learn you a Haskell (re-read)
-1. CODE
 1. Marilyn Monroe
-1. V for Vendetta
-1. Some Lee Child books...
-1. Bayesian Learning
-1. Code Breakers
 
