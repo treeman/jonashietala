@@ -11,6 +11,10 @@ Fiction
 1. **How to Be a Woman** - Catilin Moran  
     *Fun*!
 1. **The Kill Room** - Jefferey Deaver
+1. **The Blade Itself** - Joe Abercrombie  
+    First in the First Law series.
+1. **Game of Thrones** - George R.R. Martin  
+    Reread.
 
 Non-Fiction
 ===========
@@ -28,6 +32,8 @@ Non-Fiction
     The examples are what makes this book really shine.
 1. **Automated Planning** - Ghallab, Na, Traverso  
     Course book. Subject very interesting, book a bit heavy.
+1. **A Drunkard's Walk**  
+    Interesting and eye opening.
 
 Unread
 ======
