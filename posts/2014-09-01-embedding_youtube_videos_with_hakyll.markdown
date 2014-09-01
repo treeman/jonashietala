@@ -86,6 +86,16 @@ The styling of the video is [from another blog post][style]:
 }
 ```
 
+Now in the end this:
+
+```
+https://www.youtube.com/watch?v=NIbr-mLi4DU
+```
+
+Will be transformed to:
+
+https://www.youtube.com/watch?v=NIbr-mLi4DU
+
 The full source can be found [on github][].
 
 [Hakyll]: http://jaspervdj.be/hakyll/ "Hakyll"
