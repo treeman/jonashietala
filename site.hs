@@ -203,17 +203,16 @@ tagSort :: (String, [Identifier]) -> (String, [Identifier]) -> Ordering
 tagSort a b = comparing (length . snd) b a
 
 
--- This does not work and I have no frickin idea why. Copy directly from html into post works.
--- Coding errors? Or what?
+-- Find and replace bare youtube links separated by <p></p>.
 youtubeFilter :: String -> String
 youtubeFilter x = subRegex regex x result
   where
     regex = mkRegex "<p>https?://www\\.youtube\\.com/watch\\?v=([A-Za-z0-9_-]+)</p>"
-    result = "<iframe src=\"//www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen/>"
-    --result = "<iframe src=\"//www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen/>"
-    --result = "<iframe src=\"//www.youtube.com/embed/NIbr-mLi4DU\" frameborder=\"0\" allowfullscreen/>"
-    --result = "<iframe src=\"//www.youtube.com/embed/NIbr-mLi4DU\" frameborder=\"0\" allowfullscreen/>"
-    --result = "\\1"
+    result = "<div class=\"video-wrapper\">\
+                \<div class=\"video-container\">\
+                  \<iframe src=\"//www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen/>\
+                \</div>\
+             \</div>";
 
 applyFilter :: (Monad m, Functor f) => (String-> String) -> f String -> m (f String)
 applyFilter transformator str = return $ (fmap $ transformator) str
