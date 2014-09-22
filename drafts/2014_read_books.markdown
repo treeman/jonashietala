@@ -15,9 +15,9 @@ Fiction
     First in the First Law series.
 1. **A Song of Ice and Fire: Game of Thrones** - George R.R. Martin  
     Reread.
-1. **The First Law: The Blade Itself** - Joe Abercrombie  
 1. **A Song of Ice and Fire: A Clash of Kings** - George R.R. Martin  
     Reread.
+1. **The First Law: The Blade Itself** - Joe Abercrombie  
 1. **The First Law: Before They Are Hanged** - Joe Abercrombie  
 
 Non-Fiction
