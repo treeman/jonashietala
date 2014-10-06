@@ -32,4 +32,4 @@ A random list of game prototypes I've made:
 [Bugger]: /blog/2009/09/20/bugger/ "Bugger"
 [Black and White]: /blog/2009/08/20/black_and_white/ "Black and White"
 [Balls]: /blog/2009/08/01/balls/ "Balls"
-[Grand Thief Arto]: http://0.0.0.0:8000/blog/2011/10/19/grand_thief_arto/ "Grand Thief Arto"
+[Grand Thief Arto]: /blog/2011/10/19/grand_thief_arto/ "Grand Thief Arto"

@@ -117,7 +117,7 @@ And you can always simply start hacking on something interesting. Or find and fi
 
 
 [git]: http://git-scm.com/ "git"
-[isoc]: http://0.0.0.0:8000/blog/2014/06/11/isoc/ "IDA Summer of Code"
+[isoc]: /blog/2014/06/11/isoc/ "IDA Summer of Code"
 [15667]: https://github.com/rust-lang/rust/pull/15667 "issue #15667"
 
 [15780]: https://github.com/rust-lang/rust/issues/15780 "issue #15780"
