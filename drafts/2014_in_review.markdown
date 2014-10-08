@@ -18,7 +18,7 @@ Previous reviews: [2010][], [2011][], [2012][] and [2013][].
 1. Won a turn in [IMPA][] and solved a bunch of problems.
 1. Completed a [doctorand course][] about algorithmic problem solving.
 1. Finished my 4 first years in University.
-1. Became a contributor to [rust][]
+1. Became a contributor to [rust][].
 1. Completed the online course [Machine Learning][] in Coursera.
 1. Entered [Ludum Dare 29][].
 1. Had an [awesome summer job at Configura][configura].
