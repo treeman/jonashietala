@@ -1,0 +1,17 @@
+---
+layout: post
+title: Soda
+tags: Life
+---
+
+These quotes are from [hacker news][hn] and I found them all too funny.
+
+> It's hard for me to understand the whole soda phenomenon in Canada and the US. Is it as addictive as cigarettes? Does it make you crave for more? Or it simply tastes so good that you can't get enough of it? Why not eat a bunch of apples instead (if you don't care about the amount of sugar you consume)? Wouldn't they taste better?
+
+> What are you drinking instead of soda in your country?
+
+> uh, water?
+
+> Water? Like out of the toilet!? (From the movie [idiocracy](<http://www.imdb.com/title/tt0387808/quotes?item=qt1722899)).
+
+[hn]: https://news.ycombinator.com/item?id=8488714 "Soda May Age You as Much as Smoking"
