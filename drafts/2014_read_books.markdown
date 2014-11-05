@@ -19,6 +19,7 @@ Fiction
     Reread.
 1. **The First Law: The Blade Itself** - Joe Abercrombie  
 1. **The First Law: Before They Are Hanged** - Joe Abercrombie  
+1. **The First Law: The Last Argument of Kings** - Joe Abercrombie  
 
 Non-Fiction
 ===========
