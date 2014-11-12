@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Hearthstone wine-1.7.30-121
+title: Hearthstone on wine
 tags: wine, slackware
 ---
 
