@@ -64,10 +64,25 @@ footer {
 }
 
 /* Syntax highlighting. */
+code, pre {
+    /*background-color: #eee;*/
+}
+
 code {
     font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
     font-size: 16px; font-size: 1.6rem;
+    padding: 1px 5px;
+    /*white-space: pre-wrap;*/
 }
+
+pre {
+    /*word-wrap: normal;*/
+    /*max-height: 600px;*/
+    /*overflow: auto;*/
+    padding: 5px;
+    width: auto;
+}
+
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre
     { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
 td.lineNumbers
