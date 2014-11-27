@@ -2,7 +2,7 @@
 layout: post
 title: Swelling with New Shiny Books
 category: Books
-tags: Books, New stuff
+tags: Books, New Stuff
 time: 21:41:09
 ---
 So I read the wonderful [Design for Hackers](http://www.designforhackers.com/) and I managed to win some money for books from a course... So I ran away and ordered some new books, and they just arrived today. Yay!
