@@ -27,11 +27,15 @@ http://www.antonfagerberg.com/archive/my-perfect-irssi-setup/
 Bitlbee
 -------
 
-http://www.antonfagerberg.com/archive/my-perfect-irssi-setup/
-http://wiki.bitlbee.org/HowtoSkype
-http://thepracticalsysadmin.com/introduction-to-irssi/
+* <http://www.antonfagerberg.com/archive/my-perfect-irssi-setup/>
+* <http://wiki.bitlbee.org/HowtoSkype>
+* <http://thepracticalsysadmin.com/introduction-to-irssi/>
 
-Get source from `http://code.bitlbee.org/bitlbee/` make slackbuilds `OTR=yes SKYPE=yes ./bitlbee.SlackBuild`.
+Get source from <http://code.bitlbee.org/bitlbee/>. Create an updated package with `tar caaf <file.tar.gz> directory`. Run slackbuild:
+
+```
+OTR=yes SKYPE=yes ./bitlbee.SlackBuild
+```
 
 ```
 if [ -x /etc/rc.d/rc.bitlbee ]; then
@@ -41,15 +45,33 @@ fi
 
 In `/etc/rc.d/rc.local`
 
-Star it and then in irssi
+Start it and then in irssi
 
 `/connect localhost`
 
-To `&bitlbee`: `register`
+To `&bitlbee`: `register` with a bitlbee password.
 
 Next time use `identify`
 
 Get <https://github.com/awahlig/skype4py>
+
+Install `python setup.py install` and run `skyped`. Create a config in `~/.skyped/skyped.conf`:
+
+```
+[skyped]
+# change to your skype username
+username = madeoftree
+# use `echo -n foo|sha1sum` to generate this hash for your password
+# This is only place for your skype password
+password = <hash>
+
+# you have to change the following paths to your home directory:
+cert = <home-dir>/.skyped/skyped.cert.pem
+key  = <home-dir>/.skyped/skyped.key.pem
+port = 2727
+```
+
+Add `skyped` to autostart.
 
 Things
 ------
