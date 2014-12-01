@@ -71,6 +71,8 @@ key  = <home-dir>/.skyped/skyped.key.pem
 port = 2727
 ```
 
+If connection issues, skyped probably isn't started all too well. Debug with: `skyped --nofork --debug`.
+
 Add `skyped` to autostart.
 
 Things
