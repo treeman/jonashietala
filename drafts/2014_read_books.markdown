@@ -43,6 +43,8 @@ Non-Fiction
     Couse book. A bit too theoretical for my taste.
 1. **Introduction to Cryptography with Coding Theory** - Wade Trappe, Lawrence C. Washington
     Course book, quite good.
+1. **The Shock of the Old** - David Edgerton
+1. **Den skapande människan** - Staffan Hansson
 
 [Game Programming Patterns]: http://gameprogrammingpatterns.com/ "Game Programming Patterns"
 
