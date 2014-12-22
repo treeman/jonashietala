@@ -17,6 +17,8 @@ Fiction
     Reread.
 1. **A Song of Ice and Fire: A Storm of Swords** - George R.R. Martin  
     Reread.
+1. **A Song of Ice and Fire: A Fest for Crows** - George R.R. Martin  
+    Reread.
 1. **The First Law: The Blade Itself** - Joe Abercrombie  
 1. **The First Law: Before They Are Hanged** - Joe Abercrombie  
 1. **The First Law: The Last Argument of Kings** - Joe Abercrombie  
@@ -47,31 +49,4 @@ Non-Fiction
 1. **Den skapande människan** - Staffan Hansson
 
 [Game Programming Patterns]: http://gameprogrammingpatterns.com/ "Game Programming Patterns"
-
-Unread
-======
-
-Fiction
--------
-
-1. V for Vendetta
-1. Food Junkie
-1. The Five Rings
-1. A Song of Ice and Fire (re-read!)
-1. Some Lee Child books...
-
-
-Non-Fiction
---------
-
-1. Bayesian Learning
-1. Code Breakers
-1. CODE
-1. The Design of everyday things
-
-1. Stretching scientifically (re-read)
-1. Taekwon-do sparring
-1. Land of Lisp
-1. Learn you a Haskell (re-read)
-1. Marilyn Monroe
 

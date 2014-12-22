@@ -28,6 +28,7 @@ Previous reviews: [2010][], [2011][], [2012][] and [2013][].
 1. Made a [timeedit rust library][libtimeedit], scheduling information for university.
 1. Made a [habitrpg rust library][libhabitrpg], fetching info from [habitrpg][].
 1. Was a mentor in *Discrete Math*.
+1. Went to [Dreamhack][].
 
 [doctorand course]: http://www.ida.liu.se/~frehe/aaps/ "AAPS"
 [UVa]: http://uhunt.felix-halim.net/id/115705 "UVa"
@@ -41,6 +42,7 @@ Previous reviews: [2010][], [2011][], [2012][] and [2013][].
 [libtimeedit]: https://github.com/treeman/libtimeedit "libtimeedit"
 [libhabitrpg]: https://github.com/treeman/libhabitrpg "libhabitrpg"
 [habitrpg]: https://habitrpg.com/ "habitrpg"
+[Dreamhack]: http://dreamhack.se/ "Dreamhack"
 
 2014 Non-Geek Achievements
 ===========================
@@ -48,8 +50,9 @@ Previous reviews: [2010][], [2011][], [2012][] and [2013][].
 1. Been mostly pain-free, better at least.
 1. Been a kids trainer in Taekwon-do. Very rewarding.
 1. Survived a couple of training camps.
-1. Read [X books][books read]
-1. Discovered [Go][], the boardgame.
+1. Read [20 books][books read]
+1. Played a touch of [Go][], the boardgame.
+1. Played some other boardgames.
 1. Read some manga and manwha.  
     *Kingdom* Was the year's highlight.
 1. Got a few 12-win arena runs in [Hearthstone][]
@@ -76,4 +79,4 @@ Plans for 2014
 1. Complete the exjobb.
 1. Get a job?
 
-[Ludum Dare]: http://www.ludumdare.com/
+[Ludum Dare]: http://www.ludumdare.com/ "Ludum Dare"
