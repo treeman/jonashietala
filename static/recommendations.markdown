@@ -13,7 +13,7 @@ Recommendations
     * [Programming Books]
     * [Misc]
     * [Fiction]
-* [Manga]
+* [Manga/Manwha]
 * [Board Games]
 
 Books
@@ -67,8 +67,8 @@ Fiction
 [The Cold Moon]: http://www.jefferydeaver.com/Novels_/ColdMoon/coldmoon.html "The Cold Moon"
 [The Sleeping Doll]: http://www.jefferydeaver.com/Novels_/SleepingDoll/sleepingdoll.html "The Sleeping Doll"
 
-Manga
-=====
+Manga/Manwha
+============
 
 * [Tower of God][] *(Amazing. My favourite.)*
 * [One Piece][] *(The best shounen.)*
@@ -77,6 +77,7 @@ Manga
 * [Historys Strongest Desciple][] *(Fan service and lot's of martial arts. Awesome.)*
 * [Magician][] *(Slow, but epic.)*
 * [Kingdom][] *(The best grand scale fighting scenes.)*
+* [The Gamer][] *(Another great manwha.)*
 
 [Tower of God]: http://www.batoto.net/comic/_/comics/tower-of-god-r1 "Tower of God"
 [One Piece]: http://www.batoto.net/comic/_/comics/one-piece-r39 "One Piece"
@@ -86,6 +87,7 @@ Manga
 [Historys Strongest Desciple]: http://www.mangareader.net/337/historys-strongest-disciple-kenichi.html "Historys Strongest Desciple"
 [Magician]: http://www.batoto.net/comic/_/comics/magician-r208 "Magician"
 [Kingdom]: http://en.wikipedia.org/wiki/Kingdom_%28manga%29 "Kingdom"
+[The Gamer]: http://comic.naver.com/webtoon/list.nhn?titleId=552960 "The Gamer"
 
 Board Games
 ===========
@@ -93,8 +95,12 @@ Board Games
 * [Power Grid][] *(Wonderful. My favourite.)*
 * [Agricola][] *(Extremely tactical with lot's of choices.)*
 * [Terra Mystica][] *(Lot's of choices and variations.)*
+* [Carcassone][] *(Very simple and easy, Veronica's favourite.)*
+* [Ticket to Ride: Nordic Countries][] *(Deceptively simple.)*
 
 [Power Grid]: http://boardgamegeek.com/boardgame/2651/power-grid "Power Grid. My favourite board game."
 [Agricola]: http://boardgamegeek.com/boardgame/31260/agricola "Agricola. An amazing board game."
 [Terra Mystica]: http://boardgamegeek.com/boardgame/120677/terra-mystica "Terra Mystica"
+[Ticket to Ride: Nordic Countries]: http://boardgamegeek.com/boardgame/31627/ticket-ride-nordic-countries "Ticket to Ride: Nordic Countries"
+[Carcassone]: http://boardgamegeek.com/boardgame/822/carcassonne "Carcassone"
 

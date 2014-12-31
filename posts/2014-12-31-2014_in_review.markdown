@@ -53,6 +53,7 @@ Previous reviews: [2010][], [2011][], [2012][] and [2013][].
 1. Wrote [32 blog posts][archive].
 1. Played a touch of [Go][], the boardgame.
 1. Discovered [Ticket to Ride: Nordic Countries][], a nice boardgame.
+1. Also played [Carcassone][] another great boardgame.
 1. Played some other boardgames.
 1. Read some manga and manwha.  
     *Kingdom* was the year's highlight.
@@ -63,6 +64,7 @@ Previous reviews: [2010][], [2011][], [2012][] and [2013][].
 [Hearthstone]: http://us.battle.net/en/int?r=hearthstone "Hearthstone"
 [archive]: /archive "My archive"
 [Ticket to Ride: Nordic Countries]: http://boardgamegeek.com/boardgame/31627/ticket-ride-nordic-countries "Ticket to Ride: Nordic Countries"
+[Carcassone]: http://boardgamegeek.com/boardgame/822/carcassonne "Carcassone"
 
 2014 Failures
 ==============
