@@ -124,7 +124,7 @@ Fetch latest stable kernel source: <https://www.kernel.org/>
 ``` {.bash}
 cd /usr/src
 wget https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.15.1.tar.xz   # Or whatever
-tar linux-3.15.1.tar.xz
+tar xf linux-3.15.1.tar.xz
 rm linux
 ln -s linux-3.15.1 linux
 cd linux
@@ -135,6 +135,7 @@ Use slackware custom as base:
 ``` {.bash}
 # wget or cp to dir
 wget ftp://ftp.slackware.com/pub/slackware/slackware64-14.1/source/k/config-x86_64/config-generic-3.10.17.x64
+mv config-generic-3.10.17.x64 .config
 make oldconfig
 make menuconfig
 ```
@@ -144,6 +145,12 @@ Make sure to select processor type, preemptive low latency desktop. Remove `nvid
 ``` {.bash}
 make bzImage modules
 make modules_install
+cp arch/x86_64/boot/bzImage /boot/vmlinuz-custom-3.16.3
+cp System.map /boot/System.map-custom-3.16.3
+cp .config /boot/config-custom-3.16.3
+cd /boot
+rm System.map
+ln -s System.map-custom-3.16.3 System.map
 ```
 
 Update `/etc/lilo.conf`. This is mine:
@@ -412,9 +419,9 @@ Appearance
 xmonad
 ------
 
-1. Install ghc linked <http://www.haskell.org/platform/>
+1. Install ghc linked from slackbuilds
 1. Install hscolour from slackbuilds (for haskell-platform warnings)
-1. Install haskell-platform
+1. Install haskell-platform from slackbuilds
 
 As user:
 
@@ -454,7 +461,7 @@ From <http://www.linuxquestions.org/questions/slackware-14/how-to-optimize-fonts
 
 Enable subpixel rendering from source slackbuild <http://ftp.slackware.com/pub/slackware/slackware-14.1/source/l/freetype/>. Edit freetype.Slackbuild
 
-Save as `freetype\_cleartype.diff`:
+Save as `freetype_cleartype.diff`:
 
 ``` {.diff}
 diff -rupN freetype.orig/cleartype.diff freetype/cleartype.diff
