@@ -4,8 +4,9 @@ title: My first netrunner store championship
 tags: netrunner
 ---
 
-My girlfriend has told me I get these narrow interests where I pour all my energy and thoughts into and about 1,5 months ago I discovered [Netrunner](#), a very awesome card game. Check out [this how to play][howtoplay] or [team covenant's channel][covenant] if you want to know more.
+My girlfriend has told me I get these narrow interests where I pour all my energy and thoughts into and about 1,5 months ago I discovered [Netrunner][], a very awesome card game. Check out [this how to play][howtoplay] or [team covenant's channel][covenant] if you want to know more.
 
+[Netrunner]: #
 [howtoplay]: https://www.youtube.com/watch?v=g3w0B7txipk
 [covenant]: https://www.youtube.com/user/CovenantTCG/videos
 
@@ -16,9 +17,14 @@ I decided to bring a [Blue Sun deck which tries to kill][corpdeck] you and a [pr
 [corpdeck]: http://netrunnerdb.com/en/decklist/16173/beginners-takeover-link-ping-store-champ-4th-place
 [runnerdeck]: http://netrunnerdb.com/en/decklist/16178/destruction-link-ping-store-champ-4th-place
 
-The tournament was a 12-player one with 4 rounds of swiss followed by a double elimination bracket. Swiss is played both as runner and corp and you get 2 points for each win with a 65 min time limit. The bracket is only a single game with 35 min.
+The tournament was a 12-player one with 4 rounds of swiss followed by a double elimination bracket.
 
-# Match 1, NEH/Kate
+# Swiss
+
+Swiss is played both as runner and corp and you get 2 points for each win with a 65 min time limit.
+
+
+## Match 1, NEH/Kate
 
 vs Near-Earth Hub
 
@@ -32,7 +38,8 @@ I don't remember very much of the game or what type his runner was, only that I 
 
 2-2 in prestige and I'm feeling good, I managed to grab a win!
 
-# Match 2, Making News/Kate
+
+## Match 2, Making News/Kate
 
 vs Stealth Kate
 
@@ -48,7 +55,8 @@ Later on he realizes it's a misplay as you can only play it the turn after a run
 
 I'm now up 6-2 and things are going much better than expected.
 
-# Match 3, Andromeda/HB
+
+## Match 3, Andromeda/HB
 
 vs Andromeda
 
@@ -58,7 +66,7 @@ I get a turn 1 housekeeping but for some reason I don't play it immediately! No 
 
 Then I get a second punitive on hand and I decide to advance the takeover, hoping to entice him to run it. But still he doesn't bite. Instead he manages to score an eganda from hand and now he can win by running the remote. He still has 3 cards on hand and I have 2 punitives... I decide to use them to slow him down and to remove his Crash Space. He spends the next turn drawing cards and I can ice up the remote some more, possibly replacing or start advancing the takeover.
 
-The game ends when he accesses a snare on his second click. He removes the tag on his third but now he's got two cards. For his fourth click he boldly proclaims "living on the edge!" and runs my HQ and scores another agenda. He's now 6-0 but he's down to two cards and I can punitive out for the win.
+The game ends when he accesses a snare on his second click. He removes the tag on his third but now he's got two cards. For his fourth click he boldly proclaims "living on the edge!" and runs my HQ and scores another agenda. He's now 6-0 but he's down to two cards and a player says "don't die to him". I promptly kill him the next turn with punitive.
 
 Super tense and fun game! Now I'm 8-2 and things are going fantastic, my corp deck has pulled through like a boss.
 
@@ -72,38 +80,52 @@ When I finally get out my Eater out we're running out of time. He installs somet
 
 We draw the game and I'm now 9-3. Feeling good but high on adrenaline after two of the craziest games I've ever played!
 
-4 rounds swiss
 
-Match 1: 2-2
+## Match 4, Valencia/Harmony Medtech
 
-Runner loss vs NEH FA (2-7)
-Corp flatline vs Kate, stole first agenda -> sea source scorch (punitive backup)
+vs Harmony Medtech
 
-Match 2: 4-0
+Another identity I've never played, but now without any idea what I'm supposed to expect. Luckily I get set up fast and I manage to steal an early agenda. He's having trouble finding agendas and I'm getting a ton of keyhole access. I find another agenda with keyhole and I'm feeling good, even though 2x tsurugi in front of archives are very taxing. He installs two cards in a remote server (and advances one I think?) protected by a guard and a lotus field but I destroy the ice, win the psi game and scores an NAPD for the win.
 
-Corp flatline vs Stealth Kate (maker's eye accessed snare from R&D with 2 cards)
-Runner win Making News (7-2) Play mistake midseasons
+I'm a little proud for accessing the face down first as I only had 4 credits on hand, instead of trashing the caprice only to have to leave the NAPD there. More experienced players might say it's a given, but learning the rather large card pool isn't that straightforward.
 
-Match 3: 3-1
-Corp flatline vs Andromeda (stole 2nd agenda for 6 points -> punitive)
+Incredibly I'm 11-3, sitting on the top table and I think I have a good shot at top 4.
 
-Turn two I play government takeover... Runner continues to play crash space. I do 2x punitive to have him loose cards and use crash space. Advance takeover, he doesn't bite. I fake a failed trap and leave it there until end of the game. He declares "living on the edge!" before he runs through my remote, steal my agenda. I proceed to punitive for the win.
+vs Valencia
 
-Runner tied vs HB (2-2) close!
+Henrik also brought Valencia and I really considered to have Elizabeth Mills in the deck, but I cut her the day before. Perhaps I shouldn't have.
 
-Match 4: 2-2
-Runner won vs Harmony Medtech (6-0)
-Corp loss vs Valencia (0-9)
+Playing a control Valencia I feel a bit shut down. The game goes long and I have 2x punitive. Runner is pressuring me with Itinerant Protesters and keeping me poor with account siphon. I had a window where the runner had 4 tags, I try to draw for the scorched win but I don't find it. I'm poor most of the game but finally stabilize and get a Housekeeping up. I place Government Takeover in archives but runner doesn't bite. I place a snare and a crap card in remotes and runner does 2x blackmail, but clears tags and draws up. I see my chance and install-advance-advance a The Cleaners, but another blackmail makes it a score for the runner. Out of tricks I loose to the later archive run.
+
+Probably some misplays, but I felt behind the whole game. Very strong deck, might reconsider ms Mills. 11-5.
 
 
-Top 4
+# Playoffs
 
-1. Runner loss vs Harmony Medtech (0-6) rematch
+The top seed has 14 points, the second seed has 13 points and I'm 3rd at 11. 2nd plays 3rd so I'll get a rematch of my last match.
 
-Good start, locked out from remote. No keyhole hits.
 
-2. Corp loss vs MaxX (0-6) time (2x punitive, but runner had tons of money)
+## Match 5, Harmony Medtech
 
-Had to run last turn, otherwise 3-3 and I win.
-Sadly he had more money and could break into remote, steal agenda and have enough money to survive 2x punitive!
+Rematch time! I got to choose runner/corp and I went with runner as the game went very well the last time. This time however I don't get the fast setup and he has an early remote which I can't get into and the game is over quite quickly.
 
+6-0 is the final score and I feel a bit deflated.
+
+
+## Match 6, MaxX
+
+Once again I get to choose sides. I'm a bit bummed over my runner from the last game so I pick my corp and he's running... MaxX. Yoy!
+
+He runs more regular breakers with double D4v1d, which is very bad for me. He's also keeping me poor, forcing me to rezz ice all over the place, and I'm missing most of my economy cards. When I do get my oversight's, he's far richer than I am wih Kati/Liberated Accounts/Daily Casts.
+
+I do get my Janus, trying to trick him into it to kill his D4v1d counters and clicks, but he doesn't bite. He scores a 3-pointer and the game goes long. I end up clicking for credits, trying to have enough money to protect my Government Takeover sitting in my hand while trying to drain his economy during runs. His Yog kills my Datapikes and I feel constrained.
+
+The game goes to time and I hear the judge call out "15 seconds". I install-advance-advance a 3-pointer, judge calls time and he has one turn left and I have one more. If the game is a tie I will win as I'm the higher rank (he was 4th after swiss). I do have 2 punitive's on hand and 32 credits. But he has ~ 40 credits. He runs the server, I rezz some ice and he steals the agenda. I bounce the ice but I don't have enough money to kill him so we go to time and he wins 6-0.
+
+I misplayed as I could have rezzed a Janus when he stole the first agenda, but I didn't think I had enough money so I didn't. If I did he would have spent the D4v1d counters and the rest of his clicks, possibly steal an agenda from HQ, and then I would have enough money for a kill (I think)! Also I should have placed Janus on a remote, in front of another big piece of ice. Probably also too passive play from my side, I might have had a scoring window when he only had a D4v1d out and a scored The Cleaners might have turned the tides.
+
+Still, that's the end for me and I finish 4th.
+
+# Summary
+
+I was fairly confident in my theory crafted decks (some limited testing) and they did perform above expectations. I won a cool playmat and had a very, very good time! All were very nice and friendly and I sure want to play some more netrunner.
