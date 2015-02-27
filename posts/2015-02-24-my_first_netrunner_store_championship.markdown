@@ -102,7 +102,9 @@ Probably some misplays, but I felt behind the whole game. Very strong deck, migh
 
 # Playoffs
 
-The top seed has 14 points, the second seed has 13 points and I'm 3rd at 11. 2nd plays 3rd so I'll get a rematch of my last match.
+![](/images/standings_netrunner150222.jpg)
+
+The top seed has 12 points and I'm second with 11 points. 2nd plays 3rd which means I'll get a rematch of my last match.
 
 
 ## Match 5, Harmony Medtech

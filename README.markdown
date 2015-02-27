@@ -13,6 +13,8 @@ TODO
 * Recommendations
     Link to posts describing the best books/series!
 * Post headers. Date? Title?
+* Remove links to images offpage!
+* Double check broken links
 
 Sitemap
 =======

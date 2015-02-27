@@ -28,7 +28,7 @@ Bitlbee
 -------
 
 * <http://www.antonfagerberg.com/archive/my-perfect-irssi-setup/>
-* <http://wiki.bitlbee.org/HowtoSkype>
+* <https://wiki.bitlbee.org/HowtoSkype>
 * <http://thepracticalsysadmin.com/introduction-to-irssi/>
 
 Get source from <http://code.bitlbee.org/bitlbee/>. Create an updated package with `tar caaf <file.tar.gz> directory`. Run slackbuild:
