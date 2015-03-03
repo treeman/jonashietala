@@ -24,6 +24,15 @@ http://www.antonfagerberg.com/archive/my-perfect-irssi-setup/
     /layout save
     ```
 
+* `nicklist.pl`  
+    ```
+    /nicklist screen
+    /set nicklist_automode SCREEN
+    ```
+
+* `beepchan.pl`  
+    Modify settings
+
 Bitlbee
 -------
 
@@ -74,6 +83,18 @@ port = 2727
 If connection issues, skyped probably isn't started all too well. Debug with: `skyped --nofork --debug`.
 
 Add `skyped` to autostart.
+
+Register accounts:
+
+```
+acc add skype <username>
+```
+
+Enter password from skyped.
+
+```
+save
+```
 
 Things
 ------
