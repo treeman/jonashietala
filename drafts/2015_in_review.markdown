@@ -20,6 +20,8 @@ Previous reviews: [2010][], [2011][], [2012][], [2013][] and [2014][].
 2015 Non-Geek Achievements
 ===========================
 1. Read [X books][books read]
+1. Took the kids to TKD competitions
+1. Achieved 1-kup in Taekwon-do?
 
 [books read]: #
 
@@ -29,3 +31,5 @@ Previous reviews: [2010][], [2011][], [2012][], [2013][] and [2014][].
 Plans for 2016
 ===============
 1. Take care of Veronica.
+1. Achieve 1-dan
+
