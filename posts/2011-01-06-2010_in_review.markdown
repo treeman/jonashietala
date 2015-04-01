@@ -28,7 +28,7 @@ I saw a [post on briancarper](http://briancarper.net/blog/574/2010-in-review) wh
 11. Learned a lot more Lisp.
 12. Switched to zsh. It's fine after a bit of config
 13. Rebuilt a custom Kernel a few times, some failures but learned a lot.  And got starcraft 2 to work!
-14. Read a lot. This years high were One Piece and Jefferey Deaver. Real World Haskell scores the highest Geek score.
+14. Read a lot. This years high were One Piece and Jeffery Deaver. Real World Haskell scores the highest Geek score.
 
 2010 Non-Geek Achievements
 ===============================
