@@ -9,6 +9,7 @@ Fiction
 
 1. **A Song of Ice and Fire: A Dance with Dragons** - George R.R. Martin  
     Reread.
+1. **The Skin Collector** - Jefferey Deaver  
 
 Non-Fiction
 ===========
