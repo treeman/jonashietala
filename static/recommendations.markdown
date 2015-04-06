@@ -5,7 +5,7 @@ title: "Recommendations"
 Recommendations
 ===============
 
-### Updated July 20, 2013
+### Updated April 6, 2015
 
 ## Table of contents
 
@@ -57,11 +57,13 @@ Fiction
 * [Dune][] *(Amazing environments. Father of modern sci-fi.)*
 * [Lincoln Rhyme - *Jeffery Deaver*][deaver] *(CSI like, with a twist.)*
 * [Jack Reacher - *Lee Child*][lee child] *(Easy, fun.)*
+* [The First Law - *Joe Abercrombie*][joe abercrombie] *(Gritty, ugly, awesome.)*
 
 [Song of Ice and Fire]: http://en.wikipedia.org/wiki/A_Song_of_Ice_and_Fire "Wikipedia A Song of Ice and Fire"
 [Dune]: http://en.wikipedia.org/wiki/Dune_%28novel%29 "Wikipedia Dune"
 [deaver]: http://www.jefferydeaver.com/novels/series-order/ "Jeffery Deaver"
 [lee child]: http://www.leechild.com/ "Lee Child - Author of the Jack Reacher series."
+[joe abercrombie]: http://www.joeabercrombie.com/ "Joe Abercrombie - Authoer of the First Law series."
 
 [maiden]: http://jefferydeaver.com/Novels_/A_Maiden_s_Grave/a_maiden_s_grave.html "A Maiden's Grave"
 [The Cold Moon]: http://www.jefferydeaver.com/Novels_/ColdMoon/coldmoon.html "The Cold Moon"
@@ -97,10 +99,12 @@ Board Games
 * [Terra Mystica][] *(Lot's of choices and variations.)*
 * [Carcassone][] *(Very simple and easy, Veronica's favourite.)*
 * [Ticket to Ride: Nordic Countries][] *(Deceptively simple.)*
+* [Android: Netrunner][] *(Living Card Game, currently by far my biggest addiction.)*
 
 [Power Grid]: http://boardgamegeek.com/boardgame/2651/power-grid "Power Grid. My favourite board game."
 [Agricola]: http://boardgamegeek.com/boardgame/31260/agricola "Agricola. An amazing board game."
 [Terra Mystica]: http://boardgamegeek.com/boardgame/120677/terra-mystica "Terra Mystica"
 [Ticket to Ride: Nordic Countries]: http://boardgamegeek.com/boardgame/31627/ticket-ride-nordic-countries "Ticket to Ride: Nordic Countries"
 [Carcassone]: http://boardgamegeek.com/boardgame/822/carcassonne "Carcassone"
+[Android: Netrunner]: https://boardgamegeek.com/boardgame/124742/android-netrunner "Android: Netrunner"
 

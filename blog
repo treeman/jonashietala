@@ -135,7 +135,7 @@ sub create_post {
 "---
 layout: post
 title: $title
-tags:
+tags: Gaming, Ludum Dare
 ---
 
 Lorem ipsum...
