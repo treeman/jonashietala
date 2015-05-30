@@ -16,12 +16,15 @@ Previous reviews: [2010][], [2011][], [2012][], [2013][] and [2014][].
 2015 Geek Achievements
 ======================
 1. Finished my university studies?
+1. Discovered a new boardgame (collectible cardgame) love: Android Netrunner
+1. Finished top 4 in my first Netrunner store championship
+1. Completed my master thesis about recommender systems
 
 2015 Non-Geek Achievements
 ===========================
 1. Read [X books][books read]
 1. Took the kids to TKD competitions
-1. Achieved 1-kup in Taekwon-do?
+1. Achieved 1-kup in Taekwon-do
 
 [books read]: #
 
@@ -31,5 +34,5 @@ Previous reviews: [2010][], [2011][], [2012][], [2013][] and [2014][].
 Plans for 2016
 ===============
 1. Take care of Veronica.
-1. Achieve 1-dan
+1. Achieve 1-Dan in Taekwon-do
 
