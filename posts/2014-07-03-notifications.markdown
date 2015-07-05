@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Notifications with xmonad/irssi/urxvt
-tags: slackware, xmonad
+tags: Slackware, Xmonad
 ---
 
 So I've been idling on irc for years now and I've been using [irssi][] for that, which works fine. I have not had notifications enabled, so I can see from the statusbar whenever someone messages me. As I've never been very active this has been fine, but now I figured it's time to fix that.

@@ -1,7 +1,7 @@
 ---
 layout: post
-title: irssi config
-tags: irssi, slackware
+title: Irssi config
+tags: Irssi, Slackware
 ---
 
 * `adv_windowlist.pl`  

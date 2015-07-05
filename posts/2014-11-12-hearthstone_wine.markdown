@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Hearthstone on wine
-tags: wine, slackware
+title: Hearthstone on Wine
+tags: Wine, Slackware
 ---
 
 I like [Hearthstone][] and recently the next expansion [Goblins vs Gnomes][] so I wanted to install and play it. It didn't work in vanilla wine, with a "time out error", but I found a [bug report][] which makes it work. Here's a short summary:
