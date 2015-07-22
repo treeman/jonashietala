@@ -88,6 +88,7 @@ main = hakyllWith config $ do
     match "drafts/*.markdown" $ do
         route   draftRoute
         compile $ pandocCompiler
+            >>= applyFilter youtubeFilter
             >>= return . fmap demoteHeaders
             >>= loadAndApplyTemplate "templates/draft.html" (draftCtx tags)
             >>= loadAndApplyTemplate "templates/site.html" (draftCtx tags)

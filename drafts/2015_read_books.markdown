@@ -15,6 +15,8 @@ Fiction
 1. **The Heroes** - Joe Abercrombie  
     Another good book!
 1. **Red Country** - Joe Abercrombie  
+1. **Lessons In The Fundamentals Of Go** - Kageyama Toshiro  
+    A great Go book for beginners. Pretty though but very good.
 
 Non-Fiction
 ===========
