@@ -17,6 +17,7 @@ Fiction
 1. **Red Country** - Joe Abercrombie  
 1. **Lessons In The Fundamentals Of Go** - Kageyama Toshiro  
     A great Go book for beginners. Pretty though but very good.
+1. **The Richest Man in Babylon** - George S. Clason
 
 Non-Fiction
 ===========
