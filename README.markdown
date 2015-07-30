@@ -29,3 +29,10 @@ Sitemap
     /contact
     /404
     /feed.xml
+
+Dependencies
+============
+
+1. Hakyll
+2. missingH
+
