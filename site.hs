@@ -1,10 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- Workaround for new ghc features.
+-- I'm not smart enough to figure out how to modify the code for this.
+{-# LANGUAGE FlexibleContexts #-}
 
 import Control.Applicative ((<$>))
 import Data.Monoid (mappend, mconcat, (<>))
 import Data.Char (toLower)
-import Data.List
-import Data.List.Utils
+import Data.List (intercalate, isSuffixOf)
+import Data.List.Utils (replace)
 import Data.Ord (comparing)
 import System.FilePath  (dropExtension, splitFileName, joinPath)
 
@@ -395,7 +398,7 @@ deIndexUrls item = return $ fmap (withUrls stripIndex) item
 
 stripIndex :: String -> String
 stripIndex url =
-    if "index.html" `isSuffixOf` url && elem (head url) "/."
+    if "index.html" `isSuffixOf` url && elem (head url) ['/', '.']
     then take (length url - 10) url
     else url
 
