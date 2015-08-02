@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Preventing Firefox from creating Desktop and Download directories
-tags: Gaming, Ludum Dare
+title: Preventing Firefox from creating Desktop directories
+tags: Firefox, Slackware
 ---
 
-<http://www.kariliq.nl/misc/firefox-dirs.html>
+With a fresh firefox installation I found that it kept creating a `~/Desktop` directory. But [I found how to turn it off](http://www.kariliq.nl/misc/firefox-dirs.html).
 
-Edit `~/.config/user-dirs.dirs` with
+Edit `~/.config/user-dirs.dirs` to
 
 ```
 XDG_DESKTOP_DIR="$HOME/"
