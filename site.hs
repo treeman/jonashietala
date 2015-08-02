@@ -36,7 +36,7 @@ myFeedConfiguration = FeedConfiguration
 
 config :: Configuration
 config = defaultConfiguration
-    { deployCommand = "sync --site" }
+    { deployCommand = "./sync --site" }
 
 
 -- Recommended posts on home page

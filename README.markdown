@@ -35,4 +35,5 @@ Dependencies
 
 1. Hakyll
 2. missingH
+3. python-magic (for MIME type)
 
