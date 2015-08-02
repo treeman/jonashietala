@@ -20,7 +20,7 @@ These are the existing ones:
     Still the most important long-term goal.
 + **Write a Book** *(No change)*  
     For some reason I still think it would be nice to have written a book. I'm keeping this.
-+ **Black belt in Taekwon-do**  
++ **Black belt in Taekwon-do** *(Getting closer)*  
     I'm currently at 2-kup, hopefully there in about 14 months?
 
 Here's a couple new ones:
