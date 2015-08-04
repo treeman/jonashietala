@@ -19,7 +19,7 @@ This is a guide on how to build [Krita][] on Slackware 14.1. This is based on [t
 3. Get Krita.  
     The [original guide][install_krita] recommends building in `~/kde4` but I moved i to `/opt/kde4`.
 
-    ```
+    ```{.bash}
     mkdir -p /opt/kde4/build /opt/kde4/src /opt/kde4/inst
     cd /opt/kde4/src
     git clone git://anongit.kde.org/calligra.git
@@ -29,7 +29,7 @@ This is a guide on how to build [Krita][] on Slackware 14.1. This is based on [t
 
     Change `/opt/kde4/src/calligra/krita/plugins/formats/tiff/kis_tiff_converter.cc` from
 
-    ```
+    ```{.C}
     #if TIFFLIB_VERSION < 20111221
     typedef size_t tmsize_t;
     #endif
@@ -37,15 +37,16 @@ This is a guide on how to build [Krita][] on Slackware 14.1. This is based on [t
 
     to
 
-    ```
+    ```{.C}
     typedef size_t tmsize_t;
     ```
 
     Then we can build
 
-    ```
+    ```{.bash}
     cd /opt/kde4/build
-    cmake -DCMAKE_INSTALL_PREFIX=/opt/kde4/inst /opt/kde4/src/calligra -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPRODUCTSET=KRITA
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/kde4/inst /opt/kde4/src/calligra \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPRODUCTSET=KRITA
     make -j5
     make install -j5
     ```
