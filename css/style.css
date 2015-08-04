@@ -1,29 +1,24 @@
 html { font-size: 62.5%; }
 body {
-    color: #444444;
+    color: #3c3836; /* light1 */
     font-family: Merriweather, Georgia, "Times New Roman", serif;
     font-size: 18px; font-size: 1.8rem;
-    font-weight: 300;
+    /*font-weight: 300;*/
     line-height: 29.7px; line-height: 2.97rem;
+    /*background-color: #32302f;*/
+    padding: 0;
+    margin: 0;
 }
 
-a {
-    text-decoration:none;
-    border-bottom: 1px dotted;
-    color: #296894;
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 h1, h2, h3, h4, h5 {
-    color:#296894;
-}
-
-a:visited {
-    color: #299494;
-}
-
-a:hover {
-    border-bottom: 1px solid;
-    color: #B0255D;
+    color: #3c3836;
 }
 
 h1 { font-size: 37px; font-size: 3.7rem; }
@@ -32,26 +27,93 @@ h3, header nav { font-size: 21px; font-size: 2.1rem; }
 h4 { font-size: 16px; font-size: 1.6rem; }
 h5 { font-size: 12px; font-size: 1.2rem; }
 
+a {
+    text-decoration:none;
+    border-bottom: 1px dotted;
+    color: #076678; /* blue */
+}
+
+a:visited {
+    color: #427b58; /* aqua */
+}
+
+a:hover {
+    border-bottom: 1px solid;
+    color: #af3a03;
+}
+
 .date {
     color: #333;
 }
 
 #wrapper {
-    max-width: 60em;
+    /*max-width: 60em;*/
+    /*margin: 0 auto 2em;*/
+    width: 100%;
+    clear: both;
+    height: auto !important;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    background-color: #32302f;
+    height: 6.2em;
+    /*width: 100%;*/
+    /*clear: both;*/
+}
+
+header nav {
+    padding: 0.1em 0;
+    /*margin: 0 auto;*/
+    /*max-width: 20em;*/
+    /*width: 100%;*/
+    /*clear: both;*/
+}
+
+header .nav-wrapper nav a {
+    color: #a89984;
+}
+
+header .nav-wrapper nav a:hover {
+    /*color: #fabd2f;*/ /* yellow */
+    color: #fe8019;
+}
+
+/* Large home */
+header .nav-wrapper {
+    clear: both;
     width: 90%;
     margin: 0 auto 2em;
+    margin 2em;
+    max-width: 60em;
+}
+
+header .nav-wrapper h1 {
+    margin: 0;
+    padding: 0.4em 0;
+}
+
+header .nav-wrapper h1 a {
+    color: #bdae93;
+    border-bottom: none;
+}
+header .nav-wrapper h1 a:hover {
+    /*color: #fe8019;*/
+    /*color: #928374;*/
+    border-bottom: 1px solid;
 }
 
 #content {
     clear: both;
-}
-
-header nav {
-    margin: 0 auto;
-    padding: 0;
+    width: 90%;
+    margin: 0 auto 2em;
+    max-width: 60em;
 }
 
 nav ul {
+    margin: 0;
     padding: 0;
     height: 1.0em;
 }
@@ -66,11 +128,75 @@ nav li a {
 }
 
 footer {
-    margin: 2em 0;
+    /*margin: 2em 0;*/
+    padding: 1em 0;
+    background-color: #1d2021;
+    width: 100%;
+    color: #bdae93;
 }
 
+footer nav {
+    width: 100%;
+    max-width: 20em;
+    clear: both;
+    margin: 0 auto;
+    padding: 0;
+}
 
-/* Syntax highlighting. */
+footer .lower {
+    width: 100%;
+    max-width: 30em;
+    clear: both;
+    margin: 0 auto;
+}
+
+/*** Markdown specific ***/
+article blockquote {
+    margin-left: 1em;
+    padding-left: 1em;
+    border-left: 1px solid #ddd;
+}
+
+/* Table stylings, stolen/adapted from
+ * https://github.com/sindresorhus/github-markdown-css/blob/gh-pages/github-markdown.css
+ */
+article table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    word-break: normal;
+    word-break: keep-all;
+}
+
+article td,
+article th {
+    padding: 0;
+}
+
+article table th {
+  font-weight: bold;
+}
+
+article table th,
+article table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+article table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+/*
+article table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+*/
+
+/*** Syntax highlighting. ***/
 code {
     font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
     font-size: 16px; font-size: 1.6rem;
@@ -123,7 +249,7 @@ td.lineNumbers {
 td.sourceCode { padding-left: 5px; }
 */
 
-/* pretty video embedding */
+/*** Pretty video embedding ***/
 .video-container {
     position: relative;
     padding-bottom: 56.25%;
