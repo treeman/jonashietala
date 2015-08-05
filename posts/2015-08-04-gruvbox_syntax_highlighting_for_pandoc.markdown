@@ -33,16 +33,16 @@ Additionally to get nicer spacing and font these styles are used:
 
 ```{.css}
 code {
-    font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
-    font-size: 16px; font-size: 1.6rem;
-    padding: 3px; padding: 0.3rem;
+    font-family: Consolas,"Courier New",monospace;
+    font-size: 0.9em;
+    padding: 0.2em;
+    line-height: 1.3;
 }
 
 pre {
-    font-size: 14px; font-size: 1.4rem;
     word-wrap: normal;
     overflow: auto;
-    padding: 10px 16px; padding: 1.0rem 1.6rem;
+    padding: 0.6em 1.0em;
     line-height: 1.3;
 }
 
