@@ -70,7 +70,7 @@ h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
 }
 
 header .nav-wrapper nav {
-    padding-left: 1.2em;
+    padding-left: 3em;
 }
 
 header, footer {
@@ -107,7 +107,7 @@ header .nav-wrapper h1 {
     margin: 0;
     /*padding: 0.2em 0;*/
     padding-top: 0.3em;
-    padding-bottom: 0.2em;
+    padding-bottom: 0em;
 }
 
 header .nav-wrapper h1 a {
