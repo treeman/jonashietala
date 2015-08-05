@@ -178,6 +178,21 @@ article .tags {
     margin-bottom: 1.0em;
 }
 
+/*** Override selection ***/
+/* See https://css-tricks.com/snippets/css/change-text-selection-color/ */
+
+/* Mozilla based browsers */
+::-moz-selection {
+       background-color: #fabd2f;
+       color: #000;
+}
+
+/* Works in Safari */
+::selection {
+       background-color: #fabd2f;
+       color: #000;
+}
+
 /* Table stylings, stolen/adapted from
  * https://github.com/sindresorhus/github-markdown-css/blob/gh-pages/github-markdown.css
  * TODO restyle?
