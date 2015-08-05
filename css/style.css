@@ -1,7 +1,7 @@
 html { font-size: 62.5%; }
 body {
     color: #3c3836; /* light1 */
-    /*font-family: Merriweather, Georgia, "Times New Roman", serif;*/
+    /* Merriweather is cool, but not default */
     font-family: Georgia, "Times New Roman", serif;
     font-size: 18px; font-size: 1.8rem;
     line-height: 29.7px; line-height: 2.97rem;
@@ -16,30 +16,21 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
-
-h1, h2, h3, h4, h5 {
-    color: #3c3836;
-}
-
 h1 { font-size: 37px; font-size: 3.7rem; }
 h2 { font-size: 28px; font-size: 2.8rem; }
 h3, header nav { font-size: 21px; font-size: 2.1rem; }
 h4 { font-size: 16px; font-size: 1.6rem; }
 h5 { font-size: 12px; font-size: 1.2rem; }
 
+h1, h2, h3, h4, h5, {
+    color: #3c3836;
+    line-height: normal;
+}
+
 a {
     text-decoration:none;
     border-bottom: 1px dotted;
     color: #A54268;
-}
-
-h1 a, h2 a, h3 a, h4 a, h5 a {
-    color: #3c3836;
-    border-bottom: 1px dotted;
-}
-
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover {
-    color: #3c3836;
 }
 
 a:visited {
@@ -51,12 +42,15 @@ a:hover {
     color: #427b58;
 }
 
-.date {
-    color: #333;
+h1 a, h2 a, h3 a, h4 a, h5 a {
+    border-bottom: 1px dotted;
+    line-height: normal;
 }
 
-.post-links {
-    margin-bottom: 2.2em;
+h1 a, h2 a, h3 a, h4 a, h5 a,
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover,
+h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
+    color: #3c3836;
 }
 
 #wrapper {
@@ -68,8 +62,25 @@ a:hover {
     margin: 0;
 }
 
-header {
+#content, header .nav-wrapper {
+    clear: both;
+    width: 90%;
+    margin: 0 auto;
+    max-width: 60em;
+}
+
+header .nav-wrapper nav {
+    padding-left: 1.2em;
+}
+
+header, footer {
+    /*background-color: #1d2021;*/ /* lighter */
     background-color: #32302f;
+    color: #bdae93;
+    width: 100%;
+}
+
+header {
     height: 6.2em;
 }
 
@@ -77,26 +88,24 @@ header nav {
     padding: 0.1em 0;
 }
 
-header .nav-wrapper nav a {
-    color: #a89984;
+header .nav-wrapper nav a,
+header .nav-wrapper nav a:visited,
+footer nav a,
+footer nav a:visited {
+    color: #bdae93;
 }
 
-header .nav-wrapper nav a:hover {
+header .nav-wrapper nav a:hover,
+footer nav a:hover {
     color: #fe8019;
 }
 
 /* Large home */
-header .nav-wrapper {
-    clear: both;
-    width: 90%;
-    margin: 0 auto 2em;
-    margin 2em;
-    max-width: 60em;
-}
-
 header .nav-wrapper h1 {
     margin: 0;
-    padding: 0.4em 0;
+    /*padding: 0.2em 0;*/
+    padding-top: 0.3em;
+    padding-bottom: 0.2em;
 }
 
 header .nav-wrapper h1 a {
@@ -107,13 +116,6 @@ header .nav-wrapper h1 a:hover {
     border-bottom: 1px solid;
 }
 
-#content {
-    clear: both;
-    width: 90%;
-    margin: 0 auto 2em;
-    max-width: 60em;
-}
-
 nav ul {
     margin: 0;
     padding: 0;
@@ -121,7 +123,7 @@ nav ul {
 }
 
 nav li {
-    display:block;
+    display: block;
 }
 
 nav li a {
@@ -131,10 +133,7 @@ nav li a {
 
 footer {
     padding: 1em 0;
-    /*background-color: #1d2021;*/
-    background-color: #32302f;
     width: 100%;
-    color: #bdae93;
 }
 
 footer nav {
@@ -145,21 +144,11 @@ footer nav {
     padding: 0;
 }
 
-footer nav a {
-    color: #bdae93;
-}
-footer nav a:visited {
-    color: #bdae93;
-}
-footer nav a:hover {
-    color: #fe8019;
-}
-
 footer .lower {
     width: 100%;
     max-width: 30em;
     clear: both;
-    margin: 1.5em auto 0.2em auto;
+    margin: 1.3em auto 0em auto;
     padding: 0;
 }
 
@@ -170,6 +159,11 @@ footer .lower a:hover {
     color: #fe8019;
 }
 
+/*** Front page specific ***/
+.post-links {
+    margin-bottom: 2.2em;
+}
+
 /*** Markdown specific ***/
 article blockquote {
     margin-left: 1em;
@@ -177,8 +171,14 @@ article blockquote {
     border-left: 1px solid #ddd;
 }
 
+/* Fix post tag spacing */
+article .tags {
+    margin-bottom: 1.0em;
+}
+
 /* Table stylings, stolen/adapted from
  * https://github.com/sindresorhus/github-markdown-css/blob/gh-pages/github-markdown.css
+ * TODO restyle?
  */
 article table {
     border-collapse: collapse;
