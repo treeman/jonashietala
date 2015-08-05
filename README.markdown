@@ -5,17 +5,6 @@ My site <http://www.jonashietala.se> written in [Hakyll][].
 
 [Hakyll]: http://jaspervdj.be/hakyll/
 
-TODO
-====
-
-* Prettier color scheme/design!
-* Check header tags in posts? Some are too low.
-* Recommendations
-    Link to posts describing the best books/series!
-* Post headers. Date? Title?
-* Remove links to images offpage!
-* Double check broken links
-
 Sitemap
 =======
 
@@ -36,4 +25,16 @@ Dependencies
 1. Hakyll
 2. missingH
 3. python-magic (for MIME type)
+4. s3cmd  
+   If you're using `sync` to upload to S3 bucket.
+   Change preferences in script and set keys ins `~/.s3cfg`, see s3cmd.
+
+TODO
+====
+
+* Write poosts about some good read books/games etc
+* Remove links to images offpage!
+* Double check broken links
+* Check that code blocks have proper highlighting
+* Check style for markdown tables.
 
