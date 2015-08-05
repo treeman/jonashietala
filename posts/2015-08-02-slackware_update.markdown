@@ -108,7 +108,7 @@ it's because rust installed it in `/usr/local/lib` which is not in the default s
 
 This can be done with everything as regular user.
 
-```
+```{.bash}
 git clone https://github.com/tadzik/rakudobrew ~/.rakudobrew
 ```
 

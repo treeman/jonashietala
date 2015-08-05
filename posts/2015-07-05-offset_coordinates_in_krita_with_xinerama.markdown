@@ -12,13 +12,13 @@ With little experience I boldly set forth and I found a lovely and free drawing 
 
 To install [Krita][] you need KDE, which should come preinstalled with Slackware. If you're like me and decided to skip it you can install it with
 
-```
+```{.bash}
 slackpkg install kde
 ```
 
 I had some trouble installing [Krita][], but ultimately [this guide with cats][install_krita] worked when I also changed `krita/plugins/formats/tiff/kis_tiff_converter.cc` from
 
-```
+```{.C}
 #if TIFFLIB_VERSION < 20111221
 typedef size_t tmsize_t;
 #endif
@@ -26,7 +26,7 @@ typedef size_t tmsize_t;
 
 to
 
-```
+```{.C}
 typedef size_t tmsize_t;
 ```
 
@@ -38,7 +38,7 @@ I did not manage to solve it using Xinerama, the bug is still unfixed. It works 
 
 The final result for me is to add this to `.xinitrc` and use a simple `xorg.conf`:
 
-```
+```{.bash}
 xrandr --output DVI-I-3 --mode 1920x1080 --pos 0x0 --rotate left --output DVI-I-2 --mode 1920x1080 --pos 1080x480
 ```
 
