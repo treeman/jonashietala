@@ -5,22 +5,18 @@ title: "Recommendations"
 Recommendations
 ===============
 
-### Updated April 6, 2015
+Updated April 6, 2015
 
 ## Table of contents
 
-* [Books]
-    * [Programming Books]
-    * [Misc]
-    * [Fiction]
+* [Programming Books]
+* [Misc]
+* [Fiction]
 * [Manga/Manwha]
 * [Board Games]
 
-Books
-=====
-
 Programming Books
------------------
+=================
 
 * [The Pragmatic Programmer][] *(Read and re-read!)*
 * [Modern Perl][] *(Great for programmers.)*
@@ -42,16 +38,8 @@ Programming Books
 [Competitive Programming 3]: https://sites.google.com/site/stevenhalim/ "Competitive Programming 3"
 [Game Programming Patterns]: http://gameprogrammingpatterns.com/ "Game Programming Patterns"
 
-Misc
-----
-
-* [Design for Hackers][] *(Great things about design.)*
-
-[Design for Hackers]: http://www.designforhackers.com/ "Design for Hackers"
-[stq]: http://stackoverflow.com/questions/1711/what-is-the-single-most-influential-book-every-programmer-should-read "What is the single most influential book every programmer should read?"
-
 Fiction
--------
+=======
 
 * [Song of Ice and Fire][] *(There is nothing better. Period.)*
 * [Dune][] *(Amazing environments. Father of modern sci-fi.)*
@@ -69,6 +57,17 @@ Fiction
 [The Cold Moon]: http://www.jefferydeaver.com/Novels_/ColdMoon/coldmoon.html "The Cold Moon"
 [The Sleeping Doll]: http://www.jefferydeaver.com/Novels_/SleepingDoll/sleepingdoll.html "The Sleeping Doll"
 
+Misc
+====
+
+* [Design for Hackers][] *(Great things about design.)*
+* [The Richest Man in Babylon][] *(A classic about money management.)*
+
+[Design for Hackers]: http://www.designforhackers.com/ "Design for Hackers"
+[stq]: http://stackoverflow.com/questions/1711/what-is-the-single-most-influential-book-every-programmer-should-read "What is the single most influential book every programmer should read?"
+[The Richest Man in Babylon]: https://en.wikipedia.org/wiki/The_Richest_Man_in_Babylon_%28book%29 "The Richest Man in Babylon"
+
+
 Manga/Manwha
 ============
 
@@ -80,6 +79,7 @@ Manga/Manwha
 * [Magician][] *(Slow, but epic.)*
 * [Kingdom][] *(The best grand scale fighting scenes.)*
 * [The Gamer][] *(Another great manwha.)*
+* [Kubera][] *(Slow but it grows on you.)*
 
 [Tower of God]: http://www.batoto.net/comic/_/comics/tower-of-god-r1 "Tower of God"
 [One Piece]: http://www.batoto.net/comic/_/comics/one-piece-r39 "One Piece"
@@ -90,6 +90,7 @@ Manga/Manwha
 [Magician]: http://www.batoto.net/comic/_/comics/magician-r208 "Magician"
 [Kingdom]: http://en.wikipedia.org/wiki/Kingdom_%28manga%29 "Kingdom"
 [The Gamer]: http://comic.naver.com/webtoon/list.nhn?titleId=552960 "The Gamer"
+[Kubera]: http://comic.naver.com/webtoon/detail.nhn?titleId=131385 "Kubera"
 
 Board Games
 ===========
@@ -100,6 +101,7 @@ Board Games
 * [Carcassone][] *(Very simple and easy, Veronica's favourite.)*
 * [Ticket to Ride: Nordic Countries][] *(Deceptively simple.)*
 * [Android: Netrunner][] *(Living Card Game, currently by far my biggest addiction.)*
+* [Homesteaders][] *(Underrated worker placement game.)*
 
 [Power Grid]: http://boardgamegeek.com/boardgame/2651/power-grid "Power Grid. My favourite board game."
 [Agricola]: http://boardgamegeek.com/boardgame/31260/agricola "Agricola. An amazing board game."
@@ -107,4 +109,4 @@ Board Games
 [Ticket to Ride: Nordic Countries]: http://boardgamegeek.com/boardgame/31627/ticket-ride-nordic-countries "Ticket to Ride: Nordic Countries"
 [Carcassone]: http://boardgamegeek.com/boardgame/822/carcassonne "Carcassone"
 [Android: Netrunner]: https://boardgamegeek.com/boardgame/124742/android-netrunner "Android: Netrunner"
-
+[Homesteaders]: https://boardgamegeek.com/boardgame/26566/homesteaders "Homesteaders"

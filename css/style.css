@@ -1,15 +1,15 @@
 html { font-size: 62.5%; }
 body {
     color: #3c3836; /* light1 */
-    font-family: Merriweather, Georgia, "Times New Roman", serif;
+    /*font-family: Merriweather, Georgia, "Times New Roman", serif;*/
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 18px; font-size: 1.8rem;
-    /*font-weight: 300;*/
     line-height: 29.7px; line-height: 2.97rem;
-    /*background-color: #32302f;*/
     padding: 0;
     margin: 0;
 }
 
+/* Better box model? Not sure if it does anything atm... */
 html {
   box-sizing: border-box;
 }
@@ -30,25 +30,36 @@ h5 { font-size: 12px; font-size: 1.2rem; }
 a {
     text-decoration:none;
     border-bottom: 1px dotted;
-    color: #076678; /* blue */
+    color: #A54268;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a {
+    color: #3c3836;
+    border-bottom: 1px dotted;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover {
+    color: #3c3836;
 }
 
 a:visited {
-    color: #427b58; /* aqua */
+    color: #8f3f71; /* purple */
 }
 
 a:hover {
     border-bottom: 1px solid;
-    color: #af3a03;
+    color: #427b58;
 }
 
 .date {
     color: #333;
 }
 
+.post-links {
+    margin-bottom: 2.2em;
+}
+
 #wrapper {
-    /*max-width: 60em;*/
-    /*margin: 0 auto 2em;*/
     width: 100%;
     clear: both;
     height: auto !important;
@@ -60,16 +71,10 @@ a:hover {
 header {
     background-color: #32302f;
     height: 6.2em;
-    /*width: 100%;*/
-    /*clear: both;*/
 }
 
 header nav {
     padding: 0.1em 0;
-    /*margin: 0 auto;*/
-    /*max-width: 20em;*/
-    /*width: 100%;*/
-    /*clear: both;*/
 }
 
 header .nav-wrapper nav a {
@@ -77,7 +82,6 @@ header .nav-wrapper nav a {
 }
 
 header .nav-wrapper nav a:hover {
-    /*color: #fabd2f;*/ /* yellow */
     color: #fe8019;
 }
 
@@ -100,8 +104,6 @@ header .nav-wrapper h1 a {
     border-bottom: none;
 }
 header .nav-wrapper h1 a:hover {
-    /*color: #fe8019;*/
-    /*color: #928374;*/
     border-bottom: 1px solid;
 }
 
@@ -128,9 +130,9 @@ nav li a {
 }
 
 footer {
-    /*margin: 2em 0;*/
     padding: 1em 0;
-    background-color: #1d2021;
+    /*background-color: #1d2021;*/
+    background-color: #32302f;
     width: 100%;
     color: #bdae93;
 }
@@ -143,11 +145,29 @@ footer nav {
     padding: 0;
 }
 
+footer nav a {
+    color: #bdae93;
+}
+footer nav a:visited {
+    color: #bdae93;
+}
+footer nav a:hover {
+    color: #fe8019;
+}
+
 footer .lower {
     width: 100%;
     max-width: 30em;
     clear: both;
-    margin: 0 auto;
+    margin: 1.5em auto 0.2em auto;
+    padding: 0;
+}
+
+footer .lower a {
+    color: #d3869b;
+}
+footer .lower a:hover {
+    color: #fe8019;
 }
 
 /*** Markdown specific ***/

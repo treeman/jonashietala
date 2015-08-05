@@ -179,7 +179,7 @@ main = hakyllWith config $ do
             let ctx = constField "posts" list <>
                       constField "recommended" recommended <>
                       --field "tags" (\_ -> renderTagList (sortTagsBy tagSort tags)) <>
-                      --field "tags" (\_ -> renderTagHtmlList tags) <>
+                      {-field "tags" (\_ -> renderTagHtmlList tags) <>-}
                       field "tags" (\_ -> renderTagCloud 80 160 tags) <>
                       siteCtx
 
