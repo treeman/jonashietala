@@ -66,7 +66,7 @@ h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
     clear: both;
     width: 90%;
     margin: 0 auto;
-    max-width: 60em;
+    max-width: 80em;
 }
 
 header .nav-wrapper nav {
@@ -140,7 +140,7 @@ footer {
 
 footer nav {
     width: 100%;
-    max-width: 20em;
+    max-width: 30em;
     clear: both;
     margin: 0 auto;
     padding: 0;
