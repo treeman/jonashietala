@@ -81,7 +81,7 @@ header, footer {
 }
 
 header {
-    height: 6.2em;
+    height: 5.8em;
 }
 
 header nav {
@@ -134,7 +134,9 @@ nav li a {
 }
 
 footer {
-    padding: 1em 0;
+    padding: 0;
+    padding-top: 0.5em;
+    padding-bottom: 0.7em;
     width: 100%;
 }
 
