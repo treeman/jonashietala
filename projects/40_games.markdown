@@ -5,6 +5,7 @@ link: #
 
 A random list of game prototypes I've made:
 
+* [Groar][] *Ludum Dare 33*
 * [Mining Incorporated][] *Ludum Dare 29*
 * [Sat-E][] *Ludum Dare 22*
 * [Grand Thief Arto][] *Java course*
@@ -20,6 +21,7 @@ A random list of game prototypes I've made:
 * [Balls][] *Experimental Gameplay Project*
 
 [SFML]: http://www.sfml-dev.org/ "SFML graphics library for C++"
+[Groar]: /blog/2015/08/23/xgroar/ "Groar"
 [Mining Incorporated]: /blog/2014/04/28/mining-incorporated/ "Mining Incorporated"
 [Sat-E]: /blog/2011/12/19/sat-e/ "Sat-E"
 [My Minions]: /blog/2011/05/02/my_minions/ "My Minions"
