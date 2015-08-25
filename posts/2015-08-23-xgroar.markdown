@@ -18,6 +18,14 @@ So I actually [finished][ld] Ludum Dare 33.  I can't believe how hard it was to 
 **Controls**   
 W A S D moves and H J K L shoots. Escape quits the game.
 
+**Timelapse (dual screen)**
+
+https://www.youtube.com/watch?v=msRUwCWzPKA
+
+**Timelapse (single screen)**
+
+https://www.youtube.com/watch?v=cgk-oiEMYZk
+
 **Source**   
 <https://github.com/treeman/ld33>
 
