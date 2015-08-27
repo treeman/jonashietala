@@ -10,6 +10,8 @@ use File::stat;
 use Time::localtime;
 use POSIX qw(strftime);
 
+my $editor = "nvim";
+
 my $help;
 my $new;
 my $edit;
@@ -154,7 +156,7 @@ sub create_new_post {
     else {
         say "Opening $path";
     }
-    exec ("vim $path");
+    exec ("$editor $path");
 }
 
 sub create_new_draft {
@@ -167,7 +169,7 @@ sub create_new_draft {
     else {
         say "Opening $path";
     }
-    exec("vim $path");
+    exec("$editor $path");
 }
 
 sub has_match {
@@ -336,7 +338,7 @@ sub edit_post {
         print_post($info);
         if (!$list) {
             say "Opening...";
-            exec ("vim $info->{path}");
+            exec ("$editor $info->{path}");
         }
     }
     else {
@@ -348,7 +350,7 @@ sub edit_post {
 
         if (!$list && $edit_all) {
             say "Opening...";
-            my $cmd = "vim";
+            my $cmd = "$editor";
             $cmd .= " " . $_->{path} for (@matches);
             exec ($cmd);
         }

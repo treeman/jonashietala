@@ -20,8 +20,13 @@ Previous reviews: [2010][], [2011][], [2012][], [2013][] and [2014][].
 1. Finished top 4 in my first Netrunner Store Championship.
 1. Completed my [master thesis][] about recommender systems.
 1. Bought some Bitcoins and Litecoins.
+1. Participated in the 48 hour game making competition [Ludum Dare 33][] with [Groar][].
+1. Actually styled [this website][] a little bit.
 
 [master thesis]: /masters_thesis/ "My Master's thesis"
+[Ludum Dare 33]: http://ludumdare.com/compo/ "Ludum Dare"
+[Groar]: /blog/2015/08/23/xgroar/ "Groar, my entry for Ludum Dare 33"
+[this website]: https://github.com/treeman/jonashietala "Source for this site"
 
 2015 Non-Geek Achievements
 ===========================
@@ -35,21 +40,14 @@ Previous reviews: [2010][], [2011][], [2012][], [2013][] and [2014][].
 2015 Failures
 ==============
 
-1. Did not write a game
-
 Plans for 2016
 ===============
 1. Take care of Veronica.
 1. Achieve 1-Dan in Taekwon-do.
-1. Write a small game.
 1. Finish some programming projects.
-1. Make a game.
-1. Rework this site.
 1. Start a consulting business?
-1. Participate in [Ludum Dare][].
 1. Achieve a single digit kyu in [Go][].
 1. Construct a custom keyboard (as long as the parts arrive...)
 
-[Ludum Dare]: http://www.ludumdare.com/ "Ludum Dare"
 [Go]: http://en.wikipedia.org/wiki/Go_%28game%29 "Go"
 
