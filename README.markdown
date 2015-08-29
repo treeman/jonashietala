@@ -18,6 +18,7 @@ Sitemap
     /contact
     /404
     /feed.xml
+    /masters_thesis
 
 Dependencies
 ============
@@ -32,9 +33,10 @@ Dependencies
 TODO
 ====
 
-* Write poosts about some good read books/games etc
+* Write posts about some good read books/games etc
 * Remove links to images offpage!
 * Double check broken links
 * Check that code blocks have proper highlighting
 * Check style for markdown tables.
+* Automatic Netrunner highlighting using netrunnerdb.
 
