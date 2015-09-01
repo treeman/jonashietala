@@ -19,12 +19,13 @@ This is the drafting result:
 
 Frida unfortunately did not attend the actual draft and she had to pick both runner and corp last.
 
-With Wayland and Jinteki being relatively popular I was thinking of adding I've had worse to Noise... But in the end I decided to be ballsy and skip all that. And no plascretes. But I thought with some careful play and Imp/Utopia shard I could manage. Instead I went with the no frills 3 Aesop/3 Cache low economy approach which I've found is perfectly fine. I slotted 2 Hacktivist meeting as the local playgroup in Linköping insisted on running Cerebral static and Manhunt and maybe others would do weird stuff with currents as well?
+With Wayland and Jinteki being relatively popular I was thinking of adding I've had worse to Noise... But in the end I decided to be ballsy and skip all that. And no plascretes. But I thought with some careful play and Imp/Utopia shard I could manage. Instead I went with the no frills 3 Aesop/3 Cache low economy approach which I've found is perfectly fine. I slotted 2 Hacktivist meeting as the local playgroup in Linköping insisted on running Cerebral static and Manhunt and maybe others would do weird stuff with currents as well? [This is the Noise deck.][noise]
 
-The Titan build is basically the popular [Atlas Shrugged][] with Beanstalk replacing Subliminal messaging and an extra Crisium Grid for the relative increase of criminal. In testing the corp deck performed okay... But never amazing. Noise performed consistently whenever I didn't just die against Jinteki due to... Jinteki stuff.
+[The Titan build][titan] is basically the popular [Atlas Shrugged][] with Beanstalk replacing Subliminal messaging and an extra Crisium Grid for the relative increase of criminal. In testing the corp deck performed okay... But never amazing. Noise performed consistently whenever I didn't just die against Jinteki due to... Jinteki stuff.
 
 [Atlas Shrugged]: http://netrunnerdb.com/en/decklist/24856/atlas-shrugged "netrunnerdb: Atlas Shrugged"
-
+[noise]: http://netrunnerdb.com/en/decklist/25730/the-original-hacker-rebro-id-draft-4th- "Noise deck"
+[titan]: http://netrunnerdb.com/en/decklist/25732/the-future-is-now-rebro-id-draft-4th- "Titan deck"
 
 # The matches
 
@@ -40,7 +41,7 @@ vs Blue Sun
 
 He gets a great start with ice and money. I'm having trouble setting up and I can't find D4v1d before he can retrieve his oversighted Curtain Wall. I'm too scared/incapable of stealing his agendas as he's rushing them out. When I finally get my Imp going on HQ he already has a scored atlas with two tokens and he scores out a hostile in a flash. I made a mistake of not installing a clone chip as I had a clot in my heap and I maybe should have been more aggressive but overall Yoshi outplayed me.
 
-2 prestige, 1-1
+2 points, 1-1
 
 ## Match 2: Dan, TWIY/Whizzard
 
@@ -52,7 +53,7 @@ vs Whizzard
 
 He trashes my sansans but I get some points scored. The game goes a bit long and we're almost going to time. I think I could have won by rezzing an Archer against his faust when he doesn't have enough cards to continue the game, but I stress out and for some reason I don't rez it. Later he finds a 3-pointer for the win from HQ. I guess I took the risk as he could have just as easily hit a Snare and loose.
 
-4 prestige, 2-2
+4 points, 2-2
 
 [flash]: http://netrunnerdb.com/en/decklist/22037/when-the-flash-wears-yellow-v-2-undefeated-bratislava-regi "netrunnerdb Flash"
 
@@ -66,7 +67,7 @@ vs Harmony Medtech
 
 I got set up with Noise fast and controlled the game from the start. He scored out a Nisei but I was never really worried. I made a stupid move of running archives when I had just trashed a Cyberdex and later I ran it again! But in the end my start was just too good and I won by pounding HQ with Lamprey, Imp and parasites.
 
-8 prestige, 4-2
+8 points, 4-2
 
 ## Match 4: Magnus, Nisei Division/Valencia
 
@@ -80,7 +81,7 @@ I have a fairly bad starting hand which I keep... For some unknown reason. He's 
 
 Funny how both games ends in basically the same way. I'm still a bit upset about the way I lost but it feels a little bit better that I could pull out a win against such a good player, even if it was a lucky one.
 
-10 prestige, 5-3
+10 points, 5-3
 
 ## Match 5: Frida, Argus/Silhouette
 
@@ -92,7 +93,7 @@ vs Silhouette
 
 Again I get a good start and I get a Crisium grid on HQ to stop siphon. She doesn't find her breakers and I get a hostile scored followed by the atlas train.
 
-14 prestige, 7-3
+14 points, 7-3
 
 
 # Final results
@@ -101,13 +102,15 @@ I won 7 matches, 4 with Titan and 3 with Noise. Surprisingly my corp faired bett
 
 Generally with Noise I feel if the corp doesn't push scoring windows hard you're always in control of the game. Even then it's difficult without a secondary win condition like scorch or midseasons. This is what Yoshi did with Blue Sun so very well where I really felt behind the whole game, but perhaps I was being too cautious.
 
-Overall I'm quite pleased with my result all things considered.
+Overall I'm quite pleased with my result all things considered. This is the final results after the five rounds of swiss:
 
-This is the prices I took home as my 4th place (not the keyboard silly):
+![](/images/netrunner-ID-draft-2015-08-29-results.jpg)
+
+There were quite a lot of prizes available and after the three victors took theirs this is what took home as my 4th place:
 
 ![](/images/trimat_mat.jpg)
 
-I wanted to have a full playset of aesop's, especially as I really love Noise, but the mat feels a little more special. I still want the alt-arts though!
+I wanted to have a full playset of aesop's, especially as I really love Noise, but the mat feels a little more special. I still want the alt-arts though, hopefully I can get them from somewhere else.
 
 [Netrunner]: https://boardgamegeek.com/boardgame/124742/android-netrunner "Android: Netrunner"
 
