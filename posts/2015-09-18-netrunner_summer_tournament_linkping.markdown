@@ -64,3 +64,13 @@ I had Hollywood Renovation with a bunch of advancement tokens, The Future is Now
 [noise]: #
 [bluesun]: #
 
+# The results
+
+The self critic in me keeps on thinking about the lost game and the game which went to time, but some small part of me tries to point out that things actually went well. I felt fine in all games and it never felt hopeless in any game. I did take "better" or more serious decks and the other guys joked about my very serious decks, but it's fine. I did accomplish my goal and I even won the tournament, yay!
+
+![](/images/netrunner_summer_res.jpg)
+
+I managed to achieve my goal and I got to choose a playset of Aesops! I also got a couple of Swordsman and a new deckbox. It's a little bit sad that I declined the Femme Fatale alt-art as it's preeetty... But maybe next time.
+
+![](/images/summer_winnings.jpg)
+
