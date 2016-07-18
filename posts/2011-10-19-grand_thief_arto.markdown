@@ -1,5 +1,5 @@
 ---
-title: Grand Thief Arto
+title: "Grand Thief Arto"
 date: 2011-10-19
 tags: Games
 ---

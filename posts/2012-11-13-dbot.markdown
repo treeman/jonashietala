@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Dbot
+title: "Dbot"
 category: Programming
 tags: Programming, Perl
 ---

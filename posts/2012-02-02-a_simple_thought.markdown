@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A Simple Thought
+title: "A Simple Thought"
 tags: School
 time: 13:14:35
 ---

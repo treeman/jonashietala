@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Laying off Pintos
+title: "Laying off Pintos"
 category: Pintos
 tags: School, Programming
 ---

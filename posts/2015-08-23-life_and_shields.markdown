@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Life and Shields
+title: "Life and Shields"
 tags: Ludum Dare
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Black and White
+title: "Black and White"
 date: 2009-08-20
 tags: Games, 7days
 ---

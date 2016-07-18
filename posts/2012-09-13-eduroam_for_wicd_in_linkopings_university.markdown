@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Eduroam for wicd in Linkoping's University
+title: "Eduroam for wicd in Linkoping's University"
 category: Eduroam
 tags: Eduroam
 ---

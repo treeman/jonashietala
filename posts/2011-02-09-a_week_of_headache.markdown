@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A Week of Headache
+title: "A Week of Headache"
 category: Life
 tags: Life
 time: 18:00:46

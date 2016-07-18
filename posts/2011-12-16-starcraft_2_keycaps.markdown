@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Starcraft 2 Keycaps
+title: "Starcraft 2 Keycaps"
 tags: Computer, Keyboard, New Stuff
 time: 16:44:59
 ---

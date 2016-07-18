@@ -1,6 +1,6 @@
 ---
 layout: post
-title: My first rust Contribution
+title: "My first rust Contribution"
 tags: IDA Summer of Code, rust
 ---
 

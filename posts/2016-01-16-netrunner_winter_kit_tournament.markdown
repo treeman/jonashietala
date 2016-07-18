@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Netrunner Winter Kit Tournament Linköping
+title: "Netrunner Winter Kit Tournament Linköping"
 tags: Gaming, Netrunner
 ---
 

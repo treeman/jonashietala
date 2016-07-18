@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Poking at Emacs
+title: "Poking at Emacs"
 category: Programming
 tags: Programming
 time: 19:19:03

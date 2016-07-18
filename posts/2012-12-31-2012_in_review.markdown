@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 2012 in Review
+title: "2012 in Review"
 category: Yearly Review
 tags: Yearly Review
 time: 23:07:00

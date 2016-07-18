@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Postmortem: The Chronicles of Bim: The 100 Fake Afros
+title: "Postmortem: The Chronicles of Bim: The 100 Fake Afros"
 category: Postmortems
 tags: Postmortems, 7days
 time: 16:20:34

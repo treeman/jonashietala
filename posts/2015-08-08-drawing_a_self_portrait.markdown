@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Drawing a self portrait
+title: "Drawing a self portrait"
 tags: Drawing
 ---
 

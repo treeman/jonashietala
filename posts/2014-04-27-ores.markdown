@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ores
+title: "Ores"
 category: Ludum Dare
 tags: Ludum Dare
 time: 19:48

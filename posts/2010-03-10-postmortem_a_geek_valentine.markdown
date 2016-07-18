@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Postmortem: A Geek Valentine
+title: "Postmortem: A Geek Valentine"
 category: Postmortems
 tags: Postmortems, 7days
 ---

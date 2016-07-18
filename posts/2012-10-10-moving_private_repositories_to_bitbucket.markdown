@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Moving private repositories to Bitbucket
+title: "Moving private repositories to Bitbucket"
 category: Git
 tags: Git, Bitbucket
 ---

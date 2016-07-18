@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Generating ideas
+title: "Generating ideas"
 category: Game Design Course
 tags: Game Design
 time: 09:39:54

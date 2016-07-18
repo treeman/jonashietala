@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Dijkstra's Algorithm
+title: "Dijkstra's Algorithm"
 tags: IDA Summer of Code, rust
 ---
 

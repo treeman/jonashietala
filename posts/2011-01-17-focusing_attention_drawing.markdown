@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Focusing Attention: Drawing
+title: "Focusing Attention: Drawing"
 category: Attention
 tags: Attention
 time: 12:49:52

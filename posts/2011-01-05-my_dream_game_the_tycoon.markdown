@@ -1,6 +1,6 @@
 ---
 layout: post
-title: My Dream Game: The Tycoon
+title: "My Dream Game: The Tycoon"
 tags: Game Design, Gaming
 time: 13:55:12
 ---

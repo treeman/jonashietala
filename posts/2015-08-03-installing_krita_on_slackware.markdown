@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Installing Krita on Slackware 14.1
+title: "Installing Krita on Slackware 14.1"
 tags: Krita, Slackware
 ---
 

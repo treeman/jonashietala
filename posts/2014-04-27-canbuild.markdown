@@ -1,6 +1,6 @@
 ---
 layout: post
-title: We can build things!
+title: "We can build things!"
 category: Ludum Dare
 tags: Ludum Dare
 time: 11:12

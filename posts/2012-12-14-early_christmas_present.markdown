@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Early Christmas Present
+title: "Early Christmas Present"
 category: New Stuff
 tags: New Stuff
 ---

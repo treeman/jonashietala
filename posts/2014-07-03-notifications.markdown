@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Notifications with xmonad/irssi/urxvt
+title: "Notifications with xmonad/irssi/urxvt"
 tags: Slackware, Xmonad
 ---
 

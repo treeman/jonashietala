@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Now we have a Forum
+title: "Now we have a Forum"
 category: Webpage
 tags: Webpage
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 5 Kup
+title: "5 Kup"
 category: Taekwon-do
 tags: Taekwon-do
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Reinstalling Slackware
+title: "Reinstalling Slackware"
 category: Slackware
 tags: Slackware
 ---

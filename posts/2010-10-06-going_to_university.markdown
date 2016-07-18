@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Going to University
+title: "Going to University"
 category: School
 tags: School
 time: 09:16:54

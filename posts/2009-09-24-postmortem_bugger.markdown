@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Postmortem: Bugger
+title: "Postmortem: Bugger"
 category: Postmortems
 tags: Postmortems, 7days
 ---

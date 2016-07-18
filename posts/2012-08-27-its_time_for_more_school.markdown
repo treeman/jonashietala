@@ -1,6 +1,6 @@
 ---
 layout: post
-title: It's Time for More School
+title: "It's Time for More School"
 category: School
 tags: School
 ---

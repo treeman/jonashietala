@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Experimental Games
+title: "The Experimental Games"
 category: Prototyping
 tags: 7days, Postmortems
 time: 11:26:56

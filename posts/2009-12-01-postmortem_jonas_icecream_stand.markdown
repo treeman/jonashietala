@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Postmortem: Jonas IceCream Stand
+title: "Postmortem: Jonas IceCream Stand"
 category: Postmortems
 tags: Postmortems, 7days
 time: 15:03:04

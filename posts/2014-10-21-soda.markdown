@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Soda
+title: "Soda"
 tags: Life
 ---
 

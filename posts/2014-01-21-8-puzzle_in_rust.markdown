@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 8-puzzle in rust
+title: "8-puzzle in rust"
 category: rust
 tags: rust
 ---

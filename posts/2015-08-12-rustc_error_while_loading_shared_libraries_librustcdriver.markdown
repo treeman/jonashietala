@@ -1,6 +1,6 @@
 ---
 layout: post
-title: rustc: error while loading shared libraries: librustc_driver
+title: "rustc: error while loading shared libraries: librustc_driver"
 tags: rust, Slackware
 ---
 

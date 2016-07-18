@@ -1,5 +1,5 @@
 ---
-title: The Chronicles of Bim: The 100 Fake Afros
+title: "The Chronicles of Bim: The 100 Fake Afros"
 date: 2010-01-16
 tags: Games, 7days
 ---

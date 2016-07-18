@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Plans for Summer of Code
+title: "Plans for Summer of Code"
 tags: IDA Summer of Code
 ---
 

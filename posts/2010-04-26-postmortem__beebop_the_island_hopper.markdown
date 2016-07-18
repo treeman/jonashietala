@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Postmortem:  Beebop The Island Hopper
+title: "Postmortem:  Beebop The Island Hopper"
 category: Postmortems
 tags: Postmortems, Ludum Dare, 7days
 time: 18:56:59

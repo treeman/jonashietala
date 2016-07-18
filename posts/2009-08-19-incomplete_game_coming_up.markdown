@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Incomplete game coming up
+title: "Incomplete game coming up"
 tags: Game Making
 time: 19:24:20
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: My Dream Game: The RTS
+title: "My Dream Game: The RTS"
 tags: Game Design, Gaming
 time: 20:14:17
 ---

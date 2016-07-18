@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Hard Work
+title: "Hard Work"
 category: Ludum Dare
 tags: Ludum Dare
 time: 21:25

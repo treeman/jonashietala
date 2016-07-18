@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Postmortem: Black and White
+title: "Postmortem: Black and White"
 category: Postmortems
 tags: Postmortems, 7days
 time: 10:10:33

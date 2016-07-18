@@ -1,6 +1,6 @@
 ---
 layout: post
-title: New Year, New Theme: 100 Things
+title: "New Year, New Theme: 100 Things"
 category: Themes
 tags: Themes, 7days
 time: 21:39:52

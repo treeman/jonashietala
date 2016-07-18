@@ -1,6 +1,6 @@
 ---
 layout: post
-title: My first theme: Addictive Gaming
+title: "My first theme: Addictive Gaming"
 category: Themes
 tags: Themes, 7days
 time: 11:41:39

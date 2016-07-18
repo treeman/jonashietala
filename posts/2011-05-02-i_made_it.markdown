@@ -1,6 +1,6 @@
 ---
 layout: post
-title: I Made It!
+title: "I Made It!"
 category: Game Making
 tags: Game Making
 time: 02:52:25

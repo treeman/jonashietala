@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Competition Feedback
+title: "Competition Feedback"
 category: Feedback
 tags: Ludum Dare
 time: 18:49:04

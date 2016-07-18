@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Embedding youtube videos with Hakyll
+title: "Embedding youtube videos with Hakyll"
 tags: Hakyll, Haskell
 ---
 

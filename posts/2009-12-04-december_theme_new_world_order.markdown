@@ -1,6 +1,6 @@
 ---
 layout: post
-title: December Theme: New World Order
+title: "December Theme: New World Order"
 category: Themes
 tags: Themes, 7days
 time: 18:10:06

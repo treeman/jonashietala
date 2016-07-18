@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Design for Hackers has arrived!
+title: "Design for Hackers has arrived!"
 category: Books
 tags: Books
 time: 21:25:57

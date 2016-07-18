@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Long Term Goals (part 2)
+title: "Long Term Goals (part 2)"
 category: Life Hacking
 tags: Life Hacking
 ---

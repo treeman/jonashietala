@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Christmas break
+title: "Christmas break"
 tags: School
 time: 22:35:43
 ---

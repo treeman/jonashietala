@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Finishing Stuff
+title: "Finishing Stuff"
 category: Life
 tags: Life
 time: 09:28:37

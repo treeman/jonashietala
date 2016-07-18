@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Focusing Attention: Programming
+title: "Focusing Attention: Programming"
 category: Attention
 tags: Attention, Programming
 time: 20:33:44

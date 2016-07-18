@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Speeding Ahead
+title: "Speeding Ahead"
 category: Life
 tags: Life, School
 time: 20:44:15

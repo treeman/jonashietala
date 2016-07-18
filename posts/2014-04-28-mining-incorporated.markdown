@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Mining Incorporated (unfinished)
+title: "Mining Incorporated (unfinished)"
 category: Ludum Dare
 tags: Games, Ludum Dare
 time: 00:27

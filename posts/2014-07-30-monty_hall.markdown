@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Monty Hall
+title: "Monty Hall"
 tags: IDA Summer of Code, rust
 ---
 

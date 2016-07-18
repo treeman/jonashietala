@@ -1,6 +1,6 @@
 ---
 layout: post
-title: September theme: Failure
+title: "September theme: Failure"
 category: Themes
 tags: Themes, 7days
 time: 11:27:17

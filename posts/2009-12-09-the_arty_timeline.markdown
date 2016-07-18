@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Arty Timeline
+title: "The Arty Timeline"
 category: Timeline
 tags: 7days, Timeline
 ---

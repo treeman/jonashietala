@@ -1,6 +1,6 @@
 ---
 layout: post
-title: My first netrunner store championship
+title: "My first netrunner store championship"
 tags: Netrunner, Gaming
 ---
 

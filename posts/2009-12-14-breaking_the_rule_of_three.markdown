@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Breaking the rule of three
+title: "Breaking the rule of three"
 category: News
 tags: 7days
 time: 11:49:31

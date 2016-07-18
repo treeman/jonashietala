@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Netrunner Summer Tournament Linköping
+title: "Netrunner Summer Tournament Linköping"
 tags: Gaming, Netrunner
 ---
 

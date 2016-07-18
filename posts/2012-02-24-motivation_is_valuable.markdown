@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Motivation is Valuable
+title: "Motivation is Valuable"
 category: Motivation
 tags: School
 time: 08:56:05

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A Christmas Game
+title: "A Christmas Game"
 tags: Gaming
 ---
 

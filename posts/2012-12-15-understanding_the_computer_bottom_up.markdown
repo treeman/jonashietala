@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Understanding the Computer
+title: "Understanding the Computer"
 category: Computer
 tags: Computer, Programming
 ---

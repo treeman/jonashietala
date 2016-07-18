@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Entering Pintos
+title: "Entering Pintos"
 category: School
 tags: School, Programming
 ---

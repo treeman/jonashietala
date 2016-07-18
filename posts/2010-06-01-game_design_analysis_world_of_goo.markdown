@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Game Design Analysis: World of Goo
+title: "Game Design Analysis: World of Goo"
 category: Game Design Course
 tags: Game Design
 time: 16:00:10

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Failed mime type for Krita
+title: "Failed mime type for Krita"
 tags: Slackware, Krita
 ---
 
