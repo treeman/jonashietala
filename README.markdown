@@ -39,4 +39,5 @@ TODO
 * Check that code blocks have proper highlighting
 * Check style for markdown tables.
 * Automatic Netrunner highlighting using netrunnerdb.
+* Remove spaces from tag links e.g "Yearly Review"
 
