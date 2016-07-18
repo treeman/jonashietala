@@ -1,6 +1,10 @@
 <article>
     <hgroup>
+      $if(link)$
         <h1><a href="$link$">$title$</a></h1>
+      $else$
+        <h1>$title$</h1>
+      $endif$
     </hgroup>
 
     $body$
