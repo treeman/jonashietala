@@ -35,8 +35,6 @@ TODO
 
 * Write posts about some good read books/games etc
 * Remove links to images offpage!
-* Double check broken links
-* Check that code blocks have proper highlighting
 * Check style for markdown tables.
 * Automatic Netrunner highlighting using netrunnerdb.
 * Remove spaces from tag links e.g "Yearly Review"

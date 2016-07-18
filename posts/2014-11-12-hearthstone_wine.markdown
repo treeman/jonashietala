@@ -39,4 +39,4 @@ Then do `make` and `make install` as normal and have fun with Hearthstone.
 [git]: http://wiki.winehq.org/GitWine "Git Wine"
 [bug report]: https://bugs.winehq.org/show_bug.cgi?id=36216 "Hearthstone fails to start, says the game timed out"
 [Hearthstone]: http://us.battle.net/hearthstone/en/ "Hearthstone"
-[Goblins vs Gnomes]: www.goblinsvsgnomes.com "Goblins vs Gnomes"
+[Goblins vs Gnomes]: http://www.goblinsvsgnomes.com "Goblins vs Gnomes"

@@ -42,7 +42,7 @@ What follows is a rundown on some of the habits I'm trying cultivate:
 
 Now this is just the general idea. I'm well aware that this may crash and burn but if I successfully do at least half of these things (historically I'm well above that) I consider it a huge accomplishment for me.
 
-[Habitica]: x "Habitica RPG for your Life"
+[Habitica]: https://habitica.com/ "Habitica RPG for your Life"
 [The Power of Habit]: http://charlesduhigg.com/the-power-of-habit/ "The Power of Habit"
 [Configura]: http://configura.com/ "Configura"
 [emoji]: http://habitica.wikia.com/wiki/Emoji "Habitica Emoji"

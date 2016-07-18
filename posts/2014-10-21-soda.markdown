@@ -12,6 +12,6 @@ These quotes are from [hacker news][hn] and I found them all too funny.
 
 > uh, water?
 
-> Water? Like out of the toilet!? (From the movie [idiocracy](<http://www.imdb.com/title/tt0387808/quotes?item=qt1722899)).
+> Water? Like out of the toilet!? (From the movie [idiocracy](http://www.imdb.com/title/tt0387808/quotes?item=qt1722899)).
 
 [hn]: https://news.ycombinator.com/item?id=8488714 "Soda May Age You as Much as Smoking"
