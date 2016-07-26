@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Moving to FastMail
+title: "Moving to FastMail"
 tags: FastMail
 ---
 

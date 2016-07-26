@@ -1,6 +1,6 @@
 ---
 layout: post
-title: CS:GO AWP Nerf
+title: "CS:GO AWP Nerf"
 tags: Gaming
 ---
 

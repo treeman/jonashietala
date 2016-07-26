@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Bullets and AI
+title: "Bullets and AI"
 tags: Ludum Dare
 ---
 

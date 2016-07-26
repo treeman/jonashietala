@@ -1,6 +1,6 @@
 ---
 layout: post
-title: August theme: Bare Minimum
+title: "August theme: Bare Minimum"
 category: Themes
 tags: Themes, 7days
 time: 12:50:20

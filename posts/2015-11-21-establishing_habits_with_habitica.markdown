@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Establishing Habits with Habitica
+title: "Establishing Habits with Habitica"
 tags: Habits, Life Hacking
 ---
 

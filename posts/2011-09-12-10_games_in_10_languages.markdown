@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 10 Games in 10 Languages
+title: "10 Games in 10 Languages"
 category: Game Making
 tags: Game Making
 time: 11:18:19

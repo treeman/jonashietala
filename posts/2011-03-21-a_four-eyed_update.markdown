@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A Four-Eyed Update
+title: "A Four-Eyed Update"
 category: Life
 tags: Life
 time: 12:25:58

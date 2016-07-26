@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ludum Dare 20 Timelapse
+title: "Ludum Dare 20 Timelapse"
 category: Timelapse
 tags: Timelapse, Ludum Dare
 time: 14:14:56

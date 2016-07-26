@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The great Hochstapler
+title: "The great Hochstapler"
 tags: Gaming
 time: 11:17:32
 ---

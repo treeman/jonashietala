@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fixing Problems
+title: "Fixing Problems"
 category: Config
 tags: Slackware, Xmonad, Minecraft
 ---

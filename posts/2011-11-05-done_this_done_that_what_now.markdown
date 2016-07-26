@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Done this, done that. What now?
+title: "Done this, done that. What now?"
 category: Life
 tags: Life
 time: 16:01:17

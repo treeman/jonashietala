@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Getting Comfortable
+title: "Getting Comfortable"
 tags: New Stuff, Computer
 time: 14:01:27
 ---

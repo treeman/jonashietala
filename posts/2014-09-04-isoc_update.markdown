@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ISOC update
+title: "ISOC update"
 tags: IDA Summer of Code, rust
 ---
 

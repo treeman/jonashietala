@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Up like a Sun, Down like a Pancake
+title: "Up like a Sun, Down like a Pancake"
 category: Ludum Dare
 tags: Ludum Dare
 ---

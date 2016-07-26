@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Pushing toward Git
+title: "Pushing toward Git"
 category: Git
 tags: Git
 time: 20:02:17

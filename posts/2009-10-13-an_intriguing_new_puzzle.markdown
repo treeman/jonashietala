@@ -1,6 +1,6 @@
 ---
 layout: post
-title: An intriguing new puzzle
+title: "An intriguing new puzzle"
 category: Games
 tags: Gaming
 time: 23:40:09

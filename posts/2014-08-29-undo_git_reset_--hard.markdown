@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Undo git reset --hard
+title: "Undo git reset --hard"
 tags: IDA Summer of Code, Git
 ---
 

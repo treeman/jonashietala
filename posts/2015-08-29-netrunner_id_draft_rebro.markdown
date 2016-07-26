@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Netrunner ID draft Örebro
+title: "Netrunner ID draft Örebro"
 tags: Gaming, Netrunner
 ---
 

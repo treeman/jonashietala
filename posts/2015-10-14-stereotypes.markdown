@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Stereotypes
+title: "Stereotypes"
 tags: Life
 ---
 

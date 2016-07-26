@@ -1,6 +1,6 @@
 ---
 layout: post
-title: No game this month
+title: "No game this month"
 category: News
 tags: 7days
 time: 12:14:22

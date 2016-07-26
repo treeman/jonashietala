@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Minecraft Server Hosting
+title: "Minecraft Server Hosting"
 category: Minecraft
 tags: Minecraft
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: addwatch: resource exhausted
+title: "addwatch: resource exhausted"
 tags: Slackware
 ---
 

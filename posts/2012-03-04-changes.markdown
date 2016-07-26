@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Changes
+title: "Changes"
 category: Life
 tags: Life
 time: 20:21:17

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The I'm Great quote
+title: "The I'm Great quote"
 category: Life
 tags: Life
 time: 23:45:03

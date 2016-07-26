@@ -1,6 +1,6 @@
 ---
 layout: post
-title: November Theme: Art Game
+title: "November Theme: Art Game"
 category: Themes
 tags: Themes, 7days
 time: 19:31:45

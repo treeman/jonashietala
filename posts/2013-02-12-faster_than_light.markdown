@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Faster than Light
+title: "Faster than Light"
 category: Games
 tags: Gaming
 ---

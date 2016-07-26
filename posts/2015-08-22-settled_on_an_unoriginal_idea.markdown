@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Settled on an unoriginal idea
+title: "Settled on an unoriginal idea"
 tags: Ludum Dare
 ---
 

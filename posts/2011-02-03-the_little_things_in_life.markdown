@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Little Things in Life
+title: "The Little Things in Life"
 category: Life
 tags: Programming, Books, Life
 time: 21:32:10

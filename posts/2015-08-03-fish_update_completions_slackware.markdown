@@ -1,6 +1,6 @@
 ---
 layout: post
-title: fish_update_completions in Slackware 14.1
+title: "fish_update_completions in Slackware 14.1"
 tags: Slackware, fish
 ---
 

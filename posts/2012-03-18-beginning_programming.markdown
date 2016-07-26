@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Beginning Programming
+title: "Beginning Programming"
 category: Programming
 tags: Programming
 time: 15:26:46

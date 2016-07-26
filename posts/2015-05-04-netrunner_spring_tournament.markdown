@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Netrunner Spring Tournament
+title: "Netrunner Spring Tournament"
 tags: Gaming, Netrunner
 ---
 

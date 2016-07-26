@@ -1,6 +1,6 @@
 ---
 layout: post
-title: New Computer!
+title: "New Computer!"
 category: Computer
 tags: New Stuff, Computer
 time: 13:23:41

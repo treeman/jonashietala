@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Calling closures in a Vec
+title: "Calling closures in a Vec"
 tags: rust
 ---
 

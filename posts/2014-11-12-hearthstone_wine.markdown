@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Hearthstone on Wine
+title: "Hearthstone on Wine"
 tags: Wine, Slackware
 ---
 

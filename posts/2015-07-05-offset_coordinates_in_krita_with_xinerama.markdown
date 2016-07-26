@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Offset coordinates in Krita with Xinerama
+title: "Offset coordinates in Krita with Xinerama"
 tags: Slackware, Krita
 ---
 

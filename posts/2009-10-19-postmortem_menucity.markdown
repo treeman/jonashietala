@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Postmortem: MenuCity
+title: "Postmortem: MenuCity"
 category: Postmortems
 tags: Postmortems, 7days
 time: 21:01:52

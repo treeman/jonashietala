@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ludum Dare 29 Entry
+title: "Ludum Dare 29 Entry"
 category: rust
 tags: Ludum Dare
 ---

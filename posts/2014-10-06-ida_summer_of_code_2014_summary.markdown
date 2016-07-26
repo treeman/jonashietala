@@ -1,6 +1,6 @@
 ---
 layout: post
-title: IDA Summer of Code 2014: Summary
+title: "IDA Summer of Code 2014: Summary"
 tags: IDA Summer of Code
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Top Idea
+title: "The Top Idea"
 category: Life Hacking
 tags: Life Hacking
 time: 10:05:25

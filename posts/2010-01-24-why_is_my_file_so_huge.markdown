@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why is my file so huge?
+title: "Why is my file so huge?"
 tags: Programming
 time: 17:39:55
 ---

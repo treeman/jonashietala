@@ -1,6 +1,6 @@
 ---
 layout: post
-title: An Epic Start
+title: "An Epic Start"
 category: Ludum Dare
 tags: Ludum Dare
 time: 07:07

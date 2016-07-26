@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Focusing Attention: Study Hacking
+title: "Focusing Attention: Study Hacking"
 category: Attention
 tags: Attention
 time: 00:26:45

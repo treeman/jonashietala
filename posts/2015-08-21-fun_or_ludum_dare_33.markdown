@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fun or Frustration? Ludum Dare 33
+title: "Fun or Frustration? Ludum Dare 33"
 tags: Ludum Dare
 ---
 

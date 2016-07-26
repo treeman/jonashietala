@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Widening the horizon
+title: "Widening the horizon"
 category: Programming
 tags: Programming
 time: 16:15:16

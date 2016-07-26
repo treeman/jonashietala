@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ludum Dare 22 Here I Come
+title: "Ludum Dare 22 Here I Come"
 category: Declaration of War
 tags: Ludum Dare, Game Making
 time: 09:25:31

@@ -1,6 +1,5 @@
 ---
 title: Games
-link: #
 ---
 
 A random list of game prototypes I've made:

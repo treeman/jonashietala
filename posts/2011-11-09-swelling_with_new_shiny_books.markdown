@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Swelling with New Shiny Books
+title: "Swelling with New Shiny Books"
 category: Books
 tags: Books, New Stuff
 time: 21:41:09

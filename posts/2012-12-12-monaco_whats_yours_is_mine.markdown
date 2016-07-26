@@ -1,5 +1,5 @@
 ---
-title: Monaco What's Yours is Mine
+title: "Monaco What's Yours is Mine"
 tags: Gaming
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Good and Bad Programmers
+title: "Good and Bad Programmers"
 category: Programming
 tags: Programming
 ---

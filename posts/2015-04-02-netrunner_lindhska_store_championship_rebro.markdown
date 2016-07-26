@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Netrunner Lindhska Store Championship Örebro
+title: "Netrunner Lindhska Store Championship Örebro"
 tags: Netrunner, Gaming
 ---
 

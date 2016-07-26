@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Gruvbox Syntax Highlighting for Pandoc
+title: "Gruvbox Syntax Highlighting for Pandoc"
 tags: Webpage
 ---
 

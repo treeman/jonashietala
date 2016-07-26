@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Rising from the Dead, it's Ludum Dare
+title: "Rising from the Dead, it's Ludum Dare"
 category: Ludum Dare
 tags: Ludum Dare
 ---

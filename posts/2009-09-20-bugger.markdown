@@ -1,5 +1,5 @@
 ---
-title: Bugger
+title: "Bugger"
 date: 2009-09-20
 tags: Games, 7days
 ---

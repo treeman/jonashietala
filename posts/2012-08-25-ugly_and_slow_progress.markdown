@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ugly and Slow Progress
+title: "Ugly and Slow Progress"
 tags: Ludum Dare
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Summer job at Configura
+title: "Summer job at Configura"
 tags: Programming
 ---
 

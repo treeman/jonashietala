@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Preventing Firefox from creating Desktop directories
+title: "Preventing Firefox from creating Desktop directories"
 tags: Firefox, Slackware
 ---
 

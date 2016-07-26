@@ -1,5 +1,5 @@
 ---
-title: Beebop The Island Hopper
+title: "Beebop The Island Hopper"
 date: 2010-04-26
 repository: git://github.com/treeman/ludumdare17.git
 tags: Games, 7days, Ludum Dare

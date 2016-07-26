@@ -1,6 +1,6 @@
 ---
 layout: post
-title: February gets Themed: Rejection
+title: "February gets Themed: Rejection"
 category: Themes
 tags: Themes, 7days
 time: 18:54:59

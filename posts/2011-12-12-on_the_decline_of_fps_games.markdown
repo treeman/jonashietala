@@ -1,6 +1,6 @@
 ---
 layout: post
-title: On The Decline of FPS Games
+title: "On The Decline of FPS Games"
 tags: Gaming, Game Making
 time: 22:05:30
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Going into Being Busy mode
+title: "Going into Being Busy mode"
 category: Life
 tags: Life
 time: 20:13:09

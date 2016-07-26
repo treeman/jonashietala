@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Mailto: links with FastMail in Firefox
+title: "Mailto: links with FastMail in Firefox"
 tags: FastMail, Firefox
 ---
 

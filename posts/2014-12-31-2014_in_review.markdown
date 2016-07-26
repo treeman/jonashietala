@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 2014 in Review
+title: "2014 in Review"
 category: Yearly Review
 tags: Yearly Review
 ---

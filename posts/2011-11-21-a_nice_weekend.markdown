@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A Nice Weekend
+title: "A Nice Weekend"
 tags: Life
 time: 11:07:14
 ---

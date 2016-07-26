@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Friend of the Tree
+title: "Friend of the Tree"
 tags: IDA Summer of Code
 ---
 

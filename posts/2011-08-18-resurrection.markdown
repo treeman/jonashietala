@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Resurrection
+title: "Resurrection"
 category: Life
 tags: Life
 time: 16:28:50

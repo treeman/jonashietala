@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 5 Years at Linköping's University
+title: "5 Years at Linköping's University"
 tags: Life, School
 ---
 

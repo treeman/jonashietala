@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ludum Dare 22 results!
+title: "Ludum Dare 22 results!"
 tags: Ludum Dare
 time: 21:27:47
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: MenuCity: Level 0 Walkthrough
+title: "MenuCity: Level 0 Walkthrough"
 category: Walkthrough
 tags: Walkthrough
 time: 14:18:27

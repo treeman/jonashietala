@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Slackware update
+title: "Slackware update"
 tags: Slackware
 ---
 

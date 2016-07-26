@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 2014 Read Books
+title: "2014 Read Books"
 category: Read Books
 tags: Read Books
 ---

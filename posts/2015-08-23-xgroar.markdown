@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Groar
+title: "Groar"
 tags: Games, Ludum Dare
 ---
 

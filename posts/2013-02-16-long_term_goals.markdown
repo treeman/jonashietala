@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Long Term Goals
+title: "Long Term Goals"
 category: Life Hacking
 tags: Life Hacking
 ---

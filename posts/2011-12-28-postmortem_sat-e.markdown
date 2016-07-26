@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Postmortem: Sat-E
+title: "Postmortem: Sat-E"
 category: Postmortems
 tags: Postmortems, Ludum Dare, 7days
 time: 19:22:02

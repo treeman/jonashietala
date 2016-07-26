@@ -1,6 +1,6 @@
 ---
 layout: post
-title: October theme says: Numbers
+title: "October theme says: Numbers"
 category: Themes
 tags: Themes, 7days
 time: 18:08:44

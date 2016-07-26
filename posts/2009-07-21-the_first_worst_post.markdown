@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The first (worst) post
+title: "The first (worst) post"
 category: Webpage
 tags: Webpage
 time: 13:34:38

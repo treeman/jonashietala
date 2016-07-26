@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Back to Training
+title: "Back to Training"
 category: Taekwon-do
 tags: Taekwon-do
 time: 13:56:19

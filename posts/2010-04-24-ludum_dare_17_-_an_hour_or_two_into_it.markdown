@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ludum Dare 17 - an hour or two into it
+title: "Ludum Dare 17 - an hour or two into it"
 category: Prototyping
 tags: Ludum Dare
 time: 22:56:54
