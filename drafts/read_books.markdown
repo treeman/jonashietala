@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 2015 Read Books
+title: 2016 Read Books
 tags: Read Books
 ---
 
@@ -12,4 +12,13 @@ Non-Fiction
 
 1. **Getting to Yes**
 1. **Relax into Stretch**
+1. **Thinking, Fast and Slow**
+
+Manga
+=====
+
+1. **Death Note**  
+    Reread.
+1. **Ghost in the Shell**
+1. **Tokyo Ghoul**
 

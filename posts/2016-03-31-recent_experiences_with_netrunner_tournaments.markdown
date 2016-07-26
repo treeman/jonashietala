@@ -78,8 +78,8 @@ I don't have any notes from this tournament but there were a few moments that st
 
 In the end the game I lost against Filip was the only game I lost and so won my second winter kit tournament and I got my Corroder alt art. Erik also won two games so hopefully he has also seen the light and will return to our next tournament.
 
-[Pitchfork]: http://netrunnerdb.com/en/decklist/32970/pitchfork-link-ping-winter-kit-1st
-[Biotech kill]: http://netrunnerdb.com/en/decklist/32969/fugu-link-ping-winter-kit-tournament-1st
+[Pitchfork]: http://netrunnerdb.com/en/decklist/32970/pitchfork-link-ping-winter-kit-1st "Pitchfork (Linköping Winter Kit 1st)"
+[Biotech kill]: http://netrunnerdb.com/en/decklist/32969/fugu-link-ping-winter-kit-tournament-1st "Biotech kill Linköping Winter Kit 1st)"
 
 ![](/images/winter_kit160312.jpg)
 
