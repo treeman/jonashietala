@@ -136,7 +136,7 @@ sub create_post {
     print $fh
 "---
 layout: post
-title: $title
+title: \"$title\"
 tags: Gaming, Ludum Dare
 ---
 
