@@ -4,6 +4,20 @@ title: "Goals for Autumn 2016"
 tags: Life Hacking, 7days
 ---
 
+Habits to start
+===============
+
+1. Martial arts (BJJ/MMA) 2x a week
+1. Isometric stretch 1x a week
+1. Cold shower 1x a day
+1. Grip strength (at work) every day
+1. Brush teeth every day
+1. Read a book 15 min every day (before sleep)
+1. Gym 3x a week
+1. Anki every day (occassional refill)
+1. Choose healthy alternative (every day?)
+
+
 Exercise and Health
 ===================
 
