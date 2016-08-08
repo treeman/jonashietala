@@ -15,6 +15,8 @@ Habits to start
 1. Choose healthy alternative
 1. Take D-vitamin supplements
 
+x
+
 1. Gym 3x a week
 1. Martial arts (BJJ/MMA) 2x a week
 1. Isometric stretch 1x a week
@@ -30,7 +32,7 @@ The goal is to get fit.
     I can achieve this because I've done it before. To achieve it I will not overeat on lunch and choose a better alternative. For snacks I will choose carrots, eggs and water with some dark chocolate or wine. Then we will plan better dinner.
 
     This will be achieved by: Aug 28  
-    The reward will be: 
+    The reward will be: Massage
 
 1. Start BJJ
 
@@ -81,6 +83,13 @@ The goal is to get going with some hobby projects.
     The goal is to get started with soldering. Should be a small project and an hour here or there should be enough to see it through.
 
     This will be achieved by: Aug 10  
+    The reward will be: New wallet
+
+1. Go through *Programming Phoenix* and *Programming Elixir*
+
+    I think I want to learn more about web development and I've heard a ton of good stuff about Phoenix and Elixir.
+
+    This will be achieved by: Sep 15  
     The reward will be: 
 
 1. Construct a custom keyboard
