@@ -13,6 +13,7 @@ Non-Fiction
 1. **Getting to Yes**
 1. **Relax into Stretch**
 1. **Thinking, Fast and Slow**
+1. **59 seconds**
 
 Manga
 =====
