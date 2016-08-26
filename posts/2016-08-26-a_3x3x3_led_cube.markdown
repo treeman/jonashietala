@@ -1,0 +1,16 @@
+---
+layout: post
+title: "A small LED Cube"
+tags: Life Hacking, Goals, Hardware
+---
+
+As a follow up of my [hobby project goals][goals] this autumn I have now completed the smallest goal there. I got started a little with soldering by constructing a small 3x3x3 LED cube.
+
+![](/images/small_led_cube.jpg)
+
+Although extremely hard to see in this picture it actually worked without a hitch! It's not the prettiest job ever but it was quite meditative to work with actually. Now I'm just waiting for the plate to arrive so I can start working on my keyboard.
+
+Oh and the reward for accomplishing this subgoal was to go to black belt academy, a Taekwon-do training camp last week. I like the idea of having clear goals and rewards to work against.
+
+[goals]: /blog/2016/08/12/goals_for_autumn_2016/
+
