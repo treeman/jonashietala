@@ -14,6 +14,7 @@ Non-Fiction
 1. **Relax into Stretch**
 1. **Thinking, Fast and Slow**
 1. **59 seconds**
+1. **The Hard Thing About Hard Things**
 
 Manga
 =====
