@@ -6,12 +6,13 @@ tags: Yearly Review
 
 See the [previous reviews][].
 
-2015 Geek Achievements
+2016 Geek Achievements
 ======================
-1. Placed 2nd in Linköping's Regional in Netrunner
+1. Placed 2nd in Linköping's Regional in Netrunner.
 1. Won a couple of smaller Netrunner tournaments.
+1. Got Veronica to play Game of Thrones with us.
 
-2015 Non-Geek Achievements
+2016 Non-Geek Achievements
 ===========================
 1. Achieved 1-Dan in Taekwon-do.
 1. Read [X books][books read].
