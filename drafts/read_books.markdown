@@ -15,6 +15,8 @@ Non-Fiction
 1. **Thinking, Fast and Slow**
 1. **59 seconds**
 1. **The Hard Thing About Hard Things**
+1. **The Design of Everyday Things**
+1. **Winning Through Intimidation**
 
 Manga
 =====
