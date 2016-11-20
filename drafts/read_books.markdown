@@ -17,6 +17,7 @@ Non-Fiction
 1. **The Hard Thing About Hard Things**
 1. **The Design of Everyday Things**
 1. **Winning Through Intimidation**
+1. **Programming Phoenix**
 
 Manga
 =====

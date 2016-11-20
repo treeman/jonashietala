@@ -24,5 +24,17 @@ Midterm goals until summer 2017.
     + Aim to get as good as fast as possible. Blue belt sooner rather than later.
 
 1. Buy and take care of a dog.
-1. Take a vacation
+
+1. Move to a new apartment.
+
+1. Start studying Korean seriously again
+    + Go through korean books
+    + Anki. Need to add new words once a week
+    + Duolingo (if finished)
+
+1. New strength goals
+    + Bench:
+    + Squat:
+    + Deadlift:
+    + Chins:
 
