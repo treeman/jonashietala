@@ -4,7 +4,7 @@ title: "Goals"
 tags: Life Hacking, Goals
 ---
 
-Midterm goals until summer 2017.
+# New goals for sprint 2017
 
 1. Start consultancy business
     + Setup work environment from home. Upgrade computer, reorder desk, new storage spaces etc.
@@ -21,8 +21,30 @@ Midterm goals until summer 2017.
 1. Prioritize BJJ, longterm goal is to start up own BJJ club when we move to Ötå
     + Train 2-3 times a week
     + Try to compete
-    + Aim to get as good as fast as possible. Blue belt sooner rather than later.
 
 1. Buy and take care of a dog.
-1. Take a vacation
+    + Bichon Havanais ?
+
+1. Get a new apartment
+    + Closer to the city
+    + 3 rooms, with one home office
+
+
+# Smaller goals
+
+1. Power lifting, 1 rep:
+    Intermediate:
+
+    + Back squat    115 kg
+    + Deadlift      130 kg
+    + Bench press   85 kg
+
+    Proficient: (training for 2+ years)
+
+    + Back squat    145 kg
+    + Deadlift      165 kg
+    + Bench press   110 kg
+
+1. Start meditating
+1. Start with cold showers
 
