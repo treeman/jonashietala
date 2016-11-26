@@ -29,35 +29,25 @@ tags: Life Hacking, Goals
     + Closer to the city
     + 3 rooms, with one home office
 
-
-# Smaller goals
-
-1. Power lifting, 1 rep:
+1. Power lifting, 5 reps:
     Intermediate:
 
-    + Back squat    115 kg
-    + Deadlift      130 kg
-    + Bench press   85 kg
-
-    Proficient: (training for 2+ years)
-
-    + Back squat    145 kg
-    + Deadlift      165 kg
-    + Bench press   110 kg
-
-1. Start meditating
-1. Start with cold showers
-
-1. Move to a new apartment.
+    + Back squat    100 kg
+    + Deadlift      115 kg
+    + Bench press   75 kg
+    + Chin-up      +11 kg
+    + (Pull-up      +9 kg)
 
 1. Start studying Korean seriously again
     + Go through korean books
     + Anki. Need to add new words once a week
     + Duolingo (if finished)
 
-1. New strength goals
-    + Bench:
-    + Squat:
-    + Deadlift:
-    + Chins:
+# Habits
+
+1. Headspace every day after dinner
+1. Concentrated BJJ study once a week
+1. Anki
+    + Study every day
+    + Add words every week
 
