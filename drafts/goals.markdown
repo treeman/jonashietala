@@ -48,3 +48,16 @@ tags: Life Hacking, Goals
 1. Start meditating
 1. Start with cold showers
 
+1. Move to a new apartment.
+
+1. Start studying Korean seriously again
+    + Go through korean books
+    + Anki. Need to add new words once a week
+    + Duolingo (if finished)
+
+1. New strength goals
+    + Bench:
+    + Squat:
+    + Deadlift:
+    + Chins:
+
