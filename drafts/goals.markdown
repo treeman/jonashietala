@@ -43,6 +43,19 @@ tags: Life Hacking, Goals
     + Anki. Need to add new words once a week
     + Duolingo (if finished)
 
+1. Read the 4-hour chef and work on improving the foods
+1. Read the 4-hour workweek
+
+Training schedule:
+    Mon: Gym Deadlift/Chin-ups
+    Tue: BJJ
+    Wen: Gym L Bench/H Squat
+    Thu: BJJ
+    Fri: Gym H Bench/L Squat
+         Submission wrestling?
+    Sat: BJJ?
+    Sun:
+
 # Habits
 
 1. Headspace every day after dinner
