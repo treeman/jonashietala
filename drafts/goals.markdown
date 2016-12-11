@@ -20,7 +20,7 @@ tags: Life Hacking, Goals
 
 1. Prioritize BJJ, longterm goal is to start up own BJJ club when we move to Ötå
     + Train 2-3 times a week
-    + Try to compete
+    + Compete at least once
 
 1. Buy and take care of a dog.
     + Bichon Havanais ?
