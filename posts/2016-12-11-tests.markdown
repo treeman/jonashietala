@@ -1,0 +1,73 @@
+---
+layout: post
+title: "Doing some online Personality tests"
+tags: Life
+---
+
+For some reason I've done a couple of personality tests the last month, mostly to satisfy my own curiosity.
+
+# The Braverman Test
+
+Inspired by [Charles Poliquin's visit on The Tim Ferriss Show][charles_tim] I tried out the [Braverman test][] to determine my neurotransmitter type. The point Charles makes is that the type of training most suited to you is determined by your neurotransmitter type, which can be found using the Braverman test.
+
+This is my result:
+
+```
+  Dominant Nature     Deficiencies
+Dopamine:       28          2
+Acetylcholine:  22          3
+GABA:           28         11
+Serotonin:      20          8
+```
+
+I couldn't find any good references to what the ranges mean but I think it means I have a balanced dominant nature and slight GABA and Serotonin deficiencies. According to [this article][type_of_athlete] I'm an Earth type:
+
+> The earth-type athlete has a balanced neurotransmitter profile — they are stable and consistent. These are the guys and gals that show up to the hill every day ready to go. They are well-rounded athletes and thrive on stability, consistency, and routine. They are very sensitive to variations in routine; and if they partied too hard the night prior, you will hear about it and their performance will suffer.
+>
+> While earth types can stay on the bike or board for a full season without needing to switch things up, they need to vary intensity and volume in their approach. This means going on longer, mellower rides for a couple weeks and then going on shorter, balls-to-the-wall ventures for a little while, striking a balance that won’t lead them to burn out. Too much intensity and volume at the same time will lead to straight exhaustion.
+
+Which seems to match my experience well. Going forward I will continue with the same routine focusing on 4 big exercises (squat/bench/chins/deadlift) but I will have a 3-4 week period focusing on volume followed by 3-4 weeks focusing on heavier more intense training.
+
+What [Charles says][charles_type] about Earth types also rhymes well. Especially the part about cold and sleep:
+
+> If you overtrain an Earth person, they'll come down with a cold. They are generally very particular about the quality and quantity of their sleep. They are the ones who will piss and moan during a squat workout about missing an hour of sleep.
+
+[charles_type]: https://www.t-nation.com/training/five-elements
+[Braverman test]: http://advancedpsychcare.tripod.com/sitebuildercontent/sitebuilderfiles/braverman.test.pdf
+[charles_tim]: http://fourhourworkweek.com/2015/07/21/charles-poliquin/ 
+[type_of_athlete]: http://www.theinertia.com/surf/the-five-elements-of-athlete-its-all-about-neurotransmitters/
+
+# ADHD
+
+My girlfriend Veronica came home one day from work after a seminar about ADHD. At first she was drawing parallels to her students but it ended with her drawing parallels to me. I've had this imagine in my mind about a kid with ADHD who can't control what to say, can never be still and acting out but that's not necessarily true.
+
+I tried to fill out [a test][ADHD test] (Swedish) and reading about ADHD online. It seems everything fits really well, for example:
+
+* Hard to finish tasks.
+* Difficulty to remember appointments, meetings and other things. I'm constantly looking for my slippers, keys and other stuff.
+* Avoid starting a task requiring a lot of thought. I'm always procrastinating.
+* I can't sit still without touching, poking or working with something. It's even really hard to watch a TV show (even if I love it) without doing something at the same time. This is a really big problem for me.
+* Constantly feeling overactive.
+* I've always had problems doing careless mistakes, especially when doing "easy" or "boring" tasks.
+* Hard to keep concentration on people when they're speaking.
+* I'm sensitive sound, overly so.
+* Problems falling to sleep, it's hard to relax even when I'm tired.
+
+And many other...
+
+Now it doesn't really mean anything. It won't change who I am or anything but it certainly explains a lot about why I do things and why I'm uncomfortable with things others seem to have no problem with. In the end it's opened my eyes a bit and made me think about what I do more which is great.
+
+[ADHD test]: http://adhd-npf.com/wp-content/uploads/2009/01/18Q-ADHDTest.pdf
+
+# Asperger
+
+After talking about ADHD at work we naturally discussed other disorders like psycopath and asperger. I'm fairly sure I'm not a psycopath, I do feel empathy and remorse and I don't think I'm especially egoistic nor exhibit overly antisocial behavior, but I may be a bit further on the asperger spectra.
+
+For fun I tried out an [aspergers test][] and I scored a 28. According to the site that means:
+
+> 26-31 gives a borderline indication of an autism spectrum disorder. It is also possible to have aspergers or mild autism within this range.
+
+As I don't recognize myself, and Veronica agrees, I don't think I have autism or asperger but I still scored higher than I was expecting.
+
+[aspergers test]: <http://aspergerstest.net/aq-test/>
+
