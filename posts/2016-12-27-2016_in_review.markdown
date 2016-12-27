@@ -19,9 +19,10 @@ See the [previous reviews][].
 1. Achieved 1-Dan in ITF Taekwon-do.
 1. Started training [Brazilian Jiu-Jitsu][bjj] with Veronica.
 1. Got in to the habit of doing powerlifting 2-3 times a week.
-1. Read [X books][books read].
+1. Read [8 books and 10 mangas][books read].
 1. Wrote [10 blog posts][blog posts].
 1. Played a bunch of [Pandemic][] with Veronica and others. *Very good* co-op boardgame.
+1. Got other boardgames, among others: [Food Chain Magnate][] and [Terraforming Mars][].
 1. Went to [Prague][] with Veronica, very nice vacation.
 
 2015 Failures
@@ -39,12 +40,16 @@ Plans for 2016
 1. Prioritize personal develoment.
 
 [Pandemic]: https://boardgamegeek.com/boardgame/30549/pandemic "Pandemic"
-[previous reviews]: </blog/tags/Yearly Review/> "Yearly reviews"
-[books read]: # "2016 Read Books"
-[blog posts]: /archive "My archive"
+[agot]: https://boardgamegeek.com/boardgame/169255/game-thrones-card-game-second-edition "Game of Thrones: The Card Game (second edition)"
+[Food Chain Magnate]: https://boardgamegeek.com/boardgame/167791/terraforming-mars "Terraforming Mars"
+[Terraforming Mars]: https://boardgamegeek.com/boardgame/175914/food-chain-magnate "Food Chain Magnate"
+
 [bjj]: https://en.wikipedia.org/wiki/Brazilian_jiu-jitsu "BJJ"
 [Elixir]: http://elixir-lang.org/ "Elixir programming language"
-[agot]: https://boardgamegeek.com/boardgame/169255/game-thrones-card-game-second-edition "Game of Thrones: The Card Game (second edition)"
-[custom keyboard]: /blog/2016/10/12/building_the_gh60/ "GH60"
 [Prague]: https://en.wikipedia.org/wiki/Prague "Prague"
+
+[previous reviews]: </blog/tags/Yearly Review/> "Yearly reviews"
+[books read]: /blog/2016/12/27/read_books/ "2016 Read Books"
+[blog posts]: /archive "My archive"
+[custom keyboard]: /blog/2016/10/12/building_the_gh60/ "GH60"
 

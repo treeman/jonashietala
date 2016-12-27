@@ -4,6 +4,8 @@ title: 2016 Read Books
 tags: Read Books
 ---
 
+Yeah so I managed to not read a single fiction book this year. To compensate and make myself feel better I'll add in some new mangas I've read, but I may may have missed some.
+
 Fiction
 =======
 *Crickets*
