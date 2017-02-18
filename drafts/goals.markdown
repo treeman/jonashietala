@@ -16,9 +16,9 @@ Smaller things/projects
 
 # Larger life goals
 
-1. Start consultancy business
-1. Buy and take care of a dog
-1. Get a new apartment
+1. Start consultancy business/better job
+1. (Buy and take care of a dog)
+1. (Get a new apartment)
 
 # New goals for sprint 2017
 
@@ -72,23 +72,41 @@ Smaller things/projects
     1. Establish 15-min reading before sleep
     1. Read the 4-hour workweek
 
-1. Complete elixir hobby project site
+1. Regularly work on elixir hobby project
 1. Build split keboard (if parts arrive)
+1. Complete GH60 keyboard built
+1. Save more
+    Extra csn payments
+    Combined saving for me/Veronica
 
 # Habits
 
-1. Headspace every day
+1. Headspace every morning
 1. Read a book 15-min before sleep
-1. Concentrated BJJ study once a week
+1. Concentrated BJJ study once a week on fridays
 1. Anki
     + Study every day
-    + Add words every week
+    + Add words every week on sundays
+1. BJJ on site 2 times a week (change gym to BJJ on some days...?)
+1. Hobby project at least an hour on the weekend
+1. Cold shower every day
 
 # Rewards
 
-1. SFV + stick (after 1st consultancy payment)
 1. BJJ Gi (After competition?)
-1. Rashguard(s)
-1. New phone
-1. Wallet
+1. New phone (Moto G4 Play?)
+
+
+# Top ten activities that makes me happy
+
+1. Promenad med V
+1. Lugn kväll med V
+1. Hitta på saker med V
+1. Träna (BJJ eller gym)
+1. Spela bräd- eller kortspel
+1. Umgås med kompisar
+1. Programmera/utveckla/skapa
+1. Äta god mat
+1. Läsa böcker/manga
+1. Titta på kvalitativa filmer/serier
 
