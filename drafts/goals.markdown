@@ -4,6 +4,16 @@ title: "Goals"
 tags: Life Hacking, Goals
 ---
 
+# Life priority goals
+
+1. Get kids and family
+1. Become financially independent and early retire
+
+Smaller things/projects
+1. Train kids (BJJ?)
+1. Get a dog
+1. Learn a new language or two
+
 # Larger life goals
 
 1. Start consultancy business
