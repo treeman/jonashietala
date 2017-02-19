@@ -78,6 +78,7 @@ Smaller things/projects
 1. Save more
     Extra csn payments
     Combined saving for me/Veronica
+        1-2000 to avanza
 
 # Habits
 
@@ -95,7 +96,6 @@ Smaller things/projects
 
 1. BJJ Gi (After competition?)
 1. New phone (Moto G4 Play?)
-
 
 # Top ten activities that makes me happy
 
