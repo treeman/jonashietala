@@ -97,6 +97,33 @@ Smaller things/projects
 1. BJJ Gi (After competition?)
 1. New phone (Moto G4 Play?)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Top ten activities that makes me happy
 
 1. Promenad med V
@@ -109,4 +136,6 @@ Smaller things/projects
 1. Äta god mat
 1. Läsa böcker/manga
 1. Titta på kvalitativa filmer/serier
+
+1. Bli bättre på något (programmering, spel, träning, ...)
 
