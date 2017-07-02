@@ -9,9 +9,12 @@ Fiction
 
 Non-Fiction
 ===========
+1. **Omgiven av Psykopater**
+1. **Omgiven av Idioter**
 
 Manga
 =====
+1. **Attack on Titan**
 
 Light Novels
 ============
