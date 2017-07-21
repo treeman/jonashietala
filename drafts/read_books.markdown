@@ -26,4 +26,5 @@ Manga
     Reread.
 1. **Ghost in the Shell**
 1. **Tokyo Ghoul**
-
+1. **Bastard**  
+    Fantastic
