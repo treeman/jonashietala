@@ -71,6 +71,11 @@ main = hakyllWith config $ do
             route   txtStaticRoute
             compile getResourceString
 
+    match "static/*.txt" $ do
+        version "raw" $ do
+            route   txtStaticRoute
+            compile getResourceString
+
     match "posts/*.markdown" $ do
         route   postRoute
         compile $ pandocCompiler
