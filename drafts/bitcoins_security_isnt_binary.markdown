@@ -98,6 +98,31 @@ Despite SPV wallets being quite secure running a full node is presented as a req
 
 That everyone should use a full node is used as an argument against raising the 1MB block size limit because there may be some people somewhere who can't store or download the data required. Despite this making Bitcoin unable to scale past 7 tx/s and fees of $60 pricing out the very people who have the most difficulty running full nodes.
 
+# Hard forks & SegWit
+
+A common defense in these discussions is "But always prioritizing security over all else is good". Except it's not consistently prioritized.
+
+I bring you the case of SegWit, a solution to the [transaction malleability problem][]. Jaqen Hash’ghar wrote a [great article (2016)][A fork too far] the whole ordeal. I recommend it although it's a bit long.
+
+To make a long story short SegWit was deployed as a soft fork instead of a hard fork. A hard fork would have been cleaner but it requires all nodes to upgrade and people must agree with the change otherwise the coin would have split into multiple coins (like the Bitcoin and Bitcoin Cash hard fork split). This was deemed extremely unwanted since consensus would be hard to get (maybe there's some parallels to the black and white security approach but that's not the point I'm trying to make).
+
+Instead a soft fork circumvents the problem by allowing nodes to continue working as before except they won't recognize the new features. This was used to implement SegWit as a hack where non-upgraded nodes will view segwit transactions as anyone-can-spend transactions.
+
+Peter R gave a good talk of why this is a theoretical security regression ([slides](https://www.slideshare.net/peter_r/a-segwit-coin-is-not-a-bitcoin)):
+
+https://www.youtube.com/watch?v=VoFb3mcxluY
+
+This regression was pointed out by others like [Peter Todd](https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2015-December/012103.html):
+
+> In its current form, segregated witnesses makes validationless mining
+easier and more profitable than the status quo, particularly as
+transaction fees increase in relevance.
+
+Granted it's only a theoretical weakness that probably won't 
+
+[transaction malleability problem]: https://en.bitcoin.it/wiki/Transaction_malleability "Transaction Malleability"
+[A fork too far]: https://medium.com/the-publius-letters/segregated-witness-a-fork-too-far-87d6e57a4179 "Segregated Witness: A Fork Too Far"
+
 # Conclusion
 
 
