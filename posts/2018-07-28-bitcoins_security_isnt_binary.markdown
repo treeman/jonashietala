@@ -6,7 +6,7 @@ tags: Cryptocurrency
 
 I'd like to address a misconception that's at the core in many Bitcoin discussions lately: Bitcoin's security isn't binary. In fact security in general isn't black and white. It's a trade-off being secure enough for your threat model vs the cost and feasibility of your protection.
 
-Consider having your front door locked for example. You could consider your home secure if your door is locked and insecure if it's open but that doesn't say what you're secure against. It might prevent opportunistic thefts but a more determined attacker could instead break a window, pick the lock of the door or simply break down the door itself. Maybe you live in a neighborhood with lots of thefts and you might want an alarm system, iron bars over your windows or a dog.
+Consider having your front door locked for example. You could consider your home secure if your door is locked and insecure if it's open but that doesn't say what you're secure against. It's missing context. It might prevent opportunistic thefts but a more determined attacker could instead break a window, pick the lock of the door or simply break down the door itself. Maybe you live in a neighborhood with lots of thefts and you might want an alarm system, a dog or iron bars over your windows.
 
 At the same time it might not be practical to go all out and get the best protection possible. You might not want to give up your life and move to a bunker where your friends can't visit and a private security force may be slightly too expensive.
 
@@ -32,7 +32,7 @@ Transactions without a single confirmation, abbreviated 0-conf, by definition ar
 
 Firstly all physical goods purchased online have an inherent delivery delay. The worst that can happen if you accept a 0-conf transaction that gets double spent is you have to cancel the order. Instead if you wait for a confirmation, which on average takes 10 min but might be up to an hour, you introduce an annoying wait time for your customers.
 
-But what's really annoying is when you want to buy things in physical stores. It might be okay to wait for a confirmation email for online purchases but it's completely unacceptable to have to wait 10-60 min for your coffee until your transaction is confirmed (this example is always brought up). Someone could indeed double spend and steal a coffee. That's bad but it's actually not too different from what already have today. VISA allows charge backs [up to 120 days][chargeback-time] and [charge back fraud][] is a common problem for merchants. If you accept cash you risk getting counterfeit bills and you always run the risk of plain old shopliftig.
+But what's really annoying is when you want to buy things in physical stores. It might be okay to wait for a confirmation email for some online purchases but it's completely unacceptable to have to wait 10-60 min for your coffee until your transaction is confirmed (this example is always brought up). Someone could indeed double spend and steal a coffee. That's bad but it's actually not too different from what already have today. VISA allows charge backs [up to 120 days][chargeback-time] and [charge back fraud][] is a common problem for merchants. If you accept cash you risk getting counterfeit bills and you always run the risk of plain old shopliftig.
 
 Some claim it's very easy to double spend 0-conf. [Here's a tweet][todd-rbf] from Core developer Peter Todd:
 
@@ -81,8 +81,7 @@ So to fool you the miner must, at least temporarily, outproduce the rest of the 
 
 But it's theoretically possible and thus businesses like exchanges and payment processors would still want full nodes for the extra security. [Satoshi agrees][whitepaper]:
 
-> Businesses that receive frequent payments will probably still want to
-run their own nodes for more independent security and quicker verification.
+> Businesses that receive frequent payments will probably still want to run their own nodes for more independent security and quicker verification.
 
 Most SPV users are normal people who mostly use wallets to pay for things (SPV wallets are just as secure for the sender). If everyone had to download the whole blockchain just to use Bitcoin on the phone then I'm afraid Bitcoin wouldn't be practical as a payment system at all.
 
@@ -102,7 +101,7 @@ That everyone should use a full node is used as an argument against raising the 
 
 A common defense in these discussions is "But always prioritizing security over all else is good". Except it's not consistently prioritized.
 
-I bring you the case of SegWit, a solution to the [transaction malleability problem][]. Jaqen Hash’ghar wrote a [great article (2016)][A fork too far] the whole ordeal. I recommend it although it's a bit long.
+I bring you the case of SegWit, a solution to the [transaction malleability problem][]. Jaqen Hash’ghar wrote a [great article (2016)][A fork too far] of the whole ordeal. I recommend it although it's a bit long.
 
 To make a long story short SegWit was deployed as a soft fork instead of a hard fork. A hard fork would have been cleaner but it requires all nodes to upgrade and people must agree with the change otherwise the coin would have split into multiple coins (like the Bitcoin and Bitcoin Cash hard fork split). This was deemed extremely unwanted since consensus would be hard to get (maybe there's some parallels to the black and white security approach but that's not the point I'm trying to make).
 
@@ -118,16 +117,15 @@ This regression was pointed out by others like [Peter Todd](https://lists.linuxf
 easier and more profitable than the status quo, particularly as
 transaction fees increase in relevance.
 
-Granted it's only a theoretical weakness that probably won't 
+Granted it's only a theoretical weakness that probably won't cause any problems, but it's a clear example of a binary thought process that in this case doesn't prioritize security.
 
 [transaction malleability problem]: https://en.bitcoin.it/wiki/Transaction_malleability "Transaction Malleability"
 [A fork too far]: https://medium.com/the-publius-letters/segregated-witness-a-fork-too-far-87d6e57a4179 "Segregated Witness: A Fork Too Far"
 
 # Conclusion
 
+There are many examples where features of Bitcoin are discarded as "insecure" without a nuanced discussion about risks and rewards. This binary thinking is actively harmful and must be called out.
 
-
-Features of Bitcoin are very easily discarded as "insecure" despite
 
 [btg-51]: https://www.trustnodes.com/2018/05/24/bitcoin-gold-51-attacked-18-million-stolen-double-spends "Bitcoin Gold 51% Attacked, $18 Million Stolen Through Double Spends"
 [todd-rbf]: https://twitter.com/peterktodd/status/686365181241212928 "Peter Todd on Twitter: its already trivial to send an easy to doublespend tx"
