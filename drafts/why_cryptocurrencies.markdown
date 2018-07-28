@@ -95,16 +95,125 @@ In combination with fulfilling the properties of money this makes cryptocurrenci
 * Control of your own money
 * Send money to/from inaccessible countries (either Western Union/banks don't support it or are very expensive)
 * Protection against inflation in Venezuela
+* India voids 500 and 1000 rupee bills
+
+## The charity EatBCH feeds Venezuelans
+
+Sending money to an inaccessible country using cryptocurrencies.
+
+<https://twitter.com/eatBCH>
+<https://news.bitcoin.com/meet-the-charity-eat-bch-the-p2p-electronic-cash-to-food-system/>
+
+## Protection against hyperinflation in Venezuela
+
+Store of value
+No central government in control of your money which can suddenly destroy your savings.
+
+## India voids 500 and 1000 rupee bills
+
+Control of your own money.
+
 
 # Better digital payments
 
 * Donations to for example Wikileaks who got their PayPal account frozen (tons of documented cases where PayPal freezes accounts without a good cause)
-* Gray area businesses (mariuana, porn, escort services, gambling) that have trouble getting banks/cards
+* Gray area businesses (marijuana, porn, escort services, gambling) that have trouble getting banks/cards
 * Avoid credit card charge back fraud
 * Lower fees
 * A means for unbanked people to do business digitally. Yes there are many of those and you can imagine the difficulties for them if you cannot get a bank account or a credit card in today's society.
 
-## Dark markets.
+## Donations to WikiLeaks
+
+PayPal froze donations to WikiLeaks: <https://wikileaks.org/PayPal-freezes-WikiLeaks-donations.html>
+
+There are many other examples where PayPal freezes accounts of legitimate businesses suddenly and without good cause. This is quite serious since they also freeze the funds in the account.
+
+
+## Payments to gray area businesses
+
+Credit card companies don't have any obligation to serve all customers. Instead they can, at their own discretion, choose which customers they want to serve. This means they can deny perfectly legal businesses the ability to get paid by card.
+
+For example Marijuana businesses have [trouble with credit card processing restrictions](https://www.cardfellow.com/blog/credit-card-processing-for-marijuana-businesses/) and have to resort to cash payments despite operating legally. Other examples include porn, escort services and gambling.
+
+With cryptocurrencies these businesses avoids the issue of someone arbitrarily deciding their business shouldn't be able to accept payments digitally.
+
+
+## Banking the unbanked
+
+A means for unbanked people to do business digitally. Yes there are many of those and you can imagine the difficulties for them if you cannot get a bank account or a credit card in today's society.
+
+
+Around 2 billion people are unbanked.
+
+Around 15% of the cited people claimed the couldn't get an account:
+
+<https://www.businessinsider.com/the-worlds-unbanked-population-in-6-charts-2017-8?r=UK&IR=T#finally-the-most-common-reason-people-cited-for-not-having-a-bank-account-was-they-did-not-have-enough-money-with-only-4-of-people-saying-the-only-reason-they-didnt-have-one-was-because-they-didnt-need-one-6>
+
+Also that the mobile money market is expanding in particular in developing countries.
+
+
+This is a perfect use for cryptocurrencies since anyone can easily create a wallet and send/receive coins without any identification or papers of any kind. All that's necessary is an internet connection.
+
+
+## Safer and cheaper for merchants
+
+Safer: Avoid charge back fraud
+
+
+Cheaper:
+
+BCH:                $0.003
+
+Fees are depending on the business and amount
+VISA/mastercard:    1-3%
+PayPal:             2-5%
+Western Union:      Varies a lot but typically much more expensive than the other options
+
+[MasterCard explains interchange fees](https://www.mastercard.us/en-us/about-mastercard/what-we-do/interchange.html):
+
+> Interchange is a small fee paid by a merchant's bank (acquirer) to a cardholder's bank (issuer) to compensate the issuer for the value and benefits that merchants receive when they accept electronic payments. It enables banks that issue electronic payments to deliver tremendous value to merchants, governments and consumers.
+
+In particular:
+
+> Merchants benefit from guaranteed payment; increased sales; fraud protection; lower processing costs than those associated with other forms of payment such as checks and cash; and the ability to attract and retain customers with a fast, efficient buying experience.
+
+
+
+<https://www.cardfellow.com/blog/credit-card-processing-fees/>
+
+Credit card processing fees are quite complex.
+
+> Credit card processing fees are either flat fees, transaction fees, or based on volume. Assessments are listed above, and interchange fees (or at least a portion of them) are published by Visa and MasterCard. The only inconsistent portion of cost is the processor’s markup. Unfortunately, the scope of different fees and pricing models utilized in the marketplace makes accurately comparing markups a daunting task.
+
+## Black markets
+
+There's a concept one should have in mind when talking about black markets:
+
+> Legality doesn't imply morality
+
+For example slavery used to be legal but most would agree it's immoral. Conversely a homeless boy stealing food to prevent his little sister from starving may be illegal but also moral.
+
+Therefore black market usage isn't easily dismissed with "it's illegal" and we should look a little closer at some examples.
+
+But first what is a black market? In short it's a term for a market where transactions are illegal in some way. Obviously buying illegal things or services but it also includes tax violations and transactions outside government control.
+
+This includes paying a craftsman off the books, something that doesn't bother a lot of people.  Or if you've accidentally made any mistakes with taxes on a transaction (happens quite often although without repercussions). 
+
+Also in countries with a lot of corruption or dysfunctional governments black markets are huge. For example in the Soviet Union many people relied on black markets to get their food supply when the market economy failed them. Or in Greece during their economic breakdown where the black market was [estimated at 20 to 25 percent of the GDP](https://www.nytimes.com/2017/02/18/world/europe/greece-bailout-black-market.html):
+
+> The heart of the matter for an ever-rising number of citizens and businesses is that they simply do not have the financial resources anymore to meet their rising tax obligations
+
+Black markets have typically preferred physical cash because it's permissionless nature. With cryptocurrencies there's now a digital equivalent.  An additional to a digital variant is it's easier to store and move especially in larger amounts.
+
+In particular cryptocurrencies enable dark net markets where you can buy and sell stuff online. Contrary to popular belief these too operate with their own morality where they're mostly about subsets of drugs and medicine.
+
+To see the positive side of dark net markets consider this example and try to see yourself in it:
+
+> Your wife got diagnosed with cancer. Despite having insurance it only covers a part of the extremely high medical costs in the US and you're looking at a yearly expense of $20,000 just for the medicine she needs. This is just too much for you to afford but she needs the medicine otherwise she'll die.
+
+What if I told you the same medicine could be bought in India for a fraction of the cost? What if there was a way to easily order it online? Even if it was illegal would you do it? What if the risk of getting caught was very small? There are variations of the same story, [here's one with a bit more detail](https://darkwebnews.com/news/high-costs-force-patients-to-dark-net-in-search-of-needed-medicine/).
+
+This is exactly what cryptocurrencies and dark net markets gives you.
 
 <https://podcast.bitcoin.com/e219-Black-Markets-On-The-Blockchain>
 
