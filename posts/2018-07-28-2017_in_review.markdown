@@ -1,0 +1,37 @@
+---
+layout: post
+title: "2017 in Review"
+tags: Yearly Review
+---
+
+In contrast to [previous years][] I haven't kept up with the blog. For good reason I'd say since we got a child in October! It really alters your perspectives and other things suddenly feel a little less important and of course there's less time to do other stuff.
+
+A little late and incomplete perhaps but at least I'll try to have an unbroken streak of reviews.
+
+2017 Non-Geek Achievements
+===========================
+1. Got a kid!
+1. Wrote [6 blog posts][blog posts].
+
+2017 Geek Achievements
+======================
+1. Picked my first lock.
+1. Studied a little Korean (haphazardly...).
+
+2016 Failures
+==============
+1. No hobby programming.
+1. Didn't read enough books.
+
+Plans for 2018
+===============
+1. Take care of Veronica and Isidor.
+1. Parental leave.
+1. Move to a house in another part of the country.
+1. Write some more.
+1. Read some more.
+1. Train some more.
+
+[previous years]: </blog/tags/Yearly Review/> "Yearly reviews"
+[blog posts]: /archive "My archive"
+
