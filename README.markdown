@@ -33,6 +33,12 @@ Dependencies
 TODO
 ====
 
+* Restyle
+    * Explore fonts
+        Century Supra + Concourse https://practicaltypography.com/century-supra.html $239
+        Source Code Pro, for code  free
+        Fira Sans, https://bboxtype.com/typefaces/FiraSans/#!layout=specimen free
+        IBM Plex, https://www.fontsquirrel.com/fonts/ibm-plex
 * Write posts about some good read books/games etc
 * Remove links to images offpage!
 * Check style for markdown tables.
