@@ -1,3 +1,137 @@
+@import 'fonts';
+
+html {
+  /* Better box model, includes border in width calculations. */
+  box-sizing: border-box;
+  /* Predictable styling. */
+  margin: 0;
+  padding: 0;
+}
+body {
+    text-rendering: optimizeLegibility;
+    font-family: $century-supra, Georgia, serif;
+    /*font-family: 'Century Supra T3', Georgia;*/
+    font-size: 22px;
+    line-height: 1.45;
+    /*font-feature-settings: "onum", "liga";*/
+    /*font-feature-settings: "ss08";*/
+    font-feature-settings: 'kern' 1;
+
+    padding: 0;
+    margin: 0;
+
+    //color: #3c3836; // gruvbox light fg
+    color: #282828; // gruvbox light fg0
+    background-color: #fffffc;
+}
+
 @import 'code';
 
 
+h1, h2, h3, h4 {
+    font-family: $concourse, Helvetica, sans-serif;
+    line-height: 1.3;
+    /*font-feature-settings: "ss01";*/
+
+    /* figure this out...*/
+    /*line-height: 1;*/
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-size: 32px;
+}
+h2 {
+    font-size: 27px;
+    margin-top: 1.2em;
+    margin-bottom: 0.2em;
+}
+h3 {
+    font-size: 24px;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+}
+h4 {
+    font-size: 20px;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+}
+p {
+    /*margin: 0em, 0em, 1em, 0em;*/
+    margin-top: 0;
+    margin-bottom: 1em;
+    /*margin: 1em 0;*/
+    /*margin-top: 0;*/
+    /*margin-bottom: 1em;*/
+}
+
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+
+.content {
+    /*max-width: 1200px;*/
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    /*hyphens: auto;*/
+}
+
+article {
+    width: 100%;
+    /*hyphens: auto;*/
+    /*background-color: orange;*/
+}
+
+
+.project {
+    width: 50%;
+    /*background-color: orange;*/
+}
+
+
+blockquote {
+    font-size: 95%;
+    line-height: 1.4;
+    margin: 0 2em;
+}
+
+
+ul {
+    /*list-style: circle;*/
+}
+ul {
+  /*list-style: none;*/
+}
+
+/*ul {*/
+    /*list-style: none;*/
+    /*padding: 0px;*/
+/*}*/
+/*li::before {*/
+    /*font-family: "Concourse";*/
+    /*[>content: "†";<]*/
+    /*content: "•";*/
+    /*float: left;*/
+    /*margin-left: -2.5rem;*/
+    /*margin-top: 0.1rem;*/
+    /*font-feature-settings: 'onum' 1;*/
+/*}*/
+/*li {*/
+    /*list-style: none;*/
+    /*margin-left: 1.35rem;*/
+    /*padding-left: 1.15rem;*/
+    /*margin-bottom: 0.7em;*/
+    /*[>font-size: 95%;<]*/
+    /*[>line-height: 1.35;<]*/
+/*}*/
+li {
+    margin-bottom: 0.7em;
+    /*font-size: 95%;*/
+    /*line-height: 1.4;*/
+}

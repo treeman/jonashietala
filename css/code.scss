@@ -1,43 +1,9 @@
-@font-face {
-    font-family: 'Hack';
-    src: url('/fonts/Hack-Regular.woff') format('woff');
-}
-@font-face {
-    font-family: 'Source Code';
-    src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff');
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Source Code';
-    src: url('/fonts/SourceCodeVariable-Italic.woff') format('woff');
-    font-style: italic;
-}
-
-/*
-code {
-    font-family: 'Hack', monospace;
-    //font-family: 'Source Code', monospace;
-    font-size: 18px;
-    padding: 0.2em;
-}
-pre code {
-    padding: 0;
-}
-pre {
-    word-wrap: normal;
-    overflow: auto;
-    padding: 0.6em 1.0em;
-}
-*/
 
 
 code {
-    font-family: 'Source Code', monospace;
+    font-family: $source-code, monospace;
     font-size: 16px;
     padding: 0.2em;
-
-    //font-family: 'Hack', monospace;
-    //line-height: 1.4;
 }
 pre code {
     padding: 0;
