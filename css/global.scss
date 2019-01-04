@@ -1,4 +1,3 @@
-@import 'fonts';
 
 html {
   /* Better box model, includes border in width calculations. */
@@ -24,8 +23,6 @@ body {
     color: #282828; // gruvbox light fg0
     background-color: #fffffc;
 }
-
-@import 'code';
 
 
 h1, h2, h3, h4 {
@@ -57,12 +54,8 @@ h4 {
     margin-bottom: 0.2em;
 }
 p {
-    /*margin: 0em, 0em, 1em, 0em;*/
     margin-top: 0;
     margin-bottom: 1em;
-    /*margin: 1em 0;*/
-    /*margin-top: 0;*/
-    /*margin-bottom: 1em;*/
 }
 
 a {
@@ -88,50 +81,3 @@ article {
     /*background-color: orange;*/
 }
 
-
-.project {
-    width: 50%;
-    /*background-color: orange;*/
-}
-
-
-blockquote {
-    font-size: 95%;
-    line-height: 1.4;
-    margin: 0 2em;
-}
-
-
-ul {
-    /*list-style: circle;*/
-}
-ul {
-  /*list-style: none;*/
-}
-
-/*ul {*/
-    /*list-style: none;*/
-    /*padding: 0px;*/
-/*}*/
-/*li::before {*/
-    /*font-family: "Concourse";*/
-    /*[>content: "†";<]*/
-    /*content: "•";*/
-    /*float: left;*/
-    /*margin-left: -2.5rem;*/
-    /*margin-top: 0.1rem;*/
-    /*font-feature-settings: 'onum' 1;*/
-/*}*/
-/*li {*/
-    /*list-style: none;*/
-    /*margin-left: 1.35rem;*/
-    /*padding-left: 1.15rem;*/
-    /*margin-bottom: 0.7em;*/
-    /*[>font-size: 95%;<]*/
-    /*[>line-height: 1.35;<]*/
-/*}*/
-li {
-    margin-bottom: 0.7em;
-    /*font-size: 95%;*/
-    /*line-height: 1.4;*/
-}

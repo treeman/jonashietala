@@ -25,8 +25,6 @@ abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
 
 So we should do `foo` then `bar` then `quux`
 
-Fractions: 1/2 + 3/4
-
 ff fi fj ffl
 
 This text is **bold**. This is *italicized*. This is ***both*** `Here's some code.`.
@@ -37,58 +35,74 @@ This text is **bold**. This is *italicized*. This is ***both*** `Here's some cod
 
 Quotes are "cool". Or are they 'cool'? 1234567890
 
+> Just a normal quote. Where some dude says something smart.  
+> And the next line.
+
+Some other text
+
 > First level of quoting.
 >
 > > This is a nested blockquote
-  that runs into the next line.
 >
-> # Header in quoting
->
-> Hmm
->
+> Hmm  
 > Back to the first level.
 
 ## Second Header ##
 
+Unordered list:
+
 * Milk
 * Bread
 * Cheese
-    * Cheddar
-    * Camambert
 * Rice
+
+Ordered list:
 
 1. Milk
 2. Bread
 3. Cheese
-    1. Cheddar
-    2. Camambert
 5. Rice
 
     Can also have some text here
 
     But then the paragraph destroys?
 6. Pew  
-    This is closer
-
+    This is closer  
     To what I want?
 
 ### Third Header ###
 
-| First Header | Second Header | Third Header |
-| :----------- | :-----------: | -----------: |
-| First row    | Data          | Data         |
-| Second row   | **Cell**      | *Cell*       |
-| Third row    | **Cell**      | *Cell*       |
+Table:
 
-**Pew?**
+| Left aligned | Centered      | Right aligned |
+| :----------- | :-----------: | -----------:  |
+| First row    | Data          | Data          |
+| Second row   | **Cell** 1    | 1111          |
+| Third row    | **Cell** 2    | 3333          |
+| Fourth row   | **Cell** 3    | 6789          |
 
-http://example.com
+<http://example.com>
+
+<mail@jonashietala.se>
 
 ------------------
 
 wow_great_stuff
 
 ~~Mistaken text.~~
+
+| The limerick packs laughs anatomical
+| In space that is quite economical.
+|    But the good ones I've seen
+|    So seldom are clean
+| And the clean ones so seldom are comical
+
+| 200 Main St.
+| Berkeley, CA 94718
+
+$x^2 = 3$
+
+Here is a footnote reference,[^1] and another.[^longnote]
 
 ```{.css}
 /* Gruvbox inspired */
@@ -106,7 +120,9 @@ code.sourceCode span.fu { color: #79740e; } /* Function green */
 
 @font-face {
     font-family: 'Source Code';
-    src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff'); /* 80 ch*/
+    src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff'); /* 80 ch */
+    src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff'); /*------ 90 ch ----*/
+    src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff'); /*---------- 100 ch ---------*/
 }
 ```
 
@@ -157,3 +173,18 @@ int main(int *argc, int *argv[]) {
 }
 ```
 
+[^1]: Here is the footnote.
+
+[^longnote]: Here's one with multiple blocks.
+
+    Subsequent paragraphs are indented to show that they
+belong to the previous footnote.
+
+        { some.code }
+
+    The whole paragraph can be indented, or just the first
+    line.  In this way, multi-paragraph footnotes work like
+    multi-paragraph list items.
+
+This paragraph won't be part of the note, because it
+isn't indented.

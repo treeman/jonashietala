@@ -284,7 +284,7 @@ rawArchiveCompiler title tags pattern tpl = do
 
 
 sassCompiler :: Compiler (Item String)
-sassCompiler = loadBody "css/site.scss"
+sassCompiler = loadBody "css/main.scss"
                 >>= makeItem
                 >>= withItemBody (unixFilter "sassc" args)
     where args = ["-s", "-I", "css/"]

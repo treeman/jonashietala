@@ -10,7 +10,6 @@ Sitemap
 
     /
     /projects
-    /recommendations
     /blog
     /blog/tags/:tag
     /blog/:year/:month/:day/:title
@@ -33,25 +32,22 @@ TODO
 ====
 
 * Restyle
-    * Explore fonts
-        Century Supra + Concourse https://practicaltypography.com/century-supra.html $239
-        Source Code Pro, for code  free
-        Fira Sans, https://bboxtype.com/typefaces/FiraSans/#!layout=specimen free
-        IBM Plex, https://www.fontsquirrel.com/fonts/ibm-plex
-        Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
-    * Read <https://internetingishard.com/html-and-css/>, also has a very nicely designed site!
-    * Properly design html semantics, see https://gsnedders.html5.org/outliner/ https://internetingishard.com/html-and-css/semantic-html/
+    * Properly design html semantics, see 
+        https://gsnedders.html5.org/outliner/ 
+        https://internetingishard.com/html-and-css/semantic-html/
     * figcapture in markdown?
     * aside in markdown?
     * Style lists
-    * Style quotes
-    * Padding around headings
+    * Style tables
     * Nicely designed site: https://www.blaenkdenum.com/posts/extra-dependencies-in-hakyll/
+    * Colorscheme for links etc
+    * Header
+    * Footer
 
-* SASS for Hakyll?
+* Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
+* GPG key page
 
 * Write posts about some good read books/games etc
 * Remove links to images offpage!
-* Check style for markdown tables.
 * Remove spaces from tag links e.g "Yearly Review"
 
