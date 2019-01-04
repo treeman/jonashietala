@@ -1,260 +1,213 @@
-html { font-size: 62.5%; }
-body {
-    color: #3c3836; /* light1 */
-    /* Merriweather is cool, but not default */
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 18px;
-    line-height: 29.7px;
-    padding: 0;
-    margin: 0;
-}
 
-/* Better box model? Not sure if it does anything atm... */
-html {
-  box-sizing: border-box;
+@font-face {
+  font-family: 'Century Supra';
+  src: url('/fonts/century_supra_t3_regular.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
 }
-*, *:before, *:after {
-  box-sizing: inherit;
+@font-face {
+  font-family: 'Century Supra';
+  src: url('/fonts/century_supra_t3_italic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
 }
-h1 { font-size: 2.1em; }
-h2 { font-size: 1.6em; }
-h3 { font-size: 1.2em; }
-h4 { font-size: 0.9em; }
-h5 { font-size: 0.7em; }
-
-h1, h2, h3, h4, h5, {
-    color: #3c3836;
-    line-height: normal;
+@font-face {
+  font-family: 'Century Supra';
+  src: url('/fonts/century_supra_t3_bold.woff') format('woff');
+  font-style: normal;
+  font-weight: bold;
 }
-
-a {
-    text-decoration:none;
-    border-bottom: 1px dotted;
-    color: #A54268;
-}
-
-a:visited {
-    color: #8f3f71; /* purple */
-}
-
-a:hover {
-    border-bottom: 1px solid;
-    color: #427b58;
-}
-
-h1 a, h2 a, h3 a, h4 a, h5 a {
-    border-bottom: 1px dotted;
-    line-height: normal;
-}
-
-h1 a, h2 a, h3 a, h4 a, h5 a,
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover,
-h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
-    color: #3c3836;
-}
-
-#wrapper {
-    width: 100%;
-    clear: both;
-    height: auto !important;
-    min-height: 100%;
-    padding: 0;
-    margin: 0;
-}
-
-#content, header .nav-wrapper {
-    clear: both;
-    width: 90%;
-    margin: 0 auto;
-    max-width: 80em;
-}
-
-header .nav-wrapper nav {
-    padding-left: 3em;
-}
-
-header, footer {
-    /*background-color: #1d2021;*/ /* lighter */
-    background-color: #32302f;
-    color: #bdae93;
-    width: 100%;
-}
-
-header {
-    height: 5.8em;
-}
-
-header nav {
-    padding: 0.1em 0em;
-}
-
-/*header nav { font-size: 2.1rem; }*/
-
-header .nav-wrapper nav a,
-header .nav-wrapper nav a:visited,
-footer nav a,
-footer nav a:visited {
-    color: #bdae93;
-}
-
-header .nav-wrapper nav a:hover,
-footer nav a:hover {
-    color: #fe8019;
-}
-
-/* Large home */
-header .nav-wrapper h1 {
-    margin: 0;
-    /*padding: 0.2em 0;*/
-    padding-top: 0.3em;
-    padding-bottom: 0em;
-}
-
-header .nav-wrapper h1 a {
-    color: #bdae93;
-    border-bottom: none;
-}
-header .nav-wrapper h1 a:hover {
-    border-bottom: 1px solid;
-}
-
-nav ul {
-    margin: 0;
-    padding: 0;
-    height: 1.0em;
-}
-
-nav li {
-    display: block;
-}
-
-nav li a {
-    float: left;
-    margin-right: 0.5em;
-}
-
-footer {
-    padding: 0;
-    padding-top: 0.5em;
-    padding-bottom: 0.7em;
-    width: 100%;
-    /* extend footer to bottom */
-    box-shadow: 0px 1000px 0px 1000px #4D4948;
-}
-
-footer nav {
-    width: 100%;
-    max-width: 20em;
-    clear: both;
-    margin: 0 auto;
-    padding: 0;
-}
-
-footer .lower {
-    width: 100%;
-    max-width: 30em;
-    clear: both;
-    margin: 1.3em auto 0em auto;
-    padding: 0;
-}
-
-footer .lower a {
-    color: #d3869b;
-}
-footer .lower a:hover {
-    color: #fe8019;
-}
-
-/*** Front page specific ***/
-.post-links {
-    margin-bottom: 2.2em;
-}
-
-/*** Markdown specific ***/
-article blockquote {
-    margin-left: 1em;
-    padding-left: 1em;
-    border-left: 1px solid #ddd;
-}
-
-/* Fix post tag spacing */
-article .tags {
-    margin-bottom: 1.0em;
-}
-
-/*** Override selection ***/
-/* See https://css-tricks.com/snippets/css/change-text-selection-color/ */
-
-/* Mozilla based browsers */
-::-moz-selection {
-       background-color: #fabd2f;
-       color: #000;
-}
-
-/* Works in Safari */
-::selection {
-       background-color: #fabd2f;
-       color: #000;
-}
-
-/* Table stylings, stolen/adapted from
- * https://github.com/sindresorhus/github-markdown-css/blob/gh-pages/github-markdown.css
- * TODO restyle?
- */
-article table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    display: block;
-    width: 100%;
-    overflow: auto;
-    word-break: normal;
-    word-break: keep-all;
-}
-
-article td,
-article th {
-    padding: 0;
-}
-
-article table th {
+@font-face {
+  font-family: 'Century Supra';
+  src: url('/fonts/century_supra_t3_bold_italic.woff') format('woff');
+  font-style: italic;
   font-weight: bold;
 }
 
-article table th,
-article table td {
-  padding: 6px 13px;
-  border: 1px solid #ddd;
-}
-
-article table tr {
-  background-color: #fff;
-  border-top: 1px solid #ccc;
-}
-
 /*
-article table tr:nth-child(2n) {
-  background-color: #f8f8f8;
+@font-face {
+    font-family: 'Source Code';
+    src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff');
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Code';
+    src: url('/fonts/SourceCodeVariable-Italic.woff') format('woff');
+    font-style: italic;
 }
 */
 
-/*** Syntax highlighting. ***/
-code {
-    font-family: Consolas,"Courier New",monospace;
-    font-size: 0.9em;
-    padding: 0.2em;
-    line-height: 1.3;
+@font-face {
+    font-family: 'Concourse';
+    src: url('/fonts/concourse_t3_regular.woff') format('woff');
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Concourse';
+    src: url('/fonts/concourse_t3_italic.woff') format('woff');
+    font-style: italic;
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Concourse';
+    src: url('/fonts/concourse_t3_bold.woff') format('woff');
+    font-style: normal;
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'Concourse';
+    src: url('/fonts/concourse_t3_bold_italic.woff') format('woff');
+    font-style: italic;
+    font-weight: bold;
 }
 
+html {
+  /* Better box model, includes border in width calculations. */
+  box-sizing: border-box;
+  /* Predictable styling. */
+  margin: 0;
+  padding: 0;
+}
+body {
+    text-rendering: optimizeLegibility;
+    font-family: 'Century Supra', Georgia, serif;
+    /*font-family: 'Century Supra T3', Georgia;*/
+    font-size: 22px;
+    line-height: 1.45;
+    /*font-feature-settings: "onum", "liga";*/
+    /*font-feature-settings: "ss08";*/
+    font-feature-settings: 'kern' 1;
+
+    padding: 0;
+    margin: 0;
+
+    color: #3c3836; /* light1 */
+    background-color: #fffffc;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Concourse', Helvetica, sans-serif;
+    line-height: 1.3;
+    /*font-feature-settings: "ss01";*/
+
+    /* figure this out...*/
+    /*line-height: 1;*/
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-size: 32px;
+}
+h2 {
+    font-size: 27px;
+    margin-top: 1.2em;
+    margin-bottom: 0.2em;
+}
+h3 {
+    font-size: 24px;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+}
+h4 {
+    font-size: 20px;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+}
+p {
+    /*margin: 0em, 0em, 1em, 0em;*/
+    margin-top: 0;
+    margin-bottom: 1em;
+    /*margin: 1em 0;*/
+    /*margin-top: 0;*/
+    /*margin-bottom: 1em;*/
+}
+blockquote {
+    font-size: 95%;
+    line-height: 1.4;
+    margin: 0 2em;
+}
+.page {
+    /*width: 100%;*/
+}
+
+.content {
+    /*max-width: 1200px;*/
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    /*hyphens: auto;*/
+}
+
+.project {
+    width: 50%;
+    /*background-color: orange;*/
+}
+
+article {
+    width: 100%;
+    /*hyphens: auto;*/
+    /*background-color: orange;*/
+}
+
+ul {
+    /*list-style: circle;*/
+}
+ul {
+  /*list-style: none;*/
+}
+
+/*ul {*/
+    /*list-style: none;*/
+    /*padding: 0px;*/
+/*}*/
+/*li::before {*/
+    /*font-family: "Concourse";*/
+    /*[>content: "†";<]*/
+    /*content: "•";*/
+    /*float: left;*/
+    /*margin-left: -2.5rem;*/
+    /*margin-top: 0.1rem;*/
+    /*font-feature-settings: 'onum' 1;*/
+/*}*/
+/*li {*/
+    /*list-style: none;*/
+    /*margin-left: 1.35rem;*/
+    /*padding-left: 1.15rem;*/
+    /*margin-bottom: 0.7em;*/
+    /*[>font-size: 95%;<]*/
+    /*[>line-height: 1.35;<]*/
+/*}*/
+li {
+    margin-bottom: 0.7em;
+    /*font-size: 95%;*/
+    /*line-height: 1.4;*/
+}
+
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+
+/*
+code {
+    font-family: 'Source Code', monospace;
+    font-size: 18px;
+    padding: 0.2em;
+}
+pre code {
+    padding: 0;
+}
 pre {
     word-wrap: normal;
     overflow: auto;
     padding: 0.6em 1.0em;
-    line-height: 1.3;
 }
-
-pre code {
-    padding: 0;
-}
+*/
 
 /* Adaptation of the gruvbox theme */
 code, pre { background-color: #f2e5bc; } /* Hard contrast */
@@ -272,43 +225,51 @@ code.sourceCode span.re { color: #af3a03; } /* Region marker orange */
 code.sourceCode span.er { color: #9d0006; font-weight: bold; } /* Error red */
 code.sourceCode span.al { color: #9d0006; font-weight: bold; } /* Alert red */
 
-/* TODO if I ever want to start using line numbers (with {.C .numberLines} for example)
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    vertical-align: baseline;
-    border: none;
+code.sourceCode span.im { color: #9d0006; } /* @font-face, "foo.h" in include pragma */
+code.sourceCode span.pp { color: #9d0006; } /* pragma directive */
+code.sourceCode span.cf { color: #9d0006; } /* for */
+code.sourceCode span.sc { color: #9d0006; } /* \n */
+code.sourceCode span.op { color: #9d0006; } /* Operator */
+code.sourceCode span.cn { color: #9d0006; } /* CSS hash value color */
+
+
+/*
+#wrapper {
+    width: 100%;
 }
-td.lineNumbers {
-    border-right: 1px solid #AAAAAA;
-    text-align: right;
-    color: #AAAAAA;
-    padding-right: 5px;
-    padding-left: 5px;
+#content {
+    clear: both;
+    max-width: 720px;
+    margin: 0 auto;
+    hyphens: auto;
 }
-td.sourceCode { padding-left: 5px; }
+
+header, footer {
+    width: 100%;
+}
 */
 
-/*** Pretty video embedding ***/
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;
-}
 
-.video-container iframe, .video-container object, .video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+/*
+a:visited:active {
+  color: red;
 }
-
-.video-wrapper {
-    width: 600px;
-    max-width: 100%;
+a:visited:hover {
+  color: orange;
 }
+a:link {
+  color: blue;
+  text-decoration: none;
+}
+a:visited {
+  color: purple;
+}
+a:hover {
+  color: aqua;
+  text-decoration: underline;
+}
+a:active {
+  color: red;
+}
+*/
 

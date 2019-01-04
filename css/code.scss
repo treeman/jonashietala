@@ -1,0 +1,103 @@
+@font-face {
+    font-family: 'Source Code';
+    src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff');
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Code';
+    src: url('/fonts/SourceCodeVariable-Italic.woff') format('woff');
+    font-style: italic;
+}
+
+/*
+code {
+    font-family: 'Hack', monospace;
+    //font-family: 'Source Code', monospace;
+    font-size: 18px;
+    padding: 0.2em;
+}
+pre code {
+    padding: 0;
+}
+pre {
+    word-wrap: normal;
+    overflow: auto;
+    padding: 0.6em 1.0em;
+}
+*/
+
+
+code {
+    font-family: 'Source Code', monospace;
+    font-size: 18px;
+    padding: 0.2em;
+}
+pre code {
+    padding: 0;
+}
+pre {
+    word-wrap: normal;
+    overflow: auto;
+    padding: 0.6em 1.0em;
+}
+
+// Light Background
+$gb-lm-bg0: #fbf1c7;
+$gb-lm-bg0-hard: #f9f5d7;
+$gb-lm-bg0-soft: #f2e5bc;
+$gb-lm-bg1: #ebdbb2;
+$gb-lm-bg2: #d5c4a1;
+$gb-lm-bg3: #bdae93;
+$gb-lm-bg4: #a89984;
+
+// Light Foreground
+$gb-lm-fg0: #282828;
+$gb-lm-fg1: #3c3836;
+$gb-lm-fg2: #504945;
+$gb-lm-fg3: #665c54;
+$gb-lm-fg4: #7c6f64;
+
+// Light Colors
+$gb-lm-dark-red: #cc241d;
+$gb-lm-dark-green: #98971a;
+$gb-lm-dark-yellow: #d79921;
+$gb-lm-dark-blue: #458588;
+$gb-lm-dark-purple: #b16286;
+$gb-lm-dark-aqua: #689d6a;
+$gb-lm-dark-orange: #d65d0e;
+$gb-lm-dark-gray: #928374;
+
+$gb-lm-light-red: #9d0006;
+$gb-lm-light-green: #79740e;
+$gb-lm-light-yellow: #b57614;
+$gb-lm-light-blue: #076678;
+$gb-lm-light-purple: #8f3f71;
+$gb-lm-light-aqua: #427b58;
+$gb-lm-light-orange: #af3a03;
+$gb-lm-light-gray: #7c6f64;
+
+$a: #fff;
+
+/* Adaptation of the gruvbox theme */
+code, pre { background-color: $gb-lm-bg0-soft; }
+code.sourceCode span.kw { color: $gb-lm-light-red; } /* Keyword red */
+code.sourceCode span.dt { color: $gb-lm-light-yellow; } /* Datatype yellow */
+code.sourceCode span.dv { color: #000; } /* DecVal purple */
+code.sourceCode span.bn { color: #000; } /* BaseN purple */
+code.sourceCode span.fl { color: #000; } /* Float purple */
+code.sourceCode span.ch { color: #000; } /* Char purple */
+code.sourceCode span.st { color: #000; } /* String green */
+code.sourceCode span.co { color: #000; font-style: italic; } /* Comment medium */
+code.sourceCode span.ot { color: #000; } /* OtherToken aqua */
+code.sourceCode span.fu { color: #000; } /* Function green */
+code.sourceCode span.re { color: #000; } /* Region marker orange */
+code.sourceCode span.er { color: #000; font-weight: bold; } /* Error red */
+code.sourceCode span.al { color: #000; font-weight: bold; } /* Alert red */
+
+code.sourceCode span.im { color: #000; } /* @font-face, "foo.h" in include pragma */
+code.sourceCode span.pp { color: #000; } /* pragma directive */
+code.sourceCode span.cf { color: #000; } /* for */
+code.sourceCode span.sc { color: #000; } /* \n */
+code.sourceCode span.op { color: #000; } /* Operator */
+code.sourceCode span.cn { color: #222; } /* CSS hash value color */
+

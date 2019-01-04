@@ -18,6 +18,7 @@ import qualified Text.Blaze.Html5.Attributes as A
 import Text.Regex (subRegex, mkRegex)
 
 import Hakyll
+import Text.Sass.Options
 
 mail = "mail@jonashietala.se"
 name = "Jonas Hietala"
@@ -51,13 +52,19 @@ recommended = [ "posts/2015-07-22-5_years_at_the_university.markdown"
 
 main :: IO ()
 main = hakyllWith config $ do
-    match ("images/**" .||. "favicon.ico") $ do
+    match ("images/**" .||. "favicon.ico" .||. "fonts/**") $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "css/*" $ do
-        route   idRoute
-        compile compressCssCompiler
+    match "css/*.scss" $ do
+        compile getResourceBody
+
+    -- Enable hot reload when changing an imported stylesheet
+    scssDependencies <- makePatternDependency "css/*.scss"
+    rulesExtraDependencies [scssDependencies] $ do
+        create ["css/main.css"] $ do
+            route   idRoute
+            compile sassCompiler
 
     tags <- buildTags "posts/*.markdown" (fromCapture "tags/*")
 
@@ -70,6 +77,10 @@ main = hakyllWith config $ do
         version "raw" $ do
             route   txtStaticRoute
             compile getResourceString
+
+    match "static/*.html" $ do
+        route   staticRoute
+        compile copyFileCompiler
 
     match "static/*.txt" $ do
         version "raw" $ do
@@ -270,6 +281,13 @@ rawArchiveCompiler title tags pattern tpl = do
         >>= loadAndApplyTemplateList "templates/short-post-item.txt" (postCtx tags)
         >>= makeItem
         >>= loadAndApplyTemplate tpl ctx
+
+
+sassCompiler :: Compiler (Item String)
+sassCompiler = loadBody "css/site.scss"
+                >>= makeItem
+                >>= withItemBody (unixFilter "sassc" args)
+    where args = ["-s", "-I", "css/"]
 
 
 siteCtx :: Context String
