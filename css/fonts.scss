@@ -1,28 +1,33 @@
 $century-supra: 'Century Supra';
 @font-face {
-  font-family: $century-supra;
-  src: url('/fonts/century_supra_t3_regular.woff') format('woff');
-  font-style: normal;
-  font-weight: normal;
+    font-family: $century-supra;
+    src: url('/fonts/century_supra_t3_regular.woff') format('woff');
+    font-style: normal;
+    font-weight: normal;
 }
 @font-face {
-  font-family: $century-supra;
-  src: url('/fonts/century_supra_t3_italic.woff') format('woff');
-  font-style: italic;
-  font-weight: normal;
+    font-family: $century-supra;
+    src: url('/fonts/century_supra_t3_italic.woff') format('woff');
+    font-style: italic;
+    font-weight: normal;
 }
 @font-face {
-  font-family: $century-supra;
-  src: url('/fonts/century_supra_t3_bold.woff') format('woff');
-  font-style: normal;
-  font-weight: bold;
+    font-family: $century-supra;
+    src: url('/fonts/century_supra_t3_bold.woff') format('woff');
+    font-style: normal;
+    font-weight: bold;
 }
 @font-face {
-  font-family: $century-supra;
-  src: url('/fonts/century_supra_t3_bold_italic.woff') format('woff');
-  font-style: italic;
-  font-weight: bold;
+    font-family: $century-supra;
+    src: url('/fonts/century_supra_t3_bold_italic.woff') format('woff');
+    font-style: italic;
+    font-weight: bold;
 }
+//@font-face {
+    //font-family: $century-supra;
+    //src: url('/fonts/century_supra_c3_regular.woff') format('woff');
+    //font-variant: small-caps;
+//}
 
 $concourse: 'Concourse';
 @font-face {

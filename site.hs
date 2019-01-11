@@ -74,18 +74,9 @@ main = hakyllWith config $ do
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
             >>= deIndexUrls
 
-        version "raw" $ do
-            route   txtStaticRoute
-            compile getResourceString
-
     match "static/*.html" $ do
         route   staticRoute
         compile copyFileCompiler
-
-    match "static/*.txt" $ do
-        version "raw" $ do
-            route   txtStaticRoute
-            compile getResourceString
 
     match "posts/*.markdown" $ do
         route   postRoute
@@ -99,17 +90,12 @@ main = hakyllWith config $ do
             >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
             >>= deIndexUrls
 
-        version "raw" $ do
-            route   txtPostRoute
-            compile $ getResourceString
-                >>= saveSnapshot "content"
-
     match "drafts/*.markdown" $ do
         route   draftRoute
         compile $ pandocCompiler
             >>= applyFilter youtubeFilter
             >>= return . fmap demoteHeaders
-            >>= loadAndApplyTemplate "templates/draft.html" (draftCtx tags)
+            >>= loadAndApplyTemplate "templates/post.html" (draftCtx tags)
             >>= loadAndApplyTemplate "templates/site.html" (draftCtx tags)
             >>= deIndexUrls
 
@@ -125,23 +111,12 @@ main = hakyllWith config $ do
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
-        version "raw" $ do
-            route indexToTxtRoute
-            compile $ loadAllSnapshots ("posts/*" .&&. hasVersion "raw") "content"
-                >>= recentFirst
-                >>= joinBodies
-                >>= makeItem
-
     create ["archive/index.html"] $ do
         let title = "The Archives"
         let pattern = "posts/*.markdown"
 
         route   idRoute
         compile $ archiveCompiler title tags pattern "templates/archive.html"
-
-        version "raw" $ do
-            route indexToTxtRoute
-            compile $ rawArchiveCompiler title tags pattern "templates/archive.txt"
 
     create ["drafts/index.html"] $ do
         let title = "All drafts"
@@ -156,16 +131,9 @@ main = hakyllWith config $ do
         route   tagRoute
         compile $ archiveCompiler title tags pattern "templates/tags-archive.html"
 
-        -- Raw version forces re-update of tag pages. Wtf?
-        -- Actually everything does...
-
     match "projects/*.markdown" $ do
         compile $ pandocCompiler
             >>= saveSnapshot "content"
-
-        version "raw" $ do
-            compile $ getResourceString
-                >>= saveSnapshot "content"
 
     create ["projects/index.html"] $ do
         route   idRoute
@@ -179,13 +147,6 @@ main = hakyllWith config $ do
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
-        version "raw" $ do
-            route indexToTxtRoute
-            compile $ do
-                loadAllSnapshots ("projects/*.markdown" .&&. hasVersion "raw") "content"
-                    >>= joinBodies
-                    >>= makeItem
-
     -- Main page
     match "about.markdown" $ do
         route   $ customRoute (const "index.html")
@@ -195,18 +156,14 @@ main = hakyllWith config $ do
             let ctx = constField "posts" list <>
                       constField "recommended" recommended <>
                       --field "tags" (\_ -> renderTagList (sortTagsBy tagSort tags)) <>
-                      {-field "tags" (\_ -> renderTagHtmlList tags) <>-}
-                      field "tags" (\_ -> renderTagCloud 80 160 tags) <>
+                      field "tags" (\_ -> renderTagHtmlList (sortTagsBy tagSort tags)) <>
+                      --field "tags" (\_ -> renderTagCloud 80 160 tags) <>
                       siteCtx
 
             pandocCompiler
                 >>= loadAndApplyTemplate "templates/index.html" ctx
                 >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
                 >>= deIndexUrls
-
-        version "raw" $ do
-            route $ customRoute (const "index.txt")
-            compile $ getResourceString
 
     match "templates/*" $ compile templateCompiler
 
@@ -269,20 +226,6 @@ draftArchiveCompiler title tags pattern tpl = do
         >>= deIndexUrls
 
 
-rawArchiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
-rawArchiveCompiler title tags pattern tpl = do
-    let ctx = mconcat
-            [ constField "title" title
-            , siteCtx
-            ]
-
-    loadAllSnapshots (pattern .&&. hasVersion "raw") "content"
-        >>= recentFirst
-        >>= loadAndApplyTemplateList "templates/short-post-item.txt" (postCtx tags)
-        >>= makeItem
-        >>= loadAndApplyTemplate tpl ctx
-
-
 sassCompiler :: Compiler (Item String)
 sassCompiler = loadBody "css/main.scss"
                 >>= makeItem
@@ -296,6 +239,7 @@ siteCtx = mconcat
     , constField "name" name
     , metaKeywordCtx
     , defaultContext
+    , constField "gpg" "http://pgp.mit.edu/pks/lookup?op=get&search=0x48347567AD15CC54"
     ]
 
 
@@ -309,7 +253,8 @@ postCtx tags = mconcat
 
 draftCtx :: Tags -> Context String
 draftCtx tags = mconcat
-    [ constField "date" "unknown date" -- FIXME todays date?
+    [ constField "date" "January 1, 2000"
+    , constField "ymd" "2000-01-01"
     , tagsField "tags" tags
     , siteCtx
     ]
@@ -389,11 +334,6 @@ txtStaticRoute = gsubRoute "static/" (const "") `composeRoutes`
 tagRoute :: Routes
 tagRoute = gsubRoute "tags/" (const "blog/tags/") `composeRoutes`
            dropIndexRoute
-
-
-rawTagRoute :: Routes
-rawTagRoute = gsubRoute "tags/" (const "blog/tags/") `composeRoutes`
-              setExtension ".txt"
 
 
 replacePosts :: Routes

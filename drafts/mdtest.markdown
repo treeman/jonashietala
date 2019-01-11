@@ -16,7 +16,7 @@ Others
 
 ### Header 3 (h4)
 
-Consider having your front door locked for example. You could consider your home secure if your door is locked and insecure if it’s open but that doesn’t say what you’re secure against. It’s missing context. It might prevent opportunistic thefts but a more determined attacker could instead break a window, pick the lock of the door or simply break down the door itself. Maybe you live in a neighborhood with lots of thefts and you might want an alarm system, a dog or iron bars over your windows.
+Consider having your front door locked for example. You could consider your home secure if your door is locked and insecure if it’s open but that doesn’t say what you’re secure against. It’s missing context. It might prevent opportunistic thefts but a more determined attacker could instead break a window, pick the lock of the door or simply break down the door itself. [Maybe you live in a neighborhood](#) with lots of thefts and you might want an alarm system, a dog or iron bars over your windows.
 
 At the same time it might not be practical to go all out and get the best protection possible. You might not want to give up your life and move to a bunker where your friends can’t visit and a private security force may be slightly too expensive.
 
@@ -114,16 +114,22 @@ code.sourceCode span.bn { color: #8f3f71; } /* BaseN purple */
 code.sourceCode span.fl { color: #8f3f71; } /* Float purple */
 code.sourceCode span.ch { color: #4070a0; } /* Char purple */
 code.sourceCode span.st { color: #79740e; } /* String green */
-code.sourceCode span.co { color: #928374; font-style: italic; } /* Comment medium */
+code.sourceCode span.co { color: #928374; font-style: italic; }
 code.sourceCode span.ot { color: #427b56; } /* OtherToken aqua */
 code.sourceCode span.fu { color: #79740e; } /* Function green */
+```
 
+```{.css}
 @font-face {
     font-family: 'Source Code';
     src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff'); /* 80 ch */
     src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff'); /*------ 90 ch ----*/
     src: url('/fonts/SourceCodeVariable-Roman.woff') format('woff'); /*---------- 100 ch ---------*/
 }
+```
+
+```
+empty
 ```
 
 ```{.C}
@@ -188,3 +194,4 @@ belong to the previous footnote.
 
 This paragraph won't be part of the note, because it
 isn't indented.
+

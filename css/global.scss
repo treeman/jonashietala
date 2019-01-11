@@ -1,3 +1,4 @@
+$default-font-color: $gb-lm-fg0;
 
 html {
   /* Better box model, includes border in width calculations. */
@@ -19,8 +20,7 @@ body {
     padding: 0;
     margin: 0;
 
-    //color: #3c3836; // gruvbox light fg
-    color: #282828; // gruvbox light fg0
+    color: $default-font-color;
     background-color: #fffffc;
 }
 
@@ -53,6 +53,12 @@ h4 {
     margin-top: 1em;
     margin-bottom: 0.2em;
 }
+h1 a, h2 a, h3 a, h4 a, h5 a,
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover,
+h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
+    color: $default-font-color;
+}
+
 p {
     margin-top: 0;
     margin-bottom: 1em;
@@ -65,19 +71,115 @@ a:hover {
     text-decoration: underline;
 }
 
+.article-content, .archive {
+    max-width: 800px;
+    background-color: green;
+}
 
-.content {
-    /*max-width: 1200px;*/
-    width: 800px;
-    margin: 0 auto;
+.main-lists {
+    background-color: orange;
+}
+
+.site-title {
+    font-size: 25px;
+}
+
+.main-tags {
+    background-color: aqua;
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+            //flex: 1 0 25%;
+            flex: 1 0 250px;
+        }
+    }
+}
+
+.page {
     display: flex;
     flex-wrap: wrap;
-    /*hyphens: auto;*/
+    justify-content: center;
 }
 
-article {
+.site-header {
+    //display: flex;
+    background-color: red;
+    //flex: 1;
+
+    .nav-wrapper {
+        //display: flex;
+        //justify-content: right;
+    }
+
+    .site-title {
+        float: right;
+    }
+
+    nav li {
+        display: block;
+    }
+}
+
+.site-footer {
     width: 100%;
-    /*hyphens: auto;*/
-    /*background-color: orange;*/
+    background-color: blue;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    nav, .lower {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    nav li {
+        display: block;
+        float: left;
+        margin-right: 1.0em;
+    }
 }
 
+article.project {
+    width: 30%;
+    //width: 400px;
+    //background-color: brown;
+}
+
+//.main-wrapper {
+    //width: 100%;
+    //display: flex;
+    //background-color: #bbb;
+    //flex-wrap: wrap;
+    //justify-content: center;
+//}
+
+
+
+
+//article {
+    //width: 100%;
+//}
+
+a {
+    color: #0030BB;
+    //font-variant: small-caps;
+}
+a:visited {
+    color: #8900BB;
+}
+a:hover {
+    //color: #427b58;
+}
+
+/* Mozilla based browsers */
+::-moz-selection {
+       //background-color: #fabd2f;
+       //color: #000;
+}
+/* Works in Safari */
+::selection {
+       //background-color: #fabd2f;
+       //color: #000;
+}
