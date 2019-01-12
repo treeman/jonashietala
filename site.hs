@@ -71,6 +71,7 @@ main = hakyllWith config $ do
     match "static/*.markdown" $ do
         route   staticRoute
         compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/static.html" defaultContext
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
             >>= deIndexUrls
 
@@ -104,10 +105,11 @@ main = hakyllWith config $ do
         compile $ do
             let ctx = constField "title" "My Weblog" <> siteCtx
 
-            loadAllSnapshots ("posts/*.markdown" .&&. hasNoVersion) "demoted_content"
+            loadAllSnapshots "posts/*.markdown" "demoted_content"
                 >>= recentFirst
                 >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
                 >>= makeItem
+                >>= loadAndApplyTemplate "templates/posts.html" defaultContext
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
@@ -135,18 +137,29 @@ main = hakyllWith config $ do
         compile $ pandocCompiler
             >>= saveSnapshot "content"
 
-    create ["projects/index.html"] $ do
-        route   idRoute
-        compile $ do
-            let ctx = constField "title" "Projects" <> siteCtx
+    match "projects/games/*.markdown" $ do
+        compile $ pandocCompiler
+            >>= saveSnapshot "content"
 
-            loadAllSnapshots ("projects/*.markdown" .&&. hasNoVersion) "content"
-                -- Should be able to apply template in project?
-                >>= loadAndApplyTemplateList "templates/project.html" defaultContext
-                >>= makeItem
-                >>= loadAndApplyTemplate "templates/projects.html" defaultContext
-                >>= loadAndApplyTemplate "templates/site.html" ctx
-                >>= deIndexUrls
+    gamesDependencies <- makePatternDependency "projects/games/*.markdown"
+    projectDependencies <- makePatternDependency "projects/*.markdown"
+    rulesExtraDependencies [gamesDependencies, projectDependencies] $ do
+        create ["projects/index.html"] $ do
+            route   idRoute
+            compile $ do
+                games <- renderGamesList "projects/games/*.markdown"
+                let ctx = constField "title" "Projects" <>
+                          constField "games" games <>
+                          --listField "games" (field "game" (return . itemBody)
+                          siteCtx
+
+                loadAllSnapshots "projects/*.markdown" "content"
+                    -- Should be able to apply template in project?
+                    >>= loadAndApplyTemplateList "templates/project.html" ctx
+                    >>= makeItem
+                    >>= loadAndApplyTemplate "templates/projects.html" ctx
+                    >>= loadAndApplyTemplate "templates/site.html" ctx
+                    >>= deIndexUrls
 
     -- Main page
     match "about.markdown" $ do
@@ -173,7 +186,7 @@ main = hakyllWith config $ do
         compile $ do
             let feedCtx = (postCtx tags) <> bodyField "description"
             posts <- fmap (take 30) . recentFirst =<<
-                loadAllSnapshots ("posts/*.markdown" .&&. hasNoVersion) "post"
+                loadAllSnapshots "posts/*.markdown" "post"
             renderAtom myFeedConfiguration feedCtx posts
 
 
@@ -243,7 +256,6 @@ siteCtx = mconcat
     , constField "gpg" "http://pgp.mit.edu/pks/lookup?op=get&search=0x48347567AD15CC54"
     ]
 
-
 postCtx :: Tags -> Context String
 postCtx tags = mconcat
     [ dateField "date" "%B %e, %Y"
@@ -273,7 +285,7 @@ postList :: Pattern
          -> ([Item String]
          -> Compiler [Item String])
          -> Compiler [Item String]
-postList pattern filter = filter =<< loadAll (pattern .&&. hasNoVersion)
+postList pattern filter = filter =<< loadAll pattern
 
 
 renderPostList :: Tags
@@ -304,20 +316,20 @@ renderTagHtmlList = renderTags makeLink makeList
     makeList tags = renderHtml $ H.ul $ H.preEscapedToHtml (intercalate "" tags)
 
 
+--gamesList :: Compiler [Item String]
+--gamesList = loadAll "templates/games/*.markdown"
+
+
+renderGamesList :: Pattern -> Compiler String
+renderGamesList pattern = do
+    loadAllSnapshots "projects/games/*.markdown" "content"
+        >>= loadAndApplyTemplateList "templates/game-item.html" defaultContext
+
+
 postRoute :: Routes
 postRoute = replacePosts `composeRoutes`
             dateRoute `composeRoutes`
             dropIndexRoute
-
-
-txtPostRoute :: Routes
-txtPostRoute = replacePosts `composeRoutes`
-            dateRoute `composeRoutes`
-            setExtension ".txt"
-
-
-txtDraftRoute :: Routes
-txtDraftRoute = setExtension ".txt"
 
 
 staticRoute :: Routes
@@ -326,10 +338,6 @@ staticRoute = gsubRoute "static/" (const "") `composeRoutes`
 
 draftRoute :: Routes
 draftRoute = dropIndexRoute
-
-txtStaticRoute :: Routes
-txtStaticRoute = gsubRoute "static/" (const "") `composeRoutes`
-            setExtension ".txt"
 
 
 tagRoute :: Routes
@@ -350,10 +358,6 @@ dateRoute =
 dropIndexRoute :: Routes
 dropIndexRoute = customRoute $
      (++ "/index.html"). dropExtension . toFilePath
-
-
-indexToTxtRoute :: Routes
-indexToTxtRoute = gsubRoute "/index.html" (const ".txt")
 
 
 deIndexUrls :: Item String -> Compiler (Item String)

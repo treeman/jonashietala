@@ -22,6 +22,8 @@ At the same time it might not be practical to go all out and get the best protec
 
 abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
 
+http://www.youtube.com/watch?v=eoKDyhxCVm0
+
 
 So we should do `foo` then `bar` then `quux`
 

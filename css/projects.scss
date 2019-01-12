@@ -1,11 +1,30 @@
 .projects {
     @extend %body-wide-flex;
+    //background-color: yellow;
 
     article.project {
         max-width: 800px;
         width: 50%;
         //width: 400px;
         //background-color: brown;
+    }
+}
+
+.games {
+    background-color: tomato;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    //flex-direction: row-reverse;
+
+    header {
+        width: 100%;
+    }
+
+    .game {
+        //max-width: 800px;
+        width: 50%;
+        background-color: yellow;
     }
 }
 
