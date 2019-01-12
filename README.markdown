@@ -14,7 +14,6 @@ Sitemap
     /blog/tags/:tag
     /blog/:year/:month/:day/:title
     /archive
-    /contact
     /404
     /feed.xml
     /masters_thesis
@@ -22,7 +21,7 @@ Sitemap
 Dependencies
 ============
 
-1. cabal: hakyll, missingH, hakyll-sass
+1. cabal: hakyll, missingH
 2. python-magic (for MIME type)
 3. s3cmd  
    If you're using `sync` to upload to S3 bucket.
@@ -31,6 +30,7 @@ Dependencies
 TODO
 ====
 
+* Projects + games
 * Restyle
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 
@@ -40,12 +40,10 @@ TODO
     * Style lists
     * Style tables
     * Nicely designed site: https://www.blaenkdenum.com/posts/extra-dependencies-in-hakyll/
-    * Colorscheme for links etc
     * Header
     * Footer
 
 * Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
-* GPG key page
 
 * Write posts about some good read books/games etc
 * Remove links to images offpage!

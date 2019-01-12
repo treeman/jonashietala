@@ -144,6 +144,7 @@ main = hakyllWith config $ do
                 -- Should be able to apply template in project?
                 >>= loadAndApplyTemplateList "templates/project.html" defaultContext
                 >>= makeItem
+                >>= loadAndApplyTemplate "templates/projects.html" defaultContext
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
@@ -161,7 +162,7 @@ main = hakyllWith config $ do
                       siteCtx
 
             pandocCompiler
-                >>= loadAndApplyTemplate "templates/index.html" ctx
+                >>= loadAndApplyTemplate "templates/homepage.html" ctx
                 >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
                 >>= deIndexUrls
 

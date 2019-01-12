@@ -8,13 +8,13 @@ html {
   padding: 0;
 }
 body {
-    text-rendering: optimizeLegibility;
     font-family: $century-supra, Georgia, serif;
     /*font-family: 'Century Supra T3', Georgia;*/
     font-size: 22px;
     line-height: 1.45;
     /*font-feature-settings: "onum", "liga";*/
     /*font-feature-settings: "ss08";*/
+    text-rendering: optimizeLegibility;
     font-feature-settings: 'kern' 1;
 
     padding: 0;
@@ -59,54 +59,50 @@ h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
     color: $default-font-color;
 }
 
+
 p {
     margin-top: 0;
     margin-bottom: 1em;
 }
 
+
 a {
     text-decoration: none;
+    color: #0030BB;
 }
 a:hover {
+    //color: #427b58;
     text-decoration: underline;
 }
+a:visited {
+    color: #8900BB;
+}
 
-.article-content, .archive {
+
+body, .main-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+%body-text {
     max-width: 800px;
+}
+
+%body-wide-flex {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1500px;
+    flex: 1;
+}
+
+
+.archive {
+    @extend %body-text;
     background-color: green;
 }
 
-.main-lists {
-    background-color: orange;
-}
-
-.site-title {
-    font-size: 25px;
-}
-
-.main-tags {
-    background-color: aqua;
-    ul {
-        display: flex;
-        flex-wrap: wrap;
-        li {
-            //flex: 1 0 25%;
-            flex: 1 0 250px;
-        }
-    }
-}
-
-body {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.main-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
 
 .site-header {
     //display: flex;
@@ -120,6 +116,7 @@ body {
 
     .site-title {
         float: right;
+        font-size: 25px;
     }
 
     nav li {
@@ -147,45 +144,3 @@ body {
     }
 }
 
-article.project {
-    width: 30%;
-    //width: 400px;
-    //background-color: brown;
-}
-
-//.main-wrapper {
-    //width: 100%;
-    //display: flex;
-    //background-color: #bbb;
-    //flex-wrap: wrap;
-    //justify-content: center;
-//}
-
-
-
-
-//article {
-    //width: 100%;
-//}
-
-a {
-    color: #0030BB;
-    //font-variant: small-caps;
-}
-a:visited {
-    color: #8900BB;
-}
-a:hover {
-    //color: #427b58;
-}
-
-/* Mozilla based browsers */
-::-moz-selection {
-       //background-color: #fabd2f;
-       //color: #000;
-}
-/* Works in Safari */
-::selection {
-       //background-color: #fabd2f;
-       //color: #000;
-}

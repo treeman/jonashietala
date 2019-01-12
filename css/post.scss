@@ -1,3 +1,7 @@
+.article-content, {
+    @extend %body-text;
+    background-color: tomato;
+}
 
 blockquote {
     font-size: 95%;

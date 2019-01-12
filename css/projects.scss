@@ -1,5 +1,11 @@
-.project {
-    width: 50%;
-    /*background-color: orange;*/
+.projects {
+    @extend %body-wide-flex;
+
+    article.project {
+        max-width: 800px;
+        width: 50%;
+        //width: 400px;
+        //background-color: brown;
+    }
 }
 

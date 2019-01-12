@@ -7,7 +7,8 @@
         <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="/feed.xml" />
         $metaKeywords$
     </head>
-    <body class="page">
+    <body>
+      <div class="main-content">
         <header class="site-header">
           <div class="nav-wrapper">
             <h1 class="site-title"><a href="/">Jonas Hietala</a></h1>
@@ -22,22 +23,23 @@
         </header>
 
         $body$
+      </div>
 
-        <footer class="site-footer">
-            <nav>
-              <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/archive">Archive</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/contact">Contact</a> (<a href="$gpg$">gpg</a>)</li>
-              </ul>
-            </nav>
+      <footer class="site-footer">
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/archive">Archive</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/contact">Contact</a> (<a href="$gpg$">gpg</a>)</li>
+          </ul>
+        </nav>
 
-            <div class=lower>
-                Powered by <a href="http://jaspervdj.be/hakyll">Hakyll</a>.
-                Check out the <a href="https://github.com/treeman/jonashietala">source</a>.
-            </div>
-        </footer>
+        <div class=lower>
+          Powered by <a href="http://jaspervdj.be/hakyll">Hakyll</a>.
+          Check out the <a href="https://github.com/treeman/jonashietala">source</a>.
+        </div>
+      </footer>
     </body>
 </html>
 

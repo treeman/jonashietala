@@ -1,0 +1,25 @@
+.homepage {
+    @extend %body-wide-flex;
+
+    .about {
+        @extend %body-text;
+        background-color: green;
+    }
+
+    .main-lists {
+        background-color: orange;
+    }
+
+    .main-tags {
+        background-color: aqua;
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            li {
+                //flex: 1 0 25%;
+                flex: 1 0 250px;
+            }
+        }
+    }
+}
+
