@@ -30,11 +30,17 @@ Dependencies
 TODO
 ====
 
-* Projects + games
-    * Order of games
-    * Style game item
-
 * Restyle
+    * Responsive header
+    * Header & footer styling
+    * Post styling
+    * Static page styling
+    * Archives styling
+    * Responsive projects
+    * Responsive homepage
+    * Homepage styling
+    * Multiple post styling
+
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 
         https://internetingishard.com/html-and-css/semantic-html/
