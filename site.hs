@@ -330,6 +330,7 @@ renderTagHtmlList = renderTags makeLink makeList
 renderGamesList :: Pattern -> Compiler String
 renderGamesList pattern = do
     loadAllSnapshots "projects/games/*.markdown" "content"
+        >>= recentFirst
         >>= loadAndApplyTemplateList "templates/game-item.html" gameCtx
 
 
