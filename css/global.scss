@@ -1,4 +1,6 @@
-$default-font-color: $gb-lm-fg0;
+$body-font-color: $gb-lm-fg0;
+$serif-font-family: $century-supra, Georgia, serif;
+$sans-serif-font-family: $concourse, Helvetica, sans-serif;
 
 html {
   /* Better box model, includes border in width calculations. */
@@ -8,8 +10,7 @@ html {
   padding: 0;
 }
 body {
-    font-family: $century-supra, Georgia, serif;
-    /*font-family: 'Century Supra T3', Georgia;*/
+    font-family: $serif-font-family;
     font-size: 22px;
     line-height: 1.45;
     /*font-feature-settings: "onum", "liga";*/
@@ -20,13 +21,13 @@ body {
     padding: 0;
     margin: 0;
 
-    color: $default-font-color;
+    color: $body-font-color;
     background-color: #fffffc;
 }
 
 
 h1, h2, h3, h4 {
-    font-family: $concourse, Helvetica, sans-serif;
+    font-family: $sans-serif-font-family;
     line-height: 1.3;
     /*font-feature-settings: "ss01";*/
 
@@ -56,7 +57,7 @@ h4 {
 h1 a, h2 a, h3 a, h4 a, h5 a,
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover,
 h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
-    color: $default-font-color;
+    color: $body-font-color;
 }
 
 

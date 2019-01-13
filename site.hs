@@ -71,7 +71,7 @@ main = hakyllWith config $ do
     match "static/*.markdown" $ do
         route   staticRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/static.html" siteCtx
+            >>= loadAndApplyTemplate "templates/static.html" defaultContext
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
             >>= deIndexUrls
 
@@ -155,7 +155,7 @@ main = hakyllWith config $ do
 
                 loadAllSnapshots "projects/*.markdown" "content"
                     -- Should be able to apply template in project?
-                    >>= loadAndApplyTemplateList "templates/project.html" ctx
+                    >>= loadAndApplyTemplateList "templates/project.html" defaultContext
                     >>= makeItem
                     >>= loadAndApplyTemplate "templates/projects.html" ctx
                     >>= loadAndApplyTemplate "templates/site.html" ctx
