@@ -71,7 +71,7 @@ main = hakyllWith config $ do
     match "static/*.markdown" $ do
         route   staticRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/static.html" defaultContext
+            >>= loadAndApplyTemplate "templates/static.html" siteCtx
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
             >>= deIndexUrls
 
@@ -109,7 +109,7 @@ main = hakyllWith config $ do
                 >>= recentFirst
                 >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
                 >>= makeItem
-                >>= loadAndApplyTemplate "templates/posts.html" defaultContext
+                >>= loadAndApplyTemplate "templates/posts.html" ctx
                 >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
@@ -272,6 +272,13 @@ draftCtx tags = mconcat
     , siteCtx
     ]
 
+gameCtx :: Context String
+gameCtx = mconcat
+    [ dateField "date" "%B %e, %Y"
+    , dateField "ymd" "%F"
+    , siteCtx
+    ]
+
 -- 'metaKeywords' from tags for insertion in header. Empty if no tags are found.
 metaKeywordCtx :: Context String
 metaKeywordCtx = field "metaKeywords" $ \item -> do
@@ -323,7 +330,7 @@ renderTagHtmlList = renderTags makeLink makeList
 renderGamesList :: Pattern -> Compiler String
 renderGamesList pattern = do
     loadAllSnapshots "projects/games/*.markdown" "content"
-        >>= loadAndApplyTemplateList "templates/game-item.html" defaultContext
+        >>= loadAndApplyTemplateList "templates/game-item.html" gameCtx
 
 
 postRoute :: Routes

@@ -31,7 +31,6 @@ TODO
 ====
 
 * Projects + games
-    * Images for all games
     * Dates for all games
     * Order of games
     * Style game item
