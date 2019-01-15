@@ -20,7 +20,7 @@ import Text.Regex (subRegex, mkRegex)
 import Hakyll
 import Text.Sass.Options
 
-mail = "mail@jonashietala.se"
+mail = "contact@jonashietala.se"
 name = "Jonas Hietala"
 siteRoot = "http://www.jonashietala.se"
 

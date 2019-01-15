@@ -4,7 +4,8 @@
 
 .article-content {
     @extend %body-text;
-    background-color: tomato;
+    //background-color: tomato;
+    padding: 0.5em;
 }
 
 blockquote {
@@ -42,7 +43,7 @@ ul {
     /*[>line-height: 1.35;<]*/
 /*}*/
 li {
-    margin-bottom: 0.7em;
+    //margin-bottom: 0.7em;
     /*font-size: 95%;*/
     /*line-height: 1.4;*/
 }

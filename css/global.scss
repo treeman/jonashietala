@@ -6,6 +6,7 @@ html {
   /* Better box model, includes border in width calculations. */
   box-sizing: border-box;
   /* Predictable styling. */
+  // FIXME should apply to all!
   margin: 0;
   padding: 0;
 }
@@ -83,7 +84,14 @@ a:visited {
 body, .main-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+}
+
+// Avoid justify-content: center on lines with horizontal scrollbar.
+// A bug that moves text off to the left without scrollbar consideration.
+@media only screen and (min-width: 801px) {
+    body, .main-content {
+        justify-content: center;
+    }
 }
 
 
@@ -104,30 +112,88 @@ body, .main-content {
     background-color: green;
 }
 
-
 .site-header {
-    //display: flex;
-    background-color: red;
-    //flex: 1;
+    width: 100%;
 
     .nav-wrapper {
-        //display: flex;
-        //justify-content: right;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .site-title {
-        float: right;
-        font-size: 25px;
+        font-size: 22px;
+        margin-right: 0.8em;
+        line-height: 1.45;
     }
 
-    nav li {
-        display: block;
+    nav > ul {
+        display: inline;
+        padding: 0;
+        li {
+            display: inline;
+            margin: 0;
+            margin-right: 0.5em;
+        }
     }
 }
 
+nav {
+    font-size: 22px;
+    font-family: $sans-serif-font-family;
+    line-height: 1.45;
+
+    a, a:visited {
+        color: $body-font-color;
+    }
+
+    .gpg {
+        font-size: 11px;
+        font-weight: bold;
+        //font-style: italic;
+        margin-left: -0.1em;
+    }
+    a.gpg, a.gpg:visited {
+        color: #333;
+    }
+}
+
+// Put header to the left of the main content
+// Should be 970px but there are some strange artefacts
+@media only screen and (min-width: 990px) {
+    .site-header {
+        width: auto;
+
+        padding: 0.5em;
+
+        nav > ul {
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+            margin: 0; // FIXME
+
+            li {
+                display: block;
+                margin: 0; // FIXME
+            }
+        }
+
+        .nav-wrapper {
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .site-title {
+            margin: 0; // FIXME
+            margin-bottom: 0.35em;
+        }
+    }
+}
+
+
 .site-footer {
     width: 100%;
-    background-color: blue;
+    //background-color: blue;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -144,4 +210,3 @@ body, .main-content {
         margin-right: 1.0em;
     }
 }
-
