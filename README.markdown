@@ -36,9 +36,14 @@ TODO
     * Header & footer styling   DONE
     * Static page styling       DONE
     * Archives styling          DONE
-    * Responsive projects
+    * Responsive projects       DONE
     * Responsive homepage
+        .main-lists wrap & work with smaller screens
     * Homepage styling
+        smaller screens wraps header badly
+        h1, h2 spacing. Also for static pages
+        style tags
+        cleanup homepage.scss
     * Post content styling
     * Multiple post styling
 

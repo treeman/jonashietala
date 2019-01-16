@@ -56,3 +56,12 @@
     }
 }
 
+@media only screen and (max-width: 799px) {
+    .projects article.project {
+        width: 100%;
+    }
+    .game {
+        width: 100%;
+    }
+}
+

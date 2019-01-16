@@ -2,24 +2,90 @@
     @extend %body-wide-flex;
 
     .about {
-        @extend %body-text;
-        background-color: green;
-    }
+        width: 100%;
+        padding: 0.5em;
+        //background-color: green;
 
-    .main-lists {
-        background-color: orange;
-    }
-
-    .main-tags {
-        background-color: aqua;
-        ul {
-            display: flex;
-            flex-wrap: wrap;
-            li {
-                //flex: 1 0 25%;
-                flex: 1 0 250px;
-            }
+        .about-body {
+            @extend %body-text;
         }
     }
 }
 
+.homepage > .main-lists {
+    //background-color: orange;
+    padding: 0.5em;
+    flex: 1;
+    //min-width: 650px; // FIXME breaks for smaller screens
+    max-width: 800px;
+
+    ul > li {
+        display: block;
+        font-family: $serif-font-family;
+        font-size: 95%;
+    }
+
+    li.post-item {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .title {
+            margin-right: 0.5em;
+        }
+    }
+
+    li.post-item > .date {
+        font-family: $sans-serif-font-family;
+        font-size: 20px;
+    }
+}
+
+.homepage nav a {
+    color: $body-link-color;
+}
+.homepage nav a:visited {
+    color: $body-link-visited-color;
+}
+
+.homepage > .post-links {
+    @extend %inline-nav;
+    width: 100%;
+    padding-left: 0.5em;
+
+    a, a:visited {
+        color: $body-font-color;
+    }
+}
+
+@media only screen and (max-width: 799px) {
+    .homepage > .main-lists {
+        width: auto;
+
+        li.post-item .date {
+            width: 100%;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+    }
+}
+
+
+.homepage > .main-tags {
+    padding: 0.5em;
+    //background-color: aqua;
+
+    h2 {
+        margin-top: 0.5em;
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+            display: inline;
+            //flex: 1 0 25%;
+            flex: 1 0 250px;
+        }
+    }
+}
