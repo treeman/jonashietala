@@ -77,12 +77,9 @@ body, .main-content {
 h1, h2, h3, h4 {
     font-family: $sans-serif-font-family;
     line-height: 1.3;
-    /*font-feature-settings: "ss01";*/
+    //font-feature-settings: "ss04";
 
-    /* figure this out...*/
-    /*line-height: 1;*/
-    margin: 0;
-    padding: 0;
+    line-height: 1;
 }
 h1 {
     font-size: 32px;
@@ -182,7 +179,7 @@ nav {
         }
 
         .site-title {
-            margin: 0.4em 0 0.35em 0;
+            margin: 0.2em 0 0.35em 0;
         }
     }
 }

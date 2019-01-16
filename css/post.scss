@@ -15,6 +15,20 @@ article blockquote {
 }
 
 
+.article-content > header {
+    margin-bottom: 0.4em;
+
+    h1 {
+        //margin-bottom: -0.1em;
+    }
+
+    .date {
+        font-family: $sans-serif-font-family;
+        font-size: 20px;
+    }
+}
+
+
 /*
  * Pretty video embedding
  */
