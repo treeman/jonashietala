@@ -2,14 +2,15 @@ $body-font-color: $gb-lm-fg0;
 $serif-font-family: $century-supra, Georgia, serif;
 $sans-serif-font-family: $concourse, Helvetica, sans-serif;
 
-html {
-  /* Better box model, includes border in width calculations. */
-  box-sizing: border-box;
+* {
   /* Predictable styling. */
-  // FIXME should apply to all!
   margin: 0;
   padding: 0;
+  /* Better box model, includes border in width calculations. */
+  box-sizing: border-box;
 }
+
+
 body {
     font-family: $serif-font-family;
     font-size: 22px;
