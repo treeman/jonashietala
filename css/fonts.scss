@@ -66,3 +66,8 @@ $source-code: 'Source Code';
     src: url('/fonts/SourceCodeVariable-Italic.woff') format('woff');
     font-style: italic;
 }
+
+
+$serif-font-family: $century-supra, Georgia, serif;
+$sans-serif-font-family: $concourse, Helvetica, sans-serif;
+$code-font-family: $source-code, monospace;

@@ -1,8 +1,19 @@
-@import 'fonts';
+// Vendor
 @import 'gruvbox';
+
+// Preparations
+@import 'fonts';
+
+// Site wide
 @import 'global';
+
+// Pages
 @import 'post';
 @import 'static';
 @import 'projects';
-@import 'code';
 @import 'homepage';
+@import 'archive';
+
+// Elements
+@import 'code';
+

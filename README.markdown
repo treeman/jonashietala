@@ -31,8 +31,8 @@ TODO
 ====
 
 * Restyle
-    * Responsive header
-    * Header & footer styling
+    * Responsive header         DONE
+    * Header & footer styling   DONE
     * Post styling
     * Static page styling
     * Archives styling
@@ -40,6 +40,7 @@ TODO
     * Responsive homepage
     * Homepage styling
     * Multiple post styling
+    * Post content styling
 
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 

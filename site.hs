@@ -20,7 +20,7 @@ import Text.Regex (subRegex, mkRegex)
 import Hakyll
 import Text.Sass.Options
 
-mail = "contact@jonashietala.se"
+mail = "mail@jonashietala.se"
 name = "Jonas Hietala"
 siteRoot = "http://www.jonashietala.se"
 
@@ -71,7 +71,7 @@ main = hakyllWith config $ do
     match "static/*.markdown" $ do
         route   staticRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/static.html" defaultContext
+            >>= loadAndApplyTemplate "templates/static.html" siteCtx
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
             >>= deIndexUrls
 
@@ -155,7 +155,7 @@ main = hakyllWith config $ do
 
                 loadAllSnapshots "projects/*.markdown" "content"
                     -- Should be able to apply template in project?
-                    >>= loadAndApplyTemplateList "templates/project.html" defaultContext
+                    >>= loadAndApplyTemplateList "templates/project.html" siteCtx
                     >>= makeItem
                     >>= loadAndApplyTemplate "templates/projects.html" ctx
                     >>= loadAndApplyTemplate "templates/site.html" ctx
@@ -249,34 +249,34 @@ sassCompiler = loadBody "css/main.scss"
 
 siteCtx :: Context String
 siteCtx = mconcat
-    [ constField "mail" mail
+    [ defaultContext
+    , constField "mail" mail
     , constField "name" name
-    , metaKeywordCtx
-    , defaultContext
     , constField "gpg" "http://pgp.mit.edu/pks/lookup?op=get&search=0x48347567AD15CC54"
+    , metaKeywordCtx
     ]
 
 postCtx :: Tags -> Context String
 postCtx tags = mconcat
-    [ dateField "date" "%B %e, %Y"
+    [ siteCtx
+    , dateField "date" "%B %e, %Y"
     , dateField "ymd" "%F"
     , tagsField "tags" tags
-    , siteCtx
     ]
 
 draftCtx :: Tags -> Context String
 draftCtx tags = mconcat
-    [ constField "date" "January 1, 2000"
+    [ siteCtx
+    , constField "date" "January 1, 2000"
     , constField "ymd" "2000-01-01"
     , tagsField "tags" tags
-    , siteCtx
     ]
 
 gameCtx :: Context String
 gameCtx = mconcat
-    [ dateField "date" "%B %e, %Y"
+    [ siteCtx
+    , dateField "date" "%B %e, %Y"
     , dateField "ymd" "%F"
-    , siteCtx
     ]
 
 -- 'metaKeywords' from tags for insertion in header. Empty if no tags are found.

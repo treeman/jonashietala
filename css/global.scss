@@ -1,16 +1,21 @@
 $body-font-color: $gb-lm-fg0;
-$serif-font-family: $century-supra, Georgia, serif;
-$sans-serif-font-family: $concourse, Helvetica, sans-serif;
+$body-background-color: #fffffc;
+
+$body-link-color: #0030BB;
+$body-link-visited-color: #8900BB;
 
 * {
-  /* Predictable styling. */
+  // Predictable styling.
   margin: 0;
   padding: 0;
-  /* Better box model, includes border in width calculations. */
+  // Better box model, includes border in width calculations.
   box-sizing: border-box;
 }
 
 
+/*
+ * Main body
+ */
 body {
     font-family: $serif-font-family;
     font-size: 22px;
@@ -20,14 +25,55 @@ body {
     text-rendering: optimizeLegibility;
     font-feature-settings: 'kern' 1;
 
-    padding: 0;
-    margin: 0;
-
     color: $body-font-color;
-    background-color: #fffffc;
+    background-color: $body-background-color;
 }
 
 
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    text-decoration: none;
+    color: $body-link-color;
+}
+a:hover {
+    text-decoration: underline;
+}
+a:visited {
+    color: $body-link-visited-color;
+}
+
+
+body, .main-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+// Avoid justify-content: center on lines with horizontal scrollbar.
+// A bug that moves text off to the left without scrollbar consideration.
+@media only screen and (min-width: 801px) {
+    body, .main-content {
+        justify-content: center;
+    }
+}
+
+
+%body-text {
+    max-width: 800px;
+}
+
+%body-wide-flex {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1500px;
+    flex: 1;
+}
+
+/*
+ * Headers
+ */
 h1, h2, h3, h4 {
     font-family: $sans-serif-font-family;
     line-height: 1.3;
@@ -62,83 +108,9 @@ h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
     color: $body-font-color;
 }
 
-
-p {
-    margin-top: 0;
-    margin-bottom: 1em;
-}
-
-
-a {
-    text-decoration: none;
-    color: #0030BB;
-}
-a:hover {
-    //color: #427b58;
-    text-decoration: underline;
-}
-a:visited {
-    color: #8900BB;
-}
-
-
-body, .main-content {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-// Avoid justify-content: center on lines with horizontal scrollbar.
-// A bug that moves text off to the left without scrollbar consideration.
-@media only screen and (min-width: 801px) {
-    body, .main-content {
-        justify-content: center;
-    }
-}
-
-
-%body-text {
-    max-width: 800px;
-}
-
-%body-wide-flex {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 1500px;
-    flex: 1;
-}
-
-
-.archive {
-    @extend %body-text;
-    background-color: green;
-}
-
-.site-header {
-    width: 100%;
-
-    .nav-wrapper {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .site-title {
-        font-size: 22px;
-        margin-right: 0.8em;
-        line-height: 1.45;
-    }
-
-    nav > ul {
-        display: inline;
-        padding: 0;
-        li {
-            display: inline;
-            margin: 0;
-            margin-right: 0.5em;
-        }
-    }
-}
-
+/*
+ * Navigations
+ */
 nav {
     font-size: 22px;
     font-family: $sans-serif-font-family;
@@ -147,15 +119,42 @@ nav {
     a, a:visited {
         color: $body-font-color;
     }
+}
 
-    .gpg {
-        font-size: 11px;
-        font-weight: bold;
-        //font-style: italic;
-        margin-left: -0.1em;
+%inline-nav {
+    > ul {
+        display: inline;
+        li {
+            display: inline;
+            margin-right: 0.5em;
+        }
     }
-    a.gpg, a.gpg:visited {
-        color: #333;
+}
+
+%fullsize-center-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/*
+ * Header
+ */
+.site-header {
+    width: 100%;
+
+    nav {
+        @extend %inline-nav;
+    }
+
+    .nav-wrapper {
+        @extend %fullsize-center-content;
+    }
+
+    .site-title {
+        font-size: 22px;
+        margin-right: 0.8em;
+        line-height: 1.45;
     }
 }
 
@@ -164,18 +163,16 @@ nav {
 @media only screen and (min-width: 990px) {
     .site-header {
         width: auto;
-
         padding: 0.5em;
 
         nav > ul {
             display: flex;
             align-items: flex-end;
             flex-direction: column;
-            margin: 0; // FIXME
 
             li {
                 display: block;
-                margin: 0; // FIXME
+                margin: 0;
             }
         }
 
@@ -185,29 +182,28 @@ nav {
         }
 
         .site-title {
-            margin: 0; // FIXME
-            margin-bottom: 0.35em;
+            margin: 0.4em 0 0.35em 0;
         }
     }
 }
 
 
+/*
+ * Footer
+ */
 .site-footer {
-    width: 100%;
-    //background-color: blue;
-    display: flex;
-    justify-content: center;
+    @extend %fullsize-center-content;
+
     flex-wrap: wrap;
 
-    nav, .lower {
-        width: 100%;
-        display: flex;
-        justify-content: center;
+    nav {
+        @extend %fullsize-center-content;
+        @extend %inline-nav;
     }
 
-    nav li {
-        display: block;
-        float: left;
-        margin-right: 1.0em;
+    .lower {
+        font-size: 18px;
+        font-family: $sans-serif-font-family;
     }
 }
+
