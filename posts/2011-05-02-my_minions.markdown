@@ -1,6 +1,5 @@
 ---
 title: "My Minions"
-date: 2011-05-02
 tags: Games, 7days
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: "Where's Teddy?"
-date: 2010-06-06
 tags: Games, 7days
 ---
 

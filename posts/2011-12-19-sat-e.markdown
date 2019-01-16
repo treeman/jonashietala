@@ -1,6 +1,5 @@
 ---
 title: "Sat-E"
-date: 2011-12-19
 repository: git://github.com/treeman/Sat-E.git
 tags: Games, 7days
 ---

@@ -1,6 +1,5 @@
 ---
 title: "Jonas IceCream Stand"
-date: 2009-11-25
 tags: Games, 7days
 ---
 
