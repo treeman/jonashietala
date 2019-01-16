@@ -1,4 +1,40 @@
 .archive {
-    @extend %body-text;
-    background-color: green;
+    width: 800px;
+    padding: 0.5em;
+    //background-color: green;
+
+    font-size: 95%;
+    line-height: 1.35;
+
+    h1 {
+        margin-bottom: 0.3em;
+    }
+    ul {
+        margin-top: 0.5em;
+    }
 }
+
+.archive li.post-item {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .title {
+        margin-right: 0.5em;
+    }
+    .date > time {
+        font-family: $sans-serif-font-family;
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width: 799px) {
+    .archive {
+        width: auto;
+    }
+    .archive li.post-item .date {
+        width: 100%;
+        margin-bottom: 0.5em;
+    }
+}
+

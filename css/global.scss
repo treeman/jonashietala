@@ -155,8 +155,6 @@ nav {
     }
 }
 
-// Put header to the left of the main content
-// Should be 970px but there are some strange artefacts
 @media only screen and (min-width: 970px) {
     .site-header {
         width: auto;
