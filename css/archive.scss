@@ -1,4 +1,4 @@
-.archive {
+.post-list {
     width: 800px;
     padding: 0.5em;
 
@@ -8,12 +8,13 @@
     h1 {
         margin-bottom: 0.3em;
     }
-    ul {
-        margin-top: 0.5em;
+
+    .all-posts {
+        margin-bottom: 0.3em;
     }
 }
 
-.archive li.post-item {
+.post-list li.post-item {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -36,10 +37,10 @@
 }
 
 @media only screen and (max-width: 799px) {
-    .archive {
+    .post-list {
         width: auto;
     }
-    .archive li.post-item .date {
+    .post-list li.post-item .date {
         width: 100%;
         margin-bottom: 0.5em;
         display: block;

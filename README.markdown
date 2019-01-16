@@ -34,14 +34,13 @@ TODO
 * Restyle
     * Responsive header         DONE
     * Header & footer styling   DONE
-    * Post styling
     * Static page styling       DONE
-    * Archives styling
+    * Archives styling          DONE
     * Responsive projects
     * Responsive homepage
     * Homepage styling
-    * Multiple post styling
     * Post content styling
+    * Multiple post styling
 
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 

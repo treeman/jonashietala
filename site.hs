@@ -125,13 +125,13 @@ main = hakyllWith config $ do
         let pattern = "drafts/*.markdown"
 
         route   idRoute
-        compile $ draftArchiveCompiler title tags pattern "templates/drafts.html"
+        compile $ draftArchiveCompiler title tags pattern "templates/post-list.html"
 
     tagsRules tags $ \tag pattern -> do
         let title = "Posts tagged: " ++ tag
 
         route   tagRoute
-        compile $ archiveCompiler title tags pattern "templates/tags-archive.html"
+        compile $ archiveCompiler title tags pattern "templates/post-list.html"
 
     match "projects/*.markdown" $ do
         compile $ pandocCompiler
@@ -210,7 +210,11 @@ applyFilter :: (Monad m, Functor f) => (String-> String) -> f String -> m (f Str
 applyFilter transformator str = return $ (fmap $ transformator) str
 
 
-archiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
+archiveCompiler :: String
+                -> Tags
+                -> Pattern
+                -> Identifier
+                -> Compiler (Item String)
 archiveCompiler title tags pattern tpl = do
     list <- renderPostList tags pattern recentFirst
     let ctx = mconcat
@@ -225,7 +229,11 @@ archiveCompiler title tags pattern tpl = do
         >>= deIndexUrls
 
 
-draftArchiveCompiler :: String -> Tags -> Pattern -> Identifier -> Compiler (Item String)
+draftArchiveCompiler :: String
+                     -> Tags 
+                     -> Pattern 
+                     -> Identifier 
+                     -> Compiler (Item String)
 draftArchiveCompiler title tags pattern tpl = do
     list <- renderDraftList tags pattern recentFirst
     let ctx = mconcat
