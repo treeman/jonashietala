@@ -8,11 +8,38 @@
     padding: 0.5em;
 }
 
-blockquote {
+article blockquote {
     font-size: 95%;
     line-height: 1.4;
     margin: 0 2em;
 }
+
+
+/*
+ * Pretty video embedding
+ */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe, .video-container object, .video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.video-wrapper {
+    //width: 600px;
+    //max-width: 100%;
+}
+
+
 
 ul {
     /*list-style: circle;*/
@@ -47,27 +74,3 @@ li {
     /*font-size: 95%;*/
     /*line-height: 1.4;*/
 }
-
-
-/*** Pretty video embedding ***/
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;
-}
-
-.video-container iframe, .video-container object, .video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.video-wrapper {
-    //width: 600px;
-    //max-width: 100%;
-}
-

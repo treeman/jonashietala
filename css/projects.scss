@@ -1,23 +1,17 @@
 .projects {
     @extend %body-wide-flex;
-    //background-color: yellow;
 
     article.project {
         max-width: 800px;
         width: 45%;
-        //width: 400px;
-        //background-color: brown;
     }
 }
 
 .project, .games {
-    //padding: 0.2em;
-    //padding-right: 0.5em;
     margin: 0.5em;
 }
 
 .games {
-    //background-color: tomato;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -25,44 +19,38 @@
     header {
         width: 100%;
     }
+}
 
-    .game {
-        //max-width: 800px;
-        width: 45%;
-        //padding: 0.5em;
-        margin-right: 1.5em;
-        //background-color: yellow;
-        //display: flex;
+.game {
+    width: 45%;
+    margin: 0 1.5em 0.5em 0;
 
-        margin-bottom: 0.5em;
+    img {
+        float: left;
+    }
 
-        img {
-            float: left;
+    .descr {
+        display: flex;
+        flex-direction: column;
+
+        padding-left: 0.2em;
+
+        .title {
+            font-family: $sans-serif-font-family;
+            font-size: 24px;
+            font-weight: bold;
+            color: $body-font-color;
+            line-height: 1.1;
         }
-
-        .descr {
-            display: flex;
-            flex-direction: column;
-
-            padding-left: 0.2em;
-
-            .title {
-                font-family: $sans-serif-font-family;
-                font-size: 24px;
-                font-weight: bold;
-                color: $body-font-color;
-                line-height: 1.1;
-            }
-            .subtitle {
-                font-size: 20px;
-            }
-            a, a:visited {
-                color: $body-font-color;
-            }
-            time {
-                font-family: $sans-serif-font-family;
-                font-size: 20px;
-            }
+        .subtitle {
+            font-size: 20px;
+        }
+        a, a:visited {
+            color: $body-font-color;
+        }
+        time {
+            font-family: $sans-serif-font-family;
+            font-size: 20px;
         }
     }
 }
