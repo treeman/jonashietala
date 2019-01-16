@@ -13,9 +13,10 @@ Sitemap
     /blog
     /blog/tags/:tag
     /blog/:year/:month/:day/:title
-    /archive
-    /404
     /feed.xml
+    /archive
+    /contact
+    /404
     /masters_thesis
 
 Dependencies
@@ -34,7 +35,7 @@ TODO
     * Responsive header         DONE
     * Header & footer styling   DONE
     * Post styling
-    * Static page styling
+    * Static page styling       DONE
     * Archives styling
     * Responsive projects
     * Responsive homepage
