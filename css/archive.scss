@@ -1,7 +1,6 @@
 .archive {
     width: 800px;
     padding: 0.5em;
-    //background-color: green;
 
     font-size: 95%;
     line-height: 1.35;
@@ -18,13 +17,21 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    flex-direction: row-reverse;
+    line-height: 1.45;
 
     .title {
         margin-right: 0.5em;
+        flex: 1;
     }
-    .date > time {
+    .date {
+        width: 10em;
         font-family: $sans-serif-font-family;
         font-size: 20px;
+
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 0.5em;
     }
 }
 
@@ -35,6 +42,7 @@
     .archive li.post-item .date {
         width: 100%;
         margin-bottom: 0.5em;
+        display: block;
     }
 }
 
