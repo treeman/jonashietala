@@ -38,10 +38,10 @@ TODO
     * Archives styling          DONE
     * Responsive projects       DONE
     * Responsive homepage
-        .main-lists wrap & work with smaller screens
+        .main-lists wrap & work with smaller screens    DONE
     * Homepage styling
-        smaller screens wraps header badly
-        h1, h2 spacing. Also for static pages
+        smaller screens wraps header badly              DONE
+        h1, h2 spacing. Also for static pages           DONE
         style tags
         cleanup homepage.scss
     * Post content styling

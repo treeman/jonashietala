@@ -146,6 +146,7 @@ nav {
 
     .nav-wrapper {
         @extend %fullsize-center-content;
+        flex-wrap: wrap;
     }
 
     .site-title {
@@ -155,6 +156,8 @@ nav {
     }
 }
 
+
+// Place header to the left of main content on large screens
 @media only screen and (min-width: 970px) {
     .site-header {
         width: auto;
