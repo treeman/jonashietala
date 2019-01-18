@@ -44,6 +44,7 @@ TODO
         h1, h2 spacing. Also for static pages           DONE
         style tags
         cleanup homepage.scss
+        wrap long code lines inside body text
     * Post content styling
     * Multiple post styling
 
