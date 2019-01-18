@@ -1,20 +1,28 @@
 .homepage {
     @extend %body-wide-flex;
 
-    .about {
-        width: 100%;
-        padding: 0.5em;
-        //background-color: green;
-
-        .about-body {
-            @extend %body-text;
-        }
+    h1, h2 {
+        margin: 0 0 0.35em 0;
     }
 }
+
+.homepage .about {
+    width: 100%;
+    padding: 0.5em;
+    //background-color: green;
+
+    .about-body {
+        @extend %body-text;
+        // Counteract p margin
+        margin-bottom: -1em;
+    }
+}
+
 
 .homepage > .main-lists {
     //background-color: orange;
     padding: 0.5em;
+    margin-right: 1em;
     flex: 1;
     //min-width: 650px; // FIXME breaks for smaller screens
     max-width: 800px;
