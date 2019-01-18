@@ -20,12 +20,10 @@
 
 
 .homepage > .main-lists {
-    //background-color: orange;
     padding: 0.5em;
     margin-right: 1em;
-    flex: 1;
-    //min-width: 650px; // FIXME breaks for smaller screens
     max-width: 800px;
+    flex: 1 1 auto;
 
     ul > li {
         display: block;
@@ -66,9 +64,11 @@
     }
 }
 
+// Smaller screens take up the whole width
 @media only screen and (max-width: 799px) {
     .homepage > .main-lists {
-        width: auto;
+        width: 100%;
+        flex: 0 1 auto;
 
         li.post-item .date {
             width: 100%;
@@ -77,6 +77,15 @@
         }
     }
 }
+
+// Larger screens don't let dates get too close but keep some flex
+@media only screen and (min-width: 800px) {
+    .homepage > .main-lists {
+        min-width: 650px;
+    }
+}
+
+
 
 
 .homepage > .main-tags {
