@@ -11,6 +11,10 @@
 
     //overflow-wrap: anywhere;
     //max-width: 100%;
+
+    a {
+        word-wrap: break-word;
+    }
 }
 
 article blockquote {
@@ -31,6 +35,10 @@ article blockquote {
         font-family: $sans-serif-font-family;
         font-size: 20px;
     }
+}
+
+.article-content img {
+    max-width: 100%;
 }
 
 

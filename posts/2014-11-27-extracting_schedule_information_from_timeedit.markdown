@@ -16,7 +16,15 @@ This is for the courses `TGTU49` and `TATA49` in the same interval:
 
 There seem to be some logic behind the urls, but first, let's look at how they handle search.
 
-Using [firebug][] we can intercept the json requests when we click the search button at <https://se.timeedit.net/web/liu/db1/schema/ri1Q7.html>. We find a GET request to <https://se.timeedit.net/web/liu/db1/schema/objects.html?max=15&fr=t&partajax=t&im=f&sid=3&l=sv&search_text=TGTU49&types=219&fe=132.0&fe=115.20132,20141,20142> which has has some search results formatted as html:
+Using [firebug][] we can intercept the json requests when we click the search button at
+
+<https://se.timeedit.net/web/liu/db1/schema/ri1Q7.html>
+
+We find a GET request to
+
+<https://se.timeedit.net/web/liu/db1/schema/objects.html?max=15&fr=t&partajax=t&im=f&sid=3&l=sv&search_text=TGTU49&types=219&fe=132.0&fe=115.20132,20141,20142>
+
+which has has some search results formatted as html:
 
 ```{.html}
 <div id="objectbasketitemX0" data-id="363972.219" data-idonly="363972" data-type="219" data-name="TGTU49, Teknikhistoria, 1, TGTU49 1445-1503 Valla"  class="clickable2 searchObject   " >
