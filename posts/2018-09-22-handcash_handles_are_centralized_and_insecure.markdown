@@ -4,7 +4,13 @@ title: "HandCash handles require trust and are insecure"
 tags: Cryptocurrency
 ---
 
-The [HandCash][] wallet has recently become a popular Bitcoin Cash wallet in large part thanks to their \$handle concept. It's basically a username you use instead of the normal Bitcoin Cash address, similar to how domain names abstract away IP addresses.  For example instead of sending BCH to my address `bitcoincash:qr6nm0wrkqata3klatmeuzqkjjvu725rkslzsahs8f` you can instead send it to `$treeman`. Much more user friendly, right?
+The [HandCash][] wallet has recently become a popular Bitcoin Cash wallet in large part thanks to their \$handle concept. It's basically a username you use instead of the normal Bitcoin Cash address, similar to how domain names abstract away IP addresses.  For example instead of sending BCH to my address
+
+```
+bitcoincash:qr6nm0wrkqata3klatmeuzqkjjvu725rkslzsahs8f
+```
+
+you can instead send it to `$treeman`. Much more user friendly, right?
 
 
 # Third party trust

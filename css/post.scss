@@ -4,8 +4,13 @@
 
 .article-content {
     @extend %body-text;
+    //width: 100%;
+    //width: 400px;
     //background-color: tomato;
     padding: 0.5em;
+
+    //overflow-wrap: anywhere;
+    //max-width: 100%;
 }
 
 article blockquote {

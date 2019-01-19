@@ -37,14 +37,14 @@ TODO
     * Static page styling       DONE
     * Archives styling          DONE
     * Responsive projects       DONE
-    * Responsive homepage
-        .main-lists wrap & work with smaller screens    DONE
+    * Responsive homepage       DONE
     * Homepage styling
         smaller screens wraps header badly              DONE
         h1, h2 spacing. Also for static pages           DONE
         style tags
         cleanup homepage.scss
-        wrap long code lines inside body text
+        wrap long code lines inside body text           DONE
+        wrap images inside body text
     * Post content styling
     * Multiple post styling
 

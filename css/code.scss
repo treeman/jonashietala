@@ -11,8 +11,10 @@ pre code {
     padding: 0;
 }
 pre {
-    word-wrap: normal;
+    overflow-wrap: normal;
     overflow: auto;
+
+    margin-bottom: 1em;
 
     // Extend area to outside content
     $content-width: 800px;
@@ -21,7 +23,7 @@ pre {
     $side-padding: 15px;
 
     padding: 10px $side-padding;
-    position: relative;
+    //position: relative;
     //left: -$left;
     //width: $content-width - 2*$side-padding + $left + $right;
     //max-width: $content-width - 2*$side-padding + $left + $right;
