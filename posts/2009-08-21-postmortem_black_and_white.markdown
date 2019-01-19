@@ -7,7 +7,7 @@ time: 10:10:33
 ---
 All this time working on my latest game I thought it sucked and I was trying hard to make it to not suck. My spirit wasn't high, just check [this post](/blog/2009/08/19/incomplete_game_coming_up/) and [this](/blog/2009/08/16/going_down/) but now when it's done it's like night and day, or like black and white! I'm damn happy I got it done!! Aah I'll try to make this postmortem shorter than the last one... That was huge.
 
-**Lessons I've learned**
+# Lessons I've learned
 
 +   *Levels take time*  
     I know you're all disappointed by a measly three levels in the game and for that I'm sorry. I hadn't set aside time for making the levels in my mental plan so when I ran over the time limit of 7 days I had to cut down on some stuff - this time it was the levels.

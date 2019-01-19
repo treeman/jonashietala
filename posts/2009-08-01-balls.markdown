@@ -9,18 +9,22 @@ Balls is a game about... balls. Well it's all in 2D so maybe Circles would be a 
 
 I didn't think this was possible but here it is! My very first jewel =)
 
-**Download**  
+# Download
+
 [Windows](#)
 
-**Balls**   
+# Balls
+
 ![](/images/games/thumbs/balls1.jpg)
 ![](/images/games/thumbs/balls2.jpg)
 ![](/images/games/thumbs/balls3.jpg)
 
-**Instructions**   
+# Instructions
+
 Well... There's nothing to it really. Move the mouse over the balls to make them shrink, survive until the top is filled with balls.
 
-**Credits**   
+# Credits*
+
 Music: Markovich/A.M.P. - Twisted in flight   
 Sound effects: Random from [freesound](http://www.freesound.org/)   
 Rest: Me

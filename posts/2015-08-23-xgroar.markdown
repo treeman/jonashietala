@@ -4,29 +4,35 @@ title: "Groar"
 tags: Games, Ludum Dare
 ---
 
-**Download**  
+# Download
+
 [Linux 64bit](https://s3-eu-west-1.amazonaws.com/jonashietala-files/groar.tar.gz)
 [Windows](https://s3-eu-west-1.amazonaws.com/jonashietala-files/groar.zip)
 
 So I actually [finished][ld] Ludum Dare 33.  I can't believe how hard it was to actually make something! It continues to amaze me what fantastic stuff everyone manage to make in just 48 hours. This is what I came up with for the theme *You are the Monster*. Yes I couldn't come up with a name until submission... So I just took the first admittedly bad one...
 
-**Groar**   
+# Groar
+
 ![](/images/ld33/thumb1.png)
 ![](/images/ld33/thumb2.png)
 ![](/images/ld33/thumb3.png)  
 
-**Controls**   
+# Controls
+
 W A S D moves and H J K L shoots. Escape quits the game.
 
-**Timelapse (dual screen)**
+# Timelapse (dual screen)
+
 
 https://www.youtube.com/watch?v=msRUwCWzPKA
 
-**Timelapse (single screen)**
+# Timelapse (single screen)
+
 
 https://www.youtube.com/watch?v=cgk-oiEMYZk
 
-**Source**   
+# Source
+
 <https://github.com/treeman/ld33>
 
 [ld]: http://ludumdare.com/compo/ludum-dare-33/?action=preview&uid=1895

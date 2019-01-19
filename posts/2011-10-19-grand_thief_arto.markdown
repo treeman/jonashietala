@@ -5,15 +5,18 @@ tags: Games
 
 Here's me and Li's game for our school course. The game isn't tweaked too much but it's a game with some fairly cool ideas.
 
-**Download**  
+# Download
+
 [Windows](#)
 
-**Grand Thief Arto**   
+# Grand Thief Arto
+
 ![](/images/games/arto1.png)
 ![](/images/games/arto2.png)
 ![](/images/games/arto3.png)
 
-**Instructions**  
+# Instructions
+
 Your goal is to collect loot until you can escape through the entry point when you've collected enough to complete the level.
 
 There are touchpads and lasers you need to shutdown by walking next to a computer or an electric board and shut them down from there. Otherwise you need to open doors and then just run around and collect.

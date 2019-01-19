@@ -6,11 +6,13 @@ tags: Games, Ludum Dare
 time: 00:27
 ---
 
-**Download**  
+# Download
+
 [Linux 64bit](https://s3-eu-west-1.amazonaws.com/jonashietala-files/mining_incorporated_ld29_linux64.tgz)
 [Windows](https://s3-eu-west-1.amazonaws.com/jonashietala-files/mining_incorporated_ld29_win.zip)
 
-**Timelapse**  
+# Timelapse
+
 
 https://www.youtube.com/watch?v=NIbr-mLi4DU
 
@@ -18,15 +20,18 @@ I made a very serious attempt at making a grand game for [Ludum Dare 29][id]. Un
 
 Anyways, this is the state of the game as it is now.
 
-**Mining Incorporated**  
+# Mining Incorporated
+
 ![](/images/ld29/screen1_thumb.png) 
 ![](/images/ld29/screen2_thumb.png) 
 ![](/images/ld29/screen3_thumb.png)
 
-**How to play**  
+# How to play
+
 Choose a room, drag to build things. You must build where the worker starts. If you want more workers you need to build more beds. They can be placed anywhere. To gain money you must build or mine on an ore patch.
 
-**Source**   
+# Source
+
 <http://github.com/treeman/ld29>
 
 [id]: http://www.ludumdare.com/

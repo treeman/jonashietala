@@ -244,7 +244,7 @@ I started two extra courses which I never finished:
 
 The statistics course was started during my first year, but I finished a similar in my later years and the geometry course was taken as a fun extra course but I later decided to skip it.
 
-First year
+## First year
 
 * TATA41   Calculus in One Variable 1
 * TATA42   Calculus in One Variable 2
@@ -257,7 +257,7 @@ First year
 * TSTE58   Electronics
 * TTIT02   Foundation Course in Mathematics
 
-Second year
+## Second year
 
 * TAOP33   Combinatorial Optimization, Introductory Course
 * TATA24   Linear Algebra
@@ -272,7 +272,7 @@ Second year
 * TSEA47   Computer Hardware and Architecture, part 1
 * TSEA49   Computer Hardware and Architecture, part 2
 
-Third year
+## Third year
 
 * TAMS27   Mathematical Statistics
 * TATA50   Transform Theory
@@ -288,7 +288,7 @@ Third year
 * TSKS10   Signals, Information and Communication
 * TSRT12   Automatic Control Y
 
-Fourth year
+## Fourth year
 
 * TANA09   Numerical Algorithms in Computer Science
 * TATA54   Number Theory
@@ -301,7 +301,7 @@ Fourth year
 * TDDD48   Automated Planning
 * TDDD56   Multicore and GPU Computing
 
-Fifth year
+## Fifth year
 
 * TDDD08   Logic Programming
 * TDDD38   Advanced Programming in C++

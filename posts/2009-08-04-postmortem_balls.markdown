@@ -28,7 +28,7 @@ But what I did find was [kloonigames](http://www.kloonigames.com/blog/), some gu
 
 And here's a summary of my first *ever* game **Balls**. It's available [here](/blog/2009/08/01/balls//) for download.
 
-**The Good**
+# The Good
 
 +   *I got it done!*  
     It seemed impossible and it scared the hell out of me. But I made it!! Aaah... It feels so good right now. And the game is actually pretty fun! It doesn't suck, it doesn't crash (but it's a bit buggy) and I can sort of say I managed to stick to my theme *Addictive Gaming*. Now with this over with I can focus on my next game. Not just now but in a while, now I'm confident to try new, bigger and hopefully better things and I know I can pull it off!
@@ -41,14 +41,14 @@ And here's a summary of my first *ever* game **Balls**. It's available [here](/b
 +   *Pressure is good*  
     I did manage to implement some physics and collision detection, even though it's really simple. This was a first for me and I did it under a tight schedule! A coincidence? I don't think so, a small amount of pressure is really really good. It is during these times I'm most productive and I really do get things done *if I have to*.
 
-**The Bad**
+# The Bad
 
 +   *The motivation didn't stick*  
     Although I made the game and it was pretty good I didn't even remotely invest as much time in it as I could - and I don't know why. I lost that super motivation pretty early in development and when I hit a bug or something that needed a lot of changing to implement I usually cut corners or just ran away screaming.
 
     Is this the every day life of a developer? If it's this though to get motivated wonder how you can motivate yourself working on a shitty project?
 
-**The Ugly**
+# The Ugly
 
 +   *The code*  
     Wow - I'm never showing the source of this to anyone! I tried doing the things which would make the game nearest completion, I did cut some corners but in the end the job is done. But it's really ugly and before reusing the code I'll need to clean it up a lot!

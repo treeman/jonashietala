@@ -7,15 +7,18 @@ This game is called MenuCity and it's a numbers game. Well that's the theme anyw
 
 My game is very reminiscent of the old calculator classic *Block Dude* made by Brandon Sterner. If you like that game, or any puzzle game for that matter, you're gonna love this one.
 
-**Download**  
+# Download
+
 [Windows](#)
 
-**MenuCity**   
+# MenuCity
+
 ![](/images/games/thumbs/menucity1.png)
 ![](/images/games/thumbs/menucity2.png)
 ![](/images/games/thumbs/menucity3.png)
 
-**Instructions**   
+# Instructions
+
 Left/Right arrows - Move   
 Up arrow - Climb   
 Down arrow - Pick up/Put down   
@@ -23,7 +26,8 @@ f1 - Secret dev console
 
 If you're stuck this might help: [Walkthrough Level 0](/blog/2009/10/16/menucity_level_0_walkthrough/)
 
-**Credits**   
+# Credits
+
 Music: The Year Before The War - [Eric Maskol](http://ericmaskol.com/)   
 Sound effects: Random from [freesound](http://www.freesound.org/)   
 Rest: Me
