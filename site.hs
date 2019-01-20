@@ -15,7 +15,10 @@ import Text.Blaze.Html (toHtml, toValue, (!))
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import Text.Regex (subRegex, mkRegex)
+
+-- Unicode friendly regex
+import Text.Regex.PCRE.ByteString.Utils
+import Data.ByteString.Char8 (pack, unpack)
 
 import Hakyll
 import Text.Sass.Options
@@ -197,14 +200,16 @@ tagSort a b = comparing (length . snd) b a
 
 -- Find and replace bare youtube links separated by <p></p>.
 youtubeFilter :: String -> String
-youtubeFilter x = subRegex regex x result
-  where
-    regex = mkRegex "<p>https?://www\\.youtube\\.com/watch\\?v=([A-Za-z0-9_-]+)</p>"
-    result = "<div class=\"video-wrapper\">\
-                \<div class=\"video-container\">\
-                  \<iframe src=\"//www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen/>\
-                \</div>\
-             \</div>";
+youtubeFilter txt = case substituteCompile' regex (pack txt) result of
+        Left s -> s
+        Right bs -> unpack bs
+    where
+      regex = "<p>\\s*https?://www\\.youtube\\.com/watch\\?v=([A-Za-z0-9_-]+)\\s*</p>"
+      result = "<div class=\"video-wrapper\">\
+                 \<div class=\"video-container\">\
+                   \<iframe src=\"//www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen/>\
+                 \</div>\
+              \</div>";
 
 applyFilter :: (Monad m, Functor f) => (String-> String) -> f String -> m (f String)
 applyFilter transformator str = return $ (fmap $ transformator) str

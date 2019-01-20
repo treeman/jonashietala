@@ -41,23 +41,25 @@ TODO
     * Homepage styling
         smaller screens wraps header badly              DONE
         h1, h2 spacing. Also for static pages           DONE
-        style tags
-        cleanup homepage.scss
+        cleanup homepage.scss                           DONE
         wrap long code lines inside body text           DONE
-        wrap images inside body text
+        wrap images inside body text                    DONE
+        style tags
     * Post content styling
+        Some youtube videos aren't showing up?          DONE
+        Cleanup old header manual styling               DONE
+        Games can't be downloaded anywhere?!?
+        Tags are missing from some posts
+        Style lists
+        Style tables
+        Style footnotes
+        Style math symbols
+
     * Multiple post styling
 
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 
         https://internetingishard.com/html-and-css/semantic-html/
-    * figcapture in markdown?
-    * aside in markdown?
-    * Style lists
-    * Style tables
-    * Nicely designed site: https://www.blaenkdenum.com/posts/extra-dependencies-in-hakyll/
-    * Header
-    * Footer
 
 * Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
 
