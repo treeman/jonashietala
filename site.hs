@@ -151,10 +151,7 @@ main = hakyllWith config $ do
             route   idRoute
             compile $ do
                 games <- renderGamesList "projects/games/*.markdown"
-                let ctx = constField "title" "Projects" <>
-                          constField "games" games <>
-                          --listField "games" (field "game" (return . itemBody)
-                          siteCtx
+                let ctx = projectsCtx "Projects" games
 
                 loadAllSnapshots "projects/*.markdown" "content"
                     -- Should be able to apply template in project?
@@ -168,14 +165,11 @@ main = hakyllWith config $ do
     match "about.markdown" $ do
         route   $ customRoute (const "index.html")
         compile $ do
-            list <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
+            posts <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
             recommended <- renderPostList tags (foldr1 (.||.) recommended) $ recentFirst
-            let ctx = constField "posts" list <>
-                      constField "recommended" recommended <>
-                      --field "tags" (\_ -> renderTagList (sortTagsBy tagSort tags)) <>
-                      field "tags" (\_ -> renderTagHtmlList (sortTagsBy tagSort tags)) <>
-                      --field "tags" (\_ -> renderTagCloud 80 160 tags) <>
-                      siteCtx
+            let ctx = homepageCtx posts
+                                  recommended
+                                  (\_ -> renderTagHtmlList (sortTagsBy tagSort tags))
 
             pandocCompiler
                 >>= loadAndApplyTemplate "templates/homepage.html" ctx
@@ -291,6 +285,22 @@ gameCtx = mconcat
     , dateField "date" "%B %e, %Y"
     , dateField "ymd" "%F"
     ]
+
+projectsCtx :: String -> String -> Context String
+projectsCtx title games = mconcat
+    [ siteCtx
+    , constField "title" title
+    , constField "games" games
+    ]
+
+homepageCtx :: String -> String -> (Item String -> Compiler String) -> Context String
+homepageCtx posts recommended tags = mconcat
+    [ siteCtx
+    , constField "posts" posts
+    , constField "recommended" recommended
+    , field "tags" tags
+    ]
+
 
 -- 'metaKeywords' from tags for insertion in header. Empty if no tags are found.
 metaKeywordCtx :: Context String

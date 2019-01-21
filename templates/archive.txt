@@ -1,6 +1,0 @@
-# $title$
-
-All posts on a single page
-/blog.txt
-
-$body$
