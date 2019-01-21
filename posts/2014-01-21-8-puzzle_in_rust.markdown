@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "8-puzzle in rust"
-category: rust
-tags: rust
+category: Rust
+tags: Rust
 ---
 
 I think [rust][] is one of the most interesting upcoming programming languages out there. So I wrote a solution to the 8-puzzle (see the [15-puzzle][15p]) using A\*. It also has a breadth first search for solutions on a specific distance away from the goal.

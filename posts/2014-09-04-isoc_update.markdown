@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "ISOC update"
-tags: IDA Summer of Code, rust
+tags: IDA Summer of Code, Rust
 ---
 
 I have now worked a bit more than 3 weeks out of my 4 weeks of [IDA Summer of Code][isoc] and this is an update post of what I've done so far. I will write a more extensive summary post at the end of the project. I was planning on writing a weekly summary, but that ship sailed a long time ago.

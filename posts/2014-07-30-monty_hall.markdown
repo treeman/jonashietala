@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Monty Hall"
-tags: IDA Summer of Code, rust
+tags: IDA Summer of Code, Rust
 ---
 
 I'm currently reading [The Drunkard's Walk][], a well written book about probabilities.

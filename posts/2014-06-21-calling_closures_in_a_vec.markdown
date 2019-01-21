@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Calling closures in a Vec"
-tags: rust
+tags: Rust
 ---
 
 In rust one might want to have a list of closures, for example as a list of callbacks.

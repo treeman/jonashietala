@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "My first rust Contribution"
-tags: IDA Summer of Code, rust
+tags: IDA Summer of Code, Rust
 ---
 
 The problem with open-source for most people isn't writing code, but it's all the other things.

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "fish_update_completions in Slackware 14.1"
-tags: Slackware, fish
+tags: Slackware, Fish
 ---
 
 I've been trying out [fish shell][] lately. A cool feature with fish is that it can automatically generate completions by parsing the installed man pages by running `fish_update_completions`.

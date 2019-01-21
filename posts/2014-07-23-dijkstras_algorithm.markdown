@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Dijkstra's Algorithm"
-tags: IDA Summer of Code, rust
+tags: IDA Summer of Code, Rust
 ---
 
 For [rust][], I'm updating the documentation for the standard library and specifically with the collections. For the priority queue I had the idea to use [Dijkstra's algorithm][dijkstra] as a fun example. That idea was [well received][pr] and that example is now [live][doc].

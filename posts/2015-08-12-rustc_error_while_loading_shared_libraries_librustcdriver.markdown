@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "rustc: error while loading shared libraries: librustc_driver"
-tags: rust, Slackware
+tags: Rust, Slackware
 ---
 
 I had installed and used [rust][] already but today I fired it up and received:
