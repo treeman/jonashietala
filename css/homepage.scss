@@ -86,11 +86,12 @@
 }
 
 
-
-
 .homepage > .main-tags {
     padding: 0.5em;
     //background-color: aqua;
+
+    font-family: $serif-font-family;
+    font-size: 95%;
 
     h2 {
         margin-top: 0.5em;
@@ -101,8 +102,8 @@
         flex-wrap: wrap;
         li {
             display: inline;
-            //flex: 1 0 25%;
-            flex: 1 0 250px;
+            flex: 1 0 25%;
+            min-width: 250px;
         }
     }
 }

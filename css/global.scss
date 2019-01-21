@@ -72,8 +72,11 @@ body, .main-content {
     display: flex;
     flex-wrap: wrap;
     max-width: 1500px;
-    flex: 1;
+    // Allow content to grow and shrink but don't factor in extra space
+    // to not pop up header on top.
+    flex: 1 1 0;
 }
+
 
 /*
  * Headers
@@ -186,6 +189,14 @@ nav {
         .site-title {
             margin: 0.2em 0 0.35em 0;
         }
+    }
+}
+
+@media only screen and (max-width: 969px) {
+    %body-wide-flex {
+        // With header on top we can use auto again.
+        // If not content will be offscreen to the right on small screens.
+        flex: 1 1 auto;
     }
 }
 
