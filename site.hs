@@ -373,7 +373,8 @@ draftRoute = dropIndexRoute
 
 
 tagRoute :: Routes
-tagRoute = gsubRoute "tags/" (const "blog/tags/") `composeRoutes`
+tagRoute = (customRoute $ (map toLower) . (replace " " "_") . toFilePath) `composeRoutes`
+           gsubRoute "tags/" (const "blog/tags/") `composeRoutes`
            dropIndexRoute
 
 
@@ -389,7 +390,7 @@ dateRoute =
 -- Move to subdirectories to avoid extensions in links.
 dropIndexRoute :: Routes
 dropIndexRoute = customRoute $
-     (++ "/index.html"). dropExtension . toFilePath
+     (++ "/index.html") . dropExtension . toFilePath
 
 
 deIndexUrls :: Item String -> Compiler (Item String)
