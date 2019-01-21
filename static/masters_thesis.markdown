@@ -2,9 +2,6 @@
 title: "Master's Thesis"
 ---
 
-Master's thesis
-===============
-
 I wrote my master's thesis for Comordo Technologies during the spring of 2015 where I developed a first version of their recommendation system.
 
 [View][liu_report] the report at LiU or a [direct link][report] to the report. You can also view the [source][src] of the written report. Code produced during the thesis will not be published.

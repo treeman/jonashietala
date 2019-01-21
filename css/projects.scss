@@ -7,8 +7,21 @@
     }
 }
 
+.projects .intro {
+    padding: 0.5em;
+    width: 100%;
+
+    .content {
+        @extend %body-text;
+    }
+}
+
 .project, .games {
     margin: 0.5em;
+
+    h2 {
+        margin: 0;
+    }
 }
 
 .games {

@@ -144,19 +144,18 @@ main = hakyllWith config $ do
         compile $ pandocCompiler
             >>= saveSnapshot "content"
 
+    -- Projects page
     gamesDependencies <- makePatternDependency "projects/games/*.markdown"
     projectDependencies <- makePatternDependency "projects/*.markdown"
     rulesExtraDependencies [gamesDependencies, projectDependencies] $ do
-        create ["projects/index.html"] $ do
-            route   idRoute
+        match "projects.markdown" $ do
+            route   $ customRoute (const "projects/index.html")
             compile $ do
                 games <- renderGamesList "projects/games/*.markdown"
-                let ctx = projectsCtx "Projects" games
+                projects <- renderProjects "projects/*.markdown"
+                let ctx = projectsCtx projects games
 
-                loadAllSnapshots "projects/*.markdown" "content"
-                    -- Should be able to apply template in project?
-                    >>= loadAndApplyTemplateList "templates/project.html" siteCtx
-                    >>= makeItem
+                pandocCompiler
                     >>= loadAndApplyTemplate "templates/projects.html" ctx
                     >>= loadAndApplyTemplate "templates/site.html" ctx
                     >>= deIndexUrls
@@ -287,9 +286,9 @@ gameCtx = mconcat
     ]
 
 projectsCtx :: String -> String -> Context String
-projectsCtx title games = mconcat
+projectsCtx projects games = mconcat
     [ siteCtx
-    , constField "title" title
+    , constField "projects" projects
     , constField "games" games
     ]
 
@@ -346,15 +345,17 @@ renderTagHtmlList = renderTags makeLink makeList
     makeList tags = renderHtml $ H.ul $ H.preEscapedToHtml (intercalate "" tags)
 
 
---gamesList :: Compiler [Item String]
---gamesList = loadAll "templates/games/*.markdown"
-
-
 renderGamesList :: Pattern -> Compiler String
 renderGamesList pattern = do
-    loadAllSnapshots "projects/games/*.markdown" "content"
+    loadAllSnapshots pattern "content"
         >>= recentFirst
         >>= loadAndApplyTemplateList "templates/game-item.html" gameCtx
+
+
+renderProjects :: Pattern -> Compiler String
+renderProjects pattern = do
+    loadAllSnapshots pattern "content"
+        >>= loadAndApplyTemplateList "templates/project.html" siteCtx
 
 
 postRoute :: Routes

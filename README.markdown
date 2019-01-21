@@ -48,18 +48,16 @@ TODO
     * Post content styling
         Some youtube videos aren't showing up?          DONE
         Cleanup old header manual styling               DONE
-        Games can't be downloaded anywhere?!?
-        Tags are missing from some posts
+        Tag links are missing
         Style lists
         Style tables
         Style footnotes
         Style math symbols
-
     * Multiple post styling
-
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 
         https://internetingishard.com/html-and-css/semantic-html/
+    * Locate game downloads or remove download links
 
 * Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
 
