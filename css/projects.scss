@@ -49,7 +49,7 @@
         padding-left: 0.2em;
 
         .title {
-            font-family: $sans-serif-font-family;
+            @extend %sans-serif;
             font-size: 24px;
             font-weight: bold;
             color: $body-font-color;
@@ -63,7 +63,7 @@
             color: $body-font-color;
         }
         time {
-            font-family: $sans-serif-font-family;
+            @extend %sans-serif;
             font-size: 20px;
         }
     }

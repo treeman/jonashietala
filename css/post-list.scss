@@ -26,8 +26,8 @@
         flex: 1;
     }
     .date {
+        @extend %sans-serif;
         width: 10em;
-        font-family: $sans-serif-font-family;
         font-size: 20px;
 
         display: flex;

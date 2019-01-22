@@ -71,3 +71,17 @@ $source-code: 'Source Code';
 $serif-font-family: $century-supra, Georgia, serif;
 $sans-serif-font-family: $concourse, Helvetica, sans-serif;
 $code-font-family: $source-code, monospace;
+
+
+%sans-serif {
+    text-rendering: optimizeLegibility;
+    font-family: $sans-serif-font-family;
+    font-feature-settings: "ss06", "onum" off;
+}
+
+%serif {
+    text-rendering: optimizeLegibility;
+    font-family: $serif-font-family;
+    font-feature-settings: 'kern' on;
+}
+

@@ -45,14 +45,15 @@ TODO
         cleanup homepage.scss                           DONE
         wrap long code lines inside body text           DONE
         wrap images inside body text                    DONE
-        style tags
+        style tags                                      DONE
     * Post content styling
         Some youtube videos aren't showing up?          DONE
         Cleanup old header manual styling               DONE
-        Tag links are missing
-        Style lists
+        Tag links are missing                           DONE
+        Style tags                                      DONE
+        Style lists                                     DONE
+        Style footnotes                                 DONE
         Style tables
-        Style footnotes
         Style math symbols
     * Multiple post styling
     * Properly design html semantics, see 

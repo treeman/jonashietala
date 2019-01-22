@@ -4,13 +4,7 @@
 
 .article-content {
     @extend %body-text;
-    //width: 100%;
-    //width: 400px;
-    //background-color: tomato;
     padding: 0.5em;
-
-    //overflow-wrap: anywhere;
-    //max-width: 100%;
 
     a {
         word-wrap: break-word;
@@ -27,12 +21,8 @@ article blockquote {
 .article-content > header {
     margin-bottom: 0.4em;
 
-    h1 {
-        //margin-bottom: -0.1em;
-    }
-
     .date {
-        font-family: $sans-serif-font-family;
+        @extend %sans-serif;
         font-size: 20px;
     }
 }
@@ -42,22 +32,18 @@ article blockquote {
 }
 
 $hr-color: $gb-lm-dark-gray;
-//$hr-color: $gb-lm-fg4;
 
 .article-content hr {
     margin: 1em auto;
 
     border: 0;
     border-bottom: 1px solid $gb-lm-dark-gray;
-    //border-bottom: 1px dashed $gb-lm-dark-gray;
 }
 .article-content .footnotes hr {
     overflow: visible; // For IE
     padding: 0;
     border: none;
-    //border-top: medium double $hr-color;
     border-top: 1px solid $hr-color;
-    //border-bottom: 1px solid $hr-color;
 
     color: $gb-lm-fg4;
     text-align: center;
@@ -66,6 +52,7 @@ $hr-color: $gb-lm-dark-gray;
     margin-top: 1.5em;
 }
 .article-content .footnotes hr:after {
+    @extend %sans-serif;
     content: "§";
     display: inline-block;
     position: relative;
@@ -79,18 +66,8 @@ $hr-color: $gb-lm-dark-gray;
 .article-content .tags hr {
     margin: 0.3em auto;
     margin-top: 1em;
-    //border: 1px solid $body-font-color;
     border: 0;
     border-top: 1px solid $gb-lm-fg3;
-    //border-bottom: 1px solid $gb-lm-fg3;
-
-    //border-left: none;
-    //border-right: none;
-    //padding-top: 1px;
-    //padding-bottom: 1px;
-    //margin-left: 1em;
-    //margin-right: 1em;
-    //width: 70%;
 }
 
 
@@ -104,6 +81,57 @@ $hr-color: $gb-lm-dark-gray;
     a:visited {
         color: $body-link-visited-color;
     }
+}
+
+
+/*
+ * Lists
+ */
+.article-content {
+    $left: 2rem;
+
+    ul, ol {
+        list-style: none;
+        margin: 1rem 0 1rem $left;
+    }
+    ol {
+        counter-reset: foobar;
+    }
+    ol li, ul li {
+        margin-bottom: 0.4em;
+        font-size: 95%;
+        line-height: 1.35;
+    }
+    ol li::before {
+        float: left;
+        margin-left: -$left;
+    }
+    ul li::before {
+        float: left;
+        margin-left: -$left;
+    }
+
+    ol li::before {
+        @extend %sans-serif;
+        counter-increment: foobar;
+        content: counter(foobar);
+    }
+    ul li::before {
+        @extend %sans-serif;
+        content: "»";
+    }
+}
+
+.article-content > .footnotes li:before {
+    @extend %serif;
+}
+.article-content > .footnotes .footnote-back {
+    visibility: hidden;
+}
+.article-content > .footnotes .footnote-back:before {
+    content: "↩";
+    visibility: visible;
+    margin-left: 0.4rem;
 }
 
 
@@ -131,38 +159,3 @@ $hr-color: $gb-lm-dark-gray;
     //max-width: 100%;
 }
 
-
-
-ul {
-    /*list-style: circle;*/
-}
-ul {
-  /*list-style: none;*/
-}
-
-/*ul {*/
-    /*list-style: none;*/
-    /*padding: 0px;*/
-/*}*/
-/*li::before {*/
-    /*font-family: "Concourse";*/
-    /*[>content: "†";<]*/
-    /*content: "•";*/
-    /*float: left;*/
-    /*margin-left: -2.5rem;*/
-    /*margin-top: 0.1rem;*/
-    /*font-feature-settings: 'onum' 1;*/
-/*}*/
-/*li {*/
-    /*list-style: none;*/
-    /*margin-left: 1.35rem;*/
-    /*padding-left: 1.15rem;*/
-    /*margin-bottom: 0.7em;*/
-    /*[>font-size: 95%;<]*/
-    /*[>line-height: 1.35;<]*/
-/*}*/
-li {
-    //margin-bottom: 0.7em;
-    /*font-size: 95%;*/
-    /*line-height: 1.4;*/
-}

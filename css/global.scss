@@ -5,14 +5,14 @@ $body-link-color: #0030BB;
 $body-link-visited-color: #8900BB;
 
 * {
-  // Predictable styling.
-  margin: 0;
-  padding: 0;
-  // Better box model, includes border in width calculations.
-  box-sizing: border-box;
-  // Flexbox overrides min-width which makes <pre> not overflow properly
-  // https://weblog.west-wind.com/posts/2016/Feb/15/Flexbox-Containers-PRE-tags-and-managing-Overflow
-  min-width: 0;
+    // Predictable styling.
+    margin: 0;
+    padding: 0;
+    // Better box model, includes border in width calculations.
+    box-sizing: border-box;
+    // Flexbox overrides min-width which makes <pre> not overflow properly
+    // https://weblog.west-wind.com/posts/2016/Feb/15/Flexbox-Containers-PRE-tags-and-managing-Overflow
+    min-width: 0;
 }
 
 
@@ -20,13 +20,10 @@ $body-link-visited-color: #8900BB;
  * Main body
  */
 body {
-    font-family: $serif-font-family;
+    @extend %serif;
+
     font-size: 22px;
     line-height: 1.45;
-    /*font-feature-settings: "onum", "liga";*/
-    /*font-feature-settings: "ss08";*/
-    text-rendering: optimizeLegibility;
-    font-feature-settings: 'kern' 1;
 
     color: $body-font-color;
     background-color: $body-background-color;
@@ -35,7 +32,7 @@ body {
 
 
 p {
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
 }
 
 a {
@@ -82,10 +79,7 @@ body, .main-content {
  * Headers
  */
 h1, h2, h3, h4 {
-    font-family: $sans-serif-font-family;
-    line-height: 1.3;
-    //font-feature-settings: "ss04";
-
+    @extend %sans-serif;
     line-height: 1;
 }
 h1 {
@@ -116,8 +110,8 @@ h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
  * Navigations
  */
 nav {
+    @extend %sans-serif;
     font-size: 22px;
-    font-family: $sans-serif-font-family;
     line-height: 1.45;
 
     a, a:visited {
@@ -215,8 +209,8 @@ nav {
     }
 
     .lower {
+        @extend %sans-serif;
         font-size: 18px;
-        font-family: $sans-serif-font-family;
     }
 }
 
