@@ -267,15 +267,16 @@ postCtx tags = mconcat
     [ siteCtx
     , dateField "date" "%B %e, %Y"
     , dateField "ymd" "%F"
-    , tagsField "tags" tags
+    , tagsField "linked_tags" tags
     ]
+
 
 draftCtx :: Tags -> Context String
 draftCtx tags = mconcat
     [ siteCtx
     , constField "date" "January 1, 2000"
     , constField "ymd" "2000-01-01"
-    , tagsField "tags" tags
+    , tagsField "linked_tags" tags
     ]
 
 gameCtx :: Context String
