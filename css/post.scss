@@ -41,6 +41,71 @@ article blockquote {
     max-width: 100%;
 }
 
+$hr-color: $gb-lm-dark-gray;
+//$hr-color: $gb-lm-fg4;
+
+.article-content hr {
+    margin: 1em auto;
+
+    border: 0;
+    border-bottom: 1px solid $gb-lm-dark-gray;
+    //border-bottom: 1px dashed $gb-lm-dark-gray;
+}
+.article-content .footnotes hr {
+    overflow: visible; // For IE
+    padding: 0;
+    border: none;
+    //border-top: medium double $hr-color;
+    border-top: 1px solid $hr-color;
+    //border-bottom: 1px solid $hr-color;
+
+    color: $gb-lm-fg4;
+    text-align: center;
+    margin: 0 auto;
+    width: 90%;
+    margin-top: 1.5em;
+}
+.article-content .footnotes hr:after {
+    content: "§";
+    display: inline-block;
+    position: relative;
+    top: -21px;
+    font-size: 16px;
+    padding: 0 0.3em;
+    color: $body-font-color;
+    background: $body-background-color;
+}
+
+.article-content .tags hr {
+    margin: 0.3em auto;
+    margin-top: 1em;
+    //border: 1px solid $body-font-color;
+    border: 0;
+    border-top: 1px solid $gb-lm-fg3;
+    //border-bottom: 1px solid $gb-lm-fg3;
+
+    //border-left: none;
+    //border-right: none;
+    //padding-top: 1px;
+    //padding-bottom: 1px;
+    //margin-left: 1em;
+    //margin-right: 1em;
+    //width: 70%;
+}
+
+
+.article-content .tags .tag-links {
+    font-family: $serif-font-family;
+    font-size: 90%;
+
+    a {
+        color: $body-link-color;
+    }
+    a:visited {
+        color: $body-link-visited-color;
+    }
+}
+
 
 /*
  * Pretty video embedding
