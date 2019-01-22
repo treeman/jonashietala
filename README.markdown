@@ -22,11 +22,12 @@ Sitemap
 Dependencies
 ============
 
-1. cabal: hakyll, missingH
+1. cabal: hakyll, missingH, hakyll-sass, pcre-utils
 2. python-magic (for MIME type)
 3. s3cmd  
    If you're using `sync` to upload to S3 bucket.
    Change preferences in script and set keys ins `~/.s3cfg`, see s3cmd.
+4. sassc
 
 TODO
 ====
