@@ -55,15 +55,24 @@ TODO
         Style footnotes                                 DONE
         Style tables                                    DONE
         Style math symbols                              SKIP
+        Style figures
+    * Better images
+        https://pandoc.org/MANUAL.html#images
+        Use figures instead of manual centering of images
+        Image gallery
+        Update existing posts
     * Multiple post styling
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 
         https://internetingishard.com/html-and-css/semantic-html/
     * Locate game downloads or remove download links
 
+* Remove spaces from tag links e.g "Yearly Review"      DONE
 * Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
+* Fix broken links
+    * Images offpage
+    * Broken links to sites                             DONE
+    * Game download links (or remove)
+    * Internal links
 
-* Write posts about some good read books/games etc
-* Remove links to images offpage!
-* Remove spaces from tag links e.g "Yearly Review"
 

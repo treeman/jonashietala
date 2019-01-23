@@ -20,8 +20,9 @@
     }
 }
 
+
 /*
- * Items
+ * Quotes
  */
 .article-content blockquote {
     font-size: 95%;
@@ -29,10 +30,10 @@
     margin: 0 2em;
 }
 
-.article-content img {
-    max-width: 100%;
-}
 
+/*
+ * Tables
+ */
 .article-content table {
     @extend %serif;
     // Need tabular numbers to align properly
@@ -184,3 +185,39 @@ $hr-color: $gb-lm-dark-gray;
     //max-width: 100%;
 }
 
+
+/*
+ * Images
+ */
+.article-content img {
+    max-width: 100%;
+}
+
+.article-content figure {
+    margin-bottom: 1em;
+    text-align: center;
+}
+.article-content figure > figcaption {
+    font-style: italic;
+}
+
+.article-content .gallery ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    margin: 1rem 0;
+
+    img {
+        width: 10em;
+        padding: 0 0.25em;
+    }
+
+    // Need to delete inherited list styling
+    li {
+        margin: 0;
+    }
+    li::before {
+        display: none;
+    }
+}

@@ -132,10 +132,6 @@ code.sourceCode span.fu { color: #79740e; } /* Function green */
 }
 ```
 
-```
-empty
-```
-
 ```{.C}
 #pragma once
 #include "foo.h"
@@ -198,4 +194,31 @@ belong to the previous footnote.
 
 This paragraph won't be part of the note, because it
 isn't indented.
+
+
+Regular image:
+
+![toxic](/images/toxic.jpg)\
+
+Figure:
+
+![FTL is such an amazing game](/images/ftl_start.png)
+
+Set properties:
+
+![A small led cube displayed in 400px](/images/small_led_cube.jpg){ width=400px }
+
+Image gallery:
+
+::: {.gallery}
+
+* ![](/images/inside1.jpg)
+* ![](/images/case.jpg)
+* ![](/images/cables.jpg)
+* ![](/images/inside2.jpg)
+* ![](/images/das1.jpg)
+
+:::
+
+End gallery. Ooh so pretty! :)
 
