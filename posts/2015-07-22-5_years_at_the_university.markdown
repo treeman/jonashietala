@@ -194,7 +194,7 @@ I continued doing some programming competitions as can be seen in [UVa][] which 
 
 During the summer I also took part in [IDA Summer of Code 2014][isoc] where I contributed to [rust][]. I also had my [second summer job at Configura][config2]:
 
-<img src="/images/configura14/octree2.png" width=600/>
+![Our octree implementation](/images/configura14/octree2.png)
 
 [config2]: /blog/2014/07/13/summer_job_at_configura/
 [isoc]: /blog/2014/10/06/ida_summer_of_code_2014_summary/

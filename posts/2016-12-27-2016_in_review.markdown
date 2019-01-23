@@ -49,7 +49,7 @@ Plans for 2016
 [Elixir]: http://elixir-lang.org/ "Elixir programming language"
 [Prague]: https://en.wikipedia.org/wiki/Prague "Prague"
 
-[previous reviews]: </blog/tags/Yearly Review/> "Yearly reviews"
+[previous reviews]: </blog/tags/yearly_review/> "Yearly reviews"
 [books read]: /blog/2016/12/27/read_books/ "2016 Read Books"
 [blog posts]: /archive "My archive"
 [custom keyboard]: /blog/2016/10/12/building_the_gh60/ "GH60"

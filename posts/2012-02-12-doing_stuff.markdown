@@ -13,10 +13,7 @@ Yesterday I did something else though. I went and bought a bunch of stuff. I bou
 
 Apart from all that I also hung up Veronica's two paintings and a white shelf I've been meaning to a while. I realized I had no idea whatsoever how to hang up a painting! I bought a big box with screws and stuff but there where only one of them I knew how to use. Now I know how to hang up a painting like the leaning tower of Pisa!
 
-<div class="center">
-  <img src="http://4.bp.blogspot.com/-LqiqWRrdHX4/TX9XHvYIooI/AAAAAAAABqM/a2FTabGMO5Y/s400/leaning-tower-of-pisa.jpg" alt="Leaning tower of Pisa" /><br />
-  <em>You call that leaning? You should check out my paintings!</em>
-</div>
+![You call that leaning? You should check out my paintings!](http://4.bp.blogspot.com/-LqiqWRrdHX4/TX9XHvYIooI/AAAAAAAABqM/a2FTabGMO5Y/s400/leaning-tower-of-pisa.jpg "Leaning tower of Pisa")
 
 I finally got them sort-of straight, but it took a while.
 

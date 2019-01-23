@@ -32,6 +32,6 @@ Plans for 2018
 1. Read some more.
 1. Train some more.
 
-[previous years]: </blog/tags/Yearly Review/> "Yearly reviews"
+[previous years]: </blog/tags/yearly_review/> "Yearly reviews"
 [blog posts]: /archive "My archive"
 

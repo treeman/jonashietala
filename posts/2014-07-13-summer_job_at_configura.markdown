@@ -19,15 +19,15 @@ On top of that we had to make debugging and visualization tools and a test suite
 The Result
 ==========
 
-<a href="/images/configura14/argonath1.png"><img src="/images/configura14/argonath1.png" width=600/></a>
+![](/images/configura14/argonath1.png)
 
 In this picture we can see the original model on the left. The green outline to the right are the triangles we deemed visible and the red mesh corresponds to the invisible triangles.
 
-<a href="/images/configura14/argonath2.png"><img src="/images/configura14/argonath2.png" width=600/></a>
+![](/images/configura14/argonath2.png)
 
 Here we only show the removed triangles and we can see that there's a dude inside the statue, which we mostly remove. This model has about 730 000 triangles and we managed to remove about 300 000 of them, which is pretty cool.
 
-<a href="/images/configura14/adolf1.png"><img src="/images/configura14/adolf1.png" width=600/></a>
+![](/images/configura14/adolf1.png)
 
 This is another interesting example. We can see that inside this model, we have a high resolution spring with nearly 3500 triangles!
 
@@ -46,15 +46,21 @@ An [octree][] is an extension of a [quadtree][] from 2D to 3D. The simple explan
 
 The octree is used in various ways, for a fast traversal with a ray, mesh healing, finding neighbours or other things.
 
-<a href="/images/configura14/octree1.png"><img src="/images/configura14/octree1.png" width=400/></a> <a href="/images/configura14/octree2.png"><img src="/images/configura14/octree2.png" width=400/></a>
+<figure class="flex-50">
+  ![](/images/configura14/octree1.png)
+  ![](/images/configura14/octree2.png)
+</figure>
 
 Here we can see the root bounding box and the subsequent subdivision into smaller boxes. The green boxes have none or few triangles, the yellow and red have more triangles in them. Because we force our wctree to have a maximum depth some nodes like the red ones on top of the model can have a lot of triangles in them without further subdividing. This is basically a trade off between the memory and time usage versus how good the octree becomes.
 
-<a href="/images/configura14/socket1.png"><img src="/images/configura14/socket1.png" width=400/></a> <a href="/images/configura14/socket2.png"><img src="/images/configura14/socket2.png" width=400/></a>
+<figure class="flex-50">
+  ![](/images/configura14/socket1.png)
+  ![](/images/configura14/socket2.png)
+</figure>
 
 This octree is very sparse at the top, which makes sense as there are no triangles there, and it's dense in the middle. Interestingly we can see something sticking out inside the model, which means there are more triangles there. Indeed, the model has the actual holes, we just can't see them.
 
-<a href="/images/configura14/octree_debug.png"><img src="/images/configura14/octree_debug.png" width=600/></a>
+![](/images/configura14/octree_debug.png)
 
 In this picture we can see one of our debug tools. This is a single large triangle spanning over almost the whole model and the generated octree. The colored boxes show which nodes the triangle is inserted into, which can be an invaluable debugging tool when changing how triangle-box intersection and octree insertion works.
 
@@ -84,7 +90,7 @@ Ray casting
 
 Our strategy for finding invisible triangles is quite simple: we cast rays towards the still invisible triangles from outside the model, and see what we can hit. All triangles our rays hit, are visible and the rest we can remove.
 
-<a href="/images/configura14/casting.png"><img src="/images/configura14/casting.png" width=600/></a>
+![](/images/configura14/casting.png)
 
 This is another of our debug tools where we can select a triangle (pointed by the arrow) and all the ray we try to cast towards it. In this case we fail to hit the triangle and instead we hit all the blue/purple triangles instead. This is a failed triangle, but I think it's a nice illustration of how we tried to find invisible triangles.
 
@@ -93,7 +99,7 @@ The first pass of rays we only cast one ray along the triangle's normal towards 
 For each ray we traverse the octree and for every box the ray intersects we check the triangles inside against the ray. This is fast because don't have to check against all other triangles at every step, but only against a fixed amount if the octree is well formed.
 
 
-Conclusions
+Conclusion
 ==========
 
 This was my second summer at [Configura][] and it's a pretty cool company. They gave us a lot of freedom and we got to work on pretty cool things and they have their own programming language which is fun to work with.
@@ -102,10 +108,15 @@ We rewrote the implementations from scratch, we battled with precision errors an
 
 Oh, and something cool we hacked in during my last day: A better triangle flipper to turn triangles face up.
 
-<a href="/images/configura14/flipper1.png"><img src="/images/configura14/flipper1.png" width=400/></a> <a href="/images/configura14/flipper2.png"><img src="/images/configura14/flipper2.png" width=400/></a>
+<figure class="flex-50">
+  ![](/images/configura14/flipper1.png)
+  ![](/images/configura14/flipper2.png)
+  <figcaption>
+    Left: Triangles turned inwards  
+    Right: Triangles turned outwards (without blindly copying everything)
+  </figcaption>
+</figure>
 
-Left: Triangles turned inwards  
-Right: Triangles turned outwards (without blindly copying everything)
 
 
 [Octree]: http://en.wikipedia.org/wiki/Octree "Octree"

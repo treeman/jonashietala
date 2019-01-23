@@ -10,8 +10,7 @@ School is almost over and it's almost time to travel back up to Övertorneå. Th
 
 I got one of the best presents yet I think! A [Raspberry Pi][]!
 
-<img src="/images/christmas12.jpg" width="600" />  
-*Just look at this bad boy!*
+![Just look at this bad boy!](/images/christmas12.jpg)
 
 She got some crochet (virkning?) stuff from me, but she seemed content with that little. Now what shall I do with mine? I'm thinking of fetching a small screen for it and... and... Do something fun with it?
 

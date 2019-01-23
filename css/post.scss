@@ -236,23 +236,19 @@ $hr-color: $gb-lm-dark-gray;
     flex: 0 1 20%;
 }
 
-.article-content .gallery ul {
+.article-content figure.gallery {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 
     margin: 1rem 0;
 
-    img {
-        width: 9.25em;
-        padding: 0 0.25em;
+    > img {
+        width: 8.75em;
+        padding: 0.1em;
     }
-
-    // Need to delete inherited list styling
-    li {
-        margin: 0;
-    }
-    li::before {
-        display: none;
+    > figcaption {
+        width: 100%;
     }
 }
+

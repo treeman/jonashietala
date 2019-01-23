@@ -45,10 +45,13 @@ The keyboard, oh the keyboard! I got it in my head that I had to have a mechanic
 
 Overall I'm very happy and I don't think I would've done anything different if I were to buy it today, except maybe try an Ati card, some say the drivers aren't bad at all anymore.
 
-Finally some more pictures:  
-<a href="/images/inside1.jpg"><img src="/images/inside1.jpg" width="200" /></a>
-<a href="/images/case.jpg"><img src="/images/case.jpg" width="200" /></a>
-<a href="/images/cables.jpg"><img src="/images/cables.jpg" width="200" /></a>
-<a href="/images/inside2.jpg"><img src="/images/inside2.jpg" width="200" /></a>
-<a href="/images/das1.jpg"><img src="/images/das1.jpg" width="200" /></a>
+Finally some more pictures:
+
+<figure class="gallery">
+  ![](/images/inside1.jpg)
+  ![](/images/case.jpg)
+  ![](/images/cables.jpg)
+  ![](/images/inside2.jpg)
+  ![](/images/das1.jpg)
+</figure>
 

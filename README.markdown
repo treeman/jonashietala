@@ -39,14 +39,14 @@ TODO
     * Archives styling          DONE
     * Responsive projects       DONE
     * Responsive homepage       DONE
-    * Homepage styling
+    * Homepage styling          DONE
         smaller screens wraps header badly              DONE
         h1, h2 spacing. Also for static pages           DONE
         cleanup homepage.scss                           DONE
         wrap long code lines inside body text           DONE
         wrap images inside body text                    DONE
         style tags                                      DONE
-    * Post content styling
+    * Post content styling                      DONE
         Some youtube videos aren't showing up?          DONE
         Cleanup old header manual styling               DONE
         Tag links are missing                           DONE
@@ -56,23 +56,22 @@ TODO
         Style tables                                    DONE
         Style math symbols                              SKIP
         Style figures                                   DONE
-    * Better images
+    * Better images                             DONE
         https://pandoc.org/MANUAL.html#images
         Use figures instead of manual centering         DONE
         Image gallery                                   DONE
-        Update existing posts
+        Update existing posts                           DONE
     * Multiple post styling
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 
         https://internetingishard.com/html-and-css/semantic-html/
     * Locate game downloads or remove download links
+    * Ellipses are turned into & signs. Neither "..." which autoconverts to unicode … nor &hellip; works
 
 * Remove spaces from tag links e.g "Yearly Review"      DONE
 * Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
 * Fix broken links
-    * Images offpage
     * Broken links to sites                             DONE
     * Game download links (or remove)
-    * Internal links
-
+    * Internal links                                    DONE
 

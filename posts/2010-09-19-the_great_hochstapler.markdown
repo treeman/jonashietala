@@ -12,8 +12,7 @@ Me and Veronica are now living in a fairly nice apartment and I think I've incre
 
 I haven't had any time, or energy, to focus on game development. There are a few things I'd like to do but we'll see what happens. My friend on the other hand has been productive and he has just finished one of his big game projects: [Hochstapler](http://gridlockgames.net/games.html#hochstapler).
 
-<img src="http://gridlockgames.net/bilder/games/hochstapler1.png" width="600" height="400" />
-*Hochstapler, the epic production from Gridlock Games*
+![Hochstapler, the epic production from Gridlock Games](http://gridlockgames.net/bilder/games/hochstapler1.png)
 
 It's a really fun game with some inspiration from the old commodore and I really recommend you to give it a try. The only downside is of course that I just can't beat his highscore!
 

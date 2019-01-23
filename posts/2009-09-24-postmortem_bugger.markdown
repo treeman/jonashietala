@@ -13,10 +13,12 @@ Anyway I started out with a small idea: speed-typing. It later turned out to be 
 
 If I followed the theme good or bad you be the judge. Personally I don't think it was as clear as I'd want it to do but meh.
 
-The game itself took 25 hours to make - but more than 5 hours of them was me having a break...  
+The game itself took 25 hours to make - but more than 5 hours of them was me having a break.
 Here's a little jummy pie of what took time:
 
-<div class="center"><img src="/images/games/bugger-time-spent.png" /></div>
+<figure>
+![](/images/games/bugger-time-spent.png)
+</figure>
 
 Compared to my two other games I spent a bigger part on both graphics and level design - and that was sourly needed imho. The "embedding scripting" part is where I built in the ability to build levels from lua. I think the result was really good and it saved a lot of time just being able to edit a file without having to recompile every single little change.
 

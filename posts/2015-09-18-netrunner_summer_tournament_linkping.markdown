@@ -60,7 +60,7 @@ I had Hollywood Renovation with a bunch of advancement tokens, The Future is Now
 
 13 points, 7-1
 
-[Netrunner]: /blog/tags/Netrunner/ "Netrunner"
+[Netrunner]: /blog/tags/netrunner/ "Netrunner"
 [noise]: http://netrunnerdb.com/en/decklist/26258/the-original-hacker-link-ping-summer-kit-tournament-1st- "Noise decklist"
 [bluesun]: http://netrunnerdb.com/en/decklist/26259/renovating-the-future-link-ping-summer-kit-tournament-1st- "Blue Sun decklist"
 

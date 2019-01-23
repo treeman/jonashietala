@@ -13,7 +13,9 @@ My last resort was to convert all strings to integers and do some funky bit shif
 
 While this was going on I also took part in a competition of some sorts in connection with the course. There was a programming problem after each lecture that we had to complete and the goal was to get as few hours as possible after the problems were released. Most problems were quite easy but there were a few hard ones. One I also lost some sleep over! But again I woke up and had to run to the computer to try to solve it... At least I won some money for some lovely new books so I guess it was worth it.
 
-<div class="center"><img src="/images/sneak.png" /></div>
+<figure>
+  ![](/images/sneak.png)
+</figure>
 
 We're now finishing our other course, [the one with the Java game that spurred me to wanna make more games](/blog/2011/09/12/10_games_in_10_languages), and I think I spent a bit too much time on that... The game turned out pretty cool, I will make a post about it tomorrow I think, but it was a level or two above the actual demands I think so we could've chilled and not stress that much. And now we *only* have to document it! Describe how all the classes work with UML and some blocks of text... Sigh.
 
@@ -27,8 +29,8 @@ I'm probably gonna program, make a game or two, go through a language, read some
 
 No I need to relax. Maybe read some more manga? Yes, that is indeed a good idea...
 
-<div class="center">
-  <img src="http://i.imgur.com/WwR5X.jpg" width="400" /><br />
-  <em>manga...</em>
-</div>
+<figure>
+  ![](//i.imgur.com/WwR5X.jpg)
+  <figcaption>manga...</figcaption>
+</figure>
 

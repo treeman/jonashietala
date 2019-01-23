@@ -7,8 +7,11 @@ time: 15:03:04
 ---
 Ah my latest game [Jonas IceCream Stand](/blog/2009/11/25/jonas_icecream_stand/) is finished and up and running and I'm really proud of it! And thanks for the feedback guys, it's always welcome.
 
-I spent almost exactly fifty hours on this game and that's by far the most I've spent on a 7day project. To be honest it's probably more but I'm not really good at logging all the hours...   
-![](/images/games/icecreamgraph.png)
+I spent almost exactly fifty hours on this game and that's by far the most I've spent on a 7day project. To be honest it's probably more but I'm not really good at logging all the hours...
+
+<figure>
+  ![](/images/games/icecreamgraph.png)
+</figure>
 
 # A Race
 
@@ -16,8 +19,7 @@ This game was a race against time from start to finish. I understood right from 
 
 I guess I'm learning the coding lessons the hard way. Keeping it structured and maintainable even, no, especially under pressure is extremely important. It's a good thing I have a fast iteration cycle repeating itself for every new game I'm making.
 
-![](/images/games/ops.png)  
-*Heh*
+![Heh](/images/games/ops.png)
 
 # Art
 
@@ -25,10 +27,7 @@ I keep saying it again and again but I'm not a graphics designer but I should st
 
 The fading effect on the sky was pretty cool, but it's kinda crude and it doesn't fit the overall theme very well. The theme has a few distinct colors with a little "childish" feel to them. I feel the fading adds a bit too many colors to it. But I do think the end points (in the middle of the night with all the stars and when it's as light as possible) looks pretty good. And I'm not sure it was a very good idea to include a MenuCity silhouette in the background.
 
-<div class="center">
-  <img src="/images/games/skyatnight.png" /><br />
-  <em>A beautiful night sky.</em>
-</div>
+![A beautiful night sky](/images/games/skyatnight.png)
 
 # Gameplay
 

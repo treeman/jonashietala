@@ -11,8 +11,5 @@ So now I'm a bit worried, luckily not as much as my girlfriend, and what's the c
 
 Luckily I think I've found the reason, but sadly it's not the very best one. I think I need glasses. I squint *all the time* in front of the computer and I'm getting headaches when I'm reading. So this Friday it's judgement day. I dunno what I'm hoping for, if it's glasses then fine at least it should be better, but if it's not then it might be a bigger problem somewhere.
 
-<div class="center">
-  <img src="http://3.bp.blogspot.com/_W8MKyrpvUV4/TGwi8kA2tVI/AAAAAAAAAVQ/59FGbUhfYtM/s1600/20071128geek.jpg" /><br />
-  <em>Me of tomorrow?</em>
-</div>
+![Me of tomorrow?](http://3.bp.blogspot.com/_W8MKyrpvUV4/TGwi8kA2tVI/AAAAAAAAAVQ/59FGbUhfYtM/s1600/20071128geek.jpg)
 
