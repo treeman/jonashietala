@@ -53,8 +53,8 @@ TODO
         Style tags                                      DONE
         Style lists                                     DONE
         Style footnotes                                 DONE
-        Style tables
-        Style math symbols
+        Style tables                                    DONE
+        Style math symbols                              SKIP
     * Multiple post styling
     * Properly design html semantics, see 
         https://gsnedders.html5.org/outliner/ 

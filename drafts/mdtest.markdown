@@ -56,6 +56,9 @@ Unordered list:
 * Milk
 * Bread
 * Cheese
+
+    Paragraph
+
 * Rice
 
 Ordered list:
@@ -66,8 +69,8 @@ Ordered list:
 5. Rice
 
     Can also have some text here
-
     But then the paragraph destroys?
+
 6. Pew  
     This is closer  
     To what I want?
@@ -82,6 +85,7 @@ Table:
 | Second row   | **Cell** 1    | 1111          |
 | Third row    | **Cell** 2    | 3333          |
 | Fourth row   | **Cell** 3    | 6789          |
+
 
 <http://example.com>
 
@@ -101,8 +105,6 @@ wow_great_stuff
 
 | 200 Main St.
 | Berkeley, CA 94718
-
-$x^2 = 3$
 
 Here is a footnote reference,[^1] and another.[^longnote]
 

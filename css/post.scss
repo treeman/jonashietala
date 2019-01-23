@@ -11,13 +11,6 @@
     }
 }
 
-article blockquote {
-    font-size: 95%;
-    line-height: 1.4;
-    margin: 0 2em;
-}
-
-
 .article-content > header {
     margin-bottom: 0.4em;
 
@@ -27,10 +20,34 @@ article blockquote {
     }
 }
 
+/*
+ * Items
+ */
+.article-content blockquote {
+    font-size: 95%;
+    line-height: 1.4;
+    margin: 0 2em;
+}
+
 .article-content img {
     max-width: 100%;
 }
 
+.article-content table {
+    @extend %serif;
+    // Need tabular numbers to align properly
+    font-feature-settings: 'kern' on, 'tnum' on;
+    font-size: 95%;
+    margin-bottom: 1rem;
+}
+.article-content th, .article-content td {
+    padding: 0.1em 1em 0.1em 0em;
+}
+
+
+/*
+ * Horizontal rules
+ */
 $hr-color: $gb-lm-dark-gray;
 
 .article-content hr {
@@ -39,6 +56,10 @@ $hr-color: $gb-lm-dark-gray;
     border: 0;
     border-bottom: 1px solid $gb-lm-dark-gray;
 }
+
+/*
+ * Footnotes
+ */
 .article-content .footnotes hr {
     overflow: visible; // For IE
     padding: 0;
@@ -51,6 +72,7 @@ $hr-color: $gb-lm-dark-gray;
     width: 90%;
     margin-top: 1.5em;
 }
+
 .article-content .footnotes hr:after {
     @extend %sans-serif;
     content: "§";
@@ -63,13 +85,16 @@ $hr-color: $gb-lm-dark-gray;
     background: $body-background-color;
 }
 
+
+/*
+ * Tags
+ */
 .article-content .tags hr {
     margin: 0.3em auto;
     margin-top: 1em;
     border: 0;
     border-top: 1px solid $gb-lm-fg3;
 }
-
 
 .article-content .tags .tag-links {
     font-family: $serif-font-family;
