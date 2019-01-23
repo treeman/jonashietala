@@ -5,10 +5,6 @@ tags: Games, 7days
 
 Aaah feels good having a game ready after the last month's failure! This time it's a small shooter.
 
-# Downloa
-
-[Windows](#)
-
 # The Chronicles of Bim: The 100 Fake Afro
 
 ![](/images/games/thumbs/afro1.png)

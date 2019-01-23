@@ -7,10 +7,6 @@ Here it is at last! Boasting a unoriginal name, themed *Bare Minimum*. My though
 
 Yes I know there are a lot of things bad and wrong with this game, but this is a competition with myself to create a game in only seven days and you can't always polish the games like your heart tells you to do.
 
-# Download
-
-[Windows](#)
-
 # Black and White
 
 ![](/images/games/thumbs/bw1.png)

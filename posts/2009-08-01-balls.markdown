@@ -9,10 +9,6 @@ Balls is a game about... balls. Well it's all in 2D so maybe Circles would be a 
 
 I didn't think this was possible but here it is! My very first jewel =)
 
-# Download
-
-[Windows](#)
-
 # Balls
 
 ![](/images/games/thumbs/balls1.jpg)

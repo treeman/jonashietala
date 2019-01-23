@@ -3,10 +3,7 @@ title: "A Geek Valentine"
 tags: Games, 7days
 ---
 
-Yes! I made it! It's 22:22 on the very last day of February and I've been programming virtually non-stop for the past two days, my brain feels like mashed potatoes...
-
-**Download**  
-[Windows](#)
+Yes! I made it! It's 22:22 on the very last day of February and I've been programming virtually non-stop for the past two days, my brain feels like mashed potatoes.
 
 **A Geek Valentine**   
 ![](/images/games/thumbs/geek1.png)
@@ -17,6 +14,7 @@ Yes! I made it! It's 22:22 on the very last day of February and I've been progra
 Steer with the arrow keys.
 
 Use spacebar to:   
+
 1. Build the time machine   
 2. Buy and place traps (Just face an empty square and choose a trop on the top right)   
 3. Sell traps (Face and click)

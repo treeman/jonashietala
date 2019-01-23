@@ -5,10 +5,6 @@ tags: Games, 7days
 
 Ahoy there! This time I'll take you along for a ride with an arty Tycoon game.
 
-# Download
-
-[Windows](#)
-
 # Jonas IceCream Stand
 
 ![](/images/games/thumbs/ice3.png)
