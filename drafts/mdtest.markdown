@@ -210,15 +210,14 @@ Set properties:
 
 Image gallery:
 
-::: {.gallery}
-
-* ![](/images/inside1.jpg)
-* ![](/images/case.jpg)
-* ![](/images/cables.jpg)
-* ![](/images/inside2.jpg)
-* ![](/images/das1.jpg)
-
-:::
+<figure class="gallery">
+  ![](/images/inside1.jpg)
+  ![](/images/case.jpg)
+  ![](/images/cables.jpg)
+  ![](/images/inside2.jpg)
+  ![](/images/das1.jpg)
+  <figcaption>Much hardware, such wow</figcaption>
+</figure>
 
 End gallery. Ooh so pretty! :)
 

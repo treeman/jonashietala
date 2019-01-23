@@ -61,8 +61,8 @@ TODO
         Use figures instead of manual centering         DONE
         Image gallery                                   DONE
         Update existing posts                           DONE
-    * Multiple post styling
-    * Properly design html semantics, see 
+    * Multiple post styling                             DONE
+    * Properly design html semantics, see               DONE
         https://gsnedders.html5.org/outliner/ 
         https://internetingishard.com/html-and-css/semantic-html/
     * Locate game downloads or remove download links
@@ -70,8 +70,4 @@ TODO
 
 * Remove spaces from tag links e.g "Yearly Review"      DONE
 * Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
-* Fix broken links
-    * Broken links to sites                             DONE
-    * Game download links (or remove)
-    * Internal links                                    DONE
 
