@@ -24,9 +24,7 @@ At first we had an introductory course where we built digital clocks and counter
 
 The digital circuit labs were followed by a digital project of our own choice. We [designed a processor][MARC] which could run the [Core Wars 88 standard][corestd] and we simulated it on an FPGA.
 
-This is the main block schema for the processor:
-
-<img src="https://camo.githubusercontent.com/629c93393e92277b309693a5a99228a50b2bcc98/68747470733a2f2f7261772e6769746875622e636f6d2f747265656d616e2f4469676974616c2d6b6f6e737472756b74696f6e2f6d61737465722f5265706f727425323025323625323070726573656e746174696f6e2f6875767564626c6f636b736368656d612e706e67" width=600/>
+![The main block schema for the processor](https://camo.githubusercontent.com/629c93393e92277b309693a5a99228a50b2bcc98/68747470733a2f2f7261772e6769746875622e636f6d2f747265656d616e2f4469676974616c2d6b6f6e737472756b74696f6e2f6d61737465722f5265706f727425323025323625323070726573656e746174696f6e2f6875767564626c6f636b736368656d612e706e67)
 
 And here is a small video of the simulation in action:
 
@@ -164,9 +162,7 @@ Another thing which was quite bad was the extreme focus on documentation. The wh
 
 A much better project was the [Robot project][] where we created an autonomous robot! There we poked around with hardware and lower level programming in C.
 
-<img src="/images/trap14/Robot_0018.JPG" width=600/>
-
-Debugging this... thing... was quite an experience.
+![Debugging this was quite an experience](/images/trap14/Robot_0018.JPG)
 
 I continued to be a mentor in discrete math and I joined [Team Obelix][] which organized student visits to different companies. I won the "best CV" award given by Ericsson, I won some things in the local programming competition [IMPA][] and I had a great course in operative systems where we used [Pintos][]. I took an extra course in Graph Theory which was quite different from other math courses but very interesting. Additionally I took a [Programming Languages][] course at Coursera, also quite nice.
 

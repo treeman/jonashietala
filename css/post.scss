@@ -164,6 +164,9 @@ $hr-color: $gb-lm-dark-gray;
 /*
  * Pretty video embedding
  */
+.video-wrapper {
+    margin: 1em 0;
+}
 .video-container {
     position: relative;
     padding-bottom: 56.25%;
@@ -209,7 +212,7 @@ $hr-color: $gb-lm-dark-gray;
     margin: 1rem 0;
 
     img {
-        width: 10em;
+        width: 9.25em;
         padding: 0 0.25em;
     }
 

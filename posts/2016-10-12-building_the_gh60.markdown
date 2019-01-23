@@ -19,18 +19,15 @@ I did source a 60% plate from [massdrop][massdrop-plate] and I used [Cherry MX G
 
 # Pictures
 
-My beautiful solder job:  
-<a href="/images/gh60_pink/solder.jpg"><img src="/images/gh60_pink/solder.jpg" width="400" /></a>
-<a href="/images/gh60_pink/back.jpg"><img src="/images/gh60_pink/back.jpg" width="600" /></a>
+![My beautiful solder job](/images/gh60_pink/solder.jpg){ width=400 }
 
-You can see the plate mashed between the switches and the PCB:  
-<a href="/images/gh60_pink/sideview.jpg"><img src="/images/gh60_pink/sideview.jpg" width="600" /></a>
+![In all it's glory](/images/gh60_pink/back.jpg){ width=600 }
 
-A full view of the switches from the top:  
-<a href="/images/gh60_pink/switches.jpg"><img src="/images/gh60_pink/switches.jpg" width="600" /></a>
+![You can see the plate mashed between the switches and the PCB](/images/gh60_pink/sideview.jpg){ width=600 }
 
-The beautiful keycaps:  
-<a href="/images/gh60_pink/keycaps.jpg"><img src="/images/gh60_pink/keycaps.jpg" width="800" /></a>
+![A full view of the switches from the top](/images/gh60_pink/switches.jpg){ width=600 }
+
+![The beautiful keycaps](/images/gh60_pink/keycaps.jpg){ width=800 }
 
 The white doesn't shine through at all when you're at the keybord, the photo isn't representative.
 

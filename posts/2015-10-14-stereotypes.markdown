@@ -10,6 +10,6 @@ I read a [great essay or article][printf] about stereotypical programmers called
 
 And then there's the e-sport fan who watches other play game instead of playing them and again I'm guilty.
 
-![](/images/Watching-someone-else-play-a-game-is-a-complete-waste-of-time-comic.jpg)
+![<http://www.loadingartist.com/>](/images/Watching-someone-else-play-a-game-is-a-complete-waste-of-time-comic.jpg)
 
-The comic is from <http://www.loadingartist.com/>.
+

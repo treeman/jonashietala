@@ -10,9 +10,7 @@ After I finished school and started working at [Configura][] I've sadly been neg
 
 Habitica is an RPG game where you level up after you complete habits, dailies or To-Dos. The idea is to do real life actions and log them in the game to collect gold, pets and levels. It's a simple idea and it doesn't sound like much, but for me the added goals has made it lot more effective than simply writing in a notebook or similar.
 
-<a href="/images/habitica/overview.png">
-  <img src="/images/habitica/overview.png" width="800" />
-</a>
+![](/images/habitica/overview.png){ width=800 }
 
 With the gold you collect you can buy better gear or buy custom rewards. My idea here is to add things I want to buy or things I want to do there but I haven't really used it as much before so I'm not sure how effective it'll be.
 

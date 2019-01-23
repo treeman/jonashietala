@@ -55,11 +55,11 @@ TODO
         Style footnotes                                 DONE
         Style tables                                    DONE
         Style math symbols                              SKIP
-        Style figures
+        Style figures                                   DONE
     * Better images
         https://pandoc.org/MANUAL.html#images
-        Use figures instead of manual centering of images
-        Image gallery
+        Use figures instead of manual centering         DONE
+        Image gallery                                   DONE
         Update existing posts
     * Multiple post styling
     * Properly design html semantics, see 
