@@ -23,7 +23,7 @@ I didn't think this was possible but here it is! My very first jewel =)
 
 Well... There's nothing to it really. Move the mouse over the balls to make them shrink, survive until the top is filled with balls.
 
-# Credits*
+# Credits
 
 Music: Markovich/A.M.P. - Twisted in flight   
 Sound effects: Random from [freesound](http://www.freesound.org/)   

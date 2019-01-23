@@ -198,7 +198,7 @@ isn't indented.
 
 Regular image:
 
-![toxic](/images/toxic.jpg)\
+![](/images/toxic.jpg)\
 
 Figure:
 

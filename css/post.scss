@@ -199,9 +199,41 @@ $hr-color: $gb-lm-dark-gray;
 .article-content figure {
     margin-bottom: 1em;
     text-align: center;
+
+    > figcaption {
+        font-style: italic;
+    }
 }
-.article-content figure > figcaption {
-    font-style: italic;
+
+.article-content figure.flex-50,
+.article-content figure.flex-33,
+.article-content figure.flex-25,
+.article-content figure.flex-20 {
+    // Multiple images share the same line and automatically flexes.
+    // Caption is below and everything is centered.
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    > img {
+        padding: 0.1em;
+    }
+    > figcaption {
+        width: 100%;
+    }
+}
+
+.article-content figure.flex-50 > img {
+    flex: 0 1 50%;
+}
+.article-content figure.flex-33 > img {
+    flex: 0 1 33%;
+}
+.article-content figure.flex-25 > img {
+    flex: 0 1 25%;
+}
+.article-content figure.flex-20 > img {
+    flex: 0 1 20%;
 }
 
 .article-content .gallery ul {
