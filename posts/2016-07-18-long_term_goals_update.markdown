@@ -32,7 +32,7 @@ I would also like to add two new goals I've been thinking about lately:
 
 What I should do is to expand on my goals and think about why I want them and *how* I should accomplish them. For now though this quick overview is enough to calm down my anxious thoughts.
 
-[yearly reviews]: </blog/tags/Yearly Review/> "Yearly Review"
+[yearly reviews]: /blog/tags/yearly_review/ "Yearly Review"
 [prev1]: /blog/2013/02/16/long_term_goals/ "My Long Term Goals part 1"
 [prev2]: /blog/2013/02/16/long_term_goals_part_2/ "My Long Term Goals part 2"
 [rust]: http://www.rust-lang.org/ "rust"

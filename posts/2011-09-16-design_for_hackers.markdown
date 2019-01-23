@@ -17,7 +17,7 @@ Instead of writing this I really should do them then.
 
 Hrrmm...
 
-[dexter]: http://www.tvrage.com/Dexter
+[dexter]: https://www.imdb.com/title/tt0773262/
 [post]: http://www.kadavy.net/blog/posts/d4h-is-here/
 [hackernews]: https://news.ycombinator.com/
 

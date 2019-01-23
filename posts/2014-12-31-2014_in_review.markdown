@@ -37,7 +37,7 @@ Previous reviews: [2010][], [2011][], [2012][] and [2013][].
 [a friend of the tree]: https://github.com/rust-lang/rust/wiki/Doc-friends-of-the-tree#2014-07-22-jonas-hietala-treeman "friend of the tree, rust's tree"
 [Machine Learning]: https://www.coursera.org/course/ml "Machine Learning at Coursera"
 [configura]: /blog/2014/07/13/summer_job_at_configura/ "Summer job at Configura"
-[IDA Summer of Code]: /blog/tags/IDA%20Summer%20of%20Code/ "IDA Summer of Code 2014"
+[IDA Summer of Code]: /blog/tags/ida_summer_of_code/ "IDA Summer of Code 2014"
 [libtimeedit]: https://github.com/treeman/libtimeedit "libtimeedit"
 [libhabitrpg]: https://github.com/treeman/libhabitrpg "libhabitrpg"
 [habitrpg]: https://habitrpg.com/ "habitrpg"

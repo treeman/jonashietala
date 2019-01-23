@@ -7,7 +7,7 @@ time: 10:05:25
 ---
 Recently I've been having a dozen ideas and projects I've been poking around with:
 
-1. I wrote a simple lua, later perl, which announced when a new [day9](http://day9tv.blip.tv/) episode has come. Later I expanded it to search for new manga episodes, but now it's broken and unfinished.
+1. I wrote a simple lua, later perl, which announced when a new [day9](https://day9.tv/) episode has come. Later I expanded it to search for new manga episodes, but now it's broken and unfinished.
 
 2. In an attempt to learn Haskell I began writing a simple irc bot, but I never did come far with the language and now I'm a bit stuck. I have the bot itself working but I want to restructure it with plugins instead of hardcoding every command and I'd like to have some interactivity like saving state and fetching info from internet. But I haven't come that far and now it's on a stand-still.
 

@@ -8,4 +8,4 @@ I just noticed I was recognized as a [friend of the tree][] in a weekly meeting 
 
 [friend of the tree]: https://github.com/rust-lang/rust/wiki/Doc-friends-of-the-tree#2014-07-22-jonas-hietala-treeman "Friend of the tree"
 [rust]: http://rust-lang.org/ "rust"
-[IDA Summer of Code]: http://0.0.0.0:8000/blog/tags/IDA%20Summer%20of%20Code/ "IDA Summer of Code"
+[IDA Summer of Code]: /blog/tags/ida_summer_of_code/ "IDA Summer of Code"

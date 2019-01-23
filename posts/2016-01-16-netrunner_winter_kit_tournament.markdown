@@ -88,4 +88,4 @@ Was a good tournament and everyone were once again awesome! I'm already planning
 [Foodcoats]: http://netrunnerdb.com/en/decklist/30750/world-class-etf-link-ping-winter-kit-tournament-1st- "EtF decklist"
 [Day Job]: http://www.inprnt.com/gallery/m_zeilinger/android-day-job/ "Day Job"
 [Looking 4 Job]: http://netrunnerdb.com/en/decklist/29474/you-re-a-wooley-harry-1st-anrpc-hac "You're a Wooley Harry"
-[Netrunner]: /blog/tags/Netrunner/ "Netrunner"
+[Netrunner]: /blog/tags/netrunner/ "Netrunner"

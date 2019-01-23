@@ -7,7 +7,7 @@ time: 13:23:41
 ---
 I briefly mentioned my new computer in [the last post](/blog/2011/08/18/resurrection) and I thought I'd make a post about it, as it's awesome (as all new computers are).
 
-Firstly, the specs:
+The specs:
 
 **GPU:** Gigabyte GeForce GTX 550Ti OC 1GB  
 **CPU:** Intel core i5 2500K  
@@ -21,10 +21,7 @@ Firstly, the specs:
 **DVD burner:** Samsung DVD±R/RW/RAM  
 **Case:** Fractal Design Define R3, Black  
 
-Secondly, the look:  
-<div class="center">
-  <img src="/images/overall1.jpg" width="600" />
-</div>
+![The look](/images/overall1.jpg){ width=600 }
 
 I wanted the computer to be fast and silent and I *had* to have two screens. I had a budget of 12,000 SEK and almost managed it too.
 
@@ -40,17 +37,11 @@ I also wanted it to be quiet and according to some who probably knows better tha
 
 The case looks good and it was also solid, no qualms there. But the one big issue I had was the graphics card, oh how hard it was! I wanted something silent, something from Nvidia (Ati drivers used to suck on linux, but maybe not anymore), something that's reasonably powerful and also cheap. Not a bad combination I say! I think I chose something reasonably good - the fan is very silent, it's a good chipset and it wasn't all too expensive. However I haven't gotten any games to work with it on linux but that's probably a configuration issue, annoying anyway.
 
-<div class="center">
-  <img src="/images/das3.jpg" width="600" />
-  <em>Keyboard, Das Keyboard</em>
-</div>
+![Keyboard, Das Keyboard](/images/das3.jpg){ width=600 }
 
 The keyboard, oh the keyboard! I got it in my head that I had to have a mechanical keyboard, they're supposed to be a lot better than the "regular" ones. And oh yeah it's absolutely wonderful, it's a joy to type in and I'm already irking when I have to go back typing on another keyboard. But it is a tad too load according to Veronica, and it was oh so *expensive*.
 
-<div class="center">
-  <img src="/images/overall2.jpg" width="600" />
-  <em>My workspace!</em>
-</div>
+![My workspace!](/images/overall2.jpg){ width=600 }
 
 Overall I'm very happy and I don't think I would've done anything different if I were to buy it today, except maybe try an Ati card, some say the drivers aren't bad at all anymore.
 

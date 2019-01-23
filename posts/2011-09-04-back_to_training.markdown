@@ -16,7 +16,7 @@ It's a perfect training for both mind and body. You might think it's just mindle
   <em>Easy! Or maybe not?</em>
 </div>
 
-What I don't like however, and this is totally unrelated to anything, is the rain! I went to school five days and I got soaking wet *five* times! Hrblr... That's why I've decided to do absolutely nothing today, I might watch some GSL and read a bit. I've got [Learn you a Haskell for Great Good](http://learnyouahaskell.com/), [Effective Java](http://java.sun.com/docs/books/effective/) and [Thinking in Java](http://www.mindview.net/Books/TIJ/) who can hold me company a bit.
+What I don't like however, and this is totally unrelated to anything, is the rain! I went to school five days and I got soaking wet *five* times! Hrblr... That's why I've decided to do absolutely nothing today, I might watch some GSL and read a bit. I've got [Learn you a Haskell for Great Good](http://learnyouahaskell.com/), [Effective Java](http://java.sun.com/docs/books/effective/) and [Thinking in Java](https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486) who can hold me company a bit.
 
 And then there's Taekwon-do training of course!
 
