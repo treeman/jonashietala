@@ -79,6 +79,10 @@ main = hakyllWith config $ do
             >>= loadAndApplyTemplate "templates/site.html" siteCtx
             >>= deIndexUrls
 
+    match "static/*.txt" $ do
+        route   txtStaticRoute
+        compile getResourceString
+
     match "static/*.html" $ do
         route   staticRoute
         compile copyFileCompiler
@@ -371,6 +375,11 @@ staticRoute = gsubRoute "static/" (const "") `composeRoutes`
 
 draftRoute :: Routes
 draftRoute = dropIndexRoute
+
+
+txtStaticRoute :: Routes
+txtStaticRoute = gsubRoute "static/" (const "") `composeRoutes`
+                 setExtension ".txt"
 
 
 tagRoute :: Routes
