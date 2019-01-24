@@ -2,7 +2,7 @@
     width: 800px;
     padding: 0.5em;
 
-    font-size: 95%;
+    font-size: 0.95rem;
     line-height: 1.35;
 
     h1 {
@@ -28,7 +28,7 @@
     .date {
         @extend %sans-serif;
         width: 10em;
-        font-size: 20px;
+        font-size: 0.91rem;
 
         display: flex;
         justify-content: flex-end;

@@ -16,7 +16,7 @@
 
     .date {
         @extend %sans-serif;
-        font-size: 20px;
+        font-size: 0.91rem;
     }
 }
 
@@ -38,7 +38,7 @@
     @extend %serif;
     // Need tabular numbers to align properly
     font-feature-settings: 'kern' on, 'tnum' on;
-    font-size: 95%;
+    font-size: 0.95rem;
     margin-bottom: 1rem;
 }
 .article-content th, .article-content td {
@@ -79,8 +79,8 @@ $hr-color: $gb-lm-dark-gray;
     content: "§";
     display: inline-block;
     position: relative;
-    top: -21px;
-    font-size: 16px;
+    top: -0.88rem;
+    font-size: 0.72rem;
     padding: 0 0.3em;
     color: $body-font-color;
     background: $body-background-color;
@@ -99,7 +99,7 @@ $hr-color: $gb-lm-dark-gray;
 
 .article-content .tags .tag-links {
     font-family: $serif-font-family;
-    font-size: 90%;
+    font-size: 0.9rem;
 
     a {
         color: $body-link-color;

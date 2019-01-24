@@ -50,13 +50,13 @@
 
         .title {
             @extend %sans-serif;
-            font-size: 24px;
+            font-size: 1.1rem;
             font-weight: bold;
             color: $body-font-color;
             line-height: 1.1;
         }
         .subtitle {
-            font-size: 18px;
+            font-size: 0.82rem;
             font-style: italic;
         }
         a, a:visited {
@@ -64,7 +64,7 @@
         }
         time {
             @extend %sans-serif;
-            font-size: 20px;
+            font-size: 0.91rem;
         }
     }
 }

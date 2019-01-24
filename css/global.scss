@@ -15,15 +15,17 @@ $body-link-visited-color: #8900BB;
     min-width: 0;
 }
 
+html {
+    font-size: 22px;
+    line-height: 1.45;
+}
+
 
 /*
  * Main body
  */
 body {
     @extend %serif;
-
-    font-size: 22px;
-    line-height: 1.45;
 
     color: $body-font-color;
     background-color: $body-background-color;
@@ -83,20 +85,20 @@ h1, h2, h3, h4 {
     line-height: 1;
 }
 h1 {
-    font-size: 32px;
+    font-size: 1.45rem;
 }
 h2 {
-    font-size: 27px;
+    font-size: 1.22rem;
     margin-top: 1.2em;
     margin-bottom: 0.2em;
 }
 h3 {
-    font-size: 24px;
+    font-size: 1.1rem;
     margin-top: 1em;
     margin-bottom: 0.2em;
 }
 h4 {
-    font-size: 20px;
+    font-size: 0.91rem;
     margin-top: 1em;
     margin-bottom: 0.2em;
 }
@@ -111,7 +113,7 @@ h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited {
  */
 nav {
     @extend %sans-serif;
-    font-size: 22px;
+    font-size: 1rem;
     line-height: 1.45;
 
     a, a:visited {
@@ -151,9 +153,9 @@ nav {
     }
 
     .site-title {
-        font-size: 22px;
-        margin-right: 0.8em;
+        font-size: 1rem;
         line-height: 1.45;
+        margin-right: 0.8em;
     }
 }
 
@@ -210,7 +212,7 @@ nav {
 
     .lower {
         @extend %sans-serif;
-        font-size: 18px;
+        font-size: 0.82rem;
     }
 }
 

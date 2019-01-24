@@ -28,7 +28,7 @@
     ul > li {
         display: block;
         font-family: $serif-font-family;
-        font-size: 95%;
+        font-size: 0.95rem;
     }
 
     li.post-item {
@@ -43,7 +43,7 @@
 
     li.post-item > .date {
         font-family: $sans-serif-font-family;
-        font-size: 20px;
+        font-size: 0.91rem;
     }
 }
 
@@ -91,7 +91,7 @@
     //background-color: aqua;
 
     font-family: $serif-font-family;
-    font-size: 90%;
+    font-size: 0.9rem;
 
     h2 {
         margin-top: 0.5em;
