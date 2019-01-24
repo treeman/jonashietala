@@ -13,11 +13,10 @@ Sitemap
     /blog
     /blog/tags/:tag
     /blog/:year/:month/:day/:title
-    /feed.xml
     /archive
-    /contact
-    /404
     /masters_thesis
+    /404
+    /feed.xml
 
 Dependencies
 ============
@@ -31,8 +30,18 @@ To sync with S3:
 2. Perl libs: Modern::Perl
 3. python-magic (for MIME type)
 
+To write about
+==============
+
+* Site update
+* Youtube parsing with Haskell unicode regex library
+* Yearly review
+
 TODO
 ====
+
+* Center footer when it wraps on small screens
+* Hide header nav on small screens?
 
 * Restyle
     * Responsive header         DONE
