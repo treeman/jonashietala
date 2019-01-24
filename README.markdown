@@ -22,7 +22,7 @@ Sitemap
 Dependencies
 ============
 
-1. cabal: hakyll, missingH, hakyll-sass, pcre-utils
+1. Haskell libs: hakyll, missingH, hakyll-sass, pcre-heavy
 2. python-magic (for MIME type)
 3. s3cmd  
    If you're using `sync` to upload to S3 bucket.
@@ -63,11 +63,8 @@ TODO
         Update existing posts                           DONE
     * Multiple post styling                             DONE
     * Properly design html semantics, see               DONE
-        https://gsnedders.html5.org/outliner/ 
-        https://internetingishard.com/html-and-css/semantic-html/
-    * Locate game downloads or remove download links
-    * Ellipses are turned into & signs. Neither "..." which autoconverts to unicode … nor &hellip; works
-
+    * Locate game downloads or remove download links    DONE
+    * Unicode stopped working                           DONE
 * Remove spaces from tag links e.g "Yearly Review"      DONE
 * Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
 

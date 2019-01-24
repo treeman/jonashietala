@@ -17,8 +17,9 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 
 -- Unicode friendly regex
-import Text.Regex.PCRE.ByteString.Utils
-import Data.ByteString.Char8 (pack, unpack)
+-- This is the only library I found which has subtitutions and unicode support
+import qualified Text.Regex.PCRE.Light as RL
+import qualified Text.Regex.PCRE.Heavy as RH
 
 import Hakyll
 import Text.Sass.Options
@@ -190,17 +191,15 @@ main = hakyllWith config $ do
 tagSort :: (String, [Identifier]) -> (String, [Identifier]) -> Ordering
 tagSort a b = comparing (length . snd) b a
 
-
 -- Find and replace bare youtube links separated by <p></p>.
 youtubeFilter :: String -> String
-youtubeFilter txt = case substituteCompile' regex (pack txt) result of
-        Left s -> s
-        Right bs -> unpack bs
+youtubeFilter txt = RH.gsub rx replace txt
     where
-      regex = "<p>\\s*https?://www\\.youtube\\.com/watch\\?v=([A-Za-z0-9_-]+)\\s*</p>"
-      result = "<div class=\"video-wrapper\">\
+      rx = RL.compile "<p>\\s*https?://www\\.youtube\\.com/watch\\?v=([A-Za-z0-9_-]+)\\s*</p>"
+                      [RL.utf8]
+      replace = \[g] -> "<div class=\"video-wrapper\">\
                  \<div class=\"video-container\">\
-                   \<iframe src=\"//www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen/>\
+                   \<iframe src=\"//www.youtube.com/embed/" ++ g ++ "\" frameborder=\"0\" allowfullscreen/>\
                  \</div>\
               \</div>";
 
@@ -261,6 +260,7 @@ siteCtx = mconcat
     , constField "gpg" "http://pgp.mit.edu/pks/lookup?op=get&search=0x48347567AD15CC54"
     , metaKeywordCtx
     ]
+
 
 postCtx :: Tags -> Context String
 postCtx tags = mconcat

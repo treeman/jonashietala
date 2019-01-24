@@ -22,8 +22,9 @@ At the same time it might not be practical to go all out and get the best protec
 
 abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
 
-http://www.youtube.com/watch?v=eoKDyhxCVm0
+Unicode snowman: ☃︎ and "auto quotes" enabled. It's good. --dashes--? Converts... to …
 
+http://www.youtube.com/watch?v=eoKDyhxCVm0
 
 So we should do `foo` then `bar` then `quux`
 
@@ -31,7 +32,8 @@ ff fi fj ffl
 
 This text is **bold**. This is *italicized*. This is ***both*** `Here's some code.`.
 
-[I'm a link](asdf). <https://so.am.i> Email: <a@b.c>
+[blog](/blog) and auto <https://google.com> email: <mail@jonashietala.se>
+
 
 # First Header
 
@@ -94,8 +96,6 @@ Table:
 ------------------
 
 wow_great_stuff
-
-~~Mistaken text.~~
 
 | The limerick packs laughs anatomical
 | In space that is quite economical.
