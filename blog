@@ -135,7 +135,6 @@ sub create_post {
     open my $fh, '>', $path or die "Could not open '$path'";
     print $fh
 "---
-layout: post
 title: \"$title\"
 tags: Gaming, Ludum Dare
 ---

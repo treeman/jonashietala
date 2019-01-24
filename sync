@@ -34,6 +34,10 @@ if ($sync_site) {
     say "Syncing images";
     sync ($site_bucket, "$site/images", "max-age=6048000");
 
+    # Sync fonts (cache: 10 weeks)
+    say "Syncing fonts";
+    sync ($site_bucket, "$site/fonts", "max-age=6048000");
+
     # Sync css (cache: 1 hour)
     say "Syncing css";
     sync ($site_bucket, "$site/css", "max-age=3600", "-m text/css");

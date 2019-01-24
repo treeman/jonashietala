@@ -23,11 +23,13 @@ Dependencies
 ============
 
 1. Haskell libs: hakyll, missingH, hakyll-sass, pcre-heavy
-2. python-magic (for MIME type)
-3. s3cmd  
-   If you're using `sync` to upload to S3 bucket.
+2. sassc
+
+To sync with S3:
+1. s3cmd  
    Change preferences in script and set keys ins `~/.s3cfg`, see s3cmd.
-4. sassc
+2. Perl libs: Modern::Perl
+3. python-magic (for MIME type)
 
 TODO
 ====
