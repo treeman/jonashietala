@@ -66,5 +66,5 @@ TODO
     * Locate game downloads or remove download links    DONE
     * Unicode stopped working                           DONE
 * Remove spaces from tag links e.g "Yearly Review"      DONE
-* Convert to woff2 https://stackoverflow.com/questions/22958700/woff2-conversion-from-standard-woff
+* Convert to woff2                                      DONE
 
