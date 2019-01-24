@@ -1,0 +1,39 @@
+---
+title: "2018 in review"
+tags: Yearly Review
+---
+
+A new year and a lingering feeling of not having done enough during the year. A fast review of the year usually makes me feel better.
+
+# 2018 non-geek achievements
+
+* Was on parental leave for about 7 months.
+
+    It was great although I've been crawling up the walls a little the last month.
+
+* Moved to a small village or society far from Linköping. But kept the job.
+* Wrote [5 blog posts][blog posts].
+
+# 2018 geek achievements
+
+* Read through the book [Practical Typography][] and restyled this site to try and internalize the concepts.
+* Read a lot of manga and light novels.
+
+    I've tried to keep lists of what I read and watch but I just can't do it consistently so I've stopped trying.
+
+# 2017 failures
+
+* I didn't write much at all during the year.
+* No time for hobby projects.
+* Read very little.
+
+# Plans for 2019
+
+* Gonna start working remote full time, with occasional travel.
+* Make an effort to write more. Both shorter posts and longer articles.
+* Spend time on side projects and improving skills.
+* Try to get consistent grappling training. It's a *small* hurdle there's no submission wrestling or BJJ here.
+
+[blog posts]: /archive "My archive"
+[Practical Typography]: https://practicaltypography.com/ "Practical Typography"
+

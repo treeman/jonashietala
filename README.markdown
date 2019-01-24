@@ -24,6 +24,9 @@ Dependencies
 1. Haskell libs: hakyll, missingH, hakyll-sass, pcre-heavy
 2. sassc
 
+Blog script:
+1. Perl libs: DateTime
+
 To sync with S3:
 1. s3cmd  
    Change preferences in script and set keys ins `~/.s3cfg`, see s3cmd.
@@ -35,7 +38,6 @@ To write about
 
 * Site update
 * Youtube parsing with Haskell unicode regex library
-* Yearly review
 
 TODO
 ====
