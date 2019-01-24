@@ -1,6 +1,6 @@
 pre, code {
     font-family: $code-font-family;
-    font-size: 0.72rem;
+    font-size: 0.71rem;
     line-height: 1.45;
 }
 code {
@@ -15,7 +15,9 @@ pre {
     overflow: auto;
 
     margin-bottom: 1em;
+    padding: 0.4em 0.6em;
 
+    /*
     // Extend area to outside content
     $content-width: 800px;
     $left: 25px;
@@ -28,6 +30,7 @@ pre {
     //width: $content-width - 2*$side-padding + $left + $right;
     //max-width: $content-width - 2*$side-padding + $left + $right;
     //max-width: 800px;
+    */
 }
 
 

@@ -42,6 +42,10 @@ TODO
 
 * Center footer when it wraps on small screens
 * Hide header nav on small screens?
+* Rescale font sizes on smaller screens
+    16px as the smallest
+    1. Move all font-size except root to rem
+    2. Use media queries to set new root font size at cutoff points
 
 * Restyle
     * Responsive header         DONE
