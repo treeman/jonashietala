@@ -11,6 +11,10 @@ among many other things:
 * cabal
 * pkg-config
 * dzen2
+* xclip
+* fzf
+* zip
+* zlib-devel
 
 For xmonad:
 * libX11-devel
@@ -21,4 +25,10 @@ For xmonad:
 # cabal
 
 * xmonad
+
+# Hakyll
+
+
+# nvim
+
 
