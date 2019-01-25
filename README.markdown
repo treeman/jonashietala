@@ -36,52 +36,8 @@ To sync with S3:
 To write about
 ==============
 
-* Site update
-* Youtube parsing with Haskell unicode regex library
 
 TODO
 ====
 
-* Center footer when it wraps on small screens
-* Hide header nav on small screens?
-* Rescale font sizes on smaller screens
-    16px as the smallest
-    1. Move all font-size except root to rem
-    2. Use media queries to set new root font size at cutoff points
-
-* Restyle
-    * Responsive header         DONE
-    * Header & footer styling   DONE
-    * Static page styling       DONE
-    * Archives styling          DONE
-    * Responsive projects       DONE
-    * Responsive homepage       DONE
-    * Homepage styling          DONE
-        smaller screens wraps header badly              DONE
-        h1, h2 spacing. Also for static pages           DONE
-        cleanup homepage.scss                           DONE
-        wrap long code lines inside body text           DONE
-        wrap images inside body text                    DONE
-        style tags                                      DONE
-    * Post content styling                      DONE
-        Some youtube videos aren't showing up?          DONE
-        Cleanup old header manual styling               DONE
-        Tag links are missing                           DONE
-        Style tags                                      DONE
-        Style lists                                     DONE
-        Style footnotes                                 DONE
-        Style tables                                    DONE
-        Style math symbols                              SKIP
-        Style figures                                   DONE
-    * Better images                             DONE
-        https://pandoc.org/MANUAL.html#images
-        Use figures instead of manual centering         DONE
-        Image gallery                                   DONE
-        Update existing posts                           DONE
-    * Multiple post styling                             DONE
-    * Properly design html semantics, see               DONE
-    * Locate game downloads or remove download links    DONE
-    * Unicode stopped working                           DONE
-* Remove spaces from tag links e.g "Yearly Review"      DONE
-* Convert to woff2                                      DONE
 

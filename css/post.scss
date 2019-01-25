@@ -253,3 +253,32 @@ $hr-color: $gb-lm-dark-gray;
     }
 }
 
+
+/*
+ * Aside
+ */
+.article-content > aside {
+    @extend %sans-serif;
+    font-size: 0.95rem;
+
+    margin-bottom: 1em;
+    padding: 0.5em;
+    border: 1px dashed $gb-lm-dark-gray;
+}
+
+@media only screen and (min-width: 1500px) {
+    .article-content > aside {
+        // Reset inline style
+        margin: 0;
+        border: none;
+
+        // Hover to the left
+        float: left;
+        position: relative;
+        $w: 350px;
+        left: -$w - 20px;
+        width: $w;
+        margin-right: -$w - 20px;
+    }
+}
+

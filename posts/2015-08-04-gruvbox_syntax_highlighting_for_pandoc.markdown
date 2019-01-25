@@ -4,6 +4,11 @@ title: "Gruvbox Syntax Highlighting for Pandoc"
 tags: Webpage
 ---
 
+**Edit:** I have [updated the highlighting][update] again so the inline code used as examples have changed. I guess I should've used images to record the look.
+
+[update]: /blog/2019/01/25/site_restyle_and_update#changes-to-code-display "Site restyle and update: Changes to code display"
+
+
 Recently when I [reinstalled Slackware][reinstall] I decided to restyle my workspace as well. I settled on [gruvbox][] with neovim and using [the generalized][gruvbox-generalized] package I also styled my terminal.
 
 Then on a whim I wanted to restyle this site. When I built it I kinda left it without any styling at all, I guess the thinking was that it works and I can just tweak it later. Well it's been more than 2 years now and I never got around to it. I guess what bothered me the most was the fact that I had a really crappy styling syntax highlighting and styling of code. So I decided to change it.

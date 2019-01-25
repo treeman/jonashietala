@@ -34,6 +34,8 @@ youtubeFilter x = subRegex regex x result
              \</div>";
 ```
 
+**Edit:** The solution above does not handle unicode in the document before the video. See an update [here](/blog/2019/01/25/regex_substitution_with_unicode_in_haskell/).
+
 The rendering part is not pretty and I'm sure one could move it to a template somehow.
 
 We can use with:
