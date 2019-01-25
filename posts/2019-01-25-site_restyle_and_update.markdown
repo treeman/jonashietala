@@ -93,7 +93,7 @@ See the [source][code-source] if you're curious.
 
 # Other changes
 
-I did a bunch of other things as well while I was at it. Such as redesigning the homepage, adding game images to the [projects](/projects) page, correcting html5 markup and rewrote the styling in sass.
+I did a bunch of other things as well while I was at it. Such as adding game images to the [projects](/projects) page, correcting html5 markup and rewrote the styling in sass.
 
 One annoyance I never bothered to fix was tag links generated links with mixed case and spaces. Now instead of `/blog/tags/Yearly Review` we get `/blog/tags/yearly_review`. It can be accomplished in Hakyll by using a custom route:
 
