@@ -36,8 +36,17 @@ To sync with S3:
 To write about
 ==============
 
+* Home office construction
+* Into the breach
+
 
 TODO
 ====
+
+* Minimize css
+  Maybe:
+  https://hackage.haskell.org/package/hasmin-1.0.3/docs/Hasmin.html
+* Add crypto donation links and QR codes
+* Underline like: https://www.forrestthewoods.com/blog/learning-rust-via-advent-of-code/?
 
 
