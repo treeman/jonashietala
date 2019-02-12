@@ -7,11 +7,9 @@ Monero is once again [changing it's PoW][fork] following confirmation that [85% 
 
 There are mainly two sides in the debate where both groups have strong opposing opinions. I think there are pros and cons with both approaches and I don't really have a preference. I'm just glad there are projects exploring the different options.
 
-But there's one issue I don't think is emphasised enough: The biggest problem with ASICs is in the transition from commodity hardware to ASICs.
+But there's one issue I don't think is emphasised enough: The biggest problem with ASICs is in the transition from commodity hardware to ASICs with a big jump in efficiency.
 
 (image)
-
-This is just a high level description of how I see it.
 
 Note that you can always create ASICs or mine with GPUs for any algorithm. The difference is if they out-compete other hardware to a very high degree. For example you can spin up your GPU cluster to mine on Bitcoin, but you'll lose money and won't impact anyone.
 
@@ -39,15 +37,33 @@ As ASIC development for a coin continues this first mover advantage falls away. 
 
 ![Image from [coin.dance](https://coin.dance/blocks)](/images/2019-02-12-BTC-hashrate.png)
 
+It's not perfect&mdash;nothing is&mdash;but we've come a long way since ghash.io controlled 55%.
+
 When we reach the point that ASICs can be bought from regular computer stores the situation has improved to around the state of a coin with primarily GPU mining.
 
-# The current state
+# The current state of Monero
 
-(image)
+> (image)
+
+> Aeon is a CPU friendly coin that's plagued by botnets.
+
+> Monero is currently in the worst place possible. The network has been taken over by hidden ASICs.
+
+> Dash is in a slightly better place than Monero. There are public Dash miners you *might* be able to buy. But the network is still dominated a few actors.
+
+> Bitcoin is in a healthier spot although it's still a ways to go until Bitcoin ASICs reach your regular computer store.
 
 
+Monero's vision of being ASIC resistant, or rather to keep CPU mining relevant and to decrease the problematic jumps in mining effectivity, is one I can get behind.
+
+But once again Monero has hidden ASICs overpowering the network. This is the danger of chasing an ASIC resistant PoW algorithm: when it fails it fails badly.
+
+Currently Monero is simply breaking ASICs during regular hardforks and in the meantime work towards a [new PoW][] is ongoing. But how well will it work? How long until efficient ASICs turn up again? Will it hold up against a Manhattan Project?
+
+Is playing cat and mouse against ASICs with the risk of crashing down a safer route than embrasing ASICs like Bitcoin? And if you want to transition from a CPU-friendly algorithm to an ASIC-friendly one, how do you avoid falling into the trap?
 
 
 [fork]: https://www.getmonero.org/2018/02/11/PoW-change-and-key-reuse.html
 [monero-asics]: https://medium.com/@MoneroCrusher/analysis-more-than-85-of-the-current-monero-hashrate-is-asics-and-each-machine-is-doing-128-kh-s-f39e3dca7d78
+[new PoW]: https://github.com/tevador/RandomX
 
