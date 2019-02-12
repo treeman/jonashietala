@@ -48,5 +48,8 @@ TODO
   https://hackage.haskell.org/package/hasmin-1.0.3/docs/Hasmin.html
 * Add crypto donation links and QR codes
 * Underline like: https://www.forrestthewoods.com/blog/learning-rust-via-advent-of-code/?
+* Wider code and images
+
+* Resumé?
 
 
