@@ -44,7 +44,6 @@ To write about
 TODO
 ====
 
-* Wider code and images
 * Add crypto donation links and QR codes
 * Resumé?
 
