@@ -1,0 +1,28 @@
+.tags-list {
+    width: 800px;
+    padding: 0.5em;
+
+    font-size: 0.95rem;
+    line-height: 1.45;
+
+    h1 {
+        margin-bottom: 0.4em;
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+            display: inline;
+            flex: 1 0 50%;
+            min-width: 250px;
+        }
+    }
+}
+
+@media only screen and (max-width: 799px) {
+    .post-list {
+        width: auto;
+    }
+}
+

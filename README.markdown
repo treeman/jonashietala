@@ -11,8 +11,9 @@ Sitemap
     /
     /projects
     /blog
-    /blog/tags/:tag
     /blog/:year/:month/:day/:title
+    /blog/tags
+    /blog/tags/:tag
     /archive
     /masters_thesis
     /404

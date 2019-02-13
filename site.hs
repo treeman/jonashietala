@@ -135,12 +135,24 @@ main = hakyllWith config $ do
         route   idRoute
         compile $ draftArchiveCompiler title tags pattern "templates/post-list.html"
 
+    -- Pages for individual tags
     tagsRules tags $ \tag pattern -> do
         let title = "Posts tagged: " ++ tag
 
         route   tagRoute
         compile $ archiveCompiler title tags pattern "templates/post-list.html"
 
+    -- All tags list
+    create ["blog/tags/index.html"] $ do
+        let ctx = tagsCtx (\_ -> renderTagHtmlList (sortTagsBy tagSort tags))
+
+        route idRoute
+        compile $ makeItem ""
+            >>= loadAndApplyTemplate "templates/tags.html" ctx
+            >>= loadAndApplyTemplate "templates/site.html" ctx
+            >>= deIndexUrls
+
+    -- Projects page
     match "projects/*.markdown" $ do
         compile $ pandocCompiler
             >>= saveSnapshot "content"
@@ -149,7 +161,6 @@ main = hakyllWith config $ do
         compile $ pandocCompiler
             >>= saveSnapshot "content"
 
-    -- Projects page
     gamesDependencies <- makePatternDependency "projects/games/*.markdown"
     projectDependencies <- makePatternDependency "projects/*.markdown"
     rulesExtraDependencies [gamesDependencies, projectDependencies] $ do
@@ -171,9 +182,7 @@ main = hakyllWith config $ do
         compile $ do
             posts <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
             recommended <- renderPostList tags (foldr1 (.||.) recommended) $ recentFirst
-            let ctx = homepageCtx posts
-                                  recommended
-                                  (\_ -> renderTagHtmlList (sortTagsBy tagSort tags))
+            let ctx = homepageCtx posts recommended
 
             pandocCompiler
                 >>= loadAndApplyTemplate "templates/homepage.html" ctx
@@ -297,11 +306,16 @@ projectsCtx projects games = mconcat
     , constField "games" games
     ]
 
-homepageCtx :: String -> String -> (Item String -> Compiler String) -> Context String
-homepageCtx posts recommended tags = mconcat
+homepageCtx :: String -> String -> Context String
+homepageCtx posts recommended = mconcat
     [ siteCtx
     , constField "posts" posts
     , constField "recommended" recommended
+    ]
+
+tagsCtx :: (Item String -> Compiler String) -> Context String
+tagsCtx tags = mconcat
+    [ siteCtx
     , field "tags" tags
     ]
 

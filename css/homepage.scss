@@ -1,5 +1,6 @@
 .homepage {
     @extend %body-wide-flex;
+    margin-bottom: 0.5em;
 
     h1, h2 {
         margin: 0 0 0.35em 0;
@@ -85,25 +86,3 @@
     }
 }
 
-
-.homepage > .main-tags {
-    padding: 0.5em;
-    //background-color: aqua;
-
-    font-family: $serif-font-family;
-    font-size: 0.9rem;
-
-    h2 {
-        margin-top: 0.5em;
-    }
-
-    ul {
-        display: flex;
-        flex-wrap: wrap;
-        li {
-            display: inline;
-            flex: 1 0 25%;
-            min-width: 250px;
-        }
-    }
-}
