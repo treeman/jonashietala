@@ -161,11 +161,25 @@ $hr-color: $gb-lm-dark-gray;
     margin-left: 0.4rem;
 }
 
+/*
+ * Media offsets
+ */
+%media-offset-wrapper { }
+@media only screen and (min-width: 900px) {
+    %media-offset-wrapper {
+        $offset: 5%;
+        position: relative;
+        left: -$offset;
+        width: 100% + 2*$offset;
+    }
+}
+
 
 /*
  * Pretty video embedding
  */
 .video-wrapper {
+    @extend %media-offset-wrapper;
     margin: 1em 0;
 }
 .video-container {
@@ -184,11 +198,6 @@ $hr-color: $gb-lm-dark-gray;
     height: 100%;
 }
 
-.video-wrapper {
-    //width: 600px;
-    //max-width: 100%;
-}
-
 
 /*
  * Images
@@ -198,29 +207,29 @@ $hr-color: $gb-lm-dark-gray;
 }
 
 .article-content figure {
+    @extend %media-offset-wrapper;
+
     margin-bottom: 1em;
     text-align: center;
 
-    > figcaption {
-        font-style: italic;
-    }
-}
-
-.article-content figure.flex-50,
-.article-content figure.flex-33,
-.article-content figure.flex-25,
-.article-content figure.flex-20 {
-    // Multiple images share the same line and automatically flexes.
-    // Caption is below and everything is centered.
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 
+    > figcaption {
+        font-style: italic;
+        width: 100%;
+    }
+}
+
+// Multiple images share the same line and automatically flexes.
+// Caption is below and everything is centered.
+.article-content figure.flex-50,
+.article-content figure.flex-33,
+.article-content figure.flex-25,
+.article-content figure.flex-20 {
     > img {
         padding: 0.1em;
-    }
-    > figcaption {
-        width: 100%;
     }
 }
 
@@ -238,18 +247,11 @@ $hr-color: $gb-lm-dark-gray;
 }
 
 .article-content figure.gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
     margin: 1rem 0;
 
     > img {
         width: 8.75em;
         padding: 0.1em;
-    }
-    > figcaption {
-        width: 100%;
     }
 }
 

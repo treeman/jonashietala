@@ -11,26 +11,19 @@ pre code {
     padding: 0;
 }
 pre {
+    @extend %media-offset-wrapper;
     overflow-wrap: normal;
     overflow: auto;
 
     margin-bottom: 1em;
     padding: 0.4em 0.6em;
+}
 
-    /*
-    // Extend area to outside content
-    $content-width: 800px;
-    $left: 25px;
-    $right: 105px;
-    $side-padding: 15px;
-
-    padding: 10px $side-padding;
-    //position: relative;
-    //left: -$left;
-    //width: $content-width - 2*$side-padding + $left + $right;
-    //max-width: $content-width - 2*$side-padding + $left + $right;
-    //max-width: 800px;
-    */
+@media only screen and (min-width: 900px) {
+    // Avoid code poking out from footnotes too much
+    .article-content .footnotes pre {
+        max-width: 105%;
+    }
 }
 
 
