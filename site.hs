@@ -262,7 +262,7 @@ sassCompiler :: Compiler (Item String)
 sassCompiler = loadBody "css/main.scss"
                 >>= makeItem
                 >>= withItemBody (unixFilter "sassc" args)
-    where args = ["-s", "-I", "css/"]
+    where args = ["-s", "-I", "css/", "--style", "compressed"]
 
 
 siteCtx :: Context String
