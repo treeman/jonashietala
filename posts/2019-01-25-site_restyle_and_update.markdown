@@ -79,9 +79,9 @@ For the site I changed the default coding font from Consolas —which is proprie
 
 I use dark background color personally but I'm not a fan of it on websites as they draw too much attention from the body text. The color [I had used][post-gruvbox] from the gruvbox theme was also quite eye catching so I chose a softer one. After updating pandoc I found a couple of new highlighting classes as well.
 
-<figure>
-    ![](/images/site_restyle/old_code.png){ width=45% }
-    ![](/images/site_restyle/new_code.png){ width=45% }
+<figure class="flex-50">
+    ![](/images/site_restyle/old_code.png)
+    ![](/images/site_restyle/new_code.png)
     <figcaption>Old code vs new code</figcaption>
 </figure>
 
