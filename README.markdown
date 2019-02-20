@@ -45,8 +45,5 @@ TODO
 ====
 
 * Add crypto donation links and QR codes
-* Resumé?
-
-* Underline like: https://www.forrestthewoods.com/blog/learning-rust-via-advent-of-code/?
-   Nah
+* Resumé/work section
 
