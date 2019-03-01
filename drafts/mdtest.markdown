@@ -88,6 +88,11 @@ Table:
 | Third row    | **Cell** 2    | 3333          |
 | Fourth row   | **Cell** 3    | 6789          |
 
+Easy table    So cool
+----------    -------
+Entry         Entry2
+1234          5678
+
 
 <http://example.com>
 
