@@ -122,7 +122,20 @@ Finally Pollen doesn't handle dependencies very well. For example to update the 
 
 I had some trouble integrating sass for my css files. I used a system command which combines all .scss files to a single .css output file. I managed to get Pollen to do the generation for me but I couldn't get it to track dependencies properly (so if I change any .scss file I want the .css to always regenerate).
 
-In the end I just threw together a simple script using `inotifywait` which calls sassc when a .scss file change.
+In the end I just threw together a simple script using `inotifywait` which calls sassc when a .scss file change:
+
+```{.bash}
+#!/bin/bash
+
+sassc sass/main.scss --style compressed > css/main.css
+echo "created: css/main.css"
+
+inotifywait -e close_write,moved_to,create -m sass/ |
+while read -r directory events filename; do
+    sassc sass/main.scss --style compressed > css/main.css
+    echo "updated: css/main.css"
+done
+```
 
 This touches on my final annoyance with Pollen. Pollen only regenerates files when you ask for them. So you need to switch to the browser, refresh and Pollen only then starts creating your file. This usually takes a second or two but that's long enough to be very annoying.
 
