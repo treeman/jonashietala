@@ -37,8 +37,8 @@ To sync with S3:
 To write about
 ==============
 
+* Sidenotes & marginnotes in Pollen
 * Into the breach
-* Trying out pollen
 * The real danger of ASICs
 
 TODO
