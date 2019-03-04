@@ -229,7 +229,7 @@ And we're done! It wasn't very straightforward to implement Tufte style notes bu
 
 
 
-[prev-post]: #
-[Tufte CSS]: https://edwardtufte.github.io/tufte-css/
-[toggle-noscript]: https://stackoverflow.com/questions/11023816/toggle-divs-without-using-javascript
+[prev-post]: /blog/2019/03/03/first_impressions_of_pollen/ "First impressions of Pollen"
+[Tufte CSS]: https://edwardtufte.github.io/tufte-css/ "Tufte CSS"
+[toggle-noscript]: https://stackoverflow.com/questions/11023816/toggle-divs-without-using-javascript "Toggle divs without using javascript"
 
