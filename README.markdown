@@ -45,4 +45,9 @@ TODO
 
 * Add crypto donation links and QR codes
 * Resumé/work section
+* Rework home page
+    * Space for highlighted project
+    * Work section
+    * Self contained GPG
+    * Avoid current split style?
 
