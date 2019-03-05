@@ -23,6 +23,7 @@ import qualified Text.Regex.PCRE.Heavy as RH
 
 import Hakyll
 import Text.Sass.Options
+import Text.Pandoc
 
 mail = "mail@jonashietala.se"
 name = "Jonas Hietala"
@@ -89,15 +90,19 @@ main = hakyllWith config $ do
 
     match "posts/*.markdown" $ do
         route   postRoute
-        compile $ pandocCompiler
-            >>= applyFilter youtubeFilter
-            >>= saveSnapshot "content"
-            >>= return . fmap demoteHeaders
-            >>= saveSnapshot "demoted_content"
-            >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
-            >>= saveSnapshot "post"
-            >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
-            >>= deIndexUrls
+        compile $ do
+            pandocCompilerWith feedReaderOptions feedWriterOptions
+                >>= applyFilter youtubeFilter
+                >>= return . fmap demoteHeaders
+                >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
+                >>= saveSnapshot "feed"
+            pandocCompiler
+                >>= applyFilter youtubeFilter
+                >>= return . fmap demoteHeaders
+                >>= saveSnapshot "demoted_content"
+                >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
+                >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
+                >>= deIndexUrls
 
     match "drafts/*.markdown" $ do
         route   draftRoute
@@ -195,8 +200,9 @@ main = hakyllWith config $ do
         route idRoute
         compile $ do
             let feedCtx = (postCtx tags) <> bodyField "description"
+
             posts <- fmap (take 30) . recentFirst =<<
-                loadAllSnapshots "posts/*.markdown" "post"
+                loadAllSnapshots "posts/*.markdown" "feed"
             renderAtom myFeedConfiguration feedCtx posts
 
 
@@ -443,3 +449,13 @@ joinBodies items =
     let tpl = readTemplate $ "$body$"
     in applyJoinTemplateList "" tpl defaultContext items
 
+
+-- Turn off code parsing for feed
+-- The only way I found how to turn off line links. It messes up feed readers badly.
+feedReaderOptions :: ReaderOptions
+feedReaderOptions = defaultHakyllReaderOptions
+    { readerExtensions = disableExtension Ext_fenced_code_attributes pandocExtensions }
+
+feedWriterOptions :: WriterOptions
+feedWriterOptions = defaultHakyllWriterOptions
+    { writerExtensions = disableExtension Ext_fenced_code_attributes pandocExtensions }
