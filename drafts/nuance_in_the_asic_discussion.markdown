@@ -9,7 +9,7 @@ There are mainly two sides in the debate where both groups have strong opposing 
 
 But there's one issue I don't think is emphasised enough: The biggest problem with ASICs is in the transition from commodity hardware to ASICs with a big jump in efficiency.
 
-(image)
+![](/images/monero-asics-fork.svg "The ASIC pit of despair")
 
 Note that you can always create ASICs or mine with GPUs for any algorithm. The difference is if they out-compete other hardware to a very high degree. For example you can spin up your GPU cluster to mine on Bitcoin, but you'll lose money and won't impact anyone.
 
