@@ -18,6 +18,10 @@ pre {
     margin-bottom: 1em;
     padding: 0.4em 0.6em;
 }
+pre.regular {
+    position: static;
+    width: 100%;
+}
 
 @media only screen and (min-width: 900px) {
     // Avoid code poking out from footnotes too much

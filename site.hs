@@ -276,7 +276,6 @@ siteCtx = mconcat
     [ defaultContext
     , constField "mail" mail
     , constField "name" name
-    , constField "gpg" "http://pgp.mit.edu/pks/lookup?op=get&search=0x48347567AD15CC54"
     , metaKeywordCtx
     ]
 
