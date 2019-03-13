@@ -38,7 +38,6 @@ To write about
 ==============
 
 * Into the breach
-* The real danger of ASICs
 
 TODO
 ====
@@ -48,6 +47,5 @@ TODO
 * Rework home page
     * Space for highlighted project
     * Work section
-    * Self contained GPG
     * Avoid current split style?
 
