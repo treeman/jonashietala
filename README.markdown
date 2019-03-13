@@ -34,18 +34,3 @@ To sync with S3:
 2. Perl libs: Modern::Perl
 3. python-magic (for MIME type)
 
-To write about
-==============
-
-* Into the breach
-
-TODO
-====
-
-* Add crypto donation links and QR codes
-* Resumé/work section
-* Rework home page
-    * Space for highlighted project
-    * Work section
-    * Avoid current split style?
-
