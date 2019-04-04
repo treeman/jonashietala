@@ -10,6 +10,8 @@ import Data.List (intercalate, isSuffixOf)
 import Data.List.Utils (replace)
 import Data.Ord (comparing)
 import System.FilePath  (dropExtension, splitFileName, joinPath)
+import Data.Maybe (fromMaybe)
+import Control.Applicative (Alternative (..))
 
 import Text.Blaze.Html (toHtml, toValue, (!))
 import Text.Blaze.Html.Renderer.String (renderHtml)
@@ -54,6 +56,8 @@ recommended = [ "posts/2015-07-22-5_years_at_the_university.markdown"
               , "posts/2010-06-01-game_design_analysis_world_of_goo.markdown"
               ]
 
+postsGlob = "posts/*.markdown"
+
 
 main :: IO ()
 main = hakyllWith config $ do
@@ -71,7 +75,7 @@ main = hakyllWith config $ do
             route   idRoute
             compile sassCompiler
 
-    tags <- buildTags "posts/*.markdown" (fromCapture "tags/*")
+    tags <- buildTags postsGlob (fromCapture "tags/*")
 
     match "static/*.markdown" $ do
         route   staticRoute
@@ -88,29 +92,33 @@ main = hakyllWith config $ do
         route   staticRoute
         compile copyFileCompiler
 
-    match "posts/*.markdown" $ do
+    match postsGlob $ do
+        let ctx = (postCtx tags)
+
         route   postRoute
         compile $ do
             pandocCompilerWith feedReaderOptions feedWriterOptions
                 >>= applyFilter youtubeFilter
                 >>= return . fmap demoteHeaders
-                >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
+                >>= loadAndApplyTemplate "templates/post.html" ctx
                 >>= saveSnapshot "feed"
             pandocCompiler
                 >>= applyFilter youtubeFilter
                 >>= return . fmap demoteHeaders
                 >>= saveSnapshot "demoted_content"
-                >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
-                >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
+                >>= loadAndApplyTemplate "templates/post.html" ctx
+                >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
     match "drafts/*.markdown" $ do
+        let ctx = (draftCtx tags)
+
         route   draftRoute
         compile $ pandocCompiler
             >>= applyFilter youtubeFilter
             >>= return . fmap demoteHeaders
-            >>= loadAndApplyTemplate "templates/post.html" (draftCtx tags)
-            >>= loadAndApplyTemplate "templates/site.html" (draftCtx tags)
+            >>= loadAndApplyTemplate "templates/post.html" ctx
+            >>= loadAndApplyTemplate "templates/site.html" ctx
             >>= deIndexUrls
 
     create ["blog/index.html"] $ do
@@ -120,7 +128,7 @@ main = hakyllWith config $ do
 
             loadAllSnapshots "posts/*.markdown" "demoted_content"
                 >>= recentFirst
-                >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
+                >>= loadAndApplyTemplateList "templates/post.html" (postInListCtx tags)
                 >>= makeItem
                 >>= loadAndApplyTemplate "templates/posts.html" ctx
                 >>= loadAndApplyTemplate "templates/site.html" ctx
@@ -187,10 +195,9 @@ main = hakyllWith config $ do
         compile $ do
             posts <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
             recommended <- renderPostList tags (foldr1 (.||.) recommended) $ recentFirst
-            let ctx = homepageCtx posts recommended
 
             pandocCompiler
-                >>= loadAndApplyTemplate "templates/homepage.html" ctx
+                >>= loadAndApplyTemplate "templates/homepage.html" (homepageCtx posts recommended)
                 >>= loadAndApplyTemplate "templates/site.html" (postCtx tags)
                 >>= deIndexUrls
 
@@ -280,12 +287,22 @@ siteCtx = mconcat
     ]
 
 
-postCtx :: Tags -> Context String
-postCtx tags = mconcat
+postInListCtx :: Tags -> Context String
+postInListCtx tags = mconcat
     [ siteCtx
     , dateField "date" "%B %e, %Y"
     , dateField "ymd" "%F"
     , tagsField "linked_tags" tags
+    ]
+
+
+postCtx :: Tags -> Context String
+postCtx tags = mconcat
+    [ postInListCtx tags
+    , field "nextPostUrl" nextPostUrl
+    , field "prevPostUrl" prevPostUrl
+    , field "nextPostTitle" nextPostTitle
+    , field "prevPostTitle" prevPostTitle
     ]
 
 
@@ -334,6 +351,42 @@ metaKeywordCtx = field "metaKeywords" $ \item -> do
         showMetaTags t = "<meta name=\"keywords\" content=\"" ++ t ++ "\">"
 
 
+-- previous-next links from:
+-- http://magnus.therning.org/posts/2014-09-27-000-previous-next-links.html
+-- It's slow but it works...
+withRelatedPost:: (MonadMetadata m, Alternative m) =>
+    (Identifier -> [Identifier] -> Maybe t) -> (t -> m b) -> Pattern -> Item a -> m b
+withRelatedPost r f pattern item = do
+    idents <- getMatches pattern >>= sortRecentFirst
+    let id = itemIdentifier item
+        prevId = r id idents
+    case prevId of
+        Just i -> f i
+        Nothing -> empty
+
+withPreviousPost :: (MonadMetadata m, Alternative m) => (Identifier -> m b) -> Pattern -> Item a -> m b
+withPreviousPost = withRelatedPost itemAfter
+    where
+        itemAfter x xs = lookup x $ zip xs (tail xs)
+
+withNextPost :: (MonadMetadata m, Alternative m) => (Identifier -> m b) -> Pattern -> Item a -> m b
+withNextPost = withRelatedPost itemBefore
+    where
+        itemBefore x xs = lookup x $ zip (tail xs) xs
+
+prevPostUrl :: Item String -> Compiler String
+prevPostUrl = withPreviousPost (fmap (maybe empty toUrl) . getRoute) postsGlob
+
+prevPostTitle :: Item String -> Compiler String
+prevPostTitle = withPreviousPost (\ i -> getMetadataField' i "title") postsGlob
+
+nextPostUrl :: Item String -> Compiler String
+nextPostUrl = withNextPost (fmap (maybe empty toUrl) . getRoute) postsGlob
+
+nextPostTitle :: Item String -> Compiler String
+nextPostTitle = withNextPost (flip getMetadataField' "title") postsGlob
+
+
 postList :: Pattern
          -> ([Item String]
          -> Compiler [Item String])
@@ -347,8 +400,10 @@ renderPostList :: Tags
                -> Compiler [Item String])
                -> Compiler String
 renderPostList tags pattern filter = do
+     -- Not sure how to just send settings, this can be used in templates $if(...)$
+    let ctx = (postInListCtx tags)
     posts <- postList pattern filter
-    loadAndApplyTemplateList "templates/post-item.html" (postCtx tags) posts
+    loadAndApplyTemplateList "templates/post-item.html" ctx posts
 
 
 renderDraftList :: Tags

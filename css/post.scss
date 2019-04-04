@@ -110,6 +110,18 @@ $hr-color: $gb-lm-dark-gray;
     }
 }
 
+/*
+ * Prev/next nav
+ */
+.article-content .post-nav {
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
 
 /*
  * Lists

@@ -15,5 +15,14 @@
       Posted in $linked_tags$.
     </nav>
   </div>
+
+  <nav class="post-nav">
+    $if(prevPostUrl)$
+      <a href="$prevPostUrl$" class="prev">⇜ $prevPostTitle$</a>
+    $endif$
+    $if(nextPostUrl)$
+      <a href="$nextPostUrl$" class="next">$nextPostTitle$ ⇝</a>
+    $endif$
+  </nav>
 </article>
 
