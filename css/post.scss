@@ -229,9 +229,15 @@ $hr-color: $gb-lm-dark-gray;
     justify-content: center;
     align-items: center;
 
-    > figcaption {
+    figcaption {
         font-style: italic;
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 520px) {
+    .article-content figure figcaption {
+        overflow-wrap: break-word;
     }
 }
 
