@@ -177,6 +177,28 @@ nav {
 }
 
 
+/*
+ * Footer
+ */
+.site-footer {
+    @extend %fullsize-center-content;
+
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+
+    nav {
+        @extend %fullsize-center-content;
+        @extend %inline-nav;
+    }
+
+    .lower {
+        @extend %sans-serif;
+        font-size: 0.82rem;
+    }
+}
+
+
+
 // Place header to the left of main content on large screens
 @media only screen and (min-width: 970px) {
     .site-header {
@@ -203,6 +225,10 @@ nav {
             margin: 0.2em 0 0.35em 0;
         }
     }
+
+    .site-footer {
+        padding-left: 6.5rem;
+    }
 }
 
 @media only screen and (max-width: 969px) {
@@ -212,25 +238,3 @@ nav {
         flex: 1 1 auto;
     }
 }
-
-
-/*
- * Footer
- */
-.site-footer {
-    @extend %fullsize-center-content;
-
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-
-    nav {
-        @extend %fullsize-center-content;
-        @extend %inline-nav;
-    }
-
-    .lower {
-        @extend %sans-serif;
-        font-size: 0.82rem;
-    }
-}
-

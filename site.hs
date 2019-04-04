@@ -354,6 +354,8 @@ metaKeywordCtx = field "metaKeywords" $ \item -> do
 -- previous-next links from:
 -- http://magnus.therning.org/posts/2014-09-27-000-previous-next-links.html
 -- It's slow but it works...
+-- Don't know how to speed it up iether. We could try to cache idents but
+-- we can't pass extra data through field in postCtx. Urgh.
 withRelatedPost:: (MonadMetadata m, Alternative m) =>
     (Identifier -> [Identifier] -> Maybe t) -> (t -> m b) -> Pattern -> Item a -> m b
 withRelatedPost r f pattern item = do
