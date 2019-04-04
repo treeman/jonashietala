@@ -220,6 +220,7 @@ nav {
 .site-footer {
     @extend %fullsize-center-content;
 
+    margin-bottom: 2rem;
     flex-wrap: wrap;
 
     nav {
