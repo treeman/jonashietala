@@ -24,6 +24,17 @@
     }
 }
 
+.project header {
+    display: flex;
+    //justify-content: space-between;
+}
+.project header > time {
+    @extend %sans-serif;
+    font-size: 0.8rem;
+    margin-left: 0.4rem;
+    margin-top: 0.12rem;
+}
+
 .games {
     width: 100%;
     display: flex;

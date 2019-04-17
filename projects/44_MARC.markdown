@@ -1,6 +1,7 @@
 ---
 title: MARC
 link: http://github.com/treeman/MARC
+year: 2012
 ---
 
 Me and two other students made a VHDL implementation of the [Core Wars 88 standard][corewars88]. Core Wars is a computer game where two programs compete and try to destroy each other, read [the wiki][corewarswiki] for more info. MARC is a microprogrammed processor with a Redcode assembler.

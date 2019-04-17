@@ -128,7 +128,7 @@ main = hakyllWith config $ do
 
             loadAllSnapshots "posts/*.markdown" "demoted_content"
                 >>= recentFirst
-                >>= loadAndApplyTemplateList "templates/post.html" (postInListCtx tags)
+                >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
                 >>= makeItem
                 >>= loadAndApplyTemplate "templates/posts.html" ctx
                 >>= loadAndApplyTemplate "templates/site.html" ctx
@@ -287,22 +287,12 @@ siteCtx = mconcat
     ]
 
 
-postInListCtx :: Tags -> Context String
-postInListCtx tags = mconcat
+postCtx :: Tags -> Context String
+postCtx tags = mconcat
     [ siteCtx
     , dateField "date" "%B %e, %Y"
     , dateField "ymd" "%F"
     , tagsField "linked_tags" tags
-    ]
-
-
-postCtx :: Tags -> Context String
-postCtx tags = mconcat
-    [ postInListCtx tags
-    , field "nextPostUrl" nextPostUrl
-    , field "prevPostUrl" prevPostUrl
-    , field "nextPostTitle" nextPostTitle
-    , field "prevPostTitle" prevPostTitle
     ]
 
 
@@ -351,44 +341,6 @@ metaKeywordCtx = field "metaKeywords" $ \item -> do
         showMetaTags t = "<meta name=\"keywords\" content=\"" ++ t ++ "\">"
 
 
--- previous-next links from:
--- http://magnus.therning.org/posts/2014-09-27-000-previous-next-links.html
--- It's slow but it works...
--- Don't know how to speed it up iether. We could try to cache idents but
--- we can't pass extra data through field in postCtx. Urgh.
-withRelatedPost:: (MonadMetadata m, Alternative m) =>
-    (Identifier -> [Identifier] -> Maybe t) -> (t -> m b) -> Pattern -> Item a -> m b
-withRelatedPost r f pattern item = do
-    idents <- getMatches pattern >>= sortRecentFirst
-    let id = itemIdentifier item
-        prevId = r id idents
-    case prevId of
-        Just i -> f i
-        Nothing -> empty
-
-withPreviousPost :: (MonadMetadata m, Alternative m) => (Identifier -> m b) -> Pattern -> Item a -> m b
-withPreviousPost = withRelatedPost itemAfter
-    where
-        itemAfter x xs = lookup x $ zip xs (tail xs)
-
-withNextPost :: (MonadMetadata m, Alternative m) => (Identifier -> m b) -> Pattern -> Item a -> m b
-withNextPost = withRelatedPost itemBefore
-    where
-        itemBefore x xs = lookup x $ zip (tail xs) xs
-
-prevPostUrl :: Item String -> Compiler String
-prevPostUrl = withPreviousPost (fmap (maybe empty toUrl) . getRoute) postsGlob
-
-prevPostTitle :: Item String -> Compiler String
-prevPostTitle = withPreviousPost (\ i -> getMetadataField' i "title") postsGlob
-
-nextPostUrl :: Item String -> Compiler String
-nextPostUrl = withNextPost (fmap (maybe empty toUrl) . getRoute) postsGlob
-
-nextPostTitle :: Item String -> Compiler String
-nextPostTitle = withNextPost (flip getMetadataField' "title") postsGlob
-
-
 postList :: Pattern
          -> ([Item String]
          -> Compiler [Item String])
@@ -403,7 +355,7 @@ renderPostList :: Tags
                -> Compiler String
 renderPostList tags pattern filter = do
      -- Not sure how to just send settings, this can be used in templates $if(...)$
-    let ctx = (postInListCtx tags)
+    let ctx = (postCtx tags)
     posts <- postList pattern filter
     loadAndApplyTemplateList "templates/post-item.html" ctx posts
 

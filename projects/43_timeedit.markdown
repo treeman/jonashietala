@@ -1,6 +1,7 @@
 ---
 title: libtimeedit
 link: http://github.com/treeman/libtimeedit
+year: 2014
 ---
 
 A third-party api for retrieving scheduling information from [timeedit][] written in [rust][]. Realized with a simple [cli][]. Used to fetch schedule for Linköping's University.
