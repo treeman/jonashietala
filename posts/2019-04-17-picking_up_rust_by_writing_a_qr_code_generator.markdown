@@ -56,6 +56,7 @@ fn main() {
 Or generate an svg:
 
 ```rust
+extern crate rqr;
 use rqr::{Qr, SvgRenderer, Color, ECLevel};
 
 fn main() {
