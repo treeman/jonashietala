@@ -46,6 +46,14 @@
     padding: 0.1em 1em 0.1em 0em;
 }
 
+.movie-tables table {
+    width: 100%;
+
+    td:first-of-type {
+        width: 17rem;
+    }
+}
+
 
 /*
  * Horizontal rules
