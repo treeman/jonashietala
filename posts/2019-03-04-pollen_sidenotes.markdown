@@ -1,5 +1,5 @@
 ---
-title: "Tufte style sidenotes & marginnotes in Pollen"
+title: "Tufte style sidenotes and marginnotes in Pollen"
 tags: Programming, Pollen, Racket
 ---
 
