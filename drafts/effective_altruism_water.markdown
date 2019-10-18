@@ -50,9 +50,7 @@ The [GiveWell][] charity lists charities in these areas as their top charities (
 3. Vitamin supplements
 4. Cash distribution
 
-I must admit I haven't looked in depth to all of these, but there is one focus area that lies close to my heart that's missing:
-
-1. Clean water
+I must admit I haven't looked in depth to all of these, but there is one focus area that lies close to my heart that's missing: clean water.
 
 
 # Why water?
