@@ -1,4 +1,4 @@
-.posts {
+.secondposts {
     @extend %body-text;
 }
 
@@ -144,6 +144,16 @@ $hr-color: $gb-lm-dark-gray;
     ul li::before {
         float: left;
         margin-left: -$left;
+    }
+    // Avoid extra margin in a list with a single paragraph element.
+    li > p {
+        margin-bottom: 0.8rem;
+    }
+    li > p:first-child {
+        margin-bottom: 0;
+    }
+    li > p:nth-child(2) {
+        margin-top: 0.8rem;
     }
 
     ol li::before {
