@@ -4,6 +4,7 @@ title: "2019 in Review"
 tags: Yearly Review
 ---
 
+As [is tradition][previous years] a quick rundown of the year is due. It's been good to do as it makes me reflect on the past year, and see that I did indeed do some things, and to look ahead a little.
 
 2019 Non-Geek Achievements
 ==========================
@@ -18,7 +19,7 @@ tags: Yearly Review
 
 3. Regular grappling training.
 
-   Since we moved, I've only been training grappling very rarely. But now I train Submission Wrestling here once a week.
+   Since we moved, I've only been training grappling very rarely. But now I train Submission Wrestling here once a week. I **love** it.
 
 4. Built a small home gym.
 
@@ -67,6 +68,10 @@ Plans for 2020
 ===============
 
 1. Adjust to a new family member, expected in February.
+1. Finish my book.
+
+   I can at least finish the writing part, and probably produce a pdf/ebook/epub or whatever digital format is the fashion nowadays. The ultimate goal is to get a physical book in my bookshelf, but I have no idea how long that process might be.
+
 1. Complete enough of the memory training to start learning a new language.
 2. Go through the book [building git][building-git].
 3. Read some books.
@@ -88,6 +93,8 @@ Plans for 2020
       I should prepare for the movie that's coming in 2020 by re-reading the classic book, which I don't really remember other than it being very good.
 
    This is a whole lot of books for me, as I don't usually read that much. Maybe I need to stop reading so much manga, or lower my expectations a bit. I should be happy if I go through even a third of this list.
+
+It was a pretty good year. Looking forward to an even better one next year.
 
 
 [building-git]: https://shop.jcoglan.com/building-git/
