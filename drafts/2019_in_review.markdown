@@ -69,20 +69,25 @@ Plans for 2020
 1. Adjust to a new family member, expected in February.
 1. Complete enough of the memory training to start learning a new language.
 2. Go through the book [building git][building-git].
-3. Read more books.
+3. Read some books.
 
-   I've got a few on my to-read list, here are some:
+   ![Books I didn't read in 2019 that I want to read in 2020.](/images/IMG_20191225_114508_2.jpg)
 
-   1. Dune (in preparation for the movie)
-   2. Re-read the Game of Thrones books (*assuming* a new book is released...)
-   3. Fire & Blood
-   3. Re-read the books in the First Law world (new book coming in September)
-   4. Man's search for meaning
-   5. Extreme ownership
-   6. The Box
-   7. Metro 2034 & Metro 2035
+   And then some books I want to re-read:
 
-   It's a success if I get through even a third of them. (I mostly read manga/manwha and light novels.)
+   1. A Song of Ice and Fire series
+
+      *Assuming* the new Game of Thrones book gets released in 2020...
+
+   2. The books in the First Law World
+
+      I regret I didn't re-read the books before I read A Little Hatred, which is the first book in the new trilogy in the world. The other books are to be released in November 2020 and 2021, and Joe Abecrombie did a good job by writing the story of the whole trilogy before even realising the first book.
+
+   3. Dune
+
+      I should prepare for the movie that's coming in 2020 by re-reading the classic book, which I don't really remember other than it being very good.
+
+   This is a whole lot of books for me, as I don't usually read that much. Maybe I need to stop reading so much manga, or lower my expectations a bit. I should be happy if I go through even a third of this list.
 
 
 [building-git]: https://shop.jcoglan.com/building-git/

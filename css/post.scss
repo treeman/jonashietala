@@ -227,7 +227,7 @@ $hr-color: $gb-lm-dark-gray;
 .article-content figure {
     @extend %media-offset-wrapper;
 
-    margin-bottom: 1em;
+    margin: 1em 0;
     text-align: center;
 
     display: flex;
