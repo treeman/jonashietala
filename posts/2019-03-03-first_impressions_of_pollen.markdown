@@ -1,6 +1,6 @@
 ---
 title: "First impressions of Pollen"
-tags: Programming, Racket, Pollen
+tags: Programming, Pollen, Racket
 ---
 
 After having consumed [Practical Typography][] I took a look at the library he wrote to create books for the web called [Pollen][] written in [Racket][]. I've only used it a little but I feel I can give my first impressions of it.

@@ -1,9 +1,9 @@
 ---
-title: "I'm writing a book: Why Cryptocurrencies?"
-tags: Cryptocurrency
+title: "I'm writing a book: Why cryptocurrencies?"
+tags: Cryptocurrency, Why cryptocurrencies?
 ---
 
-I decided to write a book. It's called "Why Cryptocurrencies" and I will be uploading chapters as I complete them. It's available to [read online for free][link]. I've only uploaded the introductory parts but I've got a bunch more planned.
+I decided to write a book. It's called "Why cryptocurrencies" and I will be uploading chapters as I complete them. It's available to [read online for free][link]. I've only uploaded the introductory parts but I've got a bunch more planned.
 
 Why write a book you ask? Well, why not?
 
