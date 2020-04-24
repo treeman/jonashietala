@@ -1,5 +1,6 @@
 #!/bin/bash
 
-ghc --make site.hs
+ghc --make src/site.hs
+mv src/site .
 ./site clean
 ./site rebuild
