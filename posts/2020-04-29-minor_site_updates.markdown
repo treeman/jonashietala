@@ -13,14 +13,14 @@ responseLength <- read . U8.toString . fromJust <$> (S.lines >=> S.read) is
 
 What did `.` do again? And the `<$>` and `>=>` have something to do with monads...
 
-Even though I figured it out after a while, getting stuck on surface level things like this really makes me wonder if it wouldn't be better to just rewrite the site in some other language, or put more effort into actually learning Haskell.
+Even though I figured it out after a while, getting stuck on surface level things like this really makes me wonder if it wouldn't be better to just rewrite the site in some other language.
 
-Maybe the next time? (For the 100th time.)
+Or put more effort into actually learning Haskell. Maybe the next time...
 
 
 # Highlighting code via Pygments
 
-The core idea of the Pygments implementation is to reroute all parsing of code elements out to a separate process. For speed reasons it's implemented as long running process instead of calling out to the shell all the time.
+The core idea of the Pygments implementation is to reroute all parsing of code elements out to a separate process. For speed reasons it's implemented as a long running process instead of calling out to the shell all the time.
 
 I didn't come up with the approach, but I did some changes to it. One of them was to highlight both code blocks and inline code. The core transform function gets called by overriding the pandoc compiler:
 
@@ -32,7 +32,7 @@ pandocCompiler streams = do
                                (pygments streams)
 ```
 
-The transformer simply walks over blocks and transforms them:
+The transformer simply walks over blocks, matches against code and passes the content to the pygments process in `streams`.
 
 ```{.haskell}
 pygments :: Streams -> Pandoc -> Compiler Pandoc
@@ -63,7 +63,7 @@ generateCodeInline _ x = return x
 
 # Updated gruvbox syntax highlighting
 
-Pygments uses a different markup, so I had to update my gruvbox inspired css scheme. It's not perfect, and the choices are arbitrary, but I think the output is fairly good. If you're interested the stylesheet itself, see the sources for [gruvbox.scss][] and [code.scss][].
+Pygments use a different markup, so I had to update my gruvbox inspired css scheme. It's not perfect, and the choices are arbitrary, but I think the output is fairly good. If you're interested the stylesheet itself, see the sources for [gruvbox.scss][] and [code.scss][].
 
 [gruvbox.scss]: https://github.com/treeman/jonashietala/blob/master/css/gruvbox.scss
 [code.scss]: https://github.com/treeman/jonashietala/blob/master/css/code.scss
@@ -78,7 +78,6 @@ Another pretty cool idea I got from the blog post was embedding a git commit has
 The idea is to use `readProcess` and `unsafeCompiler` to launch a git process to retrieve info. Something like this:
 
 ```{.haskell}
-issue 
 gitTag :: String -> Context String
 gitTag key = field key $ \item -> do
   let fp = (toFilePath $ itemIdentifier item)
