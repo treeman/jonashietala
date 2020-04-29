@@ -11,7 +11,7 @@ I *really* like the markup language and the usage of X-expressions. You do need 
 
 First off I do my writing and coding in vim (or rather neovim). I use plugins for Racket and Pollen (but truthfully I don't remember what they do, syntax highlighting perhaps?) and I also use two special chars I don't normally use:
 
-```
+```{.vim}
 " Plugin handling using vim-plug 
 Plug 'https://github.com/wlangstroth/vim-racket'
 Plug 'https://github.com/otherjoel/vim-pollen.git'
@@ -29,7 +29,7 @@ The Pollen documentation does a decent job of walking you through initial setup,
 
 I wanted to turn three dots into a single character "..." and also reroute links from `/index.html` to `/`, while doing the default paragraph expansion and converting quotes and dashes to their special chars as described in the Pollen docs. I ended up with these decoding functions:
 
-```{.lisp}
+```{.racket}
 (define (ellipses x)
   (string-replace x "..." "…"))
 
@@ -49,7 +49,7 @@ I wanted to turn three dots into a single character "..." and also reroute links
 
 After a while I wanted to organize my Racket files into a subfolder, and to get Pollen to recognize this I had to tell it to add them to the watchlist:
 
-```{.lisp}
+```{.racket}
 (module setup racket/base
   (require file/glob)
   ...
@@ -61,7 +61,7 @@ After a while I wanted to organize my Racket files into a subfolder, and to get 
 
 Pollen's markup language can at first look extremely cumbersome, but I ended up liking it. Just prefix with `◊` and you'll automatically create html elements:
 
-```
+```{.pollen}
 ◊ul{
   ◊li{First item}
   ◊li{Second item}
@@ -71,11 +71,11 @@ Pollen's markup language can at first look extremely cumbersome, but I ended up 
 
 You can also specify attributes such as classes, which is quite handy:
 
-```
+```{.pollen}
 ◊div[#:class "my-class"]{ ... }
 ```
 
-But the real power of the markup language is how easy it is to create your own tags. Just define regular Racket functions and provide them in pollen.rkt like so: `(provide (all-from-out "rkt/tags.rkt"))`{.lisp}
+But the real power of the markup language is how easy it is to create your own tags. Just define regular Racket functions and provide them in pollen.rkt like so: `(provide (all-from-out "rkt/tags.rkt"))`
 
 Here are some examples of tags I've implemented:
 
@@ -83,20 +83,20 @@ Here are some examples of tags I've implemented:
 
    Non-highlighted code is simple and is provided by:
    
-   ```{.lisp}
+   ```{.racket}
    (define (code . args)
      `(pre (code ,@args)))
    ```
    
    But for a more interesting example say that you want to include an external file and highlight it like so:
    
-   ```{.lisp}
+   ```{.racket}
    ◊(code-hl "python3" "scripts/gambling.py")
    ```
    
    I implemented this by by calling out to `pygmentize`:
    
-   ```{.lisp}
+   ```{.racket}
    (define (code-hl lang path)
        (define cmd (string-append
                    "pygmentize -f html"
@@ -112,7 +112,7 @@ Here are some examples of tags I've implemented:
     
    I use quotes heavily throughout the text, either as a standalone or wrapped in an epigraph (just used to italize quotes that begins a chapter):
    
-   ```{.lisp}
+   ```{.pollen}
    ◊epigraph{
      ◊qt[#:author "Attributed to Michael Cassius McDonald"]{
        There's a sucker born every minute
@@ -216,7 +216,7 @@ Another very powerful feature is that you can easily create custom markup for in
 
 This is the markup I came up with:
 
-```{.lisp}
+```{.racket}
 ◊(define (money title #:img img #:date [date #f] . text)
    (define xdate
      (cond
@@ -298,7 +298,7 @@ We could be as explicit as we were with the money example, but here I'd like it 
 
 This can be accomplished by writing a bit of lisp code that splits the strings on the double spaces:
 
-```{.lisp}
+```{.racket}
 ◊(define (transcript . rows)
    (define (make-row row)
      (if (string=? row "\n")
