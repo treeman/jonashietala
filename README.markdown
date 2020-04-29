@@ -22,7 +22,7 @@ Sitemap
 Dependencies
 ============
 
-1. Haskell libs: hakyll, missingH, hakyll-sass, pcre-heavy
+1. Haskell libs: hakyll, missingH, hakyll-sass, pcre-heavy, io-streams
 2. sassc
 
 Blog script:

@@ -99,14 +99,16 @@ $hr-color: $gb-lm-dark-gray;
 /*
  * Tags
  */
-.article-content .tags hr {
-    margin: 0.3em auto;
+.article-content .post-footer {
     margin-top: 1em;
-    border: 0;
+    padding-top: 0.3em;
     border-top: 1px solid $gb-lm-fg3;
+    display: flex;
+    justify-content: space-between;
 }
 
-.article-content .tags .tag-links {
+.article-content .post-footer .tag-links,
+.article-content .post-footer .commit {
     font-family: $serif-font-family;
     font-size: 0.9rem;
 

@@ -8,3 +8,4 @@ bad-links
 *.swp
 TODO
 *.bak
+pygments-fail

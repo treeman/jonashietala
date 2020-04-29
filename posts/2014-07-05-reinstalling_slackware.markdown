@@ -227,7 +227,7 @@ ln -s /etc/X11/xorg.conf.d/xorg.conf .workspace/xorg.conf
 
 This is it:
 
-``` {.xorg}
+``` {.xorg.conf}
 Section "ServerLayout"
     Identifier "Layout0"
     Screen 0 "Screen0" 1080 480

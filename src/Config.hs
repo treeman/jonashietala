@@ -5,6 +5,7 @@ import Hakyll
 mail = "mail@jonashietala.se"
 name = "Jonas Hietala"
 siteRoot = "http://www.jonashietala.se"
+github = "https://github.com/treeman/jonashietala"
 
 
 myFeedConfiguration :: FeedConfiguration

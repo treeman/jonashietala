@@ -5,15 +5,23 @@ module Compilers where
 import Contexts
 import Render
 import Routes
+import Pygments
 
-import Hakyll
+import Hakyll hiding (pandocCompiler)
 import Text.Pandoc
+import Text.Pandoc.Walk (walk, walkM)
 
 -- Unicode friendly regex
 -- This is the only library I found which has subtitutions and unicode support
 import qualified Text.Regex.PCRE.Light as RL
 import qualified Text.Regex.PCRE.Heavy as RH
 
+
+pandocCompiler :: Streams -> Compiler (Item String)
+pandocCompiler streams = do
+  pandocCompilerWithTransformM defaultHakyllReaderOptions
+                               defaultHakyllWriterOptions
+                               (pygments streams)
 
 archiveCompiler :: String
                 -> Tags
@@ -58,10 +66,10 @@ feedCompiler = pandocCompilerWith feedReaderOptions feedWriterOptions
                 >>= applyFilter youtubeFilter
                 >>= return . fmap demoteHeaders
 
-postCompiler :: Compiler (Item String)
-postCompiler = pandocCompiler
-                >>= applyFilter youtubeFilter
-                >>= return . fmap demoteHeaders
+postCompiler :: Streams -> Compiler (Item String)
+postCompiler streams = pandocCompiler streams
+                       >>= applyFilter youtubeFilter
+                       >>= return . fmap demoteHeaders
 
 sassCompiler :: Compiler (Item String)
 sassCompiler = loadBody "css/main.scss"

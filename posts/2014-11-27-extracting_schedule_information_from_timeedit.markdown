@@ -103,7 +103,7 @@ There's a bunch of other parameters which we can simply ignore. This time if we 
 
 We can also get information formatted as `.txt` and `.csv`. For parsing purposes the best one should be json, as we can use rust's [json deriving][], but then we need to create a bunch of structs. `.csv` is actually very easy to parse and it looks like this:
 
-```{.csv}
+```
 TimeEdit, Linköpings universitet
 "TGTU49, Teknikhistoria, 1, TGTU49 1445-1503 Valla", 2014-07-03 - 2014-12-31 ,
 Startdatum, Starttid, Slutdatum, Sluttid, Kurs, Lokal, Undervisningstyp, Lärare, Studentgrupp, Fria grupper, Information till student, Studentförening, URL

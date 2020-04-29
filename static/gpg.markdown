@@ -4,8 +4,7 @@ title: "GPG"
 
 Also on SKS: [0x48347567AD15CC54][sks]
 
-```{.regular}
------BEGIN PGP PUBLIC KEY BLOCK-----
+<pre class="regular"><code>-----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBFwf49MBEACwRWNVR0QfohCihhM1l6fgwUAmEAWvIl0BBFzay0CYrh4q2Lps
 GZakhX5BoxyjQ5ULgFfCbJRDtXewhv2jNyqfjDUW6NgL0zi08MJ0DKC2F6h1y352
@@ -90,7 +89,7 @@ B0BMb9sFSkO2xsQi9hkOJCHAtir92AtnVX03y54hCQDQ4dMMYTJQ77PeSG0QCAXq
 1a3YcBM=
 =MdwL
 -----END PGP PUBLIC KEY BLOCK-----
-```
+</code></pre>
 
 [mit]: pgp.mit.edu/pks/lookup?op=get&search=0x48347567AD15CC54 "GPG key hosted on mit"
 [sks]: https://sks-keyservers.net/pks/lookup?op=get&search=0x48347567AD15CC54 "GPG key on SKS"

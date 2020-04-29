@@ -8,6 +8,7 @@ import Config
 import Compilers
 import Routes
 import Render
+import Pygments
 
 import Control.Applicative ((<$>))
 import Data.Monoid (mappend, mconcat, (<>))
@@ -15,11 +16,11 @@ import Data.Char (toLower)
 import Data.List (intercalate, isSuffixOf)
 import Data.List.Utils (replace)
 import Data.Ord (comparing)
-import System.FilePath  (dropExtension, splitFileName, joinPath)
+import System.FilePath (dropExtension, splitFileName, joinPath)
 import Data.Maybe (fromMaybe)
 import Control.Applicative (Alternative (..))
 
-import Hakyll
+import Hakyll hiding (pandocCompiler)
 import Text.Sass.Options
 import Text.Pandoc
 
@@ -37,151 +38,155 @@ postsGlob = "posts/*.markdown"
 
 
 main :: IO ()
-main = hakyllWith config $ do
-    match ("images/**" .||. "favicon.ico" .||. "fonts/**") $ do
-        route   idRoute
-        compile copyFileCompiler
+main = do
 
-    match "css/*.scss" $ do
-        compile getResourceBody
+    streams <- pygmentsServer
 
-    -- Enable hot reload when changing an imported stylesheet
-    scssDependencies <- makePatternDependency "css/*.scss"
-    rulesExtraDependencies [scssDependencies] $ do
-        create ["css/main.css"] $ do
+    hakyllWith config $ do
+        match ("images/**" .||. "favicon.ico" .||. "fonts/**") $ do
             route   idRoute
-            compile sassCompiler
+            compile copyFileCompiler
 
-    tags <- buildTags postsGlob (fromCapture "tags/*")
+        match "css/*.scss" $ do
+            compile getResourceBody
 
-    match "static/*.markdown" $ do
-        route   staticRoute
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/static.html" siteCtx
-            >>= loadAndApplyTemplate "templates/site.html" siteCtx
-            >>= deIndexUrls
+        -- Enable hot reload when changing an imported stylesheet
+        scssDependencies <- makePatternDependency "css/*.scss"
+        rulesExtraDependencies [scssDependencies] $ do
+            create ["css/main.css"] $ do
+                route   idRoute
+                compile sassCompiler
 
-    match "static/*.txt" $ do
-        route   txtStaticRoute
-        compile getResourceString
+        tags <- buildTags postsGlob (fromCapture "tags/*")
 
-    match "static/*.html" $ do
-        route   staticRoute
-        compile copyFileCompiler
-
-    match postsGlob $ do
-        let ctx = (postCtx tags)
-
-        route   postRoute
-        compile $ do
-            feedCompiler
-                >>= loadAndApplyTemplate "templates/post.html" ctx
-                >>= saveSnapshot "feed"
-            postCompiler
-                >>= saveSnapshot "demoted_content"
-                >>= loadAndApplyTemplate "templates/post.html" ctx
-                >>= loadAndApplyTemplate "templates/site.html" ctx
+        match "static/*.markdown" $ do
+            route   staticRoute
+            compile $ pandocCompiler streams
+                >>= loadAndApplyTemplate "templates/static.html" siteCtx
+                >>= loadAndApplyTemplate "templates/site.html" siteCtx
                 >>= deIndexUrls
 
-    match "drafts/*.markdown" $ do
-        let ctx = (draftCtx tags)
+        match "static/*.txt" $ do
+            route   txtStaticRoute
+            compile getResourceString
 
-        route   draftRoute
-        compile $ postCompiler
-            >>= loadAndApplyTemplate "templates/post.html" ctx
-            >>= loadAndApplyTemplate "templates/site.html" ctx
-            >>= deIndexUrls
+        match "static/*.html" $ do
+            route   staticRoute
+            compile copyFileCompiler
 
-    create ["blog/index.html"] $ do
-        route idRoute
-        compile $ do
-            let ctx = constField "title" "My Weblog" <> siteCtx
+        match postsGlob $ do
+            let ctx = (postCtx tags)
 
-            loadAllSnapshots "posts/*.markdown" "demoted_content"
-                >>= recentFirst
-                >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
-                >>= makeItem
-                >>= loadAndApplyTemplate "templates/posts.html" ctx
-                >>= loadAndApplyTemplate "templates/site.html" ctx
-                >>= deIndexUrls
-
-    create ["archive/index.html"] $ do
-        let title = "The Archives"
-        let pattern = "posts/*.markdown"
-
-        route   idRoute
-        compile $ archiveCompiler title tags pattern "templates/archive.html"
-
-    create ["drafts/index.html"] $ do
-        let title = "All drafts"
-        let pattern = "drafts/*.markdown"
-
-        route   idRoute
-        compile $ draftArchiveCompiler title tags pattern "templates/post-list.html"
-
-    -- Pages for individual tags
-    tagsRules tags $ \tag pattern -> do
-        let title = "Posts tagged: " ++ tag
-
-        route   tagRoute
-        compile $ archiveCompiler title tags pattern "templates/post-list.html"
-
-    -- All tags list
-    create ["blog/tags/index.html"] $ do
-        let ctx = tagsCtx (sortedTagHtmlListRenderer tags)
-
-        route idRoute
-        compile $ makeItem ""
-            >>= loadAndApplyTemplate "templates/tags.html" ctx
-            >>= loadAndApplyTemplate "templates/site.html" ctx
-            >>= deIndexUrls
-
-    -- Projects page
-    match "projects/*.markdown" $ do
-        compile $ pandocCompiler
-            >>= saveSnapshot "content"
-
-    match "projects/games/*.markdown" $ do
-        compile $ pandocCompiler
-            >>= saveSnapshot "content"
-
-    gamesDependencies <- makePatternDependency "projects/games/*.markdown"
-    projectDependencies <- makePatternDependency "projects/*.markdown"
-    rulesExtraDependencies [gamesDependencies, projectDependencies] $ do
-        match "projects.markdown" $ do
-            route   $ customRoute (const "projects/index.html")
+            route   postRoute
             compile $ do
-                games <- renderGamesList "projects/games/*.markdown"
-                projects <- renderProjects "projects/*.markdown"
-                let ctx = projectsCtx projects games
-
-                pandocCompiler
-                    >>= loadAndApplyTemplate "templates/projects.html" ctx
+                feedCompiler
+                    >>= loadAndApplyTemplate "templates/post.html" ctx
+                    >>= saveSnapshot "feed"
+                postCompiler streams
+                    >>= saveSnapshot "demoted_content"
+                    >>= loadAndApplyTemplate "templates/post.html" ctx
                     >>= loadAndApplyTemplate "templates/site.html" ctx
                     >>= deIndexUrls
 
-    -- Main page
-    match "about.markdown" $ do
-        route   $ customRoute (const "index.html")
-        compile $ do
-            posts <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
-            recommended <- renderPostList tags (foldr1 (.||.) recommended) $ recentFirst
+        match "drafts/*.markdown" $ do
+            let ctx = (draftCtx tags)
 
-            pandocCompiler
-                >>= loadAndApplyTemplate "templates/homepage.html"
-                                         (homepageCtx posts recommended)
-                >>= loadAndApplyTemplate "templates/site.html"
-                                         (postCtx tags)
+            route   draftRoute
+            compile $ postCompiler streams
+                >>= loadAndApplyTemplate "templates/post.html" ctx
+                >>= loadAndApplyTemplate "templates/site.html" ctx
                 >>= deIndexUrls
 
-    match "templates/*" $ compile templateCompiler
+        create ["blog/index.html"] $ do
+            route idRoute
+            compile $ do
+                let ctx = constField "title" "My Weblog" <> siteCtx
 
-    create ["feed.xml"] $ do
-        route idRoute
-        compile $ do
-            let feedCtx = (postCtx tags) <> bodyField "description"
+                loadAllSnapshots "posts/*.markdown" "demoted_content"
+                    >>= recentFirst
+                    >>= loadAndApplyTemplateList "templates/post.html" (postCtx tags)
+                    >>= makeItem
+                    >>= loadAndApplyTemplate "templates/posts.html" ctx
+                    >>= loadAndApplyTemplate "templates/site.html" ctx
+                    >>= deIndexUrls
 
-            posts <- fmap (take 30) . recentFirst =<<
-                loadAllSnapshots "posts/*.markdown" "feed"
-            renderAtom myFeedConfiguration feedCtx posts
+        create ["archive/index.html"] $ do
+            let title = "The Archives"
+            let pattern = "posts/*.markdown"
+
+            route   idRoute
+            compile $ archiveCompiler title tags pattern "templates/archive.html"
+
+        create ["drafts/index.html"] $ do
+            let title = "All drafts"
+            let pattern = "drafts/*.markdown"
+
+            route   idRoute
+            compile $ draftArchiveCompiler title tags pattern "templates/post-list.html"
+
+        -- Pages for individual tags
+        tagsRules tags $ \tag pattern -> do
+            let title = "Posts tagged: " ++ tag
+
+            route   tagRoute
+            compile $ archiveCompiler title tags pattern "templates/post-list.html"
+
+        -- All tags list
+        create ["blog/tags/index.html"] $ do
+            let ctx = tagsCtx (sortedTagHtmlListRenderer tags)
+
+            route idRoute
+            compile $ makeItem ""
+                >>= loadAndApplyTemplate "templates/tags.html" ctx
+                >>= loadAndApplyTemplate "templates/site.html" ctx
+                >>= deIndexUrls
+
+        -- Projects page
+        match "projects/*.markdown" $ do
+            compile $ pandocCompiler streams
+                >>= saveSnapshot "content"
+
+        match "projects/games/*.markdown" $ do
+            compile $ pandocCompiler streams
+                >>= saveSnapshot "content"
+
+        gamesDependencies <- makePatternDependency "projects/games/*.markdown"
+        projectDependencies <- makePatternDependency "projects/*.markdown"
+        rulesExtraDependencies [gamesDependencies, projectDependencies] $ do
+            match "projects.markdown" $ do
+                route   $ customRoute (const "projects/index.html")
+                compile $ do
+                    games <- renderGamesList "projects/games/*.markdown"
+                    projects <- renderProjects "projects/*.markdown"
+                    let ctx = projectsCtx projects games
+
+                    pandocCompiler streams
+                        >>= loadAndApplyTemplate "templates/projects.html" ctx
+                        >>= loadAndApplyTemplate "templates/site.html" ctx
+                        >>= deIndexUrls
+
+        -- Main page
+        match "about.markdown" $ do
+            route   $ customRoute (const "index.html")
+            compile $ do
+                posts <- renderPostList tags "posts/*" $ fmap (take 5) . recentFirst
+                recommended <- renderPostList tags (foldr1 (.||.) recommended) $ recentFirst
+
+                pandocCompiler streams
+                    >>= loadAndApplyTemplate "templates/homepage.html"
+                                            (homepageCtx posts recommended)
+                    >>= loadAndApplyTemplate "templates/site.html"
+                                            (postCtx tags)
+                    >>= deIndexUrls
+
+        match "templates/*" $ compile templateCompiler
+
+        create ["feed.xml"] $ do
+            route idRoute
+            compile $ do
+                let feedCtx = (postCtx tags) <> bodyField "description"
+
+                posts <- fmap (take 30) . recentFirst =<<
+                    loadAllSnapshots "posts/*.markdown" "feed"
+                renderAtom myFeedConfiguration feedCtx posts
 

@@ -12,7 +12,7 @@ The first thing I really like is Pollen enables powerful text transformation usi
 
 For example this expression:
 
-```{.lisp}
+```{.racket}
 `(blockquote
   "Everyday life is like programming, I guess. If you love something you can put beauty into it."
   (footer (span ((class "author"))
@@ -34,7 +34,7 @@ Complex transformations really should be done with structured data, like X-expre
 
 Secondly I actually like Pollen's markup. It is more verbose than markdown---or others---but not unbearably so:
 
-```{.lisp}
+```{.pollen}
 ◊h1{Pollen markup}
 
 A link to ◊link[my-site]{my site}.
@@ -48,7 +48,7 @@ A link to ◊link[my-site]{my site}.
 ◊(define my-site "http://jonashietala.se")
 ```
 
-```{.markdown}
+```{.md}
 # Markdown markup
 
 A link to [my site][my-site].
@@ -80,7 +80,7 @@ To
 
 In Pollen you simply define a tag that returns the video-wrapper directly, so the markup is simple without magic:
 
-```
+```{.pollen}
 ◊yt{https://www.youtube.com/watch?v=NIbr-mLi4DU}
 ```
 

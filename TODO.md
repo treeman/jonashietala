@@ -1,5 +1,7 @@
-Migrate to pygments syntax highlighter instead
-Maybe something like this: https://jip.dev/posts/the-switch-to-hakyll/
+# Finish posts
 
-Add a commit ref when a post was generated?
+1. Updates to the site (pygments + git commit hash)
+2. Writing a Pollen lexer in Pygments
+3. My book is done!
+4. How I wrote a book using Pollen
 

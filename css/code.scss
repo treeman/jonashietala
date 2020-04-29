@@ -37,28 +37,77 @@ code, pre {
     background-color: $gb-lm-bg0-hard;
     color: $gb-lm-fg0;
 }
-code a, code a:hover {
-    color: $gb-lm-fg0;
-    text-decoration: none;
+.highlight {
+    .hll { background-color: $gb-lm-bg2 }
+    .c { color: $gb-lm-fg4; font-style: italic } /* Comment */
+    .c1 { color: $gb-lm-fg4; font-style: italic } /* Comment.Single */
+    .ch { color: $gb-lm-fg4; font-style: italic } /* Comment.Hashbang */
+    .cm { color: $gb-lm-fg4; font-style: italic } /* Comment.Multiline */
+    .cp { color: $gb-lm-light-aqua } /* Comment.Preproc */
+    .cpf { color: $gb-lm-light-green } /* Comment.PreprocFile */
+    .cs { color: $gb-lm-fg4; font-style: italic } /* Comment.Special */
+    .err { color: $gb-lm-fg0; font-weight: bold } /* Error */
+    .gd { color: $gb-lm-light-red } /* Generic.Deleted */
+    .ge { font-style: italic } /* Generic.Emph */
+    .gh { color: $gb-lm-light-orange } /* Generic.Heading */
+    .gi { color: $gb-lm-light-green } /* Generic.Inserted */
+    //.go { color: #888888 } /* Generic.Output */
+    .gp { color: $gb-lm-fg2; font-weight: bold } /* Generic.Prompt */
+    .gr { color: $gb-lm-fg0; font-weight: bold } /* Generic.Error */
+    .gs { font-weight: bold } /* Generic.Strong */
+    //.gt { color: #0044DD } /* Generic.Traceback */
+    .gu { color: $gb-lm-light-green } /* Generic.Subheading */
+    .k { color: $gb-lm-light-red } /* Keyword */
+    .kc { color: $gb-lm-light-purple } /* Keyword.Constant */
+    .kd { color: $gb-lm-light-yellow } /* Keyword.Declaration */
+    .kn { color: $gb-lm-light-blue } /* Keyword.Namespace */
+    .kp { color: $gb-lm-light-purple } /* Keyword.Pseudo */
+    .kr { color: $gb-lm-light-purple } /* Keyword.Reserved */
+    .kt { color: $gb-lm-light-yellow } /* Keyword.Type */
+    .m { color: $gb-lm-light-purple } /* Literal.Number */
+    .mb { color: $gb-lm-dark-purple } /* Literal.Number.Bin */
+    .mf { color: $gb-lm-light-purple } /* Literal.Number.Float */
+    .mh { color: $gb-lm-dark-purple } /* Literal.Number.Hex */
+    .mi { color: $gb-lm-light-purple } /* Literal.Number.Integer */
+    .il { color: $gb-lm-light-purple } /* Literal.Number.Integer.Long */
+    .mo { color: $gb-lm-dark-purple } /* Literal.Number.Oct */
+    //.n { color: $gb-lm-light-green } /* Name */
+    .na { color: $gb-lm-light-blue } /* Name.Attribute */
+    .nb { color: $gb-lm-light-green; font-weight: bold; } /* Name.Builtin */
+    .bp { color: $gb-lm-light-red } /* Name.Builtin.Pseudo */
+    .nc { color: $gb-lm-light-green } /* Name.Class */
+    //.nd { color: #AA22FF } /* Name.Decorator */
+    //.ne { color: #D2413A } /* Name.Exception */
+    .nf { color: $gb-lm-light-green } /* Name.Function */
+    .fm { color: $gb-lm-light-green; font-weight: bold } /* Name.Function.Magic */
+    .ni { color: $gb-lm-light-aqua } /* Name.Entity */
+    .nl { color: $gb-lm-light-aqua } /* Name.Label */
+    //.nn { color: #0000FF } /* Name.Namespace */
+    .no { color: $gb-lm-light-purple } /* Name.Constant */
+    .nt { color: $gb-lm-dark-orange } /* Name.Tag */
+    .nv { color: $gb-lm-light-blue } /* Name.Variable */
+    .vc { color: $gb-lm-light-blue } /* Name.Variable.Class */
+    .vg { color: $gb-lm-light-blue } /* Name.Variable.Global */
+    .vi { color: $gb-lm-light-blue } /* Name.Variable.Instance */
+    //.o { color: #666666 } /* Operator */
+    .ow { color: $gb-lm-light-red } /* Operator.Word */
+    .s { color: $gb-lm-light-green } /* Literal.String */
+    .s1 { color: $gb-lm-light-green } /* Literal.String.Single */
+    .s2 { color: $gb-lm-light-green } /* Literal.String.Double */
+    .sa { color: $gb-lm-light-green } /* Literal.String.Affix */
+    .sb { color: $gb-lm-light-green } /* Literal.String.Backtick */
+    .sc { color: $gb-lm-light-purple } /* Literal.String.Char */
+    .sd { color: $gb-lm-dark-orange } /* Literal.String.Doc */
+    .se { color: $gb-lm-light-orange } /* Literal.String.Escape */
+    .sh { color: $gb-lm-light-orange } /* Literal.String.Heredoc */
+    .si { color: $gb-lm-dark-orange } /* Literal.String.Interpol */
+    .sr { color: $gb-lm-light-orange } /* Literal.String.Regex */
+    .ss { color: $gb-lm-light-aqua } /* Literal.String.Symbol */
+    .sx { color: $gb-lm-light-green } /* Literal.String.Other */
+    .dl { color: $gb-lm-light-green } /* Literal.String.Delimiter */
+    .vm { color: $gb-lm-light-orange } /* Name.Variable.Magic */
+    //.w { color: #bbbbbb } /* Text.Whitespace */
 }
-// Just eyeballed which classes comes up, couldn't find a good reference
-code.sourceCode span.kw { color: $gb-lm-light-aqua; } // Keyword
-code.sourceCode span.dt { color: $gb-lm-light-yellow; } // Datatype
-code.sourceCode span.dv { color: $gb-lm-light-purple; } // DecVal
-code.sourceCode span.bn { color: $gb-lm-light-purple; } // BaseN
-code.sourceCode span.fl { color: $gb-lm-light-purple; } // Float
-code.sourceCode span.ch { color: $gb-lm-light-purple; } // Char
-code.sourceCode span.st { color: $gb-lm-dark-green; } // String
-code.sourceCode span.co { color: $gb-lm-fg4; font-style: italic; } // Comment
-code.sourceCode span.ot { color: $gb-lm-light-aqua; } // OtherToken
-code.sourceCode span.fu { color: $gb-lm-light-green; } // Function
-code.sourceCode span.re { color: $gb-lm-fg3; } // Region marker
-code.sourceCode span.er { color: $gb-lm-fg0; font-weight: bold; } // Error red
-code.sourceCode span.al { color: $gb-lm-fg0; font-weight: bold; } // Alert red
-code.sourceCode span.im { color: $gb-lm-light-orange; } // @font-face, "foo.h" in include pragma
-code.sourceCode span.pp { color: $gb-lm-light-aqua; } // pragma directive
-code.sourceCode span.cf { color: $gb-lm-light-red; } // for
-code.sourceCode span.sc { color: $gb-lm-light-orange; } // \n
-code.sourceCode span.op { color: $gb-lm-light-gray; } // Operator
-code.sourceCode span.cn { color: $gb-lm-light-blue; } // CSS hash value color
-
+.language-racket {
+    .o { color: $gb-lm-light-orange } /* Operator */
+}
