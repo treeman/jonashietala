@@ -3,7 +3,7 @@ title: "Writing a Pollen lexer in Pygments"
 tags: Pollen, Programming
 ---
 
-After writing a few blog posts about Pollen I started getting annoyed that I didn't have syntax highlighting for the code snippets. So I did a bit of fooling around with Pygments, and it turns out writing a custom lexer isn't that unreasonable, so here's how I did it.
+After writing a [few blog posts][pollen-tags] about Pollen I started getting annoyed that I didn't have syntax highlighting for the code snippets. So I did a bit of fooling around with Pygments, and it turns out writing a custom lexer isn't that unreasonable, so here's how I did it.
 
 # Pollen markup
 
@@ -12,9 +12,11 @@ Pollen's rules are pretty simple as it's basically just some extra syntax for em
 1. Comments starts with `◊;`
 2. You can insert variables with `◊|my-var|`
 3. Run arbitrary Racket code with `◊( ... )`
-4. There's an extra construction that transforms `◊fun[arg1 arg2]{some text}` to `◊(fun arg1 arg2 "some" text")`, which is useful when you want to send a bunch of text to a function. (I use it everywhere in my book.)
+4. There's an extra construction that transforms `◊fun[arg1 arg2]{some text}` to `◊(fun arg1 arg2 "some" text")`, which is useful when you want to send a bunch of interpolated text to a function. (I use it everywhere in [my book][main].)
 
-So basically I want to be able to highlight this type of code:
+[main]: https://whycryptocurrencies.com/ "Why cryptocurrencies?"
+
+So the end goal is to be able to highlight this type of code:
 
 ```
 ◊; A link can just be a standard reference
@@ -29,7 +31,9 @@ I'm ◊strong{really} looking forward to the upcoming Dune movie!
 
 # Setup and parsing comments
 
-The simpest lexer might look like this:
+The simpest [Pygments][] lexer might look like this:
+
+[Pygments]: https://pygments.org/
 
 ```{.python3}
 from pygments.lexer import *
@@ -68,7 +72,7 @@ I would like to support highlighting comments:
 Regular text ◊; Trailing comment
 ```
 
-Which should be pretty straightforward. We just need to add a single clause to the root token that matches everything from `◊;` to the end of the line:
+Which should be pretty straightforward. We just need to add a single clause to the root state that matches everything from `◊;` to the end of the line:
 
 ```{.python3}
 tokens = {
@@ -96,6 +100,8 @@ Regular text <span class="c">◊; Trailing comment</span>
 </pre></div>
 
 (Of course this assumes you've got a stylesheet that colors the output.)
+
+If you're reading this but don't understand why it works you might want to lookup [regular expressions in Python][py-regex], in this post I'll assume you're familiar.
 
 
 # Embedding variables
@@ -161,15 +167,15 @@ Then when we try to parse the next character, `post-magic` is responsible to mat
 
 This should now be able to highlight embedding variables:
 
-<div class="highlight"><pre><span></span>Text <span class="vm">◊|</span><span class="nv">a1</span><span class="vm">|</span> more text <span class="vm">◊|</span><span class="nv">a2-!+*#</span><span class="vm">|</span>.
+<div class="highlight"><pre><span></span>Text <span class="vm">◊|</span><span class="nv">a1</span><span class="vm">|</span> more text <span class="vm">◊|</span><span class="nv">a2-!+#</span><span class="vm">|</span>.
 </pre></div>
 
-I unfortunately didn't figure out how to debug the state transitions in an easy manner. If we mess up Pygments will insert `err` classes but you can also play around with different colored tokens during development, for example letting `root` return a `Keyword` token so you can see we return to the right state.
+I unfortunately didn't figure out how to debug the state transitions in an easy manner. If we mess up Pygments will insert `err` classes but you can also play around with different colored tokens during development, for example letting `root` return a `Keyword` token so you can see that we return to the right state.
 
 
 # Highlighting Racket code
 
-Our next step is to try to highlight Racket code inside `◊( ... )`!
+Our next step is to try to highlight Racket code inside `◊( ... )`.
 
 I thought this was going to be really hard, but Pygments supports this in various ways. The way I chose was to delegate the lexer of different parts to the existing `RacketLexer`.
 
@@ -191,7 +197,7 @@ And the case is simply:
         '#pop')
 ```
 
-The interesting line is `using(RacketLexer, state='unquoted-datum')` which delegates the lexer to `RacketLexer`, starting in state `unquoted-datum`. How did I figure out which initial state to start in? I tried to [read the code][racket-lexer] and make an educated guess...
+The interesting line is `using(RacketLexer, state='unquoted-datum')`{.python3} which delegates the lexer to `RacketLexer`, starting in state `unquoted-datum`. How did I figure out which initial state to start in? I tried to [read the code][racket-lexer] and make an educated guess...
 
 But we also need to ensure we use the regex flag of allowing the dot to match newlines as well, otherwise we won't match multiline racket expressions:
 
@@ -221,7 +227,7 @@ Matching `◊var` is straightforward:
 ],
 ```
 
-We could do more here, but we're preparing for the future where we can also match against an optional `[...]` after the variable, so we'll delegate to another state. The `('#pop', 'curly-start')` essentially means we'll replace the `post-magic` state with the `curly-start` state.
+We could do more here, but we're preparing for the future where we can also match against an optional `[...]` after the variable, so we'll delegate to another state. `('#pop', 'curly-start')`{.python3} essentially means we'll replace the current state `post-magic` with the new `curly-start` state.
 
 ```{.python3}
 'curly-start': [
@@ -238,7 +244,7 @@ Here again we could've done more, but we want to be able to do recursive matchin
 ],
 ```
 
-`include('root')` does what you might expect it to do: it copies all cases from our `root` state into the `curly-end` sate. This to avoid code duplication.
+`include('root')`{.python3} does what you might expect it to do: it copies all cases from our `root` state into the `curly-end` sate. This to avoid code duplication.
 
 And this can indeed highlight `◊var{ ... }` recursively!
 
@@ -263,9 +269,9 @@ To support an optional `[ ... ]` we can add another state before `curly-end` tha
 ],
 ```
 
-We've already seen these things before. The only thorn in my side here is that we use a non-greedy match `(.+?)` to match between brackets, but we used a greedy `(.+)` earlier. I don't have a good answer for this... So my code is probably broken some way here.
+We've already seen these things before. The only thorn in my side here is that we use a non-greedy match `(.+?)` to match between brackets, but we used a greedy `(.+)` earlier. I don't have a good answer for this... This could probably be improved some way.
 
-But hey! Think positive! It works for the cases I've tried, for example:
+But hey! Think positive! It works for the cases I need. For example:
 
 <div class="highlight"><pre><span></span><span class="vm">◊</span><span class="nv">div</span><span class="vm">[</span><span class="kd">#:class</span> <span class="s2">&quot;my-class&quot;</span><span class="vm">]{</span>
     I <span class="vm">◊</span><span class="nv">strong</span><span class="vm">[</span><span class="kd">#:class</span> <span class="s2">&quot;super-strong&quot;</span><span class="vm">]{</span>really<span class="vm">}</span> like tacos.
@@ -351,4 +357,5 @@ class PollenLexer(RegexLexer):
 
 [racket-lexer]: https://github.com/pygments/pygments/blob/master/pygments/lexers/lisp.py#L459 "RacketLexer on Github"
 [py-tokens]: https://pygments.org/docs/tokens/ "Pygments tokens"
-
+[pollen-tags]: /blog/tags/pollen/ 
+[py-regex]: https://docs.python.org/3/library/re.html
