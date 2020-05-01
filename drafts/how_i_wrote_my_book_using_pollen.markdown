@@ -3,13 +3,16 @@ title: "How I wrote a book using Pollen"
 tags: Cryptocurrency, Programming, Pollen, Racket, Why cryptocurrencies?
 ---
 
-I wrote an online book using [Pollen][pollen], a static site generator in [Racket][racket]. [An earlier post][impressions] contains my first impressions of it, but as the book is now completed I think I can summarize some implementation details in more detail with this post.
+I wrote [an online book][main] using [Pollen][pollen], a static site generator in [Racket][racket]. [An earlier post][impressions] contains my first impressions of it, but as the book is now completed I think I can summarize some implementation details in more detail with this post.
 
 I *really* like the markup language and the usage of X-expressions. You do need to write code yourself for a bunch of things, but if you want a more complex markup for your site it's a trade-off I'd make every time.
 
+If you want to use Pollen yourself the [Pollen documentation][pollen] is pretty good and you can also view the [source code of my book][crypto-src] if you want more details on anything.
+
+
 # Configuring vim
 
-First off I do my writing and coding in vim (or rather neovim). I use plugins for Racket and Pollen (but truthfully I don't remember what they do, syntax highlighting perhaps?) and I also use two special chars I don't normally use:
+First off I do my writing and coding in vim (or rather [neovim][]). I use plugins for Racket and Pollen (but truthfully I don't remember what they do, syntax highlighting perhaps?) and I also have two keybindings for two special chars I don't normally use:
 
 ```{.vim}
 " Plugin handling using vim-plug 
@@ -21,13 +24,13 @@ imap <C-L> λ
 imap <C-E> ◊
 ```
 
-Pollen markup uses `◊` extensively so having an easy way to insert it is very important. And in Racket instead of writing lambdas `(lambda (x) ...)` you can write `(λ (x) ...)`. It's not necessary but I thought, why not?
+Pollen markup uses `◊` extensively so having an easy way to insert it is very important. And in Racket instead of writing lambdas `(lambda (x) ...)`{.racket} you can write `(λ (x) ...)`{.racket}. It's not necessary but I thought, why not?
 
 # Configuring Pollen
 
-The Pollen documentation does a decent job of walking you through initial setup, there's just a few gotchas I ran into.
+The [Pollen documentation][pollen] does a decent job of walking you through initial setup, there's just a few gotchas I ran into.
 
-I wanted to turn three dots into a single character "..." and also reroute links from `/index.html` to `/`, while doing the default paragraph expansion and converting quotes and dashes to their special chars as described in the Pollen docs. I ended up with these decoding functions:
+I wanted to turn three dots into a single character "..." and also remove `/index.html` from links, while doing the default paragraph expansion and converting quotes and dashes to their special chars as described in the Pollen docs. I ended up with these decoding functions:
 
 ```{.racket}
 (define (ellipses x)
@@ -47,7 +50,15 @@ I wanted to turn three dots into a single character "..." and also reroute links
                    #:exclude-tags `(figure pre)))
 ```
 
-After a while I wanted to organize my Racket files into a subfolder, and to get Pollen to recognize this I had to tell it to add them to the watchlist:
+The paragraph expansion is sometimes messed up, but I customized it by ignoring `figure` and `pre` while marking some tags as blocks:
+
+```{.racket}
+  (define block-tags (append '(img table tbody tr dt dd dl) default-block-tags))
+```
+
+This isn't perfect, and for example when creating image figures I had to call `std-decode` to parse caption text correctly.
+
+After a while I also wanted to organize my Racket files into a subfolder, and to get Pollen to recognize this I had to tell it to add them to the watchlist to have them reload the code automatically:
 
 ```{.racket}
 (module setup racket/base
@@ -56,6 +67,7 @@ After a while I wanted to organize my Racket files into a subfolder, and to get 
   (define rkt-files (glob "rkt/*.rkt"))
   (define cache-watchlist rkt-files))
 ```
+
 
 # The markup language
 
@@ -75,7 +87,7 @@ You can also specify attributes such as classes, which is quite handy:
 ◊div[#:class "my-class"]{ ... }
 ```
 
-But the real power of the markup language is how easy it is to create your own tags. Just define regular Racket functions and provide them in pollen.rkt like so: `(provide (all-from-out "rkt/tags.rkt"))`
+But the real power of the markup language is how easy it is to create your own tags. Just define regular Racket functions and provide them in pollen.rkt like so: `(provide (all-from-out "rkt/tags.rkt"))`{.racket}
 
 Here are some examples of tags I've implemented:
 
@@ -85,7 +97,7 @@ Here are some examples of tags I've implemented:
    
    ```{.racket}
    (define (code . args)
-     `(pre (code ,@args)))
+       `(pre (code ,@args)))
    ```
    
    But for a more interesting example say that you want to include an external file and highlight it like so:
@@ -106,7 +118,7 @@ Here are some examples of tags I've implemented:
        (with-output-to-string (λ () (system cmd)))))
    ```
    
-   There is an implementation in Pollen that does something similar, but it's *much* more complex.
+   There is an implementation in Pollen that does something similar, but it's *much* more complex. The simple one has worse performance, but since I only have a single instance where I highlight code it's good enough for me.
 
 3. Quotes
     
@@ -135,13 +147,55 @@ Here are some examples of tags I've implemented:
 
 5. Links
 
+   At first I used a very simple tag for links:
+
+   ```{.pollen}
+   In the text ◊link[my-link]{link text}.
+
+   ◊(define my-link "https://some-url")
+   ```
+
+   Later on I started separating links into regular links, book references and internal chapter references. This so I could mark when I had accessed external links, format book references in different ways and to generate alt-text for existing chapters easily. In practice link definitions looks like this:
+
+   ```{.racket}
+   (define 1984-book
+     (book-ref
+       "https://www.goodreads.com/book/show/40961427-1984"
+       "George Orwell"
+       "1984"))
+   (define public-key-cryptography
+     (ch-ref
+       'cryptography.html #:ref "public-key-cryptography"
+       "Public-key cryptography"))
+   (define block-0
+     (x-ref
+       "2019-10-25"
+       "https://blockchair.com/bitcoin/block/0"
+       "Bitcoin block 0"))
+   ```
+
+   And used like this:
+
+   ```{.pollen}
+   ◊book-qt[1984-book]{ ... }
+
+   ◊em{Thoughtcrime}, as explored in the book ◊(book-link 1984-book), ...
+
+   It uses ◊def[public-key-cryptography]{public-key cryptography} which allows ...
+
+   For example Satoshi ◊link[block-0]{left a message} in the first ever Bitcoin block:
+   ```
+
+   I could have gone much further with more link handling options, but I only really started branching out after I had written most of the book and going back to fix it is too much effort for no gain.
+
+
 # Sidenotes
 
-I wrote a post about [Tufte style sidenotes and marginnotes in Pollen][sidenotes] in an earlier post, but I've since then changed them from being toggle-able on smaller screens to be placed beneath the text instead of to the side.
+I wrote a post about [Tufte style sidenotes and marginnotes in Pollen][sidenotes] in an earlier post, but I've since then changed them from being hidden on smaller screens until you click them, to placed beneath the text instead of to the side.
 
 ---
 
-![On a wider screen a sidenote is placed to the right.](/images/whycrypto/sidenotes_wide.png)
+![On a wider screen sidenotes are placed to the right.](/images/whycrypto/sidenotes_wide.png)
 
 ---
 
@@ -151,13 +205,13 @@ I wrote a post about [Tufte style sidenotes and marginnotes in Pollen][sidenotes
 
 Now it would be fairly easy (or at least it's possible to style it in such a way with a lot of trial and error) to just move it to the right if it doesn't fit. But notice that on the narrower screen the sidenote is placed below the last paragraph!
 
-Indeed what I wanted is to be able to customize the placement on the narrower screen as I wanted, while the floating sidenote should be as close to their reference as possible. I solved it, but it's not very pretty...
+I wanted to be able to customize the placement on the narrower screen as I wanted, while the floating sidenote should be as close to their reference as possible. I solved it, but it's not very pretty...
 
-My first thought was to just insert two sidenotes, and just set `display:none` to hide one of them. But this would break screen readers or simplified readers such as the "reader view" in Firefox. So I opted for a more complex solution of manually modifying the top margin for each sidenote.
+My first thought was to insert two sidenotes, and set `display:none`{.css} to hide one of them. But this would break screen readers or simplified readers that removes much of the styling, such as the "reader view" in Firefox. So I opted for a more complex solution of manually modifying the top margin for each sidenote.
 
-In practice it means I insert a sidenote using `◊sn{my-ref}`, which by default inserts it below the current paragraph. If I want to manually place it somewhere else I use `◊note-pos[#:top -9]{my-ref}`. So for example:
+In practice it means I insert a sidenote using `◊sn{my-ref}`{.pollen}, which by default inserts it below the current paragraph. If I want to manually place it somewhere else I use `◊note-pos[#:top -9]{my-ref}`{.pollen}. So for example:
 
-```
+```{.pollen}
 First paragraph.◊sn{my-ref}
 
 Second paragraph.
@@ -165,7 +219,7 @@ Second paragraph.
 ◊note-pos[#:top -9]{my-ref}
 ```
 
-The text for the sidenote is given by `◊ndef["my-ref"]{Sidenote text here}`, which can be paced anywhere in the source file.
+The text for the sidenote is given by `◊ndef["my-ref"]{Sidenote text here}`{.pollen}, which can be paced anywhere in the source file.
 
 There's a bunch of sidenote specific styling, but the important parts are given by:
 
@@ -201,7 +255,7 @@ There's a bunch of sidenote specific styling, but the important parts are given 
 
 And margins are overridden by `<div class="sidenote" style="margin-top:-9em;">`{.html}.
 
-The actual implementation of `◊sn{}` and `◊ndef` has grown surprisingly large and I went through the old version in the [previous post][sidenotes], so I'll skip it here. The implementation has changed a little but not in any major way. You can always find the [latest code on GitHub][sidenote-code] if you're interested.
+The actual implementation of `◊sn`{.pollen} and `◊ndef`{.pollen} has grown surprisingly large and I went through the old version in the [previous post][sidenotes], so I'll skip it here. The implementation has changed a little but not in any major way. You can always find the [latest code on GitHub][sidenote-code] if you're interested.
 
 
 # Local markup
@@ -214,7 +268,7 @@ Another very powerful feature is that you can easily create custom markup for in
 
 ---
 
-This is the markup I came up with:
+This is the tag I came up with:
 
 ```{.racket}
 ◊(define (money title #:img img #:date [date #f] . text)
@@ -237,7 +291,7 @@ This is the markup I came up with:
 
 Which can be called like this:
 
-```
+```{.pollen}
 ◊money["Dogecoin"
        #:date "2013"
        #:img "images/doge.png"]{
@@ -261,7 +315,7 @@ To produce this html:
 
 So easy! So powerful! So great!
 
-Of course you could've done this manually in for example Markdown, but with 10 different examples that's a ton of copy-pasting making any changes to the html *really* annoying to make.
+Of course you could've done this manually in for example Markdown, but with 10 different examples that's a ton of copy-pasting making any changes to the html *really* annoying to make. I could've also written a callback in for example Hakyll (that I use for this blog) that I could then call from my markup file, but having the code embeddable right next to the markup is much nicer and more performant.
 
 I use local custom markup all over the place, another example is styling transcripts of a Youtube video:
 
@@ -271,9 +325,9 @@ I use local custom markup all over the place, another example is styling transcr
 
 ---
 
-We could be as explicit as we were with the money example, but here I'd like it to be simpler and to auto detect the timestamps. So I can write it like this:
+We could be as explicit as we were with the money example, but here I wanted it to be simpler and to auto detect the timestamps. So I can write it like this:
 
-```{.html}
+```{.pollen}
 ◊div[#:class "transcript-wrapper"]{
 
   ◊transcript{
@@ -296,7 +350,7 @@ We could be as explicit as we were with the money example, but here I'd like it 
   After killing a bunch of people they're looking at an injured person crawling on the ground wanting him to pick up a weapon---so they're allowed to kill him.
 ```
 
-This can be accomplished by writing a bit of lisp code that splits the strings on the double spaces:
+This can be accomplished by writing a bit of lisp code in the tag that splits the strings on the double spaces:
 
 ```{.racket}
 ◊(define (transcript . rows)
@@ -311,7 +365,54 @@ This can be accomplished by writing a bit of lisp code that splits the strings o
       ,@(map make-row rows)))
 ```
 
-(Yes I know that the "..." row will generate a `<span class="time">...</span>` and a `<span class="txt"></span>` element, but it doesn't really matter for our case.)
+(Yes I know that the "..." row will generate a `<span class="time">...</span>`{.html} and a `<span class="txt"></span>`{.html} element, but it doesn't affect the appearance.)
+
+
+# Table of contents
+
+Pollen have automatic support for tracking table of contents, called a pagetree. It's not something I use for two reasons:
+
+1. I wanted to be able to display chapters not written yet
+2. I wanted another hierarchy
+
+So my toc could look like this:
+
+```{.racket}
+(define toc
+  ;; This replaces the previously hand-made pagetree in index.ptree.
+  ;; String entries gets removed and are treated as planned chapters.
+  `(eli5.html
+    (about_the_book.html
+     acknowledgements.html
+     how_to_use.html
+     "Completely free"
+     "About me, the author")
+    (what_is_a_cryptocurrency.html
+     properties_of_a_cryptocurrency.html
+     how_do_cryptocurrencies_work.html
+     ...
+```
+
+Where I have a main section with a number of chapters inside and denote an unfinished chapter with the planned title. The functions that transforms this into output is also custom, see the source if you're curious.
+
+One annoyance I have is that titles of chapters are also defined with Racket code:
+
+```{.pollen}
+◊(define-meta title "For the unbanked")
+```
+
+This means I cannot automatically fetch the chapter title (for a better alt-text when linking to chapters) because it might cause a circular dependency as it has to load the whole chapter!
+
+My extremely ugly workaround was to define links and their alt-text manually:
+
+```{.racket}
+(define for_the_unbanked
+  (ch-ref
+    'for_the_unbanked.html
+    "For the unbanked"))
+```
+
+Yes this means I'll duplicate the post title, but I added chapter alt-text after the book was already done, so I didn't bother doing it a better way.
 
 
 # Unsolved annoyances
@@ -330,4 +431,6 @@ This can be accomplished by writing a bit of lisp code that splits the strings o
 [impressions]: /blog/2019/03/03/first_impressions_of_pollen/ "First impressions of Pollen"
 [sidenotes]: /blog/2019/03/04/pollen_sidenotes/ "Tufte style sidenotes and marginnotes in Pollen"
 [sidenote-code]: https://github.com/treeman/why_cryptocurrencies/blob/master/rkt/sidenotes.rkt "Github sidenotes"
+[neovim]: https://neovim.io/ "neovim"
+[crypto-src]: https://github.com/treeman/why_cryptocurrencies "Source code to the book 'Why cryptocurrencies?'"
 
