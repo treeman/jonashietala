@@ -105,6 +105,7 @@ $hr-color: $gb-lm-dark-gray;
     border-top: 1px solid $gb-lm-fg3;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .article-content .post-footer .tag-links,
@@ -118,6 +119,12 @@ $hr-color: $gb-lm-dark-gray;
     a:visited {
         color: $body-link-visited-color;
     }
+}
+
+.article-content .post-footer .commit {
+    text-align: right;
+    flex-shrink: 0;
+    flex-grow: 1;
 }
 
 

@@ -315,7 +315,7 @@ To produce this html:
 
 So easy! So powerful! So great!
 
-Of course you could've done this manually in for example Markdown, but with 10 different examples that's a ton of copy-pasting making any changes to the html *really* annoying to make. I could've also written a callback in for example Hakyll (that I use for this blog) that I could then call from my markup file, but having the code embeddable right next to the markup is much nicer and more performant.
+Of course you could've done this manually in for example Markdown, but with 10 different examples that's a ton of copy-pasting making any changes to the html *really* annoying to make. I could've also written a callback in for example Hakyll (the site generator I use for this blog) that I could then call from my markup file, but having the code embeddable right next to the markup is much nicer and more performant.
 
 I use local custom markup all over the place, another example is styling transcripts of a Youtube video:
 
@@ -373,9 +373,9 @@ This can be accomplished by writing a bit of lisp code in the tag that splits th
 Pollen have automatic support for tracking table of contents, called a pagetree. It's not something I use for two reasons:
 
 1. I wanted to be able to display chapters not written yet
-2. I wanted another hierarchy
+2. I wanted a second layer in the chapter hierarchy
 
-So my toc could look like this:
+So it could look like this:
 
 ```{.racket}
 (define toc
@@ -393,7 +393,7 @@ So my toc could look like this:
      ...
 ```
 
-Where I have a main section with a number of chapters inside and denote an unfinished chapter with the planned title. The functions that transforms this into output is also custom, see the source if you're curious.
+Where I have a main section with a number of chapters inside and denote an unfinished chapter with the planned title. The functions that transforms this into output is also custom, [see the source][crypto-src] if you're curious.
 
 One annoyance I have is that titles of chapters are also defined with Racket code:
 
@@ -415,22 +415,63 @@ My extremely ugly workaround was to define links and their alt-text manually:
 Yes this means I'll duplicate the post title, but I added chapter alt-text after the book was already done, so I didn't bother doing it a better way.
 
 
+# Hosting
+
+I've hosted my blog as a static webpage on Amazon S3 for years. It has worked well so being lazy I did the same with the book. I've described how to easily set it up with SSL [in an earlier post][S3].
+
+To update the site I use an old Perl script that shells out to `s3cmd` to upload data. It will generate commands like:
+
+
+```{.fish}
+s3cmd sync -M -m text/css --acl-public --add-header="Cache-Control: max-age=60" \
+    _site/css s3://whycryptocurrencies.com/
+```
+
+Although I've started to prefer Python for my scripts, I still have fond memories of when I wrote most of my scripts in Perl. There are things you can criticize Perl for, but it's still one of the most fun programming languages I've used.
+
+
 # Unsolved annoyances
 
-1. Styling
+There are some things that doesn't work as I want them to, but that I didn't bother fixing.
+
 1. Lack of routing control
+
+   I complained about it in [first impressions post][impressions], but it still bothers me that chapters ends with `/private_money.html` instead of `/private_money`. But removing it completely would have me rewrite the auto reload system, so I have to live with this admittedly small annoyance.
+
 2. Slow
-3. Not really practical to generate two different output formats
+
+   Regenerating the book is pretty darn slow. I also have to clean the cache when I add or change Racket functions outside of chapters, which happens more often than I'd like.
+
+1. External styling script
+
+   I wanted to use [Sass][sass] for styling and at first I tried to create a `main.css.p` file that pipes out to `sassc`, which is the way to generate arbitrary files with Pollen. I use this approach when I generate the xml feed, but I couldn't get the reload to work properly so I just used an external script for it:
+
+   ```{.bash}
+   #!/bin/bash
+   
+   sassc sass/main.scss --style compressed > css/main.css
+   echo "created: css/main.css"
+   
+   inotifywait -e close_write,moved_to,create -m sass/ |
+   while read -r directory events filename; do
+       sassc sass/main.scss --style compressed > css/main.css
+       echo "updated: css/main.css"
+   done
+   ```
+
+   It uses `inotifywait` to issue a command when files in the `sass/` folder change. It can be found in the `inotify-tools` package.
+
+And that's it I think for the large part? I'm sure I missed something, but feel free to [check out the source code][crypto-src] if you're curious about anything.
 
 [main]: https://whycryptocurrencies.com/ "Why cryptocurrencies?"
 [pollen]: https://docs.racket-lang.org/pollen/ "Pollen: the book is a program"
 [racket]: https://racket-lang.org/ "Racket"
 [sass]: https://sass-lang.com/ "Sass: CSS with superpowers"
 [what-is-money]: https://whycryptocurrencies.com/what_is_money.html "What is money?"
-
 [impressions]: /blog/2019/03/03/first_impressions_of_pollen/ "First impressions of Pollen"
 [sidenotes]: /blog/2019/03/04/pollen_sidenotes/ "Tufte style sidenotes and marginnotes in Pollen"
 [sidenote-code]: https://github.com/treeman/why_cryptocurrencies/blob/master/rkt/sidenotes.rkt "Github sidenotes"
 [neovim]: https://neovim.io/ "neovim"
 [crypto-src]: https://github.com/treeman/why_cryptocurrencies "Source code to the book 'Why cryptocurrencies?'"
+[S3]: /blog/2019/04/03/easy-setup-of-a-static-site-on-amazon-s3-with-ssl/ "Hosting a static site on Amazon S3"
 
