@@ -24,6 +24,7 @@ Dependencies
 
 1. Haskell libs: hakyll, missingH, hakyll-sass, pcre-heavy, io-streams
 2. sassc
+3. pcre, pcre-devel
 
 Blog script:
 1. Perl libs: DateTime, Modern::Perl
