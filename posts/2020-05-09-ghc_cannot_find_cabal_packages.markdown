@@ -19,8 +19,6 @@ Could not find module ‘XMonad’
 
 And indeed when I run `ghc-pkg list` it does not list xmonad. That's weird.
 
-Apparently this is [a known issue][cabal-ghc] (including the "blame game" if it's a cabal or a ghc issue, but that doesn't make it any less annoying for us who just want it work). The [ghc issue][ghc-issue] is still open.
-
 ```
 $ cabal --version
 cabal-install version 3.0.0.0
@@ -30,6 +28,8 @@ cabal-install version 3.0.0.0
 $ ghc --version
 The Glorious Glasgow Haskell Compilation System, version 8.8.3
 ```
+
+Apparently this is [a known issue][cabal-ghc] (including the "blame game" if it's a cabal or a ghc issue, but that doesn't make it any less annoying for us who just want it work). The [ghc issue][ghc-issue] is still open.
 
 Fortunately there's a solution.
 
