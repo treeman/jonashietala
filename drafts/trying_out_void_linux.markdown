@@ -122,6 +122,19 @@ HARDWARECLOCK="localtime"
 [void-time]: https://docs.voidlinux.org/config/date-time.html
 
 
+# Kill beep
+
+/etc/inputrc
+set bell-style none
+
+modprobe -r pcspkr
+
+.xinitrc
+xset b off
+
+https://unix.stackexchange.com/questions/39518/turn-off-beep-of-xorg
+
+
 # Yubikey
 
 
