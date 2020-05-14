@@ -24,3 +24,14 @@ Fixing them is annoying and time consuming, but it's not hard. Most of them were
 2. Alt text for images are required
 3. Must provide .png fallbacks for all images
 4. Cannot use `<a name="...">`
+
+
+## Mass converting files:
+
+```{.fish}
+for file in *.svg
+    inkscape -w 1024 $file --export-filename (basename $file .svg)-fallback.png
+end
+```
+
+Will from `energy-bars.svg` generate `energy-bars-fallback.png`.
