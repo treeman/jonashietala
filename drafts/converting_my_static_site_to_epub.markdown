@@ -1,6 +1,6 @@
 ---
 title: "Converting my static site to epub"
-tags: Gaming, Ludum Dare
+tags: Cryptocurrency, Programming, Pollen, Racket, Why cryptocurrencies?
 ---
 
 # Validating
@@ -16,7 +16,11 @@ Check finished with errors
 Messages: 2 fatals / 2183 errors / 2 warnings / 0 infos
 ```
 
-And this was after I had corrected my links. Sigh.
+And this was after I had made a bunch of corrections. Sigh.
 
-Fixing them is annoying and time consuming, but it's not hard.
+Fixing them is annoying and time consuming, but it's not hard. Most of them were easily fixed by updating the templates and tag generation within Pollen.
 
+1. Disallowed tags
+2. Alt text for images are required
+3. Must provide .png fallbacks for all images
+4. Cannot use `<a name="...">`
