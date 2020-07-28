@@ -3,11 +3,23 @@ title: "Beakl-Hietala 1"
 tags: Computer, Keyboards
 ---
 
-# Layout
+# Base
+
+![Legend](/images/beakl-hietala/legend.png)
 
 ![Base layer](/images/beakl-hietala/base.png)
 
-Hold home row keys for mods. SYM keys can be held to act as a mod or tapped for 1-shot. Double tap SPEC key to make it sticky, for left hand use when operating the mouse with the right hand.
+![Number layer](/images/beakl-hietala/num.png)
+
+![Function layer](/images/beakl-hietala/fun.png)
+
+![Mouse and shortcuts](/images/beakl-hietala/short.png)
+
+![Special characters](/images/beakl-hietala/spec.png)
+
+
+
+# Layout
 
 ![Coording](/images/beakl-hietala/coord1.png)
 
@@ -16,12 +28,6 @@ Hold home row keys for mods. SYM keys can be held to act as a mod or tapped for 
 ![Coording](/images/beakl-hietala/coord3.png)
 
 ![Symbols layer](/images/beakl-hietala/sym.png)
-
-![Number layer](/images/beakl-hietala/num.png)
-
-![Function layer](/images/beakl-hietala/fun.png)
-
-![Special](/images/beakl-hietala/spec.png)
 
 ![Special coording](/images/beakl-hietala/spec-coord.png)
 
@@ -44,4 +50,16 @@ There's also a coord available for mouse middle click.
 
 1. Double tap for "->" etc
 2. Symbols layout, symbols under shift and coorded symbols
+
+## Settings
+
+* Caps lock
+* Swap caps locks and escape
+* Unicode driver
+
+## Special characters
+
+* åäö
+* é and è (and the roof?)
+* €
 
