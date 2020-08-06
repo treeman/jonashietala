@@ -11,6 +11,12 @@ tags: Computer, Keyboards
 
 ![Base layer](/images/beakl-hietala/base.png)
 
+![Combos](/images/beakl-hietala/sym-combo.png)
+
+![Symbols layer](/images/beakl-hietala/sym.png)
+
+![Special keys](/images/beakl-hietala/coord1.png)
+
 ## Numbers and functions
 
 ![Number layer](/images/beakl-hietala/num.png)
@@ -25,25 +31,9 @@ tags: Computer, Keyboards
 
 ## Mouse and shortcuts
 
-![Mouse and shortcuts](/images/beakl-hietala/short.png)
+![Shortcuts and vim hjkl](/images/beakl-hietala/short.png)
 
-
-
-# Layout
-
-![Coording](/images/beakl-hietala/coord1.png)
-
-![Coording](/images/beakl-hietala/coord2.png)
-
-![Coording](/images/beakl-hietala/coord3.png)
-
-![Symbols layer](/images/beakl-hietala/sym.png)
-
-![Special coording](/images/beakl-hietala/spec-coord.png)
-
-Purple keys needs to be double tapped, to prevent accidental presses.
-
-There's also a coord available for mouse middle click.
+![Mouse and movements](/images/beakl-hietala/mov.png)
 
 
 # Analysis
@@ -63,21 +53,4 @@ While the letters themselves differ more than I expected, in general letters are
 ![Digit frequencies](/images/beakl-hietala/combined-digit-freq.svg)
 
 ![Symbol frequencies](/images/beakl-hietala/combined-symbol-freq.svg)
-
-# TODO
-
-1. Double tap for "->" etc
-2. Symbols layout, symbols under shift and coorded symbols
-
-## Settings
-
-* Caps lock
-* Swap caps locks and escape
-* Unicode driver
-
-## Special characters
-
-* åäö
-* é and è (and the roof?)
-* €
 
