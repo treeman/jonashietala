@@ -1,21 +1,27 @@
 ---
-title: "Beakl-Hietala 1"
+title: "Beakl-Hietala 0.1"
 tags: Computer, Keyboards
 ---
 
-# The layout
+This is my layout for the Gergoplex that I've been tinkering with. It uses a couple of QMK features such as combos, home row mods, one-shot layers and double taps.
 
-![Legend](/images/beakl-hietala/legend.png)
+For a writeup of *why* things look like they do, see this other post.
+
+![Legend. Does not apply to combos.](/images/beakl-hietala/legend.png)
 
 ## Base layer
 
 ![Base layer](/images/beakl-hietala/base.png)
 
-![Combos](/images/beakl-hietala/sym-combo.png)
+Combos are activated by pressing two keys at the same time. Because of switches with low resistance and flat keycaps it's easy to press between the keys.
+
+![Special combos](/images/beakl-hietala/coord1.png)
+
+## Symbols
+
+![Symbol combos on the base layer](/images/beakl-hietala/sym-combo.png)
 
 ![Symbols layer](/images/beakl-hietala/sym.png)
-
-![Special keys](/images/beakl-hietala/coord1.png)
 
 ## Numbers and functions
 
@@ -23,34 +29,15 @@ tags: Computer, Keyboards
 
 ![Function layer](/images/beakl-hietala/fun.png)
 
-## Symbols
-
 ## Special characters
 
 ![Special characters](/images/beakl-hietala/spec.png)
 
+Pressing the one-shot key `´` and then `e` creates the `é` character.
+
 ## Mouse and shortcuts
 
-![Shortcuts and vim hjkl](/images/beakl-hietala/short.png)
+![Shortcuts and rightside cursors](/images/beakl-hietala/short.png)
 
 ![Mouse and movements](/images/beakl-hietala/mov.png)
-
-
-# Analysis
-
-![Difficulty matrix](/images/beakl-hietala/diff.png)
-
-## Key frequencies
-
-![Key frequencies from code analysis, excluding space](/images/beakl-hietala/single-freq.svg)
-
-![Key frequencies from keylog session, excluding special keys](/images/beakl-hietala/single-freq-keylog.svg)
-
-While the letters themselves differ more than I expected, in general letters are more common than both digits and symbols. Therefore it's fine to choose an existing layout, such as the Beakl family.
-
-![Special keys from keylog session](/images/beakl-hietala/spec-freq-keylog.svg)
-
-![Digit frequencies](/images/beakl-hietala/combined-digit-freq.svg)
-
-![Symbol frequencies](/images/beakl-hietala/combined-symbol-freq.svg)
 
