@@ -70,9 +70,15 @@ i           ö
 s u         Swap Unicode Linux/Win
 s c         Swap Caps Lock and Escape
 c l         Caps Lock
-n l         Num Lock
 p v         Print Version
 e u         €
 b t c       ₿
 w p m       Print Words Per Minute
+
+# TODO
+
+1. One-shot QWERTY layer with mods, for shortcuts
+2. Unicode swapping, is it even possible?
+3. Special character outputs
+5. WPM
 
