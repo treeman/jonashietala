@@ -15,9 +15,18 @@ For a writeup of *why* things look like they do, see this other post.
 
 ![Base layer](/images/beakl-hietala/base.png)
 
-Combos are activated by pressing two keys at the same time. Because of switches with low resistance and flat keycaps it's easy to press between the keys.
-
-![Special combos](/images/beakl-hietala/coord1.png)
+Combo               Action
+-------             ---------
+I + E               Delete
+T + N               Backspace
+E + A               Tab
+S + T               Escape
+I + A               Activate movement layer
+Space + Y/I/E/A     One-shot Gui/Alt/Shift/Ctrl
+Return + S/T/N/B    One-shot Ctrl/Shift/Alt/Gui
+Return + A          Å
+Return + E          Ä
+Return + I          Ö
 
 # Symbols
 
@@ -37,21 +46,14 @@ For use together with the right hand on the mouse.
 
 ![Mouse and movements](/images/beakl-hietala/mov.png)
 
-Mouse left + right click combos to middle click.
+Combo                               Action
+-------                             ---------------------
+Left + Right                        Deactivate movement layer
+Mosue left + right click            Mouse middle click
 
-# Qwerty shortcuts
+# Shortcuts and special characters
 
-A one-shot left-hand QWERTY layer activated with combos.
-
-Combo               Mods
------               ------
-Space + Y           none
-Space + I           Ctrl
-Space + I + A       Ctrl + Shift
-Space + I + E       Ctrl + Alt
-Space + E           Alt
-Space + E + A       Alt + Shift
-Space + I + E + A   Ctrl + Alt + Shift
+![Left-handed shortcuts and special characters](/images/beakl-hietala/short.png)
 
 # Leader sequences
 
@@ -60,25 +62,8 @@ After pressing the "Leader" key, issue a sequence of keypresses to trigger a com
 Sequence    Command
 -------     -----------------
 Return      GUI click
-a           å
-e           ä
-i           ö
-. e         é
-, e         è
-. a         á
-, a         à
-s u         Swap Unicode Linux/Win
-s c         Swap Caps Lock and Escape
-c l         Caps Lock
-p v         Print Version
-e u         €
-b t c       ₿
-w p m       Print Words Per Minute
-
-# TODO
-
-1. One-shot QWERTY layer with mods, for shortcuts
-2. Unicode swapping, is it even possible?
-3. Special character outputs
-5. WPM
+C C         Caps lock
+S C         Swap Caps lock and escape
+P V         Print Version
+W P M       print Words Per Minute
 
