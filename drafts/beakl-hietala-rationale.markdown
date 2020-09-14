@@ -27,6 +27,8 @@ I like the analysis of both [Colemak Mod-DH][colemak-compare] and [Beakl][beakl-
 
 ![Effort grid](/images/beakl-hietala/diff.png)
 
+![New effort grid](/images/beakl-hietala/effort.png)
+
 It's important to remember that this is only ever an approximation, but the main ideas are these:
 
 1. Prioritize the 3-by-3 square in the middle
@@ -116,6 +118,8 @@ The sample size was much smaller than the code sample, to get a more accurate pr
 ![Key frequencies from code analysis, excluding space](/images/beakl-hietala/single-freq.svg)
 
 ![Key frequencies from keylog session, excluding special keys](/images/beakl-hietala/single-freq-keylog.svg)
+
+![Letter frequencies](/images/beakl-hietala/combined-letter-freq.svg)
 
 While there were some letters with significant differences between the code and keylog samples, such as `u`, `w` and `j`, in general letters are more common than both digits and symbols. Therefore it's fine to choose an existing layout that's optimized for english, which is what I write almost exclusively.
 

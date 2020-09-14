@@ -15,30 +15,62 @@ For a writeup of *why* things look like they do, see this other post.
 
 ![Base layer](/images/beakl-hietala/base.png)
 
-Combo               Action
--------             ---------
-I + E               Delete
-T + N               Backspace
-E + A               Tab
-S + T               Escape
-I + A               Activate movement layer
-Space + Y/I/E/A     One-shot Gui/Alt/Shift/Ctrl
-Return + S/T/N/B    One-shot Ctrl/Shift/Alt/Gui
-Return + A          Å
-Return + E          Ä
-Return + I          Ö
+Combos:
+
+```
+Top row
+                                                F + B       Delete
+
+Home row
+    E + A           Enter               S + T               Escape
+I + E               Tab                     T + N           Backspace
+
+Bottom row
+. + , + K           Movement layer
+```
+
+Tap dance on Alt key:
+
+Sequence            Command
+-------             -----------------
+Click               One-shot left alt
+Click hold          Left alt mod
+Double click        One-shot right alt
+Double click hold   Right alt mod
 
 # Symbols
 
-![Symbol combos on the base layer](/images/beakl-hietala/sym-combo.png)
+![Vertical symbol combos](/images/beakl-hietala/sym-combo.png)
 
-![Symbols layer](/images/beakl-hietala/sym.png)
+Combos:
 
-# Numbers and functions
+```
+Top row
+    O + U           |               C + R               ~
+H + O               +                   R + F           &
+H +     U           $               C +     F           %
+H + O + U           `               C + R + F           ^
 
-![Number layer](/images/beakl-hietala/num.png)
+Home row
+I +     A           (               S +     N           )
+I + E + A           "               S + T + N           '
+```
+
+# Number & extra character layer
+
+![UP layer](/images/beakl-hietala/num.png)
+
+```
+Home row
+    Ä + Å           Numpad enter
+```
+
+
+
+# Function layer
 
 ![Function layer](/images/beakl-hietala/fun.png)
+
 
 # Left handed mouse and movements
 
@@ -46,14 +78,24 @@ For use together with the right hand on the mouse.
 
 ![Mouse and movements](/images/beakl-hietala/mov.png)
 
-Combo                               Action
--------                             ---------------------
-Left + Right                        Deactivate movement layer
-Mosue left + right click            Mouse middle click
+Key         Double click
+----        -------
+End         Escape
 
-# Shortcuts and special characters
+Combo                                       Action
+-------                                     ---------------------
+Left + Down                                 Tab
+Down + Right                                Enter
+Mouse left + right click                    Mouse middle click
+Mouse left + (empty) + Mouse right click    Deactivate movement layer
 
-![Left-handed shortcuts and special characters](/images/beakl-hietala/short.png)
+# Left handed shortcut layer
+
+![Shortcut layer](/images/beakl-hietala/short.png)
+
+# Gaming layer
+
+![QWERTY based gaming layer](/images/beakl-hietala/gaming.png)
 
 # Leader sequences
 
@@ -61,9 +103,7 @@ After pressing the "Leader" key, issue a sequence of keypresses to trigger a com
 
 Sequence    Command
 -------     -----------------
-Return      GUI click
-C C         Caps lock
-S C         Swap Caps lock and escape
-P V         Print Version
-W P M       print Words Per Minute
-
+C           Caps lock
+Escape      Swap Caps lock and escape
+V           Print Version
+Z           Print Words Per Minute

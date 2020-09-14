@@ -26,7 +26,7 @@ txtStaticRoute = gsubRoute "static/" (const "") `composeRoutes`
 
 
 tagRoute :: Routes
-tagRoute = (customRoute $ (map toLower) . (replace " " "_") . toFilePath) `composeRoutes`
+tagRoute = (customRoute $ (map toLower) . (replace " " "_") . (replace "?" "") . toFilePath) `composeRoutes`
            gsubRoute "tags/" (const "blog/tags/") `composeRoutes`
            dropIndexRoute
 
