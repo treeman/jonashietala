@@ -1,5 +1,5 @@
 ---
-title: "Beakl-Hietala 0.1"
+title: "GeHi 0.1"
 tags: Computer, Keyboards
 ---
 
@@ -15,28 +15,25 @@ For a writeup of *why* things look like they do, see this other post.
 
 ![Base layer](/images/beakl-hietala/base.png)
 
-Combos:
-
 ```
 Top row
-                                                F + B       Delete
+                                                F + V       Delete
 
 Home row
     E + A           Enter               S + T               Escape
 I + E               Tab                     T + N           Backspace
-
-Bottom row
-. + , + K           Movement layer
 ```
 
-Tap dance on Alt key:
+Key     Click               Click hold      Double click            Double click hold
+------  -----               ----------      ------------            -----------------
+Alt     Left alt one-shot   Left alt        Right alt one-shot      Right alt
 
-Sequence            Command
+Leader sequence     Command
 -------             -----------------
-Click               One-shot left alt
-Click hold          Left alt mod
-Double click        One-shot right alt
-Double click hold   Right alt mod
+C C                 Caps lock
+S C                 Swap Caps lock and escape
+V                   Print Version
+W M                 Print Words Per Minute
 
 # Symbols
 
@@ -62,7 +59,7 @@ I + E + A           "               S + T + N           '
 
 ```
 Home row
-    Ä + Å           Numpad enter
+    2 + 3           Numpad enter
 ```
 
 
@@ -78,16 +75,11 @@ For use together with the right hand on the mouse.
 
 ![Mouse and movements](/images/beakl-hietala/mov.png)
 
-Key         Double click
-----        -------
-End         Escape
-
 Combo                                       Action
 -------                                     ---------------------
 Left + Down                                 Tab
 Down + Right                                Enter
 Mouse left + right click                    Mouse middle click
-Mouse left + (empty) + Mouse right click    Deactivate movement layer
 
 # Left handed shortcut layer
 
@@ -96,14 +88,3 @@ Mouse left + (empty) + Mouse right click    Deactivate movement layer
 # Gaming layer
 
 ![QWERTY based gaming layer](/images/beakl-hietala/gaming.png)
-
-# Leader sequences
-
-After pressing the "Leader" key, issue a sequence of keypresses to trigger a command:
-
-Sequence    Command
--------     -----------------
-C           Caps lock
-Escape      Swap Caps lock and escape
-V           Print Version
-Z           Print Words Per Minute
