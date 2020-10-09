@@ -17,7 +17,7 @@ For a writeup of *why* things look like they do, see this other post.
 
 ```
 Top row
-                                                F + V       Delete
+                                                F + Z       Delete
 
 Home row
     E + A           Enter               S + T               Escape
@@ -25,7 +25,9 @@ I + E               Tab                     T + N           Backspace
 ```
 
 Key     Click               Click hold      Double click            Double click hold
-------  -----               ----------      ------------            -----------------
+------  ------------------  ----------      --------------------    -----------------
+UP      UP one-shot         UP              FUN one-shot            FUN
+Shift   Shift one-shot      Shift           Switch to MOV layer     MOV
 Alt     Left alt one-shot   Left alt        Right alt one-shot      Right alt
 
 Leader sequence     Command
@@ -34,6 +36,7 @@ C C                 Caps lock
 S C                 Swap Caps lock and escape
 V                   Print Version
 W M                 Print Words Per Minute
+G G                 Switch to gaming layer
 
 # Symbols
 
@@ -44,7 +47,7 @@ Combos:
 ```
 Top row
     O + U           |               C + R               ~
-H + O               +                   R + F           &
+                                        R + F           &
 H +     U           $               C +     F           %
 H + O + U           `               C + R + F           ^
 
@@ -59,9 +62,8 @@ I + E + A           "               S + T + N           '
 
 ```
 Home row
-    2 + 3           Numpad enter
+    Ä + Å           Numpad enter
 ```
-
 
 
 # Function layer
