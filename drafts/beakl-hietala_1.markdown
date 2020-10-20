@@ -1,5 +1,5 @@
 ---
-title: "GeHi 0.1"
+title: "Beakl-Hietal 0.1"
 tags: Computer, Keyboards
 ---
 
@@ -26,6 +26,7 @@ I + E               Tab                     T + N           Backspace
 
 Key     Click               Click hold      Double click            Double click hold
 ------  ------------------  ----------      --------------------    -----------------
+WIN     WIN one-shot        WIN             Left GUI                Left GUI
 UP      UP one-shot         UP              FUN one-shot            FUN
 Shift   Shift one-shot      Shift           Switch to MOV layer     MOV
 Alt     Left alt one-shot   Left alt        Right alt one-shot      Right alt
@@ -69,6 +70,29 @@ Home row
 # Function layer
 
 ![Function layer](/images/beakl-hietala/fun.png)
+
+
+# Window manager layer
+
+![Window layer](/images/beakl-hietala/win.png)
+
+Command                 App
+--------                --------
+Gui + num               Switch workspace
+Gui + Q/W/E             Switch screen
+Gui + Shift + num       Move to workspace
+Gui + Shift + Q/W/E     Move to screen
+Gui + J                 Jump layout
+Gui + K                 Jump layout
+Gui + Shift + Enter     Terminal
+Gui + Space             Switch window layout
+Gui + Shift + C         Close window
+Gui + Ctrl + F          Firefox
+Gui + Ctrl + C          Chromium
+Gui + Ctrl + M          Spotify
+Gui + Ctrl + P          Screenshot
+Gui + Ctrl + B          Toggle window borders
+Gui + Y                 Focus urgent (unused?)
 
 
 # Left handed mouse and movements
