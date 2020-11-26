@@ -15,6 +15,8 @@ For a writeup of *why* things look like they do, see this other post.
 
 ![Base layer](/images/beakl-hietala/base.png)
 
+Combos:
+
 ```
 Top row
                                                 F + Z       Delete
@@ -38,6 +40,7 @@ S C                 Swap Caps lock and escape
 V                   Print Version
 W M                 Print Words Per Minute
 G G                 Switch to gaming layer
+Z                   Clear all mods
 
 # Symbols
 
@@ -48,7 +51,7 @@ Combos:
 ```
 Top row
     O + U           |               C + R               ~
-                                        R + F           &
+H + O               @                   R + F           &
 H +     U           $               C +     F           %
 H + O + U           `               C + R + F           ^
 
@@ -59,11 +62,11 @@ I + E + A           "               S + T + N           '
 
 # Number & extra character layer
 
-![UP layer](/images/beakl-hietala/num.png)
+![UP layer](/images/beakl-hietala/up.png)
 
 ```
 Home row
-    Ä + Å           Numpad enter
+    Ä + Å           Numpad enter        2 + 3           Backspace
 ```
 
 
