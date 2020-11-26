@@ -172,7 +172,7 @@ $hr-color: $gb-lm-dark-gray;
     }
     ul li::before {
         @extend %sans-serif;
-        content: "»";
+        content: "•";
     }
 }
 
