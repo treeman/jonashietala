@@ -1,11 +1,15 @@
 ---
-title: "Building a payment processor for the Coinparty 2020 hackathon"
+title: "An Elixir based payment processor for the Coinparty 2020 hackathon"
 tags: Coinparty2020
 ---
 
-Bitcoin Unlimited is hosting [a Bitcoin Cash hackathon this December][coinparty] and it seemed like a good opportunity for me to explore how to interface with cryptocurrencies for real, and it gives me an excuse to build something real with [Phoenix][] and Elixir. (Translation: it might help combat my procrastination.)
+<div style="width=800px;height=200px;background-color=green;padding=5px">
+  ![](/images/coinparty-full.svg)
+</div>
 
-Therefore I'd like to integrate BCH payments into a simple website made with the Phoenix Framework, with the possibility of extending it to a generalized cryptocurrency payment processor (if it's sufficiently useful).
+Bitcoin Unlimited is hosting [a Bitcoin Cash hackathon this December][coinparty] and it seemed like a good opportunity for me to explore how to program against Bitcoin Cash, and it gives me an excuse to build something real with [Phoenix][] and Elixir. (While an event like this might help combat my procrastination, I should really work on finishing my book, so this in itself is also procrastination.)
+
+Therefore I'd like to integrate BCH payments into a simple website made with the [Phoenix Framework][Phoenix], with the possibility of extending it to a generalized cryptocurrency payment processor (if it's sufficiently useful).
 
 I'm also doing it myself because after entertaining my two kids, my girlfriend and spending time at work there's not that much time for the hackathon, so I figured it's best if I focus on something small and do it in my own pace.
 
@@ -26,6 +30,7 @@ When looking for a payment processor or a library to help me out, I have a few r
 * Free
 * No minimum payment limit
 * No KYC/AML
+* Receive payments directly to my own crypto wallet(s)
 * I should be able to verify payments via full nodes on my own hardware
 
   If you handle higher value payments or have high privacy requirements this is a must, but for my simple use-case I don't really have to. I just *want to*.
@@ -34,6 +39,10 @@ When looking for a payment processor or a library to help me out, I have a few r
 # I couldn't find an existing solution that fits all my needs
 
 Turns out this is surprisingly hard. While it's possible my DuckDuckGo and Google skills have failed me, I couldn't find anything that fit my needs and they all require me to compromise on something. For instance:
+
+6. [BitPay][]
+
+   If I was a normal merchant I might prefer to get my payments in fiat, but it doesn't work with my requirements at all.
 
 1. [PayButton][]
 
@@ -47,9 +56,9 @@ Turns out this is surprisingly hard. While it's possible my DuckDuckGo and Googl
 
 3. [BTCPayServer][]
 
-   Many say this is the gold standard of accepting cryptocurrency payments. It does everything I want it to (and more!). Writing a custom integration shouldn't be too hard either.
+   Many say this is the gold standard of accepting cryptocurrency payments. It does everything I want (and more!). Writing a custom integration shouldn't be too hard either.
 
-   Although "BTC" in the name might lead you to believe that it only supports BTC, it does in fact support a number of other cryptocurrencies, such as Litecoin, Monero and even Bitcoin Gold...
+   Although "BTC" in the name might lead you to believe that it only supports Bitcoin, it does support a number of other cryptocurrencies, such as Litecoin, Monero and even Bitcoin Gold...
 
    But it doesn't support Bitcoin Cash.
 
@@ -76,7 +85,7 @@ Turns out this is surprisingly hard. While it's possible my DuckDuckGo and Googl
 
 # Why is this important?
 
-Now my little use-case isn't important in the grand scheme of things, and at the same time it is. So let's take a step back for a sec to see why.
+Now my little use-case isn't important in the grand scheme of things, but at the same time it is. So let's take a step back for a sec to see why.
 
 People are currently gushing over Bitcoin's price again and are asking the question *when will cryptocuriencies win?* At $50,000 per coin? At $100,000? Or perhaps at \*gasp\* $1 million?
 
@@ -100,167 +109,43 @@ My goal is simply to accept BCH payments in a small demo website, and verify the
 
 # Growing to a fully fledged project
 
+If it makes sense to do so I might develop the project further after the hackathon, and I do have a tentative plan on how to do that:
+
 1. Refactor it out into an Elixir library
 
-   To make it easy to include it into a new Elixir/Phoenix website.
+   To make it easy to include it into a new Elixir/Phoenix website. It would be great if I could do this during the hackathon as well.
 
 2. REST API
 
    On top of the library we can build a REST API so that we can integrate payments into other frameworks or e-commerce stores that don't use Elixir.
 
+2. Documentation
+
+   A boring---but very important---part of any API or service is documentation. People think that features is what differentiates the good from the bad, but frequently I find quality documentation is the decider.
+
 4. More integrations
 
-   I'll start with an integration for Phoenix, because that's the what I prefer. But there are tons of others, such as Ruby on Rails, Django, Laravel, OpenCart and WooCommerce. The goal must be to support the popular ones to make it as easy as possible to start accepting payments.
+   I'll start with an integration for Phoenix, because that's what I prefer. But there are tons of general frameworks such as Ruby on Rails, Django and Laravel, or e-commerce stores like OpenCart and WooCommerce. The goal must be to support the popular ones to make it as easy as possible to start accepting payments.
 
    And it should be easy to write your own custom integration if native support is missing or include a small JavaScript snippet à la PayButton or Stripe.
 
 3. Self-hosted and public servers
 
-   It should be easy to spin up a server of your own, so you have full control of the payment processing. But everyone don't want or need to do this, and for them we could have public servers they could connect to.
+   It should be easy to spin up a server of your own, so you have full control of the payment processing. But everyone don't want or need to do this, and for them we should have public servers they can connect to.
 
 4. Support more cryptocurrencies
 
-   For me personally I'd like to support at least BTC, BCH, XMR, LTC and ETH, but preferably more.
-
    This is important as merchants would otherwise be forced to integrate multiple payment processors for the different cryptocurrencies they'd like to support. This is very cumbersome and they might instead opt to use BTCPayServer---that lacks Bitcoin Cash---or skip cryptocurrency support entirely.
 
-# xyz
+   The fight for adoption isn't a zero-sum game between competing cryptocurrencies---it's a fight to convince the rest of the world that they should start using cryptocurrencies.
 
+Under these larger goals there are many details missing. Enhancing 0-conf security using double-spend proofs is one example, supporting different payment protocols is another.
 
-# Old
-
-
-But before explaining why I think it's even necessary, let's take a step back and look at the big picture.
-
-
-# The cryptocurrency end goal
-
-Bitcoin (BTC) has recently gone up massively in price and people love to speculate on what price we might reach this time. Will we reach a new all-time high? Will be surpass it?  And above all---at what price do you think Bitcoin has succeeded? *What's the end goal?*
-
-I think all these question miss the mark, and aren't ambitious enough.
-
-Yes it would be great if Bitcoin reached $100,000/coin or if Bitcoin Cash would be worth more than Bitcoin, but that's not the end goal.
-
-**The end goal isn't a fiat price, it's not having to care about the fiat price.**
-
-I want to be able to receive my salary, pay my bills and buy the stuff I need using cryptocurrencies, without having to go back to fiat. In short I think cryptocurrencies win when they're as widely accepted as PayPal or VISA.
-
-And for that to happen we need as many merchants as possible to accept cryptocurrencies. Which means it must be as easy as possible to accept cryptocurrencies for your business; regardless if it's in-person or online, what tech is used to build your website or whatever requirements you might have.
-
-
-# My use-case
-
-And this is where I find myself. I've [written a book][whycrypto] that's free to read online, but I'd like to put up an e-book version up for sale on my site to enable people all over the world to buy it using crypto.
-
-To make it as accessible as possible I want to support different cryptocurrencies and sell it in a pay-what-you-want scheme (but more than 0). As you can send really small amounts of money with for example Bitcoin Cash, this would for example allow people in poor countries to buy the e-book.
-
-It would also act as a good introduction for people who've received small amounts of cryptocurrency tips. For instance it's common on Reddit to tip $1 of Bitcon Cash via [chaintip][], but it's harder to find anything useful to do with that amount of money.
-
-
-# A potential problem
-
-The problem I have now is how best to accept cryptocurrencies?
-
-I have a few requirements:
-
-* Easily integrated to a custom site made with [Phoenix][]
-* Support multiple cryptocurrencies
-* Open-source
-* Free
-* No KYC/AML (meaning it must be completely non-custodial)
-* No minimum payment limit
-* Verify payments via full nodes
-
-  If you handle higher value payments or have high privacy requirements this is a must, but for my simple use-case I don't really have to. I just *want to*.
-
-Turns out this is surprisingly hard. While it's possible my DuckDuckGo and Google skills have failed me, I couldn't find anything that fit my needs.
-
-There are a bunch of projects that do something similar, for instance:
-
-1. [PayButton][]
-
-   Makes it very easy to accept Bitcoin Cash. Just add a few lines of JavaScript and you're done. But it doesn't allow you to run your own node.
-
-2. [bchwallet][]
-
-   Does nearly everything technical I want to support, I'd just have to integrate it into my site in some way. Unfortunately it only supports Bitcoin Cash.
-
-   (I might use this under the hood, but I haven't done enough research to know if I need to or if I can just interface with a node directly.)
-
-3. [BTCPayServer][]
-
-   This is the rock-star of accepting cryptocurrency payments. It does everything I want it to (and more!). Writing a custom integration shouldn't be too hard either.
-
-   Although "BTC" in the name might lead you to believe that it only supports BTC, it does in fact support a number of other cryptocurrencies, such as Litecoin, Monero and even Bitcoin Gold... But it doesn't support Bitcoin Cash.
-
-   Why?
-
-   It seems the maintainer has [bought into the BTC maximalist "BCash" propaganda][btc-bcash2]:
-
-   > I have my response. no support for it. And I will not accept PRs until all BCash wallets stop considering Bitcoin addresses as valid. (Not an help desk) Then finally I will accept PRs on the condition that the name "Bitcoin Cash" never appear. (BCH or BCash only)
-
-   Note the double standard of supporting Bitcoin Gold and Bitcoin Plus even though they both consider Bitcoin addresses as valid and they both have "Bitcoin" in their name.
-
-   ![That's a [nice pile of poo][btc-bcash1] you've got there.](/images/btcpayserver-bcash.png)
-
-   Very professional.
-
-   Not.
-
-4. [CryptoWoo][]
-
-   This is a nice plugin that supports a variety of different cryptocurrencies, and it would be exactly what I'd want except it's not open-source, it's not free if I want to support XMR and it only works in WooCommerce.
-
-5. [NOWPayments][]
-
-   Easy integration and supports lots of coins, but they have a minimum payment amount of $3-5 and they have KYC/AML.
-
-I looked at some other solutions that I don't list here, but I just couldn't find anything that fits my needs. Therefore I'll try to plug that hole.
-
-
-# Why talk about other crypto during a Bitcoin Cash hackathon?
-
-Some might find it strange or even distasteful that I'm talking about other cryptocurrencies in a Bitcoin Cash hackathon, in an article that I'm required to submit and will surely be used during judging no less.
-
-Naturally I plan to focus on Bitcoin Cash exclusively during the hackathon, and I will continue to do so until I can support the features I want, which will take much more time than I can spend on the hackathon. Bitcoin Cash is after all currently one of our best bets to realizing peer-to-peer electronic cash, so first-class support is a must.
-
-But as a larger point I think it's a bad idea to rely on a payment processor that exclusively focuses on Bitcoin Cash as it will make it hard for merchants who, like me, wants to accept other cryptos and force us to do a separate integration per crypto. Then we might instead opt to use something like BTCPayServer---that lacks Bitcoin Cash support---or skip cryptocurrencies entirely.
-
-So paradoxically I think building a payment processor that supports multiple cryptocurrencies will be more beneficial for Bitcoin Cash than building one exclusively for it. The fight for adoption isn't a zero-sum game between competing cryptocurrencies---it's a fight to convince the rest of the world that they should use cryptocurrencies.
-
-
-# A tentative plan
-
-Because I don't have a lot of time to spend on the hackathon I've decided to do it myself and I've split up the project into subtasks and I'll do as many as I can, the rest will have to wait until later.
-
-1. The MVP
-
-   The minimal solution is to be able to accept a BCH payment in a small demo website, without any bells and whistles.
-
-2. Refactor out into an Elixir library/app
-
-   It should be as easy as possible to include it into a new Elixir/Phoenix website.
-
-3. REST API
-
-   On top of the library we can build a REST API so that we can integrate payments into other frameworks or e-commerce stores that don't use Elixir.
-
-4. Easy to self-host
-
-   It should be easy to spin up a server of your own, so you have full control of the payment processing.
-
-5. More integrations
-
-   I'll start with an integration for Phoenix, because that's the what I prefer. But there are tons of others, such as Ruby on Rails, Django, Laravel, OpenCart and WooCommerce. The goal must be to support the popular ones to make it as easy as possible to start accepting payments. And as a fallback it should be easy to write your own custom integration if native support is missing.
-
-Beneath all this are many details missing. Enhancing 0-conf security using double-spend proofs is one example, supporting different payment protocols is another. Documentation sounds boring, but is extremely important for something like this.
-
-I absolutely don't expect to have time for all of this. If I manage to accept payments to a demo website, then I consider that a success for me during this hackathon. But the plan for the future is here.
+While this project could grow massively in size, I will start small and expand if it's valuable to do so. But the plan for the future is here.
 
 > Shoot for the moon. Even if you miss, you'll land among the stars.
 >
 > --- Norman Vincent Peale 
-
 
 [PayButton]: https://paybutton.org/
 [bchwallet]: https://github.com/gcash/bchwallet
@@ -276,3 +161,4 @@ I absolutely don't expect to have time for all of this. If I manage to accept pa
 [coinparty]: https://coinparty.org/
 [chaintip]: https://www.chaintip.org/
 [btcpayserver-altcoins]: https://docs.btcpayserver.org/Altcoins/
+[BitPay]: https://bitpay.com/
