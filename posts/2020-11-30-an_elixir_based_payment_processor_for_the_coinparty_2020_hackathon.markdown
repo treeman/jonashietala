@@ -1,6 +1,6 @@
 ---
-title: "An Elixir based payment processor for the Coinparty 2020 hackathon"
-tags: Coinparty2020
+title: "An Elixir based payment processor for the Coinparty hackathon"
+tags: Coinparty2020, Cryptocurrency
 ---
 
 <div style="width=800px;height=200px;background-color=green;padding=5px">
@@ -70,13 +70,13 @@ Turns out this is surprisingly hard. While it's possible my DuckDuckGo and Googl
 
    And then there's professional comments like these:
 
-   ![That's a [nice pile of poo][btc-bcash1] you've got there.](/images/btcpayserver-bcash.png)
+   ![[The market has spoken!][btc-bcash1]](/images/btcpayserver-bcash.png)
 
    Sigh.
 
 4. [CryptoWoo][]
 
-   This is a nice plugin that supports a variety of different cryptocurrencies, and it would be exactly what I'd want except it's not open-source and it only works in WooCommerce.
+   This is a nice plugin that supports a variety of different cryptocurrencies, and it would fit except it's not open-source, it's not free as I want to support XMR and it only works in WooCommerce.
 
 5. [NOWPayments][]
 
@@ -102,7 +102,7 @@ That's why it's so important to remove friction of any kind from the process of 
 
 # A simple plan for the hackathon
 
-Given that I don't have a lot of time, and I haven't programmed against cryptocurrencies before and I'll use a language and framework I have little experience with, it makes sense to have a modest goal.
+Given that I don't have a lot of time, and I haven't programmed against cryptocurrencies before and I'll also use a language and framework I have little experience with, it makes sense to have a modest goal.
 
 My goal is simply to accept BCH payments in a small demo website, and verify them using my own full node.
 
