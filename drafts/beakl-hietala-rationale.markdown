@@ -117,7 +117,8 @@ The sample size was much smaller than the code sample, to get a more accurate pr
 
 ![Key frequencies from code analysis, excluding space](/images/beakl-hietala/single-freq.svg)
 
-![Key frequencies from keylog session, excluding special keys](/images/beakl-hietala/single-freq-keylog.svg)
+
+![Key frequencies from keylog session. Alt didn't register for some reason.](/images/beakl-hietala/all-freq-keylog.svg)
 
 ![Letter frequencies](/images/beakl-hietala/combined-letter-freq.svg)
 

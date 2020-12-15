@@ -14,13 +14,12 @@ Based on [Beakl-15](https://deskthority.net/wiki/BEAKL#BEAKL_15).
 Key     Click               Click hold      Double click            Double click hold
 ------  ------------------  ----------      --------------------    -----------------
 SEC     SEC one-shot        SEC             FUN one-shot            FUN
-Alt     Left alt one-shot   Left alt        Right alt one-shot      Right alt
 
 Leader sequence     Command
 -------             -----------------
 C C                 Caps lock
 S C                 Swap Caps lock and escape
-Z                   Clear all mods
+Q                   Clear all mods
 G G                 Switch to gaming layer
 Space               Switch to movement layer
 
@@ -28,19 +27,25 @@ Space               Switch to movement layer
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
 
-Horizintal combos:
+Horizontal combos:
 
 ```
 Top row
-    O + U           +               C + R               ~
-H + O               @                   R + F           ^
-                                    C +     F           `
+Esc + H             Tab                     F + Enter   Backspace
+          O + U     *               C + R                #
+      H + O         +                   R + F            ~
+      H + O + U     %               C + R + F            $
 
 Home row
-    E + A           (               S + T               )
-I + E               "                   T + N           '
-I +     A           /               S +     N           \
-I + E + A           |               S + T + N           &
+          E + A     (               S + T               )
+      I + E         "                   T + N           '
+      I +     A     -               S +     N           _
+      I + E + A     ;               S + T + N           =
+
+Bottom row
+          , + K     ?               M + L                &
+      . + ,         !                   L + P            `
+      . + , + K     |
 ```
 
 # Second layer
@@ -53,22 +58,23 @@ Key     Click       Double click
 
 # Function layer
 
+![Function keys](/images/kyria/fun.png)
+
 # Left handed mouse and movements
 
 # Left handed shortcut layer
 
 # Gaming layer
 
+# Display information
+
+* WPM
+* Current layer (and if one-shot)
+* Active one-shot mods
+* Rotary state
+* Swapped caps lock state
+* Current keymap version
+* Info about Kyria
 
 # Ideas
-
-
-
-Layers we need some access to:
-
-* FUN
-* Left handed shortcut layer
-* QWERTY gaming layer
-
-Move delete on SEC backspace
 
