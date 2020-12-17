@@ -11,17 +11,19 @@ Based on [Beakl-15](https://deskthority.net/wiki/BEAKL#BEAKL_15).
 
 ![Base layer](/images/kyria/base.png)
 
-Key     Click               Click hold      Double click            Double click hold
-------  ------------------  ----------      --------------------    -----------------
-SEC     SEC one-shot        SEC             FUN one-shot            FUN
-
 Leader sequence     Command
 -------             -----------------
 C C                 Caps lock
-S C                 Swap Caps lock and escape
-Q                   Clear all mods
+Escape              Swap Caps lock and escape
+Enter               Clear all mods
 G G                 Switch to gaming layer
-Space               Switch to movement layer
+E                   Switch to movement layer
+
+Left rotary                     Right rotary
+----                            -----
+Alt+Tab / Shift+Alt+Tab         Raise/Lower volume
+Ctrl+Tab / Shift+Ctrl+Tab
+PageUp / PageDown
 
 ## Combos
 
