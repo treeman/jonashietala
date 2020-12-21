@@ -17,7 +17,7 @@ C C                 Caps lock
 Escape              Swap Caps lock and escape
 Enter               Clear all mods
 G G                 Switch to gaming layer
-E                   Switch to movement layer
+M                   Switch to movement layer
 
 Left rotary                     Right rotary
 ----                            -----
@@ -50,17 +50,28 @@ Bottom row
       . + , + K     |
 ```
 
-# Second layer
+# Num layer
 
-![Second layer](/images/kyria/sec.png)
+![Num layer](/images/kyria/num.png)
 
-Key     Click       Double click
-------  ---------   ------------
-~       ~ (dead)    ¨ (dead)
+Horizontal combos:
+
+```
+Top row
+                                            F + Enter   Delete
+```
 
 # Function layer
 
 ![Function keys](/images/kyria/fun.png)
+
+# Misc
+
+![Misc keys](/images/kyria/misc.png)
+
+Key     Click       Double click
+------  ---------   ------------
+~       ~ (dead)    ¨ (dead)
 
 # Left handed mouse and movements
 
@@ -79,4 +90,8 @@ Key     Click       Double click
 * Info about Kyria
 
 # Ideas
+
+* Swap Z and @? Having Z and E on the same thumb is awkward, and we could use right shift for uppercase Z.
+* Combo E/Space + home row keys?
+* If combos are too awkward, ... introduce a symbols layer?
 
