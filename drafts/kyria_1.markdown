@@ -34,20 +34,19 @@ Horizontal combos:
 ```
 Top row
 Esc + H             Tab                     F + Enter   Backspace
-          O + U     *               C + R                #
-      H + O         +                   R + F            ~
-      H + O + U     %               C + R + F            $
+          O + U     *               C + R                Q
+      H + O         +                   R + F            Z
+      H + O + U     $               C + R + F            ~
 
 Home row
           E + A     (               S + T               )
-      I + E         "                   T + N           '
-      I +     A     -               S +     N           _
-      I + E + A     ;               S + T + N           =
+      I + E         -                   T + N           _
+      I + E + A     ;               S + T + N           '
 
 Bottom row
-          , + K     ?               M + L                &
-      . + ,         !                   L + P            `
-      . + , + K     |
+          , + K     \               M + L                `
+      . + ,         |                   L + P            ^
+      . + , + K     @
 ```
 
 # Num layer
