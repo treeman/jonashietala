@@ -49,6 +49,11 @@ Bottom row
       . + , + K     @
 ```
 
+Steno-lite combos:
+
+![Steno-lite combos. Either coord Space + key or E + key, always with the same hand.](/images/kyria/steno.png)
+
+
 # Num layer
 
 ![Num layer](/images/kyria/num.png)
