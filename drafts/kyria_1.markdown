@@ -95,7 +95,9 @@ Key     Click       Double click
 
 # Ideas
 
-* Swap Z and @? Having Z and E on the same thumb is awkward, and we could use right shift for uppercase Z.
-* Combo E/Space + home row keys?
 * If combos are too awkward, ... introduce a symbols layer?
+* One-shot ctrl above one-shot shift
+* Num on far thumb button instead of inner? Maybe?
+* `=` needs a place
+
 
