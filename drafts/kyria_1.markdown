@@ -85,19 +85,22 @@ Key     Click       Double click
 
 # Display information
 
+## Left
+
+* Keymap version
+* Left rotary state
 * WPM
-* Current layer (and if one-shot)
-* Active one-shot mods
-* Rotary state
+
+## Right
+
+* Layer
+* Mods
+* Caps lock on/off?
 * Swapped caps lock state
-* Current keymap version
-* Info about Kyria
 
 # Ideas
 
 * If combos are too awkward, ... introduce a symbols layer?
-* One-shot ctrl above one-shot shift
 * Num on far thumb button instead of inner? Maybe?
 * `=` needs a place
-
 
