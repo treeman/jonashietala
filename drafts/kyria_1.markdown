@@ -33,20 +33,21 @@ Horizontal combos:
 
 ```
 Top row
-Esc + H             Tab                     F + Enter   Backspace
-          O + U     *               C + R                Q
-      H + O         +                   R + F            Z
-      H + O + U     $               C + R + F            ~
+" + H             Tab                     F + G        Enter
+        O + U     *               C + R                Q
+    H + O         +                   R + F            Z
+    H + O + U     $
 
 Home row
-          E + A     (               S + T               )
-      I + E         -                   T + N           _
-      I + E + A     ;               S + T + N           '
+        E + A     (               S + T               )
+    I + E         Escape              T + N           Backspace
+    I + E + A     ;               S + T + N           '
 
 Bottom row
-          , + K     \               M + L                `
-      . + ,         |                   L + P            ^
-      . + , + K     @
+        , + K     \               M + L                `
+    . + ,         |                   L + P            ^
+    . + , + K     @
+
 ```
 
 Steno-lite combos:
