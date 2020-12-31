@@ -122,6 +122,8 @@ The sample size was much smaller than the code sample, to get a more accurate pr
 
 ![Letter frequencies](/images/beakl-hietala/combined-letter-freq.svg)
 
+![All letter frequencies](/images/keyboard/combined-se-en-letter-freq.svg)
+
 While there were some letters with significant differences between the code and keylog samples, such as `u`, `w` and `j`, in general letters are more common than both digits and symbols. Therefore it's fine to choose an existing layout that's optimized for english, which is what I write almost exclusively.
 
 ![Special keys from keylog session](/images/beakl-hietala/spec-freq-keylog.svg)
