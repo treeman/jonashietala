@@ -27,33 +27,35 @@ PageUp / PageDown
 
 ## Combos
 
-![Vertical symbol combos](/images/kyria/sym-combo.png)
-
-Horizontal combos:
-
 ```
 Top row
-" + H             Tab                     F + G        Enter
-        O + U     *               C + R                Q
-    H + O         +                   R + F            Z
-    H + O + U     $
+K + C             Tab                     U + _       Enter
+        Y + F     Z               W + :                 
+    C + Y         Q                   : + U             
+    C + Y + F                     W + : + U
 
 Home row
-        E + A     (               S + T               )
-    I + E         Escape              T + N           Backspace
-    I + E + A     ;               S + T + N           '
+        T + H                     N + A                
+    S + T         Escape              A + I           Backspace
+    S +     H                     N +     I
+    S + T + H                     N + A + I            
 
 Bottom row
-        , + K     \               M + L                `
-    . + ,         |                   L + P            ^
-    . + , + K     @
+        G + P                     L + (               
+    V + G                             ( + )           
+    V + G + P    Movement layer   L + ( + )           Swedish layer
 
 ```
 
-Steno-lite combos:
+![Vertical symbol combos](/images/kyria/sym-combo.png)
 
-![Steno-lite combos. Either coord Space + key or E + key, always with the same hand.](/images/kyria/steno.png)
+# Shift layer
 
+![Shift overlay](/images/kyria/shift.png)
+
+# Swedish layer
+
+![Swedish overlay](/images/kyria/swe.png)
 
 # Num layer
 
@@ -69,6 +71,10 @@ Top row
 # Function layer
 
 ![Function keys](/images/kyria/fun.png)
+
+# Steno-lite combos
+
+![Steno-lite combos. Either coord Space + key or E + key, always with the same hand.](/images/kyria/steno.png)
 
 # Misc
 
