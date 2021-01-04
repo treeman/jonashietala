@@ -56,6 +56,8 @@ Bottom row
 
 ![Swedish overlay](/images/kyria/swe.png)
 
+If access to the covered symbols is required, they can be accessed with the `BASE SYM` key.
+
 # Num layer
 
 ![Num layer](/images/kyria/num.png)
