@@ -29,21 +29,20 @@ PageUp / PageDown
 
 ```
 Top row
-K + C             Tab                     U + _       Enter
-        Y + F     Z               W + :                 
-    C + Y         Q                   : + U             
-    C + Y + F                     W + : + U
+K + C             Tab                     U + _     Backspace
+        Y + F     Z               W + :             ^
+    C + Y         Q                   : + U         $
 
 Home row
-        T + H                     N + A                
-    S + T         Escape              A + I           Backspace
-    S +     H                     N +     I
-    S + T + H                     N + A + I            
+        T + H     '               N + A             "
+    S + T         Escape              A + I         Enter
+    S +     H     -               N +     I         +
+    S + T + H     ;               N + A + I         =
 
 Bottom row
-        G + P                     L + (               
-    V + G                             ( + )           
-    V + G + P    Movement layer   L + ( + )           Swedish layer
+        G + P     `               L + (             \
+    V + G         |                   ( + )         @
+    V + G + P     Movement layer  L + ( + )         Swedish layer
 
 ```
 
