@@ -60,13 +60,6 @@ Bottom row
 
 ![Num layer](/images/kyria/num.png)
 
-Horizontal combos:
-
-```
-Top row
-                                            F + Enter   Delete
-```
-
 # Function layer
 
 ![Function keys](/images/kyria/fun.png)
