@@ -48,9 +48,7 @@ And so 2020 has come to an end. On a global scale it's been quite a horrible yea
 5. Built some custom keyboards: the [GergoPlex][] and the [Kyria][].
 5. Got up to 40-50 wpm on an alternate keyboard layout.
 
-   It was based on [BEAKL 15][], with some modifications:
-
-   ![](/images/beakl-hietala/base.png)
+   ![Based on [BEAKL 15][], with some modifications.](/images/beakl-base.png)
 
    However as I'm writing this I've moved on to yet another layout. The jury is still out on that one.
 
@@ -76,7 +74,9 @@ And so 2020 has come to an end. On a global scale it's been quite a horrible yea
 
 # Plans for 2020
 
-1. Finish the book.
+0. Take the COVID vaccine.
+1. Grapple more.
+1. Finish the book project.
 1. Completely migrate to the new keyboard and the new layout.
 1. Read more books.
 1. Focus on personal development and/or another project.
