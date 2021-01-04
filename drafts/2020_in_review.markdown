@@ -3,7 +3,7 @@ title: "2020 in review"
 tags: Yearly Review
 ---
 
-And so 2020 has come to an end. On a global scale it's been quite a horrible year, and for me personally it's been both good and bad. Luckily we haven't been directly affected by COVID too much, but it's still been very disruptive.
+And so 2020 has come to an end. On a global scale it's been quite a horrible year, and for me personally it's been both good and bad. Luckily we haven't been directly affected by COVID too much, but it's still been very disruptive. Either way as [I've done for years now][previous years] it always makes me feel better to do a little yearly review, as when I sit down in write it down I've always done more things than I first realize.
 
 # 2020 Non-Geek Achievements
 
@@ -43,12 +43,14 @@ And so 2020 has come to an end. On a global scale it's been quite a horrible yea
 
 2. Started working professionally in Rust.
 
-   I've come into the mindset of personal development and steering my software development career to focus on technologies that I find interesting and think are really good is something I want to prioritize. Having a job that pays me to work on Rust fits this perfectly.
+   I've come into the mindset of personal development and steering my software development career to focus on technologies that I find interesting and think are really good is something I want to prioritize. Having a job that pays me to work on Rust fits perfectly.
 
-5. Built some custom keyboards: the Gergoplex and the Kyria.
+5. Built some custom keyboards: the [GergoPlex][] and the [Kyria][].
 5. Got up to 40-50 wpm on an alternate keyboard layout.
 
-   It was based on BEAKL-15, with some modifications.
+   It was based on [BEAKL 15][], with some modifications:
+
+   ![](/images/beakl-hietala/base.png)
 
    However as I'm writing this I've moved on to yet another layout. The jury is still out on that one.
 
@@ -62,13 +64,19 @@ And so 2020 has come to an end. On a global scale it's been quite a horrible yea
 
    COVID didn't kill me or my family, but it as good as killed my biggest hobby.
 
+2. Did not actually finish the book.
+
+   It's easy to blame COVID or getting another child, but the truth is as the project's nearing completion I've been running out of steam. Writing a chapter was easy, but proof-reading it and polishing it is harder. Uploading a chapter online was easy, but formating it in InDesign is harder.
+
+   Realistically there's not that much left, but it still feels like walking in mud. Maybe that's just how it feels with big projects like these? I'm certainly a starter, not a finisher.
+
 3. Did not blog that much.
 
-   I want to blog more and do more big articles, but that will have to wait until my book is done and out. My writing energy isn't enough to do them both.
+   I want to blog more and do more big articles, but that will have to wait until my book project is completely done. My writing energy isn't enough to do them both.
 
 # Plans for 2020
 
-1. Actually finish the book.
+1. Finish the book.
 1. Completely migrate to the new keyboard and the new layout.
 1. Read more books.
 1. Focus on personal development and/or another project.
@@ -84,3 +92,6 @@ And so 2020 has come to an end. On a global scale it's been quite a horrible yea
 [progecto]: https://pragprog.com/titles/wmecto/programming-ecto/ "Programming Ecto"
 [progelixir]: https://pragprog.com/titles/elixir16/programming-elixir-1-6/ "Programming Elixir"
 [elaction]: https://www.manning.com/books/elixir-in-action "Elixir in Action"
+[Kyria]: https://splitkb.com/products/kyria-pcb-kit "Kyria PCB Kit"
+[GergoPlex]: https://www.gboards.ca/product/gergoplex "GergoPlex"
+[BEAKL 15]: https://deskthority.net/wiki/BEAKL#BEAKL_15 "BEAKL 15 keyboard layout"
