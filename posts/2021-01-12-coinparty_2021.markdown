@@ -1,0 +1,14 @@
+---
+title: "The Coinparty hackathon, take two"
+tags: Coinparty2021, Cryptocurrency
+---
+
+In December [I declared][dec-decl] that I would enter a [Bitcoin Cash hackathon][coinparty] and I was excited to give my procrastination a kick in the balls. Unfortunately the hackathon was postponed to January just an hour later. Maybe the organizers didn't think my project was exciting enough or something? Oh well.
+
+It's January and I want to give it a try again! This time I got my friend to join me, but otherwise the project is the same. [The article I wrote last time][dec-decl] is still relevant, so you should go read that.
+
+[Link to the devpost page][devpost] where we'll try to post some updates.
+
+[coinparty]: https://coinparty.org/ "Coinparty, a Bitcoin Cash hackathon"
+[dec-decl]: /blog/2020/11/30/an_elixir_based_payment_processor_for_the_coinparty_2020_hackathon/ "An Elixir based payment processor for the Coinparty hackathon"
+[devpost]: https://devpost.com/software/bitpal "BitPal on DevPost"
