@@ -29,21 +29,20 @@ PageUp / PageDown
 
 ```
 Top row
-K + C             Tab                     U + _     Backspace
-        Y + F     Z               W + :             ^
-    C + Y         Q                   : + U         $
+    Y + D     Z               W + :             !
+C + Y         Q                   : + U         ?
+C + Y + D     %               W + : + U         &
 
 Home row
-        T + H     '               N + A             "
-    S + T         Escape              A + I         Enter
-    S +     H     -               N +     I         +
-    S + T + H     ;               N + A + I         =
+    T + H     Escape          N + A             =
+S + T         Tab                 A + I         Enter
+S +     H     -               N +     I         +
+S + T + H     ;               N + A + I         _
 
 Bottom row
-        G + P     `               L + (             \
-    V + G         |                   ( + )         @
-    V + G + P     Movement layer  L + ( + )         Swedish layer
-
+    G + P     $               L + (             #
+V + G         *                   ( + )         '
+V + G + P     Movement layer  L + ( + )         Swedish layer
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
@@ -70,13 +69,9 @@ If access to the covered symbols is required, they can be accessed with the `BAS
 
 ![Steno-lite combos. Either coord Space + key or E + key, always with the same hand.](/images/kyria/steno.png)
 
-# Misc
+# Spec
 
-![Misc keys](/images/kyria/misc.png)
-
-Key     Click       Double click
-------  ---------   ------------
-~       ~ (dead)    ¨ (dead)
+![Special keys](/images/kyria/spec.png)
 
 # Left handed mouse and movements
 
@@ -88,16 +83,17 @@ Key     Click       Double click
 
 ## Left
 
-* Keymap version
 * Left rotary state
-* WPM
-
-## Right
 
 * Layer
 * Mods
 * Caps lock on/off?
 * Swapped caps lock state
+
+## Right
+
+* Keymap version
+* WPM
 
 # Ideas
 
