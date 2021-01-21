@@ -1,6 +1,6 @@
 ---
 title: "The Coinparty hackathon, take two"
-tags: Coinparty2021, Cryptocurrency
+tags: Coinparty, Cryptocurrency
 ---
 
 In December [I declared][dec-decl] that I would enter a [Bitcoin Cash hackathon][coinparty] and I was excited to give my procrastination a kick in the balls. Unfortunately the hackathon was postponed to January just an hour later. Maybe the organizers didn't think my project was exciting enough or something? Oh well.
