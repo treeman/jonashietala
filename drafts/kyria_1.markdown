@@ -7,17 +7,9 @@ tags: Computer, Keyboards
 
 # Base layer
 
-Based on [Beakl-15](https://deskthority.net/wiki/BEAKL#BEAKL_15).
+Based on [RSTHD](https://xsznix.wordpress.com/2016/05/16/introducing-the-rsthd-layout/).
 
 ![Base layer](/images/kyria/base.png)
-
-Leader sequence     Command
--------             -----------------
-C C                 Caps lock
-Escape              Swap Caps lock and escape
-Enter               Clear all mods
-G G                 Switch to gaming layer
-M                   Switch to movement layer
 
 Left rotary                     Right rotary
 ----                            -----
@@ -29,19 +21,20 @@ PageUp / PageDown
 
 ```
 Top row
-    Y + D     Z               W + :             !
-C + Y         Q                   : + U         ?
-C + Y + D     %               W + : + U         &
+    Y + F        Z             W + :             !
+C + Y         Q                    : + U         ?
+C + Y + F      %               W + : + U         &
 
 Home row
-    T + H     Escape          N + A             =
-S + T         Tab                 A + I         Enter
-S +     H     -               N +     I         +
-S + T + H     ;               N + A + I         _
+    T + H        Escape        N + A             One shot shift
+S + T         Tab                  A + I           Enter
+S +     H      -               N +     I          +
+S + T + H      ;               N + A + I          _
 
 Bottom row
     G + P     $               L + (             #
 V + G         *                   ( + )         '
+V +     P     ^
 V + G + P     Movement layer  L + ( + )         Swedish layer
 ```
 
