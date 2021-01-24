@@ -1,7 +1,34 @@
 ---
-title: "Coinparty retrospective"
-tags: Coinparty, Cryptocurrency 
+title: "Jumping into Elixir during a one-week hackathon"
+tags: Coinparty, Cryptocurrency
 ---
+
+# The hackathon idea
+
+
+
+# Not much experience
+
+* Both of us had other commitments so we couldn't focus on this full-time.
+* I had some experience with Elixir and Phoenix, but had never made anything real with them.
+* While we both had a high level understanding of cryptocurrencies, we've never programmed against them.
+
+# Phoenix LiveView is great
+
+One of the great things about Phoenix is LiveView. It gives you the ability to write websites that updates the page in real-time but without having to write any JavaScript, so all your templates and logic can be handled in the same manner on the server.
+
+This doesn't fully replace JavaScript or frontend frameworks, but you can get very far very quickly. This is something I felt when I implemented the UI transitions for a payment, in the first few hours of the hackathon and without any prior experience with LiveView.
+
+# Other things I liked
+
+1. Functional programming and immutability
+2. Processes
+3. LSP integration with Neovim worked great
+4. mix
+
+# Things I missed
+
+1. Static typing, and especially enums
 
 # Phoenix LiveView is great
 
@@ -78,3 +105,5 @@ defmodule Demo.PaymentLive do
 end
 
 ```
+
+

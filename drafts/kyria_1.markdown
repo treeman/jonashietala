@@ -9,6 +9,8 @@ tags: Computer, Keyboards
 
 Based on [RSTHD](https://xsznix.wordpress.com/2016/05/16/introducing-the-rsthd-layout/).
 
+See [Bigram frequencies](http://norvig.com/mayzner.html)
+
 ![Base layer](/images/kyria/base.png)
 
 Left rotary                     Right rotary
