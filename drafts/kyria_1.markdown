@@ -23,28 +23,24 @@ PageUp / PageDown
 
 ```
 Top row
-    Y + F        Z             W + :             !
-C + Y         Q                    : + U         ?
-C + Y + F      %               W + : + U         &
+    Y + F        Z
+C + Y         Q
 
 Home row
-    T + H        Escape        N + A             One shot shift
+    T + H        Escape        N + A             ;
 S + T         Tab                  A + I           Enter
-S +     H      -               N +     I          +
-S + T + H      ;               N + A + I          _
+S + T + H      '               N + A + I          "
 
 Bottom row
-    G + P     $               L + (             #
-V + G         *                   ( + )         '
-V +     P     ^
+    G + P        ^            L + (             $
 V + G + P     Movement layer  L + ( + )         Swedish layer
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
 
-# Shift layer
+# Symbols
 
-![Shift overlay](/images/kyria/shift.png)
+![Symbols layer](/images/kyria/symbols.png)
 
 # Swedish layer
 

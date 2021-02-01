@@ -100,7 +100,7 @@ This will notify `handle_info` (as it's a GenServer), and we can continue our tr
 
 And the UI is basically complete!
 
-I managed to figure this out with very little experience with Elixir, Phoenix, LiveView or Genservers, quite quickly, which I think is a testament to how easy it is to work with.
+I managed to figure this out with little experience with Elixir, Phoenix, LiveView or Genservers, quite quickly, which I think is a testament to how easy it is to work with.
 
 
 
