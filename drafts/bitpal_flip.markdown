@@ -8,7 +8,16 @@ After the [Coinparty hackathon][coinparty] where our self-hosted payment process
 
 # The BitPal vision
 
+> The end goal isn’t a fiat price, it’s not having to care about the fiat price.
+
+The unique property of cryptocurrencies is the removal of a third party. It means you can accept payments for whatever you want, without having to worry about KYC, censorship or third-party fees.
+
+To reach this goal merchants need to process payments on their own, and that's what BitPal is all about. It's a payment processor focused on reliability and extendability where you validate payments using your own hardware.
+
+Please see our [declaration to join the coinparty hackathon][join-coinparty] and [the BitPal vision][vision] for some background on BitPal and where we want the project to end up.
+
 [vision]: https://read.cash/@jonas_h/the-bitpal-vision-8f038540
+[join-coinparty]: https://read.cash/@jonas_h/an-elixir-based-payment-processor-for-the-coinparty-2020-hackathon-21d199a4
 [vision-discussion]: https://www.reddit.com/r/btc/comments/l09k7a/bitpal_a_selfhosted_payment_processor_for_the/
 [verde]: https://flipstarter.bitcoinverde.org/
 [coinparty]: https://coinparty.org/
@@ -20,11 +29,18 @@ After the [Coinparty hackathon][coinparty] where our self-hosted payment process
 
 # What you'll get
 
+Although there are many things we'd like to work on, for this Flipstarter we're trying to focus on the most important issues in order to reach the MVP state.
+
+It's super important to understand that this Flipstarter will fund a fixed working hours, and while we estimate that we can get these items done in that time, there's no guarantee. Time estimation is one of the hardest things in software development and it's common to widely underestimate (or overestimate) how much work a task requires.
+
+And if we have extra time there are plenty of other features not listed here that we can start working on. For example adding an SPV configuration, to offer a more lightweight alternative to running a full node, or creating integrations for popular languages or frameworks.
+
+
 ## Making it production ready
 
-While we did some good things during the hackathon (we do have [a working demo](https://bitpal.dev/) up and running) there are some fundamentals things we need to improve:
+While we did some good things during the hackathon (we do have [a working demo][demo] up and running) there are some fundamentals things we need to improve:
 
-[demo]: 
+[demo]: https://bitpal.dev/
 
 1. Refactoring & tests
 
@@ -38,7 +54,7 @@ While we did some good things during the hackathon (we do have [a working demo](
 
    Making the payment processor extendible would allow us to easily add support for SLP tokens, add a backend for SPV security or switch out our current Flowee powered backend for BCHN. We don't plan to implement these extensions in this Flipstarter, but it's important to set the correct design early in the project.
 
-   It may sound like a lot of work, but the implementation is already modular so we just have to ensure we don't have unnecessary coupling between them and define some common interfaces.
+   It may sound like a lot of work, but the implementation is already quite modular so we just have to ensure we don't have unnecessary coupling between them and define some common interfaces.
 
 3. Modern payment support
 
@@ -60,21 +76,25 @@ It's not sexy to spend time on documentation, but it's still one of the most imp
 
 # Requested funding
 
+We request X BCH to cover hosting costs and to fund us taking a break from other commitments to work on BitPal for Y hours over the course of Z.
 
 ## Hosting
 
-$70/month for 6 months = $420
-
-if 1 BCH = $400 => 1.05 BCH (Round up to 1.5 or 2.0?)
+We host BitPal on DigitalOcean and 1.5 BCH should cover hosting for around 6 months.
 
 ## Work hours
 
+Both Jonas and Filip has many things going on and work hours must therefore be flexible. The hours will be put in, but it may happen that a lot of work is done one week but nothing is done the week after. We estimate that the project will be done around July (depending on when the Flipstarter finishes), and we'll post regular updates to help you keep us accountable.
+
+We calculate 1 hour = 0.3 BCH.
+
 ### Jonas
 
-During Mars/April 10 hours/week and in May transition to 20 hours/week or more for 240 hours in total, expected to finish in July.
+Jonas will work 240 hours in total, for 72.0 BCH, with *around* 10 hours/week the first two months and after that transition to around 20 hours/week (and sometimes more) until the hours are done.
 
 ### Filip
 
+...
 
 # How you'll stay updated
 
@@ -85,22 +105,14 @@ Roughly once a month (depending on how much time we can commit to that particula
 
 # Who are we?
 
-Jonas has been active in the BCH community long before BCH split from BTC and is an avid supporter of the p2p digital cash vision.  He's writing [a book about cryptocurrencies](https://whycryptocurrencies.com/) that aims to teach people about the usefulness of crypto as money and you can reach him on Reddit as [/u/jonas_h](https://www.reddit.com/user/jonas_h/).
+Jonas has been active in the BCH community long before BCH split from BTC and is an avid supporter of the p2p digital cash vision.  He's writing [a book about cryptocurrencies](https://whycryptocurrencies.com/) that aims to teach people about the usefulness of crypto as money and is active on Reddit as [/u/jonas_h](https://www.reddit.com/user/jonas_h/).
 
 Filip ...
 
 
-# What if it isn't successful?
+# How to contact us?
 
-Funding?
-
-* Premium support/consulting
-* Have the pubic REST API be paid over X txs.
-
-
-If we cannot get funding then we cannot take time off work to work on this project, so the progress 
-
-As the funds would allow us to take time off work, the progress will naturally be much slower.
+Please reach out to <contact@bitpal.dev>.
 
 
 [good-doc]: https://documentation.divio.com/
