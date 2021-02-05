@@ -13,11 +13,16 @@ See [Bigram frequencies](http://norvig.com/mayzner.html)
 
 ![Base layer](/images/kyria/base.png)
 
-Left rotary                     Right rotary
-----                            -----
-Alt+Tab / Shift+Alt+Tab         Raise/Lower volume
-Ctrl+Tab / Shift+Ctrl+Tab
-PageUp / PageDown
+Layer           Left rotary                 Right rotary
+----            ----                        -----
+BASE            Ctrl+Tab / Shift+Ctrl+Tab   Raise/Lower volume
+MOVE            Alt+Tab / Shift+Alt+Tab
+
+Key                     Double tap
+----                    -----
+.                       \<space\>.\<one-shoft shift\>
+!                       \<space\>!\<one-shoft shift\>
+?                       \<space\>?\<one-shoft shift\>
 
 ## Combos
 
@@ -31,9 +36,15 @@ Home row
 S + T         Tab                  A + I           Enter
 S + T + H      '               N + A + I          "
 
+        H                      N                 Caps lock
+S                                      I         Right alt
+
 Bottom row
     G + P        ^            L + (             $
 V + G + P     Movement layer  L + ( + )         Swedish layer
+
+Thumb combos
+Space + H       " = "
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
@@ -42,15 +53,23 @@ V + G + P     Movement layer  L + ( + )         Swedish layer
 
 ![Symbols layer](/images/kyria/symbols.png)
 
+Combos work with the same key positions as on the base layer.
+
 # Swedish layer
 
 ![Swedish overlay](/images/kyria/swe.png)
 
-If access to the covered symbols is required, they can be accessed with the `BASE SYM` key.
+If access to the covered symbols is required, they can be accessed with `Ctrl`.
 
 # Num layer
 
 ![Num layer](/images/kyria/num.png)
+
+## Combos
+
+```
+Space + 0       =
+```
 
 # Function layer
 
@@ -74,21 +93,14 @@ If access to the covered symbols is required, they can be accessed with the `BAS
 
 ## Left
 
-* Left rotary state
-
 * Layer
 * Mods
-* Caps lock on/off?
+* Caps lock, capsword, symword
 * Swapped caps lock state
+* Windows/Linux state
 
 ## Right
 
 * Keymap version
 * WPM
-
-# Ideas
-
-* If combos are too awkward, ... introduce a symbols layer?
-* Num on far thumb button instead of inner? Maybe?
-* `=` needs a place
 

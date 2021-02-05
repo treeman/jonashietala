@@ -107,7 +107,7 @@ Roughly once a month (depending on how much time we can commit to that particula
 
 Jonas has been active in the BCH community long before BCH split from BTC and is an avid supporter of the p2p digital cash vision.  He's writing [a book about cryptocurrencies](https://whycryptocurrencies.com/) that aims to teach people about the usefulness of crypto as money and is active on Reddit as [/u/jonas_h](https://www.reddit.com/user/jonas_h/).
 
-Filip ...
+Filip is a low-level hacker, and has been poking around with both concurrency and programming language design and implementation (<https://storm-lang.org/>) for a number of years now. He's also actively teaching concurrency and data structures and algorithms at a university.
 
 
 # How to contact us?
