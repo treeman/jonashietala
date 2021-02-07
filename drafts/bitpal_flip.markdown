@@ -76,7 +76,7 @@ It's not sexy to spend time on documentation, but it's still one of the most imp
 
 # Requested funding
 
-We request X BCH to cover hosting costs and to fund us taking a break from other commitments to work on BitPal for Y hours over the course of Z.
+We request 85.5 BCH to cover hosting costs and to fund us taking a break from other commitments to work on BitPal for 280 hours over the course of around 6 months.
 
 ## Hosting
 
@@ -86,15 +86,9 @@ We host BitPal on DigitalOcean and 1.5 BCH should cover hosting for around 6 mon
 
 Both Jonas and Filip has many things going on and work hours must therefore be flexible. The hours will be put in, but it may happen that a lot of work is done one week but nothing is done the week after. We estimate that the project will be done around July (depending on when the Flipstarter finishes), and we'll post regular updates to help you keep us accountable.
 
+To get the project started we'll work 5--10 hours/week the first two months and then transition to +20 hours/week until the work is done, which should be some time in July.
+
 We calculate 1 hour = 0.3 BCH.
-
-### Jonas
-
-Jonas will work 240 hours in total, for 72.0 BCH, with *around* 10 hours/week the first two months and after that transition to around 20 hours/week (and sometimes more) until the hours are done.
-
-### Filip
-
-...
 
 # How you'll stay updated
 
