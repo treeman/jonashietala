@@ -14,7 +14,7 @@ The unique property of cryptocurrencies is the removal of a third party. It mean
 
 To reach this goal merchants need to process payments on their own, and that's what BitPal is all about. It's a payment processor focused on reliability and extendability where you validate payments using your own hardware.
 
-Please see our [declaration to join the coinparty hackathon][join-coinparty] and [the BitPal vision][vision] for some background on BitPal and where we want the project to end up.
+Please see our [declaration to join the coinparty hackathon][join-coinparty] and [the BitPal vision][vision] (and [the discussion][vision-discussion]) for some background on BitPal and where we want the project to end up.
 
 [vision]: https://read.cash/@jonas_h/the-bitpal-vision-8f038540
 [join-coinparty]: https://read.cash/@jonas_h/an-elixir-based-payment-processor-for-the-coinparty-2020-hackathon-21d199a4
