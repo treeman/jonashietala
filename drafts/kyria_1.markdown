@@ -18,18 +18,21 @@ Layer           Left rotary                 Right rotary
 BASE            Ctrl+Tab / Shift+Ctrl+Tab   Raise/Lower volume
 MOVE            Alt+Tab / Shift+Alt+Tab
 
-Key                     Double tap
-----                    -----
-.                       \<space\>.\<one-shoft shift\>
-!                       \<space\>!\<one-shoft shift\>
-?                       \<space\>?\<one-shoft shift\>
+## Overrides
+
+Mods                        Key             Command
+---                         ---             ------
+Shift + Ctrl + Alt + Gui    Caps / Escape    Swap Caps & Escape
+Shift + Ctrl + Alt + Gui    N                Swap Linux & Windows
+
 
 ## Combos
 
 ```
 Top row
-    Y + F        Z
-C + Y         Q
+Y + C       Backspace                  U + :     Delete
+    C + K     Q
+        K + F    Z
 
 Home row
     T + H        Escape        N + A             ;
@@ -59,17 +62,11 @@ Combos work with the same key positions as on the base layer.
 
 ![Swedish overlay](/images/kyria/swe.png)
 
-If access to the covered symbols is required, they can be accessed with `Ctrl`.
+If access to the covered symbols is required, they can be accessed with `Ctrl` or the regular `SYM` switch.
 
 # Num layer
 
 ![Num layer](/images/kyria/num.png)
-
-## Combos
-
-```
-Space + 0       =
-```
 
 # Function layer
 
@@ -79,11 +76,9 @@ Space + 0       =
 
 ![Steno-lite combos. Either coord Space + key or E + key, always with the same hand.](/images/kyria/steno.png)
 
-# Spec
-
-![Special keys](/images/kyria/spec.png)
-
 # Left handed mouse and movements
+
+![Left handed movement + shortcuts](/images/kyria/move.png)
 
 # Left handed shortcut layer
 

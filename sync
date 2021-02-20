@@ -73,6 +73,7 @@ sub sync {
 
 sub capture_sync {
     my $cmd = sync_cmd (@_);
+    say $cmd;
     my @output = `$cmd`;
     return @output;
 }
