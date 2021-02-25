@@ -62,7 +62,7 @@ Combos work with the same key positions as on the base layer.
 
 ![Swedish overlay](/images/kyria/swe.png)
 
-If access to the covered symbols is required, they can be accessed with `Ctrl` or the regular `SYM` switch.
+If access to the covered symbols is required, they can be accessed with the regular `SYM` switch.
 
 # Num layer
 
@@ -72,15 +72,17 @@ If access to the covered symbols is required, they can be accessed with `Ctrl` o
 
 ![Function keys](/images/kyria/fun.png)
 
+# Left handed mouse and movements
+
+![Left handed movement](/images/kyria/move.png)
+
+# Shortcut layer
+
+![Shortcuts](/images/kyria/short.png)
+
 # Steno-lite combos
 
 ![Steno-lite combos. Either coord Space + key or E + key, always with the same hand.](/images/kyria/steno.png)
-
-# Left handed mouse and movements
-
-![Left handed movement + shortcuts](/images/kyria/move.png)
-
-# Left handed shortcut layer
 
 # Gaming layer
 
