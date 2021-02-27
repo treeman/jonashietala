@@ -13,31 +13,31 @@ See [Bigram frequencies](http://norvig.com/mayzner.html)
 
 ![Base layer](/images/kyria/base.png)
 
-Layer           Left rotary                 Right rotary
+Layer/Mods      Left rotary                 Right rotary
 ----            ----                        -----
 BASE            Ctrl+Tab / Shift+Ctrl+Tab   Raise/Lower volume
-MOVE            Alt+Tab / Shift+Alt+Tab
+NAV             Mouse wheel up / down       Ctrl+Z / Ctrl+Shift+Z
+Alt             Alt+Tab / Shift+Alt+Tab
 
-## Overrides
-
-Mods                        Key             Command
----                         ---             ------
-Shift + Ctrl + Alt + Gui    Caps / Escape    Swap Caps & Escape
-Shift + Ctrl + Alt + Gui    N                Swap Linux & Windows
-
+Might consider workspace switching 0..9, screen switching w/e/r or focus switching j/k.
 
 ## Combos
 
 ```
 Top row
-Y + C       Backspace                  U + :     Delete
-    C + K     Q
+Y + C          Delete                  U + :       Backspace
+    C + K       Q                  . + U          C+W (delete word)
+    C +     F   :q<enter>      W +     U         :w<enter>
         K + F    Z
+
+:q<enter>
+
 
 Home row
     T + H        Escape        N + A             ;
 S + T         Tab                  A + I           Enter
-S + T + H      '               N + A + I          "
+S +     H      ` = `
+S + T + H      "               N + A + I          '
 
         H                      N                 Caps lock
 S                                      I         Right alt
@@ -45,9 +45,6 @@ S                                      I         Right alt
 Bottom row
     G + P        ^            L + (             $
 V + G + P     Movement layer  L + ( + )         Swedish layer
-
-Thumb combos
-Space + H       " = "
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
@@ -72,13 +69,30 @@ If access to the covered symbols is required, they can be accessed with the regu
 
 ![Function keys](/images/kyria/fun.png)
 
-# Left handed mouse and movements
+# Navigation layer
 
-![Left handed movement](/images/kyria/move.png)
+![Navigation with mouse buttons and shortcuts for left-handed usage](/images/kyria/nav.png)
 
-# Shortcut layer
+## Combos
 
-![Shortcuts](/images/kyria/short.png)
+```
+Top row
+C + W           Ctrl Q
+
+Middle row
+S + T           Tab
+    T + MLB     Escape
+S + T + MLB     Enter
+
+Bottom row
+V + X           End
+    X + MRB     Home
+
+Vertical
+MLB + MRB       Middle mouse button
+C + S           Backward
+W + T           Forward
+```
 
 # Steno-lite combos
 
