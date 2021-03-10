@@ -13,61 +13,35 @@ See [Bigram frequencies](http://norvig.com/mayzner.html)
 
 ![Base layer](/images/kyria/base.png)
 
-Layer/Mods      Left rotary                 Right rotary
-----            ----                        -----
-BASE            Ctrl+Tab / Shift+Ctrl+Tab   Raise/Lower volume
-NAV             Mouse wheel up / down       Ctrl+Z / Ctrl+Shift+Z
-Alt             Alt+Tab / Shift+Alt+Tab
-
-Might consider workspace switching 0..9, screen switching w/e/r or focus switching j/k.
-
 ## Combos
 
 ```
 Top row
-Y + C          Delete                  U + :       Backspace
-    C + K       Q                  . + U          C+W (delete word)
-    C +     F   :q<enter>      W +     U         :w<enter>
+                                       U + .       Delete
+    C + K       Q                  , + U          Backspace
         K + F    Z
-
-:q<enter>
-
+    C + K + F  <esc>:q<enter>  W + , + U         Ctrl + W (delete word)
 
 Home row
-    T + H        Escape        N + A             ;
+    T + H        Escape        N + A             :
 S + T         Tab                  A + I           Enter
-S +     H      ` = `
+S +     H      ` = `           N +     I          <esc>:w<enter>
 S + T + H      "               N + A + I          '
 
-        H                      N                 Caps lock
-S                                      I         Right alt
+        H                      N                 SYMWORD
+    T                              A             NUMWORD
+S                                      I         One-shot right alt
 
 Bottom row
     G + P        ^            L + (             $
 V + G + P     Movement layer  L + ( + )         Swedish layer
+
+
+Thumbs
+Space                           E               CAPSWORD
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
-
-# Symbols
-
-![Symbols layer](/images/kyria/symbols.png)
-
-Combos work with the same key positions as on the base layer.
-
-# Swedish layer
-
-![Swedish overlay](/images/kyria/swe.png)
-
-If access to the covered symbols is required, they can be accessed with the regular `SYM` switch.
-
-# Num layer
-
-![Num layer](/images/kyria/num.png)
-
-# Function layer
-
-![Function keys](/images/kyria/fun.png)
 
 # Navigation layer
 
@@ -94,24 +68,42 @@ C + S           Backward
 W + T           Forward
 ```
 
-# Steno-lite combos
+# Symbols
 
-![Steno-lite combos. Either coord Space + key or E + key, always with the same hand.](/images/kyria/steno.png)
+![Symbols layer](/images/kyria/symbols.png)
 
-# Gaming layer
+Combos work with the same key positions as on the base layer.
 
-# Display information
+# Num layer
 
-## Left
+![Num layer](/images/kyria/num.png)
 
-* Layer
-* Mods
-* Caps lock, capsword, symword
-* Swapped caps lock state
-* Windows/Linux state
+# Mods
 
-## Right
+![Mods and specials layer](/images/kyria/mod.png)
 
-* Keymap version
-* WPM
+# Function layer
+
+![Function keys](/images/kyria/fun.png)
+
+# Workspace nav
+
+![Workspace nav layer](/images/kyria/wnav.png)
+
+All keys have a `Gui` implicit.
+
+# Swedish layer
+
+![Swedish overlay](/images/kyria/swe.png)
+
+# Rotary encoders
+
+Layer/Mods      Left rotary                 Right rotary
+----            ----                        -----
+BASE            Ctrl+Tab / Shift+Ctrl+Tab   Raise/Lower volume
+NAV             Mouse wheel up / down       Ctrl+Z / Ctrl+Shift+Z
+Alt             Alt+Tab / Shift+Alt+Tab
+
+Might consider workspace switching 0..9, screen switching w/e/r or focus switching j/k.
+
 
