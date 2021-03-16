@@ -7,97 +7,103 @@ tags: Computer, Keyboards
 
 # Base layer
 
-Based on [Beakl-15](https://deskthority.net/wiki/BEAKL#BEAKL_15).
+Based on [RSTHD](https://xsznix.wordpress.com/2016/05/16/introducing-the-rsthd-layout/).
+
+See [Bigram frequencies](http://norvig.com/mayzner.html)
 
 ![Base layer](/images/kyria/base.png)
-
-Leader sequence     Command
--------             -----------------
-C C                 Caps lock
-Escape              Swap Caps lock and escape
-Enter               Clear all mods
-G G                 Switch to gaming layer
-M                   Switch to movement layer
-
-Left rotary                     Right rotary
-----                            -----
-Alt+Tab / Shift+Alt+Tab         Raise/Lower volume
-Ctrl+Tab / Shift+Ctrl+Tab
-PageUp / PageDown
 
 ## Combos
 
 ```
 Top row
-    Y + D     Z               W + :             !
-C + Y         Q                   : + U         ?
-C + Y + D     %               W + : + U         &
+                                       U + .       Delete
+    C + K       Q                  , + U          Backspace
+        K + F    Z
+    C + K + F  <esc>:q<enter>  W + , + U         Ctrl + W (delete word)
 
 Home row
-    T + H     Escape          N + A             =
-S + T         Tab                 A + I         Enter
-S +     H     -               N +     I         +
-S + T + H     ;               N + A + I         _
+    T + H        Escape        N + A             :
+S + T         Tab                  A + I           Enter
+S +     H      ` = `           N +     I          <esc>:w<enter>
+S + T + H      "               N + A + I          '
+
+        H                      N                 SYMWORD
+    T                              A             NUMWORD
+S                                      I         One-shot right alt
 
 Bottom row
-    G + P     $               L + (             #
-V + G         *                   ( + )         '
+    G + P        ^            L + (             $
 V + G + P     Movement layer  L + ( + )         Swedish layer
+
+
+Thumbs
+Space                           E               CAPSWORD
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
 
-# Shift layer
+# Navigation layer
 
-![Shift overlay](/images/kyria/shift.png)
+![Navigation with mouse buttons and shortcuts for left-handed usage](/images/kyria/nav.png)
 
-# Swedish layer
+## Combos
 
-![Swedish overlay](/images/kyria/swe.png)
+```
+Top row
+C + W           Ctrl Q
 
-If access to the covered symbols is required, they can be accessed with the `BASE SYM` key.
+Middle row
+S + T           Tab
+    T + MLB     Escape
+S + T + MLB     Enter
+
+Bottom row
+V + X           End
+    X + MRB     Home
+
+Vertical
+MLB + MRB       Middle mouse button
+C + S           Backward
+W + T           Forward
+```
+
+# Symbols
+
+![Symbols layer](/images/kyria/symbols.png)
+
+Combos work with the same key positions as on the base layer.
 
 # Num layer
 
 ![Num layer](/images/kyria/num.png)
 
+# Mods
+
+![Mods and specials layer](/images/kyria/mod.png)
+
 # Function layer
 
 ![Function keys](/images/kyria/fun.png)
 
-# Steno-lite combos
+# Workspace nav
 
-![Steno-lite combos. Either coord Space + key or E + key, always with the same hand.](/images/kyria/steno.png)
+![Workspace nav layer](/images/kyria/wnav.png)
 
-# Spec
+All keys have a `Gui` implicit.
 
-![Special keys](/images/kyria/spec.png)
+# Swedish layer
 
-# Left handed mouse and movements
+![Swedish overlay](/images/kyria/swe.png)
 
-# Left handed shortcut layer
+# Rotary encoders
 
-# Gaming layer
+Layer/Mods      Left rotary                 Right rotary
+----            ----                        -----
+BASE            Ctrl+Tab / Shift+Ctrl+Tab   Raise/Lower volume
+NAV             Mouse wheel up / down       Ctrl+Z / Ctrl+Shift+Z
+Alt             Alt+Tab / Shift+Alt+Tab
 
-# Display information
+Might consider workspace switching 0..9, screen switching w/e/r or focus switching j/k.
 
-## Left
-
-* Left rotary state
-
-* Layer
-* Mods
-* Caps lock on/off?
-* Swapped caps lock state
-
-## Right
-
-* Keymap version
-* WPM
-
-# Ideas
-
-* If combos are too awkward, ... introduce a symbols layer?
-* Num on far thumb button instead of inner? Maybe?
-* `=` needs a place
 

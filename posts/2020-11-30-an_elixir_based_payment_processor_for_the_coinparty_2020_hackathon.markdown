@@ -1,6 +1,6 @@
 ---
 title: "An Elixir based payment processor for the Coinparty hackathon"
-tags: Coinparty2020, Cryptocurrency
+tags: Coinparty, Cryptocurrency
 ---
 
 <div style="width=800px;height=200px;background-color=green;padding=5px">

@@ -1,0 +1,8 @@
+digraph R {
+  waiting [label="waiting for transaction"]
+  confirming [label="waiting for N confirmations"]
+  verifying [label="verifying 0-conf"]
+
+  setup -> waiting -> {confirming, verifying} -> {accepted}
+}
+
