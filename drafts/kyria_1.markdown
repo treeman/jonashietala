@@ -18,14 +18,14 @@ See [Bigram frequencies](http://norvig.com/mayzner.html)
 ```
 Top row
                                        U + .       Delete
-    C + K       Q                  , + U          Backspace
-        K + F    Z
-    C + K + F  <esc>:q<enter>  W + , + U         Ctrl + W (delete word)
+C + K       Q                      , + U          Backspace
+    K + F    Z
+                               W + , + U         Ctrl + W (delete word)
 
 Home row
     T + H        Escape        N + A             :
 S + T         Tab                  A + I           Enter
-S +     H      ` = `           N +     I          <esc>:w<enter>
+S +     H      ` = `           N +     I          vim save
 S + T + H      "               N + A + I          '
 
         H                      N                 SYMWORD
@@ -33,8 +33,9 @@ S + T + H      "               N + A + I          '
 S                                      I         One-shot right alt
 
 Bottom row
-    G + P        ^            L + (             $
-V + G + P     Movement layer  L + ( + )         Swedish layer
+V + G         Vim split win   L + (             ^
+                                  ( + )         $
+V + G + P     Vim close win   L + ( + )         Swedish layer
 
 
 Thumbs
@@ -46,27 +47,6 @@ Space                           E               CAPSWORD
 # Navigation layer
 
 ![Navigation with mouse buttons and shortcuts for left-handed usage](/images/kyria/nav.png)
-
-## Combos
-
-```
-Top row
-C + W           Ctrl Q
-
-Middle row
-S + T           Tab
-    T + MLB     Escape
-S + T + MLB     Enter
-
-Bottom row
-V + X           End
-    X + MRB     Home
-
-Vertical
-MLB + MRB       Middle mouse button
-C + S           Backward
-W + T           Forward
-```
 
 # Symbols
 
