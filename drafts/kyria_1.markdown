@@ -25,21 +25,22 @@ C + K       Q                      , + U          Backspace
 Home row
     T + H        Escape        N + A             :
 S + T         Tab                  A + I           Enter
-S +     H      ` = `           N +     I          vim save
+S +     H      ;               N +     I          vim save
 S + T + H      "               N + A + I          '
 
-        H                      N                 SYMWORD
-    T                              A             NUMWORD
-S                                      I         One-shot right alt
+        H                      N                 lisp-style
+    T                              A             CAPSWORD
+
 
 Bottom row
-V + G         Vim split win   L + (             ^
+V + G         Vim vsplit win  L + (             ^
                                   ( + )         $
 V + G + P     Vim close win   L + ( + )         Swedish layer
 
 
 Thumbs
-Space                           E               CAPSWORD
+Space                           E               NUM or NUMWORD
+MOD                             E               SYM or SYMWORD
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
