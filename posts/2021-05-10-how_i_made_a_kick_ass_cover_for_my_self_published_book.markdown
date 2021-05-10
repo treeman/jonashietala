@@ -28,13 +28,13 @@ Before contacting a designer I compiled a document with things that the designer
 
 You might think this is overkill, but all the designers I contacted were deeply impressed by it, and I was told it was immensely helpful in producing the cover and saved us a lot of time.
 
-I had a pretty clear idea of what I wanted for the cover. It was a complex illustration, which is much more expensive than a simpler cover, but I liked the idea too much to throw it away. This is from the initial document:
+I had a pretty clear idea of what I wanted for the cover. It was a complex illustration, which is much more expensive than a simpler cover, but I liked the idea too much to throw it away. This is how I described it in the initial design document:
 
 > While it should be clear that it’s a book about Bitcoin you should also be able to look at the cover and identify some of the topics I bring up in the book. Something that reveals more details and references the more you look at it.
 
-> ![](/images/whycrypto/cover-help/city.jpg)
-
 > My idea is to have a picture of a city street, with shops and signs on both sides. Something like this:
+
+> ![](/images/whycrypto/cover-help/city.jpg)
 
 > And in the middle should be a person with a mobile phone that shows an image with a Bitcoin logo. The person is confused and doesn’t know where to go and what the different things on the street are.
 
@@ -74,14 +74,14 @@ Like with software development an [iterative and incremental process](https://en
 
 (Incidentally writing a book is also an iterative process, but more on that in a later blog post.)
 
-I think an iterative process is so important, that if your designer doesn't want to use it, then you should find someone else.
+I think an iterative process is so important, that if your designer doesn't want to work this way, then you should find someone else.
 
 How to give feedback is an art in itself, here are some concrete things I focused on when receiving a sketch or a draft:
 
 - What did I like?
 - What didn't I like?
 - What am I unsure about?
-- And most importantly **why** do I feel this way?
+- And for the above, **why** do I feel this way?
 - Concrete next actions to take (one of the most important lessons I've learnt from the [Getting Things Done methodology](https://hamberg.no/gtd))
 
 For example "I like the birds" isn't as good as "I like the birds because they give a nice dystopian feeling", which lead to us adding a bunch more details that strengthened the dystopian cyberpunk vibe.
@@ -94,7 +94,7 @@ Don't worry about hurting feelings or settling on something you're not completel
 
 # Email communication
 
-Because all our communication was over email, I wanted to dedicate some time to the art of writing effective emails (that with the prevalence of remote working might be one of the most important skills you can focus on).
+Because all our communication was over email, I wanted to dedicate some time to the art of writing effective emails (which with the prevalence of remote working might be one of the most important skills you can focus on).
 
 I have some simple rules I try to follow, and they've proved to be very effective:
 
@@ -102,7 +102,7 @@ I have some simple rules I try to follow, and they've proved to be very effectiv
 2. It should be clear for any reader if the email is specifically targeting them
 3. It must be clear what actions needs to be taken, and by whom
 
-While the first two aren't very relevant for this case, the third is very important. After the email, the designer should know what changes should be made and have received enough information to move in the right direction.
+While the first two aren't very relevant for this case, the third is very important. After the email, the designer should know what changes should be made and have received enough information to move in the right direction (but follow-up emails and clarifications should be expected).
 
 Concretely after receiving a new draft, I would write an email looking something like this:
 
@@ -165,8 +165,8 @@ I guess the lesson here is that it's fine to feel disappointed at first, but an 
 
 ![The cover looks great in real life too](/images/whycrypto/cover-hand.png)
 
-Overall, I'm super happy with the cover and I've gotten a ton of praise for it. I'm not sure it was a wise financial decision to spend that much on a cover, as it's likely I won't sell enough books to cover the cost, but I can't complain about the end result.
+Overall, I'm super happy with the cover and I've gotten a ton of praise for it. I'm not sure if it was a wise financial decision to spend that much on a cover, as it's likely I won't sell enough books to cover the cost, but I can't complain about the end result.
 
-Still, there are some things I would've done differently. We did a last round that included adding a title on the front, on the spine and text to the back of the book. But the text layout is something I could have done myself, especially as I've done some adjustments afterwards myself.
+Still, there are some things I would've done differently. We did a last round that included adding a title on the front, on the spine and text to the back of the book. But the text layout is something I could've done myself, especially as I've done some adjustments afterwards myself.
 
-The book is called [Why Cryptocurrencies?](https://whycryptocurrencies.com/) and I plan to release it at the end of May. It's also available to [read online for free](https://whycryptocurrencies.com/toc.html).
+The book itself? It's called [Why Cryptocurrencies?](https://whycryptocurrencies.com/) and I plan to release it at the end of May. It's also available to [read online for free](https://whycryptocurrencies.com/toc.html).
