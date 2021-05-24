@@ -3,7 +3,7 @@ title: "Kyria-Hietala 0.1"
 tags: Computer, Keyboards
 ---
 
-![Legend. Does not apply to combos.](/images/kyria/legend.png)
+![Legend](/images/kyria/legend.png)
 
 # Base layer
 
@@ -17,18 +17,18 @@ See [Bigram frequencies](http://norvig.com/mayzner.html)
 
 ```
 Top row
-                                       U + .       Delete
+                           X + W                #{ | }
 C + K       Q                      , + U          Backspace
-    K + F    Z
-                               W + , + U         Ctrl + W (delete word)
+    K + F     Z
+C + K + F    Delete            W + , + U         Ctrl + W (backspace word)
 
 Home row
     T + H        Escape        N + A             :
 S + T         Tab                  A + I           Enter
 S +     H      ;               N +     I          vim save
-S + T + H      "               N + A + I          '
+S +     H      "               N +     I          '
+S + T + H      ;               N + A + I          vim save
 
-        H                      N                 lisp-style
     T                              A             CAPSWORD
 
 
@@ -39,29 +39,25 @@ V + G + P     Vim close win   L + ( + )         Swedish layer
 
 
 Thumbs
-Space                           E               NUM or NUMWORD
-MOD                             E               SYM or SYMWORD
+Space                           E               NUMWORD
+MOD                             E               WNAV
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
 
+# Mods & symbols
+
+![Left mods & right symbols](/images/kyria/lmod.png)
+
+![Left symbols & right mods](/images/kyria/rmod.png)
+
 # Navigation layer
 
-![Navigation with mouse buttons and shortcuts for left-handed usage](/images/kyria/nav.png)
-
-# Symbols
-
-![Symbols layer](/images/kyria/symbols.png)
-
-Combos work with the same key positions as on the base layer.
+![Navigation, both two handed and one-handed](/images/kyria/nav.png)
 
 # Num layer
 
 ![Num layer](/images/kyria/num.png)
-
-# Mods
-
-![Mods and specials layer](/images/kyria/mod.png)
 
 # Function layer
 
@@ -69,22 +65,13 @@ Combos work with the same key positions as on the base layer.
 
 # Workspace nav
 
-![Workspace nav layer](/images/kyria/wnav.png)
-
-All keys have a `Gui` implicit.
+![Workspace nav layer. All keys have `Gui` implicit.](/images/kyria/wnav.png)
 
 # Swedish layer
 
 ![Swedish overlay](/images/kyria/swe.png)
 
-# Rotary encoders
+# Options
 
-Layer/Mods      Left rotary                 Right rotary
-----            ----                        -----
-BASE            Ctrl+Tab / Shift+Ctrl+Tab   Raise/Lower volume
-NAV             Mouse wheel up / down       Ctrl+Z / Ctrl+Shift+Z
-Alt             Alt+Tab / Shift+Alt+Tab
-
-Might consider workspace switching 0..9, screen switching w/e/r or focus switching j/k.
-
+![Options](/images/kyria/opt.png)
 
