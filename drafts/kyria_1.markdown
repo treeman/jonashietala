@@ -15,35 +15,33 @@ See [Bigram frequencies](http://norvig.com/mayzner.html)
 
 ## Combos
 
-```
-Top row
-                           X + W                #{ | }
-C + K       Q                      , + U          Backspace
-    K + F     Z
-C + K + F    Delete            W + , + U         Ctrl + W (backspace word)
-
-Home row
-    T + H        Escape        N + A             :
-S + T         Tab                  A + I           Enter
-S +     H      ;               N +     I          vim save
-S +     H      "               N +     I          '
-S + T + H      ;               N + A + I          vim save
-
-        H                      N                 WNAV
-    T                              A             CAPSWORD
-
-
-Bottom row
-V + G         Vim vsplit win  L + (             ^
-                                  ( + )         $
-V + G + P     Vim close win   L + ( + )         Swedish layer
-
-
-Thumbs
-Space                           E               NUMWORD
-```
-
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
+
+Top Left            Key             Top Right           Key
+----------          -----           ------------        --------
+C + K               Q               X + W               #{ ↓ }
+  K + F             Z                   , + U             Backspace
+C + K + F           Delete            W + , + U           Ctrl + W (backspace word)
+**Home Left**       **Key**         **Home Right**      **Key**
+  T + H             Escape          N + A               :
+S + T               Tab               A + I             Enter
+S +   H             "               N +   I             '
+S + T + H           ;               N + A + I           Vim save
+**Bottom Left**     **Key**         **Bottom Right**    **Key**
+V + G               Vim vsplit      L + (               ^
+                                      ( + )             $
+V + G + P           Vim close       L + ( + )           Swedish layer
+
+Split combo                 Key
+-------------               -----
+T + A (both shift)          CAPSWORD
+Space + E (both thumbs)     NUMWORD
+
+Thumb combos                Key
+--------------              -------
+Space + \<key>               Corresponding symbol
+E + \<key>                   Corresponding number
+
 
 # Mods & symbols
 
