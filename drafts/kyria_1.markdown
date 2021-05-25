@@ -29,6 +29,7 @@ S +     H      ;               N +     I          vim save
 S +     H      "               N +     I          '
 S + T + H      ;               N + A + I          vim save
 
+        H                      N                 WNAV
     T                              A             CAPSWORD
 
 
@@ -40,7 +41,6 @@ V + G + P     Vim close win   L + ( + )         Swedish layer
 
 Thumbs
 Space                           E               NUMWORD
-MOD                             E               WNAV
 ```
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
