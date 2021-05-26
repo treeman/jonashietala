@@ -115,10 +115,20 @@ I wanted to use one-shot shift, but I just couldn't get it to work well with E o
 
 Sure, it's harder to type quickly with auto shift, but I want to maximize comfort over speed, and auto shift feels like the option requiring the least amount of effort. I do have one-shot shift keys, but on a separate layer, which I use for some shortcuts (more on that shortly).
 
-Typing multiple uppercase letters in a row does suck. That's why I also use "CAPSWORD", which is a smart caps lock that turns itself off after space or some other special characters. It makes it super easy to type variables like `POST_LIMIT` for example. I activate it with a `T` + `A` combo (left + right shift).
+Typing multiple uppercase letters in a row does suck. That's why I also use "CAPSWORD", which is a smart caps lock that turns itself off after space or some other special characters. It makes it super easy to type variables like `POST_LIMIT` for example. I activate it with a `T` + `A` combo.
 
 
 ## Mods & symbols
+
+I have modifiers combined with the other symbols, across two layers:
+
+![Press left button for mods on the left and symbols on the right](/images/kyria/lmod.png)
+
+![Press right button for mods on the right and symbols on the left](/images/kyria/rmod.png)
+
+Instead of home-row mods, I have mods on a separate layer. While you need to press one key extra to access `Ctrl` for instance, there are no timings here so it's very quick and it feels surprisingly good.  I've kept same-side mod activation because that's what I started with, and I don't feel a need to change it.
+
+Some shortcuts, like `Ctrl` + `A`, are impossible to press left-handed (when I use the mouse/trackball), so I've added them here. Dead keys (mostly to type `é`) are things I occassionally use, and above the mods was as good a spot as any.
 
 
 # Is this the perfect layout?
