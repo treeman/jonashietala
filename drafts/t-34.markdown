@@ -9,7 +9,6 @@ Because my new shiny layout has been unchanged for more than a week, I've clearl
 
 ![T-34/57 prototype. Because any self-respecting layout needs a name---and tanks are awesome.](/images/t-34/T-3457-prototype-side.png)
 
-
 # The journey is long and full of peril
 
 When you start looking at it, there are **tons** of good and interesting layouts. For example [Dvorak][], [Workman][], [Colemak Mod-DH][], [Hands Down][], [MTGAP 2.0][], BEAKL (many variants) and many others...
@@ -49,9 +48,21 @@ The keymap is optimized for me and my quirks:
 
 # Frequency analysis
 
-* Source code
-* Keylog
-* Results
+The problem with trying to optimize for programming is that it varies *a lot* depending on the language.
+
+Take for example three of my own projects: a WIP Rust implementation of Git (following the excellent Building Git), a crypto payment processor in Elixir, and the [source code for my book][crypto-src] (mostly English, but with some Racket and other codey things):
+
+[crypto-src]: https://github.com/treeman/why_cryptocurrencies
+
+![Symbol frequencies from a Rust, an Elixir and a Racket project.](/images/t-34/combined-symbol-freq.svg)
+
+While there's a general trend here, we see some massive outliers. Like how `-` is incredibly overrepresented in the book's source (probably because I use `---` to represent an em dash `—`) or how `;` is very common in Rust but almost non-existent in Elixir.
+
+What should we do then? We can try a keylogger to see what symbols we're typing. Here's the results, together with a random collection of source for comparison:
+
+![Symbol frequencies during a keylog session and from a random collection of personal projects (mostly in C++).](/images/beakl-hietala/combined-symbol-freq.svg)
+
+It's not perfect either, as I didn't run the keylog as long as I should, and I only used a small selection of languages at that time. Still, we might be able to draw some conclusions:
 
 
 # The layout
