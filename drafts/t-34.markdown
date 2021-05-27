@@ -7,24 +7,45 @@ A couple of months ago I started looking into ergonomical keyboards; mainly spli
 
 Because my new shiny layout has been unchanged for more than a week, I've clearly found my Ultimate Layout™ and it's time to immortalize it with a blog post!
 
-![T-34/57 prototype](/images/t-34/T-3457-prototype-side.png)
+![T-34/57 prototype. Because any self-respecting layout needs a name---and tanks are awesome.](/images/t-34/T-3457-prototype-side.png)
 
 
 # The journey is long and full of peril
 
 When you start looking at it, there are **tons** of good and interesting layouts. For example [Dvorak][], [Workman][], [Colemak Mod-DH][], [Hands Down][], [MTGAP 2.0][], BEAKL (many variants) and many others...
 
-They all have their pros and cons, and which one you prefer is subjective.  In the end I chose [BEAKL 15][], mostly because I liked the discussion on the now defunct BEAKL forums, and I had some strain on my right pinky that I wanted to minimize.
+They all have their pros and cons, and which one you prefer is highly subjective. At first I chose [BEAKL 15][], mostly because I liked the discussion on the now defunct BEAKL forums, and I had some strain on my right pinky that I wanted to minimize.
 
-Although the layout felt much better than QWERTY, after trying out a bunch of modifications I've since moved away from BEAKL. At around 50 WPM I got increasingly annoyed at the high same finger usage (called SFU). At the same time I found that I wanted to use my pinkies more than BEAKL was designed for, which could be used to address the high SFU.
+Although the layout felt much better than QWERTY, after trying out a bunch of modifications, I've since moved away from BEAKL. At around 50 WPM I got increasingly annoyed at the high same finger usage (called SFU). At the same time I found that I wanted to use my pinkies more than BEAKL was designed for, which could be used to address the high SFU.
 
 The breaking point came when I read an article about the benefits of [E on one of the thumb keys][e-thumb], which made me abandon BEAKL and try something else.
-
-on favor of [RSTHD][] (but naturally with a bunch of tweaks).
 
 
 # My preferences
 
+The keymap is optimized for me and my quirks:
+
+1. Comfort above speed.
+
+   For me I can comfortably reach 34 keys (2 thumb keys per hand), and I use very light choc keys that makes combos very comfortable.
+
+4. Minimize pinky movement.
+
+   I've always used my ring finger to press keys above the home-row pinky. Maybe I have short pinkies, I dunno. It's also why I use a 5-column layout instead of a 6-column layout.
+
+2. Optimized for programming and Vim usage.
+
+   A vast majority of time is spent programming in Vim.
+
+3. I type mostly English, but it should work well with Swedish too.
+
+5 key sections
+
+0: thumbs + home row
+1: pinky home row + lower index
+2: rest of home block
+3: top outer + secondary thumb
+4: top/lower inner column + lower pinky
 
 # Frequency analysis
 
@@ -55,22 +76,32 @@ The base layer is based on [RSTHD](https://xsznix.wordpress.com/2016/05/16/intro
 
 As I've run into annoyances I've made some changes to it. Most notably:
 
-- E on other thumb. Feels much better to avoid having "here", "there" and similar combinations on the same hand.
-- Q and Z moved away to combos in favor of more symbols.
-- Swap D and P (as I dislike the center column and lower index is good).
-- K is in a better spot as it's much more common in Swedish, and I use it a lot with Vim. It makes CK very nice to type.
+- `E` on other thumb. Feels much better to avoid having "here", "there" and similar combinations on the same hand.
+- `Q` and `Z` moved away to combos in favor of more symbols.
+- Swap `D` and `P` (as I dislike the center column and lower index is good).
+- `K` is in a better spot as it's much more common in Swedish, and I use it a lot with Vim. As a bonus it makes `CK` very nice to type, again common in Swedish.
 - Swap L and W because L is more common (`W` is so common in the keylog because I spam save `:w` like a madman).
+
+And the rationale for choosing the symbols:
+
+- Some of the most common symbols that don't usually stand next to other symbols are moved to home-row combos. I find they're easier to type than moving my fingers off home-row, so `:`, `"`, `'`, and `;` were moved off base.
+- `(` and `)` are really common (even when I'm not coding lisp), and as a bonus I use it as a prefix for a lot of things in Vim. For instance `)d` "next LSP diagnostics", `)q` "next quickfix" and `)s` "next spellcheck error".
+- I chose `_` in favor of `-` as I have `->` and `<-` as combos and I prefer `snake_case` over `kebab-case`.
+- I use `/` as a regex search in Vim a lot and `=` is here because it's used next to other symbols a lot.
+
+You could make a case for some other choices here; I think it heavily depends on your preferences and what code you work with.
+
 
 ## Combos
 
-A combo (sometimes called a chord) is when you press down two keys at the same time to produce something else. For instance if I press C and K at the same time I get Q. With the light choc switches I use this feels very nice, even pressing three keys or vertical combos with two keys using one finger.
+A combo (sometimes called a chord) is when you press down two keys at the same time to produce something else. For instance if I press `C` and `K` at the same time I get `Q`. With the light choc switches I use this feels very nice, even pressing three keys or vertical combos with two keys using one finger.
 
 I use it for lots of things. For instance:
 
 - Hide the least common chars `Q` and `Z`.
 - "Big keys" on home-row: `Tab`, `Enter` and `Escape` (perfect for Vim!).
 - Delete things: `Delete` and `Backspace`.
-- Symbols that are mostly stand-alone, like `;`, `'` and `;`.
+- Symbols that are mostly stand-alone, like `:`, `'` and `$`.
 - Special things, like saving in Vim (`:wq<br>`).
 
 Here's a table (because I wasn't happy with the visualization I tried to make):
@@ -98,7 +129,7 @@ There are also vertical combos with the common arrow combinations you often see 
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
 
-Depending on the language, symbols like `>=`, `=>`, `|>` and `->` are common, but often very difficult to type. Combos solve this really well, and my fingers no longer howl with pain having to type these things all over the place.
+Depending on the language, symbols like `>=`, `=>`, `|>` and `->` are common, but often difficult to type. Combos solve this really well, and my fingers no longer howl with pain having to type these things all over the place.
 
 Also, splitting windows in vim is something I do a lot. Horizontal/vertical splits are laid out to match the split direction, and it's close to closing a window as well. (Why is saving vim on the right side then? Because `);` is very common. It's not perfect I know.)
 
@@ -130,6 +161,73 @@ Instead of home-row mods, I have mods on a separate layer. While you need to pre
 
 Some shortcuts, like `Ctrl` + `A`, are impossible to press left-handed (when I use the mouse/trackball), so I've added them here. Dead keys (mostly to type `é`) are things I occassionally use, and above the mods was as good a spot as any.
 
+I tried to place the symbols ordered by frequency, in some kind of logical groupings. There are very few symbol bigrams I have trouble typing. I find it's mostly holding down `LMOD` to type `[]` or similar.
+
+While I can use the layer switches as one-shot for the symbols, I also have combos with `Space` + `<key>` to produce symbols from the base layer. I now use that exclusively, and relegate the layer switch for the symbol bigrams.
+
+One last annoyance is double- or triple-tapping symbols, particularly with the pinky, for things like `&&` or `"""`. I got around it by adding long press for them, similar to what auto shift does:
+
+Tap                                             Long press
+----                                            -----------
+`|` `&` `+` `*` `-` `_` `<` `>` `/` `\`         Double symbol
+`"` `'` `=` \`                                  Triple symbol
+`!`                                             `!=` (because it was a bit awkward)
+
+
+## Where are the numbers?
+
+Here they are:
+
+![Num layer, the dark gray keys turns off NUMWORD](/images/kyria/num.png)
+
+Yupp, I use numbers on home-row (and the low index, which is the next best key apart from the thumbs).
+
+What makes this special is that the layer switch is smart, similar to CAPSWORD as the layer turns off on space (which I call NUMWORD). So if I want to write `let x = 403;`{.rust} then I type `let x = <NUMWORD>403;` and the layer turns off after `;`. I trigger it with a `Space` + `E` combo (both thumbs, because it's very convenient).
+
+What about `K`, `J` and `Shift G`? Those are for easy navigation with Vim. So `13k` means "13 lines above" and `127G` means "line number 127". Naturally, the layer turns itself off, so it doesn't interfere with my next commands. I use it all the time and it's fantastic.
+
+
+## Navigation
+
+![Navigation, both two handed and one-handed](/images/kyria/nav.png)
+
+Navigation is the only "hold key down" I have. Vim-like arrows on the right side (but I try not to use them in Vim, as jumping with the NUM layer is more efficient). `Ctrl` + arrow is used to switch windows in Vim and `Gui` + `W`/`E`/`R` switches between my three monitors (it's here because it's so common).
+
+Navigation on the left hand is great when I have the right hand on the mouse. Initially I didn't have arrows here, I found myself missing them. `Ctrl` + `Tab` and `Ctrl` + `Shift` + `Tab` switches tabs in Firefox.
+
+I also have a workspace navigation layer, used exclusively for workspace manipulation:
+
+![Workspace nav layer. All keys have `Gui` implicit.](/images/kyria/wnav.png)
+
+`Gui` + number switches to that workspace; `Gui` + `K`/`J` switches between windows; and if you add `Shift` you move the current window there.
+
+Having a separate layer for this isn't strictly needed, but it feels much more convenient.  I tried the regular one-shot mods and home-row mods on the number layer, but I just didn't like it that much. I also tried a smart layer or a simple layer switch (where I had to exit the layer explicitly), but I prefer having to hold down a key so I know that I'm in the workspace layer.
+
+## Function layer
+
+![Function keys](/images/kyria/fun.png)
+
+Nothing special going on with the function keys. Having them on the same positions as numbers makes them easy to learn, which is important for me as I almost never use them.
+
+
+## Swedish overlay
+
+![Swedish overlay](/images/kyria/swe.png)
+
+As a Swede, I do type Swedish from time to time. But I never type code and Swedish at the same time, so it makes sense to have a Swedish mode that I can activate, for example when I need to write an email or similar.
+
+ It replaces `(`, `)` and `_`, as they're mostly used in code, and `ÅÄÖ` are practically never used next to the vowels, making the layout very pleasant for Swedish as well. The layer is is activated with `L` + `(` + `)` (and deactivated with the same keys).
+
+## Options
+
+![Options](/images/kyria/opt.png)
+
+I have some runtime options I might occasionally want to access:
+
+- On a regular keyboard and on my laptop I've had `Escape` and `Caps Lock` swapped (to make it easier to press in Vim). I can toggle it on the keyboard as well so I can use it there as well.
+- I don't currently have anything that differs between Windows and Linux I don't think, but things like window switching works differently. When I go back to working on Windows I'll probably make use of this.
+- `NUM` toggles a regular number layer, which I only use when I practice number typing.
+
 
 # Is this the perfect layout?
 
@@ -137,10 +235,15 @@ Hah, that's funny.
 
 There are always things that could be done better. Here are some things that currently annoy me:
 
-- As I press the outer top keys (Y and ,) with my ring finger, SYS is terrible to type as it's three letters in a row with the same finger.
-- BJ is crazy annoying. It gets worse if I program in a codebase that uses `Object` all over the place.
+- As I press the outer top keys (`Y` and `,`) with my ring finger, `SYS` is terrible to type as it's three letters in a row with the same finger.
+- `BJ` is crazy annoying. It gets worse if I program in a codebase that uses `Object` all over the place.
 
-And of course you can always further optimize some of my choices. But at the moment it feels pretty good, and at this point I'm feeling diminishing returns.
+I've tried to address this by moving `Y` and `J`, but everything I've tried so far has created larger problems. So maybe I'll shove in a combo to produce "sys" and call it a day?
+
+And there are a bunch of things that aren't optimal, but at this point I'm hitting very diminishing returns, so I'll try to avoid changing things unless it's something that really bothers me.
+
+
+# How did you implement this?
 
 [GergoPlex]: https://www.gboards.ca/product/gergoplex "GergoPlex"
 [Kyria]: https://splitkb.com/products/kyria-pcb-kit "Kyria PCB Kit"
