@@ -54,16 +54,64 @@ Take for example three of my own projects: a WIP Rust implementation of Git (fol
 
 [crypto-src]: https://github.com/treeman/why_cryptocurrencies
 
-![Symbol frequencies from a Rust, an Elixir and a Racket project.](/images/t-34/combined-symbol-freq.svg)
+![Symbol frequencies from a Rust, an Elixir and a book project.](/images/t-34/combined-symbol-freq.svg)
 
 While there's a general trend here, we see some massive outliers. Like how `-` is incredibly overrepresented in the book's source (probably because I use `---` to represent an em dash `—`) or how `;` is very common in Rust but almost non-existent in Elixir.
 
-What should we do then? We can try a keylogger to see what symbols we're typing. Here's the results, together with a random collection of source for comparison:
+What should we do then? We can try a keylogger to see what symbols we're typing. Here's the results, together with a dataset of all my personal projects I could find (labeled "Code"):
 
-![Symbol frequencies during a keylog session and from a random collection of personal projects (mostly in C++).](/images/beakl-hietala/combined-symbol-freq.svg)
+![Symbol frequencies during a keylog session and from a random collection of personal projects (mostly in C++).](/images/t-34/code-key-freq.svg)
 
-It's not perfect either, as I didn't run the keylog as long as I should, and I only used a small selection of languages at that time. Still, we might be able to draw some conclusions:
+ It's not perfect either, as I didn't run the keylog as long as I should, and I only used a small selection of languages at that time.  The big outliers that come from Vim are `:` (I save a lot with `:w`), `.` (repeat last action), `/` (regex search) and `$` (end-of-line). I don't know why `'` is overrepresented in the keylog.
 
+One might wonder, where do the symbols appear? Are they mostly next to characters, or next to other symbols? Here's a table of where the symbols end up, and what symbol bigrams they appear (ignoring double symbols like `||`), using the Code source:
+
+ Char       Count           Next to alpha          Next to symbol         Common bigrams
+------    --------         ---------------        ----------------       -------------------------------
+  `,`        220930          31.22%                  12.23%                `),` `",` `},` `],` `_,`
+  `_`        169048          **86.21%**              4.89%                 `_,` `(_` `_}`
+  `)`        158614          24.11%                  29.00%                `);` `()` `),` `")` `])` `})` `)}` `).`
+  `(`        158598          **66.06%**              19.71%                `()` `("` `(:` `!(` `(&` `(%` `?(` `({` `([`
+  `:`        132580          43.62%                  12.95%                `{:` `(:` `:/` `` `:`` `[:`
+  `.`        129818          **72.88%**              5.98%                 `).`
+  `"`        105618          24.83%                  27.41%                `",` `")` `("` `"]` `"%`
+  `=`        73090           1.95%                   13.92%                `<=` `>=` `=>`
+  `{`        69068           23.20%                  28.68%                `{:` `%{` `#{` `]{` `{}` `({`
+  `}`        69060           20.28%                  24.41%                `},` `})` `)}` `{}` `]}` `_}`
+  `-`        67076           37.11%                  13.43%                `->`
+  `;`        55914           17.22%                  24.83%                `);` `];`
+  `>`        54178           15.33%                  33.62%                `->` `|>` `>=` `=>`
+  `/`        49296           36.72%                  10.94%                `:/`
+  `[`        44042           46.64%                  28.06%                `[]` `][` `[:` `([`
+  `]`        43998           28.92%                  48.22%                `],` `[]` `])` `][` `]{` `]}` `"]` `];`
+  `#`        35456           12.57%                  17.64%                `#{`
+  `<`        32828           31.43%                  19.31%                `<=`
+  `` ` ``    29158           27.60%                  20.64%                `` `:``
+  `'`        18572           **70.55%**              15.70%
+  `|`        17820           3.69%                   21.87%                `|>`
+  `+`        17736           14.71%                  6.87%
+  `?`        16712           22.64%                  24.49%                `?(`
+  `%`        16660           26.81%                  39.81%                `%{` `(%` `"%`
+  `&`        15068           28.36%                  16.44%                `(&`
+  `@`        14076           48.70%                  5.52%
+  `*`        13896           13.02%                  14.72%
+  `\`        10236           35.55%                  29.35%
+  `!`        9812            34.80%                  40.13%                `!(`
+  `$`        4226            36.63%                  25.01%
+  `~`        2596            32.16%                  17.41%
+  `^`        1436            24.23%                  41.23%
+
+And how common the bigrams themselves are:
+
+![Symbol bigrams, for bigrams seen over 1000 times](/images/t-34/bigram-freq.svg)
+
+So what observations can we draw from this imperfect dataset? Here are some thoughts I have:
+
+1. Parens `(` `)` are very common. I'd expect it if it was Lisp, but they seem very common even in Rust. They're also neighbours with many other symbols.
+2. The symbols `_`, `.`, `'` are almost always next to an alpha character, meaning they don't have to be placed next to other symbols, and can be optimized to be easily reachable from the base layer. I'll add `,` to this class as well.
+3. Brackets `{` `}` and `[` `]` aren't super common, but they do combine with many other symbols (mostly other types of brackets). If `<` `>` are used in a symbol bigram then it's mostly in arrow form, like `->` or `>=`.
+4. Computation symbols like `=`, `+` and `*` are mostly surrounded by space, and they're less used than I could've thought.
+5. Interestingly, `"` and `_` have traditionally been on a shift layer, but here they're much more common than their counterparts `'` and `-`.
 
 # The layout
 
