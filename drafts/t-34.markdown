@@ -46,7 +46,14 @@ The keymap is optimized for me and my quirks:
 3: top outer + secondary thumb
 4: top/lower inner column + lower pinky
 
-# Frequency analysis
+# Some armchair analysis
+
+Because it gives you the illusion that the layout is backed by science.
+
+![God I miss the show](/images/t-34/science.jpg)
+
+
+## Symbols
 
 The problem with trying to optimize for programming is that it varies *a lot* depending on the language.
 
@@ -56,7 +63,7 @@ Take for example three of my own projects: a WIP Rust implementation of Git (fol
 
 ![Symbol frequencies from a Rust, an Elixir and a book project.](/images/t-34/combined-symbol-freq.svg)
 
-While there's a general trend here, we see some massive outliers. Like how `-` is incredibly overrepresented in the book's source (probably because I use `---` to represent an em dash `—`) or how `;` is very common in Rust but almost non-existent in Elixir.
+While there's a general trend here, we see some massive outliers. Like how `-` is incredibly overrepresented in the book's source (because the Racket convention is `kebab-case` and I use `---` to represent an em dash `—`) or how `;` is very common in Rust but almost non-existent in Elixir.
 
 What should we do then? We can try a keylogger to see what symbols we're typing. Here's the results, together with a dataset of all my personal projects I could find (labeled "Code"):
 
@@ -112,6 +119,30 @@ So what observations can we draw from this imperfect dataset? Here are some thou
 3. Brackets `{` `}` and `[` `]` aren't super common, but they do combine with many other symbols (mostly other types of brackets). If `<` `>` are used in a symbol bigram then it's mostly in arrow form, like `->` or `>=`.
 4. Computation symbols like `=`, `+` and `*` are mostly surrounded by space, and they're less used than I could've thought.
 5. Interestingly, `"` and `_` have traditionally been on a shift layer, but here they're much more common than their counterparts `'` and `-`.
+
+## Digits
+
+Typically digits follow [Benford's law][] that says that lower numbers are more common. How does that hold up for us?
+
+[Benford's law]: https://en.wikipedia.org/wiki/Benford%27s_law
+
+![Digit frequencies](/images/t-34/combined-digit-freq.svg)
+
+Fairly well I'd say. Again, the keylog displays some different results, mainly because I tend to use workspaces `1`, `2`, `8` and `9` more on a traditional keyboard (accessed with `Gui` + number).
+
+
+## Alphas
+
+![Alpha frequencies from the code and keylog corpus, and a large English and Swedish dataset](/images/t-34/combined-se-en-letter-freq.svg)
+
+Optimizing alphas is an area where layouts have focused a lot of attention on. Some notes from data:
+
+1. Code basically follows English, which makes sense as you're mostly typing English words.
+2. There are some differences with Swedish, most notably `k` and `r` are more common (and some extra letters of course).
+3. My Vim usage makes some unusual keys quite common. Apparently I'm a `j`/`k` spammer (up/down)---which isn't a good habit to have as there are more efficient ways to move vertically. `w` and `b` (forward and backwards a word) and `:w` (save) are used a lot. I also seem to mistype a lot as `u` is very common (undo).
+
+On one hand you might want to place these keys in better positions, but on the other hand they're often typed with a pause, after I've had time to think for a second or two, so it might not be important enough to warp the entire layout.
+
 
 # The layout
 
