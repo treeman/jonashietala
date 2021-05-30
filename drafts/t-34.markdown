@@ -76,8 +76,8 @@ What should we do then? We can try a keylogger to see what symbols we're typing.
 
 One might wonder, where do the symbols appear? Are they mostly next to characters, or next to other symbols? Here's a table of where the symbols end up, and what symbol bigrams they appear (ignoring double symbols like `||`), using the Code source:
 
- Char       Count           Next to alpha          Next to symbol         Common bigrams
-------    --------         ---------------        ----------------       -------------------------------
+ Char       Count           Next to letter          Next to symbol         Common bigrams
+------    -----------      ---------------        -----------------       -------------------------------
   `,`        220930          31.22%                  12.23%                `),` `",` `},` `],` `_,`
   `_`        169048          **86.21%**              4.89%                 `_,` `(_` `_}`
   `)`        158614          24.11%                  29.00%                `);` `()` `),` `")` `])` `})` `)}` `).`
@@ -134,11 +134,11 @@ Typically digits follow [Benford's law][] that says that lower numbers are more 
 Fairly well I'd say. Again, the keylog displays some different results, mainly because I tend to use workspaces `1`, `2`, `8` and `9` more on a traditional keyboard (accessed with `Gui` + number).
 
 
-## Alphas
+## Letters
 
-![Alpha frequencies from the code and keylog corpus, and a large English and Swedish dataset](/images/t-34/combined-se-en-letter-freq.svg)
+![Letter frequencies from the code and keylog corpus, and a large English and Swedish dataset](/images/t-34/combined-se-en-letter-freq.svg)
 
-Optimizing alphas is an area where layouts have focused a lot of attention on. Some notes from data:
+Optimizing letters is an area where layouts have focused a lot of attention on. Some notes from data:
 
 1. Code basically follows English, which makes sense as you're mostly typing English words.
 2. There are some differences with Swedish, most notably `k` and `r` are more common (and some extra letters of course).
@@ -204,7 +204,7 @@ A combo (sometimes called a chord) is when you press down two keys at the same t
 
 I use it for lots of things. For instance:
 
-- Hide the least common chars `Q` and `Z`.
+- Hide the least common chars `q` and `z`.
 - "Big keys" on home-row: `Tab`, `Enter` and `Escape` (perfect for Vim!).
 - Delete things: `Delete` and `Backspace`.
 - Symbols like `:`, `'` and `$`.
@@ -212,20 +212,25 @@ I use it for lots of things. For instance:
 
 Here's a table (because I wasn't happy with the visualization I tried to make):
 
-Top Left            Key             Top Right           Key
+Top Left            Res             Top Right           Res
 ----------          -----           ------------        --------
-C + K               Q               X + W               #{ ↓ }
-  K + F             Z                   , + U             Backspace
-C + K + F           Delete            W + , + U           Ctrl + W (backspace word)
-**Home Left**       **Key**         **Home Right**      **Key**
-  T + H             Escape          N + A               :
-S + T               Tab               A + I             Enter
-S +   H             "               N +   I             '
-S + T + H           ;               N + A + I           Vim save
-**Bottom Left**     **Key**         **Bottom Right**    **Key**
-V + G               Vim vsplit      L + (               ^
-                                      ( + )             $
-V + G + P           Vim close       L + ( + )           Swedish layer
+`c` + `k`               `q`          `x` + `w`               `#{ ↓ }`
+  `k` + `f`             `z`             `,` + `u`             `Backspace`
+`c` + `k` + `f`           `Delete`     `w` + `,` + `u`           `Ctrl + W` (backspace word)
+**Home Left**       **Res**         **Home Right**      **Res**
+  `t` + `h`             `Escape`          `n` + `a`               `:`
+`s` + `t`               `Tab`               `a` + `i`             `Enter`
+`s` +   `h`             `"`               `n` +   `i`             `'`
+`s` + `t` + `h`           `;`           `n` + `a` + `i`           Vim save
+**Bottom Left**     **Res**         **Bottom Right**    **Res**
+`v` + `g`           Vim vsplit      `l` + `(`               `^`
+                                      `(` + `)`             `$`
+`v` + `g` + `p`     Vim close       `l` + `(` + `)`           Swedish layer
+
+**Mixed**                           **Res**
+------------                        -----------
+`t` + `a` (left + right ring)       CAPSWORD
+`Space` + `e` (left + right thumb)  NUMWORD
 
 The rationale here is that home-row combos are very easy to type, so the common keys like `Enter` and `:` go there.
 
@@ -235,43 +240,47 @@ There are also vertical combos with the common arrow combinations you often see 
 
 ![Vertical symbol combos](/images/kyria/sym-combo.png)
 
-Depending on the language, symbols like `>=`, `=>`, `|>` and `->` are common, but often difficult to type. Combos solve this really well, and my fingers no longer howl with pain having to type these things all over the place.
+Depending on the language, symbols like `>=`, `=>`, `|>` and `->` are common, but often difficult to type. Combos solve this really well.
 
-Also, splitting windows in vim is something I do a lot. Horizontal/vertical splits are laid out to match the split direction, and it's close to closing a window as well. (Why is saving vim on the right side then? Because `);` is very common. It's not perfect I know.)
+Also, splitting windows in vim is something I do a lot. Horizontal/vertical splits are laid out to match the split direction, and they're grouped next to closing a window. (Why is saving vim on the right side then? Because `);` is very common. It's not perfect I know.)
 
 
 ## What about shift?
 
 Where to place shift was one of the most difficult decisions for me. I considered these options:
 
-1. [One-shot shift][one-shot], where you press and release shift and the next letter will be shifted, is great. But it doesn't vibe well with E on the thumb (and no outer column).
+1. [One-shot shift][one-shot], where you press and release shift and the next letter will be shifted, is great. But it doesn't vibe well with `e` on the thumb (and no outer column).
 2. [Home-row mods][home-row], where you press and hold a regular key to turn it into shift. Many people love it, but I found it difficult to coordinate between left/right (as you want to hold with the opposite hand).
 3. [Auto Shift][], where you just do a long press to get an uppercase letter. It's convenient for single letters, but many people who have tried it says it messed up their rhythm.
 
-I wanted to use one-shot shift, but I just couldn't get it to work well with E on the thumb. I got the fiddly home-row config to work, and I think I could learn to live with it, but for me auto shift felt better.
+I wanted to use one-shot shift, but I just couldn't get it to work well with `e` on the thumb. I got the fiddly home-row config to work, and I think I could learn to live with it, but for me auto shift felt better.
 
 Sure, it's harder to type quickly with auto shift, but I want to maximize comfort over speed, and auto shift feels like the option requiring the least amount of effort. I do have one-shot shift keys, but on a separate layer, which I use for some shortcuts (more on that shortly).
 
-Typing multiple uppercase letters in a row does suck. That's why I also use "CAPSWORD", which is a smart caps lock that turns itself off after space or some other special characters. It makes it super easy to type variables like `POST_LIMIT` for example. I activate it with a `T` + `A` combo.
+Typing multiple uppercase letters in a row does suck. That's why I also use "CAPSWORD", which is a smart caps lock that turns itself off after space or some other special characters. It makes it super easy to type variables like `POST_LIMIT` for example.
 
 
 ## Mods & symbols
 
 I have modifiers combined with the other symbols, across two layers:
 
+FIXME / has moved
+
 ![Press left button for mods on the left and symbols on the right](/images/kyria/lmod.png)
 
 ![Press right button for mods on the right and symbols on the left](/images/kyria/rmod.png)
 
-Instead of home-row mods, I have mods on a separate layer. While you need to press one key extra to access `Ctrl` for instance, there are no timings here so it's very quick and it feels surprisingly good.  I've kept same-side mod activation because that's what I started with, and I don't feel a need to change it.
+Instead of home-row mods, I have mods on a separate layer. (Some refer to it as [callum-style mods][callum], from the person who invented/popularized it.) While you need to press one key extra to access `Ctrl` for instance, there are no timings here so it's very quick and it feels surprisingly good.  I've kept same-side mod activation because that's what I started with, and I don't feel a need to change it.
 
-Some shortcuts, like `Ctrl` + `A`, are impossible to press left-handed (when I use the mouse/trackball), so I've added them here. Dead keys (mostly to type `é`) are things I occassionally use, and above the mods was as good a spot as any.
+[callum]: https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers 
 
-I tried to place the symbols ordered by frequency, in some kind of logical groupings. There are very few symbol bigrams I have trouble typing. I find it's mostly holding down `LMOD` to type `[]` or similar.
+Some shortcuts, like `Ctrl` + `a`, are impossible to press left-handed (when I use the mouse/trackball), so I've added them here. Dead keys (mostly to type `é`) are things I occassionally use, and above the mods was as good a spot as any.
 
-While I can use the layer switches as one-shot for the symbols, I also have combos with `Space` + `<key>` to produce symbols from the base layer. I now use that exclusively, and relegate the layer switch for the symbol bigrams.
+I tried to place the symbols ordered by frequency, in some kind of logical groupings. There are very few symbol bigrams I have trouble typing. I find it's mostly holding down `LMOD` to type `[]` or similar. I've also kept the position of the symbols from base layer, so I don't have to switch layers if I type bigrams like `](` (but truthfully, it almost never comes up).
 
-One last annoyance is double- or triple-tapping symbols, particularly with the pinky, for things like `&&` or `"""`. I got around it by adding long press for them, similar to what auto shift does:
+While I can use the layer switches as one-shot for the symbols, I also have combos with `Space` + `<key>` to produce symbols from the base layer, for example `Space` + `a` = `[`. I now use that exclusively, and relegate the layer switch for the symbol bigrams.
+
+One last annoyance is double- or triple-tapping symbols, particularly with the pinky, for things like `&&`. I got around it by adding long press for them, similar to what auto shift does:
 
 Tap                                             Long press
 ----                                            -----------
@@ -279,35 +288,43 @@ Tap                                             Long press
 `"` `'` `=` \`                                  Triple symbol
 `!`                                             `!=` (because it was a bit awkward)
 
+One change I'm considering is moving `&` to a better spot, as it's just so common in Rust.
 
-## Where are the numbers?
+
+## Where are the digits?
 
 Here they are:
 
+FIXME / has moved
+FIXME remove 000
+
 ![Num layer, the dark gray keys turns off NUMWORD](/images/kyria/num.png)
 
-Yupp, I use numbers on home-row (and the low index, which is the next best key apart from the thumbs).
+Yupp, I use numbers on home-row (and the low index, which is the next best key apart from the thumbs). They're laid out prioritizing lower digits, slightly de-emphasizing index fingers as they're responsible for two digits. Separating even from odd numbers made sense from an optimization aspect, but it also made it easier to learn.
 
-What makes this special is that the layer switch is smart, similar to CAPSWORD as the layer turns off on space (which I call NUMWORD). So if I want to write `let x = 403;`{.rust} then I type `let x = <NUMWORD>403;` and the layer turns off after `;`. I trigger it with a `Space` + `E` combo (both thumbs, because it's very convenient).
+What makes this special is that the layer switch is smart, similar to CAPSWORD as the layer turns off on space (which I call NUMWORD). So if I want to write `if x == 3 do`{.elixir} then I type `if x == <NUMWORD>3 do` and the layer turns off after the space.
 
-What about `K`, `J` and `Shift G`? Those are for easy navigation with Vim. So `13k` means "13 lines above" and `127G` means "line number 127". Naturally, the layer turns itself off, so it doesn't interfere with my next commands. I use it all the time and it's fantastic.
+What about `k`, `j` and `Shift g`? Those are for easy navigation with Vim. So `13k` means "13 lines above" and `127G` means "line number 127". Naturally, the layer turns itself off, so it doesn't interfere with my next commands. I use it all the time and it's fantastic.
 
 
 ## Navigation
 
 ![Navigation, both two handed and one-handed](/images/kyria/nav.png)
 
-Navigation is the only "hold key down" I have. Vim-like arrows on the right side (but I try not to use them in Vim, as jumping with the NUM layer is more efficient). `Ctrl` + arrow is used to switch windows in Vim and `Gui` + `W`/`E`/`R` switches between my three monitors (it's here because it's so common).
+Navigation is the only "hold key down" I have. Vim-like arrows on the right side (but I try not to use them in Vim, as jumping with the NUM layer is more efficient). `Ctrl` + arrow is used to switch windows in Vim and `Gui` + `w`/`e`/`r` switches between my three monitors (it's here because it's so common).
 
-Navigation on the left hand is great when I have the right hand on the mouse. Initially I didn't have arrows here, I found myself missing them. `Ctrl` + `Tab` and `Ctrl` + `Shift` + `Tab` switches tabs in Firefox.
+Navigation on the left hand is great when I have the right hand on the mouse. Initially I didn't have arrows here, but I found myself missing them. `Ctrl` + `Tab` and `Ctrl` + `Shift` + `Tab` switches tabs in Firefox.
 
 I also have a workspace navigation layer, used exclusively for workspace manipulation:
 
+FIXME remove enter
+
 ![Workspace nav layer. All keys have `Gui` implicit.](/images/kyria/wnav.png)
 
-`Gui` + number switches to that workspace; `Gui` + `K`/`J` switches between windows; and if you add `Shift` you move the current window there.
+`Gui` + number switches to that workspace; `Gui` + `k`/`j` switches between windows; and if you add `Shift` you move the current window there.
 
 Having a separate layer for this isn't strictly needed, but it feels much more convenient.  I tried the regular one-shot mods and home-row mods on the number layer, but I just didn't like it that much. I also tried a smart layer or a simple layer switch (where I had to exit the layer explicitly), but I prefer having to hold down a key so I know that I'm in the workspace layer.
+
 
 ## Function layer
 
@@ -320,9 +337,10 @@ Nothing special going on with the function keys. Having them on the same positio
 
 ![Swedish overlay](/images/kyria/swe.png)
 
-As a Swede, I do type Swedish from time to time. But I never type code and Swedish at the same time, so it makes sense to have a Swedish mode that I can activate, for example when I need to write an email or similar.
+As a Swede, I do type Swedish from time to time. But I never type code and Swedish at the same time, so it made sense to have a Swedish mode that I can toggle, for example when I need to write an email or similar.
 
- It replaces `(`, `)` and `_`, as they're mostly used in code, and `ÅÄÖ` are practically never used next to the vowels, making the layout very pleasant for Swedish as well. The layer is is activated with `L` + `(` + `)` (and deactivated with the same keys).
+ It replaces `(`, `)` and `_`, as they're mostly used in code, and `åäö` are practically never used next to the vowels, making the layout very pleasant for Swedish as well. The layer is is activated with `l` + `(` + `)` (and deactivated with the same keys).
+
 
 ## Options
 
@@ -330,26 +348,47 @@ As a Swede, I do type Swedish from time to time. But I never type code and Swedi
 
 I have some runtime options I might occasionally want to access:
 
-- On a regular keyboard and on my laptop I've had `Escape` and `Caps Lock` swapped (to make it easier to press in Vim). I can toggle it on the keyboard as well so I can use it there as well.
+- On a regular keyboard and on my laptop I've had `Escape` and `Caps Lock` swapped (to make it easier to press in Vim). I can toggle it on the keyboard so I can use it there as well.
 - I don't currently have anything that differs between Windows and Linux I don't think, but things like window switching works differently. When I go back to working on Windows I'll probably make use of this.
-- `NUM` toggles a regular number layer, which I only use when I practice number typing.
+- `NUM` toggles a regular number layer, that don't deactivate on `Space`, which I  use when I practice number typing.
+
+
+# 34 keys are plenty
+
+If you're not into tweaking layouts it might sound crazy with only 34 keys (and maybe it is), but I still think there's plenty of space here:
+
+- With layers you multiply your available space, making it easy to have arrows, numbers, function keys and symbols right under your fingers.
+- Combos will in practice give you access to even more keys than a regular keyboard.
+- Multi function keys, with long press or double clicks (which I don't even use), combined with combos and layers gives you more available space than you'll ever need.
+
+I could easily fit much more functionality into my layout if I needed to. The constraint isn't space---it's your ability to learn and get proficient with a complex layout. (And I don't think it's *that* hard to learn a new layout, but that's a topic for another day.)
 
 
 # Is this the perfect layout?
 
-Hah, that's funny.
+Hah! That's funny...
 
 There are always things that could be done better. Here are some things that currently annoy me:
 
-- As I press the outer top keys (`Y` and `,`) with my ring finger, `SYS` is terrible to type as it's three letters in a row with the same finger.
-- `BJ` is crazy annoying. It gets worse if I program in a codebase that uses `Object` all over the place.
+- As I press the outer top keys (`y` and `,`) with my ring finger, "sys" is terrible to type as it's three letters in a row with the same finger.
 
-I've tried to address this by moving `Y` and `J`, but everything I've tried so far has created larger problems. So maybe I'll shove in a combo to produce "sys" and call it a day?
+  I've tried to address this by moving `y` and `j`, but everything I've tried so far has created larger problems. So maybe I'll shove in a combo to produce "sys" and call it a day?
 
-And there are a bunch of things that aren't optimal, but at this point I'm hitting very diminishing returns, so I'll try to avoid changing things unless it's something that really bothers me.
+- `bj` is crazy annoying. It gets worse if I program in a codebase that uses `Object` all over the place.
+- `"` is activated with the index + ring, which isn't super comfortable. Might switch it with `;` or `/`.
+- `j` is in the worst spot, even though I use it a lot in Vim.
+
+  Tried `j` as combos, but I liked that even less. At first I actually used the `NAV` layer, but I got annoyed at the extra layer switch and I had some misfiring due to timing issues.
+
+- Depending on the language, some symbols are a bit awkward. Might switch `&` with `\` or `@` with `~` for instance.
+
+
+And there are a bunch of things that aren't optimal, but at this point I'm hitting diminishing returns, so I'll try to avoid changing things unless it's something that really bothers me.
 
 
 # How did you implement this?
+
+I use QMK and [my keymap is on GitHub](https://github.com/treeman/qmk_firmware/tree/master/keyboards/kyria/keymaps/treeman).
 
 [GergoPlex]: https://www.gboards.ca/product/gergoplex "GergoPlex"
 [Kyria]: https://splitkb.com/products/kyria-pcb-kit "Kyria PCB Kit"
