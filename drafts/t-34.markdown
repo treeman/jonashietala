@@ -9,6 +9,9 @@ Because my new shiny layout has been unchanged for more than a week, I've clearl
 
 ![T-34/57 prototype. Because any self-respecting layout needs a name---and tanks are awesome.](/images/t-34/T-3457-prototype-side.png)
 
+Best get comfortable, this is a long post.
+
+
 # The journey is long and full of peril
 
 When you start looking at it, there are **tons** of good and interesting layouts. For example [Dvorak][], [Workman][], [Colemak Mod-DH][], [Hands Down][], [MTGAP 2.0][], BEAKL (many variants) and many others...
@@ -139,12 +142,16 @@ Optimizing alphas is an area where layouts have focused a lot of attention on. S
 
 1. Code basically follows English, which makes sense as you're mostly typing English words.
 2. There are some differences with Swedish, most notably `k` and `r` are more common (and some extra letters of course).
-3. My Vim usage makes some unusual keys quite common. Apparently I'm a `j`/`k` spammer (up/down)---which isn't a good habit to have as there are more efficient ways to move vertically. `w` and `b` (forward and backwards a word) and `:w` (save) are used a lot. I also seem to mistype a lot as `u` is very common (undo).
+3. My Vim usage makes some unusual keys quite common. Apparently I'm a `j`/`k` spammer (up/down)---which isn't a good habit to have as there are more efficient ways to move vertically. `w` and `b` (forward and backwards a word) and `:w` (save) are used a lot. I also seem to mistype a bunch as `u` is very common (undo).
 
 On one hand you might want to place these keys in better positions, but on the other hand they're often typed with a pause, after I've had time to think for a second or two, so it might not be important enough to warp the entire layout.
 
 
 # The layout
+
+On to the actual layout then. Illustrations are inspired by [the darnest thing][daily-beakl].
+
+[daily-beakl]: http://thedarnedestthing.com/daily%20beakl
 
 Features:
 
@@ -158,40 +165,49 @@ Features:
 
 ![Legend](/images/kyria/legend.png)
 
-## Base layer
 
-The base layer is based on [RSTHD](https://xsznix.wordpress.com/2016/05/16/introducing-the-rsthd-layout/), which seemed like a well optimized layout with E on the thumb.
+## Base layer
 
 ![Base layer](/images/kyria/base.png)
 
-As I've run into annoyances I've made some changes to it. Most notably:
+There are two different ways you can make decisions: you either take a strictly logical approach, using the left half of your brain, or you let your subconscious decide as you go by feeling, letting the right half of your brain run the show.
 
-- `E` on other thumb. Feels much better to avoid having "here", "there" and similar combinations on the same hand.
-- `Q` and `Z` moved away to combos in favor of more symbols.
-- Swap `D` and `P` (as I dislike the center column and lower index is good).
-- `K` is in a better spot as it's much more common in Swedish, and I use it a lot with Vim. As a bonus it makes `CK` very nice to type, again common in Swedish.
-- Swap L and W because L is more common (`W` is so common in the keylog because I spam save `:w` like a madman).
+It's common to use a program to optimize the layout, letting the computer explore tons of layouts very quickly. I did not go this route, as I found it difficult to write down my exact preferences. Instead I based my layout on [RSTHD](https://xsznix.wordpress.com/2016/05/16/introducing-the-rsthd-layout/), which is a well optimized layout, and tweaked it whenever I ran into things that annoyed me.
+
+> Feel the force!
+>
+> --- Yoda
+
+These are the most notable changes I've made to RSTHD:
+
+- `e` on other thumb. Feels much better to avoid having "here", "there" and similar combinations on the same hand.
+- `q` and `z` moved away to combos in favor of more symbols.
+- Swap `d` and `p` as I dislike the center column and lower index is good.
+- Swap `l` and `w` to place `l` on that good lower index.
+- `k` is in a better spot as it's much more common in Swedish, and I use it a lot with Vim. As a bonus it makes `ck` very nice to type, again common in Swedish.
 
 And the rationale for choosing the symbols:
 
+- `(` and `)` some of the most common symbols, so they got prime real estate that let's me type `()` quickly. As a bonus I can use them as a prefix for a lot of things in Vim. For instance `)d` (next LSP diagnostics), `)q` (next quickfix) and `)s` (next spellcheck error). (Nah, I never used `()` for their original purpose.)
+- `_` is also very common, and is almost always next to letters in `snake_case`, so having it on base is awesome. And it doubles as a Vim prefix, for example `_d` (goto definition) and `_h` (show help of thing under cursor).
+- Which of `.` and `,` to prioritize is a good question. I put `.` in a better position as it's used as "repeat last action" in Vim.
 - Some of the most common symbols that don't usually stand next to other symbols are moved to home-row combos. I find they're easier to type than moving my fingers off home-row, so `:`, `"`, `'`, and `;` were moved off base.
-- `(` and `)` are really common (even when I'm not coding lisp), and as a bonus I use it as a prefix for a lot of things in Vim. For instance `)d` "next LSP diagnostics", `)q` "next quickfix" and `)s` "next spellcheck error".
-- I chose `_` in favor of `-` as I have `->` and `<-` as combos and I prefer `snake_case` over `kebab-case`.
-- I use `/` as a regex search in Vim a lot and `=` is here because it's used next to other symbols a lot.
+- I use `/` as a regex search in Vim a lot.
+- `=` is on base as it makes ` = ` very comfortable, which is the primary usage for it.
 
-You could make a case for some other choices here; I think it heavily depends on your preferences and what code you work with.
+You could make a case for some other choices here; I'm considering swapping `/` and `"`, and I've gone back and forth on `=` on base several times. Still, this feels quite good---especially `(`, `)` and `_`.
 
 
 ## Combos
 
-A combo (sometimes called a chord) is when you press down two keys at the same time to produce something else. For instance if I press `C` and `K` at the same time I get `Q`. With the light choc switches I use this feels very nice, even pressing three keys or vertical combos with two keys using one finger.
+A combo (sometimes called a chord) is when you press down two keys at the same time to produce something else. For instance if I press `c` and `k` at the same time I get `q`. With the light choc switches I use this feels very nice, even pressing three keys or vertical combos with two keys using one finger.
 
 I use it for lots of things. For instance:
 
 - Hide the least common chars `Q` and `Z`.
 - "Big keys" on home-row: `Tab`, `Enter` and `Escape` (perfect for Vim!).
 - Delete things: `Delete` and `Backspace`.
-- Symbols that are mostly stand-alone, like `:`, `'` and `$`.
+- Symbols like `:`, `'` and `$`.
 - Special things, like saving in Vim (`:wq<br>`).
 
 Here's a table (because I wasn't happy with the visualization I tried to make):
