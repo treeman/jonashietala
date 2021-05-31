@@ -7,9 +7,11 @@ A couple of months ago I started looking into ergonomical keyboards; mainly spli
 
 Because my new shiny layout has been unchanged for more than a week, I've clearly found my Ultimate Layout™ and it's time to immortalize it with a blog post!
 
+... Best get comfortable, this is a long post.
+
 ![T-34/57 prototype. Because any self-respecting layout needs a name---and tanks are awesome.](/images/t-34/T-3457-prototype-side.png)
 
-Best get comfortable, this is a long post.
+(To be completely transparent, I've made a few changes to it during the time it has taken me to write this post. And I'm sure, the tweaking will never stop.)
 
 
 # The journey is long and full of peril
@@ -18,7 +20,7 @@ When you start looking at it, there are **tons** of good and interesting layouts
 
 They all have their pros and cons, and which one you prefer is highly subjective. At first I chose [BEAKL 15][], mostly because I liked the discussion on the now defunct BEAKL forums, and I had some strain on my right pinky that I wanted to minimize.
 
-Although the layout felt much better than QWERTY, after trying out a bunch of modifications, I've since moved away from BEAKL. At around 50 WPM I got increasingly annoyed at the high same finger usage (called SFU). At the same time I found that I wanted to use my pinkies more than BEAKL was designed for, which could be used to address the high SFU.
+Although the layout felt much better than QWERTY, after trying out a bunch of modifications, I've since moved away from BEAKL. At around 50 WPM I got increasingly annoyed at the high same finger usage (called SFU) and I found that I wanted to use my pinkies more than BEAKL was designed for, which could be used to address the high SFU.
 
 The breaking point came when I read an article about the benefits of [E on one of the thumb keys][e-thumb], which made me abandon BEAKL and try something else.
 
