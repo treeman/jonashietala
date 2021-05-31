@@ -191,11 +191,11 @@ And the rationale for choosing the symbols:
 - `(` and `)` some of the most common symbols, so they got prime real estate that let's me type `()` quickly. As a bonus I can use them as a prefix for a lot of things in Vim. For instance `)d` (next LSP diagnostics), `)q` (next quickfix) and `)s` (next spellcheck error). (Nah, I never used `()` for their original purpose.)
 - `_` is also very common, and is almost always next to letters in `snake_case`, so having it on base is awesome. And it doubles as a Vim prefix, for example `_d` (goto definition) and `_h` (show help of thing under cursor).
 - Which of `.` and `,` to prioritize is a good question. I put `.` in a better position as it's used as "repeat last action" in Vim.
-- Some of the most common symbols that don't usually stand next to other symbols are moved to home-row combos. I find they're easier to type than moving my fingers off home-row, so `:`, `"`, `'`, and `;` were moved off base.
-- I use `/` as a regex search in Vim a lot.
+- Some of the most common symbols that don't usually stand next to other symbols are moved to home-row combos. I find they're easier to type than moving my fingers off home-row, so `:`, `/`, `'`, and `;` were moved off base.
+- `"` is very common. I've also had `/` here, but I haven't fully decided which I prefer yet.
 - `=` is on base as it makes ` = ` very comfortable, which is the primary usage for it.
 
-You could make a case for some other choices here; I'm considering swapping `/` and `"`, and I've gone back and forth on `=` on base several times. Still, this feels quite good---especially `(`, `)` and `_`.
+This feels quite good---especially `(`, `)` and `_`.
 
 
 ## Combos
@@ -220,8 +220,8 @@ Top Left            Res             Top Right           Res
 **Home Left**       **Res**         **Home Right**      **Res**
   `t` + `h`             `Escape`          `n` + `a`               `:`
 `s` + `t`               `Tab`               `a` + `i`             `Enter`
-`s` +   `h`             `"`               `n` +   `i`             `'`
-`s` + `t` + `h`           `;`           `n` + `a` + `i`           Vim save
+`s` +   `h`             `;`               `n` +   `i`             `'`
+`s` + `t` + `h`           `/`           `n` + `a` + `i`           Vim save
 **Bottom Left**     **Res**         **Bottom Right**    **Res**
 `v` + `g`           Vim vsplit      `l` + `(`               `^`
                                       `(` + `)`             `$`
@@ -232,7 +232,7 @@ Top Left            Res             Top Right           Res
 `t` + `a` (left + right ring)       CAPSWORD
 `Space` + `e` (left + right thumb)  NUMWORD
 
-The rationale here is that home-row combos are very easy to type, so the common keys like `Enter` and `:` go there.
+The rationale here is that home-row combos are very easy to type, so the common keys like `Enter` and `:` go there. Split combos with the index and ring finger are slightly more awkward to type, but still good.
 
 Having related functionality close to each other makes it a little easier to learn, so `^` (goto first non-space char in line) and `$` (goto last char in line) pairs nicely. They, and the other combo-able symbols, are mostly stand-alone so there's minimal switching between layers to type them.
 
@@ -264,8 +264,6 @@ Typing multiple uppercase letters in a row does suck. That's why I also use "CAP
 
 I have modifiers combined with the other symbols, across two layers:
 
-FIXME / has moved
-
 ![Press left button for mods on the left and symbols on the right](/images/kyria/lmod.png)
 
 ![Press right button for mods on the right and symbols on the left](/images/kyria/rmod.png)
@@ -280,23 +278,17 @@ I tried to place the symbols ordered by frequency, in some kind of logical group
 
 While I can use the layer switches as one-shot for the symbols, I also have combos with `Space` + `<key>` to produce symbols from the base layer, for example `Space` + `a` = `[`. I now use that exclusively, and relegate the layer switch for the symbol bigrams.
 
-One last annoyance is double- or triple-tapping symbols, particularly with the pinky, for things like `&&`. I got around it by adding long press for them, similar to what auto shift does:
+One last annoyance is double- or triple-tapping symbols, particularly with the pinky, for things like `||`. I got around it by adding long press for them, similar to what auto shift does:
 
 Tap                                             Long press
 ----                                            -----------
-`|` `&` `+` `*` `-` `_` `<` `>` `/` `\`         Double symbol
-`"` `'` `=` \`                                  Triple symbol
-`!`                                             `!=` (because it was a bit awkward)
-
-One change I'm considering is moving `&` to a better spot, as it's just so common in Rust.
+`|` `&` `+` `*` `-` `_` `<` `>` `/` `\` `#`     Double symbol
+`"` `'` `=` `` ` ``                             Triple symbol
 
 
 ## Where are the digits?
 
 Here they are:
-
-FIXME / has moved
-FIXME remove 000
 
 ![Num layer, the dark gray keys turns off NUMWORD](/images/kyria/num.png)
 
@@ -304,7 +296,7 @@ Yupp, I use numbers on home-row (and the low index, which is the next best key a
 
 What makes this special is that the layer switch is smart, similar to CAPSWORD as the layer turns off on space (which I call NUMWORD). So if I want to write `if x == 3 do`{.elixir} then I type `if x == <NUMWORD>3 do` and the layer turns off after the space.
 
-What about `k`, `j` and `Shift g`? Those are for easy navigation with Vim. So `13k` means "13 lines above" and `127G` means "line number 127". Naturally, the layer turns itself off, so it doesn't interfere with my next commands. I use it all the time and it's fantastic.
+What about `k`, `j` and `G`? Those are for easy navigation with Vim. So `13k` means "13 lines above" and `127G` means "line number 127". Naturally, the layer turns itself off, so it doesn't interfere with my next commands. I use it all the time and it's fantastic.
 
 
 ## Navigation
@@ -316,8 +308,6 @@ Navigation is the only "hold key down" I have. Vim-like arrows on the right side
 Navigation on the left hand is great when I have the right hand on the mouse. Initially I didn't have arrows here, but I found myself missing them. `Ctrl` + `Tab` and `Ctrl` + `Shift` + `Tab` switches tabs in Firefox.
 
 I also have a workspace navigation layer, used exclusively for workspace manipulation:
-
-FIXME remove enter
 
 ![Workspace nav layer. All keys have `Gui` implicit.](/images/kyria/wnav.png)
 
@@ -351,6 +341,15 @@ I have some runtime options I might occasionally want to access:
 - On a regular keyboard and on my laptop I've had `Escape` and `Caps Lock` swapped (to make it easier to press in Vim). I can toggle it on the keyboard so I can use it there as well.
 - I don't currently have anything that differs between Windows and Linux I don't think, but things like window switching works differently. When I go back to working on Windows I'll probably make use of this.
 - `NUM` toggles a regular number layer, that don't deactivate on `Space`, which I  use when I practice number typing.
+
+
+## Specials
+
+![Special characters](/images/kyria/spec.png)
+
+There's plenty of room here for rare, but useful, symbols. What's a dead key? It's a sort of prefix to modify a symbol, so to type `ã` you press `~` (dead) `a`. The `^` combo is also turned into a dead key on this layer.
+
+You might say it's ridiculous to have this kind of layer, but I think it's very easy to learn with the keys staying in logical positions (dead `` ` `` has the same position as the normal `` ` `` for instance).
 
 
 # 34 keys are plenty
