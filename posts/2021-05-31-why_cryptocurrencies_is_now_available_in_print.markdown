@@ -1,11 +1,11 @@
 ---
-title: "Why Cryptocurrencies? Is finally out!"
+title: "Why Cryptocurrencies? is now available in print"
 tags: Cryptocurrency, Why cryptocurrencies?
 ---
 
 Today is a big milestone for me, as this marks a big milestone in the biggest personal project I've undertaken.
 
-My book '[Why Cryptocurrencies?][whycrypto]' is released in print today! It explains what cryptocurrencies are, in an approachable manner and focuses on the utility side of things.
+My book '[Why Cryptocurrencies?][whycrypto]' is released in print today! It's my attempt to explain what cryptocurrencies are and what problems they solve, in a simple and approachable manner.
 
 I've been working on the book in the open [on GitHub][src] and [the first recorded commit][1commit] is from Dec 19, 2018, with a chapter outline. 1237 commits later, and a bunch of work outside that, and the book is now Done™. (Only a year after my [blog post saying it was done][done]...)
 
@@ -24,7 +24,7 @@ I'm planning to write a couple of blog posts detailing how I made the book and s
 - Writing lessons learned after writing a book. (planned)
 - I self-published a book---was it worth it? (planned)
 
-After that, I can finally archive the book project as completely done.
+After that, I can finally archive the book project as done.
 
 [whycrypto]: https://whycryptocurrencies.com/
 [src]: https://github.com/treeman/why_cryptocurrencies
