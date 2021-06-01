@@ -43,13 +43,12 @@ The keymap is optimized for me and my quirks:
 
 3. I type mostly English, but it should work well with Swedish too.
 
-5 key sections
+I find it hard to put it in numbers how difficult/easy I think certain keys are, but it's *something* like this:
 
-0: thumbs + home row
-1: pinky home row + lower index
-2: rest of home block
-3: top outer + secondary thumb
-4: top/lower inner column + lower pinky
+![A relative effort grid, lower is better. Right pinky and thumb have a bit of RSI.](/images/kyria/effort.png)
+
+My RSI isn't that inhibiting. Just going down to 5 columns and two thumb keys fixes most of my issues. Pressing the top outer keys with the ring finger feels good.
+
 
 # Some armchair analysis
 
@@ -349,7 +348,7 @@ I have some runtime options I might occasionally want to access:
 
 ![Special characters](/images/kyria/spec.png)
 
-There's plenty of room here for rare, but useful, symbols. What's a dead key? It's a sort of prefix to modify a symbol, so to type `ã` you press `~` (dead) `a`. The `^` combo is also turned into a dead key on this layer.
+There's plenty of room here for rare, but useful, symbols. What's a dead key? It's a sort of prefix to modify a symbol, so to type `ã` you press `~` (dead) + `a`. The `^` combo is also turned into a dead key on this layer.
 
 You might say it's ridiculous to have this kind of layer, but I think it's very easy to learn with the keys staying in logical positions (dead `` ` `` has the same position as the normal `` ` `` for instance).
 
