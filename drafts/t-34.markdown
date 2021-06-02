@@ -306,7 +306,7 @@ I also have a workspace navigation layer, used exclusively for workspace manipul
 
 ![Workspace nav layer. All keys have `Gui` implicit.](/images/kyria/wnav.png)
 
-`Gui` + number switches to that workspace; `Gui` + `k`/`j` switches between windows; and if you add `Shift` you move the current window there.
+`Gui` + number switches to that workspace; `Gui` + `k`/`j` switches between windows; and if you `Shift` (long press) you move the current window there.
 
 Having a separate layer for this isn't strictly needed, but it feels much more convenient.  I tried the regular one-shot mods and home-row mods on the number layer, but I just didn't like it that much. I also tried a smart layer or a simple layer switch (where I had to exit the layer explicitly), but I prefer having to hold down a key so I know that I'm in the workspace layer.
 
@@ -342,7 +342,7 @@ I have some runtime options I might occasionally want to access:
 
 ![Special characters](/images/kyria/spec.png)
 
-There's plenty of room here for rare, but useful, symbols.
+There's plenty of room here for rare, but useful, symbols. Such as the arrow symbols `↑` and dead key modifiers.
 
 The pink keys are called "dead keys". A dead key is a sort of prefix to modify a symbol, so to type `ã` you press `~` (dead) + `a`. The `^` combo is also turned into a dead key on this layer.
 
