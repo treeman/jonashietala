@@ -1,3 +1,0 @@
-#!/bin/bash
-
-convert $1 -crop 707x291+19+220 $1
