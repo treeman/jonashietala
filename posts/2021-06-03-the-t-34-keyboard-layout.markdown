@@ -150,7 +150,7 @@ On one hand you might want to place these keys in better positions, but on the o
 
 # The layout
 
-On to the actual layout then. Illustrations are inspired by [the darnest thing][daily-beakl].
+On to the actual layout then. Illustrations are inspired by [the darnedest thing][daily-beakl].
 
 ![Legend](/images/t-34/legend.png)
 
