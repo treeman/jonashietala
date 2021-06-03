@@ -130,8 +130,6 @@ So what observations can we draw from this imperfect dataset? Here are some thou
 
 Typically digits follow [Benford's law][] that says that lower numbers are more common. How does that hold up for us?
 
-[Benford's law]: https://en.wikipedia.org/wiki/Benford%27s_law
-
 ![Digit frequencies](/images/t-34/combined-digit-freq.svg)
 
 Fairly well I'd say. Again, the keylog displays some different results, mainly because I tend to use workspaces `1`, `2`, `8` and `9` more on a traditional keyboard (accessed with `Gui` + number). This can be ignored when designing the layout as I can use whatever digit is convenient.
@@ -154,8 +152,6 @@ On one hand you might want to place these keys in better positions, but on the o
 
 On to the actual layout then. Illustrations are inspired by [the darnest thing][daily-beakl].
 
-[daily-beakl]: http://thedarnedestthing.com/daily%20beakl
-
 ![Legend](/images/t-34/legend.png)
 
 
@@ -165,7 +161,7 @@ On to the actual layout then. Illustrations are inspired by [the darnest thing][
 
 There are two different ways you can make decisions: you either take a strictly logical approach, using the left half of your brain, or you let your subconscious decide as you go by feeling, letting the right half of your brain run the show.
 
-It's common to use a program to optimize the layout, letting the computer explore tons of layouts very quickly. I did not go this route, as I found it difficult to write down my exact preferences. Instead I based my layout on [RSTHD](https://xsznix.wordpress.com/2016/05/16/introducing-the-rsthd-layout/), which is a well optimized layout, and tweaked it whenever I ran into things that annoyed me.
+It's common to use a program to optimize the layout, letting the computer explore tons of layouts very quickly. I did not go this route, as I found it difficult to write down my exact preferences. Instead I based my layout on [RSTHD][], which is a well optimized layout, and tweaked it whenever I ran into things that annoyed me.
 
 > Feel the force!
 >
@@ -265,8 +261,6 @@ I have modifiers combined with the other symbols, across two layers:
 
 Instead of home-row mods, I have mods on a separate layer. (Some refer to it as [callum-style mods][callum], from the person who invented/popularized it.) While you need to press one key extra to access `Ctrl` for instance, there are no timings here so it's very quick and it feels surprisingly good.  I've kept same-side mod activation because that's what I started with, and I don't feel a need to change it.
 
-[callum]: https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers 
-
 Some shortcuts, like `Ctrl` + `a`, are impossible to press left-handed (when I use the mouse/trackball), so I've added them here.
 
 I tried to place the symbols ordered by frequency, in some kind of logical groupings. There are very few symbol bigrams I have trouble typing. I find it's mostly holding down `LMOD` to type `[]` or similar. I've also kept the position of the symbols from base layer, so I don't have to switch layers if I type bigrams like `](` (but truthfully, it almost never comes up).
@@ -313,14 +307,14 @@ Having a separate layer for this isn't strictly needed, but it feels much more c
 
 ## Function layer
 
-![Function keys](/images/kyria/fun.png)
+![Function keys](/images/t-34/fun.png)
 
 Nothing special going on with the function keys. Having them on the same positions as numbers makes them easy to learn, which is important for me as I almost never use them.
 
 
 ## Swedish overlay
 
-![Swedish overlay](/images/kyria/swe.png)
+![Swedish overlay](/images/t-34/swe.png)
 
 As a Swede, I do type Swedish from time to time. But I never type code and Swedish at the same time, so it made sense to have a Swedish mode that I can toggle, for example when I need to write an email or similar.
 
@@ -329,7 +323,7 @@ As a Swede, I do type Swedish from time to time. But I never type code and Swedi
 
 ## Options
 
-![Options](/images/kyria/opt.png)
+![Options](/images/t-34/opt.png)
 
 I have some runtime options I might occasionally want to access:
 
@@ -340,7 +334,7 @@ I have some runtime options I might occasionally want to access:
 
 ## Specials
 
-![Special characters](/images/kyria/spec.png)
+![Special characters](/images/t-34/spec.png)
 
 There's plenty of room here for rare, but useful, symbols. Such as the arrow symbols `↑` and dead key modifiers.
 
@@ -383,21 +377,24 @@ And there are a bunch of things that aren't optimal, but at this point I'm hitti
 
 # How did you implement this?
 
-I use QMK and [my keymap is on GitHub](https://github.com/treeman/qmk_firmware/tree/master/keyboards/kyria/keymaps/treeman).
+I use QMK and [my keymap is on GitHub][keymap].
 
 
 [GergoPlex]: https://www.gboards.ca/product/gergoplex "GergoPlex"
 [Kyria]: https://splitkb.com/products/kyria-pcb-kit "Kyria PCB Kit"
-[Colemak Mod-DH]: https://colemakmods.github.io/mod-dh/
-[MTGAP 2.0]: https://mathematicalmulticore.wordpress.com/2010/06/21/mtgaps-keyboard-layout-2-0/
-[Hands Down]: https://sites.google.com/alanreiser.com/handsdown
-[Dvorak]: https://en.wikipedia.org/wiki/Dvorak_keyboard_layout
-[Workman]: https://workmanlayout.org/
-[BEAKL 15]: https://deskthority.net/wiki/BEAKL#BEAKL_15
-[e-thumb]: https://precondition.github.io/pressing-e-with-the-thumb
-[beakl wi]: http://thedarnedestthing.com/beakl%20wi
-[RSTHD]: https://xsznix.wordpress.com/2016/05/16/introducing-the-rsthd-layout/
-[daily beakl]: http://thedarnedestthing.com/daily%20beakl
-[Auto Shift]: https://docs.qmk.fm/#/feature_auto_shift
-[home-row]: https://precondition.github.io/home-row-mods
-[one-shot]: https://docs.qmk.fm/#/one_shot_keys
+[Colemak Mod-DH]: https://colemakmods.github.io/mod-dh/ "Colemak Mod-DH keyboard layout"
+[MTGAP 2.0]: https://mathematicalmulticore.wordpress.com/2010/06/21/mtgaps-keyboard-layout-2-0/ "MTGAP 2.0 keyboard layout"
+[Hands Down]: https://sites.google.com/alanreiser.com/handsdown "Hands Down keyboard layout"
+[Dvorak]: https://en.wikipedia.org/wiki/Dvorak_keyboard_layout "Dvorak keyboard layout"
+[Workman]: https://workmanlayout.org/ "Workman keyboard layout"
+[BEAKL 15]: https://deskthority.net/wiki/BEAKL#BEAKL_15 "BEAKL 15 keyboard layout"
+[e-thumb]: https://precondition.github.io/pressing-e-with-the-thumb "Pressing E with the thumb"
+[beakl wi]: http://thedarnedestthing.com/beakl%20wi "Beakl Wi keyboard layout"
+[RSTHD]: https://xsznix.wordpress.com/2016/05/16/introducing-the-rsthd-layout/ "RSTHD keyboard layout"
+[daily-beakl]: http://thedarnedestthing.com/daily%20beakl "Daily Beakl"
+[Auto Shift]: https://docs.qmk.fm/#/feature_auto_shift "Auto shift"
+[home-row]: https://precondition.github.io/home-row-mods "Home row mods"
+[one-shot]: https://docs.qmk.fm/#/one_shot_keys "One shot keys"
+[Benford's law]: https://en.wikipedia.org/wiki/Benford%27s_law "Benford's law"
+[callum]: https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers "Callum Oakley keymap"
+[keymap]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/kyria/keymaps/treeman "My keymap"
