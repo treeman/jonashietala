@@ -45,7 +45,7 @@ The keymap is optimized for me and my quirks:
 
 I find it hard to put it in numbers how difficult/easy I think certain keys are, but it's *something* like this:
 
-![A relative effort grid, lower is better. Right pinky and thumb have a bit of RSI.](/images/kyria/effort.png)
+![A relative effort grid, lower is better. Right pinky and thumb have a bit of RSI.](/images/t-34/effort.png)
 
 My RSI isn't that inhibiting. Just going down to 5 columns and two thumb keys fixes most of my issues. Pressing the top outer keys with the ring finger feels good.
 
@@ -156,12 +156,12 @@ On to the actual layout then. Illustrations are inspired by [the darnest thing][
 
 [daily-beakl]: http://thedarnedestthing.com/daily%20beakl
 
-![Legend](/images/kyria/legend.png)
+![Legend](/images/t-34/legend.png)
 
 
 ## Base layer
 
-![Base layer](/images/kyria/base.png)
+![Base layer](/images/t-34/base.png)
 
 There are two different ways you can make decisions: you either take a strictly logical approach, using the left half of your brain, or you let your subconscious decide as you go by feeling, letting the right half of your brain run the show.
 
@@ -233,7 +233,7 @@ Having related functionality close to each other makes it a little easier to lea
 
 There are also vertical combos with the common arrow combinations you often see in programming:
 
-![Vertical symbol combos](/images/kyria/sym-combo.png)
+![Vertical symbol combos](/images/t-34/sym-combo.png)
 
 Depending on the language, symbols like `>=`, `=>`, `|>` and `->` are common, but often difficult to type. Combos solve this really well.
 
@@ -259,9 +259,9 @@ Typing multiple uppercase letters in a row does suck. That's why I also use "CAP
 
 I have modifiers combined with the other symbols, across two layers:
 
-![Press left button for mods on the left and symbols on the right](/images/kyria/lmod.png)
+![Press left button for mods on the left and symbols on the right](/images/t-34/lmod.png)
 
-![Press right button for mods on the right and symbols on the left](/images/kyria/rmod.png)
+![Press right button for mods on the right and symbols on the left](/images/t-34/rmod.png)
 
 Instead of home-row mods, I have mods on a separate layer. (Some refer to it as [callum-style mods][callum], from the person who invented/popularized it.) While you need to press one key extra to access `Ctrl` for instance, there are no timings here so it's very quick and it feels surprisingly good.  I've kept same-side mod activation because that's what I started with, and I don't feel a need to change it.
 
@@ -285,7 +285,7 @@ Tap                                             Long press
 
 Here they are:
 
-![Num layer, the dark gray keys turns off NUMWORD](/images/kyria/num.png)
+![Num layer, the dark gray keys turns off NUMWORD](/images/t-34/num.png)
 
 Yupp, I use numbers on home-row (and the low index, which is the next best key apart from the thumbs). They're laid out prioritizing lower digits, slightly de-emphasizing index fingers as they're responsible for two digits. Separating even from odd numbers made sense from an optimization aspect, but it also made it easier to learn.
 
@@ -296,7 +296,7 @@ What about `k`, `j` and `G`? Those are for easy navigation with Vim. So `13k` me
 
 ## Navigation
 
-![Navigation, both two handed and one-handed](/images/kyria/nav.png)
+![Navigation, both two handed and one-handed](/images/t-34/nav.png)
 
 Navigation is the only "hold key down" I have. Vim-like arrows on the right side (but I try not to use them in Vim, as jumping with the NUM layer is more efficient). `Ctrl` + arrow is used to switch windows in Vim and `Gui` + `w`/`e`/`r` switches between my three monitors (it's here because it's so common).
 
@@ -304,7 +304,7 @@ Navigation on the left hand is great when I have the right hand on the mouse; in
 
 I also have a workspace navigation layer, used exclusively for workspace manipulation:
 
-![Workspace nav layer. All keys have `Gui` implicit.](/images/kyria/wnav.png)
+![Workspace nav layer. All keys have `Gui` implicit.](/images/t-34/wnav.png)
 
 `Gui` + number switches to that workspace; `Gui` + `k`/`j` switches between windows; and if you add `Shift` you move the current window there.
 
