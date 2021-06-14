@@ -1,5 +1,5 @@
 ---
-title: "Lessons learned after writing a book"
+title: "Writing lessons learned after writing a book"
 tags: Cryptocurrency, Why cryptocurrencies?
 ---
 
@@ -8,6 +8,16 @@ tags: Cryptocurrency, Why cryptocurrencies?
 # Writing is a skill
 
 ## Remove unnecessary words
+
+## Keep it simple stupid
+
+## Practice
+
+## Keep it personal
+
+Don't be afraid to use strong wording
+
+Use personal opinions. There's nothing wrong with "you" and "in my opinion".
 
 # Rewrite, rewrite, rewrite
 
