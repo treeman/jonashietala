@@ -1,0 +1,36 @@
+---
+title: "The T-34/0 keyboard layout "
+tags: Computer, Keyboards, T-34
+---
+
+![](/images/t-34-0/base.png)
+
+Two sets of changes:
+
+- Rotate `y`, `k`, `j`, `p`
+
+  To have `j` and `k` (up/down in Vim) in slightly better positons and to fix the troublesome `sys` and `bj` pairs.
+- Rotate `.`, `,` and move away `=`, `"` to make space for `Repeat` and `/` on base.
+
+  The big goal here was to add the `Repeat` key (more on that bad boy later).
+
+New/altered combos:
+
+                                    Top Right           Res
+----------          -----           ------------        --------
+                                    `w` + `Repeat`      `=`
+                                       `u` + `,`        `Reverse repeat`
+**Home Left**       **Res**        
+`s` +   `h`             `"`            
+`s` + `t` + `h`           `;`           
+
+![](/images/t-34-0/lmod.png)
+
+![](/images/t-34-0/rmod.png)
+
+Changes to the symbols layers:
+
+- `|` and `&` next to `Repeat`
+- `@` and `#` take their spots
+
+[isrt]: https://notgate.github.io/layout/
