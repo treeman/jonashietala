@@ -3,9 +3,13 @@ title: "Writing lessons learned after writing a book"
 tags: Cryptocurrency, Why cryptocurrencies?
 ---
 
-# Consistency is the most important thing
-
 # Writing is a skill
+
+A good writer isn't born; a good writer is created
+
+[writing-well]: https://www.goodreads.com/book/show/53343.On_Writing_Well
+
+
 
 ## Remove unnecessary words
 
@@ -18,6 +22,8 @@ tags: Cryptocurrency, Why cryptocurrencies?
 Don't be afraid to use strong wording
 
 Use personal opinions. There's nothing wrong with "you" and "in my opinion".
+
+# Consistency is the most important thing
 
 # Rewrite, rewrite, rewrite
 
