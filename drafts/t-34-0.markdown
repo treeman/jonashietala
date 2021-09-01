@@ -1,20 +1,54 @@
 ---
-title: "The T-34/0 keyboard layout "
+title: "The T-34/0 keyboard layout"
 tags: Computer, Keyboards, T-34
 ---
 
+This is an update to the [T-34][] keyboard layout I've been using for a few months. While there are still changes I'd like to try, I'm quite pleased with these changes so I figured I might as well immortalize them before I change my mind.
+
+
+# The repeat key
+
+The big change to the layout is the `Repeat` key. The concept is simple: when you press it you repeat the last pressed key.
+
+The first usage I'm aware of is the [IRST][] layout which the repeat key to lower the same finger usage. So for example to type "call" you'd type `c` `a` `l` `Repeat`, avoiding the double click on `l`. It's not as bad as pressing a key on the home-row and then directly after pressing a key on the top-row with the same finger, but it's still slightly annoying (especially with the pinky).
+
+So how common is the `Repeat` key? I tried to use my code corpus to see:
+
+![](/images/t-34-0/repeat-freq.svg)
+
+While the `Repeat` key is common, it does not qualify for the top 10 and so it does not out compete `Space` or `e` as a thumb key. (`Space` isn't listed in the graph so `d` comes in at 10th place.) This makes it quite tough to place.
+
+But it's usefulness isn't only on minimizing SFB, as it can easily repeat difficult keys as well. For instance I have many two- or three-key combos, and double tapping them are *not* pleasant. I tried to solve this by holding them down to simulate double or triple taps, but with a repeat key I can just do `combo` + `Repeat`. Feels very good!
+
+Or I can repeat modded keys. For instance to exit Elixir's REPL iex you need to do `Ctrl` + `c` twice.
+
+
+# Base layer
+
 ![](/images/t-34-0/base.png)
 
-Two sets of changes:
+Changes
 
 - Rotate `y`, `k`, `j`, `p`
 
   To have `j` and `k` (up/down in Vim) in slightly better positons and to fix the troublesome `sys` and `bj` pairs.
+
+- Swap `a` and `i`/`u`
+
 - Rotate `.`, `,` and move away `=`, `"` to make space for `Repeat` and `/` on base.
 
   The big goal here was to add the `Repeat` key (more on that bad boy later).
 
+- `sc` combo to fix bigram
+
+- Rollling `u` `Repeat` outputs `ui` to fix bigram
+
+
+# Combos
+
 New/altered combos:
+
+`q` and `qu`
 
                                     Top Right           Res
 ----------          -----           ------------        --------
@@ -24,13 +58,45 @@ New/altered combos:
 `s` +   `h`             `"`            
 `s` + `t` + `h`           `;`           
 
+Reverse Repeat, bidirectional pairs:
+
+A                   B
+--------------      ----------------
+`Ctrl` `n`          `Ctrl` `p`
+`*`                 `#`
+`Ctrl` `o`          `Ctrl` `i`
+`W`                 `B`
+
+Any other letter, pressing `Reverse Repeat` output the previous letter + `a`. This is 
+
+
 ![](/images/t-34-0/lmod.png)
 
 ![](/images/t-34-0/rmod.png)
 
 Changes to the symbols layers:
 
-- `|` and `&` next to `Repeat`
-- `@` and `#` take their spots
+- `@` `Repeat` `.` `,` `"` `/` `=`
 
-[isrt]: https://notgate.github.io/layout/
+
+# Tap hold
+
+Tap             Hold
+-----           ------      -----
+`|`             ` || `      One hold saves 4 key strokes for these common operators
+`&`             ` && `
+`=`             ` == `
+`!`             ` != `
+`@`             `@u`        Vim: Execute macro stored in `u`, to be paired with the `qu` combo
+`?`             `{:?}`      Rust debug print
+`#`             `{:#?}`     Rust debug pretty print
+`%`             `%{}`       A map in Elixir
+
+
+# What do I dislike?
+
+- `p` is in *the* worst spot on the keyboard.
+- Having `space` combo all symbols is a bit weird as the left mod only covers symbols on the right side, and it messes up my head. I'm considering to change so that `space` + key on the left = number and `space` + key on the right = symbol, and the reverse for `e`.
+- `Repeat` being on the same column as `a` and `5` isn't ideal, but I see no better alternative.
+
+[ISRT]: https://notgate.github.io/layout/
