@@ -3,7 +3,7 @@ title: "The T-34/0 keyboard layout"
 tags: Computer, Keyboards, T-34
 ---
 
-This is an update to the [T-34][] keyboard layout I've been using for a solid number of weeks. While there are more changes I'd like to try, I'm quite pleased with these changes so I figured I might as well immortalize them before I explore further.
+This is an update to the [T-34][] keyboard layout I've been using for a solid number of weeks. While there are more changes I'd like to try, I'm quite pleased with these changes so I figured I might as well immortalize them before I explore further. (And I do have a bunch of big changes I want to experiment with.)
 
 [T-34]: /blog/2021/06/03/the-t-34-keyboard-layout
 
@@ -63,16 +63,24 @@ Easiest would be to place it on a primary thumb---but it's not even close as fre
 
 It's also not quite frequent enough to warrant a position on the home-row for me, but it should be in the home-box (as in not on the edges).
 
-I think I found a decent position. It's not perfect, as words such as `falla` (to fall) cannot be typed comfortably with `Repeat`, and I have to double tapping `l` (or worse `Repeat` then `a`, which my brain wants to do). Still, neither `a`, `.`, `u`, `i` or `(` are almost never followed by `Repeat`, so in practice it works out fine.
+I think I found a decent position. It's not perfect, as words such as `falla` (to fall) cannot be typed comfortably with `Repeat`, and I have to double tapping `l` (or worse `Repeat` then `a`, which my brain wants to do). Still, neither `a`, `.`, `u`, `i` nor `(` are commonly followed by `Repeat`, so in practice it works out decently well.
 
 There's another change I made that's unrelated to `Repeat`, that aims to fix some issues I complained about in my [previous writeup](/blog/2021/06/03/the-t-34-keyboard-layout#is-this-the-perfect-layout):
 
-- Rotate `y`, `k`, `j`, `p`
+- Rotate `y`, `k`, `j`, `p`.
 
   To have `j` and `k` (up/down in Vim) in slightly better positons and to fix the troublesome `sys` and `bj` pairs.
 
 
 # Combos
+
+![](/images/t-34-0/q.png)
+
+![](/images/t-34-0/qu.png)
+
+![](/images/t-34-0/dquo.png)
+
+![](/images/t-34-0/scln.png)
 
 New/altered combos:
 
@@ -80,15 +88,12 @@ New/altered combos:
 
 - Rollling `u` `Repeat` outputs `ui` to fix bigram
 
-`q` and `qu`
-
                                     Top Right           Res
 ----------          -----           ------------        --------
                                     `w` + `Repeat`      `=`
                                        `u` + `,`        `Reverse repeat`
-**Home Left**       **Res**        
-`s` +   `h`             `"`            
-`s` + `t` + `h`           `;`           
+
+# Reverse repeat
 
 Reverse Repeat, bidirectional pairs:
 
@@ -159,7 +164,9 @@ I am a happy [Auto Shift][] user, where you hold down a key until the shifted va
 
 - `p` is in *the* worst spot on the keyboard, and it's not that rare to deserve such a bad position. (In fact I might ditch that key position completely, as it's the only position I have to move my entire hand to reach.)
 - Having `space` combo all symbols is a bit weird as the left mod only covers symbols on the right side, and it messes up my head. I'm considering to change so that `space` + key on the left = number and `space` + key on the right = symbol, and the reverse for `e`.
-- `Repeat` being on the same column as `a` and `5` isn't ideal, but I see no better alternative.
+- `Repeat` being on the same column as `a` and `5` isn't ideal. I'd like to try with `Repeat` on the secondary left-hand thumb, and to move the mods to combos instead.
 - The `!` combo is a bit awkward as the index and thumb come very close together.
+
+And now, with this post out of the way, I can start the next round of experimentation.
 
 [ISRT]: https://notgate.github.io/layout/
