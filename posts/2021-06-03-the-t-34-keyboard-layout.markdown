@@ -397,4 +397,4 @@ I use QMK and [my keymap is on GitHub][keymap].
 [one-shot]: https://docs.qmk.fm/#/one_shot_keys "One shot keys"
 [Benford's law]: https://en.wikipedia.org/wiki/Benford%27s_law "Benford's law"
 [callum]: https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers "Callum Oakley keymap"
-[keymap]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/kyria/keymaps/treeman "My keymap"
+[keymap]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/splitkb/kyria/keymaps/treeman "My keymap"
