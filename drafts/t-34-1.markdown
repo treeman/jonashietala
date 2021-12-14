@@ -1,0 +1,60 @@
+---
+title: "The T-34/1 keyboard layout"
+tags: Computer, Keyboards, T-34
+---
+
+This is the revision of the [T-34][] keyboard layout that I use as my primary driver. I've used this particular version without changes for almost 3 months, so I'd say it's a good improvement over the last revision.
+
+There are two large changes from [T-34/0][]: swapping `o` and `Repeat` and preferring mods on combos over [callum-style mods][callum].
+
+
+# Swap O and Repeat
+
+I do like the `Repeat` key, and although I tried to find a good place for it, having it on the same finger as `a`, `(` and `.` is not ideal. Even though `aa` and `(` aren't common, having `a` follow a double consonant, such as in the Swedish word `falla` (to fall) is.
+
+So I tried to swap `o` and `Repeat`, placing `o` on the top row and `Repeat` on the home row, but on the little finger:
+
+![Base layer](/images/t-34-1/base.png)
+
+Because I don't press `.` with the pinky, `Repeat` is only shared with a single key: `_`. Of course, there are some issues with it:
+
+1. When I code and type names like `__MODULE__` or `call_fun`, but I feel that it works much better than the previous position.
+
+   You might wonder then why I don't swap `,` and `_`? I haven't done it because on my Swedish layer, `_` is changed to `ö`, but I still want `,` when I type Swedish so `ö` would get a very weird position.
+1. `Repeat` is still [on the top row](/blog/2021/09/05/t-34-0#numbers) on the numbers layer, which breaks symmetry and hurts learning.
+1. My right pinky is by far my weakest finger, and sometimes I want to press `Repeat` a lot of time in succession (to repeat `Ctrl-n` for instance).
+1. Moving `o` away from the home row is unfortunate. It's not that big of a deal though, as the `ao` bigram isn't too common, and rolling `io` is still okay. It also makes the `ou` roll great.
+
+Overall, I think this change is a large improvement.
+
+
+# Modifiers
+
+Another thing I've been slightly annoyed with is mods. I've been using [callum-style mods][callum], where you essentially press the inner thumb key and then a mod on the home-row. There are no timings here, so you can tap them as quickly as you can.
+
+Timing wise, this feels great but for me the tucking of the thumb to reach the inner thumb key feels awkward and uncomfortable. Especially for my right thumb, where I've been having pain issues for the last year months or so.
+
+
+## Mods on combos
+
+So I started thinking of alternatives, and as combos are amazing and I already use them a ton, why not place mods on combos?
+
+I did have a keylog I did when I started creating the layout, but it didn't tell me much modifier wise; `Shift`, `Ctrl` and `Gui` all had about the same amount of usage, and for some reason `Alt` was never registered. Instead, I used my [dotfiles][] and felt out a modifier ranking:
+
+1. `Ctrl`. Even though I use Vim, where you prefer `j` and `k` over `Ctrl-n` and `Ctrl-p`, I do have a lot of `Ctrl` keybindings I use on a daily basis which must be convenient.
+2. `Gui`. I use `Gui` as my window manager prefix (to change windows, workspaces, open a terminal etc). A dedicated mod key isn't as important as I have [dedicated navigation layers][navigation], but still.
+3. `Ctrl` + `Shift`. Although I've tried to reduce other key combinations, I still use it occasionally (copy/paste from terminal for instance). This really isn't required, but it's a small quality of life.
+4. Everything else. I don't use `Alt` in any Vim command, but it still needs to be available (to open the browser menu for instance).
+
+   While `Shift` was (slightly) the most used modifier in my keylog, I've moved on to [auto shift][] so a separate `Shift` key is not needed.
+
+
+## Common shortcuts
+
+
+[T-34]: /blog/tags/t-34/
+[T-34/0]: /blog/2021/09/05/t-34-0/
+[callum]: https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers "Callum Oakley keymap"
+[dotfiles]: https://github.com/treeman/dotfiles
+[navigation]: /blog/2021/06/03/the-t-34-keyboard-layout#navigation
+[auto shift]: https://docs.qmk.fm/#/feature_auto_shift
