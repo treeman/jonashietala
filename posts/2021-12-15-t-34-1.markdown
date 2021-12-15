@@ -1,0 +1,152 @@
+---
+title: "The T-34/1 keyboard layout"
+tags: Computer, Keyboards, T-34
+---
+
+This is the revision of the [T-34][] keyboard layout that I use as my primary driver. I've used this particular version without any major changes for almost 3 months, so I'd say it's a good improvement over the last revision.
+
+There are two large changes from [T-34/0][]: swapping `o` and `Repeat` and preferring modifiers on combos over [callum-style mods][callum].
+
+
+# Swap O and Repeat
+
+I do like the `Repeat` key, and although I tried to find a good place for it, having it on the same finger as `a`, `(` and `.` is not ideal. Even though `aa` and `((` aren't common, having `a` follow a double consonant---such as in the Swedish word `falla` (to fall)---is.
+
+So I tried to swap `o` and `Repeat`, placing `o` on the top row and `Repeat` on the home row, but on the little finger:
+
+![Base layer](/images/t-34-1/base.png)
+
+Because I don't press `.` with the pinky, `Repeat` is only shared with a single key: `_`, which is great!
+
+Of course, there are some trade-offs with it:
+
+1. When I code and type names like `__MODULE__` or `call_fun`, I sometimes have SFB with the pinky (which is very uncomfortable). Adding a long-press to `_` for `__` helps a little.
+
+   You might wonder then why I don't swap `,` and `_`? Two reasons:
+
+   - `,` is much more common than `_`, and I would instead get SFB from things like `fall,`, which is not a good trade-off.
+   - On my Swedish layer, `_` is changed to `ö`, but I still want `,` when I type Swedish so `ö` would get a very weird position.
+1. `Repeat` is still [on the top row](/blog/2021/09/05/t-34-0#numbers) on the numbers layer, which breaks symmetry and hurts learning.
+1. My right pinky is by far my weakest finger, and sometimes I want to press `Repeat` a lot of time in succession (to repeat `Ctrl-n` for instance).
+1. Moving `o` away from the home row is unfortunate as it is one of the [most common keys][repeat-freq]. It's not the end of the world though as `Repeat` is also [quite common][repeat-freq], the `ao` bigram isn't that problematic, and rolling `io` is still okay. It also makes the `ou` roll great.
+
+But all-in-all, after 3 months of feeling it out, I think this change is a large improvement.
+
+[repeat-freq]: /blog/2021/09/05/t-34-0#the-repeat-key
+
+
+# Modifiers
+
+Another thing I've been slightly annoyed with is mods. I've been using [callum-style mods][callum], where you essentially press the inner thumb key and then a mod on the home-row. There are no timings here, so you can tap them as quickly as you can.
+
+This does feel great timing wise, but for me the tucking of the thumb to reach the inner thumb key feels awkward and uncomfortable. Especially for my right thumb, where I've been having pain issues for the last year or so.
+
+(And when I say *inner* thumb keys, I mean `SHRT RSYM` and `MOD LSYM`, not `Space` and `E` which are super comfortable.)
+
+
+## Modifiers on combos
+
+So I started thinking of alternatives, and as I have a hard-on for combos and I use them everywhere, why not place mods on combos?
+
+I did use a keylog when I started creating the layout, but it didn't tell me much modifier wise; `Shift`, `Ctrl` and `Gui` all had about the same amount of usage, and for some reason `Alt` was never registered. Instead, I used my [dotfiles][] and used ~~the force~~ felt out a modifier ranking:
+
+1. `Ctrl`. Even though I use Vim, where you prefer `j` and `k` over `Ctrl-n` and `Ctrl-p`, I do have a lot of `Ctrl` keybindings I use on a daily basis.
+1. `Gui`. I use `Gui` as my window manager prefix (to change windows, workspaces, open a terminal etc). A dedicated mod key isn't as important as I have [dedicated navigation layers][navigation], but still.
+1. `Ctrl` + `Shift`. Although I've tried to reduce other key combinations, I still use it occasionally (copy/paste from terminal for instance). This really isn't required, but it's a small quality of life.
+
+   (Confession time: as I'm writing this post I realize that my `Ctrl` + `Shift` implementation is completely broken and has never even worked. Guess it wasn't so important after all.)
+1. While `Shift` was (slightly) the most used modifier in my keylog, I've moved on to [auto shift][] so it's not at all important. There's still some usage for it, for instance to `Shift` + mouse select in file browsers, so it's good to have especially on the left side.
+1. Everything else. I don't use `Alt` in any Vim command, but it still needs to be available (to open the browser menu for instance). Ideally I'd like to freely combine mods in weird ways if some program requires it.
+
+I already have a lot of combos, so it was a bit of a struggle to find good positions, but here's what I ended up with:
+
+<figure>
+  ![](/images/t-34-1/lgui.png)
+  ![](/images/t-34-1/rgui.png)
+  ![](/images/t-34-1/lctrl.png)
+  ![](/images/t-34-1/rctrl.png)
+</figure>
+
+<figure>
+  ![](/images/t-34-1/lshft.png)
+  ![](/images/t-34-1/rshft.png)
+  ![](/images/t-34-1/lctrl-shift.png)
+  ![](/images/t-34-1/rctrl-shift.png)
+</figure>
+
+The `Ctrl` combo is *slightly* awkward with the home/bottom split, but it's not too bad. Maybe it would be better as a home-row combo, but I'm very happy with the combos I have there...
+
+
+## Other mod combinations
+
+I still have the same modifier setup on the right-hand side, allowing me to easily make whatever modifier combination I need:
+
+![Mods & symbols](/images/t-34-1/rmod.png)
+
+
+## Common shortcuts
+
+With mods out of the way, we can now have a shortcut layer on the left side:
+
+![Shortcuts & symbols](/images/t-34-1/lmod.png)
+
+The idea is to have the common shortcuts reachable with the left hand so I can use mouse-required software conveniently. I only really need the keys that are on the left-side in qwerty and on the right side in my layout (`w`, `e`, `a` and `x`), but I added others as well to make them slightly easier.
+
+Am I thrilled about the layout of the shortcuts? No, but it has worked well enough for it's purpose.
+
+As for `Repeat`, it takes the same place on the pinky as on the base layer, and `^` takes the top row as the old combo location has been taken by a modifier.
+
+
+# Future experiments
+
+While I haven't made any changes to the layout for a while, I've been keeping notes of ideas I get of or things that annoys me. And here are the big things I'd like to try when I have the time and energy to play with:
+
+- Swap num/sym thumb combos.
+
+  I currently have `left thumb` + `key` = `symbol`, but I'm still tripping up sometimes as the symbol layers are triggered with the opposite thumb (hold `right thumb` = `left side symbols`). Therefore I'd like to try `opposite side combo` = `symbol` to see if my brain parses it better.
+
+- More advanced tap/hold combos.
+
+  I still don't like the inner thumb keys, so I'd like to try activating layers by holding combos instead. Just some ideas:
+
+  Tap                 Hold
+  --------------      -------------------------
+  `Tab`               `Ctrl`
+  `Escape`            Symbols on the right
+  `:`                 Symbols on the left
+  `Enter`             `Ctrl`
+  `;`                 Mods on the right hom-row
+
+  Note that these are all home-row combos, and this change would almost completely free up the inner thumbs for other (less used) things.
+
+- Try out `p` and `x` as combos.
+
+  They're in the worst spot (well, except the inner thumb keys) so I'd especially like to move `p` away from it. And as I already use combos for most things, why not try `p` and `x` as well?
+
+- Instant leader keys for options.
+
+  I do have separate `SPEC` and `OPT` layers, for things toggling a persistent numbers layer or to type `é`, but I use them so rarely that I tend to forget their positions.
+
+  A [leader key][], is a nice idea as you can use several keypresses to trigger a single function. For instance you can have:
+
+  Sequence              Action
+  ---------             ----------
+  `Leader` `t` `n`      **T**oggle **N**umber layer
+  `Leader` `t` `c`      **T**oggle **C**aps lock
+
+  So to toggle numbers you only have to remember the mnemonic **T**oggle **N**umber to remember the sequence `Leader` `t` `n`.
+
+  I have tried [QMK's leader key][leader key] before, but with little success. It's based on timeouts, which I for some reason found really difficult to consistently trigger (and they took a lot of memory too).
+
+  But there is a [userspace leader sequence][] that I'd like to try instead, which seems like it would solve the timing issues I had.
+
+If you're interested, the [QMK code is on GitHub](https://github.com/treeman/qmk_firmware/tree/master/keyboards/ferris/keymaps/treeman). But beware, there be dragons.
+
+[T-34]: /blog/tags/t-34/
+[T-34/0]: /blog/2021/09/05/t-34-0/
+[callum]: https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers "Callum Oakley keymap"
+[dotfiles]: https://github.com/treeman/dotfiles
+[navigation]: /blog/2021/06/03/the-t-34-keyboard-layout#navigation
+[auto shift]: https://docs.qmk.fm/#/feature_auto_shift
+[leader key]: https://docs.qmk.fm/#/feature_leader_key
+[userspace leader sequence]: https://github.com/andrewjrae/kyria-keymap#userspace-leader-sequences
