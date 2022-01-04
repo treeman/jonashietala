@@ -20,10 +20,16 @@ A new year is always a good time to review the past year. Funny how this is alre
 
 # 2021 Geek Achievements
 
-0. Got a lot of funding for an open-source project that I've been working on.
+[whycrypto]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?"
+
+0. I [self-published a book][whycrypto]!
+
+    ![It's so real I can hold it in my hand.](/images/whycrypto/cover-hand.png)
+
+0. Got a lot of funding for [BitPal][], an open-source project I've been working on.
 0. Wrote a bunch of Rust.
 
-    Bought a bunch of Rust programming books too, but the only one I've read through is *Programming Rust*, which was good.
+    Bought a bunch of Rust programming books too, but the only one I've read yet is *Programming Rust*, which was good.
 
 0. Wrote a lot of Elixir.
 
@@ -37,35 +43,69 @@ A new year is always a good time to review the past year. Funny how this is alre
 
 ## Boardgames I remember
 
-- *Vital Lacerda* is famous for designing thematic and very complex Eurogames. Some hate them, others maintain that they're the best things since sliced bread and I lean towards the latter.
+- *Vital Lacerda* is famous for designing thematic and very complex Eurogames. Some hate them, others maintain that they're the best things since sliced bread, and I lean towards the latter.
 
     I bought and played three of them:
 
-    0. **On Mars** is very complex with a lot of rules (it took me ~30 min to explain them, even though I skipped a bunch and came prepared). Still, it's an absolutely amazing game and it was the highlight of the year for me.
-    0. **The Gallerist** is also on the complex side, but I still find it very approachable. Also an amazing game and I find it's very difficult to decide between it and On Mars.
-    0. I only played **Vinhos** once. While it's undoubtedly a very good game, it has taken a step back compared to the two other Lacerdas. I'd like to play it more.
+    0. [On Mars][] is very complex with a lot of rules (it took me ~30 min to explain them, even though I skipped a bunch and came prepared). Still, it's an absolutely amazing game and it was the highlight of the year for me.
+    0. [The Gallerist][] is also on the complex side, but I still find it very approachable. Also an amazing game and it's right up there with On Mars for me.
+    0. I only played [Vinhos][] once. While it's undoubtedly a very good game, it has taken a step back compared to the two other Lacerdas. I'd like to play it more.
 
-- **Food Chain Magnate** is easily one of my favorite games of all time, and I got to play a game with the new milestones from the **Ketchup** expansion. And what can I say? It was great, and if you want more variation to the game the expansion is fantastic.
+- [Food Chain Magnate][] is easily one of my favorite games of all time, and I got to play a game with the new milestones from the [Ketchup expansion][ketchup]. And what can I say? It was great, and if you want more variation to the game the expansion is fantastic.
 
 - My kid is now 4 years old and at long last he's old enough to play some decent board games. Both me and him liked [Animal Upon Animal](https://boardgamegeek.com/boardgame/17329/animal-upon-animal) and [Rhino Hero](https://boardgamegeek.com/boardgame/91514/rhino-hero), which are fun enough to play with adults as well!
 
+[On Mars]: https://boardgamegeek.com/boardgame/184267/mars "On Mars"
+[The Gallerist]: https://boardgamegeek.com/boardgame/125153/gallerist "The Gallerist"
+[Vinhos]: https://boardgamegeek.com/boardgame/175640/vinhos-deluxe-edition "Vinhos Deluxe Edition"
+[Food Chain Magnate]: https://boardgamegeek.com/boardgame/175914/food-chain-magnate "Food Chain Magnate"
+[ketchup]: https://boardgamegeek.com/boardgameexpansion/261526/food-chain-magnate-ketchup-mechanism-other-ideas "Food Chain Magnate: The Ketchup Mechanism & Other Ideas"
+
 ## New mangas/manwhas I remember
 
-- SSS-Class Suicide Hunter, Omniscent Reader's Viewpoint (smart MCs)
-- Legend of the Northern Blade (truly amazing martial arts manwha)
-- The Beginning After the End, Volcanic Age (great regression stories)
-- Murim Login (martial arts + humor)
+- Tired of unoriginal OP MCs? Want a smart MC and clever story?
+
+    Then *SSS-Class Suicide Hunter* or *Omniscent Reader's Viewpoint* might be for you! (I hear the light novels are amazing too.)
+
+- Maybe you still want awesome action, but avoid the common tropes?
+
+    Then check out *Legend of the Northern Blade*.
+
+- Perhaps your thing is regression stories?
+
+    I loved *The Beginning After the End* and *Volcanic Age*.
+
+- Or a satisfying combination of fighting and humor?
+
+    *Murim Login* is half-part hilarity and half-part awesomeness.
 
 # 2021 Failures
 
-0. Did not finish the book
-0. Did not advance BitPal into a usabable state
+0. My book project wasn't completely finished.
 
+    I still need to finish the e-book and make it available for sale.
 
-# Goals for 2022
+0. Did not advance [BitPal][] into a useable state.
 
-0. Finish my book for real
-1. BitPal 0.1
+    This is my open source cryptocurrency payment processor I've been working on. Unfortunately, it's still not in a state where I'd be comfortable for others to use. Apart from the missing documentation, the web interface is still work-in-progress and there are some breaking changes to the API I'd like to make.
+
+# Plans for 2022
+
+0. Be with my kids.
+
+    They're in a lovely age right now.
+
+0. Finish my book project for real.
+
+    This includes making the e-book, some blog posts about the process, integrate my with BitPal to sell digital copies and everything else to completely wrap-up the project.
+
+0. Exercise & health focus.
+
+    - I will eat healthier.
+    - I will continue working with my strength coach.
+    - I will exercise up to 5 days a week (weight lifting + grappling).
+
+(I'm working on converting these to [SMART goals][SMART]. We'll see how that goes, maybe I'll make another post about them, but maybe not.)
 
 [previous years]: </blog/tags/yearly_review/> "Yearly reviews"
 [peak]: https://www.goodreads.com/book/show/26312997-peak "Peak: Secrets from the New Science of Expertise"
@@ -73,3 +113,6 @@ A new year is always a good time to review the past year. Funny how this is alre
 [blog posts]: /archive "My archive"
 [Kabuki]: https://kabukistrength.com/coaching/ "Kabuki coaching"
 [t-34]: /blog/tags/t-34/ "T-34"
+[SMART]: https://www.indeed.com/career-advice/career-development/smart-goals "SMART Goals"
+[BitPal]: https://github.com/bitpal/bitpal "BitPal"
+
