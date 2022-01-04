@@ -37,10 +37,17 @@ A new year is always a good time to review the past year. Funny how this is alre
 
 ## Boardgames I remember
 
-- *Vital Lacerda*. **On Mars**, **The Gallerist** and **Vinhos**.
-- **Food Chain Magnate: The Ketchup Mechanism & Other Ideas**.
-- [Animal Upon Animal](https://boardgamegeek.com/boardgame/17329/animal-upon-animal)
-- [Rhino Hero](https://boardgamegeek.com/boardgame/91514/rhino-hero)
+- *Vital Lacerda* is famous for designing thematic and very complex Eurogames. Some hate them, others maintain that they're the best things since sliced bread and I lean towards the latter.
+
+    I bought and played three of them:
+
+    0. **On Mars** is very complex with a lot of rules (it took me ~30 min to explain them, even though I skipped a bunch and came prepared). Still, it's an absolutely amazing game and it was the highlight of the year for me.
+    0. **The Gallerist** is also on the complex side, but I still find it very approachable. Also an amazing game and I find it's very difficult to decide between it and On Mars.
+    0. I only played **Vinhos** once. While it's undoubtedly a very good game, it has taken a step back compared to the two other Lacerdas. I'd like to play it more.
+
+- **Food Chain Magnate** is easily one of my favorite games of all time, and I got to play a game with the new milestones from the **Ketchup** expansion. And what can I say? It was great, and if you want more variation to the game the expansion is fantastic.
+
+- My kid is now 4 years old and at long last he's old enough to play some decent board games. Both me and him liked [Animal Upon Animal](https://boardgamegeek.com/boardgame/17329/animal-upon-animal) and [Rhino Hero](https://boardgamegeek.com/boardgame/91514/rhino-hero), which are fun enough to play with adults as well!
 
 ## New mangas/manwhas I remember
 
@@ -48,7 +55,6 @@ A new year is always a good time to review the past year. Funny how this is alre
 - Legend of the Northern Blade (truly amazing martial arts manwha)
 - The Beginning After the End, Volcanic Age (great regression stories)
 - Murim Login (martial arts + humor)
-
 
 # 2021 Failures
 
