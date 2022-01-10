@@ -10,7 +10,7 @@ A new year is always a good time to review the past year. Funny how this is alre
 
 0. Started strength training using a strength coach from [Kabuki][].
 
-    I got inspired by the book [Peak][peak] that makes the case for the efficiency of having an experienced coach guide your skill development, and I decided to try out the virtual coaching. I get help with designing a program and checking my form. So far it's been great.
+    I got inspired by the book [Peak][peak] that makes the case for the efficiency of having an experienced coach guide your skill development, and I decided to try out the virtual coaching. I get help with designing a program and checking my form and so far it's been great.
 
 0. Wrote [8 blog posts][blog posts].
 0. Started the re-read of [The First Law][abercrombie] series and the other books in the universe.
@@ -26,17 +26,20 @@ A new year is always a good time to review the past year. Funny how this is alre
 
     ![It's so real I can hold it in my hand.](/images/whycrypto/cover-hand.png)
 
-0. Got a lot of funding for [BitPal][], an open-source project I've been working on.
+0. Got funding for [BitPal][], an open-source project I've been working on.
 0. Wrote a bunch of Rust.
 
-    Bought a bunch of Rust programming books too, but the only one I've read yet is *Programming Rust*, which was good.
+    Bought a bunch of Rust programming books too, but the only one I've read yet is *Programming Rust*, which was very good.
 
 0. Wrote a lot of Elixir.
 
-    Also read a bunch of Elixir books. *Elixir in Action* was bloody fantastic.
+    Also read a bunch of Elixir books. *Elixir in Action* was fantastic.
 
 0. Wrote some C, Python, Typescript and probably something else too.
 0. Started using a (very) [custom keyboard layout][t-34] on a 34-key split keyboard.
+
+    ![The base layout of my keyboard layout T-34/1](/images/t-34-1/base.png)
+
 0. Did some web design.
 
     The book *The Non-Designer's Design Book* is great for design-fledglings like me.
@@ -97,7 +100,7 @@ A new year is always a good time to review the past year. Funny how this is alre
 
 0. Finish my book project for real.
 
-    This includes making the e-book, some blog posts about the process, integrate my with BitPal to sell digital copies and everything else to completely wrap-up the project.
+    This includes making the e-book, some blog posts about the process, integrate with BitPal to sell digital copies and everything else to completely wrap-up the project.
 
 0. Exercise & health focus.
 
