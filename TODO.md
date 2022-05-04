@@ -1,7 +1,16 @@
-# Finish posts
+# Blog ideas
 
-1. Updates to the site (pygments + git commit hash)
-2. Writing a Pollen lexer in Pygments
-3. My book is done!
-4. How I wrote a book using Pollen
+- "Uses" page (hardware, software etc): https://rusingh.com/uses/
+- Post series: https://fasterthanli.me/series
+- Multiple RSS feeds (one for T-34 for instance)
+- Styled RSS feedS: https://interconnected.org/home/feed
+
+# Blog rewrite
+
+1. Rust rewrite for speed and reproducability
+2. Post series
+
+# Post ideas
+
+1. How I wrote a book using Pollen
 
