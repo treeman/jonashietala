@@ -15,7 +15,7 @@ Then on a whim I wanted to restyle this site. When I built it I kinda left it wi
 
 I couldn't find any reference to highlighting pandoc styled like gruvbox, so I tried to emulate on myself. I use the darker one in neovim and in the terminal, but for the web page I used the lighter one:
 
-```{.css}
+```css
 code, pre { background-color: #f2e5bc; } /* Hard contrast */
 code.sourceCode span.kw { color: #9d0006; } /* Keyword red */
 code.sourceCode span.dt { color: #b57614; } /* Datatype yellow */
@@ -36,7 +36,7 @@ This works with the [highlighting-kate package][] which is what [pandoc][], and 
 
 Additionally to get nicer spacing and font these styles are used:
 
-```{.css}
+```css
 code {
     font-family: Consolas,"Courier New",monospace;
     font-size: 0.9em;

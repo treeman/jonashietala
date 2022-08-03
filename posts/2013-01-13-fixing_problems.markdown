@@ -28,7 +28,7 @@ This affects you if you're using xmonad (or similar?) and java 1.7. The solution
 
 Another problem I've had earlier was that minecraft tries to full screen over both of my screens instead of just one. The solution is to add this to your `xmonad.hs`.
 
-``` {.haskell}
+```haskell
 
 main = xmonad defaultConfig {
     ...

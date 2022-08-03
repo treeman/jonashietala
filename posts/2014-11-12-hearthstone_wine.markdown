@@ -10,7 +10,7 @@ Get wine source from [git][]. My version was `wine-1.7.30-121-g6fe4d9e`.
 
 Make `shlexec.patch` inside the source directory
 
-```{.diff}
+```diff
 @@ -, +, @@ 
     Revert "shell32: Use CREATE_NEW_CONSOLE when SEE_MASK_NOCONSOLE is omitted."
     
@@ -30,7 +30,7 @@ Make `shlexec.patch` inside the source directory
 
 Before `make` run
 
-```{.bash}
+```bash
 patch -p1 < shlexec.patch
 ```
 

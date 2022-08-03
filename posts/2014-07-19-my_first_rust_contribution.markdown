@@ -22,13 +22,13 @@ Firstly we should try to [build rust][]. There are some useful things about buil
 
 For making the documentation:
 
-```{.shell}
+```shell
 make docs NO_REBUILD=1
 ```
 
 And making other things:
 
-```{.shell}
+```shell
 make -j<num-cores> NO_REBUILD=1 NO_BENCH=1 CFG_DISABLE_VALGRIND=1
 ```
 
@@ -42,13 +42,13 @@ Before we start hacking it's good to have an idea of the git workflow we're goin
 
 Firstly, clone `git@github.com:rust-lang/rust.git` and push that repo into your github account. I have that as my `origin`. Then create an `upstream` branch:
 
-```{.shell}
+```shell
 git remote add upstream https://github.com/rust-lang/rust
 ```
 
 For me it looks like this:
 
-```{.shell}
+```shell
 $ g remote -v
 origin      git@github.com:treeman/rust.git (fetch)
 origin      git@github.com:treeman/rust.git (push)
@@ -58,13 +58,13 @@ upstream    https://github.com/rust-lang/rust (push)
 
 When we want to start working on something new, always create a new branch:
 
-```{.shell}
+```shell
 $ git checkout master -b mybranch
 ```
 
 While we're working we need to update from `upstream`, to get new changes.
 
-```{.shell}
+```shell
 $ git checkout mybranch
 $ git fetch upstream
 $ git rebase upstream/master

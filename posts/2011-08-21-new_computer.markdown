@@ -47,11 +47,11 @@ Overall I'm very happy and I don't think I would've done anything different if I
 
 Finally some more pictures:
 
-<figure class="gallery">
-  ![](/images/inside1.jpg)
-  ![](/images/case.jpg)
-  ![](/images/cables.jpg)
-  ![](/images/inside2.jpg)
-  ![](/images/das1.jpg)
-</figure>
+::: Gallery
+/images/inside1.jpg
+/images/case.jpg
+/images/cables.jpg
+/images/inside2.jpg
+/images/das1.jpg
+:::
 

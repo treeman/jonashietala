@@ -9,8 +9,6 @@ For fun I tried to rank the movies as I saw them, this is some sort of accountin
 
 [rewatch]: https://www.reddit.com/r/marvelstudios/comments/a1jmuo/mcu_movie_rewatch_begins_tomorrow/
 
-::::: {.movie-tables}
-
 # S-rank
 
 The creame of the crop. The films I never get tired of.
@@ -22,6 +20,7 @@ Guardians of the Galaxy             | 2 | 5 | +3
 Avengers: Infinity War              | 3 | 4 | +1
 Iron Man                            | 4 | 1 | -3
 Captain America: The Winter Soldier | 5 | 3 | -2
+{ .movie-table }
 
 Yes I'm ranking Endgame as #1. It might very well be me coming from it fresh and I haven't settled on it yet.
 
@@ -41,6 +40,7 @@ Thor: Ragnarok         | 8  | 12 | +4
 Doctor Strange         | 9  | 6  | -3
 Ant-Man                | 10 | 7  | -3
 Black Panther          | 11 | 2  | -9
+{ .movie-table }
 
 These are all pretty close to me and could easily be rearranged.
 
@@ -62,6 +62,7 @@ Captain America: Civil War          | 14 | 14 | 0
 The Avengers: Age of Ultron         | 15 | 13 | -2
 The Avengers                        | 16 | 11 | -5
 Captain America: The First Avenger  | 17 | 8  | -9
+{ .movie-table }
 
 GotG 2 is in a bit of a weird spot. It depends heavily on your mood when you're watching it: it can be amazing or it can fall a little flat. It does have some fantastic moments.
 
@@ -80,6 +81,7 @@ Movie | Rank this year | Rank last year | change
 Iron Man 3  | 18 | 15 | -3
 Iron Man 2  | 19 | 18 | -1
 Thor        | 20 | 16 | -4
+{ .movie-table }
 
 It's a little strange. I love Iron Man the character but there are problems with his 2nd and 3rd movies. Everything including Iron Man---and of course Justin Hammer---is great but the villains are lackluster and there's just something missing.
 
@@ -93,10 +95,9 @@ Movie | Rank this year | Rank last year | change
 :----- | -------------- | -------------- | ------
 The Incredible Hulk     | 21 | 19 | -2
 Thor 2: The Dark World  | 22 | 17 | -5
+{ .movie-table }
 
 I really don't think they're bad movies. But there's nothing really noteworthy in them either. They're mostly boring.
-
-:::::
 
 # Observations
 

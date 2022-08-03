@@ -42,7 +42,7 @@ The code is available on github: <https://github.com/treeman/qmk_firmware>
 
 Dependencies:
 
-```{.bash}
+```bash
 dfu-programmer
 avr-binutils
 avr-gcc
@@ -51,7 +51,7 @@ avr-libc
 
 And then to flash the firmware press the reset button on the PCB and do:
 
-```{.bash}
+```bash
 make
 dfu-programmer atmega32u4 erase
 dfu-programmer atmega32u4 flash <gh60_layout.hex>
@@ -62,7 +62,7 @@ I'm currently using a fairly standard qwerty layout and I've moved down Escape i
 
 Then I use the rightmost modifiers, which I've never even pressed?, to set up a numpad layer and a mouse layer. The mouse layer doesn't work well however... Not enough control over the movement sadly.
 
-```{.C}
+```C
 #define BASE 0
 #define FUN 1
 #define NUMPAD 2

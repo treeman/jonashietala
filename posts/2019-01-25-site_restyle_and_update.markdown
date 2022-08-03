@@ -28,11 +28,12 @@ The site also wasn't responsive so it looked like shit on mobile and had very lo
 
 The major changes were naturally to correct the big anti-habits and other no-nos the book brings up.
 
-<figure class="flex-50">
-    ![](/images/site_restyle/old_post.png)
-    ![](/images/site_restyle/new_post.png)
-    <figcaption>Old post style vs new post style</figcaption>
-</figure>
+::: Flex
+/images/site_restyle/old_post.png
+/images/site_restyle/new_post.png
+
+Old post style vs new post style
+:::
 
 When comparing the old post style with the new we can pick out some noticeable changes:
 
@@ -43,9 +44,8 @@ When comparing the old post style with the new we can pick out some noticeable c
 
 If you look closely enough you can also see the fonts are different. [Century Supra][] is the new body text replacing Georgia and [Concourse][] is used for the date and navigation links. They are both professional fonts made by the author of [Practical Typography][].
 
-<aside>
-  I didn't know this before, and it bothered me, but take a look at the old post. Some of the numbers are off centered, 5 is slightly lower than the others for example. They're numbers in an old style some fonts support. [Century Supra][] supports it as well via a setting which I haven't turned on.
-</aside>
+> I didn't know this before, and it bothered me, but take a look at the old post. Some of the numbers are off centered, 5 is slightly lower than the others for example. They're numbers in an old style some fonts support. [Century Supra][] supports it as well via a setting which I haven't turned on.
+{ :notice }
 
 Now here's the kicker: the fonts cost $239. And still I bought them.
 
@@ -60,11 +60,12 @@ I'm not really a web designer so this was my first time trying to make a respons
 
 Reading the site on a phone should now resize the font from 22px to 16px&mdash;or something in between&mdash;and re-flow the layout. I tried a multi-column layout for the [homepage](/) and [projects page](/projects) to better utilize space on wider screens which turns into a single-column on smaller screens.
 
-<figure class="flex-50">
-    ![](/images/site_restyle/old_homepage.png)
-    ![](/images/site_restyle/new_homepage.png)
-    <figcaption>The old home page vs the new home page</figcaption>
-</figure>
+::: Flex
+/images/site_restyle/old_homepage.png
+/images/site_restyle/new_homepage.png
+
+The old home page vs the new home page
+:::
 
 I'm not completely happy with how the tags are laid out but it will do for now. I do think the homepage is an improvement at least.
 
@@ -79,11 +80,12 @@ For the site I changed the default coding font from Consolas —which is proprie
 
 I use dark background color personally but I'm not a fan of it on websites as they draw too much attention from the body text. The color [I had used][post-gruvbox] from the gruvbox theme was also quite eye catching so I chose a softer one. After updating pandoc I found a couple of new highlighting classes as well.
 
-<figure class="flex-50">
-    ![](/images/site_restyle/old_code.png)
-    ![](/images/site_restyle/new_code.png)
-    <figcaption>Old code vs new code</figcaption>
-</figure>
+::: Flex
+/images/site_restyle/old_code.png
+/images/site_restyle/new_code.png
+
+Old code vs new code
+:::
 
 See the [source][code-source] if you're curious.
 
@@ -97,7 +99,7 @@ I did a bunch of other things as well while I was at it. Such as adding game ima
 
 One annoyance I never bothered to fix was tag links generated links with mixed case and spaces. Now instead of `/blog/tags/Yearly Review` we get `/blog/tags/yearly_review`. It can be accomplished in Hakyll by using a custom route:
 
-```{.haskell}
+```haskell
 tagRoute :: Routes
 tagRoute = (customRoute $ (map toLower) . (replace " " "_") . toFilePath) `composeRoutes`
            gsubRoute "tags/" (const "blog/tags/") `composeRoutes`

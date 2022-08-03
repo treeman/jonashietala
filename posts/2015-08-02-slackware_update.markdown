@@ -10,7 +10,7 @@ The last time I (re)installed Slackware [I documented what I did][reinstall]. So
 
 Before installing the kernel it's nice to check the GPG signature of the downloaded packages. With the [kernel GPG signature][] we can simply do:
 
-```{.bash}
+```bash
 wget linux-XX.tar.xz
 wget linux-XX.tar.sign
 unxz linux.tar.xz
@@ -23,14 +23,14 @@ When making oldconfig `yes "" | oldconfig` saves time.
 
 I didn't use this tool previously, but it can be used to update the official Slackware packages. Just remember to update the gpg signature as well.
 
-```{.bash}
+```bash
 slackpkg update
 slackpkg update gpg
 ```
 
 I didn't take the plunge to slackware-current just yet, I might do it at a later time when I feel I have a lot of unused time (will I ever?), but it's easy to update selected packages.
 
-```{.bash}
+```bash
 slackpkg upgrade git
 ```
 
@@ -40,7 +40,7 @@ Will only update git for example.
 
 I did some strange things here, the one which worked was simply as root:
 
-```{.bash}
+```bash
 cpan install CPAN
 cpan install DateTime
 ...
@@ -65,7 +65,7 @@ There I got the error that `libtinfo.so.5` couldn't be found. This was solved by
 
 Then we can install things with cabal as a regular user:
 
-```{.bash}
+```bash
 cabal install cabal-install
 cabal install hscolour
 cabal install missingH
@@ -108,20 +108,20 @@ it's because rust installed it in `/usr/local/lib` which is not in the default s
 
 This can be done with everything as regular user.
 
-```{.bash}
+```bash
 git clone https://github.com/tadzik/rakudobrew ~/.rakudobrew
 ```
 
 Add `~/.rakudobrew/bin` to path.  Then we can install package manager panda and VM moar:
 
-```{.bash}
+```bash
 rakudobrew build moar
 rakudobrew build-panda
 ```
 
 Then with panda we can install modules:
 
-```{.bash}
+```bash
 panda install Task::Star
 ...
 ```

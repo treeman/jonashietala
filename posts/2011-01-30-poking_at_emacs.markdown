@@ -14,8 +14,7 @@ It's been working okay so far, but I don't think it will for much longer. When w
 
 No this shouldn't be allowed to continue so now I'm going to give emacs a try. I doubt that it'll replace vim but still I think it's quite nice. In theory it should be just as nice as vim, with really fast code editing once you get used to it. [Here's a better comparison][good_comparison] of the two. I guess I just don't like the idea of having to climb another intimidating learning curve.
 
-![Learning Curve][learning_curve]   
-<div class="center">*I've used notepad, visual studio and vim. Emacs seems though.*</div>
+![*I've used notepad, visual studio and vim. Emacs seems though.*](https://i.stack.imgur.com/7Cu9Z.jpg)
 
 [vim]: http://www.vim.org/
 [update]: https://github.com/treeman/dotfiles/blob/c6bb8c790303367286a34744004f2032de996bc0/.vimrc

@@ -7,7 +7,7 @@ As it happens I got a little tired of the syntax highlighter Pandoc uses so on a
 
 Often I'll get stuck longer than with any other language just trying to understand WTH is happening. See this snippet for example:
 
-```{.haskell}
+```haskell
 responseLength <- read . U8.toString . fromJust <$> (S.lines >=> S.read) is
 ```
 
@@ -24,7 +24,7 @@ The core idea of the Pygments implementation is to reroute all parsing of code e
 
 I didn't come up with the approach, but I did some changes to it. One of them was to highlight both code blocks and inline code. The core transform function gets called by overriding the pandoc compiler:
 
-```{.haskell}
+```haskell
 pandocCompiler :: Streams -> Compiler (Item String)
 pandocCompiler streams = do
   pandocCompilerWithTransformM defaultHakyllReaderOptions
@@ -34,7 +34,7 @@ pandocCompiler streams = do
 
 The transformer simply walks over blocks, matches against code and passes the content to the pygments process in `streams`.
 
-```{.haskell}
+```haskell
 pygments :: Streams -> Pandoc -> Compiler Pandoc
 pygments streams = walkM (generateCodeBlock streams)
 
@@ -48,7 +48,7 @@ generateCodeBlock streams (CodeBlock (_, classes, keyvals) contents) = do
 
 The thing I added was a clause to walk over inline elements as well:
 
-```{.haskell}
+```haskell
 generateCodeBlock streams x = walkM (generateCodeInline streams) x
 
 generateCodeInline :: Streams -> Inline -> Compiler Inline
@@ -77,7 +77,7 @@ Another pretty cool idea I got from the blog post was embedding a git commit has
 
 The idea is to use `readProcess` and `unsafeCompiler` to launch a git process to retrieve info. Something like this:
 
-```{.haskell}
+```haskell
 gitTag :: String -> Context String
 gitTag key = field key $ \item -> do
   let fp = (toFilePath $ itemIdentifier item)
@@ -100,7 +100,7 @@ gitTag key = field key $ \item -> do
 
 And add it to post contexts:
 
-```{.haskell}
+```haskell
 postCtx tags = mconcat
     [ siteCtx
     , gitTag "git"

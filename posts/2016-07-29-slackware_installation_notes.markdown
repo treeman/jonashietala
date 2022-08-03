@@ -25,7 +25,7 @@ Even with only a laptop with windows installed hope is not lost. The almighty al
 
 I used a split of `/`, `/usr/local/`, `/home`. The partitions on my laptop looks messy as I've kept some factory windows partitions.
 
-```{.bash}
+```bash
 $ df -h
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/root        50G   27G   21G  57% /
@@ -43,7 +43,7 @@ cgmfs           100K     0  100K   0% /run/cgmanager/fs
 
 Can be found in `/extra/wicd` in the slackware release.
 
-``` {.bash}
+```bash
 installpkg ...
 chmod +x /etc/rc.d/rc.wicd
 /etc/rc.d/rc/wicd start
@@ -54,7 +54,7 @@ wicd-curses
 
 Use slackpkg to update official Slackware packages.
 
-```{.bash}
+```bash
 slackpkg update
 slackpkg update gpg
 ```
@@ -79,7 +79,7 @@ Store <https://github.com/treeman/dotfiles> in `~/dotfiles` and symlink from the
 
 Install `ghc` and `cabal-install` from slackbuilds and then use cabal to install the rest:
 
-```{.bash}
+```bash
 cabal install cabal-install
 cabal install xmonad
 cabal install xmonad-contrib
@@ -99,7 +99,7 @@ When started use `lxappearance` to set a prettier look for firefox and other gui
 
 Use cpan as root whenever missing packages are found:
 
-```{.bash}
+```bash
 cpan install CPAN
 cpan install Modern::Perl
 cpan install DateTime
@@ -109,7 +109,7 @@ cpan install DateTime
 
 The [blog](https://github.com/treeman/jonashietala) uses Hakyll.
 
-```{.bash}
+```bash
 cabal install missingH
 cabal install hakyll
 ```

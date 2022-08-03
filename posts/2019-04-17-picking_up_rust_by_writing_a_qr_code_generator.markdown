@@ -19,9 +19,8 @@ I've read a lot of programming books and in general it's a very good tool to lea
 
 During my university time I did a little competitive programming, so you'd think I'd love the idea of solving programming puzzles. For example via [Advent of Code][aoc], [Project Euler][euler] or doing [katas][]. But truth be told---I'm not that into such puzzles. I prefer making "real" projects that does something useful for me.
 
-<aside>
-As a sidenote katas in classical martial arts is a waste of time if you want to get good at fighting or self defense. You need to train against resistance in as realistic scenarios as possible, like you do when sparring. Coding katas are more useful but I personally don't enjoy them.
-</aside>
+> As a sidenote katas in classical martial arts is a waste of time if you want to get good at fighting or self defense. You need to train against resistance in as realistic scenarios as possible, like you do when sparring. Coding katas are more useful but I personally don't enjoy them.
+{ :notice }
 
 Following a tutorial, like the excellent [writing an OS in Rust][os], can be amazingly useful. Both for learning a language but mostly for learning about a specific domain---like learning about operating systems.
 

@@ -1,0 +1,7 @@
+---
+title: The T-34 keyboard layout
+completed: false
+---
+
+In this series I document my journey in developing a custom keyboard layout for a smaller keyboard. It contains pictures, graphs and ideas that have been fun and helpful for me.
+

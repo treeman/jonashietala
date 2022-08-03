@@ -9,7 +9,7 @@ Apparently while this would be supported by default by almost all modern languag
 
 As usual [others][a1] have [had][a2] this before me. This is the most elegant working solution I could find:
 
-```{.haskell}
+```haskell
 import qualified Text.Regex.PCRE.Light as RL
 import qualified Text.Regex.PCRE.Heavy as RH
 

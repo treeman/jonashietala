@@ -23,14 +23,14 @@ Commands
 Code
 =====
 
-``` {.perl}
+```perl
 use IO::Socket;$s=IO::Socket::INET->new("158.38.8.251:6667");sub o{print$s "$_[0]\n"}o("NICK $0");o("USER b * * :b");while(<$s>){o("PONG$1")if/^PING(.*)$/;o("JOIN #$0")if/004/;if(($p,$h)=/(P.+)\.(.*)./){o("$p$h world!")if$h=~"h";o($p.$0)if$h=~"n";if($h=~"s"){open F,$0;o($p.do{local$/=<F>})}}}
 ```
 
 
 Well uh let's try that again, without minimize shall we?
 
-``` {.perl}
+```perl
 use IO::Socket;
 
 # Connect to one server of irc.quakenet.org

@@ -5,11 +5,6 @@ tags: Games, 7days
 
 So I think I made it! It became a pretty different game from what I set out to create, but I'm glad with how it turned out.
 
-# Download
-
-[Windows](#)
-[Linux 64bit](#)
-
 # My Minions
 
 ![](/images/games/thumbs/minion2.png)

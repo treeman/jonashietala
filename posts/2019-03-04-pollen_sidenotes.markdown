@@ -9,7 +9,7 @@ A caveat: I generated [Tufte CSS][] style sidenotes and marginnotes which made i
 
 So in Pollen markup I want to be able to write this:
 
-```{.pollen}
+```pollen
 Lisp is a pretty nice ◊sn{cult} language.
 
 ◊ndef["cult"]{
@@ -19,7 +19,7 @@ Lisp is a pretty nice ◊sn{cult} language.
 
 To generate this:
 
-```{.html}
+```html
 Lisp is a pretty nice
 <label for="cult"
        class="margin-toggle sidenote-number">
@@ -41,7 +41,7 @@ You also cannot use an `aside` instead of a `span` directly here as you cannot h
 
 Tufte has both sidenotes and marginnotes which we can implement in a general way. This is the markup:
 
-```{.pollen}
+```pollen
 This has a sidenote with numbers.◊sn{note}
 
 This has a marginnote without numbers.◊mn{note}
@@ -53,7 +53,7 @@ This has a marginnote without numbers.◊mn{note}
 
 These are the Pollen tags with their markup difference:
 
-```{.racket}
+```racket
 (define (mn ref-in)
   (note-ref #:label-class "margin-toggle"
             #:label-content "⊕"
@@ -72,7 +72,7 @@ We'll get to the `note-ref` definition in a little bit.
 We can use the same markup for sidenote and marginnote content. The idea is to store the content in a map and look it up and insert it into the markup later.
 
 
-```{.racket}
+```racket
 ;; The note ref -> definition map
 (define note-defs (make-hash))
 ;; The tag
@@ -85,7 +85,7 @@ We can use the same markup for sidenote and marginnote content. The idea is to s
 
 Simple enough right? If we want to apply post-processing, like adding paragraphs, we need to do some more work. Especially since we cannot have `p` tags inside the `span`! I solved this by instead wrapping paragraphs with a span I style like paragraphs. This is the actual code:
 
-```{.racket}
+```racket
 (define (ndef ref-in . def)
   (define id (format "nd-~a" ref-in))
   (define ref (string->symbol id))
@@ -110,7 +110,7 @@ Here `string-proc` can contain smart quotes expansion or whatever extra decoding
 
 Now to another problem: we want to have refs before defs and vice versa. This means we might parse the references before we've registered the definitions. We can solve this by making a decode pass in the root tag and marking refs with a special symbol which we replace. This can be made very general:
 
-```{.racket}
+```racket
 ;; Register symbols which gets inline replaced
 ;; by function return values.
 (define replacements (make-hash))
@@ -126,7 +126,7 @@ Now to another problem: we want to have refs before defs and vice versa. This me
 
 Which is used like this:
 
-```{.racket}
+```racket
 (register-replacement 'sym-to-replace (λ (x) "REPLACED"))
 
 (define (root . args)
@@ -138,7 +138,7 @@ Where `root` in Pollen allows you to transform the whole document.
 
 And now we can get back to our reference tag:
 
-```{.racket}
+```racket
 (define (note-ref #:label-class label-class
                   #:label-content label-content
                   #:span-class span-class
@@ -159,7 +159,7 @@ And now we can get back to our reference tag:
 
 It's basically just registering a replacement function which returns the markup:
 
-```{.racket}
+```racket
 `(span
   (label ((class ,label-class) (for ,id)) ,label-content)
   (input ((id ,id) (class "margin-toggle") (type "checkbox")))
@@ -168,7 +168,7 @@ It's basically just registering a replacement function which returns the markup:
 
 Are we done? Almost. This would create markup wrapped in a span, like:
 
-```{.html}
+```html
 <span>
      <label for="cult"
             class="margin-toggle sidenote-number">
@@ -186,7 +186,7 @@ The replacement function can only return a single element so we had to wrap it i
 
 Yes it is. We can add a special symbol in the markup:
 
-```{.racket}
+```racket
 `(splice-me ; <- instead of span
   (label ((class ,label-class) (for ,id)) ,label-content)
   (input ((id ,id) (class "margin-toggle") (type "checkbox")))
@@ -195,7 +195,7 @@ Yes it is. We can add a special symbol in the markup:
 
 And then do an extra post process step to replace it with it's content, inline:
 
-```{.racket}
+```racket
 ;; A splicing tag to support returning multiple inline
 ;; values. So '((splice-me "a" "b")) becomes '("a" "b")
 (define (splice-me? x)

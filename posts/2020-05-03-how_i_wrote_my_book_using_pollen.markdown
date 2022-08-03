@@ -1,6 +1,7 @@
 ---
 title: "How I wrote a book using Pollen"
-tags: Cryptocurrency, Programming, Pollen, Racket, Why cryptocurrencies?
+tags: [Cryptocurrency, Programming, Pollen, Racket, Why cryptocurrencies?]
+series: making-cryptobook
 ---
 
 I wrote [an online book][main] using [Pollen][pollen], a static site generator in [Racket][racket]. [An earlier post][impressions] contains my first impressions of it, but as the book is now completed I think I can summarize some implementation details in more detail with this post.
@@ -14,7 +15,7 @@ If you want to use Pollen yourself the [Pollen documentation][pollen] is pretty 
 
 First off I do my writing and coding in vim (or rather [neovim][]). I use plugins for Racket and Pollen (but truthfully I don't remember what they do, syntax highlighting perhaps?) and I also have two keybindings for two special chars I don't normally use:
 
-```{.vim}
+```vim
 " Plugin handling using vim-plug 
 Plug 'https://github.com/wlangstroth/vim-racket'
 Plug 'https://github.com/otherjoel/vim-pollen.git'
@@ -24,7 +25,7 @@ imap <C-L> λ
 imap <C-E> ◊
 ```
 
-Pollen markup uses `◊` extensively so having an easy way to insert it is very important. And in Racket instead of writing lambdas `(lambda (x) ...)`{.racket} you can write `(λ (x) ...)`{.racket}. It's not necessary but I thought, why not?
+Pollen markup uses `◊` extensively so having an easy way to insert it is very important. And in Racket instead of writing lambdas `(lambda (x) ...)`racket you can write `(λ (x) ...)`racket. It's not necessary but I thought, why not?
 
 # Configuring Pollen
 
@@ -32,7 +33,7 @@ The [Pollen documentation][pollen] does a decent job of walking you through init
 
 I wanted to turn three dots into a single character "..." and also remove `/index.html` from links, while doing the default paragraph expansion and converting quotes and dashes to their special chars as described in the Pollen docs. I ended up with these decoding functions:
 
-```{.racket}
+```racket
 (define (ellipses x)
   (string-replace x "..." "…"))
 
@@ -52,7 +53,7 @@ I wanted to turn three dots into a single character "..." and also remove `/inde
 
 The paragraph expansion is sometimes messed up, but I customized it by ignoring `figure` and `pre` while marking some tags as blocks:
 
-```{.racket}
+```racket
   (define block-tags (append '(img table tbody tr dt dd dl) default-block-tags))
 ```
 
@@ -60,7 +61,7 @@ This isn't perfect, and for example when creating image figures I had to call `s
 
 After a while I also wanted to organize my Racket files into a subfolder, and to get Pollen to recognize this I had to tell it to add them to the watchlist to have them reload the code automatically:
 
-```{.racket}
+```racket
 (module setup racket/base
   (require file/glob)
   ...
@@ -73,7 +74,7 @@ After a while I also wanted to organize my Racket files into a subfolder, and to
 
 Pollen's markup language can at first look extremely cumbersome, but I ended up liking it. Just prefix with `◊` and you'll automatically create html elements:
 
-```{.pollen}
+```pollen
 ◊ul{
   ◊li{First item}
   ◊li{Second item}
@@ -83,11 +84,11 @@ Pollen's markup language can at first look extremely cumbersome, but I ended up 
 
 You can also specify attributes such as classes, which is quite handy:
 
-```{.pollen}
+```pollen
 ◊div[#:class "my-class"]{ ... }
 ```
 
-But the real power of the markup language is how easy it is to create your own tags. Just define regular Racket functions and provide them in pollen.rkt like so: `(provide (all-from-out "rkt/tags.rkt"))`{.racket}
+But the real power of the markup language is how easy it is to create your own tags. Just define regular Racket functions and provide them in pollen.rkt like so: `(provide (all-from-out "rkt/tags.rkt"))`racket
 
 Here are some examples of tags I've implemented:
 
@@ -95,20 +96,20 @@ Here are some examples of tags I've implemented:
 
    Non-highlighted code is simple and is provided by:
    
-   ```{.racket}
+   ```racket
    (define (code . args)
        `(pre (code ,@args)))
    ```
    
    But for a more interesting example say that you want to include an external file and highlight it like so:
    
-   ```{.racket}
+   ```pollen
    ◊(code-hl "python3" "scripts/gambling.py")
    ```
    
    I implemented this by by calling out to `pygmentize`:
    
-   ```{.racket}
+   ```racket
    (define (code-hl lang path)
        (define cmd (string-append
                    "pygmentize -f html"
@@ -124,7 +125,7 @@ Here are some examples of tags I've implemented:
     
    I use quotes heavily throughout the text, either as a standalone or wrapped in an epigraph (just used to italize quotes that begins a chapter):
    
-   ```{.pollen}
+   ```pollen
    ◊epigraph{
      ◊qt[#:author "Attributed to Michael Cassius McDonald"]{
        There's a sucker born every minute
@@ -134,7 +135,7 @@ Here are some examples of tags I've implemented:
     
     Producing:
     
-    ```{.html}
+    ```html
     <div class="epigraph">
       <blockquote>
         <p>There’s a sucker born every minute</p>
@@ -149,7 +150,7 @@ Here are some examples of tags I've implemented:
 
    At first I used a very simple tag for links:
 
-   ```{.pollen}
+   ```pollen
    In the text ◊link[my-link]{link text}.
 
    ◊(define my-link "https://some-url")
@@ -157,7 +158,7 @@ Here are some examples of tags I've implemented:
 
    Later on I started separating links into regular links, book references and internal chapter references. This so I could mark when I had accessed external links, format book references in different ways and to generate alt-text for existing chapters easily. In practice link definitions looks like this:
 
-   ```{.racket}
+   ```racket
    (define 1984-book
      (book-ref
        "https://www.goodreads.com/book/show/40961427-1984"
@@ -176,7 +177,7 @@ Here are some examples of tags I've implemented:
 
    And used like this:
 
-   ```{.pollen}
+   ```pollen
    ◊book-qt[1984-book]{ ... }
 
    ◊em{Thoughtcrime}, as explored in the book ◊(book-link 1984-book), ...
@@ -207,11 +208,11 @@ Now it would be fairly easy (or at least it's possible to style it in such a way
 
 I wanted to be able to customize the placement on the narrower screen as I wanted, while the floating sidenote should be as close to their reference as possible. I solved it, but it's not very pretty...
 
-My first thought was to insert two sidenotes, and set `display:none`{.css} to hide one of them. But this would break screen readers or simplified readers that removes much of the styling, such as the "reader view" in Firefox. So I opted for a more complex solution of manually modifying the top margin for each sidenote.
+My first thought was to insert two sidenotes, and set `display:none`css to hide one of them. But this would break screen readers or simplified readers that removes much of the styling, such as the "reader view" in Firefox. So I opted for a more complex solution of manually modifying the top margin for each sidenote.
 
-In practice it means I insert a sidenote using `◊sn{my-ref}`{.pollen}, which by default inserts it below the current paragraph. If I want to manually place it somewhere else I use `◊note-pos[#:top -9]{my-ref}`{.pollen}. So for example:
+In practice it means I insert a sidenote using `◊sn{my-ref}`pollen, which by default inserts it below the current paragraph. If I want to manually place it somewhere else I use `◊note-pos[#:top -9]{my-ref}`pollen. So for example:
 
-```{.pollen}
+```pollen
 First paragraph.◊sn{my-ref}
 
 Second paragraph.
@@ -219,11 +220,11 @@ Second paragraph.
 ◊note-pos[#:top -9]{my-ref}
 ```
 
-The text for the sidenote is given by `◊ndef["my-ref"]{Sidenote text here}`{.pollen}, which can be paced anywhere in the source file.
+The text for the sidenote is given by `◊ndef["my-ref"]{Sidenote text here}`pollen, which can be paced anywhere in the source file.
 
 There's a bunch of sidenote specific styling, but the important parts are given by:
 
-```{.css}
+```scss
 .side-space {
     /* Serves to take up space. Inline content from the chapter is floated on top. */
     width: 420px;
@@ -253,9 +254,9 @@ There's a bunch of sidenote specific styling, but the important parts are given 
 }
 ```
 
-And margins are overridden by `<div class="sidenote" style="margin-top:-9em;">`{.html}.
+And margins are overridden by `<div class="sidenote" style="margin-top:-9em;">`html.
 
-The actual implementation of `◊sn`{.pollen} and `◊ndef`{.pollen} has grown surprisingly large and I went through the old version in the [previous post][sidenotes], so I'll skip it here. The implementation has changed a little but not in any major way. You can always find the [latest code on GitHub][sidenote-code] if you're interested.
+The actual implementation of `◊sn`pollen and `◊ndef`pollen has grown surprisingly large and I went through the old version in the [previous post][sidenotes], so I'll skip it here. The implementation has changed a little but not in any major way. You can always find the [latest code on GitHub][sidenote-code] if you're interested.
 
 
 # Local markup
@@ -270,7 +271,7 @@ Another very powerful feature is that you can easily create custom markup for in
 
 This is the tag I came up with:
 
-```{.racket}
+```pollen
 ◊(define (money title #:img img #:date [date #f] . text)
    (define xdate
      (cond
@@ -291,7 +292,7 @@ This is the tag I came up with:
 
 Which can be called like this:
 
-```{.pollen}
+```pollen
 ◊money["Dogecoin"
        #:date "2013"
        #:img "images/doge.png"]{
@@ -301,7 +302,7 @@ Which can be called like this:
 
 To produce this html:
 
-```{.html}
+```html
 <div class="example"><img src="images/doge.png">
     <div class="txt">
         <div class="header">
@@ -327,7 +328,7 @@ I use local custom markup all over the place, another example is styling transcr
 
 We could be as explicit as we were with the money example, but here I wanted it to be simpler and to auto detect the timestamps. So I can write it like this:
 
-```{.pollen}
+```pollen
 ◊div[#:class "transcript-wrapper"]{
 
   ◊transcript{
@@ -352,7 +353,7 @@ We could be as explicit as we were with the money example, but here I wanted it 
 
 This can be accomplished by writing a bit of lisp code in the tag that splits the strings on the double spaces:
 
-```{.racket}
+```pollen
 ◊(define (transcript . rows)
    (define (make-row row)
      (if (string=? row "\n")
@@ -365,7 +366,7 @@ This can be accomplished by writing a bit of lisp code in the tag that splits th
       ,@(map make-row rows)))
 ```
 
-(Yes I know that the "..." row will generate a `<span class="time">...</span>`{.html} and a `<span class="txt"></span>`{.html} element, but it doesn't affect the appearance.)
+(Yes I know that the "..." row will generate a `<span class="time">...</span>`html and a `<span class="txt"></span>`html element, but it doesn't affect the appearance.)
 
 
 # Table of contents
@@ -377,7 +378,7 @@ Pollen have automatic support for tracking table of contents, called a pagetree.
 
 So it could look like this:
 
-```{.racket}
+```racket
 (define toc
   ;; This replaces the previously hand-made pagetree in index.ptree.
   ;; String entries gets removed and are treated as planned chapters.
@@ -397,7 +398,7 @@ Where I have a main section with a number of chapters inside and denote an unfin
 
 One annoyance I have is that titles of chapters are also defined with Racket code:
 
-```{.pollen}
+```pollen
 ◊(define-meta title "For the unbanked")
 ```
 
@@ -405,7 +406,7 @@ This means I cannot automatically fetch the chapter title (for a better alt-text
 
 My extremely ugly workaround was to define links and their alt-text manually:
 
-```{.racket}
+```racket
 (define for_the_unbanked
   (ch-ref
     'for_the_unbanked.html
@@ -422,7 +423,7 @@ I've hosted my blog as a static webpage on Amazon S3 for years. It has worked we
 To update the site I use an old Perl script that shells out to `s3cmd` to upload data. It will generate commands like:
 
 
-```{.fish}
+```fish
 s3cmd sync -M -m text/css --acl-public --add-header="Cache-Control: max-age=60" \
     _site/css s3://whycryptocurrencies.com/
 ```
@@ -446,7 +447,7 @@ There are some things that doesn't work as I want them to, but that I didn't bot
 
    I wanted to use [Sass][sass] for styling and at first I tried to create a `main.css.p` file that pipes out to `sassc`, which is the way to generate arbitrary files with Pollen. I use this approach when I generate the xml feed, but I couldn't get the reload to work properly so I just used an external script for it:
 
-   ```{.bash}
+   ```bash
    #!/bin/bash
    
    sassc sass/main.scss --style compressed > css/main.css

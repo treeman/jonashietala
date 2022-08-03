@@ -1,6 +1,7 @@
 ---
 title: "How I made a kick-ass cover for my self-published book"
-tags: Cryptocurrency, Why cryptocurrencies?
+tags: [Cryptocurrency, Why cryptocurrencies?]
+series: making-cryptobook
 ---
 
 If you want to publish a book, one of the most important things to consider is the cover---after all, we judge the book by the cover.

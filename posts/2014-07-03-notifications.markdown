@@ -14,7 +14,7 @@ Here's a summary:
 
 In `xmonad.hs`, highlight with existing dzen (my statusbar).  
 
-``` {.haskell}
+```haskell
 myDzenPP h = defaultPP { ... }
 main = do
     bar <- spawnPipe "dzen2 ..."
@@ -29,7 +29,7 @@ main = do
 
 I used [beepchan.pl][] to only notify on selected channels.
 
-``` {.bash}
+```bash
 settings = {
   "fe-common/core" = {
     bell_beeps = "yes";
@@ -50,13 +50,13 @@ settings = {
 
 In `.screenrc`
 
-`vbell off # or remove the existing 'vbell on' line` {.bash}
+`vbell off # or remove the existing 'vbell on' line`bash
 
 # Configure rxvt
 
 In `.Xdefaults`
 
-`urxvt.urgentOnBell: true` {.bash}
+`urxvt.urgentOnBell: true`bash
 
 [irssi]: http://www.irssi.org/ "irssi"
 [xmonad documentation]: http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Hooks-UrgencyHook.html "xmonad documentation"

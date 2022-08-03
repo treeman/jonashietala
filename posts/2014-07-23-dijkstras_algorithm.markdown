@@ -12,7 +12,7 @@ Here's the example code currently up in [docs][doc]:
 
 Using `rustc 0.12.0-pre (ef352faea84fa16616b773bd9aa5020d7c76bff0 2014-07-18 21:46:32 +0000`)
 
-```{.rust}
+```rust
 use std::collections::PriorityQueue;
 use std::uint;
 

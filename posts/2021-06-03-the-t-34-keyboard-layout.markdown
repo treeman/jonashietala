@@ -1,6 +1,7 @@
 ---
 title: "The T-34 keyboard layout"
 tags: Computer, Keyboards, T-34
+series: t-34
 ---
 
 A couple of months ago I started looking into ergonomical keyboards; mainly split keyboards with much fewer keys, like the [36-key Gergoplex][GergoPlex] and the [44-key Kyria][Kyria]. I may write another post about the reasons why, but long story short I started getting pain in my thumbs, fingers, wrist and forearm, and I thought it was time to do something about it.
@@ -77,40 +78,40 @@ What should we do then? We can try a keylogger to see what symbols we're typing.
 
 One might wonder, where do the symbols appear? Are they mostly next to characters, or next to other symbols? Here's a table of where the symbols end up, and what symbol bigrams they appear (ignoring double symbols like `||`), using the Code source:
 
- Char       Count           Next to letter          Next to symbol         Common bigrams
-------    -----------      ---------------        -----------------       -------------------------------
-  `,`        220930          31.22%                  12.23%                `),` `",` `},` `],` `_,`
-  `_`        169048          **86.21%**              4.89%                 `_,` `(_` `_}`
-  `)`        158614          24.11%                  29.00%                `);` `()` `),` `")` `])` `})` `)}` `).`
-  `(`        158598          **66.06%**              19.71%                `()` `("` `(:` `!(` `(&` `(%` `?(` `({` `([`
-  `:`        132580          43.62%                  12.95%                `{:` `(:` `:/` `` `:`` `[:`
-  `.`        129818          **72.88%**              5.98%                 `).`
-  `"`        105618          24.83%                  27.41%                `",` `")` `("` `"]` `"%`
-  `=`        73090           1.95%                   13.92%                `<=` `>=` `=>`
-  `{`        69068           23.20%                  28.68%                `{:` `%{` `#{` `]{` `{}` `({`
-  `}`        69060           20.28%                  24.41%                `},` `})` `)}` `{}` `]}` `_}`
-  `-`        67076           37.11%                  13.43%                `->`
-  `;`        55914           17.22%                  24.83%                `);` `];`
-  `>`        54178           15.33%                  33.62%                `->` `|>` `>=` `=>`
-  `/`        49296           36.72%                  10.94%                `:/`
-  `[`        44042           46.64%                  28.06%                `[]` `][` `[:` `([`
-  `]`        43998           28.92%                  48.22%                `],` `[]` `])` `][` `]{` `]}` `"]` `];`
-  `#`        35456           12.57%                  17.64%                `#{`
-  `<`        32828           31.43%                  19.31%                `<=`
-  `` ` ``    29158           27.60%                  20.64%                `` `:``
-  `'`        18572           **70.55%**              15.70%
-  `|`        17820           3.69%                   21.87%                `|>`
-  `+`        17736           14.71%                  6.87%
-  `?`        16712           22.64%                  24.49%                `?(`
-  `%`        16660           26.81%                  39.81%                `%{` `(%` `"%`
-  `&`        15068           28.36%                  16.44%                `(&`
-  `@`        14076           48.70%                  5.52%
-  `*`        13896           13.02%                  14.72%
-  `\`        10236           35.55%                  29.35%
-  `!`        9812            34.80%                  40.13%                `!(`
-  `$`        4226            36.63%                  25.01%
-  `~`        2596            32.16%                  17.41%
-  `^`        1436            24.23%                  41.23%
+|  Char      |   Count      |    Next to letter    |     Next to symbol    |    Common bigrams
+| ------     | -----------  |   ---------------    |   -----------------   |   -------------------------------
+|   `,`      |    220930    |     31.22%           |      12.23%           |    `),` `",` `},` `],` `_,`
+|   `_`      |    169048    |     **86.21%**       |      4.89%            |    `_,` `(_` `_}`
+|   `)`      |    158614    |     24.11%           |      29.00%           |    `);` `()` `),` `")` `])` `})` `)}` `).`
+|   `(`      |    158598    |     **66.06%**       |      19.71%           |    `()` `("` `(:` `!(` `(&` `(%` `?(` `({` `([`
+|   `:`      |    132580    |     43.62%           |      12.95%           |    `{:` `(:` `:/` `` `:`` `[:`
+|   `.`      |    129818    |     **72.88%**       |      5.98%            |    `).`
+|   `"`      |    105618    |     24.83%           |      27.41%           |    `",` `")` `("` `"]` `"%`
+|   `=`      |    73090     |     1.95%            |      13.92%           |    `<=` `>=` `=>`
+|   `{`      |    69068     |     23.20%           |      28.68%           |    `{:` `%{` `#{` `]{` `{}` `({`
+|   `}`      |    69060     |     20.28%           |      24.41%           |    `},` `})` `)}` `{}` `]}` `_}`
+|   `-`      |    67076     |     37.11%           |      13.43%           |    `->`
+|   `;`      |    55914     |     17.22%           |      24.83%           |    `);` `];`
+|   `>`      |    54178     |     15.33%           |      33.62%           |    `->` `|>` `>=` `=>`
+|   `/`      |    49296     |     36.72%           |      10.94%           |    `:/`
+|   `[`      |    44042     |     46.64%           |      28.06%           |    `[]` `][` `[:` `([`
+|   `]`      |    43998     |     28.92%           |      48.22%           |    `],` `[]` `])` `][` `]{` `]}` `"]` `];`
+|   `#`      |    35456     |     12.57%           |      17.64%           |    `#{`
+|   `<`      |    32828     |     31.43%           |      19.31%           |    `<=`
+|   `` ` ``  |    29158     |     27.60%           |      20.64%           |    `` `: ``
+|   `'`      |    18572     |     **70.55%**       |      15.70%           |
+|   <code>\|</code>      |    17820     |     3.69%            |      21.87%           |   <code>\|\></code> 
+|   `+`      |    17736     |     14.71%           |      6.87%            |
+|   `?`      |    16712     |     22.64%           |      24.49%           |    `?(`
+|   `%`      |    16660     |     26.81%           |      39.81%           |    `%{` `(%` `"%`
+|   `&`      |    15068     |     28.36%           |      16.44%           |    `(&`
+|   `@`      |    14076     |     48.70%           |      5.52%            |
+|   `*`      |    13896     |     13.02%           |      14.72%           |
+|   `\`      |    10236     |     35.55%           |      29.35%           |
+|   `!`      |    9812      |     34.80%           |      40.13%           |    `!(`
+|   `$`      |    4226      |     36.63%           |      25.01%           |
+|   `~`      |    2596      |     32.16%           |      17.41%           |
+|   `^`      |    1436      |     24.23%           |      41.23%           |
 
 Note that it it tracks letters on both sides of the symbol, which is why `,` is only next to a letter 31% of the time (it's almost always next to a space).
 
@@ -203,25 +204,25 @@ I use it for lots of things. For instance:
 
 Here's a table (because I wasn't happy with the visualization I tried to make):
 
-Top Left            Res             Top Right           Res
-----------          -----           ------------        --------
-`c` + `k`               `q`          `x` + `w`               `#{ ↓ }`
-  `k` + `f`             `z`             `,` + `u`             `Backspace`
-`c` + `k` + `f`           `Delete`     `w` + `,` + `u`           `Ctrl + W` (backspace word)
-**Home Left**       **Res**         **Home Right**      **Res**
-  `t` + `h`             `Escape`          `n` + `a`               `:`
-`s` + `t`               `Tab`               `a` + `i`             `Enter`
-`s` +   `h`             `;`               `n` +   `i`             `'`
-`s` + `t` + `h`           `/`           `n` + `a` + `i`           Vim save
-**Bottom Left**     **Res**         **Bottom Right**    **Res**
-`v` + `g`           Vim vsplit      `l` + `(`               `^`
-                                      `(` + `)`             `$`
-`v` + `g` + `p`     Vim close       `l` + `(` + `)`           Swedish layer
+| Top Left         |  Res             | Top Right           | Res
+| ----------       |  -----           | ------------        | --------
+| `c` + `k`        |      `q`         |  `x` + `w`          |      `#{ ↓ }`
+|   `k` + `f`      |      `z`         |     `,` + `u`       |       `Backspace`
+| `c` + `k` + `f`  |        `Delete`  |    `w` + `,` + `u`  |          `Ctrl + W` (backspace word)
+| **Home Left**    |  **Res**         | **Home Right**      | **Res**
+|   `t` + `h`      |      `Escape`    |       `n` + `a`     |           `:`
+| `s` + `t`        |      `Tab`       |         `a` + `i`   |           `Enter`
+| `s` +   `h`      |      `;`         |       `n` +   `i`   |           `'`
+| `s` + `t` + `h`  |        `/`       |     `n` + `a` + `i` |           Vim save
+| **Bottom Left**  |  **Res**         | **Bottom Right**    | **Res**
+| `v` + `g`        |  Vim vsplit      | `l` + `(`           |     `^`
+|                  |                  |   `(` + `)`         |     `$`
+| `v` + `g` + `p`  |  Vim close       | `l` + `(` + `)`     |       Swedish layer
 
-**Mixed**                           **Res**
-------------                        -----------
-`t` + `a` (left + right ring)       CAPSWORD
-`Space` + `e` (left + right thumb)  NUMWORD
+| **Mixed**                           | **Res**
+| ------------                        | -----------
+| `t` + `a` (left + right ring)       | CAPSWORD
+| `Space` + `e` (left + right thumb)  | NUMWORD
 
 The rationale here is that home-row combos are very easy to type, so the common keys like `Enter` and `:` go there. Split combos with the index and ring finger are slightly more awkward to type, but still good.
 
@@ -269,10 +270,10 @@ While I can use the layer switches as one-shot for the symbols, I also have comb
 
 One last annoyance is double- or triple-tapping symbols, particularly with the pinky, for things like `||`. I got around it by adding long press for them, similar to what auto shift does:
 
-Tap                                             Long press
-----                                            -----------
-`|` `&` `+` `*` `-` `_` `<` `>` `/` `\` `#`     Double symbol
-`"` `'` `=` `` ` ``                             Triple symbol
+Tap                                           |  Long press
+----                                          |  -----------
+<code>\|</code> `&` `+` `*` `-` `_` `<` `>` `/` `\` `#`   |  Double symbol
+`"` `'` `=` `` ` ``                           |  Triple symbol
 
 
 ## Where are the digits?
@@ -283,7 +284,7 @@ Here they are:
 
 Yupp, I use numbers on home-row (and the low index, which is the next best key apart from the thumbs). They're laid out prioritizing lower digits, slightly de-emphasizing index fingers as they're responsible for two digits. Separating even from odd numbers made sense from an optimization aspect, but it also made it easier to learn.
 
-What makes this special is that the layer switch is smart, similar to CAPSWORD as the layer turns off on space (which I call NUMWORD). So if I want to write `if x == 3 do`{.elixir} then I type `if x == <NUMWORD>3 do` and the layer turns off after the space.
+What makes this special is that the layer switch is smart, similar to CAPSWORD as the layer turns off on space (which I call NUMWORD). So if I want to write `if x == 3 do`elixir then I type `if x == <NUMWORD>3 do` and the layer turns off after the space.
 
 What about `k`, `j` and `G`? Those are for easy navigation with Vim. So `13k` means "13 lines above" and `127G` means "line number 127". Naturally, the layer turns itself off, so it doesn't interfere with my next commands. I use it all the time and it's fantastic.
 

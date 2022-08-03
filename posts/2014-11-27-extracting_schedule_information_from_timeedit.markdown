@@ -4,7 +4,7 @@ title: "Extracting schedule information from timeedit"
 tags: Programming
 ---
 
-At [liu][] we use [timeedit][] to track our schedules. Recently they updated their interface and improved some parts. It's now possible to create a prenumeration of a collection of courses exported as `csv` which can then be imported to other calendar apps. But they also started to obfuscate their urls.
+At LIU we use timeedit to track our schedules. Recently they updated their interface and improved some parts. It's now possible to create a prenumeration of a collection of courses exported as `csv` which can then be imported to other calendar apps. But they also started to obfuscate their urls.
 
 This is the schedule for a single course `TGTU49` in the interval "now - 2015-01-17":
 
@@ -16,7 +16,7 @@ This is for the courses `TGTU49` and `TATA49` in the same interval:
 
 There seem to be some logic behind the urls, but first, let's look at how they handle search.
 
-Using [firebug][] we can intercept the json requests when we click the search button at
+Using firebug we can intercept the json requests when we click the search button at
 
 <https://se.timeedit.net/web/liu/db1/schema/ri1Q7.html>
 
@@ -26,7 +26,7 @@ We find a GET request to
 
 which has has some search results formatted as html:
 
-```{.html}
+```html
 <div id="objectbasketitemX0" data-id="363972.219" data-idonly="363972" data-type="219" data-name="TGTU49, Teknikhistoria, 1, TGTU49 1445-1503 Valla"  class="clickable2 searchObject   " >
   <table id="table0" cellspacing="0" cellpadding="0" class="infotable infotablenormal">
 
@@ -47,7 +47,7 @@ which has has some search results formatted as html:
 
 `types=219` means we're searching for a course and if can change it to `types=205` we can search for student groups instead. If we change `objects.html` to `objects.json` we even get a json response:
 
-```{.json}
+```json
 {"Kurskod":"TGTU49","Kursnamn":"Teknikhistoria","Omgång":"1","Kurstillfälle":"TGTU49 1445-1503 Valla"}
 ```
 
@@ -57,7 +57,7 @@ As I'm writing this I tried `.txt` as well and we get a much larger json respons
 
 Investigating the page source in ta schedule page we find
 
-```{.html}
+```html
 <span class="hidden" id="links_base" data-base="https://se.timeedit.net/web/liu/db1/schema/ri.html?h=t&amp;sid=3&amp;p=0.m%2C20150117.x&amp;objects=363730.219&amp;ox=0&amp;types=0&amp;fe=0"></span>
 ```
 
@@ -85,7 +85,7 @@ others            Date
 
 There's a bunch of other parameters which we can simply ignore. This time if we replace `.html` to `.json` we get a nice json request:
 
-```{.json}
+```json
 {
    "columnheaders":[ "Kurs", "Lokal", "Undervisningstyp", "Lärare", "Studentgrupp", "Fria grupper", "Information till student", "Studentförening", "URL" ],
    "info":{ "reservationlimit":50, "reservationcount":17 },
@@ -115,9 +115,6 @@ Which is what I did. For a more stable library I should probably switch to json 
 
 I made a [rust crate][libtimeedit] which uses the outlined approach to retrieve scheduling information from timeedit. There's a bunch of things I'm not supporting, but it's enough for my needs. I made a simple [cli][liuschema] and integrated a `.schema` command into my [irc bot][].
 
-[liu]: #
-[timeedit]: #
-[firebug]: #
 [json deriving]: http://doc.rust-lang.org/serialize/json/ "rust json serialization doc"
 [libtimeedit]: https://github.com/treeman/libtimeedit "3rd party api for timeedit"
 [liuschema]: https://github.com/treeman/liuschema "timeedit cli"

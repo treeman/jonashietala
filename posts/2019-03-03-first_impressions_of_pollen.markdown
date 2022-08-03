@@ -12,7 +12,7 @@ The first thing I really like is Pollen enables powerful text transformation usi
 
 For example this expression:
 
-```{.racket}
+```racket
 `(blockquote
   "Everyday life is like programming, I guess. If you love something you can put beauty into it."
   (footer (span ((class "author"))
@@ -21,7 +21,7 @@ For example this expression:
 
 Corresponds to this html:
 
-```{.html}
+```html
 <blockquote>
   Everyday life is like programming, I guess. If you love something you can put beauty into it.
   <footer>
@@ -34,7 +34,7 @@ Complex transformations really should be done with structured data, like X-expre
 
 Secondly I actually like Pollen's markup. It is more verbose than markdown---or others---but not unbearably so:
 
-```{.pollen}
+```pollen
 ◊h1{Pollen markup}
 
 A link to ◊link[my-site]{my site}.
@@ -48,7 +48,7 @@ A link to ◊link[my-site]{my site}.
 ◊(define my-site "http://jonashietala.se")
 ```
 
-```{.md}
+```markdown
 # Markdown markup
 
 A link to [my site][my-site].
@@ -70,7 +70,7 @@ https://www.youtube.com/watch?v=NIbr-mLi4DU
 
 To
 
-```{.html}
+```html
 <div class="video-wrapper">
   <div class="video-container">
     <iframe src="//www.youtube.com/embed/NIbr-mLi4DU" frameborder="0" allowfullscreen></iframe>
@@ -80,7 +80,7 @@ To
 
 In Pollen you simply define a tag that returns the video-wrapper directly, so the markup is simple without magic:
 
-```{.pollen}
+```pollen
 ◊yt{https://www.youtube.com/watch?v=NIbr-mLi4DU}
 ```
 
@@ -124,7 +124,7 @@ I had some trouble integrating sass for my css files. I used a system command wh
 
 In the end I just threw together a simple script using `inotifywait` which calls sassc when a .scss file change:
 
-```{.bash}
+```bash
 #!/bin/bash
 
 sassc sass/main.scss --style compressed > css/main.css

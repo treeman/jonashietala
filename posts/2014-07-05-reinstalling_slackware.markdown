@@ -7,37 +7,37 @@ tags: Slackware
 
 So I reinstalled slackware on my machine and decided to take some rough notes of the most important steps I made. I did not document the steps in detail, and some are very specific for my setup. But maybe it can be useful for someone, or myself.
 
-1. [Basic steps][]
-    1. [Make partitions][]
-    1. [Setup][]
-    1. [Config][]
-    1. [Install wicd, get online][]
-    1. [Custom Kernel][]
-    1. [Fix X][]
-1. [Programs][]
-    1. [Firefox][]
-    1. [vim][]
-    1. [Skype][]
-    1. [Spotify][]
-    1. [Office][]
-    1. [cron][]
-1. [Appearance][]
-    1. [xmonad][]
-    1. [Fonts][]
-    1. [Terminal][]
-1. [Random Installs][]
-    1. [Slackbuilds][]
-    1. [Perl][]
-    1. [Multilib][]
-    1. [Better latex][]
-    1. [Groovebasin][]
-    1. [Java][]
-    1. [Anki][]
-1. [Programming][]
-    1. [Hakyll][]
-    1. [SFML][]
-1. [Games][]
-    1. [Minecraft][]
+1. [Basic steps]
+    1. [Make partitions]
+    1. [Setup]
+    1. [Config]
+    1. [Install wicd, get online]
+    1. [Custom Kernel]
+    1. [Fix X]
+1. [Programs]
+    1. [Firefox]
+    1. [vim]
+    1. [Skype]
+    1. [Spotify]
+    1. [Office]
+    1. [cron]
+1. [Appearance]
+    1. [xmonad]
+    1. [Fonts]
+    1. [Terminal]
+1. [Random Installs]
+    1. [Slackbuilds]
+    1. [Perl]
+    1. [Multilib]
+    1. [Better latex]
+    1. [Groovebasin]
+    1. [Java]
+    1. [Anki]
+1. [Programming]
+    1. [Hakyll]
+    1. [SFML]
+1. [Games]
+    1. [Minecraft]
 
 Basic steps
 ===========
@@ -49,9 +49,9 @@ See `README_USB.TXT` in usb folder from slackware installation.
 
 Create
 
-`dd if=usbboot.img of=/dev/sdX bs=1M` {.bash}
+`dd if=usbboot.img of=/dev/sdX bs=1M`bash
 
-Be sure `/dev/sdX` is the usb, dd will wipe everything! Simple way is to `ls /dev` {.bash} before and after plugging in device.  Boot from bios (f2 or f10).
+Be sure `/dev/sdX` is the usb, dd will wipe everything! Simple way is to `ls /dev`bash before and after plugging in device.  Boot from bios (f2 or f10).
 
 
 Make partitions
@@ -63,7 +63,7 @@ Make partitions <http://slackbook.org/html/installation-partitioning.html>
 
 Current setup:
 
-``` {.bash}
+```bash
 tmpfs       4G      swap
 /dev/sda2   50G     /
 /dev/sda3   50G     /usr/local
@@ -107,7 +107,7 @@ Install wicd, get online
 
 Fetch package from `/extra/wicd`.
 
-``` {.bash}
+```bash
 installpkg ...
 chmod +x /etc/rc.d/rc.wicd
 /etc/rc.d/rc/wicd start
@@ -121,7 +121,7 @@ Custom Kernel
 
 Fetch latest stable kernel source: <https://www.kernel.org/>
 
-``` {.bash}
+```bash
 cd /usr/src
 wget https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.15.1.tar.xz   # Or whatever
 tar xf linux-3.15.1.tar.xz
@@ -132,7 +132,7 @@ cd linux
 
 Use slackware custom as base:
 
-``` {.bash}
+```bash
 # wget or cp to dir
 wget ftp://ftp.slackware.com/pub/slackware/slackware64-14.1/source/k/config-x86_64/config-generic-3.10.17.x64
 mv config-generic-3.10.17.x64 .config
@@ -142,7 +142,7 @@ make menuconfig
 
 Make sure to select processor type, preemptive low latency desktop. Remove `nvidia` and `riba` for nvidia binary blob usage later.
 
-``` {.bash}
+```bash
 make bzImage modules
 make modules_install
 cp arch/x86_64/boot/bzImage /boot/vmlinuz-custom-3.16.3
@@ -155,7 +155,7 @@ ln -s System.map-custom-3.16.3 System.map
 
 Update `/etc/lilo.conf`. This is mine:
 
-``` {.bash}
+```bash
 # Start LILO global section
 lba32 # Allow booting past 1024th cylinder with a recent BIOS
 compact # Fast boot
@@ -220,14 +220,14 @@ Install NVIDIA drivers 337.25.
 
 Use custom `xorg.conf`.
 
-``` {.bash}
+```bash
 ln -s dotfiles/.workspace .
 ln -s /etc/X11/xorg.conf.d/xorg.conf .workspace/xorg.conf
 ```
 
 This is it:
 
-``` {.xorg.conf}
+```
 Section "ServerLayout"
     Identifier "Layout0"
     Screen 0 "Screen0" 1080 480
@@ -348,7 +348,7 @@ Firefox
 
 Download latest
 
-``` {.bash}
+```bash
 tar xf ...
 mv firefox /usr/local/lib64/
 cd /usr/bin
@@ -366,7 +366,7 @@ vim
 
 For xterm copying and support for more plugins. Get vim source.
 
-``` {.bash}
+```bash
 hg clone https://vim.googlecode.com/hg/ vim
 cd vim
 ./configure --with-features=huge \
@@ -387,19 +387,19 @@ make install
 Skype
 -----
 
-Install [Multilib][]. Install skype from slackbuilds, use 32bit mode.
+Install [Multilib]. Install skype from slackbuilds, use 32bit mode.
 
 
 Spotify
 -------
 
-Install [Multilib][]. Fetch from slackbuilds. I'm having some flickering issues, but no idea what to do.
+Install [Multilib]. Fetch from slackbuilds. I'm having some flickering issues, but no idea what to do.
 
 
 Office
 ------
 
-Install [Java][]. Install `libreoffice` from slackbuilds.
+Install [Java]. Install `libreoffice` from slackbuilds.
 
 
 cron
@@ -425,7 +425,7 @@ xmonad
 
 As user:
 
-``` {.bash}
+```bash
 cabal update
 cabal install cabal-install
 cabal install xmonad
@@ -448,7 +448,7 @@ Fonts
 
 Copy ttf fonts to `/usr/share/fonts/TTF`, in that dir run
 
-``` {.bash}
+```bash
 mkfontscale
 mkfontdir
 fc-cache -fv
@@ -463,7 +463,7 @@ Enable subpixel rendering from source slackbuild <http://ftp.slackware.com/pub/s
 
 Save as `freetype_cleartype.diff`:
 
-``` {.diff}
+```diff
 diff -rupN freetype.orig/cleartype.diff freetype/cleartype.diff
 --- freetype.orig/cleartype.diff	1969-12-31 16:00:00.000000000 -0800
 +++ freetype/cleartype.diff	2013-11-19 15:32:04.811346576 -0800
@@ -497,7 +497,7 @@ diff -rupN freetype.orig/freetype.SlackBuild freetype/freetype.SlackBuild
 
 Then
 
-``` {.bash}
+```bash
 lftp -c 'open ftp.slackware.com ; mirror pub/slackware/slackware64-14.1/source/l/freetype/'
 cd freetype
 patch -p1 < ../freetype_cleartype.diff
@@ -508,14 +508,14 @@ installpkg /tmp/freetype-2.5.0.1-x86_64-1.txz
 
 Enable subpixel rendering. Test <http://www.lagom.nl/lcd-test/subpixel.php>, choose rgb, gbr, or whatever. Also useful: <https://wiki.archlinux.org/index.php/Font_configuration>
 
-``` {.bash}
+```bash
 ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 ```
 
 Also use `~/.config/fontconfig/fonts.conf`:
 
-``` {.xml}
+```xml
 <?xml version='1.0'?>
 <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
 <fontconfig>
@@ -669,7 +669,7 @@ Fetch `rxvt-unicode` from slackbuilds. Make `.Xresources`.
 
 Color schemes with ls listings will be ugly, so copy `DIR_COLORS` to `.dir_colors`
 
-``` {.C}
+```C
 STICKY_OTHER_WRITABLE 35;40
 OTHER_WRITABLE 34;40
 ```
@@ -703,7 +703,7 @@ Perl
 
 Install perl libs from cpan. As root:
 
-``` {.bash}
+```bash
 cpan install cpan
 cpan install App::Ack
 cpan install Modern::Perl
@@ -758,7 +758,7 @@ Programming
 Hakyll
 --------------
 
-``` {.bash}
+```bash
 cabal install hakyll
 cabal install MissingH
 ```
@@ -778,9 +778,9 @@ Games
 Minecraft
 ---------
 
-Requires [Java][]. Launch with:
+Requires [Java]. Launch with:
 
-``` {.bash}
+```bash
 java -Xmx2048M -Xms1024M -jar ~/.minecraft/launcher/Minecraft.jar
 ```
 

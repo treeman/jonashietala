@@ -14,7 +14,7 @@ So I actually [finished][ld] Ludum Dare 33.  I can't believe how hard it was to 
 # Groar
 
 ![](/images/ld33/thumb1.png)
-![](/images/ld33/thumb2.png)
+![](/images/ld33/thumb2.png)  
 ![](/images/ld33/thumb3.png)  
 
 # Controls

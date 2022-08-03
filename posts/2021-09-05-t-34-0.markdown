@@ -1,6 +1,7 @@
 ---
 title: "The T-34/0 keyboard layout"
 tags: Computer, Keyboards, T-34
+series: t-34
 ---
 
 This is an update to the [T-34][] keyboard layout I've been using for a solid number of weeks. While there are more changes I'd like to try, I'm quite pleased with these changes so I figured I might as well immortalize them before I explore further. (And I do have a bunch of big changes I want to experiment with.)
@@ -76,20 +77,20 @@ There's another change I made that's unrelated to `Repeat`, that aims to fix som
 
 I've added or altered some of [the combos](/blog/2021/06/03/the-t-34-keyboard-layout#combos) as well:
 
-<figure>
-  ![](/images/t-34-0/q.png)
-  ![](/images/t-34-0/qu.png)
-</figure>
+::: Figure
+/images/t-34-0/q.png
+/images/t-34-0/qu.png
+:::
 
-<figure>
-  ![](/images/t-34-0/dquo.png)
-  ![](/images/t-34-0/scln.png)
-</figure>
+::: Figure
+/images/t-34-0/dquo.png
+/images/t-34-0/scln.png
+:::
 
-<figure>
-  ![](/images/t-34-0/eq.png)
-  ![](/images/t-34-0/rev_rep.png)
-</figure>
+::: Figure
+/images/t-34-0/eq.png
+/images/t-34-0/rev_rep.png
+:::
 
 1. I've added a `qu` combo as `q` is almost always followed by `u`, and I moved the `q` combo off to the side.
 2. `"` is now a home-row combo (mirroring the `'` combo on the right-hand side) and `;` got the three-key combo as it's slightly harder to press than the combo for `"`.
@@ -107,17 +108,17 @@ This is how the idea of the `Reverse Repeat` key was born. It's a key that moves
 
 Here's a list of some of these "repeat pairs" that I've found useful:
 
-A                   B
---------------      ----------------        -------------
-`PgUp`              `PgDn`
-`Ctrl-f`            `Ctrl-b`
-`Ctrl-u`            `Ctrl-d`
-`Ctrl-o`            `Ctrl-i`                Easily my most used pair
-`Ctrl-n`            `Ctrl-p`
-`*`                 `#`
-`W`                 `B`
-`{`                 `}`
-`Gui-k`             `Gui-j`
+| A               |    B                 |         &ThinSpace;
+| --------------  |    ----------------  |     -------------
+| `PgUp`          |    `PgDn`            |
+| `Ctrl-f`        |    `Ctrl-b`          |
+| `Ctrl-u`        |    `Ctrl-d`          |
+| `Ctrl-o`        |    `Ctrl-i`          |     Easily my most used pair
+| `Ctrl-n`        |    `Ctrl-p`          |
+| `*`             |    `#`               |
+| `W`             |    `B`               |
+| `{`             |    `}`               |
+| `Gui-k`         |    `Gui-j`           |
 
 This may sound fine and dandy, but if I'm completely honest, it's absolutely nothing groundbreaking. I might use it once per day or something---and when I do it feels great---but it would be easy to live without.
 
@@ -156,16 +157,16 @@ I am a happy [auto shift][] user, where you hold down a key until the shifted va
 
    While auto shift only shifts the underlying keycode, you could send whatever you want. I currently use it to simplify the input of some programming constructs:
 
-   Tap             Hold
-   -----           ------      -----
-   `|`             ` || `      One hold saves 4 key strokes for these common operators
-   `&`             ` && `
-   `=`             ` == `
-   `!`             ` != `
-   `@`             `@u`        Vim: Execute macro stored in `u` (matching the `qu` combo)
-   `?`             `{:?}`      Rust debug print
-   `#`             `{:#?}`     Rust debug pretty print
-   `%`             `%{}`       A map in Elixir
+   |  Tap      |      Hold    |     &ThinSpace;
+   |  -----    |      ------  |     -----
+   |  <code>\|</code>      |      <code> \|\| </code>  |     One hold saves 4 key strokes for these common operators
+   |  `&`      |      ` && `  |
+   |  `=`      |      ` == `  |
+   |  `!`      |      ` != `  |
+   |  `@`      |      `@u`    |     Vim: Execute macro stored in `u` (matching the `qu` combo)
+   |  `?`      |      `{:?}`  |     Rust debug print
+   |  `#`      |      `{:#?}` |     Rust debug pretty print
+   |  `%`      |      `%{}`   |     A map in Elixir
 
    (I previously used this feature only to input double or triple symbols.)
 

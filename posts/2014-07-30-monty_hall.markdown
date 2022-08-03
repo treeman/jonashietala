@@ -28,7 +28,7 @@ it will indeed confirm that it is better to switch.
 [rust]: http://www.rust-lang.org/ "rust"
 [The Drunkard's Walk]: http://www.amazon.com/The-Drunkards-Walk-Randomness-Rules/dp/0307275175 "The Drunkard's Walk"
 
-```{.rust}
+```rust
 use std::rand;
 use std::rand::Rng;
 use std::rand::distributions::{IndependentSample, Range};

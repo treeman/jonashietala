@@ -9,9 +9,7 @@ Ah my latest game [Jonas IceCream Stand](/blog/2009/11/25/jonas_icecream_stand/)
 
 I spent almost exactly fifty hours on this game and that's by far the most I've spent on a 7day project. To be honest it's probably more but I'm not really good at logging all the hours...
 
-<figure>
-  ![](/images/games/icecreamgraph.png)
-</figure>
+![](/images/games/icecreamgraph.png)
 
 # A Race
 

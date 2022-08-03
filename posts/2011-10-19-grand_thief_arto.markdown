@@ -5,10 +5,6 @@ tags: Games
 
 Here's me and Li's game for our school course. The game isn't tweaked too much but it's a game with some fairly cool ideas.
 
-# Download
-
-[Windows](#)
-
 # Grand Thief Arto
 
 ![](/images/games/arto1.png)

@@ -2,6 +2,7 @@
 layout: post
 title: "IDA Summer of Code 2014: Summary"
 tags: IDA Summer of Code
+recommended: true
 ---
 
 This is a wrap-up post of my entry to [IDA Summer of Code][] this year.
@@ -45,7 +46,7 @@ The approach I took with documentation was to pick a part of the standard librar
 
 For example [`Vec::as_mut_ptr`][as_mut_ptr] has the type signature `fn as_mut_ptr(&mut self) -> *mut T` and the documentation is basically a copy of the signature with some descriptive text. But the text says nothing of how to actually *use* the function. I just want to know how I use the pointer. A descriptive example is gold worth as it saves you so much time:
 
-```{.rust}
+```rust
 use std::ptr;
 
 let mut v = vec![1i, 2, 3];
@@ -107,7 +108,7 @@ I don't think I actually managed solve a lot of issues, maybe a couple, but I di
 
 Early on when reading rust's old tutorial I cringed a bit of the use of Newtypes:
 
-```{.rust}
+```rust
 struct Inch(int);
 let length = Inch(10);
 let Inch(integer_length) = length;
@@ -116,7 +117,7 @@ println!("it's {} long!", integer_length);
 
 But this isn't very ergonomic and it just feels like a big hack to call a one element tuple for a newtype. So I wrote an [RFC][newtype-RFC] which proposed to introduce a `newtype` keyword which automatically derives the underlying traits of a type:
 
-```{.rust}
+```rust
 newtype Inch = int;
 let length: Inch = 10;
 println!("it's {} long!", length);
@@ -124,7 +125,7 @@ println!("it's {} long!", length);
 
 The feedback was positive overall, but it's currently postponed until after 1.0 as it could be implemented with backwards compatibility in mind. There was also discussion about possibly favouring [Generalized Newtype Deriving][GND] over a new keyword:
 
-```{.rust}
+```rust
 #[deriving(Sub, Show)]
 struct Inches(int);
 ```

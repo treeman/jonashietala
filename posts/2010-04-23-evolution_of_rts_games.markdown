@@ -5,15 +5,15 @@ category: Game Design Course
 tags: Game Design
 time: 10:00:40
 ---
-<a name="top"></a>
+<a id="top"></a>
 
-1. [Introduction][]
-1. [The Journey Begins][]
-1. [The RTS Boom][]
-1. [Life After the Boom][]
-1. [The Modern Age][]
-1. [Conclusion][]
-1. [References][]
+1. [Introduction]
+1. [The Journey Begins]
+1. [The RTS Boom]
+1. [Life After the Boom]
+1. [The Modern Age]
+1. [Conclusion]
+1. [References]
 
 Introduction
 ============
@@ -37,8 +37,7 @@ Dune II (1992) wasn't the first RTS game, there had been several games with RTS 
 
 The game introduced the concept of a tech-tree (Technology Tree) where you could “tech up” to stronger but more expensive tanks or you could continue to build cheap tanks. Gone where the days when you had to rely on a rock-paper-scissor balance between units, such as tank beats artillery which beats infantry which beats tanks, and instead you had the choice of countering a tank with a bigger tank! Or with a mind-control tank or you could choose to destroy the factory producing the tanks. Choosing the right time to climb up the tech-tree became vital to your success but it was complicated by “the shroud” which was a black fog covering the map where you haven't been. This in turn forced players to scout and check what the opponent is doing having to constantly revise what units he should build and if he had to tech up.
 
-![](/images/rts/dune-2.png)  
-*The sandy land of Dune 2*
+![The sandy land of Dune 2](/images/rts/dune-2.png)
 
 Perhaps the most revolutionary concept Dune introduced was the resource system. To build things you had to have spice, the game's only resource, and to get spice you had to harvest it on the map and bring it home to convert it to money and then units or buildings. What this practically means is the player had to have control of the map, he had to have a place he could get spice or else he would probably die. The concept of map-control is something that is driving virtually all RTS games to date.
 The first online capable game was Warcraft: Orcs and Humans (1994) but the online boom wouldn't come just yet. Instead it was the game Command & Conquer (1995) who refined RTS a bit more. It wasn't a graphical masterpiece nor very complex instead it's simple but it just works. The game screams atmosphere and war. All the units were pretty straightforward (I mean who doesn't know an apache, a rocket launcher or an M1A1 tank?) so it was pretty easy to pick up. But beneath the simple exterior lay a surprisingly deep game.
@@ -58,8 +57,7 @@ But the thing that really set Warcraft II apart was the online multiplayer. A hu
 
 Command & Conquer Red Alert (1996) was the original C&C but more and better. It kept the defining pieces but moved up the pace with high yield minerals and a stronger focus on tank warfare. In fact the focus on tanks was so strong that it introduced the concept of a “tank rush” where you amass a lots of tanks quickly and then rush your opponent to catch him of guard. The factions were different and unique and featured for the first time full featured land, sea and air combat. Red Alert also has a crazy and good story where Einstein witnesses the horrors of Hitler and proceeds to g back in time and kill, but without the competition for Stalin a new war breaks out. This placed new importance on the story in RTS games, a tradition which still continues today.
 
-![](/images/rts/redalert.png)  
-*We can spot Red Alert's mighty mammoth tank*
+![We can spot Red Alert's mighty mammoth tank](/images/rts/redalert.png)
 
 If you think about classical RTS games the chances are high you'll think about Age of Empires (1997). The game is one of the most influential RTS games and if you've ever played it it's easy to see why. It's balanced, polished and very deep. It's one of the first games to introduce the concept of “Ages”, essentially tiers in a tech tree. There are four ages which let's you progress from the very basic clubmen to advanced bowmen and even war elephants. The whole system is nicely done and the progression to higher tiers is fluent and it adds a lot of depth to the game. The resource system is still one of the most complex in any RTS with a whopping four resources for you to balance. Another new concept was the random maps. This way every game was a whole new experience with lots of different chokes and the importance of scouting was set on a whole new level.
 
@@ -73,8 +71,7 @@ Until this day, almost 12 years later, Starcraft (1998) is still the most compet
 
 Why did this game become so popular? I don't know; it took almost a decade to get it balanced good and it isn't extremely fast paced. It's really fun to play but almost more importantly is that it's fun to watch, the immersion factor and the excitement of a high skilled game is unparalleled and I think that's what sparked the formation of a dedicated community. Then the community in itself is a reason why Starcraft has stood the test of time – the formation of pro leagues, great map support and excellent coverage has made sure the community has flourished.
 
-![](/images/rts/sc.png)  
-*Starcraft, the most successful RTS game yet*
+![Starcraft, the most successful RTS game yet](/images/rts/sc.png)
 
 [Back to top](#top)
 
@@ -91,8 +88,7 @@ Warcraft III (2002) continued on where Warcraft II left but with added focus on 
 
 The focus on heroes and abilities made the game really micro intense (taking care of individual units) as opposed to the very macro (economy) centered Starcraft. (It's pretty amusing in the current Starcraft 2 beta where you can actually see what game the top players used to play, Starcraft players usually have great macro but pretty bad micro whereas top Warcraft 3 players micro a few units but their economy is bad.)
 
-![](/images/rts/Warcraft-3.png)  
-*A human player harassing an Orc in Warcraft 3*
+![A human player harassing an Orc in Warcraft 3](/images/rts/Warcraft-3.png)
 
 Command & Conquer Generals (2003) shifted the focus for the C&C series. It made the building panel a bit more free, so you could easier build where and what you wanted, it had radically different factions and sub-factions but it had a very poor story but perhaps the most noteworthy addition was that upgrade change unit behavior instead of simply making them deal +1 damage. For example infantry was weak against tanks but with an armor-piercing upgrade they could destroy it.
 
@@ -107,15 +103,13 @@ The Modern Age
 
 Company of Heroes (2006) is a pretty special game. It fuses the cinematic experience from an FPS with the tactical and strategical depth from an RTS. You command a lot less units and you're a lot closer to the battlefield. The environment is almost fully destructible and your units will take shelter behind anything they can find. Things like where you attack a tank became important as the armor was considerably weaker in the back and ammunition and fuel was considered a scarce resource.
 
-![](/images/rts/coh.png)  
-*The immersion of Company of Heroes is simply stunning*
+![The immersion of Company of Heroes is simply stunning](/images/rts/coh.png)
 
 World in Conflict (2009) took the tactics even further and is considered an RTT – Real Time Tactics. In WiC there are no resources, just a sum given in the start of the game for you to call in units with. When the units are killed the points are slowly given back ensuring you won't run out of units. The game is solely focused on controlling your units and thus isn't really a true RTS in my eyes but a game bordering between the two.
 
 Supreme Commander (2007) is the spiritual successor to Total Annihilation and it stands in stark contrast to WiC's tactical focus – here it's about the broad strokes man. Given the strategic zoom you can zoom out until you can see the whole battlefield and all the hundreds of units are there for you to command. The scale is huge, nukes and experimental super units trashing around gives the game an epic feel. But there's a lot more to Supcom than watching huge battles, it's using the whole TA system with infinite economy, wreckages and no hard counters. We have new intelligence modes; in addition to line of sight as in almost every other games there are radar, sonar and omni (see all). To counter these we get cloaking and radar jamming units. Another thing Supcom does well is the improved interface with infinite queues which tie well with the infinite resources so you don't have to babysit your factories to get them to continually produce units.
 
-![](/images/rts/fa.png)  
-*Me and Toejams showing off in Supreme Commander*
+![Me and Toejams showing off in Supreme Commander](/images/rts/fa.png)
 
 Today there are both big scaled games like Hearts of Iron III (2008) and small-scale like Company of Heroes. There are games that relies on the old tried-but-true formula (Starcraft 2 currently in beta) and other more novel (Darwinia 2005). If you look closely you'll notice the core the old RTS games are still here, unchanged. Starcraft 2's resource system is basically the same as in Dune II and grouping are still the same as in the original C&C. Games are still living on, and building on, the successful ideas of the past (the new C&C, AoE3 etc) and I personally think they will continue to entertain us, Dune II style, for at least a couple of decades more.
 

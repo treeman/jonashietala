@@ -18,7 +18,7 @@ Some other text...
 
 Would embed `<link>` as a video. A youtube link seems to always start like: `https://www.youtube.com/watch?v=` which we can parse with a simple regex. If we run this after compilation the link will also be surrounded by `<p>` tags.
 
-```{.haskell}
+```haskell
 -- Need to import the regex
 import Text.Regex (subRegex, mkRegex)
 
@@ -40,14 +40,14 @@ The rendering part is not pretty and I'm sure one could move it to a template so
 
 We can use with:
 
-```{.haskell}
+```haskell
 applyFilter :: (Monad m, Functor f) => (String-> String) -> f String -> m (f String)
 applyFilter transformator str = return $ (fmap $ transformator) str
 ```
 
 And use it right after we compile:
 
-```{.haskell}
+```haskell
 match "posts/*.markdown" $ do
     route   postRoute
     compile $ pandocCompiler
@@ -65,7 +65,7 @@ I did not write this code originally, I found it on someone else's blog, but I m
 
 The styling of the video is [from another blog post][style]:
 
-```{.css}
+```css
 .video-container {
     position: relative;
     padding-bottom: 56.25%;

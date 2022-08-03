@@ -84,7 +84,7 @@ And so 2020 has come to an end. On a global scale it's been quite a horrible yea
 [previous years]: </blog/tags/yearly_review/> "Yearly reviews"
 [Bad Blood]: https://www.goodreads.com/book/show/37976541-bad-blood "Bad Blood"
 [Dune]: https://www.goodreads.com/book/show/44767458-dune "Dune"
-[pollen]: http://127.0.0.1:8000/blog/2020/05/03/how_i_wrote_my_book_using_pollen/ "How I wrote my book using Pollen"
+[pollen]: /blog/2020/05/03/how_i_wrote_my_book_using_pollen/ "How I wrote my book using Pollen"
 [whycrypto]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?: What they are, what they do and why they matter"
 [building git]: https://shop.jcoglan.com/building-git/ "Building Git"
 [realtime]: https://pragprog.com/titles/sbsockets/real-time-phoenix/ "Real-Time Phoenix"

@@ -22,7 +22,7 @@ This is the code, working on `rustc 0.10-pre (5512fb4 2014-01-19 05:56:35 -0800)
 [rust]: http://www.rust-lang.org/
 [15p]: http://en.wikipedia.org/wiki/15_puzzle
 
-``` {.rust}
+```rust
 /**
  * A solution to the 8-tiles puzzle, implemented in rust
  * as a learning experience.

@@ -16,9 +16,7 @@ If I followed the theme good or bad you be the judge. Personally I don't think i
 The game itself took 25 hours to make - but more than 5 hours of them was me having a break.
 Here's a little jummy pie of what took time:
 
-<figure>
 ![](/images/games/bugger-time-spent.png)
-</figure>
 
 Compared to my two other games I spent a bigger part on both graphics and level design - and that was sourly needed imho. The "embedding scripting" part is where I built in the ability to build levels from lua. I think the result was really good and it saved a lot of time just being able to edit a file without having to recompile every single little change.
 

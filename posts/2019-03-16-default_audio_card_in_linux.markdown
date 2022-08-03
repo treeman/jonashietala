@@ -87,7 +87,7 @@ iec958:CARD=Audio,DEV=0
 
 Now we can test:
 
-```{.bash}
+```bash
 speaker-test -t sin -f 800 -Dfront:Audio -c2        # No sound for me
 speaker-test -t sin -f 800 -Dsysdefault:Audio -c2   # This works!
 ```

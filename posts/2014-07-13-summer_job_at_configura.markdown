@@ -2,6 +2,7 @@
 layout: post
 title: "Summer job at Configura"
 tags: Programming
+recommended: true
 ---
 
 This is a wrap up of my 5 weeks at [Configura][] as a summer internship. There were 6 interns and we had two teams doing different things. I worked with two other awesome guys and it was great!
@@ -46,17 +47,17 @@ An [octree][] is an extension of a [quadtree][] from 2D to 3D. The simple explan
 
 The octree is used in various ways, for a fast traversal with a ray, mesh healing, finding neighbours or other things.
 
-<figure class="flex-50">
-  ![](/images/configura14/octree1.png)
-  ![](/images/configura14/octree2.png)
-</figure>
+::: Flex
+/images/configura14/octree1.png
+/images/configura14/octree2.png
+:::
 
 Here we can see the root bounding box and the subsequent subdivision into smaller boxes. The green boxes have none or few triangles, the yellow and red have more triangles in them. Because we force our wctree to have a maximum depth some nodes like the red ones on top of the model can have a lot of triangles in them without further subdividing. This is basically a trade off between the memory and time usage versus how good the octree becomes.
 
-<figure class="flex-50">
-  ![](/images/configura14/socket1.png)
-  ![](/images/configura14/socket2.png)
-</figure>
+::: Flex
+/images/configura14/socket1.png
+/images/configura14/socket2.png
+:::
 
 This octree is very sparse at the top, which makes sense as there are no triangles there, and it's dense in the middle. Interestingly we can see something sticking out inside the model, which means there are more triangles there. Indeed, the model has the actual holes, we just can't see them.
 
@@ -108,15 +109,13 @@ We rewrote the implementations from scratch, we battled with precision errors an
 
 Oh, and something cool we hacked in during my last day: A better triangle flipper to turn triangles face up.
 
-<figure class="flex-50">
-  ![](/images/configura14/flipper1.png)
-  ![](/images/configura14/flipper2.png)
-  <figcaption>
-    Left: Triangles turned inwards  
-    Right: Triangles turned outwards (without blindly copying everything)
-  </figcaption>
-</figure>
+::: Flex
+/images/configura14/flipper1.png
+/images/configura14/flipper2.png
 
+Left: Triangles turned inwards  
+Right: Triangles turned outwards (without blindly copying everything)
+:::
 
 
 [Octree]: http://en.wikipedia.org/wiki/Octree "Octree"

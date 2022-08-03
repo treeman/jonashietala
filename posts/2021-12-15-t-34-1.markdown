@@ -1,6 +1,7 @@
 ---
 title: "The T-34/1 keyboard layout"
 tags: Computer, Keyboards, T-34
+series: t-34
 ---
 
 This is the revision of the [T-34][] keyboard layout that I use as my primary driver. I've used this particular version without any major changes for almost 3 months, so I'd say it's a good improvement over the last revision.
@@ -60,19 +61,16 @@ I did use a keylog when I started creating the layout, but it didn't tell me muc
 
 I already have a lot of combos, so it was a bit of a struggle to find good positions, but here's what I ended up with:
 
-<figure>
-  ![](/images/t-34-1/lgui.png)
-  ![](/images/t-34-1/rgui.png)
-  ![](/images/t-34-1/lctrl.png)
-  ![](/images/t-34-1/rctrl.png)
-</figure>
-
-<figure>
-  ![](/images/t-34-1/lshft.png)
-  ![](/images/t-34-1/rshft.png)
-  ![](/images/t-34-1/lctrl-shift.png)
-  ![](/images/t-34-1/rctrl-shift.png)
-</figure>
+::: Figure
+/images/t-34-1/lgui.png { height=180 }
+/images/t-34-1/rgui.png { height=180 }
+/images/t-34-1/lctrl.png { height=180 }
+/images/t-34-1/rctrl.png { height=180 }
+/images/t-34-1/lshft.png { height=180 }
+/images/t-34-1/rshft.png { height=180 }
+/images/t-34-1/lctrl-shift.png { height=180 }
+/images/t-34-1/rctrl-shift.png { height=180 }
+:::
 
 The `Ctrl` combo is *slightly* awkward with the home/bottom split, but it's not too bad. Maybe it would be better as a home-row combo, but I'm very happy with the combos I have there...
 
@@ -109,13 +107,13 @@ While I haven't made any changes to the layout for a while, I've been keeping no
 
   I still don't like the inner thumb keys, so I'd like to try activating layers by holding combos instead. Just some ideas:
 
-  Tap                 Hold
-  --------------      -------------------------
-  `Tab`               `Ctrl`
-  `Escape`            Symbols on the right
-  `:`                 Symbols on the left
-  `Enter`             `Ctrl`
-  `;`                 Mods on the right hom-row
+  | Tap             |   Hold
+  | --------------  |   -------------------------
+  | `Tab`           |   `Ctrl`
+  | `Escape`        |   Symbols on the right
+  | `:`             |   Symbols on the left
+  | `Enter`         |   `Ctrl`
+  | `;`             |   Mods on the right hom-row
 
   Note that these are all home-row combos, and this change would almost completely free up the inner thumbs for other (less used) things.
 
@@ -129,10 +127,10 @@ While I haven't made any changes to the layout for a while, I've been keeping no
 
   A [leader key][], is a nice idea as you can use several keypresses to trigger a single function. For instance you can have:
 
-  Sequence              Action
-  ---------             ----------
-  `Leader` `t` `n`      **T**oggle **N**umber layer
-  `Leader` `t` `c`      **T**oggle **C**aps lock
+  | Sequence           |  Action
+  | ---------          |  ----------
+  | `Leader` `t` `n`   |  **T**oggle **N**umber layer
+  | `Leader` `t` `c`   |  **T**oggle **C**aps lock
 
   So to toggle numbers you only have to remember the mnemonic **T**oggle **N**umber to remember the sequence `Leader` `t` `n`.
 

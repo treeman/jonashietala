@@ -14,7 +14,7 @@ Registering my own domain was very easy with the [instructions][domain]. I could
 
 In a subdomain `mesmtp._domainkey` set a TXT record with the value of the public key found in Advanced -> Virtual Domains -> DKIM signing keys.  You can check the settings with `dig`:
 
-```{.bash}
+```bash
 $ dig mesmtp._domainkey.jonashietala.se TXT
 
 ; <<>> DiG 9.9.3-P2 <<>> mesmtp._domainkey.jonashietala.se TXT

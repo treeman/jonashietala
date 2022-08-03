@@ -79,9 +79,7 @@ It doesn't matter if you use DNS or email validation.  If you choose DNS validat
 
 Finally we just need to tell CloudFront to use the new certificate. Go back and edit the General settings choose the Custom SSL Certificate option:
 
-<figure>
 ![](/images/s3_setup/cert.png)
-</figure>
 
 And we should be done! Now <https://whycryptocurrencies.com> should give a valid cert and http should redirect to https.
 

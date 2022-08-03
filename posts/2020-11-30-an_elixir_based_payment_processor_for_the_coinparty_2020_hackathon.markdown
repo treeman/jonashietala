@@ -3,9 +3,7 @@ title: "An Elixir based payment processor for the Coinparty hackathon"
 tags: Coinparty, Cryptocurrency
 ---
 
-<div style="width=800px;height=200px;background-color=green;padding=5px">
-  ![](/images/coinparty-full.svg)
-</div>
+![](/images/coinparty-full.svg)
 
 Bitcoin Unlimited is hosting [a Bitcoin Cash hackathon this December][coinparty] and it seemed like a good opportunity for me to explore how to program against Bitcoin Cash, and it gives me an excuse to build something real with [Phoenix][] and Elixir. (While an event like this might help combat my procrastination, I should really work on finishing my book, so this in itself is also procrastination.)
 

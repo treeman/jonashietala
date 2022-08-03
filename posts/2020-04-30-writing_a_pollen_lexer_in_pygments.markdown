@@ -35,7 +35,7 @@ The simpest [Pygments][] lexer might look like this:
 
 [Pygments]: https://pygments.org/
 
-```{.python3}
+```python3
 from pygments.lexer import *
 from pygments.token import *
 import re
@@ -59,8 +59,8 @@ class PollenLexer(RegexLexer):
 
 Which if placed in `pollen.py` can be run on a file `pollen.html.pm` like this:
 
-```{.fish}
-$ python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm
+```fish
+python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm
 ```
 
 That produces html output. Right now it doesn't do anything interesting, as it only returns a `Text` token for everything, so let's change that shall we?
@@ -74,7 +74,7 @@ Regular text ◊; Trailing comment
 
 Which should be pretty straightforward. We just need to add a single clause to the root state that matches everything from `◊;` to the end of the line:
 
-```{.python3}
+```python3
 tokens = {
     'root': [
         (r'◊;.*?$', Comment),
@@ -83,11 +83,11 @@ tokens = {
 
 And comments are highlighted!
 
-```{.fish}
-$ python3 -m pygments -l pollen2.py:PollenLexer -x -f html pollen.html.pm
+```fish
+python3 -m pygments -l pollen2.py:PollenLexer -x -f html pollen.html.pm
 ```
 
-```{.html}
+```html
 <div class="highlight"><pre><span></span><span class="c">◊; Standard comment</span>
 Regular text <span class="c">◊; Trailing comment</span>
 </pre></div>
@@ -95,11 +95,7 @@ Regular text <span class="c">◊; Trailing comment</span>
 
 That's hard to read so I'll embed the output from now on:
 
-<div class="highlight"><pre><span></span><span class="c">◊; Standard comment</span>
-Regular text <span class="c">◊; Trailing comment</span>
-</pre></div>
-
-(Of course this assumes you've got a stylesheet that colors the output.)
+![](/images/pollen_rework/comment.png)
 
 If you're reading this but don't understand why it works you might want to lookup [regular expressions in Python][py-regex], in this post I'll assume you're familiar.
 
@@ -110,7 +106,7 @@ Let's move on to embedding variables via `◊|var|`.
 
 A first attempt could be like this:
 
-```{.python3}
+```python3
 'root': [
     (r'(◊\|)(\w+)(\|)',
         bygroups(Name.Variable.Magic, Name.Variable, Name.Variable.Magic)),
@@ -120,34 +116,34 @@ Which splits out highlighting into three groups; `◊|`, `var` and `|` and gives
 
 This works, but there are two changes I'd like to make. The immediate problem is that we now only match against characters with `\w+`, but a Racket variable can contain a bunch of different symbols. This is for example perfectly valid:
 
-```{.racket}
+```racket
 (define a2-!+*# 2)
 (print a2-!+*#)
 ```
 
 If we look at the [existing Racket lexer][racket-lexer] they have defined a variable like this:
 
-```{.python3}
+```python3
 valid_symbol_chars = r'[\w!$%*+,<=>?/.\'@&#:-]'
 variable = r'[A-Z]%s*' % valid_symbol_chars
 ```
 
 Which we can steal and copy to our class and use when we build our regex:
 
-```{.python3}
+```python3
 (r'(◊\|)(%s)(\|)' % variable,
     bygroups(Name.Variable.Magic, Name.Variable, Name.Variable.Magic)),
 ```
 
 To make this work out of the box we also need to add the regex flags:
 
-```{.python3}
+```python3
 flags = re.IGNORECASE | re.MULTILINE
 ```
 
 The other thing I want to do is introduce another state. It's not strictly needed in this case, but as `◊` can be followed by different cases it makes the lexer easier to follow. Like this:
 
-```{.python3}
+```python3
 'root': [
     (r'◊;.*?$', Comment),
     ('◊', Name.Variable.Magic, 'post-magic'),
@@ -167,8 +163,7 @@ Then when we try to parse the next character, `post-magic` is responsible to mat
 
 This should now be able to highlight embedding variables:
 
-<div class="highlight"><pre><span></span>Text <span class="vm">◊|</span><span class="nv">a1</span><span class="vm">|</span> more text <span class="vm">◊|</span><span class="nv">a2-!+#</span><span class="vm">|</span>.
-</pre></div>
+![](/images/pollen_rework/vars.png)
 
 I unfortunately didn't figure out how to debug the state transitions in an easy manner. If we mess up Pygments will insert `err` classes but you can also play around with different colored tokens during development, for example letting `root` return a `Keyword` token so you can see that we return to the right state.
 
@@ -181,13 +176,13 @@ I thought this was going to be really hard, but Pygments supports this in variou
 
 First the import:
 
-```{.python3}
+```python3
 from pygments.lexers.lisp import RacketLexer
 ```
 
 And the case is simply:
 
-```{.python3}
+```python3
 'post-magic': [
     ...
     (r'(\()(.+)(\))',
@@ -197,19 +192,17 @@ And the case is simply:
         '#pop')
 ```
 
-The interesting line is `using(RacketLexer, state='unquoted-datum')`{.python3} which delegates the lexer to `RacketLexer`, starting in state `unquoted-datum`. How did I figure out which initial state to start in? I tried to [read the code][racket-lexer] and make an educated guess...
+The interesting line is `using(RacketLexer, state='unquoted-datum')`python3 which delegates the lexer to `RacketLexer`, starting in state `unquoted-datum`. How did I figure out which initial state to start in? I tried to [read the code][racket-lexer] and make an educated guess...
 
 But we also need to ensure we use the regex flag of allowing the dot to match newlines as well, otherwise we won't match multiline racket expressions:
 
-```{.python3}
+```python3
 flags = re.IGNORECASE | re.DOTALL | re.MULTILINE
 ```
 
 And all embedded Racket code is highlighted:
 
-<div class="highlight"><pre><span></span><span class="vm">◊(</span><span class="k">define</span> <span class="p">(</span><span class="n">fun</span> <span class="kd">#:ref</span> <span class="n">x</span> <span class="o">.</span> <span class="n">y</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">string-append</span> <span class="n">x</span> <span class="s2">&quot;-&quot;</span> <span class="n">y</span><span class="p">)</span><span class="vm">)</span>
-</pre></div>
+![](/images/pollen_rework/racket.png)
 
 
 # Recursive brackets
@@ -220,16 +213,16 @@ First let's support the simpler `◊var{text args}` case.
 
 Matching `◊var` is straightforward:
 
-```{.python3}
+```python3
 'post-magic': [
     ...
     (r'%s' % variable, Name.Variable, ('#pop', 'curly-start')),
 ],
 ```
 
-We could do more here, but we're preparing for the future where we can also match against an optional `[...]` after the variable, so we'll delegate to another state. `('#pop', 'curly-start')`{.python3} essentially means we'll replace the current state `post-magic` with the new `curly-start` state.
+We could do more here, but we're preparing for the future where we can also match against an optional `[...]` after the variable, so we'll delegate to another state. `('#pop', 'curly-start')`python3 essentially means we'll replace the current state `post-magic` with the new `curly-start` state.
 
-```{.python3}
+```python3
 'curly-start': [
     (r'\{', Name.Variable.Magic, ('#pop', 'curly-end'))
 ],
@@ -237,23 +230,22 @@ We could do more here, but we're preparing for the future where we can also matc
 
 Here again we could've done more, but we want to be able to do recursive matching inside `{ ... }` as well. This is what the `curly-end` state does:
 
-```{.python3}
+```python3
 'curly-end': [
     (r'\}', Name.Variable.Magic, '#pop'),
     include('root'),
 ],
 ```
 
-`include('root')`{.python3} does what you might expect it to do: it copies all cases from our `root` state into the `curly-end` sate. This to avoid code duplication.
+`include('root')`python3 does what you might expect it to do: it copies all cases from our `root` state into the `curly-end` sate. This to avoid code duplication.
 
 And this can indeed highlight `◊var{ ... }` recursively!
 
-<div class="highlight"><pre><span></span><span class="vm">◊</span><span class="nv">foo</span><span class="vm">{</span>some <span class="vm">◊</span><span class="nv">bar</span><span class="vm">{</span>random<span class="vm">}</span> text<span class="vm">}</span>
-</pre></div>
+![](/images/pollen_rework/var_rec.png)
 
 To support an optional `[ ... ]` we can add another state before `curly-end` that either matches against square brackets or curly brackets:
 
-```{.python3}
+```python3
 'post-magic': [
     ...
     (r'%s' % variable, Name.Variable, ('#pop', 'post-var')),
@@ -273,29 +265,18 @@ We've already seen these things before. The only thorn in my side here is that w
 
 But hey! Think positive! It works for the cases I need. For example:
 
-<div class="highlight"><pre><span></span><span class="vm">◊</span><span class="nv">div</span><span class="vm">[</span><span class="kd">#:class</span> <span class="s2">&quot;my-class&quot;</span><span class="vm">]{</span>
-    I <span class="vm">◊</span><span class="nv">strong</span><span class="vm">[</span><span class="kd">#:class</span> <span class="s2">&quot;super-strong&quot;</span><span class="vm">]{</span>really<span class="vm">}</span> like tacos.
-<span class="vm">}</span>
-</pre></div>
+![](/images/pollen_rework/div_rec.png)
 
 
 # The result
 
 Putting it all together we can now highlight the code we looked at in the start of this post:
 
-<div class="highlight"><pre><span></span><span class="c">◊; A link can just be a standard reference</span>
-<span class="vm">◊(</span><span class="k">define</span> <span class="n">dune-audible</span> <span class="s2">&quot;https://www.audible.com/pd/Dune-Audiobook/B002V1OF70&quot;</span><span class="vm">)</span>
-
-I&#39;m <span class="vm">◊</span><span class="nv">strong</span><span class="vm">{</span>really<span class="vm">}</span> looking forward to the upcoming Dune movie!
-
-<span class="vm">◊</span><span class="nv">div</span><span class="vm">[</span><span class="kd">#:class</span> <span class="s2">&quot;extra-sand&quot;</span><span class="vm">]{</span>
-    I also recommend the Dune audiobook <span class="vm">◊</span><span class="nv">link</span><span class="vm">[</span><span class="kd">#:ref</span> <span class="n">dune-audible</span><span class="vm">]{</span>on Audible<span class="vm">}</span>.
-<span class="vm">}</span>
-</pre></div>
+![](/images/pollen_rework/big_res.png)
 
 And this is the complete lexer:
 
-```{.python3}
+```python3
 from pygments.lexer import *
 from pygments.token import *
 from pygments.lexers.lisp import RacketLexer

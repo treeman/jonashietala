@@ -10,12 +10,10 @@ I saw a [post on briancarper](http://briancarper.net/blog/574/2010-in-review) wh
 2010 Geek Achievements
 ===============================
 1. Wrote a few games earlier this year;  
-  <ul>
-    <li><a href="/blog/2010/01/16/the_chronicles_of_bim_the_100_fake_afros/">The Chronicles of Bim: The 100 Fake Afros</a></li>
-    <li><a href="/blog/2010/02/28/a_geek_valentine/">A Geek Valentine</a></li>
-    <li><a href="/blog/2010/04/26/beebop_the_island_hopper/">Beebop The Island Hopper</a></li>
-    <li><a href="/blog/2010/06/06/wheres_teddy/">Where's Teddy?</a></li>
-  </ul>
+    * [The Chronicles of Bim: The 100 Fake Afros](/blog/2010/01/16/the_chronicles_of_bim_the_100_fake_afros/)
+    * [A Geek Valentine](/blog/2010/02/28/a_geek_valentine/)
+    * [Beebop The Island Hopper](/blog/2010/04/26/beebop_the_island_hopper/)
+    * [Where's Teddy?](/blog/2010/06/06/wheres_teddy/)
 2. Updated this site a bit.
 3. In the process I learned a lot of PHP, Javascript, mysql and design. Fun and useful.
 4. Switched to [Slackware](http://www.slackware.com) which I like a *ton* better than Ubuntu.

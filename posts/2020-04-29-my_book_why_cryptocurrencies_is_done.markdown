@@ -21,7 +21,7 @@ It worked *much better* to always do something, even if it's just small and if I
 
 As a final note on word count: I never counted how many words I wrote each day, how many I had written and I never had a target I was aiming at. I just tried to write down what I had to say, without padding it too much or cutting my message short.
 
-As I wrote my book in [Pollen][pollen], which mixes text with markup and source code, it's not so easy to get a reliable word count. When counting the output html files with `sed "s/<[^>]*>//g" eli5.html | wc -c`{.fish} I come up with these numbers:
+As I wrote my book in [Pollen][pollen], which mixes text with markup and source code, it's not so easy to get a reliable word count. When counting the output html files with `sed "s/<[^>]*>//g" eli5.html | wc -c`fish I come up with these numbers:
 
 ```
  31578 how_do_cryptocurrencies_work.html
@@ -73,14 +73,14 @@ So according to this the book is **514 998** words long. That's... really a lot.
 
 How much source code did I write? That's also difficult to say, as some of it is mixed in the chapter files, but for the pure code files this is the result:
 
-```{.fish}
-$ wc -l **.rkt
+```fish
+> wc -l **.rkt
 ...
 1735 total
 ```
 
-```{.fish}
-$ wc -l **.scss
+```fish
+> wc -l **.scss
 ...
 1702 total
 ```
