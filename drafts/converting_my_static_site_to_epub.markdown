@@ -28,7 +28,7 @@ Fixing them is annoying and time consuming, but it's not hard. Most of them were
 
 ## Mass converting files:
 
-```{.fish}
+```fish
 for file in *.svg
     inkscape -w 1024 $file --export-filename (basename $file .svg)-fallback.png
 end

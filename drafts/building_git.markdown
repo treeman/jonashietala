@@ -5,7 +5,7 @@ tags: Gaming, Ludum Dare
 
 Some things are just easier in Ruby. Compare this reference code for parsing a Tree:
 
-```{.ruby}
+```ruby
 def self.parse(scanner)
   entries = {}
 
@@ -26,7 +26,7 @@ end
 Which is very nice as it uses an unpacking function that magically handles it all for us. I didn't find one in rust, so I did it the hard way:
 
 
-```{.rust}
+```rust
 pub fn from_scanner(oid: &Oid, mut scanner: Scanner) -> Result<Self> {
     let mut entries = BTreeMap::new();
 
