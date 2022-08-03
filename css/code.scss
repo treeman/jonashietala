@@ -1,113 +1,322 @@
-pre, code {
-    font-family: $code-font-family;
-    font-size: 0.71rem;
-    line-height: 1.45;
+pre,
+code {
+  font-family: $code-font-family;
+  font-size: 0.71rem;
+  line-height: 1.45;
 }
 code {
-    padding: 0.2em;
-    margin: 0;
+  padding: 0.2em;
+  margin: 0;
 }
 pre code {
-    padding: 0;
+  padding: 0;
 }
 pre {
-    @extend %media-offset-wrapper;
-    overflow-wrap: normal;
-    overflow: auto;
+  @extend %media-offset-wrapper;
+  overflow-wrap: normal;
+  overflow: auto;
 
-    margin-bottom: 1em;
-    padding: 0.4em 0.6em;
+  margin-bottom: 1em;
+  padding: 0.4em 0.6em;
 }
 pre.regular {
-    position: static;
-    width: 100%;
+  position: static;
+  width: 100%;
 }
 
 @media only screen and (min-width: 900px) {
-    // Avoid code poking out from footnotes too much
-    .article-content .footnotes pre {
-        max-width: 105%;
-    }
+  // Avoid code poking out from footnotes too much
+  .article-content .footnotes pre {
+    max-width: 105%;
+  }
 }
 
+code,
+pre {
+  color: $gb-lm-fg0;
+  background-color: $gb-lm-bg0-hard;
+}
 
-// Gruvbox colorscheme
-code, pre {
-    //background-color: $gb-lm-bg0-soft;
-    background-color: $gb-lm-bg0-hard;
-    color: $gb-lm-fg0;
+.punctuation.definition.tag {
+  color: $gb-lm-light-blue;
 }
-.highlight {
-    .hll { background-color: $gb-lm-bg2 }
-    .c { color: $gb-lm-fg4; font-style: italic } /* Comment */
-    .c1 { color: $gb-lm-fg4; font-style: italic } /* Comment.Single */
-    .ch { color: $gb-lm-fg4; font-style: italic } /* Comment.Hashbang */
-    .cm { color: $gb-lm-fg4; font-style: italic } /* Comment.Multiline */
-    .cp { color: $gb-lm-light-aqua } /* Comment.Preproc */
-    .cpf { color: $gb-lm-light-green } /* Comment.PreprocFile */
-    .cs { color: $gb-lm-fg4; font-style: italic } /* Comment.Special */
-    .err { color: $gb-lm-fg0; font-weight: bold } /* Error */
-    .gd { color: $gb-lm-light-red } /* Generic.Deleted */
-    .ge { font-style: italic } /* Generic.Emph */
-    .gh { color: $gb-lm-light-orange } /* Generic.Heading */
-    .gi { color: $gb-lm-light-green } /* Generic.Inserted */
-    //.go { color: #888888 } /* Generic.Output */
-    .gp { color: $gb-lm-fg2; font-weight: bold } /* Generic.Prompt */
-    .gr { color: $gb-lm-fg0; font-weight: bold } /* Generic.Error */
-    .gs { font-weight: bold } /* Generic.Strong */
-    //.gt { color: #0044DD } /* Generic.Traceback */
-    .gu { color: $gb-lm-light-green } /* Generic.Subheading */
-    .k { color: $gb-lm-light-red } /* Keyword */
-    .kc { color: $gb-lm-light-purple } /* Keyword.Constant */
-    .kd { color: $gb-lm-light-yellow } /* Keyword.Declaration */
-    .kn { color: $gb-lm-light-blue } /* Keyword.Namespace */
-    .kp { color: $gb-lm-light-purple } /* Keyword.Pseudo */
-    .kr { color: $gb-lm-light-purple } /* Keyword.Reserved */
-    .kt { color: $gb-lm-light-yellow } /* Keyword.Type */
-    .m { color: $gb-lm-light-purple } /* Literal.Number */
-    .mb { color: $gb-lm-dark-purple } /* Literal.Number.Bin */
-    .mf { color: $gb-lm-light-purple } /* Literal.Number.Float */
-    .mh { color: $gb-lm-dark-purple } /* Literal.Number.Hex */
-    .mi { color: $gb-lm-light-purple } /* Literal.Number.Integer */
-    .il { color: $gb-lm-light-purple } /* Literal.Number.Integer.Long */
-    .mo { color: $gb-lm-dark-purple } /* Literal.Number.Oct */
-    //.n { color: $gb-lm-light-green } /* Name */
-    .na { color: $gb-lm-light-blue } /* Name.Attribute */
-    .nb { color: $gb-lm-light-green; font-weight: bold; } /* Name.Builtin */
-    .bp { color: $gb-lm-light-red } /* Name.Builtin.Pseudo */
-    .nc { color: $gb-lm-light-green } /* Name.Class */
-    //.nd { color: #AA22FF } /* Name.Decorator */
-    //.ne { color: #D2413A } /* Name.Exception */
-    .nf { color: $gb-lm-light-green } /* Name.Function */
-    .fm { color: $gb-lm-light-green; font-weight: bold } /* Name.Function.Magic */
-    .ni { color: $gb-lm-light-aqua } /* Name.Entity */
-    .nl { color: $gb-lm-light-aqua } /* Name.Label */
-    //.nn { color: #0000FF } /* Name.Namespace */
-    .no { color: $gb-lm-light-purple } /* Name.Constant */
-    .nt { color: $gb-lm-dark-orange } /* Name.Tag */
-    .nv { color: $gb-lm-light-blue } /* Name.Variable */
-    .vc { color: $gb-lm-light-blue } /* Name.Variable.Class */
-    .vg { color: $gb-lm-light-blue } /* Name.Variable.Global */
-    .vi { color: $gb-lm-light-blue } /* Name.Variable.Instance */
-    //.o { color: #666666 } /* Operator */
-    .ow { color: $gb-lm-light-red } /* Operator.Word */
-    .s { color: $gb-lm-light-green } /* Literal.String */
-    .s1 { color: $gb-lm-light-green } /* Literal.String.Single */
-    .s2 { color: $gb-lm-light-green } /* Literal.String.Double */
-    .sa { color: $gb-lm-light-green } /* Literal.String.Affix */
-    .sb { color: $gb-lm-light-green } /* Literal.String.Backtick */
-    .sc { color: $gb-lm-light-purple } /* Literal.String.Char */
-    .sd { color: $gb-lm-dark-orange } /* Literal.String.Doc */
-    .se { color: $gb-lm-light-orange } /* Literal.String.Escape */
-    .sh { color: $gb-lm-light-orange } /* Literal.String.Heredoc */
-    .si { color: $gb-lm-dark-orange } /* Literal.String.Interpol */
-    .sr { color: $gb-lm-light-orange } /* Literal.String.Regex */
-    .ss { color: $gb-lm-light-aqua } /* Literal.String.Symbol */
-    .sx { color: $gb-lm-light-green } /* Literal.String.Other */
-    .dl { color: $gb-lm-light-green } /* Literal.String.Delimiter */
-    .vm { color: $gb-lm-light-orange } /* Name.Variable.Magic */
-    //.w { color: #bbbbbb } /* Text.Whitespace */
+.punctuation.definition.entity {
+  color: $gb-lm-light-purple;
 }
-.language-racket {
-    .o { color: $gb-lm-light-orange } /* Operator */
+.constant {
+  color: $gb-lm-light-purple;
+}
+.constant.character.escape {
+  color: $gb-lm-light-green;
+}
+.constant.other {
+  color: $gb-lm-fg0;
+}
+.entity {
+  color: $gb-lm-light-aqua;
+}
+.keyword.operator.comparison,
+.keyword.operator,
+.keyword.operator.symbolic,
+.keyword.operator.string,
+.keyword.operator.assignment,
+.keyword.operator.arithmetic,
+.keyword.operator.class,
+.keyword.operator.key,
+.keyword.operator.logical {
+  color: $gb-lm-light-orange;
+}
+.keyword,
+.keyword.operator.new,
+.keyword.other,
+.keyword.control {
+  color: $gb-lm-light-red;
+}
+.storage {
+  color: $gb-lm-light-red;
+}
+.string,
+.string.unquoted.heredoc .string {
+  color: $gb-lm-light-green;
+}
+.comment {
+  color: $gb-lm-dark-gray;
+  font-style: italic;
+}
+.comment.documentation,
+.comment.documentation .comment {
+  color: $gb-lm-dark-orange;
+}
+.string.regexp .constant.character.escape {
+  color: $gb-lm-light-green;
+}
+.support {
+  color: $gb-lm-light-yellow;
+}
+.variable {
+  color: $gb-lm-fg0;
+}
+.variable.language {
+  color: $gb-lm-fg0;
+}
+.meta.function-call {
+  color: $gb-lm-fg0;
+}
+.invalid {
+  color: $gb-lm-fg0;
+  background-color: $gb-lm-dark-red;
+}
+.text .source,
+.string.unquoted.heredoc,
+.source .source {
+  color: $gb-lm-fg0;
+}
+.string.quoted .source {
+  color: $gb-lm-light-green;
+}
+.string {
+  color: $gb-lm-light-green;
+}
+.support.constant {
+  color: $gb-lm-light-yellow;
+}
+.support.class {
+  color: $gb-lm-light-aqua;
+}
+.support.function {
+  color: $gb-lm-light-blue;
+}
+.entity.name.tag {
+  color: $gb-lm-light-aqua;
+  font-weight: bold;
+}
+.meta.tag,
+.meta.tag .entity {
+  color: $gb-lm-light-aqua;
+}
+.constant.other.color.rgb-value {
+  color: $gb-lm-light-blue;
+}
+.meta.selector.css .entity.name.tag {
+  color: $gb-lm-light-red;
+}
+.meta.selector.css,
+.entity.other.attribute-name.id {
+  color: $gb-lm-light-green;
+}
+.meta.selector.css .entity.other.attribute-name.class {
+  color: $gb-lm-light-green;
+}
+.support.type.property-name.css {
+  color: $gb-lm-light-aqua;
+}
+.meta.preprocessor {
+  color: $gb-lm-dark-purple;
+}
+.meta.preprocessor.at-rule .keyword.control.at-rule {
+  color: $gb-lm-light-yellow;
+}
+.meta.property-value .constant {
+  color: $gb-lm-light-yellow;
+}
+.variable .keyword,
+.function .keyword {
+  color: $gb-lm-light-purple;
+}
+.variable .entity {
+  color: $gb-lm-light-aqua;
+}
+
+// Specific languages
+.meta.diff,
+.meta.diff.header {
+  color: $gb-lm-light-blue;
+}
+.markup.deleted {
+  color: $gb-lm-light-red;
+}
+.markup.changed {
+  color: $gb-lm-light-yellow;
+}
+.markup.inserted {
+  color: $gb-lm-light-aqua;
+}
+
+.markup.bold {
+  font-weight: bold;
+}
+.markup.italic {
+  font-style: italic;
+}
+.markup.heading {
+  color: $gb-lm-light-aqua;
+  font-weight: bold;
+}
+.markdown .punctuation {
+  color: $gb-lm-light-red;
+}
+.link.reference.markdown .other,
+.link.reference.def.markdown .entity.name {
+  color: $gb-lm-light-purple;
+}
+.link.reference.def.markdown .link,
+.link.inline.markdown .link {
+  color: $gb-lm-light-blue;
+}
+.link.reference.def.markdown .link.description,
+.link.reference.def.markdown .link.description .punctuation {
+  color: $gb-lm-light-green;
+}
+
+.entity.name.type.class.php {
+  color: $gb-lm-light-aqua;
+}
+.keyword.other.phpdoc {
+  color: $gb-lm-dark-gray;
+}
+
+.meta.property-value .support.constant.named-color.css {
+  color: $gb-lm-light-orange;
+}
+.meta.constructor.argument.css {
+  color: $gb-lm-light-yellow;
+}
+.constant.numeric.css,
+.keyword.other.unit.css {
+  color: $gb-lm-light-purple;
+}
+.punctuation.definition.entity.css {
+  color: $gb-lm-light-green;
+}
+
+.variable.language.js {
+  color: $gb-lm-light-yellow;
+}
+.string.unquoted.label.js {
+  color: $gb-lm-fg0;
+}
+
+.constant.other.table-name.sql {
+  color: $gb-lm-light-green;
+}
+.constant.other.database-name.sql {
+  color: $gb-lm-light-green;
+}
+
+.storage.type.dired.item.directory,
+.dired.item.directory {
+  color: $gb-lm-light-aqua;
+}
+
+.function-call.name.fish .keyword .string {
+  color: $gb-lm-light-purple;
+}
+.function-call.parameter.fish .string {
+  color: $gb-lm-fg0;
+}
+.function-call.parameter.option.fish .string,
+.function-call.arguments.shell .option {
+  color: $gb-lm-light-aqua;
+}
+.function-call.name.fish .function .string,
+.function-call.shell .function {
+  color: $gb-lm-light-blue;
+}
+.function-call.parameter.fish .string .variable-expansion .variable {
+  color: $gb-lm-light-yellow;
+}
+.function-call.name.fish .invalid.variable-expansion,
+.function-call.invalid.fish {
+  color: $gb-lm-light-yellow;
+  background-color: $gb-lm-bg0-hard;
+}
+
+.support.macro.rust {
+  color: $gb-lm-light-aqua;
+}
+.storage.type.rust,
+.storage.modifier.rust {
+  color: $gb-lm-light-purple;
+}
+.meta.path.rust {
+  color: $gb-lm-light-red;
+}
+.keyword.other.rust {
+  color: $gb-lm-light-blue;
+}
+.annotation.rust .punctuation {
+  color: $gb-lm-light-orange;
+}
+.annotation.rust .parameters {
+  color: $gb-lm-light-yellow;
+}
+.annotation.rust .variable {
+  color: $gb-lm-light-aqua;
+}
+
+.named-arg.racket {
+  color: $gb-lm-light-yellow;
+}
+.quote.racket,
+.quote.racket .variable {
+  color: $gb-lm-light-yellow;
+}
+.quote.racket > .punctuation {
+  color: $gb-lm-light-orange;
+}
+
+.named-arg.pollen {
+  color: $gb-lm-light-yellow;
+}
+.quote.pollen,
+.quote.pollen .variable {
+  color: $gb-lm-light-yellow;
+}
+.quote.pollen > .punctuation {
+  color: $gb-lm-light-orange;
+}
+.function.magic,
+.magic.begin.pollen,
+.magic.end.pollen {
+  color: $gb-lm-light-orange;
 }

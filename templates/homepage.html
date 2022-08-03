@@ -1,17 +1,20 @@
+{% extends "site.html" %} {% block content %}
 <div class="homepage">
   <div class="about">
     <h1>About me</h1>
 
-    <div class="about-body">
-      $body$
-    </div>
+    <div class="about-body">{{about}}</div>
   </div>
 
   <nav class="main-lists">
     <h2>Recent posts</h2>
 
     <ul>
-      $posts$
+      {% for post in recent %}
+      <li class="post-item">
+        <a href="{{ post.url }}" class="title">{{ post.title }}</a>
+      </li>
+      {% endfor %}
     </ul>
   </nav>
 
@@ -19,7 +22,11 @@
     <h2>Recommended posts</h2>
 
     <ul>
-      $recommended$
+      {% for post in recommended %}
+      <li class="post-item">
+        <a href="{{ post.url }}" class="title">{{ post.title }}</a>
+      </li>
+      {% endfor %}
     </ul>
   </nav>
 
@@ -31,4 +38,4 @@
     </ul>
   </nav>
 </div>
-
+{% endblock content %}

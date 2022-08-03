@@ -1,0 +1,44 @@
+{% extends "site.html" %} {% block content %}
+<article class="series-list">
+  <header>
+    <h1>Series</h1>
+  </header>
+
+  <div>
+    <p>
+    Series are form of long-form content that outgrew the size of a post and that forms a more structured story compared to <a href="/blog/tags">tags</a>. They're a collection of posts, sometimes planned for in advance but other times the series materialized after a couple of posts.
+    </p>
+  </div>
+
+  <ul>
+  {% for serie in series %}
+   {% set first_post = serie.posts | first %}
+   {% set last_post = serie.posts | last %}
+    <li class="series-item">
+      <section>
+        <header>
+          <h2><a href="{{ serie.url }}" class="title">{{ serie.title }}</a></h2>
+
+          <span class="date">
+            <time datetime="{{ last_post.ymd }}">{{ last_post.date }}</time>
+          </span>
+        </header>
+
+        <div class="description">{{ serie.description }}</div>
+
+        <div><a href="{{ first_post.url }}">Read part 1</a></div>
+
+        {#
+          {% if serie.completed %}
+            <div class="status completed">completed</div>
+          {% else %}
+            <div class="status ongoing">ongoing</div>
+          {% endif %}
+        #}
+      </section>
+    </li>
+  {% endfor %}
+  </ul>
+
+</article>
+{% endblock content %}

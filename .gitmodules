@@ -1,0 +1,15 @@
+[submodule "syntaxes/sublime-fish"]
+	path = syntaxes/sublime-fish
+	url = https://github.com/Phidica/sublime-fish/
+[submodule "syntaxes/SmartVHDL"]
+	path = syntaxes/SmartVHDL
+	url = https://github.com/TheClams/SmartVHDL
+[submodule "syntaxes/SublimeSass"]
+	path = syntaxes/SublimeSass
+	url = https://github.com/braver/SublimeSass
+[submodule "syntaxes/elixir-sublime-syntax"]
+	path = syntaxes/elixir-sublime-syntax
+	url = https://github.com/princemaple/elixir-sublime-syntax
+[submodule "syntaxes/VimL"]
+	path = syntaxes/VimL
+	url = https://github.com/evandroforks/VimL

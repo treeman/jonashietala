@@ -1,12 +1,18 @@
+{% extends "site.html" %} {% block content %}
 <article class="post-list">
-  <h1>$title$</h1>
-
-  <nav class="all-posts">
-    <a href="/blog">All posts on a single page</a>
-  </nav>
+  <h1>{{ title }}</h1>
 
   <ul>
-    $posts$
+    {% for post in posts %}
+    <li class="post-item">
+      <a href="{{ post.url }}" class="title">{{ post.title }}</a>
+      {% if post.date %}
+      <span class="date">
+        <time datetime="{{ post.ymd }}">{{ post.date }}</time>
+      </span>
+      {% endif %}
+    </li>
+    {% endfor %}
   </ul>
 </article>
-
+{% endblock content %}

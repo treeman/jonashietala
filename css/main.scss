@@ -1,21 +1,21 @@
 // Vendor
-@import 'gruvbox';
+@import "gruvbox";
 
 // Preparations
-@import 'fonts';
+@import "fonts";
 
 // Site wide
-@import 'global';
+@import "global";
 
 // Pages
-@import 'post';
-@import 'static';
-@import 'projects';
-@import 'homepage';
-@import 'post-list';
-@import 'tags';
+@import "post";
+@import "static";
+@import "projects";
+@import "homepage";
+@import "post-list";
+@import "tags";
+@import "series";
+@import "series-list";
 
 // Elements
-@import 'code';
-
-
+@import "code";

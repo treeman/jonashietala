@@ -1,48 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Jonas Hietala: $title$</title>
-        <link rel="stylesheet" type="text/css" href="/css/main.css" />
-        <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="/feed.xml" />
-        $metaKeywords$
-        <meta name='viewport'
-          content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
-    </head>
-    <body>
-      <div class="main-content">
-        <header class="site-header">
-          <div class="nav-wrapper">
-            <h1 class="site-title"><a href="/">Jonas Hietala</a></h1>
-            <nav>
-              <ul>
-                <li><a href="/archive">Archive</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="mailto:$mail$">Contact</a></li>
-              </ul>
-            </nav>
-          </div>
-        </header>
-
-        $body$
-      </div>
-
-      <footer class="site-footer">
-        <nav>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/archive">Archive</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="mailto:$mail$">Contact</a></li>
-            <li><a href="/gpg">GPG</a></li>
-          </ul>
-        </nav>
-
-        <div class=lower>
-          Powered by <a href="http://jaspervdj.be/hakyll">Hakyll</a>.
-          Check out the <a href="https://github.com/treeman/jonashietala">source</a>.
+  <head>
+    <meta charset="utf-8" />
+    <title>Jonas Hietala: {{title}}</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="Atom 0.3"
+      href="/feed.xml"
+    />
+    <meta
+      name="keywords"
+      content="{% for keyword in meta_keywords %}{% if loop.index0 > 0 %}, {% endif %}{{ keyword }}{% endfor %}"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <meta name="author" content="Jonas Hietala" />
+  </head>
+  <body>
+    <div class="main-content">
+      <header class="site-header">
+        <div class="nav-wrapper">
+          <h1 class="site-title"><a href="/">Jonas Hietala</a></h1>
+          <nav>
+            <ul>
+              <li><a href="/archive">Archive</a></li>
+              <li><a href="/series">Series</a></li>
+              <li><a href="/projects">Projects</a></li>
+              <li><a href="mailto:{{mail}}">Contact</a></li>
+              {% if include_drafts %}
+              <li><a href="/drafts">Drafts</a></li>
+              {% endif %}
+            </ul>
+          </nav>
         </div>
-      </footer>
-    </body>
-</html>
+      </header>
 
+      {% block content %}{% endblock content %}
+    </div>
+
+    <footer class="site-footer">
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/archive">Archive</a></li>
+          <li><a href="/series">Series</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="mailto:{{mail}}">Contact</a></li>
+          <li><a href="/gpg">GPG</a></li>
+        </ul>
+      </nav>
+
+      <div class="lower">
+        Check out the
+        <a href="https://github.com/treeman/jonashietala">source code</a> for
+        the site.
+      </div>
+    </footer>
+  </body>
+</html>

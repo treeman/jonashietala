@@ -1,0 +1,110 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Racket
+file_extensions: [rkt]
+scope: source.racket
+
+variables:
+  id: '[a-zA-Z][a-zA-Z0-9_?!>-]*'
+
+contexts:
+  main:
+    - include: comments
+    - include: parens
+    - include: quoted
+
+  expressions:
+    - include: comments
+    - include: numbers
+    - include: constants
+    - include: strings
+    - include: control
+    - include: functions
+    - include: named-args
+    - include: operators
+    - include: variables
+
+  variables:
+    - match: '{{id}}'
+      scope: variable.other.pollen
+
+  control:
+    - match: \b(if|else|lambda|cond|define-meta|define|require|provide|match||when|unless)\b
+      scope: keyword.control.pollen
+    - match: λ
+      scope: keyword.control.pollen
+
+  functions:
+    - match: \b(null\?|empty\?|eq\?|member\?|string\?|string\=\?|string\=|symbol\?|list\?)
+      scope: support.function.pollen
+    - match: \b(not|filter|member|car|cdr|error|string-replace|regexp-match|struct|make-hash|hash-ref|list|apply|compose1|let|string-split|string-append)\b
+      scope: support.function.pollen
+
+  operators:
+    - match: '\/\=|\>\=|\<\=|\=|\>|\<|\b(?i:max|min|eq|neq|eql|equalp|equal)\b'
+      scope: keyword.operator.comparison.pollen
+    - match: '\b(?i:\+|\s+\-\s+|\*|\/|mod|rem|incf|decf)\b'
+      scope: keyword.operator.arithmetic.pollen
+    - match: \b(?i:and|or|not)\b
+      scope: keyword.operator.logical.pollen
+    - match: \b(?i:logand|logior|logxor|lognor|logeqv)\b
+      scope: keyword.operator.bitwise.pollen
+
+  constants:
+    - match: '#f|#t'
+      scope: constant.character.lisp
+
+  numbers:
+    - match: '\b((0(x|X)\h*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(?i:l|ul|u|f|ll|ull)?\b'
+      scope: constant.numeric.pollen
+
+  named-args:
+    - match: '(#:{{id}})\b'
+      scope: variable.named-arg.pollen
+
+  parens:
+    - match: '\('
+      scope: punctuation.definition.group.begin.pollen
+      push:
+        - meta_scope: meta.group.pollen
+        - match: '\)'
+          scope: punctuation.definition.group.end.pollen
+          pop: true
+        - include: expressions
+        - include: parens
+        - include: quoted
+    - match: '\)'
+      scope: invalid.illegal.stray-bracket-end.pollen
+
+  quoted:
+    - match: '\`\('
+      scope: punctuation.definition.group.begin.pollen
+      push:
+        - meta_scope: meta.group.quote.pollen
+        - match: '\)'
+          scope: punctuation.definition.group.end.pollen
+          pop: true
+        - include: expressions
+        - include: parens
+        - include: quoted
+    - match: '\)'
+      scope: invalid.illegal.stray-bracket-end.pollen
+
+  strings:
+    - match: '"'
+      scope: punctuation.definition.string.begin.lisp
+      push:
+        - meta_scope: string.quoted.double.lisp
+        - match: '"'
+          scope: punctuation.definition.string.end.lisp
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.lisp
+
+  comments:
+    - match: (;).*$\n?
+      scope: comment.line.pollen
+      captures:
+        1: punctuation.definition.comment.pollen
+

@@ -1,0 +1,33 @@
+{% extends "site.html" %} {% block content %}
+<article class="post-list series">
+  <header>
+    <h1><a href="{{url}}">{{title}}</a></h1>
+  </header>
+
+  <div class="series-description">
+    {{description}}
+
+    {% set part1 = posts | first %}
+    <div><a href="{{ part1.url }}">Read part 1</a></div>
+  </div>
+
+  <ul>
+    {% for post in posts %}
+    <li class="post-item">
+      <a href="{{ post.url }}" class="title">{{ post.title }}</a>
+      {% if post.date %}
+      <span class="date">
+        <time datetime="{{ post.ymd }}">{{ post.date }}</time>
+      </span>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <div class="series-footer">
+    {% if completed %} This series is completed. {% else %} This series is
+    ongoing. {% endif %}
+  </div>
+</article>
+{% endblock content %}
+

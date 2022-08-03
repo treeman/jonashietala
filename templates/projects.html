@@ -1,15 +1,48 @@
+{% extends "site.html" %} {% block content %}
 <div class="projects">
   <div class="intro">
-    <h1>$title$</h1>
+    <h1>{{ title }}</h1>
 
-    <div class="content">
-      $body$
-    </div>
+    <div class="content">{{ prematter }}</div>
   </div>
 
-  $projects$
+  {% for project in projects %}
+  <article class="project">
+      <header>
+        {% if project.link %}
+          <h2><a href="{{ project.link }}">{{ project.title }}</a></h2>
+        {% else %}
+          <h2>{{ project.title }}</h2>
+        {% endif %}
+        <time datetime="{{ project.year }}">{{ project.year }}</time>
+      </header>
 
-  $partial("templates/games.html")$
+      {{ project.descr }}
+  </article>
+  {% endfor %}
+
+  <article class="games">
+    <header>
+      <h2>Games</h2>
+
+      <p>Some fast game prototypes. Most were made in 7 days or 48 hours.</p>
+    </header>
+
+    {% for game in games %}
+    <section class="game">
+      <a href="{{ game.url }}"><img src="{{ game.img }}" width="160" height="100"/></a>
+      <div class="descr">
+        <a href="{{ game.url }}" class="title"><h1 class="title">{{ game.title }}</h1></a>
+        <time datetime="{{ game.ymd }}">{{ game.date }}</time>
+        {% if game.event_link %}
+          <span class="subtitle"><a href="{{ game.event_link}}">{{ game.event }}</a></span>
+        {% else %}
+          <span class="subtitle">{{ game.event }}</span>
+        {% endif %}
+      </div>
+    </section>
+  {% endfor %}
+
+  </article>
 </div>
-
-
+{% endblock content %}

@@ -1,59 +1,69 @@
 .secondposts {
-    @extend %body-text;
+  @extend %body-text;
 }
 
 .article-content {
-    @extend %body-text;
-    padding: 0.5em;
+  @extend %body-text;
+  padding: 0.5em;
 
-    a {
-        word-wrap: break-word;
-    }
+  a {
+    word-wrap: break-word;
+  }
 }
-
 
 .article-content > header {
-    margin-bottom: 0.4em;
+  margin-bottom: 0.4em;
 
-    .date {
-        @extend %sans-serif;
-        font-size: 0.91rem;
-    }
+  .date {
+    @extend %sans-serif;
+    font-size: 0.91rem;
+  }
 }
 
+.post-series-head {
+  margin-bottom: 1em;
+}
+
+.post-series {
+  font-size: 0.91rem;
+  padding: 0.4em;
+  border: 1px dashed $gb-lm-fg3;
+}
 
 /*
  * Quotes
  */
 .article-content blockquote {
-    font-size: 95%;
-    line-height: 1.4;
-    margin: 0 2em;
+  font-size: 95%;
+  line-height: 1.4;
+  margin: 0 2em;
 }
-
 
 /*
  * Tables
  */
 .article-content table {
-    @extend %serif;
-    // Need tabular numbers to align properly
-    font-feature-settings: 'kern' on, 'tnum' on;
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
+  @extend %serif;
+  // Need tabular numbers to align properly
+  font-feature-settings: "kern" on, "tnum" on;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
 }
-.article-content th, .article-content td {
-    padding: 0.1em 1em 0.1em 0em;
-}
-
-.movie-tables table {
-    width: 100%;
-
-    td:first-of-type {
-        width: 17rem;
-    }
+.article-content th,
+.article-content td {
+  padding: 0.1em 1em 0.1em 0em;
 }
 
+table.movie-table {
+  width: 100%;
+
+  td:first-of-type {
+    width: 17rem;
+  }
+}
+table.center {
+  margin: 0 auto;
+}
 
 /*
  * Horizontal rules
@@ -61,260 +71,261 @@
 $hr-color: $gb-lm-dark-gray;
 
 .article-content hr {
-    margin: 1em auto;
+  margin: 1em auto;
 
-    border: 0;
-    border-bottom: 1px solid $gb-lm-dark-gray;
+  border: 0;
+  border-bottom: 1px solid $gb-lm-dark-gray;
 }
 
 /*
  * Footnotes
  */
 .article-content .footnotes hr {
-    overflow: visible; // For IE
-    padding: 0;
-    border: none;
-    border-top: 1px solid $hr-color;
+  overflow: visible; // For IE
+  padding: 0;
+  border: none;
+  border-top: 1px solid $hr-color;
 
-    color: $gb-lm-fg4;
-    text-align: center;
-    margin: 0 auto;
-    width: 90%;
-    margin-top: 1.5em;
+  color: $gb-lm-fg4;
+  text-align: center;
+  margin: 0 auto;
+  width: 90%;
+  margin-top: 1.5em;
 }
 
 .article-content .footnotes hr:after {
-    @extend %sans-serif;
-    content: "§";
-    display: inline-block;
-    position: relative;
-    top: -0.88rem;
-    font-size: 0.72rem;
-    padding: 0 0.3em;
-    color: $body-font-color;
-    background: $body-background-color;
+  @extend %sans-serif;
+  content: "§";
+  display: inline-block;
+  position: relative;
+  top: -0.88rem;
+  font-size: 0.72rem;
+  padding: 0 0.3em;
+  color: $body-font-color;
+  background: $body-background-color;
 }
-
 
 /*
  * Tags
  */
 .article-content .post-footer {
-    margin-top: 1em;
-    padding-top: 0.3em;
-    border-top: 1px solid $gb-lm-fg3;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  margin-top: 1em;
+  padding-top: 0.3em;
+  border-top: 1px solid $gb-lm-fg3;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .article-content .post-footer .tag-links,
 .article-content .post-footer .commit {
-    font-family: $serif-font-family;
-    font-size: 0.9rem;
+  font-family: $serif-font-family;
+  font-size: 0.9rem;
 
-    a {
-        color: $body-link-color;
-    }
-    a:visited {
-        color: $body-link-visited-color;
-    }
+  a {
+    color: $body-link-color;
+  }
+  a:visited {
+    color: $body-link-visited-color;
+  }
 }
 
 .article-content .post-footer .commit {
-    text-align: right;
-    flex-shrink: 0;
-    flex-grow: 1;
+  text-align: right;
+  flex-shrink: 0;
+  flex-grow: 1;
 }
 
+.article-content .post-footer .post-nav {
+  width: 100%;
+}
 
 /*
  * Lists
  */
 .article-content {
-    $left: 2rem;
+  $left: 2rem;
 
-    ul, ol {
-        list-style: none;
-        margin: 1rem 0 1rem $left;
-    }
-    ol {
-        counter-reset: foobar;
-    }
-    ol li, ul li {
-        margin-bottom: 0.4em;
-        font-size: 95%;
-        line-height: 1.35;
-    }
-    ol li::before {
-        float: left;
-        margin-left: -$left;
-    }
-    ul li::before {
-        float: left;
-        margin-left: -$left;
-    }
-    // Avoid extra margin in a list with a single paragraph element.
-    li > p {
-        margin-bottom: 0.8rem;
-    }
-    li > p:first-child {
-        margin-bottom: 0;
-    }
-    li > p:nth-child(2) {
-        margin-top: 0.8rem;
-    }
+  ul,
+  ol {
+    list-style: none;
+    margin: 1rem 0 1rem $left;
+  }
+  ol {
+    counter-reset: foobar;
+  }
+  ol > li,
+  ul > li {
+    margin-bottom: 0.4em;
+    font-size: 95%;
+    line-height: 1.35;
+  }
+  ol > li::before {
+    float: left;
+    margin-left: -$left;
+  }
+  ul > li::before {
+    float: left;
+    margin-left: -$left;
+  }
+  // Avoid extra margin in a list with a single paragraph element.
+  li > p {
+    margin-bottom: 0.8rem;
+  }
+  li > p:first-child {
+    margin-bottom: 0;
+  }
+  li > p:nth-child(2),
+  li > pre:nth-child(2) {
+    margin-top: 0.8rem;
+  }
 
-    ol li::before {
-        @extend %sans-serif;
-        counter-increment: foobar;
-        content: counter(foobar);
-    }
-    ul li::before {
-        @extend %sans-serif;
-        content: "•";
-    }
+  ol > li::before {
+    @extend %sans-serif;
+    counter-increment: foobar;
+    content: counter(foobar);
+  }
+  ul > li::before {
+    @extend %sans-serif;
+    content: "•";
+  }
 }
 
 .article-content > .footnotes li:before {
-    @extend %serif;
+  @extend %serif;
 }
 .article-content > .footnotes .footnote-back {
-    visibility: hidden;
+  visibility: hidden;
 }
 .article-content > .footnotes .footnote-back:before {
-    content: "↩";
-    visibility: visible;
-    margin-left: 0.4rem;
+  content: "↩";
+  visibility: visible;
+  margin-left: 0.4rem;
 }
 
 /*
  * Media offsets
  */
-%media-offset-wrapper { }
-@media only screen and (min-width: 900px) {
-    %media-offset-wrapper {
-        $offset: 5%;
-        position: relative;
-        left: -$offset;
-        width: 100% + 2*$offset;
-    }
+%media-offset-wrapper {
 }
-
+@media only screen and (min-width: 900px) {
+  %media-offset-wrapper {
+    $offset: 5%;
+    position: relative;
+    left: -$offset;
+    width: 100% + 2 * $offset;
+  }
+}
 
 /*
  * Pretty video embedding
  */
 .video-wrapper {
-    @extend %media-offset-wrapper;
-    margin: 1em 0;
+  @extend %media-offset-wrapper;
+  margin: 1em 0;
 }
 .video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
 }
 
-.video-container iframe, .video-container object, .video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
-
 
 /*
  * Images
  */
 .article-content img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .article-content figure {
-    @extend %media-offset-wrapper;
+  @extend %media-offset-wrapper;
 
-    margin: 1em 0;
-    text-align: center;
+  margin: 1em 0;
+  text-align: center;
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 
-    figcaption {
-        font-style: italic;
-        width: 100%;
-    }
+  figcaption {
+    font-style: italic;
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width: 520px) {
-    .article-content figure figcaption {
-        overflow-wrap: break-word;
-    }
+  .article-content figure figcaption {
+    overflow-wrap: break-word;
+  }
 }
 
 // Multiple images share the same line and automatically flexes.
 // Caption is below and everything is centered.
-.article-content figure.flex-50,
-.article-content figure.flex-33,
-.article-content figure.flex-25,
-.article-content figure.flex-20 {
-    > img {
-        padding: 0.1em;
-    }
+.article-content figure {
+  > img {
+    padding: 0.1em;
+  }
 }
 
 .article-content figure.flex-50 > img {
-    flex: 0 1 50%;
+  flex: 0 1 50%;
 }
 .article-content figure.flex-33 > img {
-    flex: 0 1 33%;
+  flex: 0 1 33%;
 }
 .article-content figure.flex-25 > img {
-    flex: 0 1 25%;
+  flex: 0 1 25%;
 }
 .article-content figure.flex-20 > img {
-    flex: 0 1 20%;
+  flex: 0 1 20%;
 }
 
 .article-content figure.gallery {
-    margin: 1rem 0;
+  margin: 1rem 0;
 
-    > img {
-        width: 8.75em;
-        padding: 0.1em;
-    }
+  > img {
+    width: 8.75em;
+    padding: 0.1em;
+  }
 }
-
 
 /*
  * Aside
  */
 .article-content > aside {
-    @extend %sans-serif;
-    font-size: 0.95rem;
+  @extend %sans-serif;
+  font-size: 0.95rem;
 
-    margin-bottom: 1em;
-    padding: 0.5em;
-    border: 1px dashed $gb-lm-dark-gray;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border: 1px dashed $gb-lm-dark-gray;
 }
 
 @media only screen and (min-width: 1500px) {
-    .article-content > aside {
-        // Reset inline style
-        margin: 0;
-        border: none;
+  .article-content > aside {
+    // Reset inline style
+    margin: 0;
+    border: none;
 
-        // Hover to the left
-        float: left;
-        position: relative;
-        $w: 350px;
-        left: -$w - 20px;
-        width: $w;
-        margin-right: -$w - 20px;
-    }
+    // Hover to the left
+    float: left;
+    position: relative;
+    $w: 350px;
+    left: -$w - 20px;
+    width: $w;
+    margin-right: -$w - 20px;
+  }
 }
-

@@ -1,6 +1,7 @@
+{% extends "site.html" %} {% block content %}
 <article class="static">
-  <h1>$title$</h1>
+  <h1>{{title}}</h1>
 
-  $body$
+  {{content}}
 </article>
-
+{% endblock content %}
