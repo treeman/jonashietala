@@ -1,11 +1,7 @@
-*.hi
-_*
-*.o
-site
-old-posts
+itemref-derive/target
+/target
+.output
+/themes
+
 *~
-bad-links
-*.swp
-TODO
-*.bak
-pygments-fail
+
