@@ -195,13 +195,13 @@ async fn check_external_links() -> Result<()> {
     let mut links = HashSet::new();
     for file in files.values() {
         // FIXME getting tons of error trying to connect: dns error: failed to lookup address information: Temporary failure in name resolution
-        // for link in file.links.iter() {
-        //     if let HrefUrl::External(ref url) = link {
-        //         if url.scheme() != "mailto" {
-        //             links.insert(url);
-        //         }
-        //     }
-        // }
+        for link in file.links.iter() {
+            if let HrefUrl::External(ref url) = link {
+                if url.scheme() != "mailto" {
+                    links.insert(url);
+                }
+            }
+        }
 
         for link in file.imgs.iter() {
             if let ImgUrl::External(ref url) = link {
@@ -226,6 +226,7 @@ async fn check_external_link(client: &Client, url: &Url) {
         Ok(response) => {
             let status = response.status();
             if status.is_success() {
+                // FIXME or only show errors? Lots of links here...
                 print!("{}", status.as_str().green());
             } else {
                 print!("{}", status.as_str().red());
