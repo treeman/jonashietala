@@ -28,10 +28,6 @@ Sitemap:
         /drafts (only when run with arg)
 
 
-MVP:
-- Fix feed
-
-- Manual deploy script for files not tracked in git
 - Deploy to S3 via GitHub actions
     Need to verify cargo test first
 
@@ -57,19 +53,13 @@ MVP:
 - Markdown parsing things
     - Auto TOC
 
-- Check external urls
-    https://stackoverflow.com/questions/14154753/how-do-i-make-an-http-request-from-rust
-    Important for embedded images, but can be useful for others as well
-
 - Git commit per post
 
-- Post series
 - Prev/Next in monthly archives
 
 - Nice to have but not prio
     - Tests for archive generation
-    - Tests for draft
-    - Tests for watch functionality?
+    - Tests for watch functionality
 
 - Unsupported markdown features:
     - `|` inside a table breaks the table! (see t-34)

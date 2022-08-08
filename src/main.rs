@@ -128,6 +128,9 @@ async fn main() -> Result<()> {
             gen::demote(pattern.join(" "))?;
         }
         Commands::Sync => {
+            // So we don't forget...
+            build()?;
+
             upload::sync(SyncOpts {
                 dir: &OUTPUT_DIR,
                 bucket: site_bucket()?,
