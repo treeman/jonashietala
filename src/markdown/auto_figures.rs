@@ -1,7 +1,5 @@
 use itertools::{Itertools, MultiPeek};
-use lazy_static::lazy_static;
 use pulldown_cmark::{html::push_html, Event, Tag};
-use regex::Regex;
 use tracing::warn;
 
 use crate::markdown::attrs::{parse_attrs, Attrs};
@@ -37,10 +35,6 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
             if let Event::End(Tag::Image(_, _, _)) = self.parent.peek()? {
                 break;
             }
-        }
-
-        lazy_static! {
-            static ref WIDTH_RE: Regex = Regex::new(r"^\{ width=(\S+) \}").unwrap();
         }
 
         let mut attrs = Attrs::new();

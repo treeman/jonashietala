@@ -1,37 +1,15 @@
 Personal Weblog
 ===============
 
-My site <http://www.jonashietala.se> written in [Hakyll][].
-
-[Hakyll]: http://jaspervdj.be/hakyll/
-
-Sitemap
-=======
-
-    /
-    /projects
-    /blog
-    /blog/:year/:month/:day/:title
-    /blog/tags
-    /blog/tags/:tag
-    /archive
-    /masters_thesis
-    /404
-    /feed.xml
+My site <http://www.jonashietala.se>.
 
 Dependencies
 ============
 
-1. Haskell libs: hakyll, missingH, hakyll-sass, pcre-heavy, io-streams
-2. sassc
-3. pcre, pcre-devel
+1. Rust
 
-Blog script:
-1. Perl libs: DateTime, Modern::Perl
+Sync
+====
 
-To sync with S3:
-1. s3cmd  
-   Change preferences in script and set keys ins `~/.s3cfg`, see s3cmd.
-2. Perl libs: Modern::Perl
-3. python-magic (for MIME type)
-
+1. Setup an AWS credentials file or add environment variables. [Docs](https://docs.rs/aws-creds/latest/awscreds/struct.Credentials.html).
+2. `./blog sync` to sync `.output` and `./blog upload-files` to upload files not tracked by git.
