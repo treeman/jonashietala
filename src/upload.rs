@@ -21,20 +21,32 @@ use walkdir::WalkDir;
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
 
-pub async fn sync(dir: &AbsPath, bucket: Bucket) -> Result<()> {
-    let plan = calculate_sync(dir, &bucket).await?;
+pub struct SyncOpts<'a> {
+    pub dir: &'a AbsPath,
+    pub bucket: Bucket,
+    pub delete: bool,
+    pub print_urls: bool,
+}
+
+pub async fn sync(opts: SyncOpts<'_>) -> Result<()> {
+    let plan = calculate_sync(opts.dir, &opts.bucket).await?;
 
     let mut futures = Vec::new();
     for x in plan.upload.into_values() {
-        futures.push(sync_ref(&bucket, SyncRef::Upload(x)));
+        if opts.print_urls {
+            info!("Creating {}/{}", &opts.bucket.url(), x.file_path.rel_path);
+        }
+        futures.push(sync_ref(&opts.bucket, SyncRef::Upload(x)));
     }
-    for x in plan.delete.into_iter() {
-        futures.push(sync_ref(&bucket, SyncRef::Delete(x)));
+    if opts.delete {
+        for x in plan.delete.into_iter() {
+            futures.push(sync_ref(&opts.bucket, SyncRef::Delete(x)));
+        }
     }
 
     let res = future::join_all(futures).await;
-    for x in res {
-        if let Err(err) = x {
+    for response in res {
+        if let Err(err) = response {
             error!("Failed to sync: `{}", err);
         }
     }

@@ -31,6 +31,7 @@ use std::{collections::HashSet, io, net::SocketAddr, thread, time::Duration};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use upload::SyncOpts;
 use url::Url;
 use util::parse_html_files;
 
@@ -127,10 +128,22 @@ async fn main() -> Result<()> {
             gen::demote(pattern.join(" "))?;
         }
         Commands::Sync => {
-            upload::sync(&OUTPUT_DIR, init_bucket(SITE_BUCKET, REGION.clone())?).await?;
+            upload::sync(SyncOpts {
+                dir: &OUTPUT_DIR,
+                bucket: site_bucket()?,
+                delete: true,
+                print_urls: false,
+            })
+            .await?;
         }
         Commands::UploadFiles => {
-            upload::sync(&FILE_DIR, init_bucket(FILE_BUCKET, REGION.clone())?).await?;
+            upload::sync(SyncOpts {
+                dir: &FILE_DIR,
+                bucket: file_bucket()?,
+                delete: false,
+                print_urls: true,
+            })
+            .await?;
         }
         Commands::DumpSyntaxBinary => {
             markdown::dump_syntax_binary()?;
@@ -146,9 +159,15 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-fn init_bucket(name: &str, region: Region) -> Result<Bucket> {
+fn site_bucket() -> Result<Bucket> {
     let credentials = Credentials::default()?;
-    let bucket = Bucket::new(name, region, credentials)?.with_path_style();
+    let bucket = Bucket::new(SITE_BUCKET, REGION.clone(), credentials)?.with_path_style();
+    Ok(bucket)
+}
+
+fn file_bucket() -> Result<Bucket> {
+    let credentials = Credentials::default()?;
+    let bucket = Bucket::new(FILE_BUCKET, REGION.clone(), credentials)?;
     Ok(bucket)
 }
 
