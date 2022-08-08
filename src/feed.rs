@@ -51,7 +51,12 @@ fn fixed_date_time(dt: NaiveDateTime) -> DateTime<FixedOffset> {
 fn entity_id(site_url: &SiteUrl) -> String {
     let mut res = site_url.url.clone();
     res.set_scheme("http").unwrap();
-    format!("{}/index.html", res.as_str())
+    let mut res = String::from(res);
+    if res.ends_with('/') {
+        res.pop();
+    }
+    res.push_str("/index.html");
+    res
 }
 
 impl Item for SiteFeed {
@@ -109,10 +114,13 @@ mod tests {
 
     #[test]
     fn test_entity_id() {
-        // FIXME double // sometimes...
-        let url = SiteUrl::parse("/blog/2022/01/31/test_post").unwrap();
         assert_eq!(
-            entity_id(&url),
+            entity_id(&SiteUrl::parse("/blog/2022/01/31/test_post").unwrap()),
+            "http://jonashietala.se/blog/2022/01/31/test_post/index.html"
+        );
+
+        assert_eq!(
+            entity_id(&SiteUrl::parse("/blog/2022/01/31/test_post/").unwrap()),
             "http://jonashietala.se/blog/2022/01/31/test_post/index.html"
         );
     }
