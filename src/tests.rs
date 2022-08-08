@@ -47,10 +47,18 @@ impl TestSite {
             .find(|series| series.path.file_name() == Some(file))
     }
 
+    pub fn output_path(&self, file: &str) -> AbsPath {
+        AbsPath::from_path_buf(self.output_dir.path().join(file))
+    }
+
     pub fn output_content(&self, file: &str) -> Result<String> {
-        let path = self.output_dir.path().join(file);
+        let path = self.output_path(file);
         let content = fs::read_to_string(&path)?;
         Ok(content)
+    }
+
+    pub fn read_file_to_string(&self, file: &str) -> std::io::Result<String> {
+        fs::read_to_string(self.output_path(file))
     }
 }
 

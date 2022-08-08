@@ -822,6 +822,29 @@ mod tests {
     }
 
     #[test]
+    fn test_hide_drafts() -> Result<()> {
+        let test_site = TestSiteBuilder {
+            include_drafts: false,
+        }
+        .build()?;
+
+        assert!(!test_site.output_path("drafts/index.html").exists());
+        assert!(!test_site.output_path("drafts/a_draft/index.html").exists());
+
+        assert!(!test_site
+            .read_file_to_string("index.html")?
+            .contains("Drafts"));
+
+        assert!(!test_site
+            .find_post("2022-01-31-test_post.markdown")
+            .unwrap()
+            .raw_content
+            .contains("Drafts"));
+
+        Ok(())
+    }
+
+    #[test]
     fn test_site_file_changed() -> Result<()> {
         // use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
         // tracing_subscriber::registry()
