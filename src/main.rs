@@ -6,12 +6,13 @@ mod markdown;
 mod paths;
 mod site;
 mod site_url;
+mod upload;
 mod util;
 
 #[cfg(test)]
 mod tests;
 
-use crate::site_url::ImgUrl;
+use crate::site_url::{HrefUrl, ImgUrl};
 use axum::{http::StatusCode, response::IntoResponse, routing::get_service, Router};
 use camino::Utf8PathBuf;
 use clap::{Parser, Subcommand};
@@ -22,6 +23,9 @@ use hotwatch::Hotwatch;
 use lazy_static::lazy_static;
 use paths::AbsPath;
 use reqwest::Client;
+use s3::creds::Credentials;
+use s3::Bucket;
+use s3::Region;
 use site::{Site, SiteOptions};
 use std::{collections::HashSet, io, net::SocketAddr, thread, time::Duration};
 use tower_http::{services::ServeDir, trace::TraceLayer};
@@ -68,6 +72,10 @@ enum Commands {
         #[clap(required = true)]
         pattern: Vec<String>,
     },
+    /// Sync all generated files found in `.output`
+    Sync,
+    /// Upload files from `files` which aren't handled by the site generator
+    UploadFiles,
     /// Dump a syntax binary, used to speedup SyntaxSet initialization
     DumpSyntaxBinary,
     /// Dump the CSS of a theme
@@ -79,7 +87,12 @@ enum Commands {
 lazy_static! {
     static ref CURRENT_DIR: AbsPath = AbsPath::current_dir().unwrap();
     static ref OUTPUT_DIR: AbsPath = CURRENT_DIR.join(".output");
+    static ref FILE_DIR: AbsPath = CURRENT_DIR.join("files");
 }
+
+static SITE_BUCKET: &str = "www.jonashietala.se";
+static FILE_BUCKET: &str = "jonashietala-files";
+static REGION: Region = Region::EuWest1;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -113,6 +126,12 @@ async fn main() -> Result<()> {
         Commands::Demote { pattern } => {
             gen::demote(pattern.join(" "))?;
         }
+        Commands::Sync => {
+            upload::sync(&OUTPUT_DIR, init_bucket(SITE_BUCKET, REGION.clone())?).await?;
+        }
+        Commands::UploadFiles => {
+            upload::sync(&FILE_DIR, init_bucket(FILE_BUCKET, REGION.clone())?).await?;
+        }
         Commands::DumpSyntaxBinary => {
             markdown::dump_syntax_binary()?;
         }
@@ -125,6 +144,12 @@ async fn main() -> Result<()> {
     }
 
     Ok(())
+}
+
+fn init_bucket(name: &str, region: Region) -> Result<Bucket> {
+    let credentials = Credentials::default()?;
+    let bucket = Bucket::new(name, region, credentials)?.with_path_style();
+    Ok(bucket)
 }
 
 fn build() -> Result<()> {
