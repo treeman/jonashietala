@@ -114,12 +114,21 @@ A [leader key][] is a function that triggers after a sequences of keys. So for i
 # More heatmaps
 
 ![BASE](/images/t-34-2/freq/base.png)
-![FUN](/images/t-34-2/freq/fun.png)
-![MODS](/images/t-34-2/freq/mods.png)
-![NAV](/images/t-34-2/freq/nav.png)
-![NUM](/images/t-34-2/freq/num.png)
-![SHRT](/images/t-34-2/freq/shrt.png)
-![SPEC](/images/t-34-2/freq/spec.png)
+
 ![SWE](/images/t-34-2/freq/swe.png)
+
 ![SYM](/images/t-34-2/freq/sym.png)
+
+![NUM](/images/t-34-2/freq/num.png)
+
+![NAV](/images/t-34-2/freq/nav.png)
+
 ![WNAV](/images/t-34-2/freq/wnav.png)
+
+![SHRT](/images/t-34-2/freq/shrt.png)
+
+![SPEC](/images/t-34-2/freq/spec.png)
+
+![FUN](/images/t-34-2/freq/fun.png)
+
+![MODS](/images/t-34-2/freq/mods.png)
