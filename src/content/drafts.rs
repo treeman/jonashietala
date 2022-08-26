@@ -27,9 +27,8 @@ pub fn load_drafts(dir: AbsPath) -> Result<BTreeMap<DraftRef, DraftItem>> {
 #[derive(ItemRef, Debug, Clone)]
 #[item(DraftItem)]
 pub struct DraftRef {
-    pub id: String,
     #[order]
-    pub created: NaiveDateTime,
+    pub id: String,
 }
 
 #[derive(Debug)]
@@ -95,7 +94,6 @@ impl DraftItem {
     pub fn draft_ref(&self) -> DraftRef {
         DraftRef {
             id: self.id().to_string(),
-            created: self.modified,
         }
     }
 }

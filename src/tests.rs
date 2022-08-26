@@ -11,6 +11,7 @@ use hotwatch::Event;
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs;
+use std::path::PathBuf;
 use tempfile::TempDir;
 use tera::Tera;
 use thiserror::Error;
@@ -59,6 +60,26 @@ impl TestSite {
 
     pub fn read_file_to_string(&self, file: &str) -> std::io::Result<String> {
         fs::read_to_string(self.output_path(file))
+    }
+
+    /// Persist the input and output dir, allowing us to inspect them
+    /// after test has finished.
+    pub fn persist(self) -> (PathBuf, PathBuf) {
+        let TestSite {
+            output_dir,
+            input_dir,
+            ..
+        } = self;
+        (input_dir.into_path(), output_dir.into_path())
+    }
+
+    pub fn skip_clean(self) {
+        let (input_dir, output_dir) = self.persist();
+        println!(
+            "Skipping cleaning\n  input: {}\n  output: {}",
+            input_dir.display(),
+            output_dir.display()
+        );
     }
 }
 

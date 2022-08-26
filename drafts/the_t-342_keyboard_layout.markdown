@@ -5,8 +5,9 @@ series: t-34
 ---
 
 ![The T-34/2 layout.  
-Generated with the [QMK Heatmap Generator][heatmap-generator], with all layers. I logged my usage for a few weeks and this is the result.
-](/images/t-34-2/all_freq.png)
+Generated with the [QMK Heatmap Generator][heatmap-generator], with all layers.
+](/images/t-34-2/freq/all.png)
+
 
 It's been 6 months since my last update on the [T-34] keyboard layout, and I've made some changes I'd like to document here.
 
@@ -109,3 +110,16 @@ A [leader key][] is a function that triggers after a sequences of keys. So for i
 [T-34]: /blog/tags/t-34/ "T-34 tags"
 [T-34/1]: /blog/2021/12/15/t-34-1/ "The T-34/1 keyboard layout"
 [heatmap-generator]: https://precondition.github.io/qmk-heatmap#how-to-collect-the-required-data "QMK Heatmap Generator"
+
+# More heatmaps
+
+![BASE](/images/t-34-2/freq/base.png)
+![FUN](/images/t-34-2/freq/fun.png)
+![MODS](/images/t-34-2/freq/mods.png)
+![NAV](/images/t-34-2/freq/nav.png)
+![NUM](/images/t-34-2/freq/num.png)
+![SHRT](/images/t-34-2/freq/shrt.png)
+![SPEC](/images/t-34-2/freq/spec.png)
+![SWE](/images/t-34-2/freq/swe.png)
+![SYM](/images/t-34-2/freq/sym.png)
+![WNAV](/images/t-34-2/freq/wnav.png)

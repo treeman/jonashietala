@@ -530,7 +530,13 @@ impl Site {
 
         let drafts = &mut self.content.drafts.as_mut().unwrap();
 
+        let draft_keys: Vec<_> = drafts.keys().collect();
+
+        dbg!(draft_keys);
+
         let draft_ref = updated.draft_ref();
+
+        dbg!(&draft_ref);
 
         let old = drafts
             .insert(draft_ref.clone(), updated)
@@ -846,13 +852,13 @@ mod tests {
 
     #[test]
     fn test_site_file_changed() -> Result<()> {
-        // use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-        // tracing_subscriber::registry()
-        //     .with(tracing_subscriber::EnvFilter::new(
-        //         "jonashietala_se=debug,tower_http=debug",
-        //     ))
-        //     .with(tracing_subscriber::fmt::layer())
-        //     .init();
+        use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+        tracing_subscriber::registry()
+            .with(tracing_subscriber::EnvFilter::new(
+                "jonashietala_se=debug,tower_http=debug",
+            ))
+            .with(tracing_subscriber::fmt::layer())
+            .init();
 
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
@@ -897,6 +903,18 @@ mod tests {
         assert!(!myseries_content.contains("Feb post 1"));
         assert!(myseries_content.contains("First series post"));
         assert!(myseries_content.contains("Feb post 2"));
+
+        assert!(test_site
+            .output_content("drafts/a_draft.markdown")?
+            .contains("My draft text"));
+
+        test_site.change_file("drafts/a_draft/index.html", "My draft text", "DRAFT TEXT")?;
+
+        test_site.skip_clean();
+
+        // assert!(test_site
+        //     .output_content("drafts/a_draft/index.html")?
+        //     .contains("DRAFT TEXT"));
 
         // FIXME check archives
 
