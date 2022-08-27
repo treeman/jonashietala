@@ -5,7 +5,7 @@ series: t-34
 ---
 
 ![The T-34/2 layout.  
-Generated with the [QMK Heatmap Generator][heatmap-generator], with all layers.
+Generated with the [QMK Heatmap Generator][heatmap-generator], with all layers and combos.
 ](/images/t-34-2/freq/all.png)
 
 
@@ -105,30 +105,46 @@ A [leader key][] is a function that triggers after a sequences of keys. So for i
     swap % and !
 - I did not like `p` and `x` as combos, at least on `h` + `k` and `m` + `a`. They're fine where they are now.
 
-# Future experiments
+# More heatmaps
+
+The [QMK Heatmap Generator][heatmap-generator] also provides heatmaps for the individual layers, which gives another way to analyze the keymap compared to an indiscriminate keylogger I've used before.
+
+Note that I did not take these heatmaps into account making this version of the keymap.
+
+![Base layer (this includes virtually all combos too).](/images/t-34-2/freq/base.png)
+
+I still abuse `j` and `k` in Vim, so *maybe* a `j` and `m` swap?
+
+![Swedish layer (only ÅÄÖ are changed from base).](/images/t-34-2/freq/swe.png)
+
+In contrast to the base layer, which is used for programming a lot, the Swedish layer is only used for writing normally, and I'm quite happy with how it looks like.
+
+![Symbols layer.](/images/t-34-2/freq/sym.png)
+
+Note that this is only used to write multiple symbols in a row, like `%{}` or `#[`, as single symbols are typed with thumb combos.
+
+(And arrows like `->` and operations like `||` are typed in other ways, so there aren't that much usage for this layer.)
+
+![Numbers layer.](/images/t-34-2/freq/num.png)
+
+Note that this is only used together with [NUMWORD][], and single digits are typed with thumb combos---such as `0` which is Vim moves the cursor to the beginning of the line.
+
+A typical usage for me is to jump around in Vim with relative line numbers, which explains the high frequencies of `j` and `k`:
+
+![Activate [NUMWORD][], then `4j` would move the cursor 4 lines down to `.collect` and turn off the number layer.](/images/t-34-2/rel_vim.png)
+
+[NUMWORD]: /blog/2021/06/03/the-t-34-keyboard-layout/#where-are-the-digits
+
+![Navigation layer.](/images/t-34-2/freq/nav.png)
+
+I switch windows in Vim with `Ctrl` + `Left` or `Ctrl` + `Right`, which is something I do a lot.
+
+![Workspace nav layer.](/images/t-34-2/freq/wnav.png)
+
+This is basically switching between workspaces `0` to `9` and the three monitors. It's weird how I don't use workspace `3`, although it should be in a good position finger placement wise.
+
+There are some more layers, but I cut them out because the heatmaps were totally uninteresting to me.
 
 [T-34]: /blog/tags/t-34/ "T-34 tags"
 [T-34/1]: /blog/2021/12/15/t-34-1/ "The T-34/1 keyboard layout"
 [heatmap-generator]: https://precondition.github.io/qmk-heatmap#how-to-collect-the-required-data "QMK Heatmap Generator"
-
-# More heatmaps
-
-![BASE](/images/t-34-2/freq/base.png)
-
-![SWE](/images/t-34-2/freq/swe.png)
-
-![SYM](/images/t-34-2/freq/sym.png)
-
-![NUM](/images/t-34-2/freq/num.png)
-
-![NAV](/images/t-34-2/freq/nav.png)
-
-![WNAV](/images/t-34-2/freq/wnav.png)
-
-![SHRT](/images/t-34-2/freq/shrt.png)
-
-![SPEC](/images/t-34-2/freq/spec.png)
-
-![FUN](/images/t-34-2/freq/fun.png)
-
-![MODS](/images/t-34-2/freq/mods.png)
