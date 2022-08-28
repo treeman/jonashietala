@@ -3,8 +3,6 @@ title: "Rewriting my blog in Rust for fun and profit"
 tags: [Rust, Webpage, Hakyll, Haskell]
 ---
 
-
-
 # Background
 
 I've used [Hakyll] as my static site generator for around 9 years now. Before that I think I used [Jekyll] and also more dynamic pages with [Mojolicious] in Perl and [Kohana] in PHP, but I can't be completely sure as the git history doesn't go back that far.
@@ -15,17 +13,17 @@ But all good things come to an end and I've now migrated to my own custom site g
 
 These are the main annoyances I wanted to solve with this rewrite:
 
-1. It was starting to get slow
+1. It was starting to get slow.
 
-   On my crappy laptop a full site rebuild took 75 seconds. I only have 240 posts so I don't think it should be that slow. While there is a good caching system and a watch command that only updates the changed post during writing, it was still noticeable.
+   On my crappy laptop a full site rebuild took 75 seconds. (Not compile, just to generate the site.) I only have 240 posts so I don't think it should be that slow. While there is a good caching system and a watch command that only updates the changed post during editing, it was still annoyingly slow.
 
-2. Several external dependencies
+2. Several external dependencies.
 
    While the site generator itself is written in Haskell, there were other dependencies apart from a number of Haskell libs. My blog helper script was written in Perl, I used [sassc] to convert sass, [pygments] in Python for syntax highlighting, and [s3cmd] for uploading the generated site to S3.
 
    It's annoying to install all these and to keep them up-to-date, it would be great to just have a single thing to worry about.
 
-3. Setup problems
+3. Setup problems.
 
    Related to the previous point, sometimes things just break and I have to spend time to debug and fix them. This is especially frustrating when I have some good idea of something to write about, just to find out that I have some issue with my site generator.
 
@@ -33,9 +31,9 @@ These are the main annoyances I wanted to solve with this rewrite:
 
    Well, sometimes I update some packages that might break things in weird ways. For example:
 
-   - After gch is updated it can no longer find cabal packages.
+   - After GHC is updated it [can no longer find cabal packages][ghc-cabal-issue].
 
-   - When I run the Haskell binary I get this:
+   - When I run the Haskell binary on I get this:
 
      ```
      [ERROR] Prelude.read: no parse
@@ -51,13 +49,13 @@ These are the main annoyances I wanted to solve with this rewrite:
 
      (Only on my laptop, it works fine on my desktop.)
 
-   - Default Hakyll Pandoc arguments changed between versions, breaking code rendering in my Atom feed.
+   - When Hakyll changed Pandoc arguments between versions, [breaking code rendering in my Atom feed][hakyll-syntax-issue].
 
    I know that these are all solvable, but I just want something that just works™.
 
-4. Mental overhead with Haskell
+4. Mental overhead with Haskell.
 
-   I kind of like Haskell---especially the purely functional parts of it. And I am a fan of the declarative approach Hakyll takes to site configuration. Take the generation of static (i.e. standalone pages) for instance:
+   I kind of like Haskell---especially the purely functional parts of it, and I am a fan of the declarative approach Hakyll takes to site configuration. Take the generation of static (i.e. standalone pages) for instance:
 
    ```haskell
    match "static/*.markdown" $ do
@@ -85,7 +83,7 @@ These are the main annoyances I wanted to solve with this rewrite:
 
 1. I enjoy using Rust, and it's important for a hobby project like this.
 2. Rust is quite performant and transforming text is a task it should be good at.
-3. Cargo is fire and forget. As long as you have Rust installed, it should be enough to just do `cargo build` and the generator should build.
+3. Cargo is fire and forget. As long as you have Rust installed, it should be enough to just do `cargo build` and it should just work™.
 
 ## Why reinvent the wheel again?
 
@@ -96,11 +94,13 @@ I wanted to write my own static site generator as a fun and interesting project.
 
 # Implementation details
 
+I'm not going to describe everything I did here, take a look at the [source code][src] if you're interested.
+
 ## Delegate the hard things
 
 At first I was worried that it would be hard to replicate all the features I enjoyed with Hakyll, like the templating engine, the syntax highlighting for numerous languages or the `watch` command that automatically regenerates any pages you edit and acts as a file server so I can view the post in the browser during the writing process.
 
-Turns out that it's not that hard if you let existing crates handle the hard parts. While it's out of scope to describe how I used everything, here are some of the libraries I used to good effect:
+Turns out that it's easy if you let existing crates handle the hard parts. Here are some of the libraries I used to good effect:
 
 - [tera][] for a templating engine.
 
@@ -126,9 +126,10 @@ Turns out that it's not that hard if you let existing crates handle the hard par
 - [grass][] as a Sass compiler purely in Rust.
 - [axum][] to create [a static file server][static-site-server] used to host the site locally.
 - [hotwatch][] to watch for file changes, so we can update pages whenever a file is updated.
-- [scraper][] to parse the generated html. Used in some of my tests and for some specific transformation.
+- [scraper][] to parse the generated html. Used in some of my tests and for some specific transformations.
+- [rust-s3][] to upload the generated site to S3 storage.
 
-Even with these libraries the Rust source files themselves contained over 4000 lines. In some cases Rust can be verbose, and my code is really not beautiful, but I did make some enhancements as well.
+Even with these libraries the Rust source files themselves contained over 6000 lines. In some cases Rust can be verbose, and my code is really not beautiful, but writing this project was still more work than expected. (Isn't that always the case?)
 
 ## Markdown transformations
 
@@ -142,7 +143,7 @@ I have a preprocessing step that I use to create figures with multiple images. I
     <content>
     :::
 
-I use `Flex`, `Figure` and `Gallery` for different kinds of image collections. For instance this:
+I use this for different kinds of image collections, such as `Flex`, `Figure` and `Gallery`. For example this:
 
     ::: Flex
     /images/img1.png
@@ -206,107 +207,88 @@ fn parse_block(id: &str, content: &str) -> String {
 }
 ```
 
-(The image and figure parsing is a lot more verbose, so let's skip that shall we?)
+(The image and figure parsing is more verbose, so let's skip that shall we?)
 
 [embed_youtube]: /blog/2014/09/01/embedding_youtube_videos_with_hakyll/ "Embedding youtube videos with Hakyll"
 
 ### Extending pulldown_cmark
 
-- [Embed bare YouTube links][embed_youtube].
+I've also extended [pulldown_cmark] with transformations of my own:
 
-  It would've been much easier to make this a pre- or post-processing step, but it's the first transformation I made so I didn't make the most optimal decision. I can't be bothered to change it though.
+```rust
+// Issue a warning during the build process if any markdown link is broken.
+let transformed = Parser::new_with_broken_link_callback(s, Options::all(), Some(&mut cb));
+// Demote headers (eg h1 -> h2), give them an "id" and an "a" tag.
+let transformed = TransformHeaders::new(transformed);
+// Convert standalone images to figures.
+let transformed = AutoFigures::new(transformed);
+// Embed raw youtube links using iframes.
+let transformed = EmbedYoutube::new(transformed);
+// Syntax highlighting.
+let transformed = CodeBlockSyntaxHighlight::new(transformed);
+let transformed = InlineCodeSyntaxHighlight::new(transformed);
+// Parse `{ :attr }` attributes for blockquotes, to generate asides for instance.
+let transformed = QuoteAttrs::new(transformed);
+// parse `{ .class }` attributes for tables, to allow styling for tables.
+let transformed = TableAttrs::new(transformed);
+```
 
-- Demote and auto-generate ids for headers.
+Demoting headers and [embedding bare YouTube links][embed_youtube] is something I used to do before, and were fairly straightforward do implement. (It might have been better to embed YouTube links in a pre- or post-processing step though.)
 
-  Convert this:
+Pandoc had support for adding attributes and classes to arbitrary elements, which was very useful. So for instance this:
 
-  ```md
-  # My header
-  ```
+```md
+![](/images/img1.png){ height=100 }
+```
 
-  To this:
+Would be transformed into this:
 
-  ```html
-  <h2 id="my-header">My header</h2>
-  ```
+```html
+<figure>
+  <img src="/images/img1.png" height="100">
+</figure>
+```
 
-  Historically I've reserved `h1` tags for post titles. While it's not really necessary, I wanted to try to replicate the appearance of the Hakyll site as much as possible. (This later went out the window though.)
+I used it all over the place, so I reimplemented it... in less general and hacky manner.
 
-- Convert standalone images to figures and allow attributes for images.
+Another feature I used in Pandoc that wasn't supported was evaluating markdown inside html tags. So this would no longer render correctly:
 
-  For instance this:
+```md
+<aside>
+My [link][link_ref]
+</aside>
+```
 
-  ```md
-  ![](/images/img1.png){ height=100 }
-  ```
+At first my plan was to do this with the generalized preprocessing step, but then I'd lose track of link references. So in this example:
 
-  Would be transformed into this:
+ ```md
+ ::: Aside
+ My [link][link_ref]
+ :::
 
-  ```html
-  <figure>
-    <img src="/images/img1.png" height="100">
-  </figure>
-  ```
+ [link_ref]: /some/path
+ ```
 
-  Super useful!
+`link` would not be turned into a link as we would only parse inside `:::`.
 
-- Allow attributes for quotes, with custom transformations.
+```md
+> Some text
+{ :notice }
+```
 
-  Once upon a time I had the ambition of using sidenotes in my posts. They looked like this:
+That would call a `notice` parser, which in this case would create a `<aside>`html tag instead of a `<blockquote>`html tag, while preserving the parsed markdown.
 
-  ```md
-  <aside>
-  My *super* special note
-  </aside>
-  ```
+While there are existing crates that adds code highlighting using [syntect], I wrote my own that wraps it in a `<code>`html tag and supports inline code highlighting. For example "Inside row: `let x = 2;`rust" is produced by:
 
-  The problem is that CommonMark does not parse markdown inside html tags, so `*super*` would not be emphasized.
-
-  At first my plan was to do this with the generalized preprocessing step, but then I'd lose track of link references. So in this example:
-
-  ```md
-  ::: Aside
-  My [link][link_ref]
-  :::
-
-  [link_ref]: /some/path
-  ```
-
-  `link` would not be turned into a link as we would only parse inside `:::`.
-
-  So instead I added attributes to blockquotes, like so:
-
-  ```md
-  > Some text
-  { :notice }
-  ```
-
-  Which would call a `notice` parser, which in this case would create a `<aside>`html tag instead of a `<blockquote>`html tag, while preserving the parsed markdown.
-
-
-- Allow attributes for tables.
-
-  The use-case is to add classes to tables for some unique formatting rules. The implementation was a big hack, and I only used this feature in a single of my posts, but at least I solved the problem...
-
-- Highlight code using [syntect].
-
-  Instead of wrapping with a `<span>`html tag I wrap it a `<code>`html tag, and I also support inline highlighting. For example "`let x = 2;`rust" is produced by
-
-  ```md
-  `let x = 2;`rust
-  ```
-
-While they're all different, the principle of them all is the same. Take a look at [the code][] if you want to see how they're all implemented.
-
-## Local watcher
+```md
+Inside row: `let x = 2;`rust
+```
 
 ## Performance improvements
 
-So how's the performance?
+I didn't spend that much time into improving the performance, but two things had a significant impact:
 
-I'm pleased to say that the site is fully rebuilt in around 1.7 seconds on my crappy laptop, which is a 40x speedup over my previous solution. This is quite good as I only did some small performance tweaks.
-
-The first thing is that if you use [syntect], you really should [compress `SyntaxSet`rust to a binary format][syntect-compress]. This saved me around 5 seconds of raw startup time.
+The first thing is that if you use [syntect] and have custom syntaxes, you really should [compress `SyntaxSet`rust to a binary format][syntect-compress].
 
 The other thing was to parallelize rendering using [rayon][]. Rendering is the markdown parsing, applying templates and creating the output file. Rayon is great is this task is limited by CPU and it's very easy to use (if the code is structured correctly). This is for instance a simplified view of the rendering:
 
@@ -338,17 +320,26 @@ items
 
 And that's it!
 
-Admittedly, my performance improvements are quite minor, and the big performance gains comes from the libraries I use. For instance my old site used an external [pygments] process written in Python for syntax highlighting, while I now have a highlighter in Rust that's *much* faster, and can easily be parallized.
+Admittedly, my performance improvements are quite minor, and the big performance gains comes from the libraries I use. For instance my old site used an external [pygments] process written in Python for syntax highlighting, while I now have a highlighter in Rust that's *much* faster, and can easily be parallelized.
 
 [syntect-compress]: https://docs.rs/syntect/latest/syntect/dumps/index.html
-
-## Cargo "just works"
 
 ## Tests and panics
 
 
-# Ending thoughts
+# How did it go?
 
+## Performance
+
+## A single dependency
+
+## Cargo "just works"
+
+## Rust is simpler?!
+
+[ghc-cabal-issue]: /blog/2020/05/09/ghc_cannot_find_cabal_packages/
+[hakyll-syntax-issue]: https://github.com/jaspervdj/hakyll/issues/662
+[src]: https://github.com/treeman/jonashietala
 
 [Mojolicious]: https://mojolicious.org/ "Perl real-time web framework"
 [Kohana]: https://kohanaframework.org/ "The Switft PHP Framework"
@@ -361,6 +352,7 @@ Admittedly, my performance improvements are quite minor, and the big performance
 [zola]: https://www.getzola.org/ "Your one-stop static site engine"
 [cobalt]: https://cobalt-org.github.io/docs/ "cobalt.rs site generator"
 [scraper]: https://crates.io/crates/scraper "HTML parsing and querying with CSS selectors"
+[rust-s3]: https://crates.io/crates/rust-s3 "Rust library for working with Amazon S3 and compatible object storage APIs"
 [hotwatch]: https://crates.io/crates/hotwatch "A Rust library for conveniently watching and handling file changes"
 [pulldown-cmark]: https://crates.io/crates/pulldown-cmark "A pull parser for CommonMark"
 [syntect]: https://crates.io/crates/syntect "library for high quality syntax highlighting and code intelligence using Sublime Text's grammars"
@@ -368,3 +360,4 @@ Admittedly, my performance improvements are quite minor, and the big performance
 [sassc]: https://github.com/sass/sassc "libsass command line driver"
 [100-rust]: https://kerkour.com/rust-static-site-generator "Building a static site generator in 100 lines of Rust"
 [rayon]: https://docs.rs/rayon/latest/rayon/ "Data-parallelism library that makes it easy to convert sequential computations into parallel"
+
