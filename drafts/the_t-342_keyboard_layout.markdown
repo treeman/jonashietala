@@ -11,7 +11,7 @@ Generated with the [QMK Heatmap Generator][heatmap-generator], with all layers a
 
 It's been 6 months since my last update on the [T-34] keyboard layout, and I've made some changes I'd like to document here.
 
-As seen in the heatmap above, the layout seems quite decent. There's still an issue with `j` and `k` being too prominent (because I'm a Vim jk-spammer). I don't have a good fix for it layout wise, I think I "just" need to get better Vim habits.
+As seen in the heatmap above, the layout seems quite decent. There's still an issue with `j` and `k` being too prominent (because I'm a Vim jk-spammer). I don't have a good fix for it layout wise---maybe a `j` and `m` swap---but mainly I think I "just" need to get better Vim habits.
 
 There's also a hand imbalance, but I don't feel it's an issue for me as I have problems with RSI on my right hand, so having the left hand do a little more work is even a positive.
 
@@ -21,15 +21,15 @@ There's also a hand imbalance, but I don't feel it's an issue for me as I have p
 
 ![Base](/images/t-34-2/base.png)
 
-In my [last iteration][T-34/1] I had `iu` on my middle finger and `ao` on my ring finger. That was far from optimal as the ring finger is much stronger, and `ao` is much more common for me. It was just an oversight from me when I swapped `Repeat` to the home-row, but it has now been corrected.
+In my [last iteration][T-34/1] I had `iu` on my middle finger and `ao` on my ring finger. That was far from optimal as the ring finger is stronger, and `ao` is much more common for me. It was just an oversight after I swapped `Repeat` to the home-row (from where `o` is now) but it has now been corrected.
 
-I'll also say that I'm still not convinced that `Repeat` is worth it here. Avoiding double taps feels good, and repeating things like `Ctrl-c` is fantastic, but I could see that skipping `Repeat`, moving `o` to the home-row and making space for an extra key is preferable. (Maybe put `j` in a better spot...?)
+I'll also say that I'm still not convinced that `Repeat` is worth it here. Avoiding double taps feels good, and repeating things like `Ctrl-c` is fantastic, but I could see that removing `Repeat`, moving `o` to the home-row and making space for an extra key is the better choice.
 
 # Reduce inner thumb key usage
 
 Another big change I've made is to reduce the inner thumb key usage (where I fold my thumb to reach the `SHRT` and `SPEC` keys). This was a big issue for my right thumb where I'm suffering from RSI (I probably read too much manga on my mobile phone).
 
-While [T-34/1] had symbols and mods on the thumbs (only used for multiples, as I have single combos for them all) I now only have rarely used keys under the layers there.
+While [T-34/1] had symbols and mods on the thumbs (only used for multiples, as I have single combos for them all) I now only have rarely used keys under the layers there:
 
 ![Shortcuts](/images/t-34-2/shrt.png)
 
@@ -39,29 +39,45 @@ The shortcuts are there to give me one-handed access to common shortcuts. There 
 
 I've also reworked the combos to give access to the symbol layers and to add a one-shot `Ctrl` on home-row:
 
-| Left Combo        | Tap       | Hold
-| :---------        | :-        | :--
-| `s` + `t`         | `Ctrl`    | `Ctrl`
-|   `t` + `h`       | `Escape`  | `SYM`
-| `s` +   `h`       | `"`       |
-| `s` + `t` + `h`   | `Tab`     | `MODS`
-| **Right Combo**   | **Tap**       | **Hold**
-| `n` + `a`         | `:`       | `SYM`
-|   `a` + `i`       | `Ctrl`    | `Ctrl`
-| `n` +   `i`       | `'`       |
-| `n` + `a` + `i`   | `Enter`   |
-| `n` + `a` + `i` + `Repeat`   | Save Vim   |
-| **Left mid/low Combo**    | **Tap**   | **Hold**
-|   `t` + `d`       | `;`  |
+![Horizontal combos with nearby keys.](/images/t-34-2/hcombos.png)
 
 - `Ctrl` is super common, so it should have prime real estate. I *vastly* prefer one-shot over keys I need to hold down.
 - `SYM` being a hold is fine as I only use it to output multiple symbols anyway. It's almost exclusively used for `{}` and `[]`.
 - Some combos now use 3 or even 4 keys. That's fine as they're "big" keys that I tend to slam a bit more, so in a weird way having some more resistance feels better in some cases...
-- `;` is in a slightly weird place, but it's still fine IMO.
+- Not pictured above, `;` is triggered by `t` + `d` which is a bit weird, but it works.
+- The modifier layer is there as an escape hatch, if I ever have to type weird modifiers like `Alt`.
 
-![MODS](/images/t-34-2/mods.png)
+![Modifiers](/images/t-34-2/mods.png)
 
-I don't really use the `MODS` layer, but it's necessary for those weird combinations or *gasp* `Alt` usage.
+Another consequence of the change is that the two symbol layers (that [used to][prev-sym-layers] have [callum][] style mods on the opposite side) are now combined into a single layer:
+
+![Symbols](/images/t-34-2/sym.png)
+
+[prev-sym-layers]: /blog/2021/06/03/the-t-34-keyboard-layout/#mods-symbols
+
+# Swap % and !
+
+A small change I did to the symbols layer is to swap `%` and `!`, because `%{}`, `<%` and `%>` are a really common sequence in Elixir.
+
+I did try to have `%{}` as a long press on `%`, but for some reason I didn't really use it. Rolling feels more satisfying.
+
+# Swap thumbs for number and symbol combos
+
+Previously the easy access logic for numbers and symbols was:
+
+| Combo                                 | Output
+| --------                          | ------
+| `left thumb` + `key`              | `symbol`
+| `right thumb` + `key`              | `digit`
+
+But despite struggling for many months, I still couldn't get used to it and I still made mistakes regularly. So now I've changed to this:
+
+| Combo                                 | Output
+| --------                          | ------
+| `same side thumb` + `key`              | `symbol`
+| `opposite thumb` + `key`              | `digit`
+
+For some reason, this is easier for my brain.
 
 # Even easier ÅÄÖ
 
@@ -69,38 +85,30 @@ I still really like the Swedish overlay (replacing `()_` with `åäö`, but I've
 
 - When switching, if the previous key is one of `()_` then also backspace and replace it with `åäö` (and vice versa).
 
-  I find that I'm often in the wrong layer, so if I type for instance `fooå`, I can just switch off the Swedish layer and I'll get `foo(`. In theory it's good, but it doesn't come super fluidly for me.
+  I find that I'm often in the wrong layer, so if I type for instance `fooå`, I can just switch off the Swedish layer and I'll get `foo(`. In theory it's good, but it doesn't come super fluidly for me yet.
 
-- I've added combos for the keys on the other layer.
+- I've moved the combos so that `Space` + `(` outputs `å`, and `e` + `å` outputs `(`.
 
-  | Combo           | Result
-  | ---------       | ------
-  | `Space` + `(`   | `å`
-  | `Space` + `)`   | `ä`
-  | `Space` + `_`   | `ö`
-  | `Space` + `å`   | `(`
-  | `Space` + `ä`   | `)`
-  | `Space` + `ö`   | `_`
-
-  So if the Swedish layer is on and I want to type `(` I can use a combo, and if the Swedish layer is off and I just want to type a few Swedish words, I can use the same combo.
+  So I always have easy access to the symbols and the Swedish letters, regardless of what layer I'm on.
 
 # Instant leader key
 
-A [leader key][] is a function that triggers after a sequences of keys. So for instance I press `Leader`, then `t` and finally `n` to toggle the number layer. I use these sequences with the combo `l` + `)` as my leader key.
+A [leader key][] is a function that triggers after a sequences of keys. So for instance I press `Leader`, then `t` and finally `n` to toggle the number layer. I use these sequences with the combo `l` + `)` as my leader key:
 
 | Sequence              |  Action
 | ---------             |  ----------
 | `l` + `)`, `c`        |  **C**aps lock
 | `l` + `)`, `t`, `n`   |  **T**oggle **N**umber layer
-| `l` + `)`, `t`, `s`   |  **T**oggle **S**umber layer
+| `l` + `)`, `t`, `s`   |  **T**oggle **S**ymbols layer
 | `l` + `)`, `t`, `c`   |  **T**oggle **C**aps lock escape swap
+
+I also don't use QMK's version, as I couldn't get used to the timeouts, but an [userspace implementation][userspace leader sequence] that resolves instantly.
 
 [leader key]: https://docs.qmk.fm/#/feature_leader_key
 [userspace leader sequence]: https://github.com/andrewjrae/kyria-keymap#userspace-leader-sequences
 
 # Other experiments
 
-- Swap num/sym thumb combo locations
 - <% %> <%= are hard to place...
     swap % and !
 - I did not like `p` and `x` as combos, at least on `h` + `k` and `m` + `a`. They're fine where they are now.
@@ -148,3 +156,4 @@ There are some more layers, but I cut them out because the heatmaps were totally
 [T-34]: /blog/tags/t-34/ "T-34 tags"
 [T-34/1]: /blog/2021/12/15/t-34-1/ "The T-34/1 keyboard layout"
 [heatmap-generator]: https://precondition.github.io/qmk-heatmap#how-to-collect-the-required-data "QMK Heatmap Generator"
+[callum]: https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers "Callum Oakley keymap"
