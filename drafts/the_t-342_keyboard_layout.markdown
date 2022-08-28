@@ -29,35 +29,41 @@ I'll also say that I'm still not convinced that `Repeat` is worth it here. Avoid
 
 Another big change I've made is to reduce the inner thumb key usage (where I fold my thumb to reach the `SHRT` and `SPEC` keys). This was a big issue for my right thumb where I'm suffering from RSI (I probably read too much manga on my mobile phone).
 
+## Shortcuts
+
 While [T-34/1] had symbols and mods on the thumbs (only used for multiples, as I have single combos for them all) I now only have rarely used keys under the layers there:
 
-![Shortcuts](/images/t-34-2/shrt.png)
+![Shortcuts under the left thumb.](/images/t-34-2/shrt.png)
 
-![Specials (with ←↓↑→ symbols, not arrow keys)](/images/t-34-2/spec.png)
+The shortcuts are there to give me one-handed access to common shortcuts. There are some duplicates there as I could for instance do `Ctrl-c` either from the shortcut layer or do a `Ctrl` combo then `c`, but meh. 
 
-The shortcuts are there to give me one-handed access to common shortcuts. There are some duplicates there as I could for instance do `Ctrl-c` either from the shortcut layer or do a `Ctrl` combo then `c`, but meh. I rarely if ever use the specials layer.
+## Specials
+
+![Specials under the right thumb (with ←↓↑→ symbols, not arrow keys).](/images/t-34-2/spec.png)
+
+I'ts mostly used to add accents like `é` or `è`, but it's very rarely used.
+
+## Home-row combos for ctrl and layer access
 
 I've also reworked the combos to give access to the symbol layers and to add a one-shot `Ctrl` on home-row:
 
 ![Horizontal combos with nearby keys.](/images/t-34-2/hcombos.png)
 
-- `Ctrl` is super common, so it should have prime real estate. I *vastly* prefer one-shot over keys I need to hold down.
-- `SYM` being a hold is fine as I only use it to output multiple symbols anyway. It's almost exclusively used for `{}` and `[]`.
+- `Ctrl` is super common, so it should have prime real estate on the home-row. I *vastly* prefer one-shot over keys I need to hold down, and it's super comfortable to type things like `Ctrl-n` and `Ctrl-o`.
+- `SYM` being a hold is fine as I only use it to output multiple symbols. It's almost exclusively used for `{}` and `[]`.
 - Some combos now use 3 or even 4 keys. That's fine as they're "big" keys that I tend to slam a bit more, so in a weird way having some more resistance feels better in some cases...
 - Not pictured above, `;` is triggered by `t` + `d` which is a bit weird, but it works.
-- The modifier layer is there as an escape hatch, if I ever have to type weird modifiers like `Alt`.
+- The modifier layer exists as an escape hatch, if I ever have to type weird modifiers like `Alt`:
 
 ![Modifiers](/images/t-34-2/mods.png)
 
-Another consequence of the change is that the two symbol layers (that [used to][prev-sym-layers] have [callum][] style mods on the opposite side) are now combined into a single layer:
+## Symbols
+
+Another consequence of the change is that the two symbol layers (that [used to][prev-sym-layers] have [callum style mods][callum] on the opposite side) are now combined into a single layer:
 
 ![Symbols](/images/t-34-2/sym.png)
 
-[prev-sym-layers]: /blog/2021/06/03/the-t-34-keyboard-layout/#mods-symbols
-
-# Swap % and !
-
-A small change I did to the symbols layer is to swap `%` and `!`, because `%{}`, `<%` and `%>` are a really common sequence in Elixir.
+A small change I did to the symbols layer is to swap `%` and `!`, because `%{}`, `<%` and `%>` are common sequences in Elixir.
 
 I did try to have `%{}` as a long press on `%`, but for some reason I didn't really use it. Rolling feels more satisfying.
 
@@ -81,15 +87,15 @@ For some reason, this is easier for my brain.
 
 # Even easier ÅÄÖ
 
-I still really like the Swedish overlay (replacing `()_` with `åäö`, but I've added some extra finess to it:
+I still really like the Swedish overlay (replacing `()_` with `åäö`), but I've added some extra finess to it:
 
-- When switching, if the previous key is one of `()_` then also backspace and replace it with `åäö` (and vice versa).
+- When switching, if the previous key is one of `()_` then backspace and replace it with `åäö` (and vice versa).
 
   I find that I'm often in the wrong layer, so if I type for instance `fooå`, I can just switch off the Swedish layer and I'll get `foo(`. In theory it's good, but it doesn't come super fluidly for me yet.
 
-- I've moved the combos so that `Space` + `(` outputs `å`, and `e` + `å` outputs `(`.
+- Combos with the opposite thumb now always output `åäö`, which is in line with the combo swap mentioned above.
 
-  So I always have easy access to the symbols and the Swedish letters, regardless of what layer I'm on.
+  This means I always have access to `()_` and `åäö` with the same combo, regardless of what layer I'm on.
 
 # Instant leader key
 
@@ -102,16 +108,14 @@ A [leader key][] is a function that triggers after a sequences of keys. So for i
 | `l` + `)`, `t`, `s`   |  **T**oggle **S**ymbols layer
 | `l` + `)`, `t`, `c`   |  **T**oggle **C**aps lock escape swap
 
-I also don't use QMK's version, as I couldn't get used to the timeouts, but an [userspace implementation][userspace leader sequence] that resolves instantly.
+I don't use QMK's version, as I couldn't get used to the timeouts, but a [userspace implementation][userspace leader sequence] that resolves instantly.
 
-[leader key]: https://docs.qmk.fm/#/feature_leader_key
-[userspace leader sequence]: https://github.com/andrewjrae/kyria-keymap#userspace-leader-sequences
 
-# Other experiments
+# A failed experiment
 
-- <% %> <%= are hard to place...
-    swap % and !
-- I did not like `p` and `x` as combos, at least on `h` + `k` and `m` + `a`. They're fine where they are now.
+As I find `p` and `x` to be the worst keys on the board (barring the folding thumb keys), I tried to have them as `h` + `k` and `m` + `a` combos...
+
+But it felt so much worse. Maybe there's a way to modify the layout to remove those two keys, but this is not the way. And it's not something I care to explore further at the moment.
 
 # More heatmaps
 
@@ -121,11 +125,11 @@ Note that I did not take these heatmaps into account making this version of the 
 
 ![Base layer (this includes virtually all combos too).](/images/t-34-2/freq/base.png)
 
-I still abuse `j` and `k` in Vim, so *maybe* a `j` and `m` swap?
+Can you feel the `j`/`k` abuse?
 
 ![Swedish layer (only ÅÄÖ are changed from base).](/images/t-34-2/freq/swe.png)
 
-In contrast to the base layer, which is used for programming a lot, the Swedish layer is only used for writing normally, and I'm quite happy with how it looks like.
+In contrast to the base layer, which is used for programming a lot, the Swedish layer is only used for writing normally, and I think it looks decent.
 
 ![Symbols layer.](/images/t-34-2/freq/sym.png)
 
@@ -135,17 +139,17 @@ Note that this is only used to write multiple symbols in a row, like `%{}` or `#
 
 ![Numbers layer.](/images/t-34-2/freq/num.png)
 
-Note that this is only used together with [NUMWORD][], and single digits are typed with thumb combos---such as `0` which is Vim moves the cursor to the beginning of the line.
+Note that this is only used together with [NUMWORD][], and single digits are typed with thumb combos---such as `0` that in Vim moves the cursor to the beginning of the line.
 
 A typical usage for me is to jump around in Vim with relative line numbers, which explains the high frequencies of `j` and `k`:
 
 ![Activate [NUMWORD][], then `4j` would move the cursor 4 lines down to `.collect` and turn off the number layer.](/images/t-34-2/rel_vim.png)
 
-[NUMWORD]: /blog/2021/06/03/the-t-34-keyboard-layout/#where-are-the-digits
-
 ![Navigation layer.](/images/t-34-2/freq/nav.png)
 
-I switch windows in Vim with `Ctrl` + `Left` or `Ctrl` + `Right`, which is something I do a lot.
+I switch windows in Vim with `Ctrl-Left` or `Ctrl-Right`, which is something I do all the time.
+
+Maybe there's an argument for removing the arrows on the left, placing the tabs (switching tabs in Firefox) in a better position?
 
 ![Workspace nav layer.](/images/t-34-2/freq/wnav.png)
 
@@ -153,6 +157,13 @@ This is basically switching between workspaces `0` to `9` and the three monitors
 
 There are some more layers, but I cut them out because the heatmaps were totally uninteresting to me.
 
+As usual, the [firwmare QMK code][code] is on GitHub.
+
+[code]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/ferris/keymaps/treeman "Source code for T-34"
+[NUMWORD]: /blog/2021/06/03/the-t-34-keyboard-layout/#where-are-the-digits "Where are the digits?"
+[leader key]: https://docs.qmk.fm/#/feature_leader_key "QMK leader key"
+[prev-sym-layers]: /blog/2021/06/03/the-t-34-keyboard-layout/#mods-symbols "T-34 mods & symbols"
+[userspace leader sequence]: https://github.com/andrewjrae/kyria-keymap#userspace-leader-sequences "Userspace leader sequences"
 [T-34]: /blog/tags/t-34/ "T-34 tags"
 [T-34/1]: /blog/2021/12/15/t-34-1/ "The T-34/1 keyboard layout"
 [heatmap-generator]: https://precondition.github.io/qmk-heatmap#how-to-collect-the-required-data "QMK Heatmap Generator"
