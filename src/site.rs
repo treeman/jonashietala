@@ -529,14 +529,7 @@ impl Site {
         let updated = DraftItem::from_file(path.clone())?;
 
         let drafts = &mut self.content.drafts.as_mut().unwrap();
-
-        let draft_keys: Vec<_> = drafts.keys().collect();
-
-        dbg!(draft_keys);
-
         let draft_ref = updated.draft_ref();
-
-        dbg!(&draft_ref);
 
         let old = drafts
             .insert(draft_ref.clone(), updated)
@@ -777,8 +770,6 @@ mod tests {
             res
         };
 
-        // FIXME test that draft link + files are included/not included depending on site build options
-
         assert!(output_path.exists());
         assert!(rel_path("blog/2009/07/21/the_first_worst_post/index.html").exists());
         assert!(rel_path("blog/index.html").exists());
@@ -852,13 +843,13 @@ mod tests {
 
     #[test]
     fn test_site_file_changed() -> Result<()> {
-        use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-        tracing_subscriber::registry()
-            .with(tracing_subscriber::EnvFilter::new(
-                "jonashietala_se=debug,tower_http=debug",
-            ))
-            .with(tracing_subscriber::fmt::layer())
-            .init();
+        // use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+        // tracing_subscriber::registry()
+        //     .with(tracing_subscriber::EnvFilter::new(
+        //         "jonashietala_se=debug,tower_http=debug",
+        //     ))
+        //     .with(tracing_subscriber::fmt::layer())
+        //     .init();
 
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
@@ -891,8 +882,6 @@ mod tests {
         assert!(myseries_content.contains("Feb post 1"));
         assert!(myseries_content.contains("Feb post 2"));
 
-        // FIXME check archives
-
         test_site.change_file(
             "posts/2022-02-01-feb_post.markdown",
             "Feb post 1",
@@ -905,16 +894,14 @@ mod tests {
         assert!(myseries_content.contains("Feb post 2"));
 
         assert!(test_site
-            .output_content("drafts/a_draft.markdown")?
+            .output_content("drafts/a_draft/index.html")?
             .contains("My draft text"));
 
-        test_site.change_file("drafts/a_draft/index.html", "My draft text", "DRAFT TEXT")?;
+        test_site.change_file("drafts/a_draft.markdown", "My draft text", "DRAFT TEXT")?;
 
-        test_site.skip_clean();
-
-        // assert!(test_site
-        //     .output_content("drafts/a_draft/index.html")?
-        //     .contains("DRAFT TEXT"));
+        assert!(test_site
+            .output_content("drafts/a_draft/index.html")?
+            .contains("DRAFT TEXT"));
 
         // FIXME check archives
 
