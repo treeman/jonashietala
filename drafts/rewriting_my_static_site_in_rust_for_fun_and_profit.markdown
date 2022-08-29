@@ -340,7 +340,7 @@ In the beginning of this post I listed some issues I had with my previous setup,
 
    On my crappy laptop a full site rebuild (not including compilation time) now takes 4 seconds. An 18x performance improvement is not too shabby I'd say. I'm sure this could be improved further---for example I use [rayon][] for file IO while async would be more beneficial, and I don't have a caching system so I regenerate all files every time I build. (During watching it's smarter though.)
 
-   Please note that this is not to say that Rust this much faster than Haskell, rather a comparison of two implementations. I'm sure someone could make it super fast in Haskell too.
+   Please note that this is not to say that Rust this much faster than Haskell, instead see it as a comparison of two implementations. I'm sure someone could make it super fast in Haskell.
 
 2. **A single dependency**
 
@@ -352,14 +352,20 @@ In the beginning of this post I listed some issues I had with my previous setup,
 
    You don't have to manually hunt down missing dependencies, sacrifice a child to make it cross-platform or pull your hair out when the build system automagically pulls down an update that breaks everything again. You just lean back and wait for your code to compile.
 
-4. **Rust is simpler?!**
+4. **I had an easier time with Rust**
 
-   Umm... Yeah, but also no.
+   While I did find it easier to implement things like [series][] or prev/next links (which aren't live yet as I haven't styled them properly), I don't think it means that Rust is simpler or easier than Haskell, it just means that I personally had an easier time to grok Rust than Haskell.
 
-[ghc-cabal-issue]: /blog/2020/05/09/ghc_cannot_find_cabal_packages/
-[hakyll-syntax-issue]: https://github.com/jaspervdj/hakyll/issues/662
-[src]: https://github.com/treeman/jonashietala
+   The biggest reason why probably comes down to practice. While I've been using Rust a fair bit lately, I've barely touched Haskell since I started using it for this site around a decade ago.
 
+   I'm sure that if I don't use Rust for 10 years and you ask me to use it again, I'll struggle a fair bit as well.
+
+Overall, I'm quite pleased. It was a fun---albeit larger than I had anticipated---project that also removed some of my annoyances with this site.
+
+[ghc-cabal-issue]: /blog/2020/05/09/ghc_cannot_find_cabal_packages/ "ghc 8.8.3 cannot find cabal 3.0.0.0 packages"
+[hakyll-syntax-issue]: https://github.com/jaspervdj/hakyll/issues/662 "GitHub: Syntax highlighting creating anchor tags? #662"
+[src]: https://github.com/treeman/jonashietala "Source code to this site"
+[series]: /series "Many blog posts makes a series"
 [Mojolicious]: https://mojolicious.org/ "Perl real-time web framework"
 [Kohana]: https://kohanaframework.org/ "The Switft PHP Framework"
 [Jekyll]: https://jekyllrb.com/ "Simple, blog-aware, static sites"
