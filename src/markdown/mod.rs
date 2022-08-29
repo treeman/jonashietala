@@ -44,7 +44,6 @@ fn parse_markdown(s: &str) -> String {
         match link.link_type {
             // Try to convert shortcut links to fragment links
             LinkType::Shortcut => {
-                // display_broken_link(&link, s);
                 let reference = link.reference.into_string();
                 let href = format!("#{}", util::to_id(&util::html_text(&reference)));
                 let name = reference.into();
@@ -116,6 +115,7 @@ pub fn strip_one_paragraph(html: &str) -> String {
 }
 
 fn display_broken_link(link: &BrokenLink<'_>, markdown: &str) {
+    // FIXME make this a panic for posts but not for drafts
     warn!("Broken link: {}", &markdown[link.span.clone()]);
 }
 

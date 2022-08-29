@@ -130,8 +130,6 @@ pub enum GeneratedFileError<'a> {
     MissingDocType,
     #[error("broken link `{0}`")]
     BrokenLink(&'a str),
-    #[error("broken img `{0}`")]
-    BrokenImg(&'a str),
     #[error("url not found `{0}`")]
     UrlNotFound(String),
     #[error("img not found `{0}`")]
@@ -149,18 +147,16 @@ pub fn check_file<'a>(
 ) -> Vec<GeneratedFileError<'a>> {
     lazy_static! {
         static ref BROKEN_LINK: Regex = Regex::new(r"\[[^[\]]]+]\[[^[\]]]*]").unwrap();
-        static ref BROKEN_IMG: Regex = Regex::new(r"!\[\]\([^()]+\)").unwrap();
     }
     let mut errors = Vec::new();
     if !file.content.starts_with("<!DOCTYPE html>") {
         errors.push(GeneratedFileError::MissingDocType);
     }
 
+    // FIXME these gives false positives when they're inside a code block.
+    // Maybe find start/end of all code blocks, and then only add them if they're outside?
     for bad_link in BROKEN_LINK.find_iter(&file.content) {
         errors.push(GeneratedFileError::BrokenLink(bad_link.as_str()));
-    }
-    for bad_link in BROKEN_IMG.find_iter(&file.content) {
-        errors.push(GeneratedFileError::BrokenImg(bad_link.as_str()));
     }
 
     let mut links: Vec<&HrefUrl> = file.links.iter().collect();

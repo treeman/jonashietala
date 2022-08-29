@@ -1,7 +1,6 @@
 #  Blog ideas
 
 - "Uses" page (hardware, software etc): https://rusingh.com/uses/
-- Post series: https://fasterthanli.me/series
 - Multiple RSS feeds (one for T-34 for instance)
 - Styled RSS feeds: https://interconnected.org/home/feed
 
@@ -27,6 +26,8 @@ Sitemap:
     /feed.xml
         /drafts (only when run with arg)
 
+
+- Broken link detection breaks if they're inside code blocks
 
 - Deploy to S3 via GitHub actions
     Need to verify cargo test first
