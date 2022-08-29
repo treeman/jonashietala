@@ -360,7 +360,7 @@ In the beginning of this post I listed some issues I had with my previous setup,
 
    I'm sure that if I don't use Rust for 10 years and you ask me to use it again, I'll struggle a fair bit as well.
 
-Overall, I'm quite pleased. It was a fun---albeit larger than I had anticipated---project that also removed some of my annoyances with this site.
+Overall, I'm quite pleased. It was a fun---albeit a larger than I had anticipated---project that also removed some of my annoyances with this site.
 
 [ghc-cabal-issue]: /blog/2020/05/09/ghc_cannot_find_cabal_packages/ "ghc 8.8.3 cannot find cabal 3.0.0.0 packages"
 [hakyll-syntax-issue]: https://github.com/jaspervdj/hakyll/issues/662 "GitHub: Syntax highlighting creating anchor tags? #662"
