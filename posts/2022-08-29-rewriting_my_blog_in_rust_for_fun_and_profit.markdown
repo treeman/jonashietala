@@ -5,7 +5,7 @@ tags: [Rust, Webpage, Hakyll, Haskell]
 
 # Background
 
-I've used [Hakyll] as my static site generator for around 9 years now. Before that I think I used [Jekyll] and also more dynamic pages with [Mojolicious] in Perl and [Kohana] in PHP, but I can't be completely sure as the git history doesn't go back that far.
+I've used [Hakyll][] as my static site generator for around 9 years now. Before that I think I used [Jekyll][] and also more dynamic pages with [Mojolicious][] in Perl and [Kohana][] in PHP, but I can't be completely sure as the git history doesn't go back that far.
 
 But all good things come to an end and I've now migrated to my own custom site generator written in Rust.
 
@@ -119,7 +119,7 @@ Turns out that it's easy if you let existing crates handle the hard parts. Here 
 
   It's really for [CommonMark][] which is a standard, unambiguous syntax specification for Markdown.
 
-  While fast, it doesn't support as many things as [Pandoc] does, so I had to extend it with some more features. More on that later.
+  While fast, it doesn't support as many things as [Pandoc][] does, so I had to extend it with some more features. More on that later.
 
 - [syntect][] for syntax highlighting, supporting Sublime Text's grammars.
 - [yaml-front-matter][] to parse metadata from posts.
@@ -133,7 +133,7 @@ Even with these libraries the Rust source files themselves contained over 6000 l
 
 ## Markdown transformations
 
-While it would be easy if my posts were just standard markdown, over the years I've included various features and extensions that my markdown parsers of choice [pulldown_cmark] don't support. So I had to code them myself.
+While it would be easy if my posts were just standard markdown, over the years I've included various features and extensions that my markdown parsers of choice [pulldown-cmark][] don't support. So I had to code them myself.
 
 ### Preprocessing
 
@@ -213,7 +213,7 @@ fn parse_block(id: &str, content: &str) -> String {
 
 ### Extending pulldown_cmark
 
-I've also extended [pulldown_cmark] with transformations of my own:
+I've also extended [pulldown-cmark][] with transformations of my own:
 
 ```rust
 // Issue a warning during the build process if any markdown link is broken.
@@ -367,7 +367,9 @@ Overall, I'm quite pleased. It was a fun---albeit a larger than I had anticipate
 [src]: https://github.com/treeman/jonashietala "Source code to this site"
 [series]: /series "Many blog posts makes a series"
 [Mojolicious]: https://mojolicious.org/ "Perl real-time web framework"
+[Hakyll]: https://jaspervdj.be/hakyll/ "Hakyll static site generator"
 [Kohana]: https://kohanaframework.org/ "The Switft PHP Framework"
+[Pandoc]: https://pandoc.org/MANUAL.html "Pandoc"
 [Jekyll]: https://jekyllrb.com/ "Simple, blog-aware, static sites"
 [tera]: https://tera.netlify.app/ "A powerful, easy to use template engine for Rust"
 [CommonMark]: https://commonmark.org/ "A strongly defined, highly compatible specification of Markdown"
