@@ -324,18 +324,37 @@ Admittedly, my performance improvements are quite minor, and the big performance
 
 [syntect-compress]: https://docs.rs/syntect/latest/syntect/dumps/index.html
 
-## Tests and panics
+## Sanity checks
 
+One thing that always bothered me with the site is how easy it was to make a mistake. For example linking to a non-existent page or image, or not defining a link reference at all with `[my link][todo]`, and forgetting to update it before publishing.
+
+So in addition to testing basic functionality like the watch command, I also parse the whole site and check that all internal links exists and are correct (so it validates `some-title` in `/blog/my-post#some-title` too). I also check external links, but that's with a manual command.
+
+During generation I also take a hard stance and `panic` early and often, just to reduce the risk that something weird slips by.
 
 # How did it go?
 
-## Performance
+In the beginning of this post I listed some issues I had with my previous setup, so let's see if I managed to improve them?
 
-## A single dependency
+1. **Performance**
 
-## Cargo "just works"
+   On my crappy laptop a full site rebuild (not including compilation time) now takes 4 seconds. An 18x performance improvement is not too shabby I'd say. I'm sure this could be improved further---for example I use [rayon][] for file IO while async would be more beneficial, and I don't have a caching system so I regenerate all files every time I build. (During watching it's smarter though.)
 
-## Rust is simpler?!
+   Please note that this is not to say that Rust this much faster than Haskell, rather a comparison of two implementations. I'm sure someone could make it super fast in Haskell too.
+
+2. **A single dependency**
+
+   Now I've got everything in Rust, with no external scripts or tools I need to install and keep working.
+
+3. **Cargo "just works"**
+
+   As long as I have rust on the system, `cargo build` is just rock solid. I think this is low-key one of Rust's biggest strengths---the build system *just works*.
+
+   You don't have to manually hunt down missing dependencies, sacrifice a child to make it cross-platform or pull your hair out when the build system automagically pulls down an update that breaks everything again. You just lean back and wait for your code to compile.
+
+4. **Rust is simpler?!**
+
+   Umm... Yeah, but also no.
 
 [ghc-cabal-issue]: /blog/2020/05/09/ghc_cannot_find_cabal_packages/
 [hakyll-syntax-issue]: https://github.com/jaspervdj/hakyll/issues/662
