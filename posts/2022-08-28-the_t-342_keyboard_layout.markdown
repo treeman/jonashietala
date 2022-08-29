@@ -87,7 +87,7 @@ For some reason, this is easier for my brain.
 
 # Even easier ÅÄÖ
 
-I still really like the Swedish overlay (replacing `()_` with `åäö`), but I've added some extra finess to it:
+I still really like the Swedish overlay (replacing `()_` with `åäö`), but I've added some extra finesse to it:
 
 - When switching, if the previous key is one of `()_` then backspace and replace it with `åäö` (and vice versa).
 
@@ -157,7 +157,7 @@ This is basically switching between workspaces `0` to `9` and the three monitors
 
 There are some more layers, but I cut them out because the heatmaps were totally uninteresting to me.
 
-As usual, the [firwmare QMK code][code] is on GitHub.
+As usual, the [firmware QMK code][code] is on GitHub.
 
 [code]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/ferris/keymaps/treeman "Source code for T-34"
 [NUMWORD]: /blog/2021/06/03/the-t-34-keyboard-layout/#where-are-the-digits "Where are the digits?"
