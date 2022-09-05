@@ -21,7 +21,7 @@ The layout is made for a small 34 key keyboard, I use the [Ferris][] with flat c
 
 ![Base layer.](/images/t-34-2/base.png)
 
-The [repeat key][] is used to output the last pressed key. I shift keys using [auto shift][] (see [long press]) and [CAPSWORD][]. The letters `Z` and `Q`, together with a bunch of other keys, are on [combos].
+The [repeat key](#repeat-key) is used to output the last pressed key. I shift keys using [auto shift][] (see [long press]) and [CAPSWORD]. The letters `Z` and `Q`, together with a bunch of other keys, are on [combos].
 
 ## Swedish overlay
 
@@ -45,11 +45,9 @@ This is used for all window and workspace management in [xmonad][]. Some common 
 
 ![Numbers. The darkened keys turn off [NUMWORD].](/images/t-34-2/num.png)
 
-While I can activate the number layer persistently (using [leader sequences]) I typically use [combos] for single digitis (like `0`), or [NUMWORD] for larger numbers (like `1984`).
+While I can activate the number layer persistently (using [leader sequences]) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD] for larger numbers (like `1984`).
 
-[NUMWORD] is means that the number layer is activated, but it will turn itself off when certain keys are pressed (colored dark gray in the image). It's very useful for relative movement in Vim, where `17J` would move 17 lines down and then turn off the number layer.
-
-The [combos] follow the layout of the numbers layer, and combos with cross-side thumb. So `E` + left-hand key or `Space` + right-hand key outputs a number, regardless of what layers are activated.
+[NUMWORD] makes the number layer smart, so it will deactivate when certain keys are pressed (colored dark gray in the image). It's used to type numbers in text or code and for relative movement in Vim, where `17J` would move 17 lines down and then turn off the number layer.
 
 ## Function keys
 
@@ -69,7 +67,7 @@ Some common symbol sequences, like `->`, exists as [combos] and others, like `�
 
 They're laid in some sort of logical order, to give access to common QWERTY shortcuts while not disturbing the position of my layout too much.
 
-However, after having moved `Ctrl` to a [combo][] to make it much more accessible, the layer doesn't make sense anymore, and it would be more logical to just use the QWERTY layout here.
+However, after having moved `Ctrl` to a [combo](#combos) to make it much more accessible, the layer doesn't make sense anymore, and it would be more logical to just use the QWERTY layout here.
 
 ## Special symbols
 
@@ -88,34 +86,38 @@ I typically use [long press] for shift and [combos] for other modifiers, this la
 
 [Combos][qmk-combos] is another fantastic tool that I (ab)use a lot. Simply put it allows you to press multiple keys at once and acts as an additional key---very useful for smaller layouts.
 
+Note that combos are layer independent, and work the same regardless of what layers are activated. The base layer is shown in the graphics for reference.
+
+## Horizontal combos
+
 ![Horizontal combos with nearby keys.](/images/t-34-2/hcombos.png)
 
 Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#symbols), allowing me to output `[]` easily.
 
 `SWE` activates the [Swedish layer](#swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
 
+| Split combos  | Result
+| :----         | :----
+| `S` + `H`     | `"`
+| `N` + `I`     | `'`
+| `V` + `D`     | `Alt` (one-shot)
+| `L` + `)`     | [Leader key](#leader-sequences)
+| `T` + `A`     | [CAPSWORD]
+{ .center }
+
+## Vertical combos
+
 ![Vertical combos. All except `;` are pressed with a single finger between the keys.](/images/t-34-2/vcombos.png)
 
 `vsplt` and `hsplit` splits windows in Vim, and there are also combos for closing a window and saving.
 
-| Other combos  | Result
-| :----         | :----
-| `S` + `H`     | `"`
-| `N` + `I`     | `'`
-| `T` + `A`     | [CAPSWORD]
-| `Space` + `E` | [NUMWORD]
-| `V` + `D`     | `Alt` (one-shot)
-| `L` + `)`     | [Leader key](#leader-sequences)
-| `Space` + `N` + `A` | `Ctrl` + `Gui` + `Space`
-{ .center }
+## Numbers and symbols
 
-![Combos using space and one other key.  
-The yellow keys are the same as the NUM or SYM layer.](/images/t-34-2/space_combos.png)
+![Combos using `Space` and another key.](/images/t-34-2/space_combos.png)
 
-![Combos using E and one other key.  
-The yellow keys are the same as the NUM or SYM layer.](/images/t-34-2/e_combos.png)
+![Combos using `E` and another key.](/images/t-34-2/e_combos.png)
 
-The logic here is same-side thumb + key = symbol and opposite-side thumb + key = digit (marked in yellow). Both thumb activates [NUMWORD][].
+Combos with a thumb key is used for digits or standalone symbols, with the logic of `same-side thumb` + `key` = `symbol` and `opposite-side thumb` + `key` = `digit`. The placements follow the [numbers], [symbols] and [Swedish](#swedish-overlay) layers. Both thumbs activates [NUMWORD].
 
 # Long press
 
@@ -132,7 +134,7 @@ There are a bunch of special cases as well (mostly on top of [combos]):
 | `?`                               | `{:?}`
 | `#`                               | `{:#?}`
 | `%`                               | `%{}`
-| `(` `[` `{`                       | Close and move cursor between e.g. `()←`
+| `(` `[` `{`                       | Close and move cursor between
 | `@`                               | `@u` (paired with `qu` combo for Vim macro execution)
 { .center }
 
@@ -146,6 +148,25 @@ I use the combo `l` + `)` as the [leader key]. This will wait for a sequence of 
 | `l` + `)`, `t`, `n`   |  **T**oggle **N**umber layer
 | `l` + `)`, `t`, `s`   |  **T**oggle **S**ymbols layer
 | `l` + `)`, `t`, `c`   |  **T**oggle **C**aps lock escape swap
+{ .center }
+
+# CAPSWORD
+
+CAPSWORD is a "smart caps lock". It works like a regular caps lock, except it automatically turns off after certain keys are typed (most commonly space).
+
+It will not turn off on these keys: `a-z` `å` `ä` `ö` `_` and `-`.
+
+# NUMWORD
+
+NUMWORD is a "smart layer". It's similar to [CAPSWORD], except it's for the [numbers layer](#numbers) instead of caps lock.
+
+It will not turn off on these keys: `0-9` `%` `+` `*` `-` `_` `.` `,` `:` `=` `x` `Backspace` `Repeat` `Reverse Repeat` and `Enter`.
+
+# Repeat key
+
+The repeat key simply repeats the previous key. So to type `fall` I can type `f` `a` `l` `Repeat`, using four different fingers instead of pressing `l` twice. It can also repeat things like `Ctrl-c` or `Delete`. [See this write-up][rep-writeup].
+
+There's also a reverse repeat key that "reverses" the last pressed key. The idea is that if you pressed `PageUp` a bunch, but went too far, you could press `Reverse Repeat` to output `PageDown`. [See this write-up][rev-rep-writeup].
 
 [leader key]: https://docs.qmk.fm/#/feature_leader_key
 [auto shift]: https://docs.qmk.fm/#/feature_auto_shift
@@ -159,9 +180,6 @@ I use the combo `l` + `)` as the [leader key]. This will wait for a sequence of 
 [Ferris]: https://github.com/pierrechevalier83/ferris
 [xmonad]: https://xmonad.org/
 [dead keys]: https://en.wikipedia.org/wiki/Dead_key
-
-# Other things
-
-- Repeat + Reverse repeat
-- CAPSWORD
-- NUMWORD
+[num-sym-combos]: #numbers-and-symbols
+[rev-rep-writeup]: /blog/2021/09/05/t-34-0/#reverse-repeat
+[rep-writeup]: /blog/2021/09/05/t-34-0/#the-repeat-key
