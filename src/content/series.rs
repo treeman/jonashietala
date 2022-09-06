@@ -1,5 +1,5 @@
 use crate::item::Item;
-use crate::markdown::markdown_to_html;
+use crate::markdown::{markdown_to_html, markdown_to_html_strip_one_paragraph};
 use crate::paths::AbsPath;
 use crate::{
     content::PostItem,
@@ -81,6 +81,7 @@ pub struct SeriesItem {
     pub path: AbsPath,
     pub url: SiteUrl,
     pub description: String,
+    pub post_note: Option<String>,
     pub posts: BTreeSet<Reverse<PostRef>>,
 }
 
@@ -100,6 +101,10 @@ impl SeriesItem {
             SiteUrl::parse(&format!("/series/{id}/")).expect("Should be able to create a url");
 
         let transformed_description = markdown_to_html(&content);
+        let transformmed_post_note = metadata
+            .post_note
+            .as_ref()
+            .map(|x| markdown_to_html_strip_one_paragraph(x));
 
         Ok(Self {
             id,
@@ -108,6 +113,7 @@ impl SeriesItem {
             path,
             url,
             description: transformed_description,
+            post_note: transformmed_post_note,
             posts: BTreeSet::new(),
         })
     }
@@ -147,6 +153,7 @@ pub struct SeriesContext<'a> {
     description: &'a str,
     completed: bool,
     posts: Vec<PostRefContext<'a>>,
+    post_note: Option<&'a str>,
 }
 
 impl<'a> SeriesContext<'a> {
@@ -170,6 +177,7 @@ impl<'a> SeriesContext<'a> {
                 .iter()
                 .map(|x| PostRefContext::from_ref(&x.0, ctx))
                 .collect(),
+            post_note: series.post_note.as_deref(),
         }
     }
 }
@@ -178,6 +186,7 @@ impl<'a> SeriesContext<'a> {
 struct SeriesMetadata {
     title: String,
     completed: bool,
+    post_note: Option<String>,
 }
 
 pub struct SeriesDirMetadata {

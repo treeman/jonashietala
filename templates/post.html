@@ -11,7 +11,10 @@
 
   {% if series %}
     <div class="post-series post-series-head">
-        This post is part {{series.part_number}} of the <a href="{{series.url}}">{{series.title}}</a> series.
+        <div>
+            This post is part {{series.part_number}} of the <a href="{{series.url}}">{{series.title}}</a> series.</div>
+
+        <div>{{series.post_note}}</div>
     </div>
   {% endif %}
 
@@ -36,6 +39,8 @@
           {% endif %}
         </div>
       {% endif %}
+
+      <div>{{series.post_note}}</div>
 
       <div>
         {% if series.next_url %}

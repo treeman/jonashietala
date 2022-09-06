@@ -572,10 +572,10 @@ impl Site {
         let updated = self.content.series.get(&series_ref).unwrap();
 
         let title_changed = updated.title != old.title;
+        let note_changed = updated.post_note != old.post_note;
 
         self.render(SiteRenderOpts {
-            // It's excessive to rerender ALL posts, just next/prev + in series should be enough.
-            all_posts: title_changed,
+            all_posts: title_changed || note_changed,
             series_archive: true,
             extra_items: vec![updated],
             ..Default::default()

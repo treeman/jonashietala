@@ -1,6 +1,7 @@
 ---
 title: The T-34 keyboard layout
 completed: false
+post_note: See [this post](/blog/2022/09/06/the_current_t-34_keyboard_layout/) for a full reference of how the layout looks now.
 ---
 
 In this series I document my journey in developing a custom keyboard layout for a smaller keyboard. It contains pictures, graphs and ideas that have been fun and helpful for me.

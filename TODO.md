@@ -36,9 +36,8 @@ Sitemap:
     DONE /series/t-34
          /blog/tags/t-34 should include a note to redirect to the series page
     DONE Each post should include a series notice
-         Each post should also include a note to redirect to the current t-34 blog post
-         /blog/current-t-34  detail all 
-             Should include a note to redirect to the series page
+    DONE Each post should also include a note to redirect to the current t-34 blog post
+    DONE /blog/current-t-34  detail all
 
 - Handle create/moves in watch command
 

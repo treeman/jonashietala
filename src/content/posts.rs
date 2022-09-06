@@ -178,7 +178,9 @@ struct PostContext<'a> {
 struct PostSeriesContext<'a> {
     title: Cow<'a, str>,
     url: Cow<'a, str>,
+    completed: bool,
     part_number: usize,
+    post_note: Option<&'a str>,
     next_url: Option<Cow<'a, str>>,
 }
 
@@ -195,8 +197,10 @@ impl<'a> PostSeriesContext<'a> {
         Self {
             title: html_escape::encode_text(&series.title),
             url: series.url.href(),
+            completed: series.completed,
             part_number: post_index + 1,
             next_url,
+            post_note: series.post_note.as_deref(),
         }
     }
 }

@@ -3,11 +3,6 @@ Personal Weblog
 
 My site <http://www.jonashietala.se>.
 
-Dependencies
-============
-
-1. Rust
-
 Sync
 ====
 

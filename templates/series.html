@@ -25,8 +25,12 @@
   </ul>
 
   <div class="series-footer">
-    {% if completed %} This series is completed. {% else %} This series is
-    ongoing. {% endif %}
+
+    {% if post_note %}
+        <div class="post_note">{{post_note}}</div>
+    {% endif %}
+
+    <div>{% if completed %} This series is completed. {% else %} This series is ongoing. {% endif %}</div>
   </div>
 </article>
 {% endblock content %}

@@ -65,7 +65,7 @@ Some common symbol sequences, like `->`, exists as [combos] and others, like `�
 
 ![Shortcuts.](/images/t-34-2/shrt.png)
 
-They're laid in some sort of logical order, to give access to common QWERTY shortcuts while not disturbing the position of my layout too much.
+They're laid out in some sort of logical order, to give access to common QWERTY shortcuts while not disturbing the position of my layout too much.
 
 However, after having moved `Ctrl` to a [combo](#combos) to make it much more accessible, the layer doesn't make sense anymore, and it would be more logical to just use the QWERTY layout here.
 
@@ -90,9 +90,9 @@ Note that combos are layer independent, and work the same regardless of what lay
 
 ## Horizontal combos
 
-![Horizontal combos with nearby keys.](/images/t-34-2/hcombos.png)
+![Horizontal combos with nearby keys.](/images/t-34-curr/hcombos.png)
 
-Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#symbols), allowing me to output `[]` easily.
+Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#modifiers).
 
 `SWE` activates the [Swedish layer](#swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
 
@@ -107,7 +107,7 @@ Note that some have a separate hold behaviour; for instance holding `Escape` act
 
 ## Vertical combos
 
-![Vertical combos. All except `;` are pressed with a single finger between the keys.](/images/t-34-2/vcombos.png)
+![Vertical combos. All except `;` are pressed with a single finger between the keys.](/images/t-34-curr/vcombos.png)
 
 `vsplt` and `hsplit` splits windows in Vim, and there are also combos for closing a window and saving.
 
@@ -164,22 +164,29 @@ It will not turn off on these keys: `0-9` `%` `+` `*` `-` `_` `.` `,` `:` `=` `x
 
 # Repeat key
 
-The repeat key simply repeats the previous key. So to type `fall` I can type `f` `a` `l` `Repeat`, using four different fingers instead of pressing `l` twice. It can also repeat things like `Ctrl-c` or `Delete`. [See this write-up][rep-writeup].
+The repeat key simply repeats the previous key. So to type `fall` I can type `f` `a` `l` `Repeat`, using four different fingers instead of pressing `l` twice. It can also repeat things like `Ctrl-c` or `Delete`.
 
-There's also a reverse repeat key that "reverses" the last pressed key. The idea is that if you pressed `PageUp` a bunch, but went too far, you could press `Reverse Repeat` to output `PageDown`. [See this write-up][rev-rep-writeup].
+There's also a reverse repeat key that "reverses" the last pressed key. The idea is that if you pressed `PageUp` a bunch, but went too far, you could press `Reverse Repeat` to output `PageDown`.
 
-[leader key]: https://docs.qmk.fm/#/feature_leader_key
-[auto shift]: https://docs.qmk.fm/#/feature_auto_shift
-[qmk-combos]: https://docs.qmk.fm/#/feature_combo
+See [T-34/0][] for the introduction of the [repeat][rep-writeup] and [reverse repeat][rev-rep-writeup] for some more information about them.
 
+# More info
+
+While I try to keep this post updated, [reading the code][src] will always give you a more up to date reference. If you're interested in *why* the layout looks like it does, I try to write the motivations in the [T-34 series][t-34-series].
+
+[leader key]: https://docs.qmk.fm/#/feature_leader_key "QMK leader key"
+[auto shift]: https://docs.qmk.fm/#/feature_auto_shift "QMK auto shift"
+[qmk-combos]: https://docs.qmk.fm/#/feature_combo "QMK combos"
+[QMK]: https://docs.qmk.fm/ "QMK"
+[Layers]: https://docs.qmk.fm/#/feature_layers "QMK layers"
+[Ferris]: https://github.com/pierrechevalier83/ferris "The Ferris keyboard"
+[xmonad]: https://xmonad.org/ "Xmonad"
+[dead keys]: https://en.wikipedia.org/wiki/Dead_key "Dead keys"
+
+[T-34/0]:  /blog/2021/09/05/t-34-0/ "The T-34/0 keyboard layout"
 [t-34-series]: /series/t-34/ "The T-34 keyboard layout"
 [t-34]: /blog/2021/06/03/the-t-34-keyboard-layout/ "T-34 first post"
+[num-sym-combos]: #numbers-and-symbols "Numbers and symbols"
+[rev-rep-writeup]: /blog/2021/09/05/t-34-0/#reverse-repeat "Reverse repeat key"
+[rep-writeup]: /blog/2021/09/05/t-34-0/#the-repeat-key "Repeat key"
 [src]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/ferris/keymaps/treeman "QMK source code"
-[QMK]: https://docs.qmk.fm/ "QMK"
-[Layers]: https://docs.qmk.fm/#/feature_layers
-[Ferris]: https://github.com/pierrechevalier83/ferris
-[xmonad]: https://xmonad.org/
-[dead keys]: https://en.wikipedia.org/wiki/Dead_key
-[num-sym-combos]: #numbers-and-symbols
-[rev-rep-writeup]: /blog/2021/09/05/t-34-0/#reverse-repeat
-[rep-writeup]: /blog/2021/09/05/t-34-0/#the-repeat-key
