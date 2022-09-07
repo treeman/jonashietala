@@ -11,7 +11,7 @@ The layout is made for a small 34 key keyboard, I use the [Ferris][] with flat c
 
 # Legend
 
-![Legend](/images/t-34-2/legend.png)
+![Legend](/images/t-34-curr/legend.png)
 
 # Layers
 
@@ -129,13 +129,13 @@ There are a bunch of special cases as well (mostly on top of [combos]):
 | :----                             |  :----------
 | `_` `<` `>` `/` `\` `#`           |  Double, e.g `__`
 | `"` `'` `=` `` ` `` `0` `.`       |  Triple, e.g `"""`
-| <code>\|</code> `&` `=`           | Double with spaces, e.g <code> \|\| </code>
-| `!`                               | ` != ` (with spaces)
-| `?`                               | `{:?}`
-| `#`                               | `{:#?}`
-| `%`                               | `%{}`
-| `(` `[` `{`                       | Close and move cursor between
-| `@`                               | `@u` (paired with `qu` combo for Vim macro execution)
+| <code>\|</code> `&` `=`           |  Double with spaces, e.g <code> \|\| </code>
+| `!`                               |  ` != ` (with spaces)
+| `?`                               |  `{:?}`
+| `#`                               |  `{:#?}`
+| `%`                               |  `%{}`
+| `(` `[` `{`                       |  Close and move cursor between
+| `@`                               |  `@u` (paired with `qu` combo for Vim macro execution)
 { .center }
 
 # Leader sequences
@@ -154,7 +154,7 @@ I use the combo `l` + `)` as the [leader key]. This will wait for a sequence of 
 
 CAPSWORD is a "smart caps lock". It works like a regular caps lock, except it automatically turns off after certain keys are typed (most commonly space).
 
-It will not turn off on these keys: `a-z` `å` `ä` `ö` `_` and `-`.
+It will not turn off on these keys: `a-z` `å` `ä` `ö` `_` `-` `Backspace` and `Repeat`.
 
 # NUMWORD
 
@@ -168,7 +168,7 @@ The repeat key simply repeats the previous key. So to type `fall` I can type `f`
 
 There's also a reverse repeat key that "reverses" the last pressed key. The idea is that if you pressed `PageUp` a bunch, but went too far, you could press `Reverse Repeat` to output `PageDown`.
 
-See [T-34/0][] for the introduction of the [repeat][rep-writeup] and [reverse repeat][rev-rep-writeup] for some more information about them.
+See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [reverse repeat key][rev-rep-writeup] for some more information about them.
 
 # More info
 

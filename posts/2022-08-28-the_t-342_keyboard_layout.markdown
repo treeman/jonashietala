@@ -15,7 +15,7 @@ As seen in the heatmap above, the layout seems quite decent. There's still an is
 
 There's also a hand imbalance, but I don't feel it's an issue for me as I have problems with RSI on my right hand, so having the left hand do a little more work is even a positive.
 
-![Legend](/images/t-34/legend.png)
+![Legend](/images/t-34-2/legend.png)
 
 # Swap AO and IU (again)
 
