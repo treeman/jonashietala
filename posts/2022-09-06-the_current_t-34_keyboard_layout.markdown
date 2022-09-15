@@ -31,7 +31,7 @@ When I want to write Swedish I activate this layer that replaces `()_` with `å�
 
 ## Navigation layer
 
-![Navigation layer.](/images/t-34-2/nav.png)
+![Navigation layer.](/images/t-34-curr/nav.png)
 
 `Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][]. `Ctrl` + arrow is used to switch windows in Vim. Tabbing is for switching tabs in Firefox.
 
@@ -40,6 +40,12 @@ When I want to write Swedish I activate this layer that replaces `()_` with `å�
 ![Workspace layer. All keys have an implicit `Gui` modifier.](/images/t-34-2/wnav.png)
 
 This is used for all window and workspace management in [xmonad][]. Some common operations are also on the [navigation layer].
+
+## Windows layer
+
+![Windows layer. All keys have an implicit `Alt` modifier.](/images/t-34-curr/win.png)
+
+This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, without releasing `Alt`.
 
 ## Numbers
 
@@ -63,11 +69,9 @@ Some common symbol sequences, like `->`, exists as [combos] and others, like `�
 
 ## One-handed Shortcuts
 
-![Shortcuts.](/images/t-34-2/shrt.png)
+![Shortcuts.](/images/t-34-curr/shrt.png)
 
-They're laid out in some sort of logical order, to give access to common QWERTY shortcuts while not disturbing the position of my layout too much.
-
-However, after having moved `Ctrl` to a [combo](#combos) to make it much more accessible, the layer doesn't make sense anymore, and it would be more logical to just use the QWERTY layout here.
+To give access to common QWERTY shortcuts using the left hand, for programs where I have my right hand on the mouse/trackball. ([Long press] still shifts them.)
 
 ## Special symbols
 
@@ -92,7 +96,7 @@ Note that combos are layer independent, and work the same regardless of what lay
 
 ![Horizontal combos with nearby keys.](/images/t-34-curr/hcombos.png)
 
-Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#modifiers).
+Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#modifiers). Holding `Enter` turns on the [windows layer](#windows-layer) together with `Alt`.
 
 `SWE` activates the [Swedish layer](#swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
 
