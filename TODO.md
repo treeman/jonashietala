@@ -26,7 +26,7 @@ Sitemap:
     /feed.xml
         /drafts (only when run with arg)
 
-
+- Hash tags aren't added by sync script?
 - Broken link detection breaks if they're inside code blocks
 
 - Deploy to S3 via GitHub actions
@@ -67,17 +67,4 @@ Sitemap:
 
 Things to update:
     - Initial toc looks bad (RTS, reinstalling slackware, game design, ...)
-
-1. Rust rewrite for speed and reproducability
-2. Post series
-3. Rewrite projects page
-4. No drafts in release
-
-Zola static site geneartor: https://github.com/getzola/zola
-
-https://kerkour.com/rust-static-site-generator
-
-# Post ideas
-
-1. How I wrote a book using Pollen
 
