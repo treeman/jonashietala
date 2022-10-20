@@ -15,6 +15,10 @@ The psychologist I met next didn't think I had any signs of depression either, b
 > I'm not sure "burnout" is the right medical term for it, but it's the most common description I've heard so I'll stick with it.
 { :notice }
 
+While I've heard that 
+
+
+
 I'm told that burnout can often lead to depression (or vice-versa) and I think that's what happened to me.
 I think I had some of the depression-related signs, such as not finding enjoyment in my hobbies anymore or not having a positive outlook for the future.
 
@@ -41,12 +45,12 @@ I have all these great benefits that I've been trying to obtain:
 
   Apart from having flexible working hours, so as long as I'm there for some meetings I can basically decide when I should work. It's super nice to be able to take an extra hour of sleep if I woke up too early with the kids, or take an hour to do some weight lifting.
 
-  I also don't work too many hours. I've been working 80% (32h / week) since more than a year back, and I'm good at never exceeding that.
+  I also don't work too many hours. I've been working 80% (32h / week) since more than a year back, and I'm good at not exceeding that.
 
 - I work remotely.
 
   Barring a handful of yearly trips, which I *want* to do because of social reasons, I've been working remotely since 4 years now.
-  And there are some massive benefits to it, like being able to work without disturbance from my home office and being able to take a break whenever I want to without getting stared at.
+  And there are some massive benefits to it, like being able to work without disturbance from my home office and 
 
 - I'm able to work professionally in Rust.
 
@@ -65,25 +69,33 @@ Maybe it's just too difficult to realize it yourself when it's all happening, an
 
 # Red flags
 
-While it was difficult for me to see the cause, I did notice some of the big red flags signalling that I was getting (or that I already were) burnt-out.
+While it was difficult for me to see the cause, I did notice some of the big red flags signalling that I was getting (or that I already were) burnt-out:
 
-I'm not saying it's easy to see the warning signals---it's not---but I have the advantage of having gone through a larger burnout/depression episode around 8 years ago. The big warning signal was the same this time as it was back then, 
-
-
-Still, the big 
-
-- Fun things stopped being fun
-
-- Lack of energy
-- Cynical
-    About my work, about my projects and abut the future in general
-- More irritation
+- Things weren't fun
+- More cynical
+- Easily irritated
 - Difficulty falling asleep
-- Side projects stopped
+- Lack of energy
+- I didn't make any progress on my side projects
 - Work performance dropped
 
+When I list them like this it might seem like it should be easy to them, but it's really not.
+They creep up on you and it's hard to see them when you're in the middle of it yourself.
+(It's easier to see faults in others after all.)
 
+The first time I thought that maybe I'm becoming burnt-out is when I was watching some fantastic TV-series ([Better Call Saul][] and [Money Heist][]).
+They were so good that I often thought about them---even dreamt of them---and I couldn't wait to see the next episode.
+Yet after the amazing Better Call Saul episode with Nacho (season 6 episode 3, you know which one if you've seen the show) I just couldn't make myself to see the next episode.
 
+It's a weird feeling when you *know* you love something, but you feel completely drained of joy when you think about doing it, but I can't describe it any other way.
+
+This can be difficult to recognize, but I did have the advantage of having gone through a burnout/depression episode around 8 years ago, when I had the same feeling of joylessness.
+
+> I've finished Better Call Saul now and the rest of the season was as good as I remembered. I still have two seasons of Money Heist left.
+{ :notice }
+
+[Better Call Saul]: https://www.imdb.com/title/tt3032476/?ref_=fn_al_tt_0 "Better Call Saul"
+[Money Heist]: https://www.imdb.com/title/tt6468322/?ref_=fn_al_tt_0 "Money Heist"
 
 # The downward spiral
 
