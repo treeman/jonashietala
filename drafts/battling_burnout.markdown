@@ -12,11 +12,24 @@ I find it's difficult to pinpoint exactly what I've been through.
 The first doctor I met diagnosed me as suffering from "extreme stress", without mentioning depression.
 The psychologist I met next didn't think I had any signs of depression either, but the one after that (that I worked with for a few months with KBT) thought I showed clear signs of depression as well as being burnt-out.
 
-> I'm not sure "burnout" is the right medical term for it, but it's the most common description I've heard so I'll stick with it.
-{ :notice }
+## Signs of burnout
 
-While I've heard that 
+Doing a little research of my own, I clearly displayed the three clusters of burnout:
 
+1. Emotional and physical exhaustion
+2. Cynicism
+3. Lower productivity
+
+This to an extent that it effected my work- and personal life, but not so much that I couldn't get out of bed.
+
+## Signs of depression
+
+1. Depressed mood
+1. Diminished pleasure
+2. Too little sleep
+3. Agitation
+4. Fatigue
+5. Feeling useless
 
 
 I'm told that burnout can often lead to depression (or vice-versa) and I think that's what happened to me.
@@ -72,7 +85,10 @@ Maybe it's just too difficult to realize it yourself when it's all happening, an
 While it was difficult for me to see the cause, I did notice some of the big red flags signalling that I was getting (or that I already were) burnt-out:
 
 - Things weren't fun
-- More cynical
+- I became more cynical
+
+  "It's not worth doing this", "it makes no difference", "this won't help anyone"
+
 - Easily irritated
 - Difficulty falling asleep
 - Lack of energy
