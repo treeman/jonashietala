@@ -15,7 +15,7 @@ lazy_static = "1.4.0"
 pulldown-cmark = { version = "0.9.1", default-features = false, features = ["simd"] }
 regex = "1"
 serde = "1.0"
-serde_yaml = "0.8"
+serde_yaml = "0.9"
 walkdir = "2"
 yaml-front-matter = "0.1.0"
 camino = "1.0.7"
@@ -23,7 +23,7 @@ tera = "1"
 html-escape = "0.2.11"
 syntect = { version = "5.0.0", default-features = false, features = ["html", "regex-onig", "default-syntaxes", "yaml-load", "plist-load"] }
 tempfile = "3.3.0"
-clap = { version = "3.1.18", features = ["derive"] }
+clap = { version = "4.0.13", features = ["derive"] }
 scraper = "0.13.0"
 url = "2.2.2"
 axum = "0.5.5"
