@@ -24,25 +24,22 @@ This to an extent that it effected my work- and personal life, but not so much t
 
 ## Signs of depression
 
+I don't recognize all the symptoms of depression, but I did display some of them:
+
+1. Negative outlook of the future
 1. Depressed mood
 1. Diminished pleasure
-2. Too little sleep
-3. Agitation
-4. Fatigue
-5. Feeling useless
+1. Easily agitated
+1. Gained weight
 
+These weren't *that* serious, and I never had the really serious signs like suicidal thoughts, but it did feel like the symptoms were getting worse and I'm sure if I didn't do anything about the underlying causes then it would eventually spiral out of control.
 
-I'm told that burnout can often lead to depression (or vice-versa) and I think that's what happened to me.
-I think I had some of the depression-related signs, such as not finding enjoyment in my hobbies anymore or not having a positive outlook for the future.
-
-That I've been through burnout is pretty clear, and luckily I noticed what happened in time before it got really bad.
-I could still get out of bed and function as a father and a co-worker, but it was all rapidly going downhill.
-
+Still, I consider burnout to be the primary issue, with the depression following along like an added bonus.
 
 # No apparent reason 
 
 I've had large difficulties to accept the burnout because if I try to distance myself from the problem and look at it objectively from a distance, it doesn't make sense that I would become a victim.
-I have all these great benefits that I've been trying to obtain:
+I have all these great benefits that I've worked at a long time trying to obtain:
 
 - A great family, with two amazing boys that I love with all my heart.
 
@@ -56,44 +53,63 @@ I have all these great benefits that I've been trying to obtain:
 
 - Few and flexible working hours.
 
-  Apart from having flexible working hours, so as long as I'm there for some meetings I can basically decide when I should work. It's super nice to be able to take an extra hour of sleep if I woke up too early with the kids, or take an hour to do some weight lifting.
+  Apart from having flexible working hours, so as long as I'm there for some meetings I can basically decide when I should work.
+  It's super nice to be able to take an extra hour of sleep if I woke up too early with the kids, or take an hour to do some weight lifting.
 
   I also don't work too many hours. I've been working 80% (32h / week) since more than a year back, and I'm good at not exceeding that.
 
 - I work remotely.
 
-  Barring a handful of yearly trips, which I *want* to do because of social reasons, I've been working remotely since 4 years now.
+  Barring a handful of yearly trips, which I've been wanting to do because of social reasons, I've been working remotely since 4 years now.
   And there are some massive benefits to it, like being able to work without disturbance from my home office and 
 
 - I'm able to work professionally in Rust.
 
   Rust is a favorite language of many programmers, but finding a non-crypto Rust job is very difficult.
-  Yet, I somehow managed to land a Rust job (well, my employer started some projects in Rust and I started working on those).
+  But here I am with a Rust job.
+  (My employer started some projects in Rust and I started working on those.)
 
 - Good salary.
 
-  While I could absolutely push my salary higher if I was motivated enough to switch jobs or start my own consulting business, I earn enough for my current needs.
+  While I could absolutely push my salary higher if I was motivated enough to switch jobs or start my own consulting business, I earn more than enough for my current needs.
 
 
 It feels like the other stories about burnout always have this obvious reason for people hitting the wall (like working 80+ hours a week), but I just can't find an easy explanation for me.
 
-Maybe it's just too difficult to realize it yourself when it's all happening, and maybe I'm still in it?
+Maybe it's just too difficult to realize it yourself when it's all happening?
+I thought I was getting over it, but maybe I'm still in it?
 
 
 # Red flags
 
-While it was difficult for me to see the cause, I did notice some of the big red flags signalling that I was getting (or that I already were) burnt-out:
+While it was (and is) difficult for me to see the cause, I did notice some of the big red flags signalling that I was getting, or already was, burnt-out:
 
-- Things weren't fun
-- I became more cynical
+- **Things weren't fun**
 
-  "It's not worth doing this", "it makes no difference", "this won't help anyone"
+  Even my favorite hobbies lost their appeal.
 
-- Easily irritated
-- Difficulty falling asleep
-- Lack of energy
-- I didn't make any progress on my side projects
-- Work performance dropped
+- **I became more cynical**
+
+  > It's not worth doing this...
+
+  > It makes no difference...
+
+  > This won't help anyone...
+
+- **Lack of energy**
+
+  I still wanted to do lots of things, but I just didn't have the energy to do them.
+
+- **Difficulty falling asleep**
+
+  Even though I was constantly tired, it got harder and harder to fall asleep.
+
+- **More easily irritated**
+- **I didn't make any progress on my side projects**
+
+  Mind you, programming in some way or another has been my main hobby for over a decade.
+
+- **Work performance dropped**
 
 When I list them like this it might seem like it should be easy to them, but it's really not.
 They creep up on you and it's hard to see them when you're in the middle of it yourself.
@@ -112,10 +128,6 @@ This can be difficult to recognize, but I did have the advantage of having gone 
 
 [Better Call Saul]: https://www.imdb.com/title/tt3032476/?ref_=fn_al_tt_0 "Better Call Saul"
 [Money Heist]: https://www.imdb.com/title/tt6468322/?ref_=fn_al_tt_0 "Money Heist"
-
-# The downward spiral
-
-No energy -> I don't accomplish things -> Unhappy because I don't do things -> No energy because I'm unhappy
 
 
 # Struggling to find a balance
