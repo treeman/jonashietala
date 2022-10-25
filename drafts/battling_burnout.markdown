@@ -36,7 +36,7 @@ These weren't *that* serious, and I never had the really serious signs like suic
 
 Still, I consider burnout to be the primary issue, with the depression following along like an added bonus.
 
-# No apparent reason 
+# No apparent reason
 
 I've had large difficulties to accept the burnout because if I try to distance myself from the problem and look at it objectively from a distance, it doesn't make sense that I would become a victim.
 I have all these great benefits that I've worked at a long time trying to obtain:
@@ -105,13 +105,18 @@ While it was (and is) difficult for me to see the cause, I did notice some of th
   Even though I was constantly tired, it got harder and harder to fall asleep.
 
 - **More easily irritated**
+
+  Getting annoyed and even angry at trivial things.
+
 - **I didn't make any progress on my side projects**
 
   Mind you, programming in some way or another has been my main hobby for over a decade.
 
 - **Work performance dropped**
 
-When I list them like this it might seem like it should be easy to them, but it's really not.
+  I didn't get any comments from co-workers, but I felt that I wasn't nearly as productive as I was 3-6 months previously, let alone a year or two ago.
+
+When I list them like this it might seem like it should be easy to notice them, but it's really not.
 They creep up on you and it's hard to see them when you're in the middle of it yourself.
 (It's easier to see faults in others after all.)
 
@@ -126,17 +131,33 @@ This can be difficult to recognize, but I did have the advantage of having gone 
 > I've finished Better Call Saul now and the rest of the season was as good as I remembered. I still have two seasons of Money Heist left.
 { :notice }
 
-[Better Call Saul]: https://www.imdb.com/title/tt3032476/?ref_=fn_al_tt_0 "Better Call Saul"
-[Money Heist]: https://www.imdb.com/title/tt6468322/?ref_=fn_al_tt_0 "Money Heist"
+[Better Call Saul]: https://www.imdb.com/title/tt3032476 "Better Call Saul"
+[Money Heist]: https://www.imdb.com/title/tt6468322 "Money Heist"
 
 
 # Struggling to find a balance
 
-To battle burnout: take it easy  
-To battle depression: do things
+After having this realization, I did what everyone always recommends you to do, which is to seek out professional help.
+And I'm glad I did, because without it I probably would've crashed *much* harder.
 
+I'll go into [more detail](#what-helped-me) on what specifically helped me, but I think it's important to recognize that in the end you're the only one who can solve your problems.
 
-# A lack of enjoyment or meaning
+And for me my biggest problem was how to find a balance in how I addressed my burnout, and how I addressed my depression.
+
+To simplify, this is the big picture approach:
+
+- **To battle burnout**
+
+  Take it easy to regain energy.
+
+- **To battle depression**
+
+  Do things to make me feel accomplished and increase my happiness.
+
+The problem here is that they often interfere with each other. If I take it easy and do nothing, I feel terrible because I didn't accomplish anything and I feel like a complete failure, and if I force myself to do lots of things I feel absolutely exhausted afterwards.
+
+An example of this is how programming on my free time, on a project without 
+
 
 
 # What helped me
@@ -154,3 +175,5 @@ These are auxiliary things that helped the process along:
 6. Rest
 7. Program (but in very small doses)
 
+
+# What's the root problem?
