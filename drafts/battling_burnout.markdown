@@ -172,15 +172,61 @@ It was a success in that it was fun, and I accomplished something, but I complet
 
 This is an extreme example just illustrate the issue---most of the time it was not nearly as severe---but finding a balance was something I constantly struggled with.
 
-This is perhaps an extreme example. Most of time it wasn't as severe, but 
-
-This is perhaps an extreme example, and you might find it hard to relate to this problem, but finding a good balance is something I personally struggled with a lot (and I still do).
-
 [rewrite]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/ "Rewriting my blog in Rust for fun and profit"
 
 
 # What's the root problem?
 
+While the root cause wasn't external stress, such as work pressure, for me it was *internal* stress coming from me pressuring myself.
+
+Some of my ongoing software development projects:
+
+- Finish [Why Cryptocurrencies?][]
+
+  I *only* need to restyle the e-book and allow people to buy it from my site.
+  The physical book has been done over a year ago.
+
+- Release the first version of [BitPal][]
+
+  I wanted to allow people to buy my book about crypto with crypto, so I started working on my own self-hosted solution.
+
+  It's *so close* to being "done".
+
+- Finish my git implementation in Rust
+
+  I've worked through one-third of [Building Git][] (but with Rust instead of Ruby), and I would really like to continue with the fun branching and rebasing stuff.
+
+  (This is just a toy project to learn Git a little better.)
+
+- Rewrite the site for our grappling club
+
+
+Skill development:
+
+- Strength training
+- Grappling
+- Memory training
+
+  The main goal was to supercharge language learning by making it easier to learn lots of new words.
+  Honestly though, it was years since I last worked on it.
+
+
+I'm also getting stressed by the things I **should** be doing, but haven't started yet:
+
+- Write a roguelike in Rust
+- Create a boardgame
+- Learn Korean, Japanese, Finish...
+- Listen to hundreds of hours in my podcast app
+
+  Not including audiobooks, I use Audible for those.
+
+- Finish dozens of programming books on my to-read list
+- Finish dozens of fiction books on my to-read list
+- etc ...
+
+[Why Cryptocurrencies?]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?: What they are, what they do, and why they matter"
+[BitPal]: https://github.com/bitpal "BitPal: A self-hosted cryptocurrency payment processor"
+[Building Git]: https://www.goodreads.com/book/show/44128595-building-git "Building Git"
 
 # What helped me
 
@@ -191,6 +237,7 @@ The only thing that *really* helped:
 
 These are auxiliary things that helped the process along:
 
+1. Be kind towards myself
 3. Lot's of walking
 4. Physical exercise
 5. Do things that I used to enjoy
