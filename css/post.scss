@@ -176,7 +176,8 @@ $hr-color: $gb-lm-dark-gray;
     margin-bottom: 0;
   }
   li > p:nth-child(2),
-  li > pre:nth-child(2) {
+  li > pre:nth-child(2),
+  li > blockquote:nth-child(2) {
     margin-top: 0.8rem;
   }
 
