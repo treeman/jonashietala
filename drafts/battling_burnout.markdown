@@ -156,8 +156,30 @@ To simplify, this is the big picture approach:
 
 The problem here is that they often interfere with each other. If I take it easy and do nothing, I feel terrible because I didn't accomplish anything and I feel like a complete failure, and if I force myself to do lots of things I feel absolutely exhausted afterwards.
 
-An example of this is how programming on my free time, on a project without 
+A good example is how I very much wanted to get back to programming on my free time on my own projects.
+It's one my favorite things to do, and I knew that if I could get back to it I would get some enjoyment back into my life and some satisfaction on having done *something*.
 
+So one day I decided to work on something new, without any deadlines or anything to stress me out.
+Just do it for fun you know?
+
+I decided to [rewrite my blog in Rust][rewrite] and I tried to just get started.
+And started I did, and the hours went.
+And went.
+Until I most of the day had passed and I had missed my lunch and all the breaks I should've taken.
+And I crashed for a few days, my energy was completely spent.
+
+It was a success in that it was fun, and I accomplished something, but I completely failed in regaining energy.
+
+This is an extreme example just illustrate the issue---most of the time it was not nearly as severe---but finding a balance was something I constantly struggled with.
+
+This is perhaps an extreme example. Most of time it wasn't as severe, but 
+
+This is perhaps an extreme example, and you might find it hard to relate to this problem, but finding a good balance is something I personally struggled with a lot (and I still do).
+
+[rewrite]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/ "Rewriting my blog in Rust for fun and profit"
+
+
+# What's the root problem?
 
 
 # What helped me
@@ -175,5 +197,3 @@ These are auxiliary things that helped the process along:
 6. Rest
 7. Program (but in very small doses)
 
-
-# What's the root problem?
