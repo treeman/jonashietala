@@ -179,18 +179,25 @@ This is an extreme example just illustrate the issue---most of the time it was n
 
 While the root cause wasn't external stress, such as work pressure, for me it was *internal* stress coming from me pressuring myself.
 
-Some of my ongoing software development projects:
+One big part of it is all my different projects I've got going.
+Having projects to work on has always been a source of enjoyment and even pride.
+It's not that I seek fame or recognition, it's the simple and wonderful feeling of accomplishment and satisfaction of a project well done that drives me.
 
-- Finish [Why Cryptocurrencies?][]
+Unfortunately, I have too many large and unfinished projects that started to stress me out because they weren't finished, and as my productivity slowed down they stressed me out even more.
+
+Here are of some of my ongoing software development projects:
+
+- Finish my book: [Why Cryptocurrencies?][]
 
   I *only* need to restyle the e-book and allow people to buy it from my site.
   The physical book has been done over a year ago.
+  Then maybe do some marketing for it (although that thought alone makes my stress levels rise).
 
 - Release the first version of [BitPal][]
 
   I wanted to allow people to buy my book about crypto with crypto, so I started working on my own self-hosted solution.
 
-  It's *so close* to being "done".
+  It's *so close* to being "done", I've already done 90% so it's only the last 90% left now.
 
 - Finish my git implementation in Rust
 
@@ -200,7 +207,14 @@ Some of my ongoing software development projects:
 
 - Rewrite the site for our grappling club
 
+  I'd like to have member account, track billing and have some notification system for when training sessions are canceled.
+  Simple stuff.
+  If we ignore the idea of tracking attendance and topics of each session, so we can plan an adaptive spaced repetition curriculum to optimize learning.
 
+  And yet, I'm stuck on getting the styling and layout on the page right.
+
+
+While it's important to ...
 Skill development:
 
 - Strength training
