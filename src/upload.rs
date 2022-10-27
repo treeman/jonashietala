@@ -221,7 +221,7 @@ async fn upload(bucket: &Bucket, data: UploadData) -> Result<()> {
 
     bucket
         // Need to specify content type here, otherwise it's overwritten to octet stream.
-        .put_object_with_content_type(key, &content, &ty.to_string())
+        .put_object_with_content_type(key, &content, ty.as_ref())
         .await?;
     info!("Uploaded: {key}");
     Ok(())

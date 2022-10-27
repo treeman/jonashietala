@@ -175,7 +175,7 @@ This is an extreme example just illustrate the issue---most of the time it was n
 [rewrite]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/ "Rewriting my blog in Rust for fun and profit"
 
 
-# What's the root problem?
+# What's the actual cause?
 
 While the root cause wasn't external stress, such as work pressure, for me it was *internal* stress coming from me pressuring myself.
 
@@ -214,26 +214,38 @@ Here are of some of my ongoing software development projects:
   And yet, I'm stuck on getting the styling and layout on the page right.
 
 
-While it's important to ...
-Skill development:
+While creating things is important to me, something else that's even more important to me---and arguably is part of my personal identity---is for me to improve my skills.
+It's not about reaching some goal, but I relish the feeling of learning something new or being able to do something I previously could not.
+
+Here's a few things that I'm working on:
+
+- Programming skills
+
+  Learning new languages, tools and new ways of solving problems in a faster or simpler way.
 
 - Strength training
+
+  I used to think that squatting is easy.
+  But the more I learn about it, the harder it seems.
+
 - Grappling
+
+  I don't train that much (1-2 times a week), but still the learning and research continues with tons of hours of instructionals available.
+
 - Memory training
 
   The main goal was to supercharge language learning by making it easier to learn lots of new words.
   Honestly though, it was years since I last worked on it.
 
+It shouldn't be like this, but I feel sad or bad when I'm not trying to improve at something.
 
-I'm also getting stressed by the things I **should** be doing, but haven't started yet:
 
-- Write a roguelike in Rust
+And what stresses me out even more are the things I **should** be doing, but haven't started yet. For instance:
+
+- [Make a roguelike][make-roguelike] in Rust
 - Create a boardgame
 - Learn Korean, Japanese, Finish...
-- Listen to hundreds of hours in my podcast app
-
-  Not including audiobooks, I use Audible for those.
-
+- Listen to hundreds of hours in my podcast app (not including audiobooks, I use Audible for those)
 - Finish dozens of programming books on my to-read list
 - Finish dozens of fiction books on my to-read list
 - etc ...
@@ -241,6 +253,8 @@ I'm also getting stressed by the things I **should** be doing, but haven't start
 [Why Cryptocurrencies?]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?: What they are, what they do, and why they matter"
 [BitPal]: https://github.com/bitpal "BitPal: A self-hosted cryptocurrency payment processor"
 [Building Git]: https://www.goodreads.com/book/show/44128595-building-git "Building Git"
+[Go]: https://en.wikipedia.org/wiki/Go_(game) "Go / Baduk"
+[make-roguelike]: https://www.gamedeveloper.com/design/how-to-make-a-roguelike "How to Make a Roguelike"
 
 # What helped me
 
