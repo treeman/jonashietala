@@ -131,6 +131,14 @@ This can be difficult to recognize, but I did have the advantage of having gone 
 > I've finished Better Call Saul now and the rest of the season was as good as I remembered. I still have two seasons of Money Heist left.
 { :notice }
 
+# Seeking help
+
+But even if I noticed some of the red flags, and I did try to make some small changes, the real wake-up call was when I was flying home from a work trip and I got this extreme headache.
+It was more extreme than I had ever had (and I've had occasional migraine attacks for years), so much that I thought I was getting a stroke or something.
+While the pain dissipated in a few minutes, I felt sick the whole day after.
+
+I didn't have a stroke, it was declared as "only" a migraine attack, but it was clear I had to take it seriously.
+
 [Better Call Saul]: https://www.imdb.com/title/tt3032476 "Better Call Saul"
 [Money Heist]: https://www.imdb.com/title/tt6468322 "Money Heist"
 
@@ -243,12 +251,14 @@ It shouldn't be like this, but I feel sad or bad when I'm not trying to improve 
 And what stresses me out even more are the things I **should** be doing, but haven't started yet. For instance:
 
 - [Make a roguelike][make-roguelike] in Rust
-- Create a boardgame
-- Learn Korean, Japanese, Finish...
+- Create a board game
+- Learn Korean, Japanese, Finnish...
 - Listen to hundreds of hours in my podcast app (not including audiobooks, I use Audible for those)
 - Finish dozens of programming books on my to-read list
 - Finish dozens of fiction books on my to-read list
 - etc ...
+
+Each of these items I list aren't that stressful by themselves, it's the combination of many small stressors that over time has caused me an awful amount of stress.
 
 [Why Cryptocurrencies?]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?: What they are, what they do, and why they matter"
 [BitPal]: https://github.com/bitpal "BitPal: A self-hosted cryptocurrency payment processor"
