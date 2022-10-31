@@ -138,14 +138,19 @@ It was more extreme than I had ever had (and I've had occasional migraine attack
 While the pain dissipated in a few minutes, I felt sick the whole day after.
 
 I didn't have a stroke, it was declared as "only" a migraine attack, but it was clear I had to take it seriously.
+So I did what everyone recommends: I sought professional help.
 
-[Better Call Saul]: https://www.imdb.com/title/tt3032476 "Better Call Saul"
-[Money Heist]: https://www.imdb.com/title/tt6468322 "Money Heist"
+And I'm glad I did, because without it I probably would've crashed *much* harder.
+
+The company I work for took it seriously and was incredibly helpful and were very supportive throughout the whole process.
+They reduced my workload as much as possible, made it clear that that I could take as much time off as needed and importantly they never made me feel guilty.
+
+Admitting that I had a problem was a difficult thing.
+I really wanted to hide that I went on sick leave from my partner---a very clear vote for fleeing over fighting.
+Maybe if I didn't tell anyone I could continue fooling myself that everything was fine?
 
 
 # Struggling to find a balance
-
-After having this realization, I did what everyone always recommends you to do, which is to seek out professional help.
 And I'm glad I did, because without it I probably would've crashed *much* harder.
 
 I'll go into [more detail](#what-helped-me) on what specifically helped me, but I think it's important to recognize that in the end you're the only one who can solve your problems.
@@ -265,6 +270,8 @@ Each of these items I list aren't that stressful by themselves, it's the combina
 [Building Git]: https://www.goodreads.com/book/show/44128595-building-git "Building Git"
 [Go]: https://en.wikipedia.org/wiki/Go_(game) "Go / Baduk"
 [make-roguelike]: https://www.gamedeveloper.com/design/how-to-make-a-roguelike "How to Make a Roguelike"
+[Better Call Saul]: https://www.imdb.com/title/tt3032476 "Better Call Saul"
+[Money Heist]: https://www.imdb.com/title/tt6468322 "Money Heist"
 
 # What helped me
 
