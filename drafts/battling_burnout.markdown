@@ -143,52 +143,18 @@ So I did what everyone recommends: I sought professional help.
 And I'm glad I did, because without it I probably would've crashed *much* harder.
 
 The company I work for took it seriously and was incredibly helpful and were very supportive throughout the whole process.
-They reduced my workload as much as possible, made it clear that that I could take as much time off as needed and importantly they never made me feel guilty.
+They reduced my workload, made it clear that that I could take as much time off as needed and importantly they never made me feel guilty.
 
 Admitting that I had a problem was a difficult thing.
 I really wanted to hide that I went on sick leave from my partner---a very clear vote for fleeing over fighting.
 Maybe if I didn't tell anyone I could continue fooling myself that everything was fine?
 
-
-# Struggling to find a balance
-And I'm glad I did, because without it I probably would've crashed *much* harder.
-
-I'll go into [more detail](#what-helped-me) on what specifically helped me, but I think it's important to recognize that in the end you're the only one who can solve your problems.
-
-And for me my biggest problem was how to find a balance in how I addressed my burnout, and how I addressed my depression.
-
-To simplify, this is the big picture approach:
-
-- **To battle burnout**
-
-  Take it easy to regain energy.
-
-- **To battle depression**
-
-  Do things to make me feel accomplished and increase my happiness.
-
-The problem here is that they often interfere with each other. If I take it easy and do nothing, I feel terrible because I didn't accomplish anything and I feel like a complete failure, and if I force myself to do lots of things I feel absolutely exhausted afterwards.
-
-A good example is how I very much wanted to get back to programming on my free time on my own projects.
-It's one my favorite things to do, and I knew that if I could get back to it I would get some enjoyment back into my life and some satisfaction on having done *something*.
-
-So one day I decided to work on something new, without any deadlines or anything to stress me out.
-Just do it for fun you know?
-
-I decided to [rewrite my blog in Rust][rewrite] and I tried to just get started.
-And started I did, and the hours went.
-And went.
-Until I most of the day had passed and I had missed my lunch and all the breaks I should've taken.
-And I crashed for a few days, my energy was completely spent.
-
-It was a success in that it was fun, and I accomplished something, but I completely failed in regaining energy.
-
-This is an extreme example just illustrate the issue---most of the time it was not nearly as severe---but finding a balance was something I constantly struggled with.
-
-[rewrite]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/ "Rewriting my blog in Rust for fun and profit"
+But I didn't hide it, and she was also very supportive.
+How could I ever have thought otherwise?
 
 
-# What's the actual cause?
+
+# What was the actual cause?
 
 While the root cause wasn't external stress, such as work pressure, for me it was *internal* stress coming from me pressuring myself.
 
@@ -227,7 +193,7 @@ Here are of some of my ongoing software development projects:
   And yet, I'm stuck on getting the styling and layout on the page right.
 
 
-While creating things is important to me, something else that's even more important to me---and arguably is part of my personal identity---is for me to improve my skills.
+While creating things is important to me, something else that's even more important to me---and part of my identity---is improving my skills.
 It's not about reaching some goal, but I relish the feeling of learning something new or being able to do something I previously could not.
 
 Here's a few things that I'm working on:
@@ -261,6 +227,7 @@ And what stresses me out even more are the things I **should** be doing, but hav
 - Listen to hundreds of hours in my podcast app (not including audiobooks, I use Audible for those)
 - Finish dozens of programming books on my to-read list
 - Finish dozens of fiction books on my to-read list
+- Figure out a product I want to develop and sell
 - etc ...
 
 Each of these items I list aren't that stressful by themselves, it's the combination of many small stressors that over time has caused me an awful amount of stress.
@@ -272,6 +239,52 @@ Each of these items I list aren't that stressful by themselves, it's the combina
 [make-roguelike]: https://www.gamedeveloper.com/design/how-to-make-a-roguelike "How to Make a Roguelike"
 [Better Call Saul]: https://www.imdb.com/title/tt3032476 "Better Call Saul"
 [Money Heist]: https://www.imdb.com/title/tt6468322 "Money Heist"
+
+
+# The only thing that really helped
+
+I tried a bunch of different things, but in the end the only thing that *really* helped me was **taking time off**.
+
+It started with a 100% sick leave for 3 weeks, followed by a 50% sick leave for 4 weeks before a 7 weeks long summer vacation.
+
+First I was on 100% sick leave for 3 weeks, 
+
+# Struggling to find a balance
+
+I'll go into [more detail](#what-helped-me) on what specifically helped me, but I think it's important to recognize that in the end you're the only one who can solve your problems.
+
+And for me my biggest problem was how to find a balance in how I addressed my burnout, and how I addressed my depression.
+
+To simplify, this is the big picture approach:
+
+- **To battle burnout**
+
+  Take it easy to regain energy.
+
+- **To battle depression**
+
+  Do things to make me feel accomplished and increase my happiness.
+
+The problem here is that they often interfere with each other. If I take it easy and do nothing, I feel terrible because I didn't accomplish anything and I feel like a complete failure, and if I force myself to do lots of things I feel absolutely exhausted afterwards.
+
+A good example is how I very much wanted to get back to programming on my free time on my own projects.
+It's one my favorite things to do, and I knew that if I could get back to it I would get some enjoyment back into my life and some satisfaction on having done *something*.
+
+So one day I decided to work on something new, without any deadlines or anything to stress me out.
+Just do it for fun you know?
+
+I decided to [rewrite my blog in Rust][rewrite] and I tried to just get started.
+And started I did, and the hours went.
+And went.
+Until I most of the day had passed and I had missed my lunch and all the breaks I should've taken.
+And I crashed for a few days, my energy was completely spent.
+
+It was a success in that it was fun, and I accomplished something, but I completely failed in regaining energy.
+
+This is an extreme example just illustrate the issue---most of the time it was not nearly as severe---but finding a balance was something I constantly struggled with.
+
+[rewrite]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/ "Rewriting my blog in Rust for fun and profit"
+
 
 # What helped me
 
