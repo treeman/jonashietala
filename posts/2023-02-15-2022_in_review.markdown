@@ -86,25 +86,37 @@ A bit late, but it's time for my [yearly review][]. It's something I like doing 
 
 # 2022 Misadventures
 
-- Got depressed and burnt-out
+- Got depressed and burnt-out.
+
+  I've been meaning to write a post about this, but I haven't had the energy for it yet.
+  I think it's enough to say that this defined 2022 for me, and even though I was on sick leave for "only" two months, I still haven't fully recovered my energy and productivity despite the first serious symptoms revealing themselves over a year ago.
+
 
 # Plans for 2023
 
-- Spend more time with my kids
+- Spend more time with my kids.
+
+  After all, there is nothing more important.
 
 - Reduce the boardgame list-of-shame that (I think) consists of 12 games that I own but have never played.
 
   A more daunting task than it might seem as it's been very hard to get time for gaming, and I'm waiting for something like 10+ crowdfunding games to arrive in 2023. Oops.
 
+- More focus on health, both psychological and physical.
+
+  After being sick you realize how important your health is, which is something I've gotten new appreciation for.
+
+- Establish [Deep Work][] as my [keystone habit][].
+
+  After becoming convinced that controlling your habits is the best thing since sliced bread, I've decided that the big productivity focus of 2023 is focused on habits, and specifically creating the habit of Deep Work (or the hyper productive flow state that hopefully all programmers recognize).
+
 - Finish the digital version of [my book][whycrypto].
 
   The plan was to finish it last year so I could move on to other projects, but if I don't finish it now it might never be done. Therefore I'll dedicate the spring to finally finalize it.
 
-- Establish Deep Work as my keystone habit.
-
 - Play games instead of doom scrolling on the phone or lazily watch TV.
 
-- More focus on health, both psychological and physical.
+  As I'm writing this I've had my [Steam Deck][] for around a month, and it's absolutely amazing.
 
 [yearly review]: </blog/tags/yearly_review/> "Yearly reviews"
 [whycrypto]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?"
@@ -123,3 +135,7 @@ A bit late, but it's time for my [yearly review][]. It's something I like doing 
 [Spirit Island]: https://boardgamegeek.com/boardgame/162886/spirit-island "Spirit Island"
 [Netrunner]: https://boardgamegeek.com/boardgame/124742/android-netrunner "Android: Netrunner"
 [mumbad]: https://www.reddit.com/r/Netrunner/comments/a0pz32/mumbad_cycle_is_usually_considered_the_lowpoint/eajoe5t/ "Mumbad Cycle was the low-point of A:NR"
+[keystone habit]: https://jamesclear.com/keystone-habits "Keystone Habits"
+[Deep Work]: https://www.lifehack.org/849518/deep-work-rules "Deep Work"
+[Steam Deck]: https://www.steamdeck.com/en/ "Steam Deck"
+[Null Signal Games]: https://nullsignal.games/ "Null Signal Games"
