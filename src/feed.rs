@@ -44,7 +44,7 @@ impl From<&PostItem> for Entry {
 }
 
 fn fixed_date_time(dt: NaiveDateTime) -> DateTime<FixedOffset> {
-    DateTime::from_utc(dt, FixedOffset::east(0))
+    DateTime::from_utc(dt, FixedOffset::east_opt(0).unwrap())
 }
 
 // We've used "http://{path}index.html" as the id, since they shouldn't change let's continue with it

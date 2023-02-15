@@ -37,7 +37,7 @@ pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {
         posts,
     }));
     res.extend(by_year_month.into_iter().map(|((year, month), posts)| {
-        let date = NaiveDate::from_ymd(year, month, 1);
+        let date = NaiveDate::from_ymd_opt(year, month, 1).unwrap();
         ArchiveItem {
             title: date.format("%B %Y").to_string(),
             url: SiteUrl::parse(&date.format("/blog/%Y/%m").to_string()).unwrap(),

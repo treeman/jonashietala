@@ -16,10 +16,11 @@ use crate::site_url::{HrefUrl, ImgUrl};
 
 pub fn last_modified(path: &Utf8Path) -> Result<NaiveDateTime> {
     let modified = fs::metadata(path)?.modified()?;
-    Ok(NaiveDateTime::from_timestamp(
+    Ok(NaiveDateTime::from_timestamp_opt(
         modified.duration_since(UNIX_EPOCH)?.as_secs().try_into()?,
         0,
-    ))
+    )
+    .unwrap())
 }
 
 pub fn write_to_file(file: &Utf8Path, content: &str) -> Result<()> {

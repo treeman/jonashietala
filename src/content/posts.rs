@@ -89,7 +89,7 @@ impl PostItem {
 
         let time = match metadata.time {
             Some(time_str) => parse_time(&time_str)?,
-            None => NaiveTime::from_hms(0, 0, 0),
+            None => NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
         };
 
         let created = NaiveDateTime::new(date, time);
@@ -253,11 +253,12 @@ impl PostDirMetadata {
             .ok_or_else(|| eyre!("Failed to parse post path: {}", path))?;
 
         Ok(Self {
-            date: NaiveDate::from_ymd(
+            date: NaiveDate::from_ymd_opt(
                 captures[1].parse().unwrap(),
                 captures[2].parse().unwrap(),
                 captures[3].parse().unwrap(),
-            ),
+            )
+            .ok_or_else(|| eyre!("Post has invalid ymd: {}", path))?,
             slug: captures[4].to_string(),
         })
     }
@@ -293,8 +294,8 @@ mod tests {
             path.into(),
             content,
             NaiveDateTime::new(
-                NaiveDate::from_ymd(2022, 4, 30),
-                NaiveTime::from_hms(1, 2, 3),
+                NaiveDate::from_ymd_opt(2022, 4, 30).unwrap(),
+                NaiveTime::from_hms_opt(1, 2, 3).unwrap(),
             ),
         )?;
 
@@ -317,8 +318,8 @@ mod tests {
         assert_eq!(
             post.created,
             NaiveDateTime::new(
-                NaiveDate::from_ymd(2022, 1, 31),
-                NaiveTime::from_hms(7, 7, 0)
+                NaiveDate::from_ymd_opt(2022, 1, 31).unwrap(),
+                NaiveTime::from_hms_opt(7, 7, 0).unwrap()
             )
         );
         assert!(post.raw_content.contains("# Header 1"));

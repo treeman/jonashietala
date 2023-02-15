@@ -64,6 +64,7 @@ impl TestSite {
 
     /// Persist the input and output dir, allowing us to inspect them
     /// after test has finished.
+    #[allow(dead_code)]
     pub fn persist(self) -> (PathBuf, PathBuf) {
         let TestSite {
             output_dir,
@@ -73,6 +74,7 @@ impl TestSite {
         (input_dir.into_path(), output_dir.into_path())
     }
 
+    #[allow(dead_code)]
     pub fn skip_clean(self) {
         let (input_dir, output_dir) = self.persist();
         println!(
