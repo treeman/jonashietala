@@ -3,6 +3,19 @@ title: "Converting my static site to epub"
 tags: Cryptocurrency, Programming, Pollen, Racket, Why cryptocurrencies?
 ---
 
+# Creating an epub
+
+I looked at [epub3 examples](https://github.com/IDPF/epub3-samples)
+
+```bash
+#!/bin/bash
+
+cd _ebook/
+zip -X0 why_cryptocurrencies.epub mimetype
+zip -Xur9D why_cryptocurrencies.epub *
+```
+
+
 # Validating
 
 The commonly recommended [idpf validator][idpf] is down. I instead used [epubcheck][] I found on github. Turns out I had a few errors:
@@ -20,10 +33,12 @@ And this was after I had made a bunch of corrections. Sigh.
 
 Fixing them is annoying and time consuming, but it's not hard. Most of them were easily fixed by updating the templates and tag generation within Pollen.
 
-1. Disallowed tags
-2. Alt text for images are required
-3. Must provide .png fallbacks for all images
-4. Cannot use `<a name="...">`
+0. Need to provide manifest and spine information in a `.opf` file.
+0. Convert html to xhtml, with some stricter requirements such as `<aside>` aren't allowed inside `<li>`.
+
+   Some the errors where dumb things I did with html generally, such as not escaping `?` in link fragments.
+
+0. Must provide .png fallbacks for all images.
 
 
 ## Mass converting files:
