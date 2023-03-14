@@ -112,6 +112,7 @@ impl Attrs {
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum AttrParser {
+    Epigraph,
     Notice,
 }
 
@@ -119,23 +120,41 @@ impl AttrParser {
     fn from_str(s: &str) -> Result<Self> {
         match s {
             "notice" => Ok(AttrParser::Notice),
+            "epigraph" => Ok(AttrParser::Epigraph),
             _ => Err(eyre!("Unsupported attribute parser `{s}`")),
         }
     }
 
-    pub fn transform(&self, events: Vec<Event>) -> String {
+    pub fn transform(&self, events: Vec<Event>, _key_value: HashMap<String, String>) -> String {
         match self {
             AttrParser::Notice => transform_notice(events),
+            AttrParser::Epigraph => transform_epigraph(events),
         }
     }
 }
 
 fn transform_notice(events: Vec<Event>) -> String {
+    tag_content(events, "aside")
+}
+
+fn transform_epigraph(events: Vec<Event>) -> String {
+    surround_content(
+        events,
+        r#"<div class="epigraph"><blockquote>"#,
+        "</blockquote></div>",
+    )
+}
+
+fn tag_content(events: Vec<Event>, tag: &str) -> String {
+    surround_content(events, &format!("<{tag}>"), &format!("</{tag}>"))
+}
+
+fn surround_content(events: Vec<Event>, prefix: &str, suffix: &str) -> String {
     let mut content = String::new();
     pd_html::push_html(&mut content, events.into_iter());
     let content = strip_one_paragraph(&content);
 
-    format!("<aside>{content}</aside>")
+    format!("{prefix}{content}{suffix}")
 }
 
 lazy_static! {

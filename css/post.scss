@@ -38,6 +38,14 @@
   line-height: 1.4;
   margin: 0 2em;
 }
+.article-content .epigraph {
+  margin-block: 2em;
+  font-style: italic;
+}
+.article-content blockquote > footer {
+  font-size: 80%;
+  text-align: right;
+}
 
 /*
  * Tables

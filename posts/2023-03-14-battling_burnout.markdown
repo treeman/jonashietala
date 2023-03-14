@@ -1,9 +1,14 @@
 ---
 title: "Battling burnout"
-tags: [Tag1, Tag2]
+tags: [Life Hacking, Life, Mental Health]
 ---
 
-(Background)
+> Mamma Mia! Here we go again...
+{ :epigraph }
+
+Once again, I'm finding myself trying to recover from burnout, and after about a year I'm finally feeling more like myself.
+
+Even though I've been here before, it's a difficult thing to recognize and avoid, so I'm writing this to maybe help you or my future self.
 
 
 # Is it burnout, depression or both?
@@ -36,14 +41,13 @@ These weren't *that* serious, and I never had the really serious signs like suic
 
 Still, I consider burnout to be the primary issue, with the depression following along like an added bonus.
 
+
 # No apparent reason
 
 I've had large difficulties to accept the burnout because if I try to distance myself from the problem and look at it objectively from a distance, it doesn't make sense that I would become a victim.
 I have all these great benefits that I've worked at a long time trying to obtain:
 
-- A great family, with two amazing boys that I love with all my heart.
-
-  Apart from having 3-4 too early mornings a week, there's nothing to complain about.
+- A great family, with three amazing kids that I love with all my heart.
 
 - Low stress from work.
 
@@ -61,7 +65,7 @@ I have all these great benefits that I've worked at a long time trying to obtain
 - I work remotely.
 
   Barring a handful of yearly trips, which I've been wanting to do because of social reasons, I've been working remotely since 4 years now.
-  And there are some massive benefits to it, like being able to work without disturbance from my home office and 
+  And there are some massive benefits to it, like being able to work without disturbance from my home office, using my home gym that's right next to my office and avoiding a commute. 
 
 - I'm able to work professionally in Rust.
 
@@ -73,11 +77,10 @@ I have all these great benefits that I've worked at a long time trying to obtain
 
   While I could absolutely push my salary higher if I was motivated enough to switch jobs or start my own consulting business, I earn more than enough for my current needs.
 
-
 It feels like the other stories about burnout always have this obvious reason for people hitting the wall (like working 80+ hours a week), but I just can't find an easy explanation for me.
 
-Maybe it's just too difficult to realize it yourself when it's all happening?
-I thought I was getting over it, but maybe I'm still in it?
+--- *Maybe it's just too difficult to realize it yourself when it's all happening?
+I thought I was getting over it, but maybe I'm still in it...?*
 
 
 # Red flags
@@ -90,15 +93,15 @@ While it was (and is) difficult for me to see the cause, I did notice some of th
 
 - **I became more cynical**
 
-  > It's not worth doing this...
+  --- *It's not worth doing this...*
 
-  > It makes no difference...
+  --- *It makes no difference...*
 
-  > This won't help anyone...
+  --- *This won't help anyone...*
 
 - **Lack of energy**
 
-  I still wanted to do lots of things, but I just didn't have the energy to do them.
+  Despite the previous point, I still wanted to do lots of things, but I didn't have the energy to do them.
 
 - **Difficulty falling asleep**
 
@@ -110,7 +113,7 @@ While it was (and is) difficult for me to see the cause, I did notice some of th
 
 - **I didn't make any progress on my side projects**
 
-  Mind you, programming in some way or another has been my main hobby for over a decade.
+  Mind you, programming in some way has been my main hobby for over a decade.
 
 - **Work performance dropped**
 
@@ -126,10 +129,8 @@ Yet after the amazing Better Call Saul episode with Nacho (season 6 episode 3, y
 
 It's a weird feeling when you *know* you love something, but you feel completely drained of joy when you think about doing it, but I can't describe it any other way.
 
-This can be difficult to recognize, but I did have the advantage of having gone through a burnout/depression episode around 8 years ago, when I had the same feeling of joylessness.
+This can be difficult to recognize, but I did remember the same feeling of joylessness from my previous burnout episode around 8 years ago.
 
-> I've finished Better Call Saul now and the rest of the season was as good as I remembered. I still have two seasons of Money Heist left.
-{ :notice }
 
 # Seeking help
 
@@ -137,7 +138,7 @@ But even if I noticed some of the red flags, and I did try to make some small ch
 It was more extreme than I had ever had (and I've had occasional migraine attacks for years), so much that I thought I was getting a stroke or something.
 While the pain dissipated in a few minutes, I felt sick the whole day after.
 
-I didn't have a stroke, it was declared as "only" a migraine attack, but it was clear I had to take it seriously.
+I didn't have a stroke---it was declared as "only" a migraine attack---but it was clear I had to take it seriously.
 So I did what everyone recommends: I sought professional help.
 
 And I'm glad I did, because without it I probably would've crashed *much* harder.
@@ -153,14 +154,13 @@ But I didn't hide it, and she was also very supportive.
 How could I ever have thought otherwise?
 
 
-
 # What was the actual cause?
 
-While the root cause wasn't external stress, such as work pressure, for me it was *internal* stress coming from me pressuring myself.
+While the root cause wasn't external stress, such as work pressure, now I think it was *internal* stress coming from me pressuring myself.
 
 One big part of it is all my different projects I've got going.
-Having projects to work on has always been a source of enjoyment and even pride.
-It's not that I seek fame or recognition, it's the simple and wonderful feeling of accomplishment and satisfaction of a project well done that drives me.
+Having projects to work on has always been a source of enjoyment and pride.
+It's not that I seek fame or recognition, it's the simple and wonderful feeling of accomplishment and satisfaction of creating something that drives me.
 
 Unfortunately, I have too many large and unfinished projects that started to stress me out because they weren't finished, and as my productivity slowed down they stressed me out even more.
 
@@ -170,19 +170,16 @@ Here are of some of my ongoing software development projects:
 
   I *only* need to restyle the e-book and allow people to buy it from my site.
   The physical book has been done over a year ago.
-  Then maybe do some marketing for it (although that thought alone makes my stress levels rise).
 
 - Release the first version of [BitPal][]
 
   I wanted to allow people to buy my book about crypto with crypto, so I started working on my own self-hosted solution.
 
-  It's *so close* to being "done", I've already done 90% so it's only the last 90% left now.
+  It's *so close* to being "done"; I've already done 90% so it's only the last 90% left now.
 
 - Finish my git implementation in Rust
 
   I've worked through one-third of [Building Git][] (but with Rust instead of Ruby), and I would really like to continue with the fun branching and rebasing stuff.
-
-  (This is just a toy project to learn Git a little better.)
 
 - Rewrite the site for our grappling club
 
@@ -219,7 +216,7 @@ Here's a few things that I'm working on:
 It shouldn't be like this, but I feel sad or bad when I'm not trying to improve at something.
 
 
-And what stresses me out even more are the things I **should** be doing, but haven't started yet. For instance:
+And what stresses me out even more are the things I **"should"** be doing, but haven't started yet. For instance:
 
 - [Make a roguelike][make-roguelike] in Rust
 - Create a board game
@@ -241,64 +238,56 @@ Each of these items I list aren't that stressful by themselves, it's the combina
 [Money Heist]: https://www.imdb.com/title/tt6468322 "Money Heist"
 
 
-# The only thing that really helped
+# Things that helped me
 
-I tried a bunch of different things, but in the end the only thing that *really* helped me was **taking time off**.
+While I did receive help from work, my family and from professionals, it's important to realize that in the end you're the only one who can solve your problems. So here's a list of things that I did that I think were helpful:
 
-It started with a 100% sick leave for 3 weeks, followed by a 50% sick leave for 4 weeks before a 7 weeks long summer vacation.
+- **Be kind towards myself**
 
-First I was on 100% sick leave for 3 weeks, 
+  I try to reduce the expectations on myself, and I try not to beat myself up if I don't do everything as quickly as I'd like to.
 
-# Struggling to find a balance
+  But honestly, it's really hard.
 
-I'll go into [more detail](#what-helped-me) on what specifically helped me, but I think it's important to recognize that in the end you're the only one who can solve your problems.
+- **Go outside and walk**
 
-And for me my biggest problem was how to find a balance in how I addressed my burnout, and how I addressed my depression.
+  I didn't like it when they told me I should go out and just walk, but honestly it was super helpful.
 
-To simplify, this is the big picture approach:
+- **Physical exercise**
 
-- **To battle burnout**
+  Exercise has really helped me every time I've been feeling down, and this time is no different.
 
-  Take it easy to regain energy.
+- **Do things I used to enjoy**
 
-- **To battle depression**
+  It's important to break the downward spiral, and forcing yourself to do the things that you used to enjoy---that you intellectually know you still enjoy---is the best way that I've found.
 
-  Do things to make me feel accomplished and increase my happiness.
+- **Rest**
 
-The problem here is that they often interfere with each other. If I take it easy and do nothing, I feel terrible because I didn't accomplish anything and I feel like a complete failure, and if I force myself to do lots of things I feel absolutely exhausted afterwards.
-
-A good example is how I very much wanted to get back to programming on my free time on my own projects.
-It's one my favorite things to do, and I knew that if I could get back to it I would get some enjoyment back into my life and some satisfaction on having done *something*.
-
-So one day I decided to work on something new, without any deadlines or anything to stress me out.
-Just do it for fun you know?
-
-I decided to [rewrite my blog in Rust][rewrite] and I tried to just get started.
-And started I did, and the hours went.
-And went.
-Until I most of the day had passed and I had missed my lunch and all the breaks I should've taken.
-And I crashed for a few days, my energy was completely spent.
-
-It was a success in that it was fun, and I accomplished something, but I completely failed in regaining energy.
-
-This is an extreme example just illustrate the issue---most of the time it was not nearly as severe---but finding a balance was something I constantly struggled with.
-
-[rewrite]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/ "Rewriting my blog in Rust for fun and profit"
+  When your energy is low you need to stop and recharge.
 
 
-# What helped me
+# The only thing that really helped me
 
-The only thing that *really* helped:
+While all of the above were helpful in the long run, the only thing that *really* helped me break the further decline was **taking time off**.
 
-1. Sick leave
-2. Followed by a long 7 weeks vacation
+If started with a 100% sick leave for 3 weeks, followed by a 50% sick leave for 4 weeks and then a 7 weeks long summer vacation.
+The point was to focus on my recovery, so of course I was forbidden from working on my projects and endeavors too.
 
-These are auxiliary things that helped the process along:
+I'm convinced that even if I did everything else right (walking, trying to enjoy life etc) I wouldn't have managed it without this break. I've read the opinion that the *only* thing that can cure a bad burnout is removing yourself from the stressful environment. I'm not sure I'd go that far, but it sure felt that way for me this time.
 
-1. Be kind towards myself
-3. Lot's of walking
-4. Physical exercise
-5. Do things that I used to enjoy
-6. Rest
-7. Program (but in very small doses)
+
+# Are you ever cured?
+
+It's now been a little over a year since my big wake-up call on the flight home, and it's only now that I feel I'm myself again. I'm finally making progress on my projects again, and I can do [deep work][] to a satisfactory degree again.
+
+The healing process has been slow---much slower than I could've thought.
+Even though it took around a year last time to recover too, a year is a damn long time.
+A lesson I've learned (or having to re-learn) is that doing everything you can to avoid a burnout will pay off in the long run.
+
+But the worst part is: will you ever truly get rid of it?
+Or is the burnout forever etched into your brain, just waiting for an opportunity to make your life miserable again?
+
+> Most people, including myself, keep repeating the same mistakes
+{ author=William Shatner }
+
+[deep work]: https://www.lifehack.org/849518/deep-work-rules "What Is Deep Work and How To Practice It (Complete Guide)"
 

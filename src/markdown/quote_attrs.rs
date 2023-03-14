@@ -1,5 +1,6 @@
+use std::collections::HashMap;
+
 use crate::markdown::attrs::{parse_attrs, Attrs};
-use crate::markdown::html::push_open_tag;
 use itertools::{Itertools, MultiPeek};
 use pulldown_cmark::{html::push_html, Event, Tag};
 
@@ -49,20 +50,36 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for QuoteAttrs<'a, I> {
         }
 
         let (events, attrs) = split_attrs(events);
-
-        let res = match attrs.and_then(|x| x.parser) {
-            Some(parser) => parser.transform(events),
-            None => {
-                let mut res = String::new();
-                push_open_tag::<&str>(&mut res, "blockquote", None);
-                push_html(&mut res, events.into_iter());
-                res.push_str("</blockquote>");
-                res
-            }
-        };
-
+        let res = gen_html(events, attrs);
         Some(Event::Html(res.into()))
     }
+}
+
+fn gen_html(events: Vec<Event>, attrs: Option<Attrs>) -> String {
+    match attrs {
+        Some(Attrs {
+            parser: Some(parser),
+            key_value,
+            ..
+        }) => parser.transform(events, key_value),
+        Some(Attrs { key_value, .. }) => gen_blockquote(events, Some(key_value)),
+        None => gen_blockquote(events, None),
+    }
+}
+
+fn gen_blockquote(events: Vec<Event>, key_value: Option<HashMap<String, String>>) -> String {
+    let mut res = String::new();
+    res.push_str("<blockquote>");
+    push_html(&mut res, events.into_iter());
+    if let Some(kv) = &key_value {
+        if let Some(author) = kv.get("author") {
+            res.push_str(r#"<footer><span class="author">"#);
+            res.push_str(&html_escape::encode_safe(&author));
+            res.push_str("</span></footer>\n");
+        }
+    }
+    res.push_str("</blockquote>");
+    res
 }
 
 fn split_attrs(mut events: Vec<Event>) -> (Vec<Event>, Option<Attrs>) {
@@ -120,6 +137,30 @@ mod tests {
 > Text here
 { :notice }";
         assert_eq!(convert(s), r"<aside>Text here</aside>");
+    }
+
+    #[test]
+    fn test_quote_epigraph() {
+        let s = r"
+> Text here
+{ :epigraph }";
+        assert_eq!(
+            convert(s),
+            r#"<div class="epigraph"><blockquote>Text here</blockquote></div>"#
+        );
+    }
+
+    #[test]
+    fn test_quote_src() {
+        let s = r"
+> Text here
+{ author=John Doe }";
+        assert_eq!(
+            convert(s),
+            r#"<blockquote><p>Text here</p>
+<footer><span class="author">John Doe</span></footer>
+</blockquote>"#
+        );
     }
 
     #[test]
