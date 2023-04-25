@@ -104,6 +104,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
                 Some(caption)
             },
             class: None,
+            link: false,
         }
         .push_html(&mut res);
 

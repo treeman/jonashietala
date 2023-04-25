@@ -81,8 +81,8 @@ mod tests {
             parse_fenced_blocks(s),
             r#"
 <figure class="flex-50">
-<img src="/images/img1.jpg" />
-<img src="/images/img2.jpg" />
+<a href="/images/img1.jpg"><img src="/images/img1.jpg" /></a>
+<a href="/images/img2.jpg"><img src="/images/img2.jpg" /></a>
 </figure>"#
         );
     }
@@ -99,8 +99,8 @@ mod tests {
             parse_fenced_blocks(s),
             r#"
 <figure class="flex-50">
-<img height="100" src="/images/img1.jpg" />
-<img height="100" src="/images/img2.jpg" />
+<a href="/images/img1.jpg"><img height="100" src="/images/img1.jpg" /></a>
+<a href="/images/img2.jpg"><img height="100" src="/images/img2.jpg" /></a>
 </figure>"#
         );
     }
@@ -119,8 +119,8 @@ My *title*
             parse_fenced_blocks(s),
             r#"
 <figure class="flex-50">
-<img src="/images/img1.jpg" />
-<img src="/images/img2.jpg" />
+<a href="/images/img1.jpg"><img src="/images/img1.jpg" /></a>
+<a href="/images/img2.jpg"><img src="/images/img2.jpg" /></a>
 <figcaption>My <em>title</em></figcaption>
 </figure>"#
         );
@@ -138,8 +138,8 @@ My *title*
             parse_fenced_blocks(s),
             r#"
 <figure class="gallery">
-<img src="/images/img1.jpg" />
-<img src="/images/img2.jpg" />
+<a href="/images/img1.jpg"><img src="/images/img1.jpg" /></a>
+<a href="/images/img2.jpg"><img src="/images/img2.jpg" /></a>
 </figure>"#
         );
     }

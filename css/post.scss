@@ -284,31 +284,32 @@ $hr-color: $gb-lm-dark-gray;
 // Multiple images share the same line and automatically flexes.
 // Caption is below and everything is centered.
 .article-content figure {
-  > img {
+  img {
     padding: 0.1em;
   }
 }
 
-.article-content figure.flex-50 > img {
+.article-content figure.flex-50 a,
+.article-content figure.flex-50 img {
   flex: 0 1 50%;
 }
-.article-content figure.flex-33 > img {
+.article-content figure.flex-33 a,
+.article-content figure.flex-33 img {
   flex: 0 1 33%;
 }
-.article-content figure.flex-25 > img {
+.article-content figure.flex-25 a,
+.article-content figure.flex-25 img {
   flex: 0 1 25%;
 }
-.article-content figure.flex-20 > img {
+.article-content figure.flex-20 a,
+.article-content figure.flex-20 img {
   flex: 0 1 20%;
 }
 
 .article-content figure.gallery {
-  margin: 1rem 0;
-
-  > img {
-    width: 8.75em;
-    padding: 0.1em;
-  }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0.1rem;
 }
 
 /*

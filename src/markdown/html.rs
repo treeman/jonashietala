@@ -6,6 +6,7 @@ pub struct Figure<'a> {
     pub imgs: Vec<Img>,
     pub caption: Option<String>,
     pub class: Option<&'a str>,
+    pub link: bool,
 }
 
 impl<'a> Figure<'a> {
@@ -13,17 +14,18 @@ impl<'a> Figure<'a> {
         push_open_tag(s, "figure", self.class);
         s.push('\n');
         for img in self.imgs.iter() {
+            if self.link {
+                s.push_str(r#"<a href=""#);
+                s.push_str(&img.src);
+                s.push_str(r#"">"#);
+            }
             img.push_html(s);
+            if self.link {
+                s.push_str("</a>");
+            }
             s.push('\n');
         }
-        // FIXME should we add links to all images?
-        // s.push_str(
-        //     &self
-        //         .imgs
-        //         .iter()
-        //         .map(|img| format!(r#"<a href="{}">{}</a>"#, img.src, img.render()))
-        //         .join("\n"),
-        // );
+
         if let Some(caption) = &self.caption {
             let caption = markdown_to_html_strip_one_paragraph(caption);
             s.push_str(&format!("<figcaption>{caption}</figcaption>\n"));

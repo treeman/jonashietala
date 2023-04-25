@@ -18,6 +18,7 @@ pub fn parse_flex(content: &str) -> String {
         imgs,
         caption,
         class,
+        link: true,
     }
     .push_html(&mut res);
     res
@@ -30,6 +31,7 @@ pub fn parse_figure(content: &str) -> String {
         imgs,
         caption,
         class: None,
+        link: false,
     }
     .push_html(&mut res);
     res
@@ -42,6 +44,7 @@ pub fn parse_gallery(content: &str) -> String {
         imgs,
         caption,
         class: Some("gallery"),
+        link: true,
     }
     .push_html(&mut res);
     res

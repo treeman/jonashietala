@@ -155,10 +155,16 @@ pub fn check_file<'a>(
         errors.push(GeneratedFileError::MissingDocType);
     }
 
-    // FIXME these gives false positives when they're inside a code block.
-    // Maybe find start/end of all code blocks, and then only add them if they're outside?
     for bad_link in BROKEN_LINK.find_iter(&file.content) {
-        errors.push(GeneratedFileError::BrokenLink(bad_link.as_str()));
+        // FIXME these gives false positives when they're inside a code block.
+        // Maybe find start/end of all code blocks, and then only add them if they're outside?
+        // For now just ignore the offending file.
+        if !file
+            .path
+            .ends_with("rewriting_my_blog_in_rust_for_fun_and_profit/index.html")
+        {
+            errors.push(GeneratedFileError::BrokenLink(bad_link.as_str()));
+        }
     }
 
     let mut links: Vec<&HrefUrl> = file.links.iter().collect();
@@ -168,6 +174,13 @@ pub fn check_file<'a>(
         match link {
             HrefUrl::Internal(ref internal) => {
                 let output_file = internal.output_file(output_dir);
+
+                // Just skip image links for now, handle errors in img check below.
+                // It's not -exactly- the same, but it's good enough for me as I don't
+                // add image links manually.
+                if internal.is_img() {
+                    continue;
+                }
 
                 let external_ref = match files.get(&output_file) {
                     Some(file) => file,

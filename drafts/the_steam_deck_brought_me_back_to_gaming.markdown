@@ -4,68 +4,29 @@ tags: [Tag1, Tag2]
 ---
 
 
-# The device itself
-
-## Open and hackable
-
-Linux! You don't have to use Steam, and you can install Windows if you want to.
-
-## Portable & dockable
-
-## Controller support
-
-## Steam Input
+# Killer feature #1: Sleep mode
 
 
-# The amazing Steam library
-
-## Rediscovered gems
-
-- FTL
-
-## Tons of games
-
-- Hades
-- Horizon New Dawn
+# Killer feature #2: Steam input
 
 
-# Install what you want
+# Killer feature #3: The steam library
 
-- Clone Hero
-
-
-# Emulation
-
-## Are the new games the best games of all-time?
-
-- Play through the Zelda series
-
-  A Link to the Past, Ocarina of Time and Breath of the Wild 
-
-- The best Super Mario games
-
-  Super Mario World
-
-## Pokémon ROM hacks
-
-- Pokémon Unbound
-
-## Switch emulation
-
-- Mario Kart
-- Super Smash Bros
-
-
-# Playing with my kids
-
+- LEGO City Undercover
 - Overcooked 2
-- LEGO City Undercover & Jurassic World
-- Mario Kart
-- Super Smash Bros
+- Faster than Light
+- Horizon Zero Dawn
 
-Plan to:
+# Killer feature #4: An open platform
 
-- Wii Sports Resort
-- Clone Hero
-- Super Mario & Donkey Kong
+- You're not limited to Steam
+- Runs Linux
+- Don't like Linux? You can install Windows if you want
+
+
+# Killer feature #5: Emulation
+
+- Mario Kart 8
+- The entire Zelda series
+- Pokémon Unbound
 

@@ -83,7 +83,7 @@ impl SiteUrl {
 
     pub fn output_file(&self, output_dir: &Utf8Path) -> Utf8PathBuf {
         let mut path = output_dir.to_owned();
-        path.push(&Utf8Path::new(self.url.path()).strip_prefix("/").unwrap());
+        path.push(Utf8Path::new(self.url.path()).strip_prefix("/").unwrap());
 
         // Don't add index to urls like "feed.xml"
         if path.extension().is_none() {
@@ -91,6 +91,10 @@ impl SiteUrl {
         }
 
         path
+    }
+
+    pub fn is_img(&self) -> bool {
+        self.href().starts_with("/images")
     }
 }
 
