@@ -25,6 +25,12 @@ pub struct TestSite {
 }
 
 impl TestSite {
+    pub fn create_file(&mut self, file: &str, content: &str) -> Result<()> {
+        let path = self.input_dir.path().join(file);
+        fs::write(&path, content)?;
+        self.site.file_changed(Event::Create(path))
+    }
+
     pub fn change_file(&mut self, file: &str, from: &str, to: &str) -> Result<()> {
         let path = self.input_dir.path().join(file);
         let content = fs::read_to_string(&path)?.replace(from, to);

@@ -93,6 +93,18 @@ impl SiteContent {
         })
     }
 
+    pub fn insert_post(&mut self, post: PostItem) -> Option<PostItem> {
+        let post_ref = post.post_ref();
+        let prev_post = self.posts.insert(post_ref.clone(), post);
+        dbg!(&self.posts.keys().collect::<Vec<_>>());
+        self.update_homepage();
+        prev_post
+    }
+
+    pub fn update_homepage(&mut self) {
+        self.homepage.update_posts(&self.posts)
+    }
+
     pub fn get_post(&self, post_ref: &PostRef) -> Option<&PostItem> {
         self.posts.get(post_ref)
     }
@@ -172,6 +184,48 @@ impl SiteRenderOpts<'_> {
             copy_files: true,
             feed: true,
             extra_items: vec![],
+        }
+    }
+
+    fn post_created<'a>(post: &'a PostItem) -> SiteRenderOpts<'a> {
+        let has_series = post.series.is_some();
+        let has_tags = !post.tags.is_empty();
+
+        SiteRenderOpts {
+            all_posts: true,
+            tags_archives: has_tags,
+            tags_list: has_tags,
+            post_archives: true,
+            series_archive: has_series,
+            series: has_series,
+            homepage: true,
+            extra_items: vec![post],
+            feed: true,
+            ..Default::default()
+        }
+    }
+
+    fn post_updated<'a>(old: &PostItem, new: &'a PostItem) -> SiteRenderOpts<'a> {
+        let title_changed = new.title != old.title;
+        let tags_changed = new.tags != old.tags;
+        let series_changed = new.series.is_some() || new.series != old.series;
+        let recommended_changed = new.recommended != old.recommended;
+
+        SiteRenderOpts {
+            // NOTE
+            // It's excessive to re-render ALL posts, just next/prev + in series should be enough.
+            // It's excessive to re-render ALL tags, just affected tags should be enough.
+            // It's excessive to re-render ALL series, just affected should be enough.
+            all_posts: title_changed || series_changed,
+            tags_archives: title_changed || tags_changed,
+            tags_list: tags_changed,
+            post_archives: title_changed,
+            series_archive: title_changed || series_changed,
+            series: title_changed || series_changed,
+            homepage: title_changed || recommended_changed,
+            extra_items: vec![new],
+            feed: true,
+            ..Default::default()
         }
     }
 }
@@ -386,12 +440,6 @@ impl Site {
             Event::Remove(path) => {
                 self.remove_event(path)?;
             }
-            // Event::Remove(path) => {}
-            // Rename post
-            // Move draft -> post
-            // Move post -> draft
-            // Rename css
-            // Remove css files
             Event::Rescan => {
                 self.rebuild_all()?;
             }
@@ -438,14 +486,14 @@ impl Site {
 
         if path.rel_path.starts_with("css/") {
             self.rebuild_css()?;
-        // } else if path.starts_with("posts/") {
-        //     self.rebuild_post(path)?;
-        // } else if path.starts_with("static/") {
-        //     self.rebuild_standalone(path)?;
-        // } else if path.starts_with("drafts/") {
-        //     self.rebuild_draft(path)?;
-        // } else if path.starts_with("templates/") {
-        //     self.rebuild_template(path)?;
+        } else if path.rel_path.starts_with("posts/") {
+            self.rebuild_post(path.abs_path())?;
+            // } else if path.starts_with("static/") {
+            //     self.rebuild_standalone(path)?;
+            // } else if path.starts_with("drafts/") {
+            //     self.rebuild_draft(path)?;
+            // } else if path.starts_with("templates/") {
+            //     self.rebuild_template(path)?;
         } else if path.rel_path.starts_with("fonts/") || path.rel_path.starts_with("images/") {
             self.rebuild_copy(path)?;
         } else if unknown_change_msg(&path.rel_path) {
@@ -458,13 +506,23 @@ impl Site {
     fn rename_event(&mut self, from: PathBuf, to: PathBuf) -> Result<()> {
         let from = self.file_path(from)?;
         let to = self.file_path(to)?;
-        warn!("Unsupported rename: {from} {to}");
+        // Move draft -> post
+        // Move post -> draft
+        // Rename css
+        if unknown_change_msg(&from.rel_path) || unknown_change_msg(&to.rel_path) {
+            warn!("Unsupported rename: {from} {to}");
+        }
         Ok(())
     }
 
     fn remove_event(&mut self, path: PathBuf) -> Result<()> {
+        // Remove css files
+        // Remove post
+        // Remove draft
         let path = self.file_path(path)?;
-        warn!("Unsupported remove: {path}");
+        if unknown_change_msg(&path.rel_path) {
+            warn!("Unsupported remove: {path}");
+        }
         Ok(())
     }
 
@@ -477,37 +535,16 @@ impl Site {
         info!("Post changed: {path}");
         let updated = PostItem::from_file(path.clone())?;
         let post_ref = updated.post_ref();
-
-        // FIXME this misses if we add a series to a post
-
-        let old = self
-            .content
-            .posts
-            .insert(post_ref.clone(), updated)
-            .ok_or_else(|| eyre!("Nonexistent post: {}", path))?;
+        let prev_post = self.content.insert_post(updated);
 
         let updated = self.content.posts.get(&post_ref).unwrap();
 
-        let title_changed = updated.title != old.title;
-        let tags_changed = updated.tags != old.tags;
-        let series_changed = updated.series != None || updated.series != old.series;
-        let recommended_changed = updated.recommended != old.recommended;
+        let render_opts = match prev_post {
+            Some(old) => SiteRenderOpts::post_updated(&old, &updated),
+            None => SiteRenderOpts::post_created(&updated),
+        };
 
-        self.render(SiteRenderOpts {
-            // It's excessive to rerender ALL posts, just next/prev + in series should be enough.
-            all_posts: title_changed || series_changed,
-            // It's excessive to rerender ALL tags, just affected tags should be enough.
-            tags_archives: title_changed || tags_changed,
-            tags_list: tags_changed,
-            post_archives: title_changed,
-            series_archive: title_changed || series_changed,
-            // It's excessive to rerender ALL series, just affected should be enough.
-            series: title_changed || series_changed,
-            homepage: title_changed || recommended_changed,
-            extra_items: vec![updated],
-            feed: true,
-            ..Default::default()
-        })
+        self.render(render_opts)
     }
 
     fn rebuild_standalone(&mut self, path: AbsPath) -> Result<()> {
@@ -737,6 +774,16 @@ mod tests {
     use camino::Utf8PathBuf;
     use colored::Colorize;
 
+    fn enable_trace() {
+        use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+        tracing_subscriber::registry()
+            .with(tracing_subscriber::EnvFilter::new(
+                "jonashietala_se=debug,tower_http=debug",
+            ))
+            .with(tracing_subscriber::fmt::layer())
+            .init();
+    }
+
     #[test]
     fn test_render_and_check_site() -> Result<()> {
         let (_output_dir, output_path) = AbsPath::new_tempdir()?;
@@ -842,15 +889,56 @@ mod tests {
     }
 
     #[test]
-    fn test_site_file_changed() -> Result<()> {
-        // use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-        // tracing_subscriber::registry()
-        //     .with(tracing_subscriber::EnvFilter::new(
-        //         "jonashietala_se=debug,tower_http=debug",
-        //     ))
-        //     .with(tracing_subscriber::fmt::layer())
-        //     .init();
+    fn test_site_file_create() -> Result<()> {
+        enable_trace();
 
+        let mut test_site = TestSiteBuilder {
+            include_drafts: true,
+        }
+        .build()?;
+
+        assert!(test_site
+            .find_post("posts/2023-01-31-new_post.markdown")
+            .is_none());
+
+        test_site.create_file(
+            "posts/2023-01-31-new_post.markdown",
+            r#"
+---
+title: "New post title"
+tags: Tag1
+---
+
+My created post
+"#,
+        )?;
+
+        assert!(test_site
+            .find_post("2023-01-31-new_post.markdown")
+            .unwrap()
+            .raw_content
+            .contains("My created post"));
+
+        let homepage = test_site.output_content("index.html")?;
+        assert!(homepage.contains("New post title"));
+
+        // TODO
+        // - static
+        // - draft
+        // - series
+        // - templates
+        // - about
+        // - projects
+
+        Ok(())
+    }
+
+    // TODO
+    // - Remove
+    // - Rename
+
+    #[test]
+    fn test_site_file_changed() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
         }

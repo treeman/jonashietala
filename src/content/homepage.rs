@@ -25,19 +25,29 @@ impl HomepageItem {
         let about = fs::read_to_string(dir.join("about.markdown"))?;
         let url = SiteUrl::parse("/").expect("Should be able to create a url");
 
-        let recent = posts.keys().take(5).map(Clone::clone).collect();
-        let recommended = posts
-            .iter()
-            .filter(|(_, post)| post.recommended)
-            .map(|(post_ref, _)| post_ref.clone())
-            .collect();
-
         Ok(Self {
             url,
             about,
-            recommended,
-            recent,
+            recent: Self::get_recent(posts),
+            recommended: Self::get_recommended(posts),
         })
+    }
+
+    pub fn update_posts(&mut self, posts: &BTreeMap<PostRef, PostItem>) {
+        self.recent = Self::get_recent(posts);
+        self.recommended = Self::get_recommended(posts);
+    }
+
+    fn get_recent(posts: &BTreeMap<PostRef, PostItem>) -> Vec<PostRef> {
+        posts.keys().take(5).map(Clone::clone).collect()
+    }
+
+    fn get_recommended(posts: &BTreeMap<PostRef, PostItem>) -> Vec<PostRef> {
+        posts
+            .iter()
+            .filter(|(_, post)| post.recommended)
+            .map(|(post_ref, _)| post_ref.clone())
+            .collect()
     }
 }
 
