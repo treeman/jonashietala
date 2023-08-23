@@ -3,6 +3,7 @@ use std::collections::BTreeMap;
 use std::fmt::Debug;
 use std::fs;
 
+use camino::Utf8Path;
 use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 use eyre::{eyre, Result};
 use itemref_derive::ItemRef;
@@ -49,7 +50,17 @@ pub fn set_post_prev_next(posts: &mut BTreeMap<PostRef, PostItem>) {
 pub struct PostRef {
     pub id: String,
     #[order]
-    pub created: NaiveDateTime,
+    pub created: NaiveDate,
+}
+
+impl PostRef {
+    pub fn from_path(path: &Utf8Path) -> Result<PostRef> {
+        let meta = PostDirMetadata::from_path(&path)?;
+        Ok(PostRef {
+            id: meta.to_url()?.href().to_string(),
+            created: meta.date,
+        })
+    }
 }
 
 #[derive(Debug)]
@@ -81,7 +92,7 @@ impl PostItem {
         raw_content: String,
         modified: NaiveDateTime,
     ) -> Result<Self> {
-        let PostDirMetadata { date, slug } = PostDirMetadata::from_path(&path)?;
+        let post_dir = PostDirMetadata::from_path(&path)?;
 
         let Document { metadata, content } =
             YamlFrontMatter::parse::<PostMetadata>(&raw_content)
@@ -92,10 +103,9 @@ impl PostItem {
             None => NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
         };
 
-        let created = NaiveDateTime::new(date, time);
+        let created = NaiveDateTime::new(post_dir.date, time);
 
-        let url = SiteUrl::parse(&format!("/blog/{}/{}/", created.format("%Y/%m/%d"), &slug))
-            .expect("Should be able to create a url");
+        let url = post_dir.to_url().expect("Should be able to create a url");
 
         let transformed_content = markdown_to_html(&content);
 
@@ -119,7 +129,7 @@ impl PostItem {
     pub fn post_ref(&self) -> PostRef {
         PostRef {
             id: self.id().to_string(),
-            created: self.created,
+            created: self.created.date(),
         }
     }
 }
@@ -238,13 +248,14 @@ struct PostMetadata {
     recommended: Option<bool>,
 }
 
+#[derive(Debug)]
 pub struct PostDirMetadata {
     pub date: NaiveDate,
     pub slug: String,
 }
 
 impl PostDirMetadata {
-    pub fn from_path(path: &AbsPath) -> Result<Self> {
+    pub fn from_path(path: &Utf8Path) -> Result<Self> {
         lazy_static! {
             static ref RE: Regex = Regex::new(r"^(\d{4})-(\d{2})-(\d{2})-(\S+)$").unwrap();
         }
@@ -261,6 +272,14 @@ impl PostDirMetadata {
             .ok_or_else(|| eyre!("Post has invalid ymd: {}", path))?,
             slug: captures[4].to_string(),
         })
+    }
+
+    pub fn to_url(&self) -> Result<SiteUrl> {
+        SiteUrl::parse(&format!(
+            "/blog/{}/{}/",
+            self.date.format("%Y/%m/%d"),
+            self.slug
+        ))
     }
 }
 
@@ -349,6 +368,24 @@ mod tests {
                 .next()?
                 .value(),
         )
+    }
+
+    #[test]
+    fn postref() -> Result<()> {
+        let test_site = TestSiteBuilder {
+            include_drafts: false,
+        }
+        .build()?;
+
+        let post = test_site
+            .find_post("2022-01-31-test_post.markdown")
+            .unwrap();
+
+        assert_eq!(
+            post.post_ref(),
+            PostRef::from_path("/posts/2022-01-31-test_post".into()).unwrap(),
+        );
+        Ok(())
     }
 
     #[test]

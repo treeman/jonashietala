@@ -1,9 +1,11 @@
 #![cfg(test)]
 
+use crate::content::PostItem;
 use crate::content::SeriesItem;
 use crate::paths::AbsPath;
 use crate::site::{Site, SiteOptions};
 use crate::site_url::{HrefUrl, ImgUrl};
+use crate::util::{load_templates, ParsedFile, ParsedFiles};
 use camino::Utf8Path;
 use camino::Utf8PathBuf;
 use eyre::Result;
@@ -15,8 +17,6 @@ use std::path::PathBuf;
 use tempfile::TempDir;
 use tera::Tera;
 use thiserror::Error;
-
-use crate::{content::PostItem, util::load_templates, util::ParsedFile, util::ParsedFiles};
 
 pub struct TestSite {
     pub site: Site,
@@ -38,20 +38,19 @@ impl TestSite {
         self.site.file_changed(Event::Write(path))
     }
 
+    pub fn rename_file(&mut self, from: &str, to: &str) -> Result<()> {
+        let from = self.input_dir.path().join(from);
+        let to = self.input_dir.path().join(to);
+        fs::rename(&from, &to)?;
+        self.site.file_changed(Event::Rename(from, to))
+    }
+
     pub fn find_post<'a>(&'a self, file: &str) -> Option<&'a PostItem> {
-        self.site
-            .content
-            .posts
-            .values()
-            .find(|post| post.path.file_name() == Some(file))
+        self.site.content.find_post(file)
     }
 
     pub fn find_series<'a>(&'a self, file: &str) -> Option<&'a SeriesItem> {
-        self.site
-            .content
-            .series
-            .values()
-            .find(|series| series.path.file_name() == Some(file))
+        self.site.content.find_series(file)
     }
 
     pub fn output_path(&self, file: &str) -> AbsPath {
@@ -66,6 +65,12 @@ impl TestSite {
 
     pub fn read_file_to_string(&self, file: &str) -> std::io::Result<String> {
         fs::read_to_string(self.output_path(file))
+    }
+
+    pub fn remove_file(&mut self, file: &str) -> Result<()> {
+        let path = self.input_dir.path().join(file);
+        fs::remove_file(&path)?;
+        self.site.file_changed(Event::Remove(path))
     }
 
     /// Persist the input and output dir, allowing us to inspect them
@@ -112,7 +117,7 @@ impl TestSiteBuilder {
         let site = Site::load_content(SiteOptions {
             output_dir: output_path,
             input_dir: input_path,
-            clear_output_dir: false,
+            clear_output_dir: true,
             include_drafts: self.include_drafts,
         })?;
         site.render_all()?;

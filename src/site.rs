@@ -16,6 +16,7 @@ use url::Url;
 
 use crate::content::load_drafts;
 use crate::content::load_series;
+use crate::content::set_post_prev_next;
 use crate::content::DraftRef;
 use crate::content::PostRef;
 use crate::content::SeriesArchiveItem;
@@ -93,12 +94,36 @@ impl SiteContent {
         })
     }
 
+    #[allow(dead_code)]
+    pub fn find_post<'a>(&'a self, file_name: &str) -> Option<&'a PostItem> {
+        self.posts
+            .values()
+            .find(|post| post.path.file_name() == Some(file_name))
+    }
+
+    #[allow(dead_code)]
+    pub fn find_series<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
+        self.series
+            .values()
+            .find(|series| series.path.file_name() == Some(file_name))
+    }
+
     pub fn insert_post(&mut self, post: PostItem) -> Option<PostItem> {
         let post_ref = post.post_ref();
         let prev_post = self.posts.insert(post_ref.clone(), post);
-        dbg!(&self.posts.keys().collect::<Vec<_>>());
+        set_post_prev_next(&mut self.posts);
         self.update_homepage();
         prev_post
+    }
+
+    pub fn insert_draft(&mut self, draft: DraftItem) -> Option<DraftItem> {
+        let draft_ref = draft.draft_ref();
+        let prev_draft = self
+            .drafts
+            .as_mut()
+            .unwrap()
+            .insert(draft_ref.clone(), draft);
+        prev_draft
     }
 
     pub fn update_homepage(&mut self) {
@@ -146,14 +171,12 @@ pub struct Site {
 
 #[derive(Default)]
 struct SiteRenderOpts<'a> {
-    // FIXME update all posts in series when title is changed or a new post is added
     all_posts: bool,
     all_standalones: bool,
     all_drafts: bool,
     draft_archive: bool,
     post_archives: bool,
     tags_archives: bool,
-    // FIXME update archive when post is changed
     series_archive: bool,
     tags_list: bool,
     homepage: bool,
@@ -163,7 +186,7 @@ struct SiteRenderOpts<'a> {
     copy_files: bool,
     feed: bool,
 
-    extra_items: Vec<&'a dyn Item>,
+    extra_render: Vec<&'a dyn Item>,
 }
 
 impl SiteRenderOpts<'_> {
@@ -183,7 +206,7 @@ impl SiteRenderOpts<'_> {
             sass: true,
             copy_files: true,
             feed: true,
-            extra_items: vec![],
+            extra_render: vec![],
         }
     }
 
@@ -199,7 +222,7 @@ impl SiteRenderOpts<'_> {
             series_archive: has_series,
             series: has_series,
             homepage: true,
-            extra_items: vec![post],
+            extra_render: vec![post],
             feed: true,
             ..Default::default()
         }
@@ -223,8 +246,24 @@ impl SiteRenderOpts<'_> {
             series_archive: title_changed || series_changed,
             series: title_changed || series_changed,
             homepage: title_changed || recommended_changed,
-            extra_items: vec![new],
+            extra_render: vec![new],
             feed: true,
+            ..Default::default()
+        }
+    }
+
+    fn draft_created<'a>(draft: &'a DraftItem) -> SiteRenderOpts<'a> {
+        SiteRenderOpts {
+            draft_archive: true,
+            extra_render: vec![draft],
+            ..Default::default()
+        }
+    }
+
+    fn draft_updated<'a>(old: &DraftItem, new: &'a DraftItem) -> SiteRenderOpts<'a> {
+        SiteRenderOpts {
+            draft_archive: new.title != old.title,
+            extra_render: vec![new],
             ..Default::default()
         }
     }
@@ -276,6 +315,54 @@ impl<'a> SiteRenderExtra<'a> {
     }
 }
 
+enum PathEvent {
+    SourceFile,
+    Css,
+    Post,
+    Static,
+    Draft,
+    Series,
+    Template,
+    Font,
+    Image,
+    Homepage,
+    Project,
+    Unknown,
+    Ignore,
+}
+
+impl PathEvent {
+    pub fn from_path(path: &FilePath) -> Self {
+        if path.rel_path.0.extension() == Some("rs") {
+            Self::SourceFile
+        } else if path.rel_path.starts_with("css/") {
+            Self::Css
+        } else if path.rel_path.starts_with("posts/") {
+            Self::Post
+        } else if path.rel_path.starts_with("static/") {
+            Self::Static
+        } else if path.rel_path.starts_with("drafts/") {
+            Self::Draft
+        } else if path.rel_path.starts_with("series/") {
+            Self::Series
+        } else if path.rel_path.starts_with("templates/") {
+            Self::Template
+        } else if path.rel_path.starts_with("fonts/") || path.rel_path.starts_with("images/") {
+            Self::Font
+        } else if path.rel_path.starts_with("images/") {
+            Self::Image
+        } else if path.rel_path == "about.markdown" {
+            Self::Homepage
+        } else if path.rel_path == "projects.markdown" || path.rel_path.starts_with("projects/") {
+            Self::Project
+        } else if unknown_change_msg(&path.rel_path) {
+            Self::Unknown
+        } else {
+            Self::Ignore
+        }
+    }
+}
+
 impl Site {
     pub fn load_content(opts: SiteOptions) -> Result<Self> {
         let content = SiteContent::load(&opts)?;
@@ -320,9 +407,11 @@ impl Site {
     }
 
     fn render(&self, opts: SiteRenderOpts<'_>) -> Result<()> {
+        let ctx = self.render_ctx();
+
         let extra = SiteRenderExtra::new(&opts, self);
 
-        let mut items = opts.extra_items;
+        let mut items = opts.extra_render;
         if opts.all_posts {
             info!("Rebuilding all posts");
             for post in self.content.posts.values() {
@@ -393,7 +482,7 @@ impl Site {
             info!("Rebuilding feed");
             items.push(&feed);
         }
-        self.render_items(&items)?;
+        render_items(&items, &ctx)?;
 
         if opts.post_archives {
             self.copy_archive()?;
@@ -410,23 +499,20 @@ impl Site {
         Ok(())
     }
 
-    fn render_items(&self, items: &[&dyn Item]) -> Result<()> {
-        items
-            .par_iter()
-            .try_for_each(|item| self.render_item(*item))
-    }
-
-    fn render_item<T: Item + ?Sized>(&self, item: &T) -> Result<()> {
-        item.render(&RenderContext {
+    fn render_ctx(&self) -> RenderContext {
+        RenderContext {
             parent_context: &self.context,
             tera: &self.templates,
             output_dir: &self.opts.output_dir,
             content: &self.content,
-        })
+        }
+    }
+
+    fn render_item<T: Item + ?Sized>(&self, item: &T) -> Result<()> {
+        item.render(&self.render_ctx())
     }
 
     pub fn file_changed(&mut self, event: Event) -> Result<()> {
-        // FIXME paths don't work anymore...
         match event {
             Event::Write(path) => {
                 self.write_event(path)?;
@@ -454,28 +540,19 @@ impl Site {
     fn write_event(&mut self, path: PathBuf) -> Result<()> {
         let path = self.file_path(path)?;
 
-        if path.rel_path.0.extension() == Some("rs") {
-            error!("Source file changed {path}, please rebuild");
-        } else if path.rel_path.starts_with("css/") {
-            self.rebuild_css()?;
-        } else if path.rel_path.starts_with("posts/") {
-            self.rebuild_post(path.abs_path())?;
-        } else if path.rel_path.starts_with("static/") {
-            self.rebuild_standalone(path.abs_path())?;
-        } else if path.rel_path.starts_with("drafts/") {
-            self.rebuild_draft(path.abs_path())?;
-        } else if path.rel_path.starts_with("series/") {
-            self.rebuild_series(path.abs_path())?;
-        } else if path.rel_path.starts_with("templates/") {
-            self.rebuild_template(path.abs_path())?;
-        } else if path.rel_path.starts_with("fonts/") || path.rel_path.starts_with("images/") {
-            self.rebuild_copy(path)?;
-        } else if path.rel_path == "about.markdown" {
-            self.rebuild_homepage()?;
-        } else if path.rel_path == "projects.markdown" || path.rel_path.starts_with("projects/") {
-            self.rebuild_projects(path.abs_path())?;
-        } else if unknown_change_msg(&path.rel_path) {
-            warn!("Unknown write: {path}");
+        match PathEvent::from_path(&path) {
+            PathEvent::SourceFile => error!("Source file changed `{path}`, please rebuild"),
+            PathEvent::Css => self.rebuild_css()?,
+            PathEvent::Post => self.rebuild_post(path.abs_path())?,
+            PathEvent::Static => self.rebuild_standalone(path.abs_path())?,
+            PathEvent::Draft => self.rebuild_draft(path.abs_path())?,
+            PathEvent::Series => self.rebuild_series(path.abs_path())?,
+            PathEvent::Template => self.rebuild_template(path.abs_path())?,
+            PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
+            PathEvent::Homepage => self.rebuild_homepage()?,
+            PathEvent::Project => self.rebuild_projects(path.abs_path())?,
+            PathEvent::Unknown => warn!("Unknown write: {path}"),
+            PathEvent::Ignore => (),
         }
 
         Ok(())
@@ -484,20 +561,19 @@ impl Site {
     fn create_event(&mut self, path: PathBuf) -> Result<()> {
         let path = self.file_path(path)?;
 
-        if path.rel_path.starts_with("css/") {
-            self.rebuild_css()?;
-        } else if path.rel_path.starts_with("posts/") {
-            self.rebuild_post(path.abs_path())?;
-            // } else if path.starts_with("static/") {
-            //     self.rebuild_standalone(path)?;
-            // } else if path.starts_with("drafts/") {
-            //     self.rebuild_draft(path)?;
-            // } else if path.starts_with("templates/") {
-            //     self.rebuild_template(path)?;
-        } else if path.rel_path.starts_with("fonts/") || path.rel_path.starts_with("images/") {
-            self.rebuild_copy(path)?;
-        } else if unknown_change_msg(&path.rel_path) {
-            warn!("Unknown create: {path}");
+        match PathEvent::from_path(&path) {
+            PathEvent::SourceFile => error!("Source file changed `{path}`, please rebuild"),
+            PathEvent::Css => self.rebuild_css()?,
+            PathEvent::Static => self.rebuild_standalone(path.abs_path())?,
+            PathEvent::Draft => self.rebuild_draft(path.abs_path())?,
+            PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
+            PathEvent::Homepage => self.rebuild_homepage()?,
+            PathEvent::Project => self.rebuild_projects(path.abs_path())?,
+            PathEvent::Post => self.rebuild_all()?,
+            PathEvent::Series => self.rebuild_all()?,
+            PathEvent::Template => self.rebuild_all()?,
+            PathEvent::Ignore => (),
+            PathEvent::Unknown => warn!("Unknown create: {path}"),
         }
 
         Ok(())
@@ -506,23 +582,38 @@ impl Site {
     fn rename_event(&mut self, from: PathBuf, to: PathBuf) -> Result<()> {
         let from = self.file_path(from)?;
         let to = self.file_path(to)?;
-        // Move draft -> post
-        // Move post -> draft
-        // Rename css
-        if unknown_change_msg(&from.rel_path) || unknown_change_msg(&to.rel_path) {
-            warn!("Unsupported rename: {from} {to}");
+
+        // Could be made more efficient, but this is easier and good for consistency.
+        // Rebuild all is still quite fast and this is uncommon, so it's fine for now...
+        match (PathEvent::from_path(&from), PathEvent::from_path(&to)) {
+            (PathEvent::SourceFile, _) | (_, PathEvent::SourceFile) => {
+                error!("Source file removed `{from} -> {to}`, please rebuild")
+            }
+            (PathEvent::Unknown, _) | (_, PathEvent::Unknown) => {
+                warn!("Unknown rename: {from} -> {to}")
+            }
+            (PathEvent::Ignore, PathEvent::Ignore) => (),
+            _ => self.rebuild_all()?,
         }
+
         Ok(())
     }
 
     fn remove_event(&mut self, path: PathBuf) -> Result<()> {
-        // Remove css files
-        // Remove post
-        // Remove draft
         let path = self.file_path(path)?;
-        if unknown_change_msg(&path.rel_path) {
-            warn!("Unsupported remove: {path}");
+        match PathEvent::from_path(&path) {
+            PathEvent::SourceFile => error!("Source file removed `{path}`, please rebuild"),
+            PathEvent::Css => self.rebuild_css()?,
+            PathEvent::Font | PathEvent::Image => self.remove_output(path)?,
+            PathEvent::Homepage => self.rebuild_homepage()?,
+            PathEvent::Project => self.rebuild_projects(path.abs_path())?,
+            PathEvent::Unknown => warn!("Unknown remove: {path}"),
+            PathEvent::Ignore => (),
+            // Not efficient, but it's much easier to get consistency.
+            // Rebuild all is still quite fast and this is uncommon, so it's fine for now...
+            _ => self.rebuild_all()?,
         }
+
         Ok(())
     }
 
@@ -564,22 +655,18 @@ impl Site {
 
         info!("Draft changed: {path}");
         let updated = DraftItem::from_file(path.clone())?;
-
-        let drafts = &mut self.content.drafts.as_mut().unwrap();
         let draft_ref = updated.draft_ref();
+        let prev_draft = self.content.insert_draft(updated);
 
-        let old = drafts
-            .insert(draft_ref.clone(), updated)
-            .ok_or_else(|| eyre!("Nonexistent draft: {}", path))?;
-
-        let drafts = self.content.drafts.as_ref().unwrap();
+        let drafts = &self.content.drafts.as_ref().unwrap();
         let updated = drafts.get(&draft_ref).unwrap();
 
-        self.render(SiteRenderOpts {
-            draft_archive: updated.title != old.title,
-            extra_items: vec![updated],
-            ..Default::default()
-        })
+        let render_opts = match prev_draft {
+            Some(old) => SiteRenderOpts::draft_updated(&old, &updated),
+            None => SiteRenderOpts::draft_created(&updated),
+        };
+
+        self.render(render_opts)
     }
 
     fn rebuild_series(&mut self, path: AbsPath) -> Result<()> {
@@ -614,7 +701,7 @@ impl Site {
         self.render(SiteRenderOpts {
             all_posts: title_changed || note_changed,
             series_archive: true,
-            extra_items: vec![updated],
+            extra_render: vec![updated],
             ..Default::default()
         })
     }
@@ -706,6 +793,12 @@ impl Site {
         self.render(opts)
     }
 
+    fn remove_output(&mut self, path: FilePath) -> Result<()> {
+        info!("File removed: {path}");
+        std::fs::remove_file(&self.opts.output_dir.join(&path.rel_path.0))?;
+        Ok(())
+    }
+
     fn rebuild_copy(&mut self, path: FilePath) -> Result<()> {
         info!("Copy changed: {path}");
         util::copy_file(
@@ -724,6 +817,10 @@ impl Site {
     fn file_path(&self, path: PathBuf) -> Result<FilePath> {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
+}
+
+fn render_items(items: &[&dyn Item], ctx: &RenderContext) -> Result<()> {
+    items.par_iter().try_for_each(|item| item.render(ctx))
 }
 
 fn unknown_change_msg(path: &RelPath) -> bool {
@@ -774,6 +871,7 @@ mod tests {
     use camino::Utf8PathBuf;
     use colored::Colorize;
 
+    #[allow(dead_code)]
     fn enable_trace() {
         use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
         tracing_subscriber::registry()
@@ -890,8 +988,6 @@ mod tests {
 
     #[test]
     fn test_site_file_create() -> Result<()> {
-        enable_trace();
-
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
         }
@@ -922,33 +1018,122 @@ My created post
         let homepage = test_site.output_content("index.html")?;
         assert!(homepage.contains("New post title"));
 
-        // TODO
-        // - static
-        // - draft
-        // - series
-        // - templates
-        // - about
-        // - projects
+        test_site.create_file(
+            "drafts/my_draft.markdown",
+            r#"
+---
+title: "New draft title"
+tags: Tag1
+---
+
+My created draft
+"#,
+        )?;
+
+        assert!(test_site
+            .output_content("drafts/index.html")?
+            .contains("New draft title"));
+        assert!(test_site
+            .output_content("drafts/my_draft/index.html")?
+            .contains("My created draft"));
+
+        test_site.create_file(
+            "static/my_static.markdown",
+            r#"
+---
+title: "Some static page"
+---
+
+My created static
+"#,
+        )?;
+
+        let draft = test_site.output_content("my_static/index.html")?;
+        assert!(draft.contains("My created static"));
 
         Ok(())
     }
 
-    // TODO
-    // - Remove
-    // - Rename
+    #[test]
+    fn test_post_removed() -> Result<()> {
+        let mut test_site = TestSiteBuilder {
+            include_drafts: false,
+        }
+        .build()?;
+
+        assert!(test_site
+            .output_content("blog/2022/01/31/test_post/index.html")
+            .is_ok());
+
+        test_site.remove_file("posts/2022-01-31-test_post.markdown")?;
+
+        assert!(test_site
+            .output_content("blog/2022/01/31/test_post/index.html")
+            .is_err());
+
+        Ok(())
+    }
 
     #[test]
-    fn test_site_file_changed() -> Result<()> {
+    fn test_draft_promoted() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
         }
         .build()?;
 
         assert!(test_site
-            .find_post("2022-01-31-test_post.markdown")
-            .unwrap()
-            .raw_content
+            .output_content("drafts/a_draft/index.html")?
+            .contains("My draft text"));
+
+        test_site.rename_file(
+            "drafts/a_draft.markdown",
+            "posts/2023-01-31-now_post.markdown",
+        )?;
+
+        assert!(test_site
+            .output_content("drafts/a_draft/index.html")
+            .is_err());
+
+        assert!(test_site
+            .output_content("blog/2023/01/31/now_post/index.html")?
+            .contains("My draft text"));
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_post_demoted() -> Result<()> {
+        let mut test_site = TestSiteBuilder {
+            include_drafts: true,
+        }
+        .build()?;
+
+        assert!(test_site
+            .output_content("blog/2022/01/31/test_post/index.html")?
             .contains("☃︎"));
+
+        test_site.rename_file(
+            "posts/2022-01-31-test_post.markdown",
+            "drafts/new_draft.markdown",
+        )?;
+
+        assert!(test_site
+            .output_content("blog/2022/01/31/test_post/index.html")
+            .is_err());
+
+        assert!(test_site
+            .output_content("drafts/new_draft/index.html")?
+            .contains("☃︎"));
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_post_content_change() -> Result<()> {
+        let mut test_site = TestSiteBuilder {
+            include_drafts: false,
+        }
+        .build()?;
 
         assert!(test_site
             .find_post("2022-01-31-test_post.markdown")
@@ -964,6 +1149,36 @@ My created post
             .raw_content
             .contains('💩'));
 
+        Ok(())
+    }
+
+    #[test]
+    fn test_draft_content_change() -> Result<()> {
+        let mut test_site = TestSiteBuilder {
+            include_drafts: true,
+        }
+        .build()?;
+
+        assert!(test_site
+            .output_content("drafts/a_draft/index.html")?
+            .contains("My draft text"));
+
+        test_site.change_file("drafts/a_draft.markdown", "My draft text", "DRAFT TEXT")?;
+
+        assert!(test_site
+            .output_content("drafts/a_draft/index.html")?
+            .contains("DRAFT TEXT"));
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_post_title_change() -> Result<()> {
+        let mut test_site = TestSiteBuilder {
+            include_drafts: false,
+        }
+        .build()?;
+
         let myseries = test_site.find_series("myseries.markdown").unwrap();
         assert_eq!(myseries.posts.len(), 2);
         let myseries_content = test_site.output_content("series/myseries/index.html")?;
@@ -976,35 +1191,46 @@ My created post
             "First series post",
         )?;
 
+        assert!(test_site
+            .output_content("archive/index.html")?
+            .contains("First series post"));
+
         let myseries_content = test_site.output_content("series/myseries/index.html")?;
         assert!(!myseries_content.contains("Feb post 1"));
         assert!(myseries_content.contains("First series post"));
         assert!(myseries_content.contains("Feb post 2"));
 
+        Ok(())
+    }
+
+    #[test]
+    fn test_series_title_change() -> Result<()> {
+        let mut test_site = TestSiteBuilder {
+            include_drafts: true,
+        }
+        .build()?;
+
         assert!(test_site
-            .output_content("drafts/a_draft/index.html")?
-            .contains("My draft text"));
+            .output_content("series/index.html")?
+            .contains("My series"));
+        assert!(test_site
+            .output_content("blog/2022/02/01/feb_post/index.html")?
+            .contains("My series"));
+        assert!(test_site
+            .output_content("blog/2022/02/02/feb_post2/index.html")?
+            .contains("My series"));
 
-        test_site.change_file("drafts/a_draft.markdown", "My draft text", "DRAFT TEXT")?;
+        test_site.change_file("series/myseries.markdown", "My series", "New series title")?;
 
         assert!(test_site
-            .output_content("drafts/a_draft/index.html")?
-            .contains("DRAFT TEXT"));
-
-        // FIXME check archives
-
-        // Check adding/removing/writing an image checks
-
-        // let post1_content = test_site.output_content("blog/2022/02/01/feb_post/index.html")?;
-        // assert!(post1_content.contains("part 1"));
-        // assert!(post1_content.contains("My series"));
-        //
-        // let post2_content = test_site.output_content("blog/2022/02/02/feb_post2/index.html")?;
-        // assert!(post2_content.contains("part 2"));
-        // assert!(post2_content.contains("My series"));
-
-        // Test that post titles exist in other post series too
-        // Test that post title exists in archive
+            .output_content("series/index.html")?
+            .contains("New series title"));
+        assert!(test_site
+            .output_content("blog/2022/02/01/feb_post/index.html")?
+            .contains("New series title"));
+        assert!(test_site
+            .output_content("blog/2022/02/02/feb_post2/index.html")?
+            .contains("New series title"));
 
         Ok(())
     }

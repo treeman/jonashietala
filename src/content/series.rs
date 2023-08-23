@@ -7,7 +7,7 @@ use crate::{
     markdown::find_markdown_files,
     site_url::SiteUrl,
 };
-use chrono::NaiveDateTime;
+use chrono::NaiveDate;
 use eyre::{eyre, Result};
 use itemref_derive::ItemRef;
 use rayon::iter::{IntoParallelRefMutIterator, ParallelIterator};
@@ -70,7 +70,7 @@ pub fn load_series(
 pub struct SeriesRef {
     pub id: String,
     #[order]
-    pub last_created: NaiveDateTime,
+    pub last_created: NaiveDate,
 }
 
 #[derive(Debug)]

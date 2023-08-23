@@ -13,7 +13,7 @@ pub use archive::{post_archives, ArchiveItem};
 pub use drafts::{load_drafts, DraftArchiveItem, DraftItem, DraftRef};
 pub use external::Sass;
 pub use homepage::HomepageItem;
-pub use posts::{load_posts, PostDirMetadata, PostItem, PostRef};
+pub use posts::{load_posts, set_post_prev_next, PostDirMetadata, PostItem, PostRef};
 pub use projects::ProjectsItem;
 pub use series::{load_series, SeriesContext, SeriesItem, SeriesRef};
 pub use series_archive::SeriesArchiveItem;
