@@ -7,7 +7,10 @@ tags: [Tag1, Tag2]
 # Killer feature #1: Sleep mode
 
 
+
 # Killer feature #2: Steam input
+
+- FTL inputs
 
 
 # Killer feature #3: The steam library
@@ -16,6 +19,7 @@ tags: [Tag1, Tag2]
 - Overcooked 2
 - Faster than Light
 - Horizon Zero Dawn
+
 
 # Killer feature #4: An open platform
 
