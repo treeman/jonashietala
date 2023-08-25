@@ -104,7 +104,7 @@ impl SeriesItem {
         let transformmed_post_note = metadata
             .post_note
             .as_ref()
-            .map(|x| markdown_to_html_strip_one_paragraph(x));
+            .map(|x| markdown_to_html_strip_one_paragraph(x).into_owned());
 
         Ok(Self {
             id,

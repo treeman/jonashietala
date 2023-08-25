@@ -8,6 +8,8 @@ mod quote_attrs;
 mod syntax_highlight;
 mod table_attrs;
 mod transform_headers;
+use lazy_static::lazy_static;
+use regex::Regex;
 
 pub use syntax_highlight::{dump_syntax_binary, dump_theme};
 
@@ -17,7 +19,6 @@ use embed_youtube::EmbedYoutube;
 use fenced_blocks::parse_fenced_blocks;
 use pulldown_cmark::{BrokenLink, CowStr, LinkType, Options, Parser};
 use quote_attrs::QuoteAttrs;
-use scraper::{Html, Selector};
 use std::borrow::Cow;
 use syntax_highlight::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use table_attrs::TableAttrs;
@@ -90,27 +91,26 @@ pub fn inline_markdown_to_html(markdown: &str) -> String {
     body
 }
 
-pub fn markdown_to_html_strip_one_paragraph(markdown: &str) -> String {
+pub fn markdown_to_html_strip_one_paragraph(markdown: &str) -> Cow<str> {
     let html = inline_markdown_to_html(markdown);
-    strip_one_paragraph(&html)
+    strip_one_paragraph(Cow::from(html))
 }
 
-pub fn strip_one_paragraph(html: &str) -> String {
-    let parsed = Html::parse_fragment(html);
-    let selector = Selector::parse("p").unwrap();
-    let mut paragraphs = parsed.select(&selector);
+lazy_static! {
+    static ref PARAGRAPH: Regex = Regex::new(r"<p>(.+?)</p>").unwrap();
+}
 
-    let first = match paragraphs.next() {
-        Some(p) => p,
-        // No paragraph, just skip it.
-        None => return html.to_string(),
-    };
+pub fn strip_one_paragraph(html: Cow<str>) -> Cow<str> {
+    // Why do something insane like use regex to strip a paragraph?
+    // I tried to use `scraper::Html` to parse it properly, but the attribute order
+    // wasn't deterministic when parsing and rebuilding.
+    // This jank seems to work fine, so why not?!
+    let paragraphs: Vec<_> = PARAGRAPH.captures_iter(&html).collect();
 
-    match paragraphs.next() {
-        // At least two paragraphs, don't strip anything.
-        Some(_) => html.to_string(),
-        // Only one paragraph, strip it
-        None => first.inner_html(),
+    match paragraphs.len() {
+        0 => html,
+        1 => Cow::from(paragraphs[0].get(1).unwrap().as_str().to_owned()),
+        _ => html,
     }
 }
 

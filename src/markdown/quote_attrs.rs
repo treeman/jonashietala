@@ -140,6 +140,21 @@ mod tests {
     }
 
     #[test]
+    fn test_quote_notice_link() {
+        // Link attributes should be predictable and not change places
+        let s = r#"
+> Text with [link][]
+{ :notice }
+
+[link]: http://mylink.com "My Title"
+"#;
+        assert_eq!(
+            convert(s),
+            r#"<aside>Text with <a href="http://mylink.com" title="My Title">link</a></aside>"#
+        );
+    }
+
+    #[test]
     fn test_quote_epigraph() {
         let s = r"
 > Text here
