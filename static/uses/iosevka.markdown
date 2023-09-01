@@ -1,3 +1,7 @@
+---
+title: Iosevka
+---
+
 ```yaml
 [buildPlans.iosevka-tree]
 family = "Iosevka Tree"

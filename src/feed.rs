@@ -6,6 +6,7 @@ use atom_syndication::Person;
 use chrono::DateTime;
 use chrono::FixedOffset;
 use chrono::NaiveDateTime;
+use chrono::TimeZone;
 use eyre::Result;
 use std::borrow::Cow;
 use std::fs::File;
@@ -44,7 +45,7 @@ impl From<&PostItem> for Entry {
 }
 
 fn fixed_date_time(dt: NaiveDateTime) -> DateTime<FixedOffset> {
-    DateTime::from_utc(dt, FixedOffset::east_opt(0).unwrap())
+    DateTime::from_naive_utc_and_offset(dt, FixedOffset::east_opt(0).unwrap())
 }
 
 // We've used "http://{path}index.html" as the id, since they shouldn't change let's continue with it
