@@ -2,8 +2,13 @@
 title: Uses
 ---
 
-
 # Computer hardware
+
+xxxx
+
+#
+
+-
 
 ## Desktop
 
@@ -25,7 +30,7 @@ title: Uses
 ## Sound
 
 - **Speakers**: DALI Opticon 2 MK2
-- **Subwoofer**: REL T-Zero MKIII 
+- **Subwoofer**: REL T-Zero MKIII
 - **Amplifier**: NAD C368
 
 ## Aux
@@ -34,14 +39,12 @@ title: Uses
 - **Trackball**: Kensington SlimBlade Trackball
 - **Microphone**: Blue Microphone Snowball iCE
 
-
 # Software
 
 - **Operating system**: Void Linux
 - **Browser**: Firefox
 - **Email**: Fastmail
 - **Editor**: Neovim
-
 
 # Other devices
 
@@ -50,7 +53,6 @@ title: Uses
 - Steam Deck
 - reMarkable 2
 - Fairphone 4
-
 
 # Homelab
 
