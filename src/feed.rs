@@ -6,7 +6,6 @@ use atom_syndication::Person;
 use chrono::DateTime;
 use chrono::FixedOffset;
 use chrono::NaiveDateTime;
-use chrono::TimeZone;
 use eyre::Result;
 use std::borrow::Cow;
 use std::fs::File;
