@@ -3,9 +3,10 @@
   <h1>{{title}}</h1>
 
   <ul>
-  {% for tag in tags %}
-  <li> <a href="{{tag.href}}">{{tag.name}} ({{tag.num_posts}})</a> </li>
-  {% endfor %}
+    {% for tag in tags %}
+    <li> <a href="{{tag.href}}">{{tag.name}} ({{tag.num_posts}})</a> </li>
+    {% endfor %}
   </ul>
-</div>
+  </div>
+</article>
 {% endblock content %}

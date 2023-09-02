@@ -7,9 +7,21 @@ I've got tons of things to do; clean the bathrooms, prototype an idea for a SaaS
 
 Like all the cool kids.
 
-https://neovimcraft.com/
-https://github.com/catgoose/nvim
+[neovimcraft]: https://neovimcraft.com/
+[catgoose]: https://github.com/catgoose/nvim
 
-# New to me plugins
+# Favorite new to me plugins
 
 - Lazy.nvim
+- melange-nvim
+- vim-cool
+- neogit
+- alpha-nvim
+- conform
+
+Maybe...
+
+- lualine
+- nvim-colorizer
+
+# Is lua worth it?

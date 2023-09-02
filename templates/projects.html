@@ -8,16 +8,16 @@
 
   {% for project in projects %}
   <article class="project">
-      <header>
-        {% if project.link %}
-          <h2><a href="{{ project.link }}">{{ project.title }}</a></h2>
-        {% else %}
-          <h2>{{ project.title }}</h2>
-        {% endif %}
-        <time datetime="{{ project.year }}">{{ project.year }}</time>
-      </header>
+    <header>
+      {% if project.link %}
+      <h2><a href="{{ project.link }}">{{ project.title }}</a></h2>
+      {% else %}
+      <h2>{{ project.title }}</h2>
+      {% endif %}
+      <time datetime="{{ project.year }}">{{ project.year }}</time>
+    </header>
 
-      {{ project.descr }}
+    {{ project.descr }}
   </article>
   {% endfor %}
 
@@ -30,18 +30,20 @@
 
     {% for game in games %}
     <section class="game">
-      <a href="{{ game.url }}"><img src="{{ game.img }}" width="160" height="100"/></a>
+      <a href="{{ game.url }}"><img src="{{ game.img }}" width="160" height="100" /></a>
       <div class="descr">
-        <a href="{{ game.url }}" class="title"><h1 class="title">{{ game.title }}</h1></a>
+        <a href="{{ game.url }}" class="title">
+          <h1 class="title">{{ game.title }}</h1>
+        </a>
         <time datetime="{{ game.ymd }}">{{ game.date }}</time>
         {% if game.event_link %}
-          <span class="subtitle"><a href="{{ game.event_link}}">{{ game.event }}</a></span>
+        <span class="subtitle"><a href="{{ game.event_link}}">{{ game.event }}</a></span>
         {% else %}
-          <span class="subtitle">{{ game.event }}</span>
+        <span class="subtitle">{{ game.event }}</span>
         {% endif %}
       </div>
     </section>
-  {% endfor %}
+    {% endfor %}
 
   </article>
 </div>

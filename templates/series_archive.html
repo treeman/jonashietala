@@ -6,14 +6,16 @@
 
   <div>
     <p>
-    Series are form of long-form content that outgrew the size of a post and that forms a more structured story compared to <a href="/blog/tags">tags</a>. They're a collection of posts, sometimes planned for in advance but other times the series materialized after a couple of posts.
+      Series are form of long-form content that outgrew the size of a post and that forms a more structured story
+      compared to <a href="/blog/tags">tags</a>. They're a collection of posts, sometimes planned for in advance but
+      other times the series materialized after a couple of posts.
     </p>
   </div>
 
   <ul>
-  {% for serie in series %}
-   {% set first_post = serie.posts | first %}
-   {% set last_post = serie.posts | last %}
+    {% for serie in series %}
+    {% set first_post = serie.posts | first %}
+    {% set last_post = serie.posts | last %}
     <li class="series-item">
       <section>
         <header>
@@ -29,15 +31,15 @@
         <div><a href="{{ first_post.url }}">Read part 1</a></div>
 
         {#
-          {% if serie.completed %}
-            <div class="status completed">completed</div>
-          {% else %}
-            <div class="status ongoing">ongoing</div>
-          {% endif %}
+        {% if serie.completed %}
+        <div class="status completed">completed</div>
+        {% else %}
+        <div class="status ongoing">ongoing</div>
+        {% endif %}
         #}
       </section>
     </li>
-  {% endfor %}
+    {% endfor %}
   </ul>
 
 </article>
