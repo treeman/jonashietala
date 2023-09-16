@@ -41,10 +41,10 @@ xxxx
 
 # Software
 
-- **Operating system**: Void Linux
+- **Operating system**: Void Linux  
 - **Browser**: Firefox
 - **Email**: Fastmail
-- **Editor**: Neovim
+- **Editor**: Neovim  
 
 # Other devices
 
