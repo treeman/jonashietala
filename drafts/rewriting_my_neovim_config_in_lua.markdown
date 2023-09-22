@@ -1,7 +1,9 @@
 ---
 title: "Rewriting my Neovim config in Lua"
-tags: [Tag1, Tag2]
+tags: ["Neovim", "Lua"]
 ---
+
+![This screenshot betrays just how much productive time was wasted setting this up.](/images/rewrite_neovim_lua/splash.png)
 
 I've got tons of things to do; clean the bathrooms, prototype an idea for a SaaS and ponder world peace.
 So naturally the procrastination took over and I rewrote my Neovim configuration in Lua.
@@ -38,7 +40,7 @@ As I'm writing this I'm up to 77 plugins, with a bunch more on my "plugins to ch
 
 If that makes you feel like I've betrayed Bram the creator, then my only defense is this:
 
-I tried, but I failed. They all seemed so useful you know? I try not to be dogmatic either way; if it's useful I'll try it, otherwise I'll skip it.
+I tried, but I failed. They all seemed so useful you know?
 
 
 # Where to start?
@@ -74,7 +76,7 @@ One of the big problems with my previous setup was that `init.vim` was huge and 
 
 With lua and [lazy.nvim][] you can organize settings and plugins in different files quite nicely. This is how I did it:
 
-I wanted to have a split of `config/` and `plugins`, so `~/.config/nvim/init.lua` just loads `lua/config/init.lua`:
+I wanted to have a split of `config/` and `plugins/`, so `~/.config/nvim/init.lua` just loads `lua/config/init.lua`:
 
 ```lua
 require("config")
@@ -135,7 +137,7 @@ return {
 }
 ```
 
-Incredibly nice when you have lots of plugins, and some have large configurations (like lsp, treesitter or cmp).
+Incredibly nice when you have lots of plugins, and some have large configurations (like [lspconfig][], [treesitter][nvim-treesitter] or [cmp][nvim-cmp]).
 
 One last big thing is I wanted to have all global keymaps in one single file. [lazy.nvim][] supports adding keymaps in the plugin specification using `keys = { }`lua option. I accomplished this by simply returning a "module" table from `config/keymaps.lua`:
 
@@ -208,7 +210,7 @@ It's true that `keymaps.lua` has grown quite large and isn't super easy to read.
 
 While doing the rewrite I went through my existing plugins to see if they were still relevant, or if I could replace or just remove them. And of course, if I could add some new ones.
 
-I won't create a list of my favorite plugins, as it would be boring to see yet another list with LSP, treesitter and cmp, I'll instead highlight some good plugins that were new to me:
+I won't create a list of my favorite plugins, as it would be boring to see yet another list with [LSP][lspconfig], [treesitter][nvim-treesitter] and [cmp][nvim-cmp], I'll instead highlight some good plugins that were new to me:
 
 - [lazy.nvim][]: A modern plugin manager
 
@@ -323,7 +325,176 @@ I won't create a list of my favorite plugins, as it would be boring to see yet a
   I love when things just work.
 
 
+# Custom behavior
+
+Becoming a Pokémon master by collecting all the plugins is great, but one of the benefits of Lua over Vimscript is that it's a much nicer language for general programming. While I haven't really taken advantage of it that much yet, I've made a small addition that worked quite well for me.
+
+I'm trying out [neorg][] as my knowledge base and note taking and I've separated it into four folders:
+
+```
+~/norg/projects
+~/norg/areas
+~/norg/resources
+~/norg/archive
+```
+
+I don't remember where I saw this recommendation, but it made some sense to me at the time.
+
+What I want to do with this is either:
+
+1. Open a file in one of these folders
+2. If no file exists, create and open one
+
+I could make shell scripts and use fzf as a fuzzy finder, but as I kind of live in Neovim I wanted to do this from within Neovim.
+
+Using [telescope][] (fuzzy finder) and [plenary][] (path helpers) this is what I came up with:
+
+```lua
+-- Find files using telescope in a subfolder of `~/norg`.
+-- @param base_folder: string: base folder
+M.open_norg = function(base_folder)
+  local action_state = require("telescope.actions.state")
+  local actions = require("telescope.actions")
+  local Path = require("plenary.path")
+
+  local folder = vim.fn.expand("~/norg/") .. base_folder .. "/"
+
+  require("telescope.builtin").find_files({
+    attach_mappings = function(prompt_bufnr, map)
+      -- Creates a file using the telescope input prompt.
+      -- Useful to quickly create a file if nothing exists.
+      local create_file = function()
+        -- It ain't pretty... But maybe it's good enough...? T.T
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
+        local input = folder .. current_picker:_get_prompt() .. ".norg"
+
+        local file = Path:new(input)
+        if file:exists() then
+          return
+        end
+        file:touch({ parents = true })
+
+        actions.close(prompt_bufnr)
+        vim.cmd("e " .. file .. "| w")
+      end
+
+      map("i", "<C-e>", create_file)
+      return true
+    end,
+    cwd = folder,
+  })
+end
+```
+
+I'm sure this can be improved upon in many ways, but it serves the purpose at least.
+`<C-e>` is used to create the file, as sometimes telescope finds similar files so creating a new file if telescope is empty doesn't really work.
+
+Another related function I wanted is to create a weekly journal file. There is support for a daily journal in [neorg][], but I specifically wanted a weekly one.
+This is how I made it:
+
+```lua
+-- Open a weekly journal in `~/norg/areas/weekly_journal/`.
+-- Create using a template from `~/norg/areas/weekly_journal/template.norg` unless it exists.
+M.open_weekly_journal = function()
+  local Path = require("plenary.path")
+
+  -- Should probably make this more general in the future.
+  local pwd = vim.fn.expand("~/norg/areas/weekly_journal/")
+  local journal_file = pwd .. os.date("w%W") .. ".norg"
+
+  local file = Path:new(journal_file)
+  if not file:exists() then
+    local template = Path:new(pwd .. "template.norg")
+    template:copy({ destination = file, override = false })
+  end
+
+  vim.cmd("e " .. journal_file .. "| w")
+end
+```
+
+As a bonus here's how I created a fish alias to start Neovim and call the above functions that are defined in `~/.config/nvim/lua/config/norg.lua`:
+
+
+```fish
+alias ep "nvim -c \":lua require('config.norg').open_norg('projects')\""
+alias ej "nvim -c \":lua require('config.norg').open_weekly_journal()\""
+```
+
+The weird mnemonics are the same I use from within Neovim, so `<leader>ep` opens telescope in `~/norg/projects` for example.
+
+
 # Is lua worth it?
+
+One reason why I didn't convert to Lua until now is that to me it looked fairly verbose.
+
+Even though Vimscript isn't a good programming language, it's still a DSL specifically for Vim so it's quite easy to do common things like set options or add autocommands.
+And Lua is nice, but it doesn't support adding a custom DSL on quite that level, so I was worried I'd have to bend over too much to accomplish things.
+
+
+```lua
+-- Having to specify `vim.opt` isn't too bad
+vim.opt.relativenumber = true
+vim.opt.number = true
+
+-- Autocommand creation is slightly more verbose,
+-- but they're also a bit more readable than the Vim equivalent in my opinion.
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  desc = "Briefly highlight yanked text",
+  group = augroup("yank", { clear = true }),
+})
+-- Hide statusline on dashboard
+autocmd("FileType", {
+  pattern = "alpha",
+  group = augroup("filegroup", { clear = true }),
+  command = "setlocal laststatus=0 noruler",
+})
+
+-- It's true that keymaps are also a more verbose, and having to wrap things
+-- in strings here and there is slightly annoying.
+local map = vim.keymap.set
+map("n", "(", "[", { remap = true })
+map("n", "]q", ":cnext<cr>", { desc = "Next quickfix" })
+map("n", "<leader>ej", require("config.norg").open_weekly_journal, { desc = "This weeks journal" })
+```
+
+While the above examples are more verbose than the Vimscript alternatives, it doesn't feel *that* bad.
+
+And the upside of Lua is that you don't have to bash your head in when you battle with Vimscript's idiosyncrasies, which more than makes up for the added verbosity during simple configuration.
+Easily being able to access the Lua API of important plugins anywhere is also pleasant.
+
+You could of course mix Vimscript and Lua, but for me the consistency of having everything in the same language, using the same file structure and the same development environment makes it worth using Lua all the time.
+
+
+# Was the rewrite worth it?
+
+The million dollar question: was rewriting my entire configuration worth the time I spent doing it?
+
+If you view it from a cold efficiency point-of-view, where every minute needs to pay itself back in the future thanks to increased productivity...
+
+It's debatable.
+
+Maybe if I don't touch the configuration file for many years, it'll pay off.
+But I admit I spent far too much time on this for it to be considered truly productive time.
+
+To be fair, a lot of this time was spent evaluating +100 plugins to see if I wanted to use them or not, and then fiddling with them to see if I could tweak them to my liking.
+
+If all you want to do is convert your existing Vimscript config to a Lua config, it would be much faster.
+And if you only need to setup LSP or Treesitter or whatever, just [look][catgoose] at [an][primeagen_init] existing [config][LazyVim] and you'll get setup in no time.
+You can also reference [my config files][], but do so on your own risk.
+(Seriously, with [lspconfig][], [mason][] and [mason-lspconfig][] configuring LSP doesn't take that much time.)
+
+But let's be real here.
+The joy of fiddling with configurations and tweaking small things until they're *just right* will always be worth it.
+
+I've spent far too much time being productive and producing value, it was about time I spent some time alone.
+
+Just me and my Vim config.
 
 
 [vim-plug]: https://github.com/junegunn/vim-plug
@@ -344,3 +515,12 @@ I won't create a list of my favorite plugins, as it would be boring to see yet a
 [vim-sneak]: https://github.com/justinmk/vim-sneak
 [nvim-colorizer]: https://github.com/NvChad/nvim-colorizer.lua
 [vim-hexokinase]: https://github.com/RRethy/vim-hexokinase
+[neorg]: https://github.com/nvim-neorg/neorg
+[telescope]: https://github.com/nvim-telescope/telescope.nvim 
+[plenary]: https://github.com/nvim-lua/plenary.nvim 
+[my config files]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
+[lspconfig]: https://github.com/neovim/nvim-lspconfig
+[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
+[nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
+[mason]: https://github.com/williamboman/mason.nvim
+[mason-lspconfig]: https://github.com/williamboman/mason-lspconfig.nvim
