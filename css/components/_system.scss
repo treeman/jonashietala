@@ -1,0 +1,28 @@
+// Inspired by https://www.joshwcomeau.com/css/full-bleed/
+// Limits a center div to `--measure`, but allow a full-bleed to extend to edges.
+// Also supports an overflow-bleed, that will extend past the edges specified
+// by `--overflow-measure`
+@mixin full-bleed-wrapper {
+  display: grid;
+  grid-template-columns:
+    1fr minmax(0, var(--overflow-size)) min(var(--measure), 100%) minmax(
+      0,
+      var(--overflow-size)
+    )
+    1fr;
+  max-inline-size: none;
+
+  & > * {
+    grid-column: 3;
+  }
+}
+@mixin full-bleed {
+  width: 100%;
+  grid-column: 1 / -1 !important;
+  max-inline-size: none;
+}
+@mixin overflow-bleed {
+  width: 100%;
+  grid-column: 2 / 5 !important;
+  max-inline-size: none;
+}

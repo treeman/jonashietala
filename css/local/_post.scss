@@ -1,0 +1,54 @@
+@use "../global/fonts" as *;
+@use "../global/font_size" as *;
+@use "../global/spacing" as *;
+@use "../components/system" as *;
+
+article.article-content {
+  @include full-bleed-wrapper;
+
+  a {
+    word-wrap: break-word;
+  }
+}
+
+article.article-content > * + * {
+  margin-block-start: var(--space-xs);
+}
+
+article.article-content figure {
+  @include overflow-bleed;
+  text-align: center;
+
+  figcaption {
+    font-style: italic;
+    max-inline-size: none;
+  }
+}
+
+pre,
+code {
+  font-family: $code-font-family;
+  // Hack is quite a bit larger than the other fonts
+  // Should maybe use Triplicate instead?
+  font-size: 0.95rem;
+  // font-size: var(--font-size-s);
+  // max-inline-size: none;
+}
+
+pre code {
+  padding: 0;
+  width: 100%;
+  max-inline-size: none;
+  // --measure: 100ch;
+}
+pre {
+  @include overflow-bleed;
+
+  padding: 0.4em 0.6em;
+  overflow-wrap: normal;
+  overflow: auto;
+}
+code {
+  padding: 0.2em;
+  margin: 0;
+}

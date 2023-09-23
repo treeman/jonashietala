@@ -1,0 +1,17 @@
+:root {
+  --color-text: black;
+  --color-link: orange;
+  --color-link-hover: red;
+  --color-link-visited: green;
+  --color-background: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: white;
+    --color-link: orange;
+    --color-link-hover: red;
+    --color-link-visited: green;
+    --color-background: black;
+  }
+}

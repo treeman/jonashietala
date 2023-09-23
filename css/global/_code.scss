@@ -1,0 +1,426 @@
+// Melange palette is taken from https://github.com/savq/melange-nvim
+// Light palette
+$melange_light_a_bg: #f1f1f1;
+$melange_light_a_float: #e9e1db;
+$melange_light_a_sel: #d9d3ce;
+$melange_light_a_ui: #a98a78;
+$melange_light_a_com: #7d6658;
+$melange_light_a_fg: #54433a;
+
+$melange_light_b_red: #bf0021;
+$melange_light_b_yellow: #a06d00;
+$melange_light_b_green: #3a684a;
+$melange_light_b_cyan: #3d6568;
+$melange_light_b_blue: #465aa4;
+$melange_light_b_magenta: #904180;
+
+$melange_light_c_red: #c77b8b;
+$melange_light_c_yellow: #bc5c00;
+$melange_light_c_green: #6e9b72;
+$melange_light_c_cyan: #739797;
+$melange_light_c_blue: #7892bd;
+$melange_light_c_magenta: #be79bb;
+
+$melange_light_d_red: #f1dedf;
+$melange_light_d_yellow: #cca478;
+$melange_light_d_green: #d0e9d1;
+$melange_light_d_cyan: #cde8e7;
+$melange_light_d_blue: #e0e2e8;
+$melange_light_d_magenta: #e8e0e8;
+
+// Dark palette
+$melange_dark_a_bg: #292522;
+$melange_dark_a_float: #34302c;
+$melange_dark_a_sel: #403a36;
+$melange_dark_a_ui: #867462;
+$melange_dark_a_com: #c1a78e;
+$melange_dark_a_fg: #ece1d7;
+
+$melange_dark_b_red: #d47766;
+$melange_dark_b_yellow: #ebc06d;
+$melange_dark_b_green: #85b695;
+$melange_dark_b_cyan: #89b3b6;
+$melange_dark_b_blue: #a3a9ce;
+
+$melange_dark_b_magenta: #cf9bc2;
+$melange_dark_c_red: #bd8183;
+$melange_dark_c_yellow: #e49b5d;
+$melange_dark_c_green: #78997a;
+$melange_dark_c_cyan: #7b9695;
+$melange_dark_c_blue: #7f91b2;
+$melange_dark_c_magenta: #b380b0;
+
+$melange_dark_d_red: #7d2a2f;
+$melange_dark_d_yellow: #8b7449;
+$melange_dark_d_green: #233524;
+$melange_dark_d_cyan: #253333;
+$melange_dark_d_blue: #273142;
+$melange_dark_d_magenta: #422741;
+
+:root {
+  --melange_a_bg: $melange_light_a_bg;
+  --melange_a_float: $melange_light_a_float;
+  --melange_a_sel: $melange_light_a_sel;
+  --melange_a_ui: $melange_light_a_ui;
+  --melange_a_com: $melange_light_a_com;
+  --melange_a_fg: $melange_light_a_fg;
+
+  --melange_b_red: $melange_light_b_red;
+  --melange_b_yellow: $melange_light_b_yellow;
+  --melange_b_green: $melange_light_b_green;
+  --melange_b_cyan: $melange_light_b_cyan;
+  --melange_b_blue: $melange_light_b_blue;
+  --melange_b_magenta: $melange_light_b_magenta;
+
+  --melange_c_red: $melange_light_c_red;
+  --melange_c_yellow: $melange_light_c_yellow;
+  --melange_c_green: $melange_light_c_green;
+  --melange_c_cyan: $melange_light_c_cyan;
+  --melange_c_blue: $melange_light_c_blue;
+  --melange_c_magenta: $melange_light_c_magenta;
+
+  --melange_d_red: $melange_light_d_red;
+  --melange_d_yellow: $melange_light_d_yellow;
+  --melange_d_green: $melange_light_d_green;
+  --melange_d_cyan: $melange_light_d_cyan;
+  --melange_d_blue: $melange_light_d_blue;
+  --melange_d_magenta: $melange_light_d_magenta;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --melange_a_bg: $melange_dark_a_bg;
+    --melange_a_float: $melange_dark_a_float;
+    --melange_a_sel: $melange_dark_a_sel;
+    --melange_a_ui: $melange_dark_a_ui;
+    --melange_a_com: $melange_dark_a_com;
+    --melange_a_fg: $melange_dark_a_fg;
+
+    --melange_b_red: $melange_dark_b_red;
+    --melange_b_yellow: $melange_dark_b_yellow;
+    --melange_b_green: $melange_dark_b_green;
+    --melange_b_cyan: $melange_dark_b_cyan;
+    --melange_b_blue: $melange_dark_b_blue;
+
+    --melange_b_magenta: $melange_dark_b_magenta;
+    --melange_c_red: $melange_dark_c_red;
+    --melange_c_yellow: $melange_dark_c_yellow;
+    --melange_c_green: $melange_dark_c_green;
+    --melange_c_cyan: $melange_dark_c_cyan;
+    --melange_c_blue: $melange_dark_c_blue;
+    --melange_c_magenta: $melange_dark_c_magenta;
+
+    --melange_d_red: $melange_dark_d_red;
+    --melange_d_yellow: $melange_dark_d_yellow;
+    --melange_d_green: $melange_dark_d_green;
+    --melange_d_cyan: $melange_dark_d_cyan;
+    --melange_d_blue: $melange_dark_d_blue;
+    --melange_d_magenta: $melange_dark_d_magenta;
+  }
+}
+
+code,
+pre {
+  color: var(--melange_a_fg);
+  background-color: var(--melange_a_bg);
+}
+
+// .punctuation.definition.tag {
+//   color: $gb-lm-light-blue;
+// }
+// .punctuation.definition.entity {
+//   color: $gb-lm-light-purple;
+// }
+.constant {
+  color: var(--melange_c_magenta);
+}
+// .constant.character.escape {
+//   color: $gb-lm-light-green;
+// }
+// .constant.other {
+//   color: $gb-lm-fg0;
+// }
+// .entity {
+//   color: $gb-lm-light-aqua;
+// }
+.keyword.operator.comparison,
+.keyword.operator,
+.keyword.operator.symbolic,
+.keyword.operator.string,
+.keyword.operator.assignment,
+.keyword.operator.arithmetic,
+.keyword.operator.class,
+.keyword.operator.key,
+.keyword.operator.logical {
+  color: var(--melange_b_red);
+}
+.keyword,
+.keyword.operator.new,
+.keyword.other,
+.keyword.control {
+  color: var(--melange_c_yellow);
+}
+// .storage {
+//   color: $gb-lm-light-red;
+// }
+.string,
+.string.unquoted.heredoc .string {
+  color: var(--melange_b_blue);
+  font-style: italic;
+}
+.comment {
+  color: var(--melange_a_com);
+  font-style: italic;
+}
+.string.regexp {
+  color: var(--melange_b_blue);
+}
+.string.regexp .constant.character.escape {
+  color: var(--melange_b_blue);
+}
+// .support {
+//   color: $gb-lm-light-yellow;
+// }
+// .variable {
+//   color: $gb-lm-fg0;
+// }
+// .variable.language {
+//   color: $gb-lm-fg0;
+// }
+// .meta.function-call {
+//   color: $gb-lm-fg0;
+// }
+// .invalid {
+//   color: $gb-lm-fg0;
+//   background-color: $gb-lm-dark-red;
+// }
+// .text .source,
+// .string.unquoted.heredoc,
+// .source .source {
+//   color: $gb-lm-fg0;
+// }
+// .string.quoted .source {
+//   color: $gb-lm-light-green;
+// }
+// .string {
+//   color: $gb-lm-light-green;
+// }
+// .support.constant {
+//   color: $gb-lm-light-yellow;
+// }
+// .support.class {
+//   color: $gb-lm-light-aqua;
+// }
+.support.function,
+.entity.name.function {
+  color: var(--melange_b_yellow);
+}
+.entity.name.tag {
+  color: var(--melange_b_yellow);
+  font-weight: bold;
+}
+.function.return-type {
+  color: var(--melange_c_cyan);
+}
+// .meta.tag,
+// .meta.tag .entity {
+//   color: $gb-lm-light-aqua;
+// }
+// .constant.other.color.rgb-value {
+//   color: $gb-lm-light-blue;
+// }
+// .meta.selector.css .entity.name.tag {
+//   color: $gb-lm-light-red;
+// }
+// .meta.selector.css,
+// .entity.other.attribute-name.id {
+//   color: $gb-lm-light-green;
+// }
+// .meta.selector.css .entity.other.attribute-name.class {
+//   color: $gb-lm-light-green;
+// }
+// .support.type.property-name.css {
+//   color: $gb-lm-light-aqua;
+// }
+// .meta.preprocessor {
+//   color: $gb-lm-dark-purple;
+// }
+// .meta.preprocessor.at-rule .keyword.control.at-rule {
+//   color: $gb-lm-light-yellow;
+// }
+// .meta.property-value .constant {
+//   color: $gb-lm-light-yellow;
+// }
+.meta.attribute-with-value {
+  color: var(--melange_b_cyan);
+}
+// .variable .keyword,
+// .function .keyword {
+//   color: $gb-lm-light-purple;
+// }
+// .variable .entity {
+//   color: $gb-lm-light-aqua;
+// }
+
+// // Specific languages
+// .meta.diff,
+// .meta.diff.header {
+//   color: $gb-lm-light-blue;
+// }
+// .markup.deleted {
+//   color: $gb-lm-light-red;
+// }
+// .markup.changed {
+//   color: $gb-lm-light-yellow;
+// }
+// .markup.inserted {
+//   color: $gb-lm-light-aqua;
+// }
+
+// .markup.bold {
+//   font-weight: bold;
+// }
+// .markup.italic {
+//   font-style: italic;
+// }
+// .markup.heading {
+//   color: $gb-lm-light-aqua;
+//   font-weight: bold;
+// }
+.punctuation.tag,
+.punctuation.definition {
+  color: var(--melange_a_ui);
+}
+.link.reference.markdown .other,
+.link.reference.def.markdown .entity.name {
+  color: var(--melange_c_cyan);
+}
+.link.reference.def.markdown .link,
+.link.inline.markdown .link {
+  color: var(--melange_b_blue);
+}
+.markup.underline {
+  text-decoration: underline;
+}
+// .link.reference.def.markdown .link.description,
+// .link.reference.def.markdown .link.description .punctuation {
+//   color: $gb-lm-light-green;
+// }
+
+// .entity.name.type.class.php {
+//   color: $gb-lm-light-aqua;
+// }
+// .keyword.other.phpdoc {
+//   color: $gb-lm-dark-gray;
+// }
+
+// .meta.property-value .support.constant.named-color.css {
+//   color: $gb-lm-light-orange;
+// }
+// .meta.constructor.argument.css {
+//   color: $gb-lm-light-yellow;
+// }
+// .constant.numeric.css,
+// .keyword.other.unit.css {
+//   color: $gb-lm-light-purple;
+// }
+// .punctuation.definition.entity.css {
+//   color: $gb-lm-light-green;
+// }
+
+// .variable.language.js {
+//   color: $gb-lm-light-yellow;
+// }
+// .string.unquoted.label.js {
+//   color: $gb-lm-fg0;
+// }
+
+// .constant.other.table-name.sql {
+//   color: $gb-lm-light-green;
+// }
+// .constant.other.database-name.sql {
+//   color: $gb-lm-light-green;
+// }
+
+// .storage.type.dired.item.directory,
+// .dired.item.directory {
+//   color: $gb-lm-light-aqua;
+// }
+
+// .function-call.name.fish .keyword .string {
+//   color: $gb-lm-light-purple;
+// }
+// .function-call.parameter.fish .string {
+//   color: $gb-lm-fg0;
+// }
+// .function-call.parameter.option.fish .string,
+// .function-call.arguments.shell .option {
+//   color: $gb-lm-light-aqua;
+// }
+// .function-call.name.fish .function .string,
+// .function-call.shell .function {
+//   color: $gb-lm-light-blue;
+// }
+// .function-call.parameter.fish .string .variable-expansion .variable {
+//   color: $gb-lm-light-yellow;
+// }
+// .function-call.name.fish .invalid.variable-expansion,
+// .function-call.invalid.fish {
+//   color: $gb-lm-light-yellow;
+//   background-color: $gb-lm-bg0-hard;
+// }
+
+.support.macro {
+  color: var(--melange_b_yellow);
+}
+.storage.type.rust {
+  color: var(--melange_b_green);
+}
+.storage.modifier.rust {
+  color: var(--melange_c_yellow);
+}
+// .meta.path.rust { // Standard is fine
+//   color: $gb-lm-light-red;
+// }
+// .keyword.other.rust {
+//   color: $gb-lm-light-blue;
+// }
+.rust .punctuation {
+  color: var(--melange_a_ui);
+}
+.punctuation.accessor {
+  color: var(--melange_c_yellow);
+}
+// .annotation.rust .parameters {
+//   color: $gb-lm-light-yellow;
+// }
+// .annotation.rust .variable {
+//   color: $gb-lm-light-aqua;
+// }
+
+// .named-arg.racket {
+//   color: $gb-lm-light-yellow;
+// }
+// .quote.racket,
+// .quote.racket .variable {
+//   color: $gb-lm-light-yellow;
+// }
+// .quote.racket > .punctuation {
+//   color: $gb-lm-light-orange;
+// }
+
+// .named-arg.pollen {
+//   color: $gb-lm-light-yellow;
+// }
+// .quote.pollen,
+// .quote.pollen .variable {
+//   color: $gb-lm-light-yellow;
+// }
+// .quote.pollen > .punctuation {
+//   color: $gb-lm-light-orange;
+// }
+// .function.magic,
+// .magic.begin.pollen,
+// .magic.end.pollen {
+//   color: $gb-lm-light-orange;
+// }

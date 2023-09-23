@@ -1,0 +1,74 @@
+@use "colors" as *;
+@use "fonts" as *;
+@use "spacing" as *;
+
+// Make images responsive without overflowing their container
+img {
+  max-inline-size: 100%;
+}
+
+body {
+  @extend %serif;
+  font-size: var(--font-size-m);
+
+  color: var(--color-text);
+  background-color: var(--color-background);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  a {
+    color: var(--color-link);
+  }
+  a:hover {
+    color: var(--color-link-hover);
+  }
+  a:visited {
+    color: var(--color-link-visited);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @extend %sans-serif;
+}
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   margin-block-end: var(--space-xs);
+// }
+
+// Measure limits the width of text to be more readable.
+:root {
+  // Limits the text at ~60 characters
+  --measure: 60ch;
+  --overflow-measure: 80ch;
+  --overflow-size: calc((var(--overflow-measure) - var(--measure)) / 2);
+}
+* {
+  max-inline-size: var(--measure);
+}
+// Opt-out instead of opt-in
+html,
+body,
+div,
+header,
+nav,
+main,
+footer {
+  max-inline-size: none;
+}
+.max-inline-size-measure {
+  max-inline-size: var(--measure);
+}
+.max-inline-size-measure-2 {
+  max-inline-size: calc(var(--eeasure) / 2);
+}
