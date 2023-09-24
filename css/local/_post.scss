@@ -75,8 +75,9 @@ article.article-content {
   }
 
   // mmh... This isn't very pretty I know.
+  // But I guess it's good enough.
   pre {
-    pre::before {
+    code.highlight::before {
       float: right;
       font-size: var(--font-size-s);
       color: var(--melange_a_ui);
