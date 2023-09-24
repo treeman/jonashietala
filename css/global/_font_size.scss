@@ -82,23 +82,3 @@ $default-max-bp: map.get($media-breakpoints, "desktop");
     }
   }
 }
-
-h1 {
-  @include font-size("2xl");
-}
-h2 {
-  @include font-size("xl");
-}
-h3 {
-  @include font-size("l");
-}
-h4 {
-  @include font-size("m");
-}
-h5 {
-  @include font-size("s");
-}
-h6 {
-  @include font-size("xs");
-}
-

@@ -1,17 +1,23 @@
+@use "melange" as *;
+@use "gruvbox" as *;
+
 :root {
-  --color-text: black;
-  --color-link: orange;
-  --color-link-hover: red;
-  --color-link-visited: green;
-  --color-background: white;
+  --color-text: $melange_light_a_fg;
+  --color-link: $melange_light_b_blue;
+  --color-link-hover: $melange_light_b_yellow;
+  --color-background: $melange_light_a_bg;
+  --color-hr: $melange_light_a_ui;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-text: white;
-    --color-link: orange;
-    --color-link-hover: red;
-    --color-link-visited: green;
-    --color-background: black;
+    --color-text: $melange_dark_a_fg;
+    --color-link: $melange_dark_b_blue;
+    --color-link-hover: $melange_dark_b_yellow;
+    --color-background: $melange_dark_a_bg;
+    --color-hr: $melange_dark_a_ui;
+    // Use a slightly different background color to not clash with
+    // code highlighting.
+    --color-background: $gruvbox_dark_bg0;
   }
 }

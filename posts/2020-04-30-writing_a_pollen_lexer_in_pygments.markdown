@@ -35,7 +35,7 @@ The simpest [Pygments][] lexer might look like this:
 
 [Pygments]: https://pygments.org/
 
-```python3
+```python
 from pygments.lexer import *
 from pygments.token import *
 import re
@@ -74,7 +74,7 @@ Regular text ◊; Trailing comment
 
 Which should be pretty straightforward. We just need to add a single clause to the root state that matches everything from `◊;` to the end of the line:
 
-```python3
+```python
 tokens = {
     'root': [
         (r'◊;.*?$', Comment),
@@ -88,7 +88,8 @@ python3 -m pygments -l pollen2.py:PollenLexer -x -f html pollen.html.pm
 ```
 
 ```html
-<div class="highlight"><pre><span></span><span class="c">◊; Standard comment</span>
+<div class="highlight"><pre><span></span>
+<span class="c">◊; Standard comment</span>
 Regular text <span class="c">◊; Trailing comment</span>
 </pre></div>
 ```
@@ -106,7 +107,7 @@ Let's move on to embedding variables via `◊|var|`.
 
 A first attempt could be like this:
 
-```python3
+```python
 'root': [
     (r'(◊\|)(\w+)(\|)',
         bygroups(Name.Variable.Magic, Name.Variable, Name.Variable.Magic)),
@@ -123,27 +124,27 @@ This works, but there are two changes I'd like to make. The immediate problem is
 
 If we look at the [existing Racket lexer][racket-lexer] they have defined a variable like this:
 
-```python3
+```python
 valid_symbol_chars = r'[\w!$%*+,<=>?/.\'@&#:-]'
 variable = r'[A-Z]%s*' % valid_symbol_chars
 ```
 
 Which we can steal and copy to our class and use when we build our regex:
 
-```python3
+```python
 (r'(◊\|)(%s)(\|)' % variable,
     bygroups(Name.Variable.Magic, Name.Variable, Name.Variable.Magic)),
 ```
 
 To make this work out of the box we also need to add the regex flags:
 
-```python3
+```python
 flags = re.IGNORECASE | re.MULTILINE
 ```
 
 The other thing I want to do is introduce another state. It's not strictly needed in this case, but as `◊` can be followed by different cases it makes the lexer easier to follow. Like this:
 
-```python3
+```python
 'root': [
     (r'◊;.*?$', Comment),
     ('◊', Name.Variable.Magic, 'post-magic'),
@@ -176,13 +177,13 @@ I thought this was going to be really hard, but Pygments supports this in variou
 
 First the import:
 
-```python3
+```python
 from pygments.lexers.lisp import RacketLexer
 ```
 
 And the case is simply:
 
-```python3
+```python
 'post-magic': [
     ...
     (r'(\()(.+)(\))',
@@ -192,11 +193,11 @@ And the case is simply:
         '#pop')
 ```
 
-The interesting line is `using(RacketLexer, state='unquoted-datum')`python3 which delegates the lexer to `RacketLexer`, starting in state `unquoted-datum`. How did I figure out which initial state to start in? I tried to [read the code][racket-lexer] and make an educated guess...
+The interesting line is `using(RacketLexer, state='unquoted-datum')`python which delegates the lexer to `RacketLexer`, starting in state `unquoted-datum`. How did I figure out which initial state to start in? I tried to [read the code][racket-lexer] and make an educated guess...
 
 But we also need to ensure we use the regex flag of allowing the dot to match newlines as well, otherwise we won't match multiline racket expressions:
 
-```python3
+```python
 flags = re.IGNORECASE | re.DOTALL | re.MULTILINE
 ```
 
@@ -213,16 +214,16 @@ First let's support the simpler `◊var{text args}` case.
 
 Matching `◊var` is straightforward:
 
-```python3
+```python
 'post-magic': [
     ...
     (r'%s' % variable, Name.Variable, ('#pop', 'curly-start')),
 ],
 ```
 
-We could do more here, but we're preparing for the future where we can also match against an optional `[...]` after the variable, so we'll delegate to another state. `('#pop', 'curly-start')`python3 essentially means we'll replace the current state `post-magic` with the new `curly-start` state.
+We could do more here, but we're preparing for the future where we can also match against an optional `[...]` after the variable, so we'll delegate to another state. `('#pop', 'curly-start')`python essentially means we'll replace the current state `post-magic` with the new `curly-start` state.
 
-```python3
+```python
 'curly-start': [
     (r'\{', Name.Variable.Magic, ('#pop', 'curly-end'))
 ],
@@ -230,14 +231,14 @@ We could do more here, but we're preparing for the future where we can also matc
 
 Here again we could've done more, but we want to be able to do recursive matching inside `{ ... }` as well. This is what the `curly-end` state does:
 
-```python3
+```python
 'curly-end': [
     (r'\}', Name.Variable.Magic, '#pop'),
     include('root'),
 ],
 ```
 
-`include('root')`python3 does what you might expect it to do: it copies all cases from our `root` state into the `curly-end` sate. This to avoid code duplication.
+`include('root')`python does what you might expect it to do: it copies all cases from our `root` state into the `curly-end` sate. This to avoid code duplication.
 
 And this can indeed highlight `◊var{ ... }` recursively!
 
@@ -245,7 +246,7 @@ And this can indeed highlight `◊var{ ... }` recursively!
 
 To support an optional `[ ... ]` we can add another state before `curly-end` that either matches against square brackets or curly brackets:
 
-```python3
+```python
 'post-magic': [
     ...
     (r'%s' % variable, Name.Variable, ('#pop', 'post-var')),
@@ -276,7 +277,7 @@ Putting it all together we can now highlight the code we looked at in the start 
 
 And this is the complete lexer:
 
-```python3
+```python
 from pygments.lexer import *
 from pygments.token import *
 from pygments.lexers.lisp import RacketLexer

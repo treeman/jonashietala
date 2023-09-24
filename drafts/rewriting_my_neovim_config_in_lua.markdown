@@ -212,117 +212,117 @@ While doing the rewrite I went through my existing plugins to see if they were s
 
 I won't create a list of my favorite plugins, as it would be boring to see yet another list with [LSP][lspconfig], [treesitter][nvim-treesitter] and [cmp][nvim-cmp], I'll instead highlight some good plugins that were new to me:
 
-- [lazy.nvim][]: A modern plugin manager
+## [lazy.nvim][]: A modern plugin manager
 
-  ![Observe the glory of a modern package manager](/images/rewrite_neovim_lua/lazy.png)
+![Observe the glory of a modern package manager](/images/rewrite_neovim_lua/lazy.png)
 
-  I've been using [vim-plug][] as my plugin manager since forever. It's been working well, but I figured I should try one of these newer managers to see if I was missing something. And boy, did I. [lazy.nvim][] has some really nice features that I now can't live without:
+I've been using [vim-plug][] as my plugin manager since forever. It's been working well, but I figured I should try one of these newer managers to see if I was missing something. And boy, did I. [lazy.nvim][] has some really nice features that I now can't live without:
 
-  - Split plugin specifications in separate files as I wrote about [earlier in the post](#structured-configuration).
-  - Specify plugin dependencies.
-  - Pin plugin versions.
-  - Track plugin versions in `lazy-lock.json`, so you can identify what plugin version breaks your setup so you can pin it to a known good version.
-  - Lazy loading. It's nice to have for those rarely used but heavy plugins.
+- Split plugin specifications in separate files as I wrote about [earlier in the post](#structured-configuration).
+- Specify plugin dependencies.
+- Pin plugin versions.
+- Track plugin versions in `lazy-lock.json`, so you can identify what plugin version breaks your setup so you can pin it to a known good version.
+- Lazy loading. It's nice to have for those rarely used but heavy plugins.
 
-- [melange-nvim][]: An amazing colorscheme
+## [melange-nvim][]: An amazing colorscheme
 
-  ![It's just pleasing to my eyes.](/images/rewrite_neovim_lua/melange2.png)
+![It's just pleasing to my eyes.](/images/rewrite_neovim_lua/melange2.png)
 
-  ![The design idea is that control flow should use warm colors and data should use cold colors.
-  So here, functions are warm yellow and strings and data are colder purple and green.](/images/rewrite_neovim_lua/melange3.png)
+![The design idea is that control flow should use warm colors and data should use cold colors.
+So here, functions are warm yellow and strings and data are colder purple and green.](/images/rewrite_neovim_lua/melange3.png)
 
-  I've been a gruvbox user since I started using Vim almost 15 years ago. I've tried tons of different colorschemes but nothing has ever come close to gruvbox for me. Most of the popular colorschemes are just too blue, or have too little (or too much) contrast or I just don't like them for some random reason.
+I've been a gruvbox user since I started using Vim almost 15 years ago. I've tried tons of different colorschemes but nothing has ever come close to gruvbox for me. Most of the popular colorschemes are just too blue, or have too little (or too much) contrast or I just don't like them for some random reason.
 
-  I had almost resigned to becoming a gruvbox-lifer, unable to ever change colorscheme.
+I had almost resigned to becoming a gruvbox-lifer, unable to ever change colorscheme.
 
-  And then, [melange-nvim][] appeared. And it's glorious!
-  Now after many long years, I've finally switched to a new colorscheme, and I'm content.
+And then, [melange-nvim][] appeared. And it's glorious!
+Now after many long years, I've finally switched to a new colorscheme, and I'm content.
 
-  (No, switching from the original [gruvbox][] to [gruvbox.nvim][] to [gruvbox-material][] and back again doesn't count.)
+(No, switching from the original [gruvbox][] to [gruvbox.nvim][] to [gruvbox-material][] and back again doesn't count.)
 
-  Also a shout-out to [kanagawa][] (dragon, the dark variant without blue background) which is the only colorscheme I've found that I didn't eject in horror after 5 minutes, except for gruvbox and melange.
+Also a shout-out to [kanagawa][] (dragon, the dark variant without blue background) which is the only colorscheme I've found that I didn't eject in horror after 5 minutes, except for gruvbox and melange.
 
-  ![Sorry [kanagawa][]. It's not you, it's me.](/images/rewrite_neovim_lua/kanagawa.png)
+![Sorry [kanagawa][]. It's not you, it's me.](/images/rewrite_neovim_lua/kanagawa.png)
 
-- [vim-cool][]: Turn off search highlight
+## [vim-cool][]: Turn off search highlight
 
-  Forget `<C-l>`, this plugin will turn off search highlight when you move your cursor away from it.
-  Simple, but raises the quality of life a *lot*.
+Forget `<C-l>`, this plugin will turn off search highlight when you move your cursor away from it.
+Simple, but raises the quality of life a *lot*.
 
-- [conform][]: Format on save
+## [conform][]: Format on save
 
-  I've used [neoformat][] before, but had some issues where I saved then quickly stared modifying something, but then formating kicked in and removed my changes.
+I've used [neoformat][] before, but had some issues where I saved then quickly stared modifying something, but then formating kicked in and removed my changes.
 
-  With [conform][] I haven't had these issues, and configuration was quick and easy and LSP fallback is super sweet. Excellent plugin.
+With [conform][] I haven't had these issues, and configuration was quick and easy and LSP fallback is super sweet. Excellent plugin.
 
-- [nvim-treesitter-textobjects][]
+## [nvim-treesitter-textobjects][]
 
-  A common misconception about treesitter is that it only adds semantics to syntax highlighting:
+A common misconception about treesitter is that it only adds semantics to syntax highlighting:
 
-  ![BASE and REPEAT are enum members, while the other keycodes are defined as macros.](/images/rewrite_neovim_lua/base_layout.png)
+![BASE and REPEAT are enum members, while the other keycodes are defined as macros.](/images/rewrite_neovim_lua/base_layout.png)
 
-  I think that's very nice, but treesitter is more than that. And a great example of that is [nvim-treesitter-textobjects][] where you can operate on treesitter nodes. I have for example:
+I think that's very nice, but treesitter is more than that. And a great example of that is [nvim-treesitter-textobjects][] where you can operate on treesitter nodes. I have for example:
 
-  - `]f` jump to next function.
-  - `]c` jump to next class.
-  - `]g` jump to next function or class.
-  - `<leader>s` swap next parameter.
-  - `if` textobject for inner function. So `cif` would delete the function body and enter insert mode.
-  - `ax` textobject for outer comment, to easily delete/change comments.
+- `]f` jump to next function.
+- `]c` jump to next class.
+- `]g` jump to next function or class.
+- `<leader>s` swap next parameter.
+- `if` textobject for inner function. So `cif` would delete the function body and enter insert mode.
+- `ax` textobject for outer comment, to easily delete/change comments.
 
-  The beauty is that these work on treesitter nodes, so they work equally well across languages for functions like `fn myfun() { }`rust, `function myfun() ... end`lua or a `def myfun() do ... end`elixir. (Given that the treesitter implementation supports these options. Markdown doesn't have the concept of a function for instance.)
+The beauty is that these work on treesitter nodes, so they work equally well across languages for functions like `fn myfun() { }`rust, `function myfun() ... end`lua or a `def myfun() do ... end`elixir. (Given that the treesitter implementation supports these options. Markdown doesn't have the concept of a function for instance.)
 
-- [neogit][]: Git management
+## [neogit][]: Git management
 
-  [magit][] is widely regarded as the best Git client/integration there is.
-  When I used Emacs for work (oh yes, the horrors) I did use [magit][] and yes it was great (although too slow on Windows).
+[magit][] is widely regarded as the best Git client/integration there is.
+When I used Emacs for work (oh yes, the horrors) I did use [magit][] and yes it was great (although too slow on Windows).
 
-  I don't think I need to say more than that [Neogit][] is [magit][], but for Neovim, and it is also great.
-  (It doesn't have feature parity with [magit][] yet, but it's good enough to have replaced [fugitive][] for me.)
+I don't think I need to say more than that [Neogit][] is [magit][], but for Neovim, and it is also great.
+(It doesn't have feature parity with [magit][] yet, but it's good enough to have replaced [fugitive][] for me.)
 
-- [alpha-nvim][]: Dashboard
+## [alpha-nvim][]: Dashboard
 
-  ![My startup screen](/images/rewrite_neovim_lua/alpha.png)
+![My startup screen](/images/rewrite_neovim_lua/alpha.png)
 
-  I'm going to be honest here: I've always thought that a dashboard was unnecessary fluff and people who used them were just pimping Neovim for the sake of pimping.
+I'm going to be honest here: I've always thought that a dashboard was unnecessary fluff and people who used them were just pimping Neovim for the sake of pimping.
 
-  And now, I also use a dashboard.
+And now, I also use a dashboard.
 
-  While it's something I could absolutely live without, by now I'd rather have it than not.
+While it's something I could absolutely live without, by now I'd rather have it than not.
 
-  Okay, saving a keypress by using `f` instead `<leader>f` isn't a big deal.
-  And yeah, showing [lazy.nvim][] stats is probably unnecessary.
+Okay, saving a keypress by using `f` instead `<leader>f` isn't a big deal.
+And yeah, showing [lazy.nvim][] stats is probably unnecessary.
 
-  But having a list of keymaps that I should internalize is actually really nice.
-  It helps remind me of these cool new keymaps I've added, so they don't get forgotten for years until my next config rewrite.
+But having a list of keymaps that I should internalize is actually really nice.
+It helps remind me of these cool new keymaps I've added, so they don't get forgotten for years until my next config rewrite.
 
-  Yes, the list of keymaps is currently just hardcoded in the dashboard config.
-  But I would like to implement keymap tracking and use it for spaced repetition.
-  Maybe even have a floating window on startup that you need to clear every day, similar to "flashcards".
-  This is a nice idea for a plugin that I may or may not write in the future...
+Yes, the list of keymaps is currently just hardcoded in the dashboard config.
+But I would like to implement keymap tracking and use it for spaced repetition.
+Maybe even have a floating window on startup that you need to clear every day, similar to "flashcards".
+This is a nice idea for a plugin that I may or may not write in the future...
 
-- [flash.nvim][]: Navigational plugin
+## [flash.nvim][]: Navigational plugin
 
-  Once upon a time there was [vim-sneak][] that added the motion `s` to jump to any location by specifying two characters.
-  It was great, and it spawned a slew of other similar plugins that expanded on the idea.
-  (I'm not sure this is completely historically accurate, but it felt like a good narrative.)
+Once upon a time there was [vim-sneak][] that added the motion `s` to jump to any location by specifying two characters.
+It was great, and it spawned a slew of other similar plugins that expanded on the idea.
+(I'm not sure this is completely historically accurate, but it felt like a good narrative.)
 
-  The plugin I've landed on is [flash.nvim][].
-  What I really like about it is the idea of typing as many characters as possible.
-  Even with sneak I didn't always arrive where I wanted, so having the option of typing out more things felt good for me.
+The plugin I've landed on is [flash.nvim][].
+What I really like about it is the idea of typing as many characters as possible.
+Even with sneak I didn't always arrive where I wanted, so having the option of typing out more things felt good for me.
 
-  Extra functionality such as doing a "remote yank" (search, yank something, then cursor goes back to where it was) and enhancing `f`/`F`/`t`/`T`/`/` is just gravy.
+Extra functionality such as doing a "remote yank" (search, yank something, then cursor goes back to where it was) and enhancing `f`/`F`/`t`/`T`/`/` is just gravy.
 
-- [nvim-colorizer][]: Colorizer plugin
+## [nvim-colorizer][]: Colorizer plugin
 
-  ![What are these colors again? It's the palette of [melange-nvim][] of course!](/images/rewrite_neovim_lua/colorizer.png)
+![What are these colors again? It's the palette of [melange-nvim][] of course!](/images/rewrite_neovim_lua/colorizer.png)
 
-  After [vim-hexokinase][] got archived I had a minor panic.
-  It was a neat little plugin that highlighted colors inline, but without altering the highlight of the colors themselves, which is what all the other colorizer plugins seemed to do.
+After [vim-hexokinase][] got archived I had a minor panic.
+It was a neat little plugin that highlighted colors inline, but without altering the highlight of the colors themselves, which is what all the other colorizer plugins seemed to do.
 
-  Luckily I found [nvim-colorizer][] that does the same, and without having to build an external binary like hexokinase that always managed to break for some weird reason.
+Luckily I found [nvim-colorizer][] that does the same, and without having to build an external binary like hexokinase that always managed to break for some weird reason.
 
-  I love when things just work.
+I love when things just work.
 
 
 # Custom behavior
