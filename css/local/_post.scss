@@ -269,7 +269,7 @@ article.article-content {
   ul,
   ol {
     list-style: none;
-    margin: 1rem 0 1rem $left;
+    margin-left: $left;
   }
   ol {
     counter-reset: ordered-counter;
