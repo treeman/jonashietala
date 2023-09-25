@@ -173,9 +173,18 @@ impl TeraItem for PostItem {
 }
 
 #[derive(Debug, Clone, Serialize)]
+enum HighlightLink {
+    Series,
+    Archive,
+    Projects,
+    None,
+}
+
+#[derive(Debug, Clone, Serialize)]
 struct PostContext<'a> {
     title: Cow<'a, str>,
     url: Cow<'a, str>,
+    highlight: HighlightLink,
     created_ymd: String,
     created_date: String,
     updated_ymd: String,

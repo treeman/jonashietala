@@ -26,7 +26,7 @@
 
 .nav-wrapper nav {
   // @include font-size("s");
-  font-weight: bold;
+  // font-weight: bold;
   a {
     color: var(--color-text);
     // FIXME color different links in different colors
@@ -35,7 +35,7 @@
   a.archive {
     // border-bottom: 2px solid var(--melange_d_yellow);
   }
-  a.series {
+  a.series.active {
     border-bottom: 2px solid var(--melange_b_red);
   }
   a.projects {
