@@ -10,8 +10,8 @@ img {
 
 body {
   @extend %serif;
-  font-size: var(--font-size-m);
-  line-height: 1.4;
+  @include font-size("m");
+  line-height: 1.4; // line-height calculation is broken here, override it explicitly instead
 
   color: var(--color-text);
   background-color: var(--color-background);

@@ -1,35 +1,37 @@
 @use "../global/fonts" as *;
 @use "../global/font_size" as *;
+@use "../global/melange" as *;
 @use "../global/spacing" as *;
 @use "../components/system" as *;
+
+@mixin extra-space-s {
+  margin: var(--space-s) 0 calc(var(--space-s) - var(--space-xs)) 0;
+}
+@mixin extra-space-m {
+  margin: var(--space-m) 0 calc(var(--space-m) - var(--space-xs)) 0;
+}
 
 article.article-content {
   @include full-bleed-wrapper;
 
+  /*
+   * General setup
+   */
   a {
     word-wrap: break-word;
   }
 
+  // TODO should use a --gap variable and move this into systems
   & > * + * {
     margin-block-start: var(--space-xs);
   }
 
-  figure {
-    @include overflow-bleed;
-    text-align: center;
-
-    figcaption {
-      font-style: italic;
-      max-inline-size: none;
-    }
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  > h1,
+  > h2,
+  > h3,
+  > h4,
+  > h5,
+  > h6 {
     & > a:not(:first-of-type) {
       text-decoration: underline;
     }
@@ -37,6 +39,35 @@ article.article-content {
     &:not(:first-child) {
       margin-block-start: var(--space-m);
     }
+  }
+
+  header > h2.series {
+    & > a {
+      @include font-size("l");
+      border-bottom: 4px solid var(--color-highlight);
+      text-decoration: none;
+    }
+    & > a:hover {
+      border-bottom: 4px solid var(--color-link-hover);
+      text-decoration: none;
+      color: var(--color-text);
+    }
+  }
+  header > h1 {
+    margin-block-start: var(--space-xs);
+  }
+  header > .below {
+    @include font-size("s");
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: baseline;
+  }
+  header > .below > * + * {
+    margin-inline-start: var(--space-xs);
+  }
+  .tag-links a {
+    color: var(--color-tags);
   }
 
   /*
@@ -48,24 +79,19 @@ article.article-content {
     // Hack is quite a bit larger than the other fonts
     // Should maybe use Triplicate instead?
     font-size: 0.95rem;
-    // font-size: var(--font-size-s);
-    // max-inline-size: none;
   }
 
   pre code {
     padding: 0;
     width: 100%;
     max-inline-size: none;
-    // --measure: 100ch;
   }
   pre.wide {
     @include overflow-bleed;
   }
   pre {
     max-inline-size: none;
-    // padding: 0.4em 0.6em;
     padding: var(--space-xs);
-    // padding-top: var(--space-s);
     overflow-wrap: normal;
     overflow: auto;
   }
@@ -79,7 +105,7 @@ article.article-content {
   pre {
     code.highlight::before {
       float: right;
-      font-size: var(--font-size-s);
+      @include font-size("s");
       color: var(--melange_a_ui);
       position: relative;
       top: -0.5rem;
@@ -175,7 +201,7 @@ article.article-content {
     }
   }
   & > blockquote {
-    border-left: 3px solid var(--color-text);
+    border-left: 3px solid var(--color-blockquote-bar);
   }
   .epigraph {
     margin-block: var(--space-l);
@@ -216,8 +242,7 @@ article.article-content {
    */
   hr {
     // Remove article based spacing
-    // FIXME should that be a variable?
-    margin: var(--space-m) 0 calc(var(--space-m) - var(--space-xs)) 0;
+    @include extra-space-m;
   }
 
   /*
@@ -248,6 +273,7 @@ article.article-content {
   ul > li::before {
     float: left;
     margin-left: -$left;
+    color: var(--color-list-bullet);
   }
   ol > li::before {
     @extend %sans-serif;
@@ -257,5 +283,108 @@ article.article-content {
   ul > li::before {
     @extend %sans-serif;
     content: "•";
+  }
+
+  /*
+   * Images
+   */
+  img {
+    max-width: 100%;
+  }
+
+  // This little beauty is here because once upon a time I was dumb,
+  // and created some svg files with transparent backgrounds.
+  // It's not great on a dark background when all text is also dark.
+  @media (prefers-color-scheme: dark) {
+    img {
+      background-color: $melange_light_a_bg;
+    }
+  }
+
+  figure figcaption {
+    overflow-wrap: break-word;
+  }
+
+  figure {
+    @include overflow-bleed;
+    @include extra-space-s;
+    text-align: center;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    figcaption {
+      font-style: italic;
+      width: 100%;
+    }
+  }
+
+  // Multiple images share the same line and automatically flexes.
+  // Caption is below and everything is centered.
+  figure {
+    img {
+      padding: 0.1em;
+    }
+  }
+
+  figure.flex-50 a,
+  figure.flex-50 img {
+    flex: 0 1 50%;
+  }
+  figure.flex-33 a,
+  figure.flex-33 img {
+    flex: 0 1 33%;
+  }
+  figure.flex-25 a,
+  figure.flex-25 img {
+    flex: 0 1 25%;
+  }
+  figure.flex-20 a,
+  figure.flex-20 img {
+    flex: 0 1 20%;
+  }
+
+  figure.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: var(--space-3xs);
+  }
+
+  /*
+   * Aside/notice
+   */
+  aside {
+    background-color: var(--melange_a_float);
+    padding: var(--space-xs);
+    @include extra-space-s;
+    border: 1px dashed var(--melange_c_red);
+  }
+
+  /*
+   * Pretty video embedding
+   */
+  .video-wrapper {
+    @include overflow-bleed;
+    --measure: 100%;
+    @include extra-space-s;
+  }
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .video-container iframe,
+  .video-container object,
+  .video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }

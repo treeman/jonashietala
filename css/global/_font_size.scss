@@ -66,6 +66,7 @@ $default-max-bp: map.get($media-breakpoints, "desktop");
 
 @mixin font-size($size) {
   font-size: var(--font-size-#{$size});
+  // FIXME this isn't always good
   line-height: calc(2px + 2ex + 2px);
 }
 

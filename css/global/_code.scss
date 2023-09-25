@@ -1,9 +1,28 @@
 @use "melange" as *;
 
+code {
+  background-color: var(--melange_a_float);
+}
+
+pre,
+pre code {
+  background-color: var(--melange_a_float);
+}
+
+// @media (prefers-color-scheme: dark) {
+//   code {
+//     background-color: var(--melange_a_float);
+//   }
+
+//   pre,
+//   pre code {
+//     background-color: var(--melange_a_bg);
+//   }
+// }
+
 code,
 pre {
   color: var(--melange_a_fg);
-  background-color: var(--melange_a_float);
 }
 
 // .punctuation.definition.tag {
