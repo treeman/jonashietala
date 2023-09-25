@@ -79,3 +79,36 @@
 .main-content {
   margin: var(--space-2xs);
 }
+
+footer {
+  display: flex;
+  justify-content: center;
+}
+
+footer .upper {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-direction: row;
+  max-inline-size: var(--overflow-measure);
+}
+
+footer nav ul {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: normal;
+}
+footer nav li {
+  list-style: none;
+}
+footer nav ul > * + * {
+  margin-block-start: var(--space-3xs);
+}
+
+footer .lower {
+  width: 100%;
+  text-align: center;
+}
