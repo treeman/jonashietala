@@ -30,19 +30,19 @@
     // FIXME choose colors more carefully
   }
   a.archive.highlight {
-    border-bottom: 2px solid var(--melange_d_yellow);
+    border-bottom: 2px solid var(--color-highlight-archive);
   }
   a.series.highlight {
-    border-bottom: 2px solid var(--melange_b_red);
+    border-bottom: 2px solid var(--color-highlight-series);
   }
   a.projects.highlight {
-    border-bottom: 2px solid var(--melange_c_cyan);
+    border-bottom: 2px solid var(--color-highlight-projects);
   }
   a.drafts.highlight {
-    border-bottom: 2px solid var(--melange_d_yellow);
+    border-bottom: 2px solid var(--color-highlight-drafts);
   }
   a.contact.highlight {
-    border-bottom: 2px solid var(--melange_b_red);
+    border-bottom: 2px solid var(--color-highlight-contact);
   }
   a:hover {
     color: var(--color-link-hover);

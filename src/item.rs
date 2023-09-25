@@ -51,7 +51,7 @@ pub trait TeraItem {
         let mut context = ctx.parent_context.clone();
         context.extend(self.context(ctx));
         if !context.contains_key("url") {
-            context.insert("url", dbg!(self.url().href().to_string().as_str()));
+            context.insert("url", self.url().href().to_string().as_str());
         }
         content::add_nav_highlight(&mut context);
         ctx.tera.render_to(self.template(), &context, write)?;
