@@ -28,12 +28,12 @@
           <span class="site-title"><a href="/">jonashietala.se</a></span>
           <nav>
             <ul>
-              <li><a href="/archive" class="archive">Archive</a></li>
-              <li><a href="/series" class="series">Series</a></li>
-              <li><a href="/projects" class="projects">Projects</a></li>
-              <li><a href="mailto:{{mail}}" class="contact">Contact</a></li>
+              <li><a href="/archive" class="archive {% if nav_highlight == "archive" %}highlight{% endif %}">Archive</a></li>
+              <li><a href="/series" class="series {% if nav_highlight == "series" %}highlight{% endif %}">Series</a></li>
+              <li><a href="/projects" class="projects {% if nav_highlight == "projects" %}highlight{% endif %}">Projects</a></li>
+              <li><a href="mailto:{{mail}}" class="contact {% if nav_highlight == "contact" %}highlight{% endif %}">Contact</a></li>
               {% if include_drafts %}
-              <li><a href="/drafts">Drafts</a></li>
+              <li><a href="/drafts" class="drafts {% if nav_highlight == "drafts" %}highlight{% endif %}">Drafts</a></li>
               {% endif %}
             </ul>
           </nav>

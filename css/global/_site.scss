@@ -25,24 +25,24 @@
 }
 
 .nav-wrapper nav {
-  // @include font-size("s");
-  // font-weight: bold;
   a {
     color: var(--color-text);
-    // FIXME color different links in different colors
-    // border-bottom: 2px solid var(--melange_c_green);
+    // FIXME choose colors more carefully
   }
-  a.archive {
-    // border-bottom: 2px solid var(--melange_d_yellow);
+  a.archive.highlight {
+    border-bottom: 2px solid var(--melange_d_yellow);
   }
-  a.series.active {
+  a.series.highlight {
     border-bottom: 2px solid var(--melange_b_red);
   }
-  a.projects {
-    // border-bottom: 2px solid var(--melange_c_cyan);
+  a.projects.highlight {
+    border-bottom: 2px solid var(--melange_c_cyan);
   }
-  a.contact {
-    // border-bottom: 2px solid var(--melange_c_magenta);
+  a.drafts.highlight {
+    border-bottom: 2px solid var(--melange_d_yellow);
+  }
+  a.contact.highlight {
+    border-bottom: 2px solid var(--melange_b_red);
   }
   a:hover {
     color: var(--color-link-hover);

@@ -1,4 +1,4 @@
-use crate::{site::SiteContent, site_url::SiteUrl};
+use crate::{content, site::SiteContent, site_url::SiteUrl};
 use camino::{Utf8Path, Utf8PathBuf};
 use eyre::Result;
 use std::borrow::Cow;
@@ -50,6 +50,10 @@ pub trait TeraItem {
     fn render_to(&self, ctx: &RenderContext, write: impl Write) -> Result<()> {
         let mut context = ctx.parent_context.clone();
         context.extend(self.context(ctx));
+        if !context.contains_key("url") {
+            context.insert("url", dbg!(self.url().href().to_string().as_str()));
+        }
+        content::add_nav_highlight(&mut context);
         ctx.tera.render_to(self.template(), &context, write)?;
         Ok(())
     }
