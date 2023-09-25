@@ -5,81 +5,120 @@
 // Fluid types implemented from:
 // https://www.aleksandrhovhannisyan.com/blog/fluid-type-scale-with-css-clamp/
 
-// Fluid type settings
-$type-base-min: 16px;
-$type-base-max: 19px;
+// // Fluid type settings
+// $type-base-min: 16px;
+// $type-base-max: 20px;
 
-$type-scale-min: 1.2;
-$type-scale-max: 1.333;
+// $type-scale-min: 1.25;
+// $type-scale-max: 1.333;
 
-$type-steps: "xs", "s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl";
-$type-base-index: list.index($type-steps, "m");
+// $type-steps: "xs", "s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl";
+// $type-base-index: list.index($type-steps, "m");
 
-$media-breakpoints: (
-  mobile: 400px,
-  desktop: 1000px,
-);
+// $media-breakpoints: (
+//   mobile: 400px,
+//   desktop: 1280px,
+// );
 
-$default-min-bp: map.get($media-breakpoints, "mobile");
-$default-max-bp: map.get($media-breakpoints, "desktop");
+// $default-min-bp: map.get($media-breakpoints, "mobile");
+// $default-max-bp: map.get($media-breakpoints, "desktop");
 
-@function to-rems($px) {
-  $rems: math.div($px, 16px) * 1rem;
-  @return $rems;
-}
+// @function to-rems($px) {
+//   $rems: math.div($px, 16px) * 1rem;
+//   @return $rems;
+// }
 
-@function rnd($number, $places: 0) {
-  @return $number;
+// @function rnd($number, $places: 0) {
+//   @return $number;
 
-  $n: 1;
-  @if $places > 0 {
-    @for $i from 1 through $places {
-      $n: $n * 10;
-    }
-  }
-  @return math.div(math.round($number * $n), $n);
-}
+//   $n: 1;
+//   @if $places > 0 {
+//     @for $i from 1 through $places {
+//       $n: $n * 10;
+//     }
+//   }
+//   @return math.div(math.round($number * $n), $n);
+// }
 
-@function clamped(
-  $min-px,
-  $max-px,
-  $min-bp: $default-min-bp,
-  $max-bp: $default-max-bp
-) {
-  $slope: math.div($max-px - $min-px, $max-bp - $min-bp);
-  // @debug "slope" $slope;
-  $slope-vw: rnd($slope * 100, 2);
-  $intercept-rems: rnd(to-rems($min-px - $slope * $min-bp), 2);
-  $min-rems: rnd(to-rems($min-px), 2);
-  $max-rems: rnd(to-rems($max-px), 2);
-  @if $min-rems > $max-rems {
-    $tmp: $min-rems;
-    $min-rems: $max-rems;
-    $max-rems: $tmp;
-  }
-  @return clamp(
-    #{$min-rems},
-    #{$slope-vw}vw + #{$intercept-rems},
-    #{$max-rems}
-  );
-}
+// @function clamped(
+//   $min-px,
+//   $max-px,
+//   $min-bp: $default-min-bp,
+//   $max-bp: $default-max-bp
+// ) {
+//   $slope: math.div($max-px - $min-px, $max-bp - $min-bp);
+//   // @debug "slope" $slope;
+//   $slope-vw: rnd($slope * 100, 2);
+//   $intercept-rems: rnd(to-rems($min-px - $slope * $min-bp), 2);
+//   $min-rems: rnd(to-rems($min-px), 2);
+//   $max-rems: rnd(to-rems($max-px), 2);
+//   // @if $min-rems > $max-rems {
+//   //   $tmp: $min-rems;
+//   //   $min-rems: $max-rems;
+//   //   $max-rems: $tmp;
+//   // }
+//   @return clamp(
+//     #{$min-rems},
+//     #{$slope-vw}vw + #{$intercept-rems},
+//     #{$max-rems}
+//   );
+// }
 
 @mixin font-size($size) {
   font-size: var(--font-size-#{$size});
-  // FIXME this isn't always good
+  // FIXME this isn't always good?
   line-height: calc(2px + 2ex + 2px);
 }
 
-:root {
-  @for $i from 1 through length($type-steps) {
-    $step: list.nth($type-steps, $i);
-    $power: $i - $type-base-index;
-    $min: $type-base-min * math.pow($type-scale-min, $power);
-    $max: $type-base-max * math.pow($type-scale-max, $power);
-    --font-size-#{$step}: #{clamped($min, $max)};
+// :root {
+//   @for $i from 1 through length($type-steps) {
+//     $step: list.nth($type-steps, $i);
+//     $power: $i - $type-base-index;
+//     $min: $type-base-min * math.pow($type-scale-min, $power);
+//     $max: $type-base-max * math.pow($type-scale-max, $power);
+//     --font-size-#{$step}: #{clamped($min, $max)};
 
-    .font-size-#{$step} {
-      @include font-size("#{$step}");
+//     .font-size-#{$step} {
+//       @include font-size("#{$step}");
+//     }
+//   }
+// }
+
+/* Fluid font size variables, for browsers that support clamp */
+@supports (font-size: clamp(1rem, 1vw, 1rem)) {
+  :root {
+    --font-size-2xs: clamp(0.51rem, 0.03vw + 0.5rem, 0.53rem);
+    --font-size-xs: clamp(0.64rem, 0.12vw + 0.61rem, 0.7rem);
+    --font-size-s: clamp(0.8rem, 0.25vw + 0.74rem, 0.94rem);
+    --font-size-m: clamp(1rem, 0.45vw + 0.89rem, 1.25rem);
+    --font-size-l: clamp(1.25rem, 0.76vw + 1.06rem, 1.67rem);
+    --font-size-xl: clamp(1.56rem, 1.2vw + 1.26rem, 2.22rem);
+    --font-size-2xl: clamp(1.95rem, 1.83vw + 1.5rem, 2.96rem);
+    --font-size-3xl: clamp(2.44rem, 2.74vw + 1.76rem, 3.95rem);
+  }
+}
+/* Fallback variables for browsers that don't support clamp */
+@supports not (font-size: clamp(1rem, 1vw, 1rem)) {
+  :root {
+    --font-size-2xs: 0.51rem;
+    --font-size-xs: 0.64rem;
+    --font-size-s: 0.8rem;
+    --font-size-m: 1rem;
+    --font-size-l: 1.25rem;
+    --font-size-xl: 1.56rem;
+    --font-size-2xl: 1.95rem;
+    --font-size-3xl: 2.44rem;
+  }
+  @media screen and (min-width: 1280px) {
+    :root {
+      --font-size-2xs: 0.53rem;
+      --font-size-xs: 0.7rem;
+      --font-size-s: 0.94rem;
+      --font-size-m: 1.25rem;
+      --font-size-l: 1.67rem;
+      --font-size-xl: 2.22rem;
+      --font-size-2xl: 2.96rem;
+      --font-size-3xl: 3.95rem;
     }
   }
 }

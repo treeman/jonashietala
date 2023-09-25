@@ -1,0 +1,81 @@
+@use "../global/fonts" as *;
+@use "../global/font_size" as *;
+
+.site-header {
+  @extend %sans-serif;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-block-end: var(--space-xs);
+}
+.site-header a,
+.site-header a:hover {
+  text-decoration: none;
+}
+
+.nav-wrapper {
+  flex: 1;
+  max-inline-size: var(--overflow-measure);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: baseline;
+  // margin-block-start: var(--space-xs);
+  // margin: var(--space-xs);
+}
+
+.nav-wrapper nav {
+  // @include font-size("s");
+  font-weight: bold;
+  a {
+    color: var(--color-text);
+    // FIXME color different links in different colors
+    // border-bottom: 2px solid var(--melange_c_green);
+  }
+  a.archive {
+    // border-bottom: 2px solid var(--melange_d_yellow);
+  }
+  a.series {
+    border-bottom: 2px solid var(--melange_b_red);
+  }
+  a.projects {
+    // border-bottom: 2px solid var(--melange_c_cyan);
+  }
+  a.contact {
+    // border-bottom: 2px solid var(--melange_c_magenta);
+  }
+  a:hover {
+    color: var(--color-link-hover);
+  }
+}
+.nav-wrapper nav ul {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+.nav-wrapper nav li {
+  list-style: none;
+}
+.nav-wrapper nav ul > * + * {
+  margin-inline-start: var(--space-2xs);
+}
+.nav-wrapper .site-title {
+  @include font-size("m");
+  // font-family: $code-font-family;
+  // @extend %serif;
+  font-style: italic;
+  margin-block: var(--space-3xs);
+
+  > a {
+    color: var(--color-text);
+    color: var(--melange_a_ui);
+  }
+  > a:hover {
+    color: var(--color-link-hover);
+  }
+}
+
+.main-content {
+  margin: var(--space-2xs);
+}
