@@ -56,18 +56,34 @@ article.article-content {
   header > h1 {
     margin-block-start: var(--space-xs);
   }
+  header > h1 a:hover {
+    text-decoration: none;
+  }
   header > .below {
+    @extend %sans-serif;
     @include font-size("s");
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
     align-items: baseline;
+    margin-block-start: var(--space-3xs);
   }
   header > .below > * + * {
     margin-inline-start: var(--space-xs);
   }
   .tag-links a {
     color: var(--color-tags);
+  }
+  .tag-links a:hover {
+    color: var(--color-tags-hover);
+  }
+
+  .post-series-footer,
+  .post-series-head {
+    background-color: var(--melange_a_float);
+    padding: var(--space-xs);
+    @include extra-space-s;
+    border: 1px dashed var(--melange_c_red);
   }
 
   /*

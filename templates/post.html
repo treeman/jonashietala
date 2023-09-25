@@ -23,7 +23,7 @@
   {% if series %}
   <div class="post-series post-series-head">
     <div>
-      This post is part {{series.part_number}} of the
+      This is part {{series.part_number}} of the
       <a href="{{series.url}}">{{series.title}}</a> series.
     </div>
 
@@ -44,8 +44,6 @@
       is ongoing. {% endif %}
     </div>
     {% endif %}
-
-    <div>{{series.post_note}}</div>
 
     <div>
       {% if series.next_url %}
