@@ -38,7 +38,7 @@ As I'm writing this I'm up to 78 plugins, with ~30 on my "plugins to check" list
 
 If that makes you feel like I've betrayed Bram the creator, then my only defense is this:
 
-I tried, but I failed. They all seemed so useful you know?
+I tried, but I failed.
 
 
 # Where to start?
