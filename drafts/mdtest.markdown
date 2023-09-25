@@ -9,23 +9,23 @@ tags: Gaming, Ludum Dare
 
 # Header 1 (h2)
 
-Something
+font-size("xl")
 
 ## Header 2 (h3)
 
-Others
+font-size("l")
 
 ### Header 3 (h4)
 
-In 3
+font-size("m")
 
 #### Header 4 (h5)
 
-In 4
+font-size("s")
 
 #### Header 5 (h6)
 
-In 5
+font-size("xs")
 
 # Just text
 

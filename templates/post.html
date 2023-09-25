@@ -2,17 +2,24 @@
 <article class="article-content">
   <header>
     {% if series %}
-    <h2 class="series"><a href="{{series.url}}">{{series.title}}</a></h2>
+    <h2 class="series">
+      <a href="{{series.url}}" title="{{series.title}} series"
+        >{{series.title}}</a
+      >
+    </h2>
     {% endif %}
     <h1><a href="{{url}}">{{title}}</a></h1>
     {% if created_date %}
     <div class="below">
       <div class="created">
-        <time datetime="{{created_ymd}}">{{created_date}}</time>
+        <time datetime="{{created_ymd}}" title="{{created_ymd}}"
+          >{{created_date}}</time
+        >
       </div>
       <nav class="tag-links">
         {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
           href="{{ tag.href }}"
+          title="Posts tagged `{{tag.name}}`"
           >{{ tag.name }}</a
         >{% endfor %}
       </nav>
@@ -32,9 +39,9 @@
   {% endif %} {{content}} {% if series %}
   <div class="post-series post-series-footer">
     <div>
-      {% if series.last_part %} This post the last part of the
-      <a href="{{series.url}}">{{series.title}}</a> series. {% else %} This post
-      is part {{series.part_number}} of the
+      {% if series.last_part %} This is the last part of the
+      <a href="{{series.url}}">{{series.title}}</a> series. {% else %} This is
+      part {{series.part_number}} of the
       <a href="{{series.url}}">{{series.title}}</a> series. {% endif %}
     </div>
 
@@ -57,18 +64,24 @@
 
   <div class="post-footer">
     <nav class="tag-links">
-      Posted in {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
+      {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
         href="{{ tag.href }}"
+        title="Posts tagged `{{tag.name}}`"
         >{{ tag.name }}</a
-      >{% endfor %}.
+      >{% endfor %}
     </nav>
 
     <nav class="post-nav">
-      {% if prev %}
-      <span class="prev"><a href="{{ prev.url }}">Previous</a></span>
-      {% endif %} {% if next %}
-      <span class="next"><a href="{{ next.url }}">Next</a></span>
-      {% endif %}
+      <span class="prev">
+        {% if prev %}
+        <a href="{{ prev.url }}" title="{{ prev.title }}">Previous</a>
+        {% endif %}
+      </span>
+      <span class="next">
+        {% if next %}
+        <a href="{{ next.url }}" title="{{ next.title }}">Next</a>
+        {% endif %}
+      </span>
     </nav>
   </div>
 </article>

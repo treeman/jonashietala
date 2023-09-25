@@ -42,6 +42,7 @@ article.article-content {
   }
 
   header > h2.series {
+    margin-block-end: var(--space-xs);
     & > a {
       @include font-size("l");
       border-bottom: 4px solid var(--color-highlight);
@@ -50,11 +51,8 @@ article.article-content {
     & > a:hover {
       border-bottom: 4px solid var(--color-link-hover);
       text-decoration: none;
-      color: var(--color-text);
+      // color: var(--color-text);
     }
-  }
-  header > h1 {
-    margin-block-start: var(--space-xs);
   }
   header > h1 a:hover {
     text-decoration: none;
@@ -71,6 +69,10 @@ article.article-content {
   header > .below > * + * {
     margin-inline-start: var(--space-xs);
   }
+  .tag-links {
+    @extend %sans-serif;
+    @include font-size("s");
+  }
   .tag-links a {
     color: var(--color-tags);
   }
@@ -84,6 +86,21 @@ article.article-content {
     padding: var(--space-xs);
     @include extra-space-s;
     border: 1px dashed var(--melange_c_red);
+  }
+
+  .post-footer {
+    border-top: 1px solid var(--color-hr);
+  }
+
+  .post-footer .tag-links {
+    text-align: center;
+    margin-block-start: var(--space-3xs);
+  }
+  .post-footer .post-nav {
+    @extend %sans-serif;
+    @include font-size("s");
+    display: flex;
+    justify-content: space-between;
   }
 
   /*
