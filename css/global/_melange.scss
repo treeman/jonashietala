@@ -1,0 +1,120 @@
+// Melange palette is taken from https://github.com/savq/melange-nvim
+// Light palette
+$melange_light_a_bg: #f1f1f1;
+$melange_light_a_float: #e9e1db;
+$melange_light_a_sel: #d9d3ce;
+$melange_light_a_ui: #a98a78;
+$melange_light_a_com: #7d6658;
+$melange_light_a_fg: #54433a;
+
+$melange_light_b_red: #bf0021;
+$melange_light_b_yellow: #a06d00;
+$melange_light_b_green: #3a684a;
+$melange_light_b_cyan: #3d6568;
+$melange_light_b_blue: #465aa4;
+$melange_light_b_magenta: #904180;
+
+$melange_light_c_red: #c77b8b;
+$melange_light_c_yellow: #bc5c00;
+$melange_light_c_green: #6e9b72;
+$melange_light_c_cyan: #739797;
+$melange_light_c_blue: #7892bd;
+$melange_light_c_magenta: #be79bb;
+
+$melange_light_d_red: #f1dedf;
+$melange_light_d_yellow: #cca478;
+$melange_light_d_green: #d0e9d1;
+$melange_light_d_cyan: #cde8e7;
+$melange_light_d_blue: #e0e2e8;
+$melange_light_d_magenta: #e8e0e8;
+
+// Dark palette
+$melange_dark_a_bg: #292522;
+$melange_dark_a_float: #34302c;
+$melange_dark_a_sel: #403a36;
+$melange_dark_a_ui: #867462;
+$melange_dark_a_com: #c1a78e;
+$melange_dark_a_fg: #ece1d7;
+
+$melange_dark_b_red: #d47766;
+$melange_dark_b_yellow: #ebc06d;
+$melange_dark_b_green: #85b695;
+$melange_dark_b_cyan: #89b3b6;
+$melange_dark_b_blue: #a3a9ce;
+
+$melange_dark_b_magenta: #cf9bc2;
+$melange_dark_c_red: #bd8183;
+$melange_dark_c_yellow: #e49b5d;
+$melange_dark_c_green: #78997a;
+$melange_dark_c_cyan: #7b9695;
+$melange_dark_c_blue: #7f91b2;
+$melange_dark_c_magenta: #b380b0;
+
+$melange_dark_d_red: #7d2a2f;
+$melange_dark_d_yellow: #8b7449;
+$melange_dark_d_green: #233524;
+$melange_dark_d_cyan: #253333;
+$melange_dark_d_blue: #273142;
+$melange_dark_d_magenta: #422741;
+
+:root {
+  --melange_a_bg: $melange_light_a_bg;
+  --melange_a_float: $melange_light_a_float;
+  --melange_a_sel: $melange_light_a_sel;
+  --melange_a_ui: $melange_light_a_ui;
+  --melange_a_com: $melange_light_a_com;
+  --melange_a_fg: $melange_light_a_fg;
+
+  --melange_b_red: $melange_light_b_red;
+  --melange_b_yellow: $melange_light_b_yellow;
+  --melange_b_green: $melange_light_b_green;
+  --melange_b_cyan: $melange_light_b_cyan;
+  --melange_b_blue: $melange_light_b_blue;
+  --melange_b_magenta: $melange_light_b_magenta;
+
+  --melange_c_red: $melange_light_c_red;
+  --melange_c_yellow: $melange_light_c_yellow;
+  --melange_c_green: $melange_light_c_green;
+  --melange_c_cyan: $melange_light_c_cyan;
+  --melange_c_blue: $melange_light_c_blue;
+  --melange_c_magenta: $melange_light_c_magenta;
+
+  --melange_d_red: $melange_light_d_red;
+  --melange_d_yellow: $melange_light_d_yellow;
+  --melange_d_green: $melange_light_d_green;
+  --melange_d_cyan: $melange_light_d_cyan;
+  --melange_d_blue: $melange_light_d_blue;
+  --melange_d_magenta: $melange_light_d_magenta;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --melange_a_bg: $melange_dark_a_bg;
+    --melange_a_float: $melange_dark_a_float;
+    --melange_a_sel: $melange_dark_a_sel;
+    --melange_a_ui: $melange_dark_a_ui;
+    --melange_a_com: $melange_dark_a_com;
+    --melange_a_fg: $melange_dark_a_fg;
+
+    --melange_b_red: $melange_dark_b_red;
+    --melange_b_yellow: $melange_dark_b_yellow;
+    --melange_b_green: $melange_dark_b_green;
+    --melange_b_cyan: $melange_dark_b_cyan;
+    --melange_b_blue: $melange_dark_b_blue;
+
+    --melange_b_magenta: $melange_dark_b_magenta;
+    --melange_c_red: $melange_dark_c_red;
+    --melange_c_yellow: $melange_dark_c_yellow;
+    --melange_c_green: $melange_dark_c_green;
+    --melange_c_cyan: $melange_dark_c_cyan;
+    --melange_c_blue: $melange_dark_c_blue;
+    --melange_c_magenta: $melange_dark_c_magenta;
+
+    --melange_d_red: $melange_dark_d_red;
+    --melange_d_yellow: $melange_dark_d_yellow;
+    --melange_d_green: $melange_dark_d_green;
+    --melange_d_cyan: $melange_dark_d_cyan;
+    --melange_d_blue: $melange_dark_d_blue;
+    --melange_d_magenta: $melange_dark_d_magenta;
+  }
+}

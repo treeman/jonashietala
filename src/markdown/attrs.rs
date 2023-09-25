@@ -139,6 +139,7 @@ fn transform_notice(events: Vec<Event>) -> String {
 }
 
 fn transform_epigraph(events: Vec<Event>) -> String {
+    // FIXME should be able to surround an image
     surround_content(
         events,
         r#"<div class="epigraph"><blockquote>"#,

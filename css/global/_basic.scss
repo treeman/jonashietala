@@ -1,0 +1,101 @@
+@use "colors" as *;
+@use "fonts" as *;
+@use "spacing" as *;
+@use "font_size" as *;
+
+// Make images responsive without overflowing their container
+img {
+  max-inline-size: 100%;
+}
+
+body {
+  @extend %serif;
+  @include font-size("m");
+  line-height: 1.4; // line-height calculation is broken here, override it explicitly instead
+
+  color: var(--color-text);
+  background-color: var(--color-background);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  a {
+    color: var(--color-link);
+  }
+  a:hover {
+    color: var(--color-link-hover);
+  }
+  // a:visited {
+  //   color: var(--color-link-visited);
+  // }
+}
+
+h1 {
+  @include font-size("2xl");
+}
+h2 {
+  @include font-size("xl");
+}
+h3 {
+  @include font-size("l");
+}
+h4 {
+  @include font-size("m");
+}
+h5 {
+  @include font-size("s");
+}
+h6 {
+  @include font-size("xs");
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @extend %sans-serif;
+
+  a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+// Measure limits the width of text to be more readable.
+:root {
+  // Limits the text at ~60 characters
+  --measure: 60ch;
+  --overflow-measure: 70ch;
+  --overflow-size: calc((var(--overflow-measure) - var(--measure)) / 2);
+}
+* {
+  max-inline-size: var(--measure);
+}
+// Opt-out instead of opt-in
+html,
+body,
+div,
+header,
+nav,
+main,
+footer {
+  max-inline-size: none;
+}
+.max-inline-size-measure {
+  max-inline-size: var(--measure);
+}
+.max-inline-size-measure-2 {
+  max-inline-size: calc(var(--eeasure) / 2);
+}
+
+hr {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--color-hr);
+}

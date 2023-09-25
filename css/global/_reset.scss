@@ -1,0 +1,11 @@
+* {
+  // Predictable styling.
+  margin: 0;
+  padding: 0;
+  // Better box model, includes border in width calculations.
+  box-sizing: border-box;
+  // Flexbox overrides min-width which makes <pre> not overflow properly
+  // https://weblog.west-wind.com/posts/2016/Feb/15/Flexbox-Containers-PRE-tags-and-managing-Overflow
+  min-width: 0;
+}
+

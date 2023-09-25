@@ -12,7 +12,6 @@ use syntect::{
     parsing::SyntaxSet, util::LinesWithEndings,
 };
 use tracing::info;
-use tracing::warn;
 
 lazy_static! {
     static ref SS: SyntaxSet = syntax_set();
@@ -75,7 +74,8 @@ fn push_code_highlight<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &st
             }
             Err(err) => {
                 // FIXME when we have highlighting for all languages, make this a panic.
-                warn!("Syntax highlight error: {}", err);
+                // warn!("Syntax highlight error: {}", err);
+                panic!("Syntax highlight error: {}", err);
             }
         }
     };
@@ -83,6 +83,20 @@ fn push_code_highlight<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &st
     s.push_str("<code>");
     s.push_str(&html_escape::encode_safe(&code));
     s.push_str("</code>");
+}
+
+fn extra_code_class(s: &str) -> Option<&'static str> {
+    let count = largest_line_count(s);
+
+    if count > 66 {
+        Some("wide")
+    } else {
+        None
+    }
+}
+
+fn largest_line_count(s: &str) -> usize {
+    s.lines().map(|x| x.chars().count()).max().unwrap_or(0)
 }
 
 fn highlight(spec: &HighlightSpec, code: &str) -> Result<String> {
@@ -163,7 +177,17 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
         }
 
         let mut res = String::new();
-        res.push_str("<pre>");
+
+        match extra_code_class(&code) {
+            Some(class) => {
+                res.push_str(r#"<pre class=""#);
+                res.push_str(class);
+                res.push_str(r#"">"#);
+            }
+            None => {
+                res.push_str("<pre>");
+            }
+        }
         push_code_highlight(&mut res, lang, &code);
         res.push_str("</pre>");
 
@@ -316,5 +340,20 @@ let square x = x * x
         let s = r"Inline `xxx` no lang";
         let res = convert(s);
         assert_eq!(res.trim_end(), "<p>Inline <code>xxx</code> no lang</p>");
+    }
+
+    #[test]
+    fn test_extra_code_class() {
+        assert_eq!(largest_line_count("one\ntwo\nthree"), 5);
+        assert_eq!(extra_code_class("one\ntwo\nthree"), None);
+        assert_eq!(
+            extra_code_class(
+                r"
+One line that is exactly 61... Which line, it's this one!!!!!
+This is just a small line
+"
+            ),
+            Some("wide")
+        );
     }
 }

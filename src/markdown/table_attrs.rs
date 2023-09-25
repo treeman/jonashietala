@@ -28,7 +28,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for TableAttrs<'a, I> {
         // | One | Two
         // | --  | --
         // | 1   | 2
-        // { .class }";
+        // { .class }
         //
         // Will create events like:
         //   Start table

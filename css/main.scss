@@ -1,21 +1,6 @@
-// Vendor
-@import "gruvbox";
-
-// Preparations
-@import "fonts";
-
-// Site wide
-@import "global";
-
-// Pages
-@import "post";
-@import "static";
-@import "projects";
-@import "homepage";
-@import "post-list";
-@import "tags";
-@import "series";
-@import "series-list";
-
-// Elements
-@import "code";
+@use "global/reset";
+@use "global/basic";
+@use "global/fonts";
+@use "global/font_size";
+@use "global/code";
+@use "local/post";

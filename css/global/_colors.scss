@@ -1,0 +1,22 @@
+@use "melange" as *;
+@use "gruvbox" as *;
+
+:root {
+  --color-text: var(--melange_a_fg);
+  --color-link: var(--melange_b_blue);
+  --color-link-hover: var(--melange_b_yellow);
+  --color-background: var(--melange_a_bg);
+  --color-hr: var(--melange_a_ui);
+  --color-highlight: var(--melange_b_red);
+  --color-blockquote-bar: var(--color-highlight);
+  --color-list-bullet: var(--color-highlight);
+  --color-tags: var(--melange_b_cyan);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    // Use a slightly different background color to not clash with
+    // code highlighting.
+    // --color-background: $gruvbox_dark_bg0;
+  }
+}
