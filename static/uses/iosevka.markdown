@@ -2,7 +2,15 @@
 title: Iosevka
 ---
 
-```yaml
+![](/images/uses/typeface.png)
+
+> Iosevka isn't something you find. Iosevka is something that finds you.
+
+[Iosevka][] is great, and you can personalize it by building it yourself and changing some variants.
+
+This is my `private-build-plans.toml` that I used to generate my variant (also available [on GitHub][patched] already created, naturally with [Nerd Fonts][]):
+
+```toml
 [buildPlans.iosevka-tree]
 family = "Iosevka Tree"
 spacing = "term"
@@ -32,6 +40,17 @@ dollar = "open"
 percent = "dots"
 ```
 
+Patching them with [Nerd Fonts][] was surprisingly a pain as it didn't seem to accept a directory as input arguments.
+No big deal, this is how I did it using [fish][] (adjust paths as necessary):
+
 ```fish
-for x in ls ~/src/Iosevka/dist/iosevka-tree/ttf/iosevka-tree-*; ./font-patcher -c --dry ~/src/Iosevka/dist/iosevka-tree/ttf/iosevka-tree-bold.ttf --out ~/iosevka-tree/; end
+for x in ls ~/src/Iosevka/dist/iosevka-tree/ttf/iosevka-tree-*;
+  ./font-patcher -c ~/src/Iosevka/dist/iosevka-tree/ttf/iosevka-tree-bold.ttf
+  --out ~/iosevka-tree/;
+end
 ```
+
+[Iosevka]: https://github.com/be5invis/Iosevka
+[Nerd Fonts]: https://www.nerdfonts.com/
+[patched]: https://github.com/treeman/dotfiles/tree/master/.fonts/iosevka-tree
+[fish]: https://fishshell.com/

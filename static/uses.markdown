@@ -2,21 +2,95 @@
 title: Uses
 ---
 
+This page lists the tools I use as a software developer, both in a professional and personal context.
+
+For more lists like this, check out <https://github.com/wesbos/awesome-uses>.
+
+
+# Smart wearable
+
+While tools are important to get stuff done, something even more important is taking care of yourself.
+I've tried various fitness bands, smartwatches, Oura rings and heart rate monitors but the [WHOOP][] has been way more useful than the rest.
+
+![My WHOOP. The strap is surprisingly comfortable.](/images/uses/whoop.jpg)
+
+It helps me in a few different ways:
+
+
+1. It helps me prioritize sleep
+
+   Honestly, I believe it's the most important thing to get right if you want to perform.
+   Be it in sports or as a developer.
+
+1. It helps me find factors that correlates with a good or bad recovery.
+
+   The journal feature is low-key the best thing about the [WHOOP][].
+   It asks you to log a set of behaviors and then correlates them with your recovery.
+
+   For example it has given me a +6% recovery for using a sleep mask and a -10% for drinking alcohol.
+   Not a big surprise perhaps, but it has also given me a small negative score for sauna and a positive score for viewing my phone in bed before I go to sleep.
+
+   Of course, you shouldn't blindly trust this, but I like how it can help you make changes to your routine.
+   If you know that drinking alcohol or eating late will reduce your recovery the upcoming day,
+   you may not be that willing to go through with it without thinking it through.
+
+1. It helps me not to overreach and other days push me to train harder.
+
+3. I can always wear it, so it's more accurate than any alternative for me.
+
+   I wear it when I sleep, shower, lift weights and with [WHOOP's boxers][boxer] I don't even notice it during grappling training, where you can't have anything on your wrists or your fingers.
+
+Prioritize your health and fitness rather than rewriting your [Neovim][] configuration yet again, it'll be much more worth it.
+
+# Development
+
+![Neovim. I typically use 3-4 panes side-by-side, but that doesn't look very good in a screenshot so I made Neovim smaller.](/images/uses/neovim.png)
+
+I do all my development, writing and note taking inside [Neovim][].
+I've been using Vim (and later Neovim when I wanted async code) since more than 15 years ago, and I don't see myself ever switching away.
+I have quite a few plugins and tweaks that aid my workflow, see [my config files][neovim-config] if you're curious.
+
+The colorscheme I use is [melange-nvim] that I try to adapt outside of [Neovim][] as well.
+If you find something you love you just have to have it everywhere.
+
+My typeface of choice is a [customized Iosevka][iosevka].
+I love the general look of it and the character variants where you can customize individual characters is just gravy.
+But the absolutely best feature is how narrow it is while still being legible to me.
+This allows me to use four splits on my main monitor instead of three, giving me a huge value add compared to "just" looking nice.
+
+I don't use a desktop environment and I rely on [xmonad][] as my tiling window manager to spam [alacritty][] terminals powered by [fish][] or [firefox][] instances all over the place.
+I sometimes use [neovide][] as a [Neovim][] GUI, as it has nicer scaling and some cursor effects that makes it a little easier to follow the cursor when it's moving around windows a lot.
+
+As for the OS, I run [Void Linux][] on all my machines at home ([Arch Linux][] on the [Steam Deck][] though).
+
 # Computer hardware
 
-xxxx
+![This is where I work most of the time.  
+I may have cleaned it up a bit before taking this picture.](/images/uses/workstation.jpg)
 
-#
+One thing that never ceases to amaze me is the amount of software developers that always work on a laptop.
+I get that it's necessary if you travel a lot, or if you work at an office and want to use the same computer when you work at home, but if you don't then a laptop is just so limiting to me.
 
--
+That's why I've invested in a really good desktop as my main workhorse.
+
+(I also have a laptop that I use from time to time, but when it's time for some serious work there's nothing better than a dedicated desktop.)
 
 ## Desktop
+
+The heart of the computer is the Ryzen 9 7950X, a beast of a CPU that's cooled by open loop liquid cooling.
+Most of the other things aren't *that* noteworthy. 
+There's a big-ass case and a matching PSU, some fast SSDs and an old GPU that I don't have any need to replace.
+
+The next thing I'd like to upgrade are probably my old monitors.
+They get the job done buy they're not super great.
+
+Here's a list of the full specs:
 
 - **CPU**: AMD Ryzen 9 7950X
 - **GPU**: Radeon RX Vega 56
 - **RAM**: Kingston 32GB DDR5 5200MHz CL40 FURY
 - **Motherboard**: ASRock B650 PG Lightning
-- **Sound card** ASUS XONAR SE (because the motherboard was missing TOSLINK)
+- **Sound card** ASUS XONAR SE (because the motherboard was missing TOSLINK, big fail when purchasing it)
 - **Fans**: 8x Noctua NF-A14 PWM 140mm
 - **Water cooling**: A 12/16 custom loop with EKWB parts and 140mm radiators
 - **Cooling liquid**: Aqua computer Double Protect Ultra
@@ -29,36 +103,61 @@ xxxx
 
 ## Sound
 
+I've also put more than a reasonable amount of money into the sound system:
+
 - **Speakers**: DALI Opticon 2 MK2
 - **Subwoofer**: REL T-Zero MKIII
 - **Amplifier**: NAD C368
 
-## Aux
+Yes, they sound great.
+But I admit they're overkill for my small office.
 
-- **Keyboard**: [Ferris](https://github.com/pierrechevalier83/ferris), a minimalistic keyboard
-- **Trackball**: Kensington SlimBlade Trackball
-- **Microphone**: Blue Microphone Snowball iCE
+## Inputs
 
-# Software
+![The almighty Ferris](/images/uses/ferris.jpg)
 
-- **Operating system**: Void Linux  
-- **Browser**: Firefox
-- **Email**: Fastmail
-- **Editor**: Neovim  
+You also need some things to interact with the computer.
 
-# Other devices
+The main attraction is the [Ferris][], a minimalistic keyboard with only 34 keys.
+Controversial I know, but I don't think you need more keys (except if you're gaming, then a number row is probably more ideal).
+All you need is a well-designed layout and a lot of dedication to internalize it.
+See my [series about the T-34 keyboard layout](/series/t-34/) for the layout I use.
 
-- Whoop
-- Garmin vivosmart 5
-- Steam Deck
-- reMarkable 2
-- Fairphone 4
+I use a trackball, the Kensington SlimBlade Trackball, instead of a mouse for the same reason I use a tiny keyboard:
+to combat RSI.
+It's been working well, no complaints about it.
 
-# Homelab
+For voice input I have a Blue Microphone Snowball iCE.
+It would be cool to have an awesome podcasting microphone, but that's just overkill.
+Maybe if this one dies on me.
 
-- Home assistant
-- zigbee2mqtt
-- influxdb
-- grafana
-- freshrss
-- reddit-top-rss
+# Other tools
+
+- I use [Fastmail][] for emails and my calendar.
+- I try to use [Todoist][] to track my tasks and todos, but sometimes I keep them in my [neorg][] personal wiki folder instead.
+- For note taking I use [reMarkable 2][].
+  I don't use it for anything fancy, it's just nice to sometimes write notes or plan things "on paper". The writing experience really does feel good on it.
+- My phone is the [Fairphone 4][].
+  It's a great phone and I love being able to super quickly replace the battery.
+  But honestly, I should use it less (don't we all?) so I've tried to remove all but the most essential apps.
+
+[Neovim]: https://neovim.io/ 
+[neovim-config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
+[Ferris]: https://github.com/pierrechevalier83/ferris
+[neovide]: https://github.com/neovide/neovide
+[alacritty]: https://alacritty.org/
+[iosevka]: /iosevka
+[fish]: https://fishshell.com/
+[xmonad]: https://xmonad.org/
+[melange-nvim]: https://github.com/savq/melange-nvim
+[firefox]: https://www.mozilla.org/en-US/firefox/new/
+[Void Linux]: https://voidlinux.org/
+[Arch Linux]: https://archlinux.org/
+[Steam Deck]: https://www.steamdeck.com/en/
+[WHOOP]: https://join.whoop.com/EBB986
+[boxer]: https://shop.whoop.com/en-eu/products/any-wear-boxer/?sku=927-A2-00-0-0
+[neorg]: https://github.com/nvim-neorg/neorg
+[Fastmail]: https://www.fastmail.com/
+[Todoist]: https://todoist.com
+[Fairphone 4]: https://www.fairphone.com/en/
+[reMarkable 2]: https://remarkable.com/

@@ -11,6 +11,7 @@
   margin: var(--space-m) 0 calc(var(--space-m) - var(--space-xs)) 0;
 }
 
+article.static,
 article.article-content {
   @include full-bleed-wrapper;
 
@@ -95,7 +96,7 @@ article.article-content {
 
   .post-footer .tag-links {
     text-align: center;
-    margin-block-start: var(--space-3xs);
+    margin-block-start: var(--space-2xs);
   }
   .post-footer .post-nav {
     @extend %sans-serif;
@@ -242,7 +243,7 @@ article.article-content {
     font-style: italic;
   }
   blockquote > footer {
-    font-size: 90%;
+    font-size: 80%;
     text-align: right;
   }
 
@@ -357,12 +358,19 @@ article.article-content {
 
   // Multiple images share the same line and automatically flexes.
   // Caption is below and everything is centered.
-  figure {
+  figure.flex-50,
+  figure.flex-33,
+  figure.flex-25,
+  figure.flex-20 {
+    & > * {
+      padding-inline: 0.1em;
+    }
+
     img {
-      padding: 0.1em;
+      // Padding combined with background doesn't mesh well at all
+      background-color: none;
     }
   }
-
   figure.flex-50 a,
   figure.flex-50 img {
     flex: 0 1 50%;

@@ -25,7 +25,7 @@
     <div class="main-content">
       <header class="site-header">
         <div class="nav-wrapper">
-          <span class="site-title"><a href="/">jonashietala.se</a></span>
+          <span class="site-title"><a href="/">~jonashietala.se</a></span>
           <nav>
             <ul>
               <li><a href="/archive" class="archive {% if nav_highlight == "archive" %}highlight{% endif %}">Archive</a></li>
@@ -43,7 +43,7 @@
       {% block content %}{% endblock content %}
     </div>
 
-    <footer>
+    <footer class="site-footer">
       <div class="upper">
         <nav>
           <ul>
@@ -51,6 +51,7 @@
             <li><a href="/archive">Archive</a></li>
             <li><a href="/series">Series</a></li>
             <li><a href="/blog/tags">Tags</a></li>
+            <li><a href="/feed.xml">RSS</a></li>
           </ul>
         </nav>
 
