@@ -13,3 +13,6 @@
 [submodule "syntaxes/VimL"]
 	path = syntaxes/VimL
 	url = https://github.com/evandroforks/VimL
+[submodule "syntaxes/Toml"]
+	path = syntaxes/Toml
+	url = https://github.com/evandroforks/Toml

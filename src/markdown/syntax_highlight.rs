@@ -11,7 +11,7 @@ use syntect::{
     dumps, highlighting::ThemeSet, html, html::ClassStyle, html::ClassedHTMLGenerator,
     parsing::SyntaxSet, util::LinesWithEndings,
 };
-use tracing::info;
+use tracing::{info, warn};
 
 lazy_static! {
     static ref SS: SyntaxSet = syntax_set();
@@ -62,7 +62,7 @@ impl<'a> HighlightSpec<'a> {
 }
 
 fn push_code_highlight<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &str) {
-    if let Some(spec) = lang.and_then(|x| HighlightSpec::find(x.as_ref())) {
+    if let Some(spec) = lang.as_ref().and_then(|x| HighlightSpec::find(x.as_ref())) {
         match highlight(&spec, code) {
             Ok(highlight) => {
                 s.push_str(r#"<code class="highlight "#);
@@ -73,12 +73,14 @@ fn push_code_highlight<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &st
                 return;
             }
             Err(err) => {
-                // FIXME when we have highlighting for all languages, make this a panic.
-                // warn!("Syntax highlight error: {}", err);
                 panic!("Syntax highlight error: {}", err);
             }
         }
     };
+
+    if let Some(lang) = lang {
+        warn!("No highlighter found for: {:?}", lang.as_ref())
+    }
 
     s.push_str("<code>");
     s.push_str(&html_escape::encode_safe(&code));
