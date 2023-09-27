@@ -35,13 +35,13 @@ pub fn load_posts(dir: AbsPath) -> Result<BTreeMap<PostRef, PostItem>> {
 }
 
 pub fn set_post_prev_next(posts: &mut BTreeMap<PostRef, PostItem>) {
-    let mut prev: Option<(&PostRef, &mut PostItem)> = None;
+    let mut next: Option<(&PostRef, &mut PostItem)> = None;
     for curr in posts.iter_mut().peekable() {
-        curr.1.prev = prev.as_ref().map(|x| x.0.clone());
-        if let Some((_, prev_post)) = prev {
-            prev_post.next = Some(curr.0.clone());
+        curr.1.next = next.as_ref().map(|x| x.0.clone());
+        if let Some((_, next_post)) = next {
+            next_post.prev = Some(curr.0.clone());
         }
-        prev = Some(curr);
+        next = Some(curr);
     }
 }
 
