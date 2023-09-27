@@ -2,6 +2,17 @@
 @use "../global/font_size" as *;
 @use "../global/gruvbox" as *;
 
+// Make the footer take up all available space
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  & > footer {
+    flex-grow: 1;
+  }
+}
+
 .site-header {
   @extend %sans-serif;
   display: flex;
@@ -21,14 +32,11 @@
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: baseline;
-  // margin-block-start: var(--space-xs);
-  // margin: var(--space-xs);
 }
 
 .nav-wrapper nav {
   a {
     color: var(--color-text);
-    // FIXME choose colors more carefully
   }
   a.archive.highlight {
     border-bottom: 2px solid var(--color-highlight-archive);
@@ -63,8 +71,6 @@
 }
 .nav-wrapper .site-title {
   @include font-size("m");
-  // font-family: $code-font-family;
-  // @extend %serif;
   font-style: italic;
   margin-block: var(--space-3xs);
 
@@ -81,12 +87,12 @@
   margin: var(--space-2xs);
 }
 
-footer.site-footer {
+body > footer {
   display: grid;
   grid-template-columns: 1fr minmax(auto, var(--measure)) 1fr;
   row-gap: var(--space-xs);
   background-color: var(--color-footer-background);
-  // color: var(--melange_a_com);
+  grid-auto-rows: min-content;
   margin-block-start: var(--space-l);
   padding-block: var(--space-m);
 
@@ -107,7 +113,6 @@ footer.site-footer {
   }
 
   .upper {
-    // border-top: 3px solid var(--melange_b_red);
     flex: 1;
     display: flex;
     justify-content: space-evenly;
@@ -115,9 +120,6 @@ footer.site-footer {
     flex-direction: row;
     max-inline-size: var(--overflow-measure);
   }
-  // footer .upper > * + * {
-  //   margin-inline-start: var(--space-2xl);
-  // }
 
   nav ul {
     display: flex;
