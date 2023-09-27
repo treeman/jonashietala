@@ -6,8 +6,8 @@
   --color-link: var(--melange_b_blue);
   --color-link-hover: var(--melange_b_yellow);
   --color-background: var(--melange_a_bg);
-  --color-footer-background: #1d1c19;
-  // --color-footer-background: #282727;
+  --color-footer-background: var(--melange_a_float);
+
   --color-hr: var(--melange_a_ui);
   --color-highlight: var(--melange_b_red);
   --color-blockquote-bar: var(--color-highlight);
@@ -22,10 +22,9 @@
   --color-highlight-drafts: var(--color-highlight-archive);
 }
 
-// @media (prefers-color-scheme: dark) {
-//   :root {
-// Use a slightly different background color to not clash with
-// code highlighting.
-// --color-background: $gruvbox_dark_bg0;
-//   }
-// }
+@media (prefers-color-scheme: dark) {
+  :root {
+    // I did not really like the dark float for the site footer.
+  --color-footer-background: #1d1c19;
+  }
+}

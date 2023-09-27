@@ -3,8 +3,8 @@
 @use "global/fonts";
 @use "global/font_size";
 @use "global/code";
-@use "global/site";
-@use "global/article";
+@use "shared/site";
+@use "shared/article";
 @use "components/post_items";
 @use "local/post";
 @use "local/series";

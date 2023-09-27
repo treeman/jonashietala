@@ -37,7 +37,8 @@ article.series {
     @include flow(var(--space-xs));
 
     h2 {
-      @include large-link-underline-highlight(var(--color-highlight-series));
+      @include large-link-underline-highlight(var(--color-highlight-series), 3px);
+      margin-block-end: var(--space-xs);
     }
   }
 }

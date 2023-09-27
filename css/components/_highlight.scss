@@ -1,14 +1,14 @@
-@mixin large-underline-highlight($color) {
-  border-bottom: 4px solid $color;
+@mixin large-underline-highlight($color, $border: 4px) {
+  border-bottom: $border solid $color;
 }
 
-@mixin large-link-underline-highlight($color) {
+@mixin large-link-underline-highlight($color, $border: 4px) {
   & > a {
-    @include large-underline-highlight($color);
+    @include large-underline-highlight($color, $border);
     text-decoration: none;
   }
   & > a:hover {
-    @include large-underline-highlight(var(--color-link-hover));
+    @include large-underline-highlight(var(--color-link-hover), $border);
     text-decoration: none;
   }
 }
