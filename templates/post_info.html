@@ -1,8 +1,11 @@
-{% macro post_info(date, ymd, tags) %}
+{% macro post_date(created) %} {% set human_created = created | date(format="%B
+%e, %Y") %} {% set year = created | date(format="%Y") %}
+<time datetime="{{created}}" title="{{human_created}}">
+  {{created | date(format="%B %e,")}} <a href="/blog/{{year}}">{{year}}</a>
+</time>
+{% endmacro post_date %} {% macro post_info(created, tags) %}
 <div class="post-info">
-  <div class="created">
-    <time datetime="{{ymd}}" title="{{ymd}}">{{date}}</time>
-  </div>
+  <div class="created">{{ self::post_date(created=created) }}</div>
   <nav class="tag-links">
     {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
       href="{{ tag.href }}"
@@ -16,7 +19,7 @@
   {% for post in posts %}
   <div class="post-item">
     <h2><a href="{{ post.url }}" class="title">{{ post.title }}</a></h2>
-    {% if post.date %} {{ self::post_info(date=post.date, ymd=post.ymd,
+    {% if post.created %} {{ self::post_info(created=post.created,
     tags=post.tags) }} {% endif %}
   </div>
   {% endfor %}

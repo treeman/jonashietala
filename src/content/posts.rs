@@ -149,8 +149,7 @@ impl TeraItem for PostItem {
         Context::from_serialize(PostContext {
             title: html_escape::encode_text(&self.title),
             url: self.url.href(),
-            ymd: self.created.format("%F").to_string(),
-            date: self.created.format("%B %e, %Y").to_string(),
+            created: self.created.format("%FT%T%.fZ").to_string(),
             content: &self.transformed_content,
             tags: self.tags.iter().map(TagPostContext::from).collect(),
             meta_keywords: self.tags.iter().map(|tag| tag.name.as_str()).collect(),
@@ -174,8 +173,7 @@ impl TeraItem for PostItem {
 struct PostContext<'a> {
     title: Cow<'a, str>,
     url: Cow<'a, str>,
-    ymd: String,
-    date: String,
+    created: String,
     content: &'a str,
     tags: Vec<TagPostContext<'a>>,
     meta_keywords: Vec<&'a str>,
@@ -219,8 +217,7 @@ impl<'a> PostSeriesContext<'a> {
 pub struct PostRefContext<'a> {
     title: &'a str,
     url: Cow<'a, str>,
-    ymd: String,
-    date: String,
+    created: String,
     tags: Vec<TagPostContext<'a>>,
 }
 
@@ -229,8 +226,7 @@ impl<'a> PostRefContext<'a> {
         PostRefContext {
             title: &post.title,
             url: post.url.href(),
-            ymd: post.created.format("%F").to_string(),
-            date: post.created.format("%B %e, %Y").to_string(),
+            created: post.created.format("%FT%T%.fZ").to_string(),
             tags: post.tags.iter().map(TagPostContext::from).collect(),
         }
     }

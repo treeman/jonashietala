@@ -10,7 +10,7 @@ content %}
     </h2>
     {% endif %}
     <h1><a href="{{url}}">{{title}}</a></h1>
-    {% if date %} {{ macros::post_info(date=date, ymd=ymd, tags=tags) }} {%
+    {% if created %} {{ macros::post_info(created=created, tags=tags) }} {%
     endif %}
   </header>
 

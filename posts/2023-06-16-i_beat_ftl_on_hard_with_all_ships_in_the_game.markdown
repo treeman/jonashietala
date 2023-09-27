@@ -71,7 +71,8 @@ My focus was to just beat the game with all ships, so after I got the victory sc
 
   Got a rough start and played a long time low on hull. But it sure feels good coming back when you think it's all over.
 
-  ![No problem, we just need to find a store. Yes, I managed to turn this around to a win!](/images/ftl/zoltan_c_1hp.jpg)
+  ![No problem, we just need to find a store.  
+  Yes, I managed to turn this around to a win!](/images/ftl/zoltan_c_1hp.jpg)
 
 # A memory of my victories
 

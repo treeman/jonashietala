@@ -231,8 +231,7 @@ struct GameContext<'a> {
     event_link: Option<&'a str>,
     url: Cow<'a, str>,
     img: Cow<'a, str>,
-    ymd: String,
-    date: String,
+    published: String,
 }
 
 impl<'a> From<&'a Game> for GameContext<'a> {
@@ -243,8 +242,9 @@ impl<'a> From<&'a Game> for GameContext<'a> {
             event_link: x.event_link.as_deref(),
             url: x.url.href(),
             img: x.img.href(),
-            ymd: x.published.format("%F").to_string(),
-            date: x.published.format("%B %e, %Y").to_string(),
+            // FIXME
+            // published: x.published.format("%FT%T%.fZ").to_string(),
+            published: x.published.format("%F").to_string(),
         }
     }
 }

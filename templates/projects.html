@@ -30,21 +30,24 @@
 
     {% for game in games %}
     <section class="game">
-      <a href="{{ game.url }}"><img src="{{ game.img }}" width="160" height="100" /></a>
+      <a href="{{ game.url }}"
+        ><img src="{{ game.img }}" width="160" height="100"
+      /></a>
       <div class="descr">
         <a href="{{ game.url }}" class="title">
           <h1 class="title">{{ game.title }}</h1>
         </a>
-        <time datetime="{{ game.ymd }}">{{ game.date }}</time>
+        <time datetime="{{ game.published }}">{{ game.published }}</time>
         {% if game.event_link %}
-        <span class="subtitle"><a href="{{ game.event_link}}">{{ game.event }}</a></span>
+        <span class="subtitle"
+          ><a href="{{ game.event_link}}">{{ game.event }}</a></span
+        >
         {% else %}
         <span class="subtitle">{{ game.event }}</span>
         {% endif %}
       </div>
     </section>
     {% endfor %}
-
   </article>
 </div>
 {% endblock content %}

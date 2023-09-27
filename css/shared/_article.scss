@@ -35,15 +35,21 @@ article {
   .series-info {
     @extend %sans-serif;
     @include font-size("s");
+    @include hflow();
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
     align-items: baseline;
     margin-block-start: var(--space-3xs);
   }
-  .post-info,
-  .series-info {
-    @include hflow();
+
+  time a {
+    text-decoration: none;
+    color: var(--color-text);
+  }
+  time a:hover {
+    text-decoration: underline;
+    color: var(--color-link-hover);
   }
 
   .tag-links {
