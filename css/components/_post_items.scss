@@ -1,0 +1,12 @@
+@use "../global/font_size" as *;
+@use "../components/system" as *;
+
+.post-items {
+  @include flow(var(--space-m));
+}
+
+.post-items .post-item {
+  h2 {
+    @include font-size("l");
+  }
+}

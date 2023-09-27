@@ -1,0 +1,24 @@
+{% macro post_info(date, ymd, tags) %}
+<div class="post-info">
+  <div class="created">
+    <time datetime="{{ymd}}" title="{{ymd}}">{{date}}</time>
+  </div>
+  <nav class="tag-links">
+    {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
+      href="{{ tag.href }}"
+      title="Posts tagged `{{tag.name}}`"
+      >{{ tag.name }}</a
+    >{% endfor %}
+  </nav>
+</div>
+{% endmacro post_info %} {% macro post_items(posts) %}
+<section class="post-items">
+  {% for post in posts %}
+  <div class="post-item">
+    <h2><a href="{{ post.url }}" class="title">{{ post.title }}</a></h2>
+    {% if post.date %} {{ self::post_info(date=post.date, ymd=post.ymd,
+    tags=post.tags) }} {% endif %}
+  </div>
+  {% endfor %}
+</section>
+{% endmacro post_info %}

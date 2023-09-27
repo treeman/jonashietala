@@ -4,4 +4,8 @@
 @use "global/font_size";
 @use "global/code";
 @use "global/site";
+@use "global/article";
+@use "components/post_items";
 @use "local/post";
+@use "local/series";
+@use "local/archive";

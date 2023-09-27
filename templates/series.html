@@ -1,36 +1,29 @@
-{% extends "site.html" %} {% block content %}
-<article class="post-list series">
+{% import "post_info.html" as macros %} {% extends "site.html" %} {% block
+content %}
+<article class="series">
   <header>
     <h1><a href="{{url}}">{{title}}</a></h1>
   </header>
 
+  <figure>
+    <img src="{{img}}" />
+  </figure>
+
   <div class="series-description">
-    {{description}}
-
-    {% set part1 = posts | first %}
-    <div><a href="{{ part1.url }}">Read part 1</a></div>
+    {{description}} {% set part1 = posts | first %}
   </div>
+  {% if post_note %}
+  <div class="post_note">{{post_note}}</div>
+  {% endif %}
+  <div class="read-part-1"><a href="{{ part1.url }}">Read part 1</a></div>
 
-  <ul>
-    {% for post in posts %}
-    <li class="post-item">
-      <a href="{{ post.url }}" class="title">{{ post.title }}</a>
-      {% if post.date %}
-      <span class="date">
-        <time datetime="{{ post.ymd }}">{{ post.date }}</time>
-      </span>
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ul>
+  {{ macros::post_items(posts=posts) }}
 
-  <div class="series-footer">
-
-    {% if post_note %}
-    <div class="post_note">{{post_note}}</div>
-    {% endif %}
-
-    <div>{% if completed %} This series is completed. {% else %} This series is ongoing. {% endif %}</div>
-  </div>
+  <footer class="series-footer">
+    <div>
+      {% if completed %} This series is completed. {% else %} This series is
+      ongoing. {% endif %}
+    </div>
+  </footer>
 </article>
 {% endblock content %}

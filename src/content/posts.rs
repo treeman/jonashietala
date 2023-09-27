@@ -149,10 +149,8 @@ impl TeraItem for PostItem {
         Context::from_serialize(PostContext {
             title: html_escape::encode_text(&self.title),
             url: self.url.href(),
-            created_ymd: self.created.format("%F").to_string(),
-            created_date: self.created.format("%B %e, %Y").to_string(),
-            updated_ymd: self.updated.format("%F").to_string(),
-            updated_date: self.updated.format("%B %e, %Y").to_string(),
+            ymd: self.created.format("%F").to_string(),
+            date: self.created.format("%B %e, %Y").to_string(),
             content: &self.transformed_content,
             tags: self.tags.iter().map(TagPostContext::from).collect(),
             meta_keywords: self.tags.iter().map(|tag| tag.name.as_str()).collect(),
@@ -176,10 +174,8 @@ impl TeraItem for PostItem {
 struct PostContext<'a> {
     title: Cow<'a, str>,
     url: Cow<'a, str>,
-    created_ymd: String,
-    created_date: String,
-    updated_ymd: String,
-    updated_date: String,
+    ymd: String,
+    date: String,
     content: &'a str,
     tags: Vec<TagPostContext<'a>>,
     meta_keywords: Vec<&'a str>,
@@ -225,6 +221,7 @@ pub struct PostRefContext<'a> {
     url: Cow<'a, str>,
     ymd: String,
     date: String,
+    tags: Vec<TagPostContext<'a>>,
 }
 
 impl<'a> PostRefContext<'a> {
@@ -234,6 +231,7 @@ impl<'a> PostRefContext<'a> {
             url: post.url.href(),
             ymd: post.created.format("%F").to_string(),
             date: post.created.format("%B %e, %Y").to_string(),
+            tags: post.tags.iter().map(TagPostContext::from).collect(),
         }
     }
 
@@ -425,8 +423,9 @@ mod tests {
             "Jonas Hietala: Post &amp; Title"
         );
         assert!(rendered
-            .contains("<h1><a href=\"/blog/2022/01/31/test_post/\">Post &amp; Title</a></h1>"));
-        assert!(rendered.contains("<time datetime=\"2022-01-31\">January 31, 2022</time>"));
+            .contains(r#"<h1><a href="/blog/2022/01/31/test_post/">Post &amp; Title</a></h1>"#));
+        assert!(rendered
+            .contains(r#"<time datetime="2022-01-31" title="2022-01-31">January 31, 2022</time>"#));
         assert!(rendered.contains(
             r##"<h2 id="header-1"><a class="heading-ref" href="#header-1">Header 1</a></h2>"##
         ));
@@ -434,9 +433,11 @@ mod tests {
         assert!(rendered.contains("☃︎"));
         assert!(rendered.contains("—and–some…"));
         assert!(rendered.contains("“Auto quote” ‘A’"));
-        assert!(rendered.contains(
-            "Posted in <a href=\"/blog/tags/tag1\">Tag1</a>, <a href=\"/blog/tags/tag_2\">&lt;Tag&gt; 2</a>"
-        ));
+        dbg!(&rendered);
+        // Yeah maybe it wold be easier to check these another way
+        assert!(rendered.contains(r#"href="/blog/tags/tag1""#));
+        assert!(rendered.contains(r#"href="/blog/tags/tag_2""#));
+        assert!(rendered.contains(r#"title="Posts tagged `&lt;Tag&gt; 2`""#));
 
         // Just make sure that code is highlighted
         let rust_code = select_inner_html(&document, r#"pre code.rust"#).unwrap();

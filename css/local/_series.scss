@@ -1,0 +1,43 @@
+@use "../global/spacing" as *;
+@use "../global/font_size" as *;
+@use "../components/highlight" as *;
+@use "../components/system" as *;
+
+article.series {
+  header h1 {
+    @include large-link-underline-highlight(var(--color-highlight-series));
+  }
+
+  .read-part-1 {
+    margin-block-end: var(--space-xs);
+
+    // a {
+    //   color: var(--color-highlight-series);
+    // }
+    // a:hover {
+    //   color: var(--color-link-hover);
+    // }
+  }
+
+  .series-footer {
+    margin-block-start: calc(var(--space-xs) + var(--space-xs));
+  }
+}
+
+.series-archive {
+  .descr {
+    margin-block-end: var(--space-xs);
+  }
+}
+
+.series-list {
+  @include flow(var(--space-m));
+
+  .series-item {
+    @include flow(var(--space-xs));
+
+    h2 {
+      @include large-link-underline-highlight(var(--color-highlight-series));
+    }
+  }
+}

@@ -1,6 +1,7 @@
 @use "../global/fonts" as *;
 @use "../global/font_size" as *;
 @use "../global/gruvbox" as *;
+@use "../components/system" as *;
 
 // Make the footer take up all available space
 body {
@@ -66,8 +67,8 @@ body {
 .nav-wrapper nav li {
   list-style: none;
 }
-.nav-wrapper nav ul > * + * {
-  margin-inline-start: var(--space-2xs);
+.nav-wrapper nav ul {
+  @include hflow(var(--space-2xs));
 }
 .nav-wrapper .site-title {
   @include font-size("m");
@@ -131,8 +132,8 @@ body > footer {
   nav li {
     list-style: none;
   }
-  nav ul > * + * {
-    margin-block-start: var(--space-3xs);
+  nav ul {
+    @include flow(var(--space-3xs));
   }
 
   .lower {

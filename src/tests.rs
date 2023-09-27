@@ -192,6 +192,10 @@ pub fn check_file<'a>(
                 if internal.is_img() {
                     continue;
                 }
+                // We skip feed generation because it's slow. This is fine.
+                if internal.is_feed() {
+                    continue;
+                }
 
                 let external_ref = match files.get(&output_file) {
                     Some(file) => file,

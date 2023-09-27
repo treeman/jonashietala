@@ -26,3 +26,27 @@
   grid-column: 2 / 5 !important;
   max-inline-size: none;
 }
+
+@mixin extra-space-s {
+  margin: var(--space-s) 0 calc(var(--space-s) - var(--space-xs)) 0;
+}
+@mixin extra-space-m {
+  margin: var(--space-m) 0 calc(var(--space-m) - var(--space-xs)) 0;
+}
+
+@mixin flow($space: false) {
+  & > * + * {
+    margin-block-start: var(--flow-space);
+    @if $space {
+      --flow-space: $space;
+    }
+  }
+}
+@mixin hflow($space: false) {
+  & > * + * {
+    margin-inline-start: var(--flow-hspace);
+    @if $space {
+      --flow-hspace: $space;
+    }
+  }
+}

@@ -78,6 +78,7 @@ pub struct SeriesItem {
     pub id: String,
     pub title: String,
     pub completed: bool,
+    pub img: SiteUrl,
     pub path: AbsPath,
     pub url: SiteUrl,
     pub description: String,
@@ -106,10 +107,13 @@ impl SeriesItem {
             .as_ref()
             .map(|x| markdown_to_html_strip_one_paragraph(x).into_owned());
 
+        let img = SiteUrl::parse(&metadata.img).expect("Should be able to create url to image");
+
         Ok(Self {
             id,
             title: metadata.title,
             completed: metadata.completed,
+            img,
             path,
             url,
             description: transformed_description,
@@ -150,6 +154,7 @@ impl TeraItem for SeriesItem {
 pub struct SeriesContext<'a> {
     title: Cow<'a, str>,
     url: Cow<'a, str>,
+    img: Cow<'a, str>,
     description: &'a str,
     completed: bool,
     posts: Vec<PostRefContext<'a>>,
@@ -172,6 +177,7 @@ impl<'a> SeriesContext<'a> {
             url: series.url.href(),
             description: &series.description,
             completed: series.completed,
+            img: series.img.href(),
             posts: series
                 .posts
                 .iter()
@@ -187,6 +193,7 @@ struct SeriesMetadata {
     title: String,
     completed: bool,
     post_note: Option<String>,
+    img: String,
 }
 
 pub struct SeriesDirMetadata {

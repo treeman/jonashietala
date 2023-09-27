@@ -1,5 +1,6 @@
-{% extends "site.html" %} {% block content %}
-<article class="article-content">
+{% import "post_info.html" as macros %} {% extends "site.html" %} {% block
+content %}
+<article class="post">
   <header>
     {% if series %}
     <h2 class="series">
@@ -9,22 +10,8 @@
     </h2>
     {% endif %}
     <h1><a href="{{url}}">{{title}}</a></h1>
-    {% if created_date %}
-    <div class="below">
-      <div class="created">
-        <time datetime="{{created_ymd}}" title="{{created_ymd}}"
-          >{{created_date}}</time
-        >
-      </div>
-      <nav class="tag-links">
-        {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
-          href="{{ tag.href }}"
-          title="Posts tagged `{{tag.name}}`"
-          >{{ tag.name }}</a
-        >{% endfor %}
-      </nav>
-    </div>
-    {% endif %}
+    {% if date %} {{ macros::post_info(date=date, ymd=ymd, tags=tags) }} {%
+    endif %}
   </header>
 
   {% if series %}

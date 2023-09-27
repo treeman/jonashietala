@@ -131,6 +131,7 @@ pre {
 }
 .meta.tag .entity.name.tag {
   color: var(--melange_a_fg);
+  font-weight: normal;
 }
 // .constant.other.color.rgb-value {
 //   color: $gb-lm-light-blue;
@@ -254,6 +255,9 @@ pre {
 //   color: $gb-lm-light-aqua;
 // }
 
+.function-call.fish .keyword.control .string.unquoted {
+  color: var(--melange_c_yellow);
+}
 // .function-call.name.fish .keyword .string {
 //   color: $gb-lm-light-purple;
 // }

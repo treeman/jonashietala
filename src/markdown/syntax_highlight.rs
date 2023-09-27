@@ -351,7 +351,7 @@ let square x = x * x
         assert_eq!(
             extra_code_class(
                 r"
-One line that is exactly 61... Which line, it's this one!!!!!
+One line that is exactly 67... Which line, it's this one...........
 This is just a small line
 "
             ),

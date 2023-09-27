@@ -886,8 +886,9 @@ mod tests {
     fn test_render_and_check_site() -> Result<()> {
         let (_output_dir, output_path) = AbsPath::new_tempdir()?;
 
-        // let temp_dir = tempfile::tempdir().unwrap();
-        // let output_dir = Utf8PathBuf::from_path_buf(temp_dir.path().to_owned()).unwrap();
+        // Do this to not delete the output directory if test fails
+        // let _x = _output_dir.into_path();
+
         let site = Site::load_content(SiteOptions {
             output_dir: output_path.clone(),
             input_dir: AbsPath::current_dir().unwrap(),

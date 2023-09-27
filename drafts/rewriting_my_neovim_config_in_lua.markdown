@@ -47,11 +47,16 @@ I tried, but I failed.
 
 The inspiration for this was ThePrimeagen's video on [0 to LSP: Neovim RC From Scratch][primeagen] that I watched several months ago.
 
-While ThePrimeagen's video was great as inspiration (look how easy it is!) I instead referenced other existing configs:
+While ThePrimeagen's video was great as inspiration (look how easy it is!), I don't think it's the best configuration to reference.
+I instead used other sources:
 
 - [LazyVim][] is a popular Neovim distro that you can use if you don't want to configure everything from scratch or---the horror---anything at all.
 
   A distro is absolutely not my thing, but the [LazyVim][] source was quite useful as a reference for me.
+
+- Distros may be overkill, a better alternative might be the small configurations that are made to help you get going with your own config.
+
+  Take a look at [kickstart.nvim][] and [TinyVim][] for example.
 
 - There are lots of people who have their configs on GitHub.
   I used [catgoose][] as the config was really clean, including lots of plugins to inspire me.
@@ -68,7 +73,8 @@ While ThePrimeagen's video was great as inspiration (look how easy it is!) I ins
 [dotfyle]: https://dotfyle.com/
 [This week in Neovim]: https://dotfyle.com/this-week-in-neovim
 [lazy.nvim]: https://github.com/folke/lazy.nvim "lazy.nvim is a modern plugin manager for Neovim."
-
+[TinyVim]: https://github.com/NvChad/tinyvim
+[kickstart.nvim]: https://github.com/nvim-lua/kickstart.nvim
 
 # Structured configuration
 

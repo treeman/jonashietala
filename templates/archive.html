@@ -1,18 +1,7 @@
-{% extends "site.html" %} {% block content %}
-<article class="post-list">
-  <h1>{{ title }}</h1>
-
-  <ul>
-    {% for post in posts %}
-    <li class="post-item">
-      <a href="{{ post.url }}" class="title">{{ post.title }}</a>
-      {% if post.date %}
-      <span class="date">
-        <time datetime="{{ post.ymd }}">{{ post.date }}</time>
-      </span>
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ul>
+{% import "post_info.html" as macros %} {% extends "site.html" %} {% block
+content %}
+<article class="archive">
+  <h1><span>{{ title }}</span></h1>
+  {{ macros::post_items(posts=posts) }}
 </article>
 {% endblock content %}

@@ -96,6 +96,9 @@ impl SiteUrl {
     pub fn is_img(&self) -> bool {
         self.href().starts_with("/images")
     }
+    pub fn is_feed(&self) -> bool {
+        self.href() == "/feed.xml"
+    }
 }
 
 #[cfg(test)]

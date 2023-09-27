@@ -1,0 +1,10 @@
+@use "../components/highlight" as *;
+
+article.archive {
+  h1 > * {
+    @include large-underline-highlight(var(--color-highlight-archive));
+  }
+  h1 {
+    margin-block-end: var(--space-m);
+  }
+}

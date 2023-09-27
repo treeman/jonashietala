@@ -73,6 +73,10 @@ h6 {
   --measure: 60ch;
   --overflow-measure: 70ch;
   --overflow-size: calc((var(--overflow-measure) - var(--measure)) / 2);
+
+  // Just a default flow space
+  --flow-space: var(--space-xs);
+  --flow-hspace: var(--space-xs);
 }
 * {
   max-inline-size: var(--measure);

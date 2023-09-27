@@ -8,7 +8,7 @@ title: Iosevka
 
 [Iosevka][] is great, and you can personalize it by building it yourself and changing some variants.
 
-This is my `private-build-plans.toml` that I used to generate my variant (also available [on GitHub][patched] already created, naturally with [Nerd Fonts][]):
+This is my `private-build-plans.toml` that I used to generate my variant (generated fonts are available [on GitHub][patched], naturally patched with [Nerd Fonts][]):
 
 ```toml
 [buildPlans.iosevka-tree]
@@ -46,7 +46,7 @@ No big deal, this is how I did it using [fish][] (adjust paths as necessary):
 ```fish
 for x in ls ~/src/Iosevka/dist/iosevka-tree/ttf/iosevka-tree-*;
   ./font-patcher -c ~/src/Iosevka/dist/iosevka-tree/ttf/iosevka-tree-bold.ttf
-  --out ~/iosevka-tree/;
+    --out ~/iosevka-tree/;
 end
 ```
 
