@@ -27,14 +27,16 @@ It helps me in a few different ways:
    The journal feature is low-key the best thing about the [WHOOP][].
    It asks you to log a set of behaviors and then correlates them with your recovery.
 
-   For example it has given me a +6% recovery for using a sleep mask and a -10% for drinking alcohol.
-   Not a big surprise perhaps, but it has also given me a small negative score for sauna and a positive score for viewing my phone in bed before I go to sleep.
+   For example it has given me a large positive recovery for using a sleep mask and a large negative for drinking alcohol.
+   Not a big surprise perhaps, but it has also given me a negative score for sauna and a positive score for viewing my phone in bed before I go to sleep.
 
    Of course, you shouldn't blindly trust this, but I like how it can help you make changes to your routine.
    If you know that drinking alcohol or eating late will reduce your recovery the upcoming day,
-   you may not be that willing to go through with it without thinking it through.
+   you may not be that willing to go through with it.
 
 1. It helps me not to overreach and other days push me to train harder.
+
+   Especially important if I've been sick or down.
 
 3. I can always wear it, so it's more accurate than any alternative for me.
 
