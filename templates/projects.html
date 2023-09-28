@@ -1,8 +1,10 @@
 {% extends "site.html" %} {% block content %}
 <article class="projects">
-  <div class="intro">
+  <header>
     <h1>{{ title }}</h1>
+  </header>
 
+  <div class="intro">
     <div class="content">{{ prematter }}</div>
   </div>
 
@@ -30,12 +32,12 @@
 
     {% for game in games %}
     <section class="game">
-      <a href="{{ game.url }}"
+      <a href="{{ game.url }}" class="img"
         ><img src="{{ game.img }}" width="160" height="100"
       /></a>
       <div class="descr">
         <a href="{{ game.url }}" class="title">
-          <h1 class="title">{{ game.title }}</h1>
+          <h3 class="title">{{ game.title }}</h3>
         </a>
         <time datetime="{{ game.published }}">{{ game.published }}</time>
         {% if game.event_link %}

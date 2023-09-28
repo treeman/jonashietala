@@ -54,12 +54,6 @@ impl<'a> HighlightSpec<'a> {
             .find_syntax_by_name(mapped)
             .or_else(|| SS.find_syntax_by_extension(mapped))?;
 
-        if original == "cpp" {
-            dbg!(&original);
-            dbg!(&mapped);
-            dbg!(&syntax.name);
-        }
-
         Some(Self {
             html_id: to_language_id(&syntax.name),
             syntax,

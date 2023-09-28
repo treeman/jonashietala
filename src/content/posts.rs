@@ -429,7 +429,6 @@ mod tests {
         assert!(rendered.contains("☃︎"));
         assert!(rendered.contains("—and–some…"));
         assert!(rendered.contains("“Auto quote” ‘A’"));
-        dbg!(&rendered);
         // Yeah maybe it wold be easier to check these another way
         assert!(rendered.contains(r#"href="/blog/tags/tag1""#));
         assert!(rendered.contains(r#"href="/blog/tags/tag_2""#));
