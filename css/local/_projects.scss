@@ -1,4 +1,6 @@
+@use "../components/highlight" as *;
 @use "../components/system" as *;
+@use "../global/font_size" as *;
 
 article.projects {
   .project {
@@ -8,11 +10,48 @@ article.projects {
   }
 }
 
+article.project {
+  margin-block-start: var(--space-m);
+
+  h2 {
+    @include large-link-underline-highlight(var(--color-highlight-projects));
+  }
+}
+
+.games {
+  margin-block-start: var(--space-m);
+  @include full-bleed;
+  display: grid;
+  grid-template-columns: subgrid;
+
+  header {
+    @include flow(var(--space-xs));
+  }
+  h2 > * {
+    @include large-underline-highlight(var(--color-highlight-projects));
+  }
+
+  .wrapper {
+    @include overflow-bleed;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  header {
+    grid-column: 3;
+  }
+}
+
 .game {
   display: flex;
   justify-content: left;
   flex-wrap: nowrap;
   gap: var(--space-2xs);
+  min-width: 20em;
+  max-width: 50%;
+  width: 50%;
+  padding-bottom: var(--space-3xs);
+  padding-right: var(--space-3xs);
 
   .img {
     min-width: 160px;
@@ -22,5 +61,16 @@ article.projects {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+  }
+
+  time,
+  .subtitle {
+    @include font-size("s");
+  }
+  .subtitle a {
+    color: var(--melange_b_magenta);
+  }
+  .subtitle a:hover {
+    color: var(--color-link-hover);
   }
 }
