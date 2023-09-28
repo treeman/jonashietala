@@ -1,7 +1,10 @@
 ---
 title: T-34 Keyboard layout
-year: 2021
+year: 2022
+link: /series/t-34/
 ---
+
+![](/images/t-34-2/base.png)
 
 I made [a custom keyboard layout][t34], designed for a keyboard with 34 keys. It's been a fun project but it's also helping me relieve my RSI.
 

@@ -1,5 +1,5 @@
 {% extends "site.html" %} {% block content %}
-<div class="projects">
+<article class="projects">
   <div class="intro">
     <h1>{{ title }}</h1>
 
@@ -14,7 +14,7 @@
       {% else %}
       <h2>{{ project.title }}</h2>
       {% endif %}
-      <time datetime="{{ project.year }}">{{ project.year }}</time>
+      <!-- <time datetime="{{ project.year }}">{{ project.year }}</time> -->
     </header>
 
     {{ project.descr }}
@@ -49,5 +49,5 @@
     </section>
     {% endfor %}
   </article>
-</div>
+</article>
 {% endblock content %}

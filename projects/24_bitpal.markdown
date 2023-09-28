@@ -1,10 +1,12 @@
 ---
 title: BitPal
-link: https://bitpal.dev/
-year: 2021
+link: https://github.com/bitpal/bitpal
+year: 2023
 ---
 
-I'm developing my own self-hosted cryptocurrency payment processor. It allows you to accept payments online without a third-party custodian, on your own hardware. It's [developed in Elixir][src].
+BitPal is a self-hosted cryptocurrency payment processor
+It allows you to accept payments online using various cryptocurrencies without a third-party custodian, on your own hardware.
+It's developed in Elixir.
 
-[src]: https://github.com/bitpal/ "BitPal source code"
+[src]: https://github.com/bitpal/bitpal "BitPal source code"
 

@@ -1,4 +1,5 @@
 @use "melange" as *;
+@use "../global/font_size" as *;
 
 code {
   background-color: var(--melange_a_float);
@@ -7,6 +8,100 @@ code {
 pre,
 pre code {
   background-color: var(--melange_a_float);
+}
+
+// mmh... This isn't very pretty I know.
+// But I guess it's good enough.
+pre {
+  code.highlight::before {
+    float: right;
+    @include font-size("s");
+    color: var(--melange_a_ui);
+    position: relative;
+    top: -0.5rem;
+    left: 0.1rem;
+  }
+  code.highlight.python::before {
+    content: "python";
+  }
+  code.highlight.fish::before {
+    content: "fish";
+  }
+  code.highlight.c::before {
+    content: "c";
+  }
+  code.highlight.cpp::before {
+    content: "c++";
+  }
+  code.highlight.bash::before {
+    content: "bash";
+  }
+  code.highlight.html::before {
+    content: "html";
+  }
+  code.highlight.js::before {
+    content: "js";
+  }
+  code.highlight.haskell::before {
+    content: "haskell";
+  }
+  code.highlight.pollen::before {
+    content: "pollen";
+  }
+  code.highlight.racket::before {
+    content: "racket";
+  }
+  code.highlight.json::before {
+    content: "json";
+  }
+  code.highlight.md::before {
+    content: "markdown";
+  }
+  code.highlight.css::before {
+    content: "css";
+  }
+  code.highlight.diff::before {
+    content: "diff";
+  }
+  code.highlight.lua::before {
+    content: "lua";
+  }
+  code.highlight.markdown::before {
+    content: "markdown";
+  }
+  code.highlight.ml::before {
+    content: "ml";
+  }
+  code.highlight.perl::before {
+    content: "perl";
+  }
+  code.highlight.ruby::before {
+    content: "ruby";
+  }
+  code.highlight.rust::before {
+    content: "rust";
+  }
+  code.highlight.scss::before {
+    content: "scss";
+  }
+  code.highlight.shell::before {
+    content: "shell";
+  }
+  code.highlight.vhdl::before {
+    content: "vhdl";
+  }
+  code.highlight.vim::before {
+    content: "vimscript";
+  }
+  code.highlight.xml::before {
+    content: "xml";
+  }
+  code.highlight.yaml::before {
+    content: "yaml";
+  }
+  code.highlight.toml::before {
+    content: "toml";
+  }
 }
 
 // @media (prefers-color-scheme: dark) {

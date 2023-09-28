@@ -54,8 +54,14 @@ impl<'a> HighlightSpec<'a> {
             .find_syntax_by_name(mapped)
             .or_else(|| SS.find_syntax_by_extension(mapped))?;
 
+        if original == "cpp" {
+            dbg!(&original);
+            dbg!(&mapped);
+            dbg!(&syntax.name);
+        }
+
         Some(Self {
-            html_id: util::to_id(&syntax.name),
+            html_id: to_language_id(&syntax.name),
             syntax,
         })
     }
@@ -148,6 +154,15 @@ fn syntect_lang_name(lang: &str) -> &str {
 
         // "pollen" => "",
         x => x,
+    }
+}
+
+fn to_language_id(s: &str) -> String {
+    let s = s.trim().to_lowercase();
+
+    match s.as_str() {
+        "c++" => "cpp".to_string(),
+        _ => s,
     }
 }
 
