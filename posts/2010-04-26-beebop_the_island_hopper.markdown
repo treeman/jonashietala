@@ -8,9 +8,7 @@ It's here! The stuff of dreams, an entry for the epic [Ludum Dare 17][id] has be
 
 # Beebop The Island Hopper
 
-![](/images/games/thumbs/beepo1.png)  
-![](/images/games/thumbs/beepo2.png)  
-![](/images/games/thumbs/beepo3.png)
+![](/images/games/thumbs/beepo1.png)  ![](/images/games/thumbs/beepo2.png)  ![](/images/games/thumbs/beepo3.png)
 
 # Controls
 

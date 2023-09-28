@@ -7,9 +7,7 @@ So I did this course Game Design and what's a course on Game Design without a ga
 
 # Where's Teddy?
 
-![](/images/games/thumbs/teddy1.png)  
-![](/images/games/thumbs/teddy2.png)  
-![](/images/games/thumbs/teddy3.png)
+![](/images/games/thumbs/teddy1.png)  ![](/images/games/thumbs/teddy2.png)  ![](/images/games/thumbs/teddy3.png)
 
 # How to Play
 
