@@ -1,0 +1,23 @@
+@use "../global/fonts" as *;
+@use "../global/font_size" as *;
+@use "../components/highlight" as *;
+@use "../components/system" as *;
+
+article.tags-list {
+  h1 {
+    margin-block-end: var(--space-xs);
+  }
+
+  .tags {
+    @include overflow-bleed;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+  }
+  .tags a {
+    color: var(--color-tags);
+    text-decoration: none;
+  }
+  .tags a:hover {
+    color: var(--color-tags-hover);
+  }
+}

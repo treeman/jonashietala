@@ -10,13 +10,13 @@ Core Wars is a computer game where two programs compete and try to destroy each 
 The programs may look like this:
 
 ```
-; This program will copy a DAT instruction to every 3rd line in the memory,
+; This program will copy a DAT instruction to every 4th line in the memory,
 ; hoping to catch enemy processes and kill them off.
 ;
-; add 3 to the instruction at offset 2 (the DAT)
-ADD #3, 3
+; add 4 to the instruction at offset 3 (the DAT)
+ADD #4, 3
 ; copy the instruction at offset 2 to relative location of
-; the second field of instruction 2 (+3 lines after DAT the first time)
+; the second field of instruction 2 (+4 lines after DAT the first execution)
 MOV 2, @2
 ; jump back to beginning
 JMP -2,0
