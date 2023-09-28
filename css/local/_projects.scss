@@ -1,0 +1,26 @@
+@use "../components/system" as *;
+
+article.projects {
+  .project {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+}
+
+.game {
+  display: flex;
+  justify-content: left;
+  flex-wrap: nowrap;
+  gap: var(--space-2xs);
+
+  .img {
+    min-width: 160px;
+  }
+
+  .descr {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+}
