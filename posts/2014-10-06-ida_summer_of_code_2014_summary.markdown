@@ -2,7 +2,6 @@
 layout: post
 title: "IDA Summer of Code 2014: Summary"
 tags: IDA Summer of Code
-recommended: true
 ---
 
 This is a wrap-up post of my entry to [IDA Summer of Code][] this year.

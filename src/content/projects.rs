@@ -18,8 +18,8 @@ pub struct ProjectsItem {
     prematter: String,
     title: String,
     url: SiteUrl,
-    projects: Vec<Project>,
-    games: Vec<Game>,
+    pub projects: Vec<Project>,
+    pub games: Vec<Game>,
 }
 
 impl ProjectsItem {
@@ -94,8 +94,8 @@ struct ProjectsContext<'a> {
     games: Vec<GameContext<'a>>,
 }
 
-#[derive(Debug, Eq)]
-struct Project {
+#[derive(Debug, Eq, Clone)]
+pub struct Project {
     title: String,
     link: Option<String>,
     year: u32,
@@ -123,7 +123,7 @@ impl Project {
         })
     }
 
-    fn context<'a, 'cache>(&'a self, _ctx: &'cache RenderContext) -> ProjectContext<'a> {
+    pub fn context<'a, 'cache>(&'a self, _ctx: &'cache RenderContext) -> ProjectContext<'a> {
         ProjectContext {
             title: html_escape::encode_text(&self.title),
             link: self.link.as_deref(),
@@ -151,8 +151,8 @@ impl PartialEq for Project {
     }
 }
 
-#[derive(Debug, Serialize)]
-struct ProjectContext<'a> {
+#[derive(Debug, Serialize, Clone)]
+pub struct ProjectContext<'a> {
     title: Cow<'a, str>,
     link: Option<&'a str>,
     year: u32,
@@ -167,7 +167,7 @@ struct ProjectMetadata {
 }
 
 #[derive(Debug, Eq)]
-struct Game {
+pub struct Game {
     title: String,
     event: String,
     event_link: Option<String>,

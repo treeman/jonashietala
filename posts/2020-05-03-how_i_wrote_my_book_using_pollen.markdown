@@ -2,6 +2,7 @@
 title: "How I wrote a book using Pollen"
 tags: [Cryptocurrency, Programming, Pollen, Racket, Why cryptocurrencies?]
 series: making-cryptobook
+recommended: true
 ---
 
 I wrote [an online book][main] using [Pollen][pollen], a static site generator in [Racket][racket]. [An earlier post][impressions] contains my first impressions of it, but as the book is now completed I think I can summarize some implementation details in more detail with this post.

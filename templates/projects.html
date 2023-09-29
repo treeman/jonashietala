@@ -8,20 +8,7 @@
     <div class="content">{{ prematter }}</div>
   </div>
 
-  {% for project in projects %}
-  <article class="project">
-    <header>
-      {% if project.link %}
-      <h2><a href="{{ project.link }}">{{ project.title }}</a></h2>
-      {% else %}
-      <h2>{{ project.title }}</h2>
-      {% endif %}
-      <!-- <time datetime="{{ project.year }}">{{ project.year }}</time> -->
-    </header>
-
-    {{ project.descr }}
-  </article>
-  {% endfor %}
+  {% include "project_info.html" %}
 
   <article class="games">
     <header>

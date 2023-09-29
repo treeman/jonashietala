@@ -1,94 +1,40 @@
-{% extends "site.html" %} {% block content %}
+{% import "post_info.html" as macros %} {% extends "site.html" %} {% block
+content %}
 <div class="homepage">
-  <div class="about">
-    <h1>About me</h1>
+  <article class="homepage-hello">
+    <p>
+      Hi! I'm <strong>Jonas Hietala</strong>, a writer, developer and wannabe
+      code monkey.
+    </p>
 
-    <div class="about-body">{{about}}</div>
-  </div>
+    <p><a href="mailto:{{mail}}">Say hello</a>, or keep reading.</p>
+  </article>
 
-  <nav class="main-lists">
-    <h2>Recent posts</h2>
+  <article class="homepage-posts">
+    <h2>Posts</h2>
 
-    <ul>
-      {% for post in recent %}
-      <li class="post-item">
-        <a href="{{ post.url }}" class="title">{{ post.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </nav>
-
-  <nav class="main-lists">
-    <h2>Recommended posts</h2>
-
-    <ul>
-      {% for post in recommended %}
-      <li class="post-item">
-        <a href="{{ post.url }}" class="title">{{ post.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </nav>
-
-  <nav class="post-links">
-    <ul>
-      <li><a href="/archive">All posts</a></li>
-      <li><a href="/blog">All posts on one page</a></li>
-      <li><a href="/blog/tags">Browse tags</a></li>
-    </ul>
-  </nav>
-
-  <section>
-    <div class="about-body">{{about}}</div>
-  </section>
-
-  <section>
-    <h2>Blog</h2>
-
-    <nav class="">
-      <h3>Latest posts</h3>
-
-      <ul>
-        <li><a href="#">I beat FTL on Hard with all ships in the game</a></li>
-        <li><a href="#">Battling burnout</a></li>
-        <li><a href="#">2022 in review</a></li>
-        <li><a href="#">The current T-34 keyboard layout</a></li>
-        <li><a href="#">Rewriting my blog in Rust for fun and profit</a></li>
-      </ul>
-    </nav>
-
-    <nav class="">
-      <h3>Try these posts</h3>
-
-      <ul>
-        <li><a href="#">The T-34 keyboard layout</a></li>
-        <li><a href="#">How I wrote a book using Pollen</a></li>
-        <li><a href="#">Game Design Analysis: World of Goo</a></li>
-        <li><a href="#">Summer job at Configura</a></li>
-        <li><a href="#">A friendly game of Twilight Imperium</a></li>
-      </ul>
-    </nav>
+    {{ macros::post_items(posts=recent) }}
+    <hr />
+    {{ macros::post_items(posts=recommended) }}
 
     <nav class="">
       <ul>
-        <li><a href="/blog/tags">Series</a></li>
         <li><a href="/archive">Archive</a></li>
         <li><a href="/blog/tags">Tags</a></li>
       </ul>
     </nav>
-  </section>
+  </article>
 
-  <section>
+  <article class="homepage-series">
+    <h2>Series</h2>
+
+    {% include "series_info.html" %}
+  </article>
+
+  <article class="homepage-projects">
     <h2>Projects</h2>
 
-    <nav class="">
-      <ul>
-        <li><a href="/archive">T-34 Keyboard layout</a></li>
-        <li><a href="/blog">Why Cryptocurrencies?</a></li>
-        <li><a href="/blog/tags">MARC</a></li>
-        <li><a href="/blog/tags">Rapid game prototypes</a></li>
-      </ul>
-    </nav>
-  </section>
+    {% include "project_info.html" %}
+  </article>
 </div>
 {% endblock content %}

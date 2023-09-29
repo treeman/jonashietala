@@ -16,7 +16,7 @@ pub use external::Sass;
 pub use homepage::HomepageItem;
 pub use nav_highlight::add_nav_highlight;
 pub use posts::{load_posts, set_post_prev_next, PostDirMetadata, PostItem, PostRef};
-pub use projects::ProjectsItem;
+pub use projects::{Project, ProjectContext, ProjectsItem};
 pub use series::{load_series, SeriesContext, SeriesItem, SeriesRef};
 pub use series_archive::SeriesArchiveItem;
 pub use standalone::{load_standalones, StandaloneItem};

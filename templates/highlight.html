@@ -1,0 +1,7 @@
+{% macro a_highlight(href, name) %} {% set lower_name = name | lower %}
+<a
+  href="{{href}}"
+  class="{{lower_name}} {% if nav_highlight == lower_name %}highlight{% endif %}"
+  >{{name}}</a
+>
+{% endmacro a_highlight %}

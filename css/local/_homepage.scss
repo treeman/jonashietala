@@ -1,0 +1,10 @@
+@use "../components/system" as *;
+
+.homepage {
+  @include full-bleed-wrapper;
+  @include flow;
+
+  > article:not(:first-child) {
+    border-top: 1px solid var(--color-hr);
+  }
+}

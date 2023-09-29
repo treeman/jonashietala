@@ -81,8 +81,8 @@ impl SiteContent {
             drafts.as_ref().map(|x| x.len())
         );
 
-        let homepage = HomepageItem::new(&opts.input_dir, &posts)?;
         let projects = ProjectsItem::new(&opts.input_dir)?;
+        let homepage = HomepageItem::new(&posts, &series, &projects.projects)?;
 
         Ok(Self {
             posts,
@@ -707,7 +707,11 @@ impl Site {
     }
 
     fn rebuild_homepage(&mut self) -> Result<()> {
-        self.content.homepage = HomepageItem::new(&self.opts.input_dir, &self.content.posts)?;
+        self.content.homepage = HomepageItem::new(
+            &self.content.posts,
+            &self.content.series,
+            &self.content.projects.projects,
+        )?;
 
         self.render(SiteRenderOpts {
             projects: true,

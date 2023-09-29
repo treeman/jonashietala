@@ -3,7 +3,6 @@ layout: post
 title: "I, Robot"
 category: School
 tags: School
-recommended: true
 ---
 
 

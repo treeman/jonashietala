@@ -1,6 +1,7 @@
 ---
 title: "We moved away from the city"
 tags: Life, Life Hacking
+recommended: true
 ---
 
 When me and my girlfriend Veronica moved to Linköping to study at the University the plan was never to stay there permanently. We just moved there to study but the longterm plan, if you can have one at that stage, was always to move back to the north of Sweden where we came from.

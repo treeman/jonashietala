@@ -15,32 +15,6 @@ content %}
     </p>
   </section>
 
-  <section class="series-list">
-    {% for serie in series %} {% set first_post = serie.posts | first %} {% set
-    last_post = serie.posts | last %}
-    <div class="series-item">
-      <header>
-        <h2><a href="{{ serie.url }}" class="title">{{ serie.title }}</a></h2>
-        <div class="series-info">
-          <div class="last-update">
-            {{ macros::post_date(created=last_post.created) }}
-          </div>
-
-          {# {% if serie.completed %}
-          <div class="status completed">completed</div>
-          {% else %}
-          <div class="status ongoing">ongoing</div>
-          {% endif %} #}
-        </div>
-      </header>
-
-      <div class="description">{{ serie.description }}</div>
-
-      <div class="read-part-1">
-        <a href="{{ first_post.url }}">Read part 1</a>
-      </div>
-    </div>
-    {% endfor %}
-  </section>
+  {% include "series_info.html" %}
 </article>
 {% endblock content %}

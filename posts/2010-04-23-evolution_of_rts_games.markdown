@@ -4,6 +4,7 @@ title: "Evolution of RTS games"
 category: Game Design Course
 tags: Game Design
 time: 10:00:40
+recommended: true
 ---
 <a id="top"></a>
 

@@ -50,15 +50,3 @@ struct SeriesArchiveContext<'a> {
     title: &'static str,
     series: Vec<SeriesContext<'a>>,
 }
-
-// impl<'a> SeriesArchiveContext<'a> {
-//     fn from_ref(series_ref: &SeriesRef, ctx: &'a RenderContext) -> Self {
-//         let series = ctx
-//             .content
-//             .get_series(series_ref)
-//             .as_ref()
-//             .expect("Should have series");
-//
-//         SeriesArchiveContext { title: series.title, series: series.posts.
-//         }
-//     }
