@@ -5,33 +5,35 @@ content %}
     <p>
       Hi! I'm <strong>Jonas Hietala</strong>, a writer, developer and wannabe
       code monkey.
+      <br />
+      <a href="mailto:{{mail}}">Say hello</a>, or keep reading.
     </p>
-
-    <p><a href="mailto:{{mail}}">Say hello</a>, or keep reading.</p>
   </article>
 
   <article class="homepage-posts">
     <h2>Posts</h2>
 
+    <hr class="recent" />
+
     {{ macros::post_items(posts=recent) }}
-    <hr />
+
+    <hr class="featured" />
+
     {{ macros::post_items(posts=recommended) }}
 
     <nav class="">
-      <ul>
-        <li><a href="/archive">Archive</a></li>
-        <li><a href="/blog/tags">Tags</a></li>
-      </ul>
+      <a href="/archive">See more posts</a>
+      <a href="/blog/tags">Tags</a>
     </nav>
   </article>
 
-  <article class="homepage-series">
+  <article class="series">
     <h2>Series</h2>
 
     {% include "series_info.html" %}
   </article>
 
-  <article class="homepage-projects">
+  <article class="projects">
     <h2>Projects</h2>
 
     {% include "project_info.html" %}
