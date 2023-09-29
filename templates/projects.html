@@ -8,40 +8,6 @@
     <div class="content">{{ prematter }}</div>
   </div>
 
-  {% include "project_info.html" %}
-
-  <article class="games">
-    <header>
-      <h2><span>Games</span></h2>
-
-      <p>Some fast game prototypes. Most were made in 7 days or 48 hours.</p>
-    </header>
-
-    <div class="wrapper">
-      {% for game in games %} {% set human_created = game.published |
-      date(format="%B %e, %Y") %}
-      <section class="game">
-        <a href="{{ game.url }}" class="img"
-          ><img src="{{ game.img }}" width="160" height="100"
-        /></a>
-        <div class="descr">
-          <h3 class="title">
-            <a href="{{ game.url }}" class="title"> {{ game.title }} </a>
-          </h3>
-          <time datetime="{{ game.published }}" title="{{human_created}}"
-            >{{ human_created }}</time
-          >
-          {% if game.event_link %}
-          <span class="subtitle"
-            ><a href="{{ game.event_link}}">{{ game.event }}</a></span
-          >
-          {% else %}
-          <span class="subtitle">{{ game.event }}</span>
-          {% endif %}
-        </div>
-      </section>
-      {% endfor %}
-    </div>
-  </article>
+  {% include "project_info.html" %} {% include "games.html" %}
 </article>
 {% endblock content %}

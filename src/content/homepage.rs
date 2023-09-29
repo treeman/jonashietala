@@ -5,6 +5,7 @@ use serde::Serialize;
 use tera::Context;
 
 use crate::content::posts::{PostItem, PostRef};
+use crate::content::{Game, GameContext};
 use crate::content::{Project, ProjectContext};
 use crate::content::{SeriesContext, SeriesItem, SeriesRef};
 use crate::{item::RenderContext, item::TeraItem, site_url::SiteUrl};
@@ -18,13 +19,15 @@ pub struct HomepageItem {
     pub recommended: Vec<PostRef>,
     pub series: Vec<SeriesRef>,
     pub projects: Vec<Project>,
+    pub games: Vec<Game>,
 }
 
 impl HomepageItem {
     pub fn new(
         posts: &BTreeMap<PostRef, PostItem>,
         series: &BTreeMap<SeriesRef, SeriesItem>,
-        projects: &Vec<Project>,
+        projects: &[Project],
+        games: &[Game],
     ) -> Result<Self> {
         let url = SiteUrl::parse("/").expect("Should be able to create a url");
 
@@ -34,6 +37,7 @@ impl HomepageItem {
             recommended: Self::get_recommended(posts),
             series: series.keys().map(Clone::clone).collect(),
             projects: projects.iter().map(Clone::clone).collect(),
+            games: games.iter().map(Clone::clone).collect(),
         })
     }
 
@@ -75,6 +79,7 @@ impl TeraItem for HomepageItem {
                 .map(|series| SeriesContext::from_ref(series, ctx))
                 .collect(),
             projects: self.projects.iter().map(|x| x.context(ctx)).collect(),
+            games: self.games.iter().map(GameContext::from).collect(),
         })
         .unwrap()
     }
@@ -95,4 +100,5 @@ struct HomepageContext<'a> {
     recent: Vec<PostRefContext<'a>>,
     series: Vec<SeriesContext<'a>>,
     projects: Vec<ProjectContext<'a>>,
+    games: Vec<GameContext<'a>>,
 }

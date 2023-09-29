@@ -1,43 +1,56 @@
 @use "../components/system" as *;
+@use "../global/fonts" as *;
+@use "../global/font_size" as *;
 
 .homepage {
-  // @include full-bleed-wrapper;
-  // @include flow(var(--space-m));
-
-  > article {
-    // @include full-bleed;
-  }
-
   > article:not(:first-child) {
-    margin-top: var(--space-m);
-    // border-top: 1px solid var(--color-hr);
+    margin-top: var(--space-l);
   }
 
-  /* Glyph, by Harry Roberts */
+  > article.homepage-posts > .section-title {
+    border-left: 4px solid var(--color-highlight-archive);
+  }
+  > article.series > .section-title {
+    border-left: 4px solid var(--color-highlight-series);
+  }
+  > article.projects > .section-title {
+    border-left: 4px solid var(--color-highlight-projects);
+  }
+  > article > .section-title {
+    padding-left: var(--space-2xs);
+  }
+  > article > .section-title ~ article,
+  > article > .section-title ~ section {
+    margin-block-start: var(--space-xs);
+  }
 
   .homepage-posts > hr {
-    overflow: visible; /* For IE */
+    overflow: visible;
     padding: 0;
+    margin: 0;
+    margin-top: var(--space-m);
+    margin-bottom: -1rem;
     border: none;
-    border-top: medium double #333;
-    color: #333;
+    border-top: 2px solid var(--color-hr);
     text-align: center;
-  }
+    width: 20%;
 
-  .homepage-posts > hr.recent:after,
-  .homepage-posts > hr.featured:after {
-    display: inline-block;
-    position: relative;
-    top: -0.7em;
-    font-size: 1.5em;
-    padding: 0 0.25em;
-    background: white;
-  }
+    &.recent:after,
+    &.featured:after {
+      @extend %sans-serif;
+      @include font-size("s");
+      color: var(--color-highlight-archive);
+      position: relative;
+      top: -2ch;
+      padding: 0 var(--space-3xs);
+      background-color: var(--color-background);
+    }
 
-  .homepage-posts > hr.recent:efter {
-    content: "Recent";
-  }
-  .homepage-posts > hr.featured:efter {
-    content: "Featured";
+    &.recent:after {
+      content: "Recent";
+    }
+    &.featured:after {
+      content: "Featured";
+    }
   }
 }

@@ -82,7 +82,7 @@ impl SiteContent {
         );
 
         let projects = ProjectsItem::new(&opts.input_dir)?;
-        let homepage = HomepageItem::new(&posts, &series, &projects.projects)?;
+        let homepage = HomepageItem::new(&posts, &series, &projects.projects, &projects.games)?;
 
         Ok(Self {
             posts,
@@ -711,6 +711,7 @@ impl Site {
             &self.content.posts,
             &self.content.series,
             &self.content.projects.projects,
+            &self.content.projects.games,
         )?;
 
         self.render(SiteRenderOpts {

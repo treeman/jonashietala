@@ -11,7 +11,7 @@ content %}
   </article>
 
   <article class="homepage-posts">
-    <h2>Posts</h2>
+    <h1 class="section-title"><a href="/archive">Posts</a></h1>
 
     <hr class="recent" />
 
@@ -21,22 +21,21 @@ content %}
 
     {{ macros::post_items(posts=recommended) }}
 
-    <nav class="">
+    <nav>
       <a href="/archive">See more posts</a>
-      <a href="/blog/tags">Tags</a>
     </nav>
   </article>
 
   <article class="series">
-    <h2>Series</h2>
+    <h1 class="section-title"><a href="/series">Series</a></h1>
 
     {% include "series_info.html" %}
   </article>
 
   <article class="projects">
-    <h2>Projects</h2>
+    <h1 class="section-title"><a href="/projects">Projects</a></h1>
 
-    {% include "project_info.html" %}
+    {% include "project_info.html" %} {% include "games.html" %}
   </article>
 </div>
 {% endblock content %}

@@ -166,7 +166,7 @@ struct ProjectMetadata {
     year: u32,
 }
 
-#[derive(Debug, Eq)]
+#[derive(Debug, Eq, Clone)]
 pub struct Game {
     title: String,
     event: String,
@@ -225,7 +225,7 @@ impl PartialEq for Game {
 }
 
 #[derive(Debug, Clone, Serialize)]
-struct GameContext<'a> {
+pub struct GameContext<'a> {
     title: Cow<'a, str>,
     event: &'a str,
     event_link: Option<&'a str>,
