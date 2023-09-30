@@ -2,6 +2,7 @@
 title: "Why Cryptocurrencies?"
 link: https://whycryptocurrencies.com/
 year: 2023
+homepage: true
 ---
 
 ![](/images/whycrypto/cover-hand.png)

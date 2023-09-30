@@ -101,6 +101,7 @@ pub struct Project {
     year: u32,
     path: AbsPath,
     descr: String,
+    pub homepage: bool,
 }
 
 impl Project {
@@ -120,6 +121,7 @@ impl Project {
             year: metadata.year,
             path,
             descr: content,
+            homepage: metadata.homepage.unwrap_or(false),
         })
     }
 
@@ -164,6 +166,7 @@ struct ProjectMetadata {
     title: String,
     link: Option<String>,
     year: u32,
+    homepage: Option<bool>,
 }
 
 #[derive(Debug, Eq, Clone)]

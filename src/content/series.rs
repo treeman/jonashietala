@@ -84,6 +84,7 @@ pub struct SeriesItem {
     pub description: String,
     pub post_note: Option<String>,
     pub posts: BTreeSet<Reverse<PostRef>>,
+    pub homepage: bool,
 }
 
 impl SeriesItem {
@@ -119,6 +120,7 @@ impl SeriesItem {
             description: transformed_description,
             post_note: transformmed_post_note,
             posts: BTreeSet::new(),
+            homepage: metadata.homepage.unwrap_or(false),
         })
     }
 
@@ -194,6 +196,7 @@ struct SeriesMetadata {
     completed: bool,
     post_note: Option<String>,
     img: String,
+    homepage: Option<bool>,
 }
 
 pub struct SeriesDirMetadata {

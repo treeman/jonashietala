@@ -6,18 +6,25 @@ pub fn add_nav_highlight(ctx: &mut Context) {
 }
 
 fn decide_highlight(ctx: &Context) -> &'static str {
+    let url = ctx.get("url");
+
+    if let Some(Value::String(url)) = url {
+        if url == "/" {
+            return "";
+        }
+    }
+
     match ctx.get("series") {
         Some(Value::Null) => {}
         Some(_) => return "series",
         _ => {}
     }
 
-    if let Some(Value::String(url)) = ctx.get("url") {
-        if url == "/" {
-            // Homepage, what should we highlight?
-            return "projects";
-        } else if url.starts_with("/series") {
+    if let Some(Value::String(url)) = url {
+        if url.starts_with("/series") {
             return "series";
+        } else if url.starts_with("/about") {
+            return "about";
         } else if url.starts_with("/blog") {
             return "archive";
         } else if url.starts_with("/drafts") {
@@ -29,6 +36,5 @@ fn decide_highlight(ctx: &Context) -> &'static str {
         }
     }
 
-    // Dunno, default to projects?
-    return "projects";
+    return "";
 }

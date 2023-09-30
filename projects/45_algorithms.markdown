@@ -15,7 +15,7 @@ vector<pair<T, int>> shortest_path(vector<vector<pair<int, T>>> adj_list, int st
 
 // Aho-Corasick's string matching algorithm.
 // Return a vector of matching positions corresponding to the pattern index.
-vector<vi> find(const vector<string> &patterns, string text);
+vector<vector<int>> find(const vector<string> &patterns, string text);
 ```
 
 [kattis]: https://open.kattis.com/ "kattis"

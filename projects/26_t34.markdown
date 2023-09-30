@@ -2,6 +2,7 @@
 title: T-34 Keyboard layout
 year: 2022
 link: /series/t-34/
+homepage: true
 ---
 
 ![](/images/t-34-2/base.png)

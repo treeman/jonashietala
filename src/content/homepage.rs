@@ -33,28 +33,44 @@ impl HomepageItem {
 
         Ok(Self {
             url,
-            recent: Self::get_recent(posts),
-            recommended: Self::get_recommended(posts),
-            series: series.keys().map(Clone::clone).collect(),
-            projects: projects.iter().map(Clone::clone).collect(),
+            recent: Self::filter_recent(posts),
+            recommended: Self::filter_recommended(posts),
+            series: Self::filter_series(series),
+            projects: Self::filter_projects(projects),
             games: games.iter().map(Clone::clone).collect(),
         })
     }
 
     pub fn update_posts(&mut self, posts: &BTreeMap<PostRef, PostItem>) {
-        self.recent = Self::get_recent(posts);
-        self.recommended = Self::get_recommended(posts);
+        self.recent = Self::filter_recent(posts);
+        self.recommended = Self::filter_recommended(posts);
     }
 
-    fn get_recent(posts: &BTreeMap<PostRef, PostItem>) -> Vec<PostRef> {
+    fn filter_recent(posts: &BTreeMap<PostRef, PostItem>) -> Vec<PostRef> {
         posts.keys().take(5).map(Clone::clone).collect()
     }
 
-    fn get_recommended(posts: &BTreeMap<PostRef, PostItem>) -> Vec<PostRef> {
+    fn filter_recommended(posts: &BTreeMap<PostRef, PostItem>) -> Vec<PostRef> {
         posts
             .iter()
             .filter(|(_, post)| post.recommended)
             .map(|(post_ref, _)| post_ref.clone())
+            .collect()
+    }
+
+    fn filter_series(series: &BTreeMap<SeriesRef, SeriesItem>) -> Vec<SeriesRef> {
+        series
+            .iter()
+            .filter(|(_, series)| series.homepage)
+            .map(|(series_ref, _)| series_ref.clone())
+            .collect()
+    }
+
+    fn filter_projects(projects: &[Project]) -> Vec<Project> {
+        projects
+            .iter()
+            .filter(|project| project.homepage)
+            .map(Clone::clone)
             .collect()
     }
 }

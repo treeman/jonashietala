@@ -245,7 +245,7 @@ impl SiteRenderOpts<'_> {
             post_archives: title_changed,
             series_archive: title_changed || series_changed,
             series: title_changed || series_changed,
-            homepage: title_changed || recommended_changed,
+            homepage: title_changed || recommended_changed || tags_changed || series_changed,
             extra_render: vec![new],
             feed: true,
             ..Default::default()
@@ -325,6 +325,7 @@ enum PathEvent {
     Template,
     Font,
     Image,
+    #[allow(dead_code)]
     Homepage,
     Project,
     Unknown,
@@ -351,8 +352,6 @@ impl PathEvent {
             Self::Font
         } else if path.rel_path.starts_with("images/") {
             Self::Image
-        } else if path.rel_path == "about.markdown" {
-            Self::Homepage
         } else if path.rel_path == "projects.markdown" || path.rel_path.starts_with("projects/") {
             Self::Project
         } else if unknown_change_msg(&path.rel_path) {
@@ -693,12 +692,14 @@ impl Site {
         // We need series here for posts to render.
         let series_ref = updated.series_ref();
         self.content.series.insert(series_ref.clone(), updated);
+        self.update_homepage_item()?;
         let updated = self.content.series.get(&series_ref).unwrap();
 
         let title_changed = updated.title != old.title;
         let note_changed = updated.post_note != old.post_note;
 
         self.render(SiteRenderOpts {
+            homepage: true,
             all_posts: title_changed || note_changed,
             series_archive: true,
             extra_render: vec![updated],
@@ -707,15 +708,10 @@ impl Site {
     }
 
     fn rebuild_homepage(&mut self) -> Result<()> {
-        self.content.homepage = HomepageItem::new(
-            &self.content.posts,
-            &self.content.series,
-            &self.content.projects.projects,
-            &self.content.projects.games,
-        )?;
+        self.update_homepage_item()?;
 
         self.render(SiteRenderOpts {
-            projects: true,
+            homepage: true,
             ..Default::default()
         })
     }
@@ -724,11 +720,24 @@ impl Site {
         info!("Projects changed: {path}");
 
         self.content.projects = ProjectsItem::new(&self.opts.input_dir)?;
+        self.update_homepage_item()?;
 
         self.render(SiteRenderOpts {
             projects: true,
+            homepage: true,
             ..Default::default()
         })
+    }
+
+    fn update_homepage_item(&mut self) -> Result<()> {
+        self.content.homepage = HomepageItem::new(
+            &self.content.posts,
+            &self.content.series,
+            &self.content.projects.projects,
+            &self.content.projects.games,
+        )?;
+
+        Ok(())
     }
 
     fn rebuild_template(&mut self, path: AbsPath) -> Result<()> {

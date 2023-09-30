@@ -2,7 +2,13 @@
 title: About
 ---
 
-Hi! I'm **Jonas Hietala**, a writer, developer and wannabe code monkey.
+A little more about me.
 
-[Say hello][], or keep reading.
+1. Programming is my hobby and my work
+1. Lockpicking, 3D printing, SW...
 
+1. Experimental gameplay
+1. Working at a submarine
+1. Civil Engineering, programming and math
+1. Working at Configura, graphics interface, performance optimizations, UI stuff.
+   Later web, backend + frontend.

@@ -54,6 +54,9 @@ body {
   a.contact.highlight {
     border-bottom: 2px solid var(--color-highlight-contact);
   }
+  a.about.highlight {
+    border-bottom: 2px solid var(--color-highlight-about);
+  }
   a:hover {
     color: var(--color-link-hover);
   }

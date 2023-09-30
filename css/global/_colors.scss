@@ -18,13 +18,13 @@
   --color-highlight-archive: var(--melange_d_yellow);
   --color-highlight-series: var(--melange_b_red);
   --color-highlight-projects: var(--melange_c_cyan);
-  --color-highlight-contact: var(--melange_c_yellow);
+  --color-highlight-about: var(--melange_c_magenta);
   --color-highlight-drafts: var(--color-highlight-archive);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     // I did not really like the dark float for the site footer.
-  --color-footer-background: #1d1c19;
+    --color-footer-background: #1d1c19;
   }
 }

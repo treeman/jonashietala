@@ -2,6 +2,7 @@
 title: MARC
 link: http://github.com/treeman/MARC
 year: 2012
+homepage: true
 ---
 
 This is a VHDL implementation of the [Core Wars 88 standard][corewars88].
