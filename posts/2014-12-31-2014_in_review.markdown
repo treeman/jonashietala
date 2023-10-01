@@ -55,8 +55,10 @@ Previous reviews: [2010][], [2011][], [2012][] and [2013][].
 1. Discovered [Ticket to Ride: Nordic Countries][], a nice boardgame.
 1. Also played [Carcassone][] another great boardgame.
 1. Played some other boardgames.
-1. Read some manga and manwha.  
+1. Read some manga and manwha.
+
     *Kingdom* was the year's highlight.
+
 1. Got a few 12-win arena runs in [Hearthstone][]
 
 [books read]: /blog/2014/12/31/2014_read_books/ "2014 Read Books"

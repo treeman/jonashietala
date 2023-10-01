@@ -38,4 +38,17 @@ article.post {
   header > h1 a:hover {
     text-decoration: none;
   }
+
+  .ok {
+    font-style: italic;
+    color: var(--melange_b_green);
+  }
+  .partly {
+    font-style: italic;
+    color: var(--melange_b_yellow);
+  }
+  .failed {
+    font-style: italic;
+    color: var(--melange_b_red);
+  }
 }

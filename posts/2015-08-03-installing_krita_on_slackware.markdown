@@ -8,13 +8,16 @@ This is a guide on how to build [Krita][] on Slackware 14.1. This is based on [t
 
 1. `removepkg calligra`
 2. Install some dependencies from [Slackbuilds][].
+
     ```
     gsl
     libgexiv2
     libpqxx
     pstoedit
     ```
-3. Get Krita.  
+
+3. Get Krita.
+
     The [original guide][install_krita] recommends building in `~/kde4` but I moved i to `/opt/kde4`.
 
     ```bash
@@ -22,7 +25,9 @@ This is a guide on how to build [Krita][] on Slackware 14.1. This is based on [t
     cd /opt/kde4/src
     git clone git://anongit.kde.org/calligra.git
     ```
-3. Configure and build.  
+
+3. Configure and build.
+
     There's a problem with tifflib. (My version is `Krita: 2.9.6 (gitb804a35)`, you may or may not run into this problem).
 
     Change `/opt/kde4/src/calligra/krita/plugins/formats/tiff/kis_tiff_converter.cc` from
@@ -50,6 +55,7 @@ This is a guide on how to build [Krita][] on Slackware 14.1. This is based on [t
     ```
 
     Where `X` in `jX` is `1 + # processors`. The build process is quite slow.
+
 4. Add `/opt/kde4/inst/bin` to PATH and `/opt/kde4/inst` to KDEDIRS.
 5. Register krita to the system `kbuildsyscoca4`, but worked for me without it (I don't use kde).
 

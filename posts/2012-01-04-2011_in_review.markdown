@@ -12,15 +12,18 @@ It's time to wrap up the year that's been. Be warned for slight ego boosting her
 ===============================
 
 1. Wrote three games this year:
+
    * [My Minions](/blog/2011/05/02/my_minions/)
    * [Grand Thief Arto](/blog/2011/10/19/grand_thief_arto/)
    * [Sat-E](/blog/2011/12/19/sat-e/)
+
 2. Bought a [new computer](/blog/2011/08/21/new_computer)!
 3. Bought a mechanical keyboard.
 4. Bought [custom Starcraft 2 keycaps](/blog/2011/12/16/starcraft_2_keycaps) for the keyboard.
 5. Learned 68k assembly.
 6. Learned about algorithms and data structures.
 7. Bought a lot of programming books.
+
      * The Pragmatic Programmer
      * Structure and Interpretation of Computer Programs
      * Introduction to Algorithms
@@ -29,6 +32,7 @@ It's time to wrap up the year that's been. Be warned for slight ego boosting her
      * Learn You a Haskell for Great Good!
      * Land of Lisp
      * Maybe something more...
+
 8. Read a lot of programming books. Modern Perl and The Pragmatic Programmer were my favourites.
 8. Learned some Ada.
 8. Learned a lot of Perl.
@@ -43,6 +47,7 @@ It's time to wrap up the year that's been. Be warned for slight ego boosting her
 3. Read and loved A Song of Ice and Fire.
 5. Achieved 7 kup in Taekwon-do.
 10. Read a *lot* of manga. Some recommendations:
+
     * Bakuman. A nice slice of life manga about... making manga. Surprisingly captivating.
     * Gamaran. A slightly brutal battle manga with loads of weapons.
     * Vinland Saga. A bit more brutal battle manga about vikings and war.
@@ -68,10 +73,12 @@ Plans for 2012
 7. Improve in Taekwon-do.
 8. Be more disciplined in studying, coding, training and cleaning.
 9. Read the programming books I have but have not read yet.
+
    * A book about Erlang.
    * K&amp;R C Programming language.
    * SICP, all important for every programmers. I hear.
    * Probably missed something... Damn I've got many.
+
 10. Get good results in school.
 11. Try to be a bit more social (it's hard).
 12. Get more free time somehow.

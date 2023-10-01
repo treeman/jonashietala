@@ -109,7 +109,7 @@ This is how the idea of the `Reverse Repeat` key was born. It's a key that moves
 Here's a list of some of these "repeat pairs" that I've found useful:
 
 | A               |    B                 |         &ThinSpace;
-| --------------  |    ----------------  |     -------------
+| :-------------  |    :---------------  |     -------------
 | `PgUp`          |    `PgDn`            |
 | `Ctrl-f`        |    `Ctrl-b`          |
 | `Ctrl-u`        |    `Ctrl-d`          |

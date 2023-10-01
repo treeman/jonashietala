@@ -3,8 +3,8 @@ layout: post
 title: "Long Term Goals"
 category: Life Hacking
 tags: Life Hacking
+time: 10:00
 ---
-
 
 I have a lot of things I want to do. Right now I want to go to the kids training tomorrow and also to our training time. I haven't trained a lot lately so it feels good to do something again and training the kids is very rewarding. On Monday I have the next graph theory lecture and I want to do all our lesson assignments until then. As I've beaten [FTL](/blog/2013/02/12/faster_than_light/) on easy I really want to do it on normal as well. And I'm looking forward going to the restaurant with Veronica and a bunch of other stuff.
 

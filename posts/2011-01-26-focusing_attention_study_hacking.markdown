@@ -15,16 +15,20 @@ This is when I dusted an old bookmark I found a long time ago: [Study Hacks][1].
 
 Here's a little rundown of the main principles from [Study Hacks][1] as I understand them;
 
-**Do fewer things**  
+# Do fewer things
+
 Sure it makes sense. When I signed up for an extra course last year I felt pretty damn stressed and I couldn't really focus on my other courses knowing I had this extra class I missed to catch up with. It was even on my mind when I tried to do other things and when I got my stumach problems I decided to drop it. That was seriously a pretty damn good decision: I felt a lot better with it gone.
 
-**Do them better**  
+# Do them better
+
 Also what are good grades? They should show your skill but if they're good they should also impress. And what are you most impressed by? Someone with straight-A or someone who's read 40 points more but with slightly worse grades? I think we're more impressed by deep knowledge in a smaller area (better grades in fewer courses) than by someone who's a know-it-all but specialist-in-nothing. Maybe it's a good idea to focus on getting really good grades instead of trying to do too much at once and risk to spread out too much?
 
-**Know why you're doing them**  
+# Know why you're doing them
+
 Lastly it makes sense why you should know why your study technique works (or doesn't). So we can change and adapt. After all what is the definition of Insanity?
 
-*"Doing the same thing over and over again expecting different results"* - Albert Einstein
+> Doing the same thing over and over again expecting different results
+{ author=Albert Einstein }
 
 [1]: http://calnewport.com/blog/
 

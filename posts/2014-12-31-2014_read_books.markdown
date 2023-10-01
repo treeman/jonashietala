@@ -10,43 +10,71 @@ In total I read 20 books, which is 33% less than [last year](/blog/2014/01/03/20
 Fiction
 =======
 
-1. **How to Be a Woman** - Catilin Moran  
+1. **How to Be a Woman** - Catilin Moran
+
     *Fun*!
+
 1. **The Kill Room** - Jeffery Deaver
-1. **A Song of Ice and Fire: Game of Thrones** - George R.R. Martin  
+1. **A Song of Ice and Fire: Game of Thrones** - George R.R. Martin 
+
     Reread.
-1. **A Song of Ice and Fire: A Clash of Kings** - George R.R. Martin  
+
+1. **A Song of Ice and Fire: A Clash of Kings** - George R.R. Martin
+
     Reread.
-1. **A Song of Ice and Fire: A Storm of Swords** - George R.R. Martin  
+
+1. **A Song of Ice and Fire: A Storm of Swords** - George R.R. Martin
+
     Reread.
-1. **A Song of Ice and Fire: A Fest for Crows** - George R.R. Martin  
+
+1. **A Song of Ice and Fire: A Fest for Crows** - George R.R. Martin
+
     Reread.
-1. **The First Law: The Blade Itself** - Joe Abercrombie  
-1. **The First Law: Before They Are Hanged** - Joe Abercrombie  
-1. **The First Law: The Last Argument of Kings** - Joe Abercrombie  
+
+1. **The First Law: The Blade Itself** - Joe Abercrombie
+1. **The First Law: Before They Are Hanged** - Joe Abercrombie
+1. **The First Law: The Last Argument of Kings** - Joe Abercrombie
 
 Non-Fiction
 ===========
 
-1. **The Power of Habit** - Charles Duhigg  
+1. **The Power of Habit** - Charles Duhigg
+
     How habits work. Helped me get more productive.
+
 1. **En Perfekt Natt** - Björn Jedensjö
-1. **Elementary Number Theory** - Kenneth H. Rosen  
+1. **Elementary Number Theory** - Kenneth H. Rosen
+
     Course book. Fun subject.
-1. **Competitive Programming 3** - Steven & Felix Halim  
+
+1. **Competitive Programming 3** - Steven & Felix Halim 
+
     The ultimate reference to competitive programming. A lot about problem solving and algorithms. Very good. Used as course book as well.
-1. **[Game Programming Patterns][]** - Bob Nystrom  
+
+1. **[Game Programming Patterns][]** - Bob Nystrom
+
     A very good read.
-1. **Structure and Interpretation of Computer Programs** - Gerald Jay Sussman, Hal Abelson  
+
+1. **Structure and Interpretation of Computer Programs** - Gerald Jay Sussman, Hal Abelson
+
     The examples are what makes this book really shine.
-1. **Automated Planning** - Ghallab, Na, Traverso  
+
+1. **Automated Planning** - Ghallab, Na, Traverso
+
     Course book. Subject very interesting, book a bit heavy.
-1. **A Drunkard's Walk**  
+
+1. **A Drunkard's Walk**
+
     Interesting and eye opening.
-1. **Logic, Programming and Prolog (2ed)** - U. Nilsson and J. Maluszynski  
+
+1. **Logic, Programming and Prolog (2ed)** - U. Nilsson and J. Maluszynski
+
     Couse book. A bit too theoretical for my taste.
-1. **Introduction to Cryptography with Coding Theory** - Wade Trappe, Lawrence C. Washington
+
+1. **Introduction to Cryptography with Coding Theory** - Wade Trappe, Lawrence C. Washingto
+
     Course book, quite good.
+
 1. **The Shock of the Old** - David Edgerton
 1. **Den skapande människan** - Staffan Hansson
 

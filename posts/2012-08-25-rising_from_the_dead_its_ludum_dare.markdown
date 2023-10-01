@@ -10,6 +10,5 @@ I've been a long time gone, been busy with school then having summer vacation an
 
 Of course, as usual with my Ludum Dare entries I'm totally unprepared. I haven't used any of the tools I'm going to use in over half a year or something.
 
-![](/images/games/ld24_full_desktop.jpg)  
-*But I did clear my desk! And an inspirational cactus friend!*
+![But I did clear my desk! And an inspirational cactus friend!](/images/games/ld24_full_desktop.jpg)
 

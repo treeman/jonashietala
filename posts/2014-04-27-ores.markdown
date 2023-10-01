@@ -8,6 +8,5 @@ time: 19:48
 
 Now we can build rooms, we can place objects and the worker will do things for us. Now I've added some ores which makes the game look a bit less boring. I realize I've spent all my time on these little things and I still don't have a game! But it doesn't matter, maybe I can finish the game on a later date.
 
-![Ores](/images/ld29/ores.png)  
-*Oooh, is that diamond?*
+![Oooh, is that diamond?](/images/ld29/ores.png)
 

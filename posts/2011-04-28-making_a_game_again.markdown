@@ -18,7 +18,7 @@ I haven't made a game since I switched to Slackware either, luckily [SFML](http:
 
 For graphics I think I'm aiming for some pixelated cool stuff with [mtPaint](http://mtpaint.sourceforge.net/). Pixelated stuff looks awesome, if you're good at it, and I'd like to make something similar.. At least a little similar.
 
-![Unreleased fun pixel graphics](/images/games/koncept.png)
+![](/images/games/koncept.png)
 
 So for a quick recap, if I'm going to make a game again this is what I'm going to use:  
 

@@ -50,17 +50,7 @@ pub fn set_post_prev_next(posts: &mut BTreeMap<PostRef, PostItem>) {
 pub struct PostRef {
     pub id: String,
     #[order]
-    pub created: NaiveDate,
-}
-
-impl PostRef {
-    pub fn from_path(path: &Utf8Path) -> Result<PostRef> {
-        let meta = PostDirMetadata::from_path(&path)?;
-        Ok(PostRef {
-            id: meta.to_url()?.href().to_string(),
-            created: meta.date,
-        })
-    }
+    pub created: NaiveDateTime,
 }
 
 #[derive(Debug)]
@@ -98,7 +88,7 @@ impl PostItem {
             YamlFrontMatter::parse::<PostMetadata>(&raw_content)
                 .map_err(|err| eyre!("Failed to parse metadata for post: {}\n{}", path, err))?;
 
-        let time = match metadata.time {
+        let time = match &metadata.time {
             Some(time_str) => parse_time(&time_str)?,
             None => NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
         };
@@ -129,7 +119,7 @@ impl PostItem {
     pub fn post_ref(&self) -> PostRef {
         PostRef {
             id: self.id().to_string(),
-            created: self.created.date(),
+            created: self.created.clone(),
         }
     }
 }
@@ -381,7 +371,13 @@ mod tests {
 
         assert_eq!(
             post.post_ref(),
-            PostRef::from_path("/posts/2022-01-31-test_post".into()).unwrap(),
+            PostRef {
+                id: "/blog/2022/01/31/test_post/".to_string(),
+                created: NaiveDate::from_ymd_opt(2022, 1, 31)
+                    .unwrap()
+                    .and_hms_opt(7, 7, 0)
+                    .unwrap(),
+            }
         );
         Ok(())
     }
@@ -420,8 +416,8 @@ mod tests {
         );
         assert!(rendered
             .contains(r#"<h1><a href="/blog/2022/01/31/test_post/">Post &amp; Title</a></h1>"#));
-        assert!(rendered
-            .contains(r#"<time datetime="2022-01-31" title="2022-01-31">January 31, 2022</time>"#));
+        dbg!(&rendered);
+        assert!(rendered.contains(r#"<time datetime="2022-01-31T07:07:00Z""#));
         assert!(rendered.contains(
             r##"<h2 id="header-1"><a class="heading-ref" href="#header-1">Header 1</a></h2>"##
         ));

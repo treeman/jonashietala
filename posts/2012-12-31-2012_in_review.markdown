@@ -23,8 +23,11 @@ Like the [last][2011] [two][2010] years I'm summarizing the year. At the end of 
 5. Learned some [Rust][] and wrote a [small irc bot][rustbot] with it.
 6. Took an advanced mathematics course in *Linear Algebra*, it was fun!
 7. I was a mathematics mentor to the first years in *Discrete Math*.
-8. Won the "best CV" award from Ericsson during Linkdagarna.  
-   [Here's the CV (in Swedish)][CV] and [here's the latex file][CV.tex] which produced it.
+
+8. Won the "best CV" award from Ericsson during Linkdagarna.
+
+   [Here's the CV (in Swedish)][CV] and [here's the latex file][CV.tex] that produced it.
+
 9. Got top 3 in [IMPA][], I did participate three turns out of five.
 10. Participated in prog-SM and won a t-shirt! (Or three...)
 11. Solved a lot of problems on [UVa][].
@@ -43,10 +46,12 @@ Like the [last][2011] [two][2010] years I'm summarizing the year. At the end of 
 3. [Read 20 books][read_books].
 4. Read a lot of manga. *Battle Royale* was the highlight of the year I think.
 5. Read some manwha. Possibly better than manga??
+
    * *Tower of God* (my favourite manga/manwha atm)
    * *Magician*
    * *The Breaker New Waves*
    * *Noblesse*
+
 6. Discovered [Power Grid][], a [German Style Boardgame][german].
 
 2012 Failures

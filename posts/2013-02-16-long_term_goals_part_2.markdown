@@ -3,8 +3,8 @@ layout: post
 title: "Long Term Goals (part 2)"
 category: Life Hacking
 tags: Life Hacking
+time: 17:00
 ---
-
 
 A few minutes after I wrote about my long term goals, in the shower, I realize I forgot a few major goals I have:
 

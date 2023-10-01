@@ -7,7 +7,7 @@ time: 11:39:25
 ---
 I read [an article about the decline of FPS games](http://au.pc.ign.com/articles/121/1212393p1.html) and it made me think a bit. When was the last time I actually enjoyed an FPS game? I installed old [Deus Ex](http://en.wikipedia.org/wiki/Deus_Ex) a while ago but it's what 12 years old? [Team Fortress](http://www.teamfortress.com/) was okay, the one or two times I tried it, but I can't say I truly enjoyed it, hell I never even played it apart from trying it at a friends pc. Well I bought [Duke Nukem Forever](http://en.wikipedia.org/wiki/Duke_Nukem_Forever) but I haven't even completed it, it's best server collecting dust at the bookshelf now. No the truly last FPS I enjoyed was [CSS](http://store.steampowered.com/app/240/). How is this possible?
 
-![CSS: my one favorite FPS game](http://techreport.com/r.x/cssource-audio/shot.jpg)
+![CSS: my one favorite FPS game](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.R4Igz3Hc2dQfUvlghvcepgHaEK%26pid%3DApi&f=1&ipt=69568e6ad99f46906d2aea8de1c7cd3ec483678e5a2817d413093e151ab61f79&ipo=images)
 
 I am not a big FPS fan and I get sick of modern FPS almost directly. It feels like they are all the same, I don't even want to try them anymore. The biggest upset was actually [Duke Nukem Forever](http://en.wikipedia.org/wiki/Duke_Nukem_Forever) lately. It had totally linear levels, you could only use two weapons at a time and it just felt boring and uninspiring. Why is it that FPS games are considered good if the graphics is good? Or have an advanced physics engine? It's good of course but there has to be more to a game than that. Games feel so shallow nowadays.
 

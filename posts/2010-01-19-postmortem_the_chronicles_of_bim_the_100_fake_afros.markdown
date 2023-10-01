@@ -11,7 +11,8 @@ My first shooter! It's working (although a friend got a null pointer error) so I
 
 I spent about 24 hours on this game. A whopping 30% was break time, mostly me eating, reading manga or playing games... This is proof of me being really lazy this month I think. 
 
-![](/images/games/afrograph.png)   
+![](/images/games/afrograph.png)
+
 It's pretty cool that everything regarding the scripting, loading the little levels I had from lua files and writing them took only a mere hour! I could have saved so much time if I would've scrapped the whole levels idea completely. (Levels are more than just the code it takes to load them from a file... a lot more)
 
 # Immersion
