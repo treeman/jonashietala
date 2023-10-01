@@ -17,7 +17,7 @@ No, but seriously, I've had my Neovim configuration since before Neovim existed 
 Why would I then rewrite it, and using Lua to boot?
 
 My config has collected a lot of cruft over the years, and it was about time to do a cleanup.
-So I figured the best way was to do it all from scratch, only adding tings from the old config if I really needed them (and if I knew what they were doing there!).
+So I figured the best way was to do it all from scratch, only adding things from the old config if I really needed them (and if I knew what they were doing there!).
 
 I was also curious on how well it would work to configure Neovim using Lua instead of Vimscript, and if there were some new fancy things I was missing.
 
@@ -82,7 +82,7 @@ One of the big problems with my previous setup was that `init.vim` was huge and 
 
 With lua and [lazy.nvim][] you can organize settings and plugins in different files quite nicely. This is how I did it:
 
-I wanted to have a split of `config/` and `plugins/`, so `~/.config/nvim/init.lua` just loads `lua/config/init.lua`:
+I wanted to have a split of `config/` and `plugins/`, so `~/.config/nvim/init.lua` just loads `~/.config/nvim/lua/config/init.lua`:
 
 ```lua
 require("config")
@@ -276,7 +276,7 @@ I think that's very nice, but treesitter is more than that. And a great example 
 - `if` textobject for inner function. So `cif` would delete the function body and enter insert mode.
 - `ax` textobject for outer comment, to easily delete/change comments.
 
-The beauty is that these work on treesitter nodes, so they work equally well across languages for functions like `fn myfun() { }`rust, `function myfun() ... end`lua or a `def myfun() do ... end`elixir. (Given that the treesitter implementation supports these options. Markdown doesn't have the concept of a function for instance.)
+The beauty is that these work on treesitter nodes, so they work equally well across languages for functions like `fn myfun() { }`rust, `function myfun() ... end`lua or a `def myfun() do .. end`elixir. (Given that the treesitter implementation supports these options. Markdown doesn't have the concept of a function for instance.)
 
 ## [neogit][]: Git management
 
@@ -500,7 +500,7 @@ The joy of fiddling with configurations and tweaking small things until they're 
 
 I've spent far too much time being productive and producing value, it was about time I spent some time alone.
 
-Just me and my Vim config.
+Just me and my config.
 
 
 [vim-plug]: https://github.com/junegunn/vim-plug
