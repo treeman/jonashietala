@@ -32,7 +32,7 @@
               {{ highlight::a_highlight(href="/archive", name="Archive") }} {{
               highlight::a_highlight(href="/series", name="Series") }} {{
               highlight::a_highlight(href="/projects", name="Projects") }} {{
-              highlight::a_highlight(href="mailto:{{mail}}", name="Contact") }}
+              highlight::a_highlight(href= "mailto:" ~ mail, name="Contact") }}
               {{ highlight::a_highlight(href="/about", name="About") }} {% if
               include_drafts %} {{ highlight::a_highlight(href="/drafts",
               name="Drafts") }} {% endif %}
