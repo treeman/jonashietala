@@ -79,9 +79,24 @@ This was a **big deal** for me so naturally I want to use the colorscheme *every
 This doesn't just apply to the code highlighting, but to the colorscheme of the entire blog itself.
 Go big or go home.
 
-# Systematic css
+# Systematic CSS
+
+People love to hate on CSS, and maybe I'm damaged somewhere but I quite like CSS.
+Things have come a *long* way since I styled my first webpage.
+Back then you had to do all types of weird incantations even to do simple things, and IE 6 still found a way to mess it up.
+
+While there are browser incompatibilities today, it's not nearly as bad and the browsers today support a lot of really nice features that makes modern CSS quite neat.
+
+Here are some things I utilized for this restyle:
 
 ## Fluid size scales
+
+Sizing fonts is more annoying than one might think.
+One thing you'd like to do is to have a slightly larger font for larger screens, and smaller sizes for smaller screens (such as your phone).
+It makes it easier to read on both devices, but it's a bit annoying to setup.
+
+Previously I used media queries, but a neater solution is fluid size scales.
+I just used some generator I found online and it seems to work well:
 
 ```scss
 // From https://www.fluid-type-scale.com/
@@ -95,6 +110,10 @@ Go big or go home.
   --font-size-2xl: clamp(1.95rem, 1.83vw + 1.5rem, 2.96rem);
 }
 ```
+
+Now it's not perfect, and on my monitor I feel the jump from `m` to `s` is a bit too big, but this is good enough (for now).
+
+I also utilize a fluid scale for spacing:
 
 ```scss
 // From https://utopia.fyi/
@@ -110,9 +129,20 @@ Go big or go home.
 }
 ```
 
-## Flow
+## Lobotomized owl
 
-[Lobotomized owl][owl-selector].
+It's always fun to find weird things that are also very useful.
+The [lobotimized owl][owl-selector] selector is just that.
+
+```scss
+// Hoot-hoot
+     * + *
+```
+
+For a great explanation see [My favourite 3 lines of CSS][stack-flow],
+but in short it enables you to set consistent spacing between child elements.
+
+It's super useful, and I use this mixin for it:
 
 ```scss
 @mixin flow($space: false) {
@@ -125,7 +155,15 @@ Go big or go home.
 }
 ```
 
-## Measure
+Why didn't I use the [stack + flow][stack-flow] as described in the linked blog post?
+Honestly, I had forgot about it and only searched for the post now as I'm writing this.
+Their way is probably better, but I can't be bothered to refactor it right now. 🤷
+
+
+## Measure to limit text width
+
+A big readability tip is to [limit the line length to 45--90 characters][line-length].
+I do this using `max-inline-size` and a variable to control the length that's on by default:
 
 ```scss
 :root {
@@ -150,14 +188,41 @@ footer {
 
 ## CSS Grid is awesome
 
-### Overflow in a post
+I haven't used [grid][] that much previously, but it's one of these newer features that makes CSS a pleasure rather than a pain to work with.
+You can accomplish things that were previously hard to do with just some commands.
+Here are some examples of how I use grid:
+
+### Image gallery: 3-column layout
+
+![A 3-column layout with grid.](/images/facelift/gallery.png)
+
+```scss
+figure.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: var(--space-3xs);
+}
+```
+
+### Tags: variable number of columns
+
+If you want to fit as many columns as possible, you can use this setup that I use on the [tags page][]:
+
+```scss
+.tags {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+}
+```
+
+### Post: overflow images and code blocks
 
 Constraining the width of text is good, but I wanted to allow images and code blocks to extend past that a little if needed. See this image:
 
 ![Most content exists between grid lines 3 and 4, but the image may span between lines 2 and 5, essentially overflowing the article width.](/images/facelift/grid_article.png)
 
-In my previous design I used media queries and relative offsets to accomplish it, but with grid it's easier.
-With this setup you can also allow an image to extend the entire screen ("full bleed"), but so far I don't use it.
+In my previous design I used media queries and relative offsets to accomplish it, but with grid it's easier and fluent.
+With this setup you can also allow an image to extend the entire screen ("full bleed"), but so far I haven't find a use for it.
 
 The main `article` includes this wrapper:
 
@@ -179,56 +244,39 @@ The main `article` includes this wrapper:
 }
 ```
 
-This sets up 5 areas: the main middle content, constrained by `--measure`, the nearby overflow and the sides. 
+This sets up 5 areas: the main middle content, constrained by `--measure`, the overflow with `--overflow-size` and the rest.
+On narrow screens everything except the content collapses to zero width.
+
+Then you override `grid-column` for the items you want to overflow:
 
 ```scss
+// For overflowing the article.
+@mixin overflow-bleed {
+  width: 100%;
+  grid-column: 2 / 5 !important;
+  // This resets the --measure constrain I have on by default.
+  max-inline-size: none;
+}
+// For items that should span the entire screen.
 @mixin full-bleed {
   width: 100%;
   grid-column: 1 / -1 !important;
   max-inline-size: none;
 }
-@mixin overflow-bleed {
-  width: 100%;
-  grid-column: 2 / 5 !important;
-  max-inline-size: none;
-}
 ```
 
-### Image gallery
+Mixins like these are why I prefer [sass][] over raw CSS, it makes creating these systems more practical and maintainable.
 
-```scss
-figure.gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: var(--space-3xs);
-}
-```
-
-### Tags
-
-```scss
-.tags {
-  @include overflow-bleed;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
-}
-```
-
-### Footer
-
-```scss
-body > footer {
-  display: grid;
-  grid-template-columns: 1fr minmax(auto, var(--measure)) 1fr;
-  row-gap: var(--space-xs);
-  grid-auto-rows: min-content;
-}
-```
-
+[sass]: https://sass-lang.com/
 [rust]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/
 [melange-nvim]: https://github.com/savq/melange-nvim
 [last]: /blog/2019/01/25/site_restyle_and_update/
 [archive]: /archive
 [series]: /series
 [projects]: /projects
-[owl-selector]: https://blog.logrocket.com/css-lobotomized-owl-selector-modern-guide/
+[owl-selector]: https://alistapart.com/article/axiomatic-css-and-lobotomized-owls/
+[grid]: https://css-tricks.com/snippets/css/complete-guide-grid/
+[tags page]: /blog/tags
+[stack-flow]: https://andy-bell.co.uk/my-favourite-3-lines-of-css/
+[every-layout]: https://every-layout.dev/
+[line-length]: https://practicaltypography.com/line-length.html
