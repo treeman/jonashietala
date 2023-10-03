@@ -354,19 +354,23 @@ pre {
 
 .function-call.fish .keyword.control .string.unquoted {
   color: var(--melange_c_yellow);
+  font-style: normal;
 }
 // .function-call.name.fish .keyword .string {
 //   color: $gb-lm-light-purple;
 // }
 .function-call.parameter.fish .string.unquoted {
   color: var(--melange_a_com);
+  font-style: normal;
 }
 .meta.function-call.arguments.shell {
   color: var(--melange_a_fg);
+  font-style: normal;
 }
 .function-call.name.fish .function .string,
 .function-call.shell .function {
   color: var(--melange_b_yellow);
+  font-style: normal;
 }
 // .function-call.parameter.fish .string .variable-expansion .variable {
 //   color: $gb-lm-light-yellow;

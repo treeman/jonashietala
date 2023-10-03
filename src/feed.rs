@@ -68,7 +68,7 @@ impl Item for SiteFeed {
         let file = File::create(output_file)?;
 
         let feed = Feed {
-            title: "Jonas Hietala: ...".into(),
+            title: "Jonas Hietala".into(),
             id: "http://www.jonashietala.se/feed.xml".to_string(),
             links: vec![
                 Link {
