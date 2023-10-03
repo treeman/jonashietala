@@ -38,7 +38,7 @@ use crate::{
 };
 
 lazy_static! {
-    pub static ref BASE_SITE_URL: Url = Url::parse("https://jonashietala.se").unwrap();
+    pub static ref BASE_SITE_URL: Url = Url::parse("https://www.jonashietala.se").unwrap();
 }
 
 #[derive(Debug)]

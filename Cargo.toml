@@ -45,3 +45,6 @@ itemref-derive = { version = "0.1.0", path = "src/itemref-derive" }
 rust-s3 = "0.33.0"
 md5 = "0.7.0"
 new_mime_guess = "4.0.1"
+xml-rs = "0.8.19"
+sxd-xpath = "0.4.2"
+sxd-document = "0.3.2"

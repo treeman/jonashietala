@@ -416,7 +416,6 @@ mod tests {
         );
         assert!(rendered
             .contains(r#"<h1><a href="/blog/2022/01/31/test_post/">Post &amp; Title</a></h1>"#));
-        dbg!(&rendered);
         assert!(rendered.contains(r#"<time datetime="2022-01-31T07:07:00Z""#));
         assert!(rendered.contains(
             r##"<h2 id="header-1"><a class="heading-ref" href="#header-1">Header 1</a></h2>"##
