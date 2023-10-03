@@ -152,7 +152,8 @@ pre {
 .keyword,
 .keyword.operator.new,
 .keyword.other,
-.keyword.control {
+.keyword.control,
+.keyword.control .punctuation {
   color: var(--melange_c_yellow);
 }
 .storage {
@@ -179,9 +180,9 @@ pre {
 // .variable {
 //   color: $gb-lm-fg0;
 // }
-// .variable.language {
-//   color: $gb-lm-fg0;
-// }
+.variable.language {
+  color: var(--melange_b_red);
+}
 .meta.function-call {
   color: var(--melange_b_yellow);
 }
@@ -287,7 +288,8 @@ pre {
 //   font-weight: bold;
 // }
 .punctuation.tag,
-.punctuation.definition {
+.punctuation.definition,
+.punctuation.section {
   color: var(--melange_a_ui);
 }
 .link.reference.markdown .other,
@@ -300,6 +302,10 @@ pre {
 }
 .markup.underline {
   text-decoration: underline;
+}
+.entity.custom-property,
+.variable.custom-property {
+  color: var(--melange_b_blue);
 }
 // .link.reference.def.markdown .link.description,
 // .link.reference.def.markdown .link.description .punctuation {
@@ -426,4 +432,8 @@ pre {
 .magic.begin.pollen,
 .magic.end.pollen {
   color: var(--melange_c_yellow);
+}
+
+.punctuation.definition.variable.sass {
+  color: var(--melange_a_fg);
 }
