@@ -61,34 +61,121 @@ impl<'a> HighlightSpec<'a> {
     }
 }
 
-fn push_code_highlight<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &str) {
-    if let Some(spec) = lang.as_ref().and_then(|x| HighlightSpec::find(x.as_ref())) {
-        match highlight(&spec, code) {
+fn push_code_block<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &str) {
+    match lang {
+        Some(lang) => match HighlightSpec::find(lang.as_ref()) {
+            Some(spec) => match highlight(&spec, code) {
+                Ok(highlight) => {
+                    push_code_block_highlight(s, &spec.html_id, code, &highlight);
+                }
+                Err(err) => {
+                    panic!("Syntax highlight error: {}", err);
+                }
+            },
+            None => {
+                warn!("No highlighter found for: {}", lang.as_ref());
+                push_code_block_no_highlight(s, code);
+            }
+        },
+        None => {
+            push_code_block_no_highlight(s, code);
+        }
+    }
+}
+
+fn push_code_inline(s: &mut String, lang: &str, code: &str) {
+    match HighlightSpec::find(lang) {
+        Some(spec) => match highlight(&spec, code) {
             Ok(highlight) => {
-                s.push_str(r#"<code class="highlight "#);
-                s.push_str(&spec.html_id);
-                s.push_str(r#"">"#);
-                s.push_str(&highlight);
-                s.push_str("</code>");
-                return;
+                push_code_highlight(s, &spec.html_id, &highlight);
             }
             Err(err) => {
                 panic!("Syntax highlight error: {}", err);
             }
+        },
+        None => {
+            warn!("No highlighter found for: {}", lang);
+            push_code_no_highlight(s, code);
         }
-    };
-
-    if let Some(lang) = lang {
-        warn!("No highlighter found for: {:?}", lang.as_ref())
     }
+}
 
+fn push_code_block_highlight(
+    s: &mut String,
+    html_id: &str,
+    original_code: &str,
+    highlighted_code: &str,
+) {
+    // Wrap things in an extra div to allow the language display div to
+    // be visible outside the <pre> tag
+    push_code_wrapper_start(s, original_code);
+    s.push_str(r#"<div class="lang"><label aria-hidden="true">"#);
+    s.push_str(html_id);
+    s.push_str(r#"</label></div>"#);
+    s.push_str("<pre>");
+    push_code_highlight(s, html_id, highlighted_code);
+    s.push_str(r#"</pre>"#);
+    s.push_str(r#"</div>"#);
+}
+
+fn push_code_block_no_highlight(s: &mut String, code: &str) {
+    push_code_wrapper_start(s, code);
+    s.push_str("<pre>");
+    push_code_no_highlight(s, code);
+    s.push_str(r#"</pre>"#);
+    s.push_str(r#"</div>"#);
+}
+
+fn push_code_highlight(s: &mut String, html_id: &str, highlighted_code: &str) {
+    s.push_str(r#"<code class="highlight "#);
+    s.push_str(html_id);
+    s.push_str(r#"">"#);
+    s.push_str(highlighted_code);
+    s.push_str("</code>");
+}
+
+fn push_code_no_highlight(s: &mut String, code: &str) {
     s.push_str("<code>");
     s.push_str(&html_escape::encode_safe(&code));
     s.push_str("</code>");
 }
 
-fn extra_code_class(s: &str) -> Option<&'static str> {
-    let count = largest_line_count(s);
+fn push_code_wrapper_start(s: &mut String, raw_code: &str) {
+    let mut classes = vec!["code-wrapper"];
+    if let Some(extra) = extra_code_class(raw_code) {
+        classes.push(extra);
+    }
+    s.push_str(&format!(r#"<div class="{}"">"#, classes.join(" ")));
+}
+
+// fn push_code_highlight<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &str) {
+//     if let Some(spec) = lang.as_ref().and_then(|x| HighlightSpec::find(x.as_ref())) {
+//         match highlight(&spec, code) {
+//             Ok(highlight) => {
+//                 s.push_str(r#"<code class="highlight "#);
+//                 s.push_str(&spec.html_id);
+//                 s.push_str(r#"">"#);
+//                 s.push_str(&highlight);
+//                 s.push_str("</code>");
+//                 return;
+//             }
+//             Err(err) => {
+//                 panic!("Syntax highlight error: {}", err);
+//             }
+//         }
+//     };
+
+//     if let Some(lang) = lang {
+//         warn!("No highlighter found for: {:?}", lang.as_ref())
+//     }
+
+//     s.push_str("<code>");
+//     s.push_str(&html_escape::encode_safe(&code));
+//     s.push_str("</code>");
+// }
+
+fn extra_code_class(raw_code: &str) -> Option<&'static str> {
+    let count = largest_line_count(raw_code);
 
     if count > 66 {
         Some("wide")
@@ -189,18 +276,22 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
 
         let mut res = String::new();
 
-        match extra_code_class(&code) {
-            Some(class) => {
-                res.push_str(r#"<pre class=""#);
-                res.push_str(class);
-                res.push_str(r#"">"#);
-            }
-            None => {
-                res.push_str("<pre>");
-            }
-        }
-        push_code_highlight(&mut res, lang, &code);
-        res.push_str("</pre>");
+        push_code_block(&mut res, lang, &code);
+
+        // let spec = lang.as_ref().and_then(|x| HighlightSpec::find(x.as_ref()));
+
+        // match extra_code_class(&code) {
+        //     Some(class) => {
+        //         res.push_str(r#"<pre class=""#);
+        //         res.push_str(class);
+        //         res.push_str(r#"">"#);
+        //     }
+        //     None => {
+        //         res.push_str("<pre>");
+        //     }
+        // }
+        // push_code_highlight(&mut res, lang, &code);
+        // res.push_str("</pre>");
 
         Some(Event::Html(res.into()))
     }
@@ -269,7 +360,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
         }
 
         let mut res = String::new();
-        push_code_highlight(&mut res, Some(&lang), &code);
+        push_code_inline(&mut res, &lang, &code);
         Some(Event::Html(res.into()))
     }
 }

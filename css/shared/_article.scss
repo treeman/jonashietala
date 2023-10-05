@@ -77,9 +77,12 @@ article {
     padding: 0;
     width: 100%;
   }
-  pre.wide {
+  .code-wrapper.wide {
     @include overflow-bleed;
   }
+  // pre.wide {
+  //   @include overflow-bleed;
+  // }
   pre {
     padding: var(--space-xs);
     overflow-wrap: normal;

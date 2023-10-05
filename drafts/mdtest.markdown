@@ -148,6 +148,14 @@ So we should do `foo` then `bar` then `quux`
 
 ```fish
 python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm
+
+```
+```bash
+python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm -t some_long_argument_that_should overflow
+```
+
+```
+Code without a language is here
 ```
 
 ```css
