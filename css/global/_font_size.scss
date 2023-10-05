@@ -95,6 +95,8 @@
     --font-size-xl: clamp(1.56rem, 1.2vw + 1.26rem, 2.22rem);
     --font-size-2xl: clamp(1.95rem, 1.83vw + 1.5rem, 2.96rem);
     --font-size-3xl: clamp(2.44rem, 2.74vw + 1.76rem, 3.95rem);
+    // This is super hacky...
+    --font-size-m-code: clamp(0.8rem, 0.25vw + 0.89rem, 1.1rem);
   }
 }
 /* Fallback variables for browsers that don't support clamp */
@@ -108,6 +110,7 @@
     --font-size-xl: 1.56rem;
     --font-size-2xl: 1.95rem;
     --font-size-3xl: 2.44rem;
+    --font-size-m-code: 0.8rem;
   }
   @media screen and (min-width: 1280px) {
     :root {
@@ -119,6 +122,7 @@
       --font-size-xl: 2.22rem;
       --font-size-2xl: 2.96rem;
       --font-size-3xl: 3.95rem;
+      --font-size-m-code: 1.1rem;
     }
   }
 }
