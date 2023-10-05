@@ -1,6 +1,6 @@
 ---
 title: "Minor site updates"
-tags: Webpage
+tags: [Webpage, Haskell, Hakyll]
 ---
 
 As it happens I got a little tired of the syntax highlighter Pandoc uses so on a whim I started looking at moving to Pygments as my highlighter. With some searching around I found a [blog post][jip] about just that! That's lucky because while I like Haskell, I've never *really* grocked it and I've only dabbled enough with it to (mostly) make things work like I want to.

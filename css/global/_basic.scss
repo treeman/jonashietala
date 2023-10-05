@@ -88,7 +88,9 @@ div,
 header,
 nav,
 main,
-footer {
+footer,
+pre code,
+pre {
   max-inline-size: none;
 }
 .max-inline-size-measure {

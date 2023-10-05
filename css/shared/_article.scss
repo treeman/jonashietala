@@ -69,21 +69,18 @@ article {
   pre,
   code {
     font-family: $code-font-family;
-    // Hack is quite a bit larger than the other fonts
-    // Should maybe use Triplicate instead?
-    font-size: 0.95rem;
+    // Hack is larger than the other fonts, try to make it fit the surrounding fonts better
+    font-size: 90%;
   }
 
   pre code {
     padding: 0;
     width: 100%;
-    max-inline-size: none;
   }
   pre.wide {
     @include overflow-bleed;
   }
   pre {
-    max-inline-size: none;
     padding: var(--space-xs);
     overflow-wrap: normal;
     overflow: auto;
@@ -96,11 +93,11 @@ article {
   /*
    * Quotes
    */
-  & blockquote {
+  blockquote {
     font-size: 95%;
     padding-inline-start: var(--space-m);
     padding-block: var(--space-2xs);
-    @include flow();
+    @include flow;
   }
   & > blockquote {
     border-left: 3px solid var(--color-blockquote-bar);
@@ -265,9 +262,10 @@ article {
    * Aside/notice
    */
   aside {
+    @include extra-space-s;
+    @include flow;
     background-color: var(--melange_a_float);
     padding: var(--space-xs);
-    @include extra-space-s;
     border: 1px dashed var(--melange_c_red);
   }
 

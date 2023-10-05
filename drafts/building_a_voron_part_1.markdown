@@ -66,6 +66,7 @@ These are the items I've ordered:
 
 > I first ordered a kit from [caribou3d.com](https://caribou3d.com/en/) but after waiting months without progress I canceled it
 > and ordered from [3djake.com](https://www.3djake.com/) instead.
+>
 > But when I tried to cancel the order from caribou3d they told me they couldn't make a
 > refund as they had to declare insolvency.
 > I've yet to receive my funds so BEWARE, do not order from caribou3d.

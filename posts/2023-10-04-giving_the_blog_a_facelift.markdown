@@ -1,6 +1,6 @@
 ---
 title: "Giving the blog a facelift"
-tags: [Tag1, Tag2]
+tags: ["Webpage", "CSS"]
 ---
 
 When I [rewrote the blog in Rust][rust] I tried not to touch any of the styling, but some things annoyed me:
@@ -81,13 +81,13 @@ Go big or go home.
 
 # Systematic CSS
 
-People love to hate on CSS, and maybe I'm damaged somewhere but I quite like CSS.
+People love to hate on CSS, and maybe I'm damaged but I quite like CSS.
 Things have come a *long* way since I styled my first webpage.
 Back then you had to do all types of weird incantations even to do simple things, and IE 6 still found a way to mess it up.
 
 While there are browser incompatibilities today, it's not nearly as bad and the browsers today support a lot of really nice features that makes modern CSS quite neat.
 
-Here are some things I utilized for this restyle:
+Here are some things I utilized this time around:
 
 ## Fluid size scales
 
@@ -181,10 +181,14 @@ div,
 header,
 nav,
 main,
-footer {
+footer,
+pre code,
+pre {
   max-inline-size: none;
 }
 ```
+
+If I want to use a different line length I can just alter `--measure`, or override `max-inline-size` if I don't want it for some elements.
 
 ## CSS Grid is awesome
 
@@ -266,6 +270,29 @@ Then you override `grid-column` for the items you want to overflow:
 ```
 
 Mixins like these are why I prefer [sass][] over raw CSS, it makes creating these systems more practical and maintainable.
+
+# What am I not satisfied with?
+
+I quite like sitting and making small tweaks until I like how things look.
+Even if the process can be slow I still enjoy it.
+
+But I really don't like how brittle it feels.
+I've tried to namespace rules, so in `css/local/_tags.scss` I have rules only for the tags page:
+
+```scss
+article.tags-list {
+  .tags {
+    // ...
+  }
+}
+```
+
+But most things are shared across pages, and if I make a change somewhere I may accidentally break some obscure styling somewhere.
+Having unit tests for the layout would be nice, but I'm not keen of maintaining a rendering of all pages and doing an image diff to find errors.
+
+Of course I could make everything local, but then I'd miss out on the usefulness of the general rules, and the maintenance burden would be even higher.
+
+Maybe I'll just leave the styling alone for the next couple of years until I feel I want to remake everything again?
 
 [sass]: https://sass-lang.com/
 [rust]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Gruvbox Syntax Highlighting for Pandoc"
-tags: Webpage
+tags: ["Webpage", "CSS"]
 ---
 
 **Edit:** I have [updated the highlighting][update] again so the inline code used as examples have changed. I guess I should've used images to record the look.

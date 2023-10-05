@@ -1,6 +1,6 @@
 ---
 title: "Site restyle and update"
-tags: Webpage
+tags: ["Webpage", "Web design"]
 ---
 
 I'm not sure how I got started but I recently read an excellent book about typography: [Butterick's Practical Typography][Practical Typography]. It's free and there's a section [Typography in ten minutes][pt-in-10] if you want the important bits.
