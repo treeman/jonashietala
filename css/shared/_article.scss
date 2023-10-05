@@ -69,8 +69,8 @@ article {
   pre,
   code {
     font-family: $code-font-family;
-    // Hack is larger than the other fonts, try to make it fit the surrounding fonts better
-    font-size: 90%;
+    // Try to make the fonts have a similar size...
+    font-size: var(--font-size-m-code);
   }
 
   pre code {
@@ -147,12 +147,10 @@ article {
   /*
    * Lists
    */
-  $left: 2rem;
-
   ul,
   ol {
     list-style: none;
-    margin-left: $left;
+    margin-left: var(--space-m);
   }
   ol {
     counter-reset: ordered-counter;
@@ -171,7 +169,7 @@ article {
   ol > li::before,
   ul > li::before {
     float: left;
-    margin-left: -$left;
+    margin-left: calc(-1 * var(--space-m));
     color: var(--color-list-bullet);
   }
   ol > li::before {
