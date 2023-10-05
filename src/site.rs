@@ -1,6 +1,9 @@
 use eyre::eyre;
 use eyre::Result;
+use hotwatch::notify::event::ModifyKind;
+use hotwatch::notify::event::RenameMode;
 use hotwatch::Event;
+use hotwatch::EventKind;
 use lazy_static::lazy_static;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use serde::Serialize;
@@ -94,14 +97,12 @@ impl SiteContent {
         })
     }
 
-    #[allow(dead_code)]
     pub fn find_post<'a>(&'a self, file_name: &str) -> Option<&'a PostItem> {
         self.posts
             .values()
             .find(|post| post.path.file_name() == Some(file_name))
     }
 
-    #[allow(dead_code)]
     pub fn find_series<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
         self.series
             .values()
@@ -511,27 +512,33 @@ impl Site {
         item.render(&self.render_ctx())
     }
 
-    pub fn file_changed(&mut self, event: Event) -> Result<()> {
-        match event {
-            Event::Write(path) => {
-                self.write_event(path)?;
+    pub fn file_changed(&mut self, mut event: Event) -> Result<()> {
+        match event.kind {
+            EventKind::Create(_) => {
+                self.create_event(event.paths.pop().unwrap())?;
             }
-            Event::Create(path) => {
-                self.create_event(path)?;
-            }
-            Event::Rename(from, to) => {
+            EventKind::Modify(ModifyKind::Name(RenameMode::Both)) => {
+                // This is rename
+                let from = event.paths[0].clone();
+                let to = event.paths[1].clone();
                 self.rename_event(from, to)?;
             }
-            Event::Remove(path) => {
-                self.remove_event(path)?;
+            EventKind::Modify(ModifyKind::Name(_)) => {
+                // Skip, generated when modifying files
             }
-            Event::Rescan => {
-                self.rebuild_all()?;
+            EventKind::Modify(ModifyKind::Data(_)) => {
+                self.write_event(event.paths.pop().unwrap())?;
             }
-            Event::Error(err, path) => {
-                return Err(eyre!("{err} {path:?}"));
+            EventKind::Modify(_) => {
+                // Skip duplicate events
             }
-            _ => {}
+            EventKind::Remove(_) => {
+                self.remove_event(event.paths.pop().unwrap())?;
+            }
+            EventKind::Access(_) => {}
+            _ => {
+                debug!("Unknown event: {:?}", event);
+            }
         }
         Ok(())
     }
@@ -568,9 +575,25 @@ impl Site {
             PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
             PathEvent::Homepage => self.rebuild_homepage()?,
             PathEvent::Project => self.rebuild_projects(path.abs_path())?,
-            PathEvent::Post => self.rebuild_all()?,
-            PathEvent::Series => self.rebuild_all()?,
-            PathEvent::Template => self.rebuild_all()?,
+            PathEvent::Post => {
+                let existing = self.content.find_post(path.rel_path.0.file_name().unwrap());
+                if existing.is_none() {
+                    self.rebuild_all()?
+                } else {
+                    debug!("post `{}` already exists", path);
+                }
+            }
+            PathEvent::Series => {
+                let existing = self
+                    .content
+                    .find_series(dbg!(path.rel_path.0.file_name().unwrap()));
+                if existing.is_none() {
+                    self.rebuild_all()?
+                } else {
+                    debug!("series `{}` already exists", path);
+                }
+            }
+            PathEvent::Template => self.rebuild_template(path.abs_path())?,
             PathEvent::Ignore => (),
             PathEvent::Unknown => warn!("Unknown create: {path}"),
         }

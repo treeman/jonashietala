@@ -245,8 +245,6 @@ impl<'a> From<&'a Game> for GameContext<'a> {
             event_link: x.event_link.as_deref(),
             url: x.url.href(),
             img: x.img.href(),
-            // FIXME
-            // published: x.published.format("%FT%T%.fZ").to_string(),
             published: x.published.format("%F").to_string(),
         }
     }

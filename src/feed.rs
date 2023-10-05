@@ -155,9 +155,7 @@ mod tests {
             ]
         );
 
-        // TODO test
-        // <content xml:base https://www.
-        // FIXME I can't seem to extract the xml:base property. Sigh
+        // I can't seem to extract the xml:base property. Sigh
         // let entry_content_base =
         //     collect_string(&document, "/a:feed/a:entry/a:content/*[name()='xml:base']")?;
         // assert_eq!(entry_content_base, "https://www.jonashietala.se/");

@@ -1,7 +1,3 @@
----
-title: About
----
-
 This is about
 
 ## Head 2

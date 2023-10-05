@@ -63,7 +63,6 @@ async fn calculate_sync(dir: &AbsPath, bucket: &Bucket) -> Result<SyncPlan> {
             Ok(e) => !e.is_dir(),
             _ => false,
         })
-        // .filter_map(|e| Utf8PathBuf::from_path_buf(e.into_path()).ok())
         .filter_map(|e| FilePath::from_std_path(dir, e.into_path()).ok())
         .collect();
 

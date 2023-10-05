@@ -13,7 +13,7 @@ mod util;
 mod tests;
 
 use crate::site_url::{HrefUrl, ImgUrl};
-use axum::{http::StatusCode, response::IntoResponse, routing::get_service, Router};
+use axum::{routing::get_service, Router};
 use camino::Utf8PathBuf;
 use clap::{Parser, Subcommand};
 use colored::Colorize;
@@ -27,7 +27,7 @@ use s3::creds::Credentials;
 use s3::Bucket;
 use s3::Region;
 use site::{Site, SiteOptions};
-use std::{collections::HashSet, io, net::SocketAddr, thread, time::Duration};
+use std::{collections::HashSet, net::SocketAddr, thread, time::Duration};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
@@ -215,7 +215,7 @@ async fn watch() -> Result<()> {
     });
 
     let app: _ = Router::new()
-        .fallback(get_service(ServeDir::new(&*OUTPUT_DIR)).handle_error(handle_error))
+        .fallback(get_service(ServeDir::new(&*OUTPUT_DIR)))
         .layer(TraceLayer::new_for_http());
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
@@ -228,20 +228,12 @@ async fn watch() -> Result<()> {
     Ok(())
 }
 
-async fn handle_error(err: io::Error) -> impl IntoResponse {
-    (
-        StatusCode::INTERNAL_SERVER_ERROR,
-        format!("Something went wrong... {err}"),
-    )
-}
-
 async fn check_external_links() -> Result<()> {
     build()?;
     let files = parse_html_files(&*OUTPUT_DIR)?;
 
     let mut links = HashSet::new();
     for file in files.values() {
-        // FIXME getting tons of error trying to connect: dns error: failed to lookup address information: Temporary failure in name resolution
         for link in file.links.iter() {
             if let HrefUrl::External(ref url) = link {
                 if url.scheme() != "mailto" {

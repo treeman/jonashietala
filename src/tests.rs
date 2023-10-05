@@ -9,7 +9,10 @@ use crate::util::{load_templates, ParsedFile, ParsedFiles};
 use camino::Utf8Path;
 use camino::Utf8PathBuf;
 use eyre::Result;
-use hotwatch::Event;
+use hotwatch::notify::event::RemoveKind;
+use hotwatch::notify::event::RenameMode;
+use hotwatch::notify::event::{CreateKind, ModifyKind};
+use hotwatch::{Event, EventKind};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs;
@@ -28,21 +31,27 @@ impl TestSite {
     pub fn create_file(&mut self, file: &str, content: &str) -> Result<()> {
         let path = self.input_dir.path().join(file);
         fs::write(&path, content)?;
-        self.site.file_changed(Event::Create(path))
+        self.site
+            .file_changed(Event::new(EventKind::Create(CreateKind::Any)).add_path(path))
     }
 
     pub fn change_file(&mut self, file: &str, from: &str, to: &str) -> Result<()> {
         let path = self.input_dir.path().join(file);
         let content = fs::read_to_string(&path)?.replace(from, to);
         fs::write(&path, content)?;
-        self.site.file_changed(Event::Write(path))
+        self.site
+            .file_changed(Event::new(EventKind::Modify(ModifyKind::Any)).add_path(path))
     }
 
     pub fn rename_file(&mut self, from: &str, to: &str) -> Result<()> {
         let from = self.input_dir.path().join(from);
         let to = self.input_dir.path().join(to);
         fs::rename(&from, &to)?;
-        self.site.file_changed(Event::Rename(from, to))
+        self.site.file_changed(
+            Event::new(EventKind::Modify(ModifyKind::Name(RenameMode::Both)))
+                .add_path(from)
+                .add_path(to),
+        )
     }
 
     pub fn find_post<'a>(&'a self, file: &str) -> Option<&'a PostItem> {
@@ -70,7 +79,8 @@ impl TestSite {
     pub fn remove_file(&mut self, file: &str) -> Result<()> {
         let path = self.input_dir.path().join(file);
         fs::remove_file(&path)?;
-        self.site.file_changed(Event::Remove(path))
+        self.site
+            .file_changed(Event::new(EventKind::Remove(RemoveKind::Any)).add_path(path))
     }
 
     /// Persist the input and output dir, allowing us to inspect them

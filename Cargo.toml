@@ -24,22 +24,22 @@ html-escape = "0.2.11"
 syntect = { version = "5.0.0", default-features = false, features = ["html", "regex-onig", "default-syntaxes", "yaml-load", "plist-load"] }
 tempfile = "3.3.0"
 clap = { version = "4.0.13", features = ["derive"] }
-scraper = "0.13.0"
+scraper = "0.17.1"
 url = "2.2.2"
-axum = "0.5.5"
+axum = "0.6.20"
 tokio = { version = "1", features = ["full"] }
-tower-http = { version = "0.3.0", features = ["fs", "trace"] }
+tower-http = { version = "0.4.4", features = ["fs", "trace"] }
 tracing = "0.1.34"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-hotwatch = "0.4.6"
+hotwatch = "0.5.0"
 grass = "0.11.0"
 rayon = "1.5.3"
 colored = "2.0.0"
 thiserror = "1.0"
-itertools = "0.10.3"
+itertools = "0.11.0"
 reqwest = { version = "0.11", features = ["json"] }
 futures = "0.3.21"
-atom_syndication = "0.11.0"
+atom_syndication = "0.12.2"
 fs_extra = "1.2.0"
 itemref-derive = { version = "0.1.0", path = "src/itemref-derive" }
 rust-s3 = "0.33.0"
