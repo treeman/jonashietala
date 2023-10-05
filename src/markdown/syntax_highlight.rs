@@ -107,11 +107,11 @@ fn push_code_block_highlight(
     highlighted_code: &str,
 ) {
     // Wrap things in an extra div to allow the language display div to
-    // be visible outside the <pre> tag
+    // be visible outside the <pre> tag.
+    // Set the language as a class and insert text using ::before to
+    // not interfere with readers of different types.
     push_code_wrapper_start(s, original_code);
-    s.push_str(r#"<div class="lang"><label aria-hidden="true">"#);
-    s.push_str(html_id);
-    s.push_str(r#"</label></div>"#);
+    s.push_str(&format!(r#"<div class="lang {}"></div>"#, html_id));
     s.push_str("<pre>");
     push_code_highlight(s, html_id, highlighted_code);
     s.push_str(r#"</pre>"#);

@@ -148,8 +148,8 @@ So we should do `foo` then `bar` then `quux`
 
 ```fish
 python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm
-
 ```
+
 ```bash
 python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm -t some_long_argument_that_should overflow
 ```
@@ -205,6 +205,10 @@ code.sourceCode span.fu {
   src: url("/fonts/SourceCodeVariable-Roman.woff") format("woff"); /*---------- 100 ch ---------*/
   src: url("/fonts/SourceCodeVariable-Roman.woff") format("woff"); /*------------------ 120 ch ------------------------*/
 }
+```
+
+```cpp
+int i = 2;
 ```
 
 ```C
