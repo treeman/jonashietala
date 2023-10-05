@@ -513,6 +513,7 @@ impl Site {
     }
 
     pub fn file_changed(&mut self, mut event: Event) -> Result<()> {
+        debug!("Event: {:?}", event);
         match event.kind {
             EventKind::Create(_) => {
                 self.create_event(event.paths.pop().unwrap())?;
@@ -522,6 +523,9 @@ impl Site {
                 let from = event.paths[0].clone();
                 let to = event.paths[1].clone();
                 self.rename_event(from, to)?;
+            }
+            EventKind::Modify(ModifyKind::Name(RenameMode::To)) => {
+                self.create_event(event.paths.pop().unwrap())?;
             }
             EventKind::Modify(ModifyKind::Name(_)) => {
                 // Skip, generated when modifying files

@@ -46,11 +46,25 @@ Prioritize your health and fitness rather than rewriting your [Neovim][] configu
 
 # Development
 
-![Neovim. I typically use 3-4 panes side-by-side, but that doesn't look very good in a screenshot so I made Neovim smaller.](/images/uses/neovim.png)
+![This is from my main monitor with lots of screen space.](/images/uses/neovim_wide.png)
+
+![With the text more readable for the blog.](/images/uses/neovim.png)
 
 I do all my development, writing and note taking inside [Neovim][].
 I've been using Vim (and later Neovim when I wanted async code) since more than 15 years ago, and I don't see myself ever switching away.
-I have quite a few plugins and tweaks that aid my workflow, see [my config files][neovim-config] if you're curious.
+I have quite a few plugins and tweaks, here's a list of my favorite ones:
+
+- [lazy.nvim] as the plugin manager.
+- [telescope.nvim] for fuzzy finding all the things.
+- [nvim-cmp] as a completion engine.
+- [conform.nvim] to format files on save.
+- [nvim-treesitter] for better syntax highlighting and [nvim-treesitter-textobjects][] for jumping between parts of the code.
+- [neogit] and [gitsigns.nvim] general git handling.
+- [neorg] to organize my personal knowledge base.
+- [flash.nvim] for more predictable and faster jumping/searching.
+- Basic LSP setup with [nvim-lspconfig], [mason.nvim] and [mason-lspconfig.nvim].
+
+See [my config files][neovim-config] for more.
 
 The colorscheme I use is [melange-nvim] that I try to adapt outside of [Neovim][] as well.
 If you find something you love you just have to have it everywhere.
@@ -59,6 +73,8 @@ My typeface of choice is a [customized Iosevka][iosevka].
 I love the general look of it and the character variants where you can customize individual characters is just gravy.
 But the absolutely best feature is how narrow it is while still being legible to me.
 This allows me to use four splits on my main monitor instead of three, giving me a huge value add compared to "just" looking nice.
+
+![Four splits on my main monitor. It's nice.](/images/uses/neovim_wide2.png)
 
 I don't use a desktop environment and I rely on [xmonad][] as my tiling window manager to spam [alacritty][] terminals powered by [fish][] or [firefox][] instances all over the place.
 I sometimes use [neovide][] as a [Neovim][] GUI, as it has nicer scaling and some cursor effects that makes it a little easier to follow the cursor when it's moving around windows a lot.
@@ -142,8 +158,10 @@ Maybe if this one dies on me.
 - My phone is the [Fairphone 4][].
   It's a great phone and I love being able to super quickly replace the battery.
   But honestly, I should use it less (don't we all?) so I've tried to remove all but the most essential apps.
+- A home office.
+  Working remotely isn't just good for skipping the commute, but for the ability to focus without disturbance.
 
-[Neovim]: https://neovim.io/ 
+[Neovim]: https://neovim.io/
 [neovim-config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
 [Ferris]: https://github.com/pierrechevalier83/ferris
 [neovide]: https://github.com/neovide/neovide
@@ -163,3 +181,15 @@ Maybe if this one dies on me.
 [Todoist]: https://todoist.com
 [Fairphone 4]: https://www.fairphone.com/en/
 [reMarkable 2]: https://remarkable.com/
+[lazy.nvim]: https://github.com/folke/lazy.nvim
+[conform.nvim]: https://github.com/stevearc/conform.nvim
+[nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+[nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter 
+[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
+[flash.nvim]: https://github.com/folke/flash.nvim
+[neogit]: https://github.com/NeogitOrg/neogit
+[gitsigns.nvim]: https://github.com/lewis6991/gitsigns.nvim
+[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
+[nvim-lspconfig]: https://github.com/neovim/nvim-lspconfig
+[mason.nvim]: https://github.com/williamboman/mason.nvim
+[mason-lspconfig.nvim]: https://github.com/williamboman/mason-lspconfig.nvim
