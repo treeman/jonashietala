@@ -42,8 +42,8 @@ I'm not planning to make any larger prints so the larger sizes felt unnecessary 
 
 Now as I said a [Voron][] isn't a beginner printer, but I did take some countermeasures to hopefully make the build more manageable for me:
 
-1. Bought the expensive LDO kit as it's as close to a "just build it" kit you can find.
-2. Went with the Trident over a 2.4 because the Trident is supposedly a little easier to build.
+1. I Bought the expensive LDO kit as it's as close to a "just build it" kit you can find.
+2. I went with the Trident over a 2.4 because the Trident is supposedly a little easier to build.
 
 I also made one choice that probably makes it a little more difficult for myself:
 
@@ -61,24 +61,26 @@ These are the items I've ordered:
 
 - LDO Voron Trident 250
 - Phaetus Rapido Plus Hotend UHF
-- Voron Tap hardware kit
+- [Voron Tap hardware kit][tap]
 - Printed parts
+
+[tap]: https://lab4450.com/product/voron-tap-probe/
 
 > I first ordered a kit from [caribou3d.com](https://caribou3d.com/en/) but after waiting months without progress I canceled it
 > and ordered from [3djake.com](https://www.3djake.com/) instead.
 >
 > But when I tried to cancel the order from caribou3d they told me they couldn't make a
 > refund as they had to declare insolvency.
-> I've yet to receive my funds so BEWARE, do not order from caribou3d.
+> I've yet to receive my funds so BEWARE, **do not order** from caribou3d.
 { :notice }
 
 # Preloading the t-nuts
 
 Assembling the frame wasn't too bad.
-Just took it easy to make sure I put the extrusions the right place, turned as they should be.
+I took it easy to make sure I put the extrusions the right place, rotated as they should be.
 
-But my big worry that still isn't resolved, is the preloading of the t-nuts.
-Apparently LDO's combination of nuts and extrusions is very tight and you can't (or it's super difficult) to insert them after assembling the frame, so you have to place them before.
+But my big worry---that still isn't resolved---is the preloading of the t-nuts.
+Apparently LDO's combination of nuts and extrusions is very tight and you can't (or it's super difficult) to insert them after assembling the frame, so you have to insert them before.
 
 [There is a helpful video][t-nuts], but I'm still very worried that I've placed one of them wrong or missed some, and I have to disassemble the frame at a later stage.
 
@@ -92,7 +94,8 @@ But it didn't fit the soldering iron I had. What to do?
 
 Turns out you don't need it, and you can just use the soldering iron with a regular tip:
 
-![This works great.](/images/trident/heatset_insert.jpg)
+![This works great.
+Except that I shouldn't use this particular part in the build. Oops.](/images/trident/heatset_insert.jpg)
 
 # Set screws
 
@@ -112,14 +115,24 @@ Maybe it will pay off with the more expensive kit after all?
 
 # Greasing the rails
 
-*Picture of those little buggers*
+Greasing the rails is another thing that bothered me, because grease (and cleaning) wasn't found in the kits I bought.
+My partners little brother came to the rescue and found a NLGI 1 grease (as recommended by the LDO guide) and some break cleaner to clean the rails.
+
+That's great, but I also don't have a syringe so I ended up removing the carriage and applying grease that way.
+To my surprise they were full of small balls that had a tendency to jump out at me.
+
+![The balls jumped out on me. I hope I found them all?](/images/trident/tiny_balls.jpg)
+
+At first I applied a bunch of grease on the balls as well, but then carriage moved really slowly over the rails, so in the end I applied a little grease only in the middle.
+
+They still don't move as smoothly as they did when I opened the boxes, I hope it'll be okay...
 
 # Best part of the build so far
 
 ![This is Loke's hand.  
 I don't want to publish pictures of my kids, so this is what you get.](/images/trident/build_loke.jpg)
 
-So far the best part has been that both of my boys (5 and 3 years) have been helping me out a bit, and they've been really enjoying being there and helping me tighten some screws.
+So far the best part has been that both of my boys (5 and 3 years) have been helping me out, and they've been really enjoying being there and helping me tighten some screws.
 
 I really want all my kids to build and be creative.
 Be it LEGO, sand castles, programming or 3D printers.
@@ -128,7 +141,7 @@ I also want to build some toy robots and---when they get older---maybe a Quadcop
 
 # Where I'm at right now
 
-![I've added 3 rails.](/images/trident/build_2.jpg)
+![The frame is built and I've added three of the rails.](/images/trident/build_2.jpg)
 
 I've had the printer for almost one month and progress has felt slow.
 

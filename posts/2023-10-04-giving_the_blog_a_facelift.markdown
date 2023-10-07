@@ -20,7 +20,7 @@ I think I mostly succeeded with that, but I really don't think the landing page 
 So this time I wanted to:
 
 1. Make it prettier
-1. Spotlight ports, series and projects
+1. Spotlight posts, series and projects
 
 As it happens I had remade the [archive][], [projects][] and [series][] pages already, and it just fell out well to simply include some partial contents and shove them into the homepage.
 

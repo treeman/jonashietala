@@ -145,34 +145,8 @@ fn push_code_wrapper_start(s: &mut String, raw_code: &str) {
     if let Some(extra) = extra_code_class(raw_code) {
         classes.push(extra);
     }
-    s.push_str(&format!(r#"<div class="{}"">"#, classes.join(" ")));
+    s.push_str(&format!(r#"<div class="{}">"#, classes.join(" ")));
 }
-
-// fn push_code_highlight<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &str) {
-//     if let Some(spec) = lang.as_ref().and_then(|x| HighlightSpec::find(x.as_ref())) {
-//         match highlight(&spec, code) {
-//             Ok(highlight) => {
-//                 s.push_str(r#"<code class="highlight "#);
-//                 s.push_str(&spec.html_id);
-//                 s.push_str(r#"">"#);
-//                 s.push_str(&highlight);
-//                 s.push_str("</code>");
-//                 return;
-//             }
-//             Err(err) => {
-//                 panic!("Syntax highlight error: {}", err);
-//             }
-//         }
-//     };
-
-//     if let Some(lang) = lang {
-//         warn!("No highlighter found for: {:?}", lang.as_ref())
-//     }
-
-//     s.push_str("<code>");
-//     s.push_str(&html_escape::encode_safe(&code));
-//     s.push_str("</code>");
-// }
 
 fn extra_code_class(raw_code: &str) -> Option<&'static str> {
     let count = largest_line_count(raw_code);
@@ -277,21 +251,6 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
         let mut res = String::new();
 
         push_code_block(&mut res, lang, &code);
-
-        // let spec = lang.as_ref().and_then(|x| HighlightSpec::find(x.as_ref()));
-
-        // match extra_code_class(&code) {
-        //     Some(class) => {
-        //         res.push_str(r#"<pre class=""#);
-        //         res.push_str(class);
-        //         res.push_str(r#"">"#);
-        //     }
-        //     None => {
-        //         res.push_str("<pre>");
-        //     }
-        // }
-        // push_code_highlight(&mut res, lang, &code);
-        // res.push_str("</pre>");
 
         Some(Event::Html(res.into()))
     }
@@ -406,8 +365,8 @@ mod tests {
 let x = 2;
 ```";
         let res = convert(s);
-        assert!(res.starts_with(r#"<pre><code class="highlight rust">"#));
-        assert!(res.trim_end().ends_with("</code></pre>"));
+        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="lang rust"></div><pre><code class="highlight rust">"#));
+        assert!(res.trim_end().ends_with("</code></pre></div>"));
     }
 
     #[test]
@@ -417,8 +376,8 @@ let x = 2;
 let square x = x * x
 ```";
         let res = convert(s);
-        assert!(res.starts_with(r#"<pre><code class="highlight ocaml">"#));
-        assert!(res.trim_end().ends_with("</code></pre>"));
+        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="lang ocaml"></div><pre><code class="highlight ocaml">"#));
+        assert!(res.trim_end().ends_with("</code></pre></div>"));
     }
 
     #[test]

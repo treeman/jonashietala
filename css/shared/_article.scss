@@ -265,6 +265,7 @@ article {
   aside {
     @include extra-space-s;
     @include flow;
+    font-size: 95%;
     background-color: var(--melange_a_float);
     padding: var(--space-xs);
     border: 1px dashed var(--melange_c_red);

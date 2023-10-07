@@ -155,6 +155,22 @@ mod tests {
     }
 
     #[test]
+    fn test_quote_notice_link_paragraphs() {
+        let s = r#"
+> Text with [link](http://mylink.com)
+>
+> And a paragraph
+{ :notice }
+"#;
+        assert_eq!(
+            convert(s),
+            r#"<aside><p>Text with <a href="http://mylink.com">link</a></p>
+<p>And a paragraph</p>
+</aside>"#
+        );
+    }
+
+    #[test]
     fn test_quote_epigraph() {
         let s = r"
 > Text here
