@@ -178,17 +178,16 @@ And thanks to [Proton][ProtonDB] I think that's absolutely true, but the real va
 
 - Don't want to bring your laptop, but **need to do some development** on the go?
 
-  ![My Neovim config running on the Deck.  
-See [this post](https://blog.meinside.dev/How-to-Setup-Development-Environment-on-Steam-Deck/) on how to install Neovim.](/images/steam_deck/neovim.jpg)
+  Just setup your environment and go.
+  You can program using the virtual keyboard, but it sucks in a major way, so bringing a keyboard is advisable.
 
-  You *can* use Neovim with the virtual keyboard, but it sucks in a major way.
-  Bring your keyboard (and probably a dock to connect to a screen) and it's as good as the laptop.
+  ![My Neovim config running on the Deck. See [this post](https://blog.meinside.dev/How-to-Setup-Development-Environment-on-Steam-Deck/) on how to install Neovim on the Steam Deck.](/images/steam_deck/neovim.jpg)
 
 - Do you just want to **install Windows**?
 
   Absolutely. Do you want to install it on the SD-card or on the Deck itself?
 
-I'm a strong believer in that you should be allowed to do whatever you want with your devices, and with the Steam Deck you can.
+I'm a strong believer in that you should be allowed to do whatever you want with your device, and with the Steam Deck you can.
 
 # Killer feature #5: Emulation
 
