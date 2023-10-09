@@ -178,6 +178,10 @@ And thanks to [Proton][ProtonDB] I think that's absolutely true, but the real va
 
 - Don't want to bring your laptop, but **need to do some development** on the go?
 
+  ![My Neovim config running on the Deck.  
+See [this post](https://blog.meinside.dev/How-to-Setup-Development-Environment-on-Steam-Deck/) on how to install Neovim.](/images/steam_deck/neovim.jpg)
+
+  You *can* use Neovim with the virtual keyboard, but it sucks in a major way.
   Bring your keyboard (and probably a dock to connect to a screen) and it's as good as the laptop.
 
 - Do you just want to **install Windows**?

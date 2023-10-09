@@ -85,7 +85,7 @@ Deliver it with confidence, then the reader will remember it.
 Make it colorful.
 Show your personality; make it interesting, make it funny and make it memorable.
 
-![Write like a chad.](/images/chad_words.jpg)
+Write like a chad!
 
 # Consistency is the most important thing
 
@@ -98,8 +98,25 @@ It's comforting to think about very successful authors who only write with the h
 
 [A Song of Ice and Fire][] is my favorite book series, but I'm sure that if George R. R. Martin had been more focused on writing consistently, instead of waiting for inspiration, we wouldn't be here still waiting for the next book a decade later, worried that he'll die before he finishes the series.
 
+And he's not alone. [The Gentlemen Bastard][] series is just as good, but we've been waiting a decade for the next book there too.
+
+Do yourself a favor and turn yourself into an author that grinds out results, not one who waits for inspiration to strike.
+The trick is, you can "force" inspiration to come by forcing yourself into writer mode.
+And the way to do that is by making it a habit.
+
 
 # Rewrite, rewrite, rewrite
+
+One thing that may hinder the writing process is that the output isn't great the first time.
+Most of the time it's just bad, but often it plainly sucks.
+And that's hard to handle, because we don't want it to suck.
+We want it to be great!
+
+I think the key here is to let go.
+Allow it to suck, as long as we get *something* down to work with.
+Because then the real writing starts: **the rewrite**.
+
+I really think that changing, revising, rewriting and refactoring is the key to writing well.
 
 # Clarity of thought translates into clear writing
 
@@ -112,3 +129,4 @@ It's comforting to think about very successful authors who only write with the h
 [writing-well]: https://www.goodreads.com/book/show/53343.On_Writing_Well
 [types]: https://practicaltypography.com/type-composition.html
 [A Song of Ice and Fire]: https://www.goodreads.com/series/43790-a-song-of-ice-and-fire
+[The Gentlemen Bastard]: https://www.goodreads.com/series/43531-gentleman-bastard
