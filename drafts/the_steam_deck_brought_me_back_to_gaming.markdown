@@ -131,7 +131,7 @@ But if you want to play through the Zelda series you'd have to collect almost ev
 
 Or you can play *the whole series*, including the newest Switch games, on the Deck.
 
-I admit this is a contrived example because I haven't done this yet (I plan to play through the most popular ones at some point), so here's a list of games that we've emulated:
+I admit this is a contrived example because I haven't done this yet (I plan to play through the most popular ones at some point), so here's a list of games that we've actually played:
 
 ## Mario Kart 8 Deluxe
 
@@ -159,8 +159,9 @@ Amazing.
 Speaking of nostalgia, of course I need to mention Pokémon.
 I had difficulty deciding what Pokémon game to play---there are a few---and then I just happened to discover the rabbit hole of Pokémon ROM hacks.
 
-According to my Google-fu, and Google-fu is never wrong, Pokémon Unbound is the best ROM hack there is.
-So that's where I started.
+According to my pre-study Pokémon Unbound is the best ROM hack there is, so that's where I started.
+But there's *a lot* here to explore.
+Maybe I'll get there eventually.
 
 # Isn't there more to the Steam Deck?
 
@@ -172,9 +173,9 @@ There's absolutely more to like about the Deck. For instance:
 - The trackpads are very good as a mouse replacement.
 - The year of Linux has finally arrived!
 
-While nice, they don't quite qualify into my killer features list.
+While nice, they don't quite qualify for my killer features list.
 
-And most importantly, I wanted to keep it simple and select five killer features.
+And most importantly, I wanted to keep it simple and only select five killer features.
 
 [Steam Deck]: https://www.steamdeck.com/en/ "Steam Dcke: All-in-one portable PC gaming."
 [burnout and depression]: /blog/2023/03/14/battling_burnout/
@@ -183,3 +184,6 @@ And most importantly, I wanted to keep it simple and select five killer features
 [FTL-micro-pause]: https://www.youtube.com/watch?v=C5RAHsrim-g
 [ftl-ships]: /blog/2023/06/16/i_beat_ftl_on_hard_with_all_ships_in_the_game/
 [EmuDeck]: https://www.emudeck.com/
+[Steam Input]: https://partner.steamgames.com/doc/features/steam_controller
+[Clone Hero]: https://clonehero.net/
+[Veloren]: https://veloren.net/
