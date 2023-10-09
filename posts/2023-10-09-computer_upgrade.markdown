@@ -3,7 +3,7 @@ title: "Computer upgrade"
 tags: ["New Stuff", "Computer"]
 ---
 
-After 5 years or so I've made a large upgrade to my desktop, and this post contains some details and some pictures about the process.
+After 5 years or so I've made a large upgrade to my desktop, and this post contains details and some pictures about the process.
 
 # It was time
 
@@ -17,7 +17,7 @@ That was frustrating, but the biggest reason was this ghastly discovery in my li
 /images/computer_upgrade/disgusting2.jpg
 :::
 
-If you can't spot it (no shame on you), there's a huge ball of gunk that's stuck hanging down beneath the graphics card, and it almost seems like it's blocking the liquid from passing through properly.
+If you can't spot it (no shame on you), there's a huge ball of gunk that's stuck hanging down beneath the graphics card, and it almost seems like it's blocking the liquid from passing through properly (more on that later).
 
 I *know* that you're supposed to check on your loop once a year or so.
 But things just sort of happened.
@@ -44,20 +44,20 @@ The position of the reservoir/pump combo wasn't good and I wanted to try to get 
 
 # Tearing down the loop
 
-Building the liquid cooling loop was all fun and games 5 years ago, but now it was time to pay.
+Building the liquid cooling loop was all fun and game 5 years ago, but now it was time to pay.
 I had installed a drain, but it failed to drain most of the liquid.
 There was something in the tube that blocked it, and the drain was mounted too high so it couldn't drain the lower radiator properly.
 
-Why couldn't I be satisfied with air cooling?
-
 ![Come on little disgusting thing, I know you want to come out.  
 I failed to drain most of the liquid trough the drain, so things got messy.](/images/computer_upgrade/empty.jpg)
+
+Why couldn't I be satisfied with air cooling?
 
 # Rebuilding the loop
 
 Building a computer isn't hard, but adding in a custom loop makes the build take twice or thrice as long.
 
-To be honest, it is a little fun.
+But to be completely honest, it's also a little fun.
 
 ![I used [loop cleaner + superflush][] to properly clean the system.
 Because of the previous gunk, I was worried about dirt in the GPU block, the pump and radiators.
@@ -65,10 +65,16 @@ It's hard to be sure, but I think I got rid of most of it.](/images/computer_upg
 
 ![I was a good boy and added a fill valve to easily fill the loop.](/images/computer_upgrade/drain.jpg)
 
+![How the valve connects to the reservoir.](/images/computer_upgrade/red_view.jpg)
+
+I liked the idea the valve, but the first time I tried to fill up using it the liquid didn't enter the reservoir properly and things got really messy.
+
+At first I thought that the tube had an U-bend in it, but what ultimately fixed it was me replacing the reservoir top so I could open up an air intake.
+
 # It's... Not perfect
 
 Despite my best efforts of planning the loop, the drain system ended up sucking.
-While I managed to drain most of the liquid, there some parts like the lower rad and the reservoir the liquid got stuck, and I had to resort to flipping the computer upside down to get rid of it.
+While I managed to drain most of the liquid, there were some parts like the lower radiator and the reservoir where the liquid got stuck, and I had to resort to flipping the computer upside down and shake to get rid of it.
 
 Yet again.
 
@@ -84,6 +90,10 @@ And it's glorious!
 
 ![Ah, the beautiful cable management.](/images/computer_upgrade/back.jpg)
 
-TODO should take new pictures with drain management and new fans
+![My 3-year old really enjoys this view.](/images/computer_upgrade/side_view.jpg)
+
+![The Noctua fans are amazing.](/images/computer_upgrade/top_fans.jpg)
+
+![Yes, I replaced all the fans.](/images/computer_upgrade/front_fans.jpg)
 
 [loop cleaner + superflush]: https://www.ekwb.com/shop/ek-cryofuel-loop-cleaner-superflush-concentrate-250ml
