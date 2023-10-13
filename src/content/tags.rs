@@ -5,6 +5,7 @@ use crate::{
     site_url::SiteUrl,
     util,
 };
+use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::cmp::Ordering;
@@ -21,11 +22,17 @@ pub fn tags_archives(tags: &HashMap<Tag, Vec<PostRef>>) -> Vec<ArchiveItem> {
         .collect()
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Hash)]
 pub struct Tag {
     pub id: String,
     pub name: String,
     pub url: SiteUrl,
+}
+
+impl Ord for Tag {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.name.cmp(&other.name)
+    }
 }
 
 impl Tag {
@@ -73,7 +80,7 @@ pub enum TagsMeta {
 impl From<TagsMeta> for Vec<Tag> {
     fn from(tags: TagsMeta) -> Self {
         match tags {
-            TagsMeta::Seq(xs) => xs.into_iter().map(|tag| Tag::new(&tag)).collect(),
+            TagsMeta::Seq(xs) => xs.into_iter().map(|tag| Tag::new(&tag)).sorted().collect(),
             TagsMeta::Str(x) => x.split(',').map(Tag::new).collect(),
         }
     }

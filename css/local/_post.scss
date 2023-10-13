@@ -9,6 +9,7 @@ article.post {
     background-color: var(--melange_a_float);
     padding: var(--space-xs);
     @include extra-space-s;
+    @include flow(var(--space-3xs));
     border: 1px dashed var(--melange_c_red);
   }
 

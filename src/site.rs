@@ -590,7 +590,7 @@ impl Site {
             PathEvent::Series => {
                 let existing = self
                     .content
-                    .find_series(dbg!(path.rel_path.0.file_name().unwrap()));
+                    .find_series(path.rel_path.0.file_name().unwrap());
                 if existing.is_none() {
                     self.rebuild_all()?
                 } else {
