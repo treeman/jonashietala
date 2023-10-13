@@ -1,6 +1,7 @@
 ---
 title: "Battling burnout"
 tags: [Life Hacking, Life, Mental Health]
+recommended: true
 ---
 
 > Mamma Mia! Here we go again...

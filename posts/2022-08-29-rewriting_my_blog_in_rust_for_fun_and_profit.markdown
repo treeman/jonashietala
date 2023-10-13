@@ -1,6 +1,7 @@
 ---
 title: "Rewriting my blog in Rust for fun and profit"
 tags: [Rust, Webpage, Hakyll, Haskell]
+recommended: true
 ---
 
 # Background
