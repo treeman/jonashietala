@@ -1,6 +1,6 @@
 ---
 title: "Getting the book into my hands"
-tags: Cryptocurrency, Why cryptocurrencies?
+tags: Cryptocurrency, Why Cryptocurrencies?
 ---
 
 Around a month ago I placed an order for a reference copy of my upcoming book [Why Cryptocurrencies?][whycrypto]. I took the cheapest shipping option at IngramSpark, without tracking and, apparently, without customs declarations as it got stuck in customs for several weeks.

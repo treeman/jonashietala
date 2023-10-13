@@ -2,7 +2,7 @@
 layout: post
 title: "Postmortem: Balls"
 category: Postmortems
-tags: Postmortems, 7days
+tags: Postmortems, Experimental Gameplay Project
 time: 12:33:38
 ---
 

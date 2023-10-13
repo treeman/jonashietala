@@ -1,6 +1,6 @@
 ---
 title: "My Minions"
-tags: Games, 7days
+tags: Games, Ludum Dare
 ---
 
 So I think I made it! It became a pretty different game from what I set out to create, but I'm glad with how it turned out.

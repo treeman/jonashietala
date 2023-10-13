@@ -1,6 +1,6 @@
 ---
 title: "An update on my book 'Why Cryptocurrencies?'"
-tags: Cryptocurrency, Why cryptocurrencies?
+tags: Cryptocurrency, Why Cryptocurrencies?
 ---
 
 Five months ago I [gloriously declared that "my book was done"][done]. Since then I've been working hard to finish the book.

@@ -1,6 +1,6 @@
 ---
 title: "The Chronicles of Bim: The 100 Fake Afros"
-tags: Games, 7days
+tags: Games, Experimental Gameplay Project
 ---
 
 Aaah feels good having a game ready after the last month's failure! This time it's a small shooter.

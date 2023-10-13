@@ -2,7 +2,7 @@
 layout: post
 title: "Postmortem: A Geek Valentine"
 category: Postmortems
-tags: Postmortems, 7days
+tags: Postmortems, Experimental Gameplay Project
 ---
 
 Ah man the mush in my brain is finally letting go and I'm starting to feel this tiny little programming urge again... This time it's not Haskell or a new experimental game that's luring me on, no this time it's me longing to create this *fantastic awesome epic* RTS game. Sadly it's a long way to go there...

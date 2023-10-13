@@ -14,7 +14,7 @@ Pollen's rules are pretty simple as it's basically just some extra syntax for em
 3. Run arbitrary Racket code with `◊( ... )`
 4. There's an extra construction that transforms `◊fun[arg1 arg2]{some text}` to `◊(fun arg1 arg2 "some" text")`, which is useful when you want to send a bunch of interpolated text to a function. (I use it everywhere in [my book][main].)
 
-[main]: https://whycryptocurrencies.com/ "Why cryptocurrencies?"
+[main]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?"
 
 So the end goal is to be able to highlight this type of code:
 

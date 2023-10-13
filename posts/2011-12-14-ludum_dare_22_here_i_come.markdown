@@ -2,7 +2,7 @@
 layout: post
 title: "Ludum Dare 22 Here I Come"
 category: Declaration of War
-tags: Ludum Dare, Game Making
+tags: Ludum Dare
 time: 09:25:31
 ---
 The time has finally come. After more than three hours of exam writing, and almost double spent on studying for it, I am now ready to declare my entry into [Ludum Dare 22](http://www.ludumdare.com/compo/)! I've been away far too long, with my entries for the [17th](/blog/2010/04/26/beebop_the_island_hopper/) and the [20th](/blog/2011/05/02/my_minions/) dare being almost a century away, the ancient game making creature will once again move into action. We'll just hope the game won't be ancient as well...

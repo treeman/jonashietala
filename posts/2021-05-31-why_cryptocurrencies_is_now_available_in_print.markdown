@@ -1,6 +1,6 @@
 ---
 title: "Why Cryptocurrencies? is now available in print"
-tags: Cryptocurrency, Why cryptocurrencies?
+tags: Cryptocurrency, Why Cryptocurrencies?
 ---
 
 Today is a big milestone for me, as this marks a big milestone in the biggest personal project I've undertaken.

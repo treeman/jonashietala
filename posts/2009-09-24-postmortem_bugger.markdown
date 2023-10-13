@@ -2,7 +2,7 @@
 layout: post
 title: "Postmortem: Bugger"
 category: Postmortems
-tags: Postmortems, 7days
+tags: Postmortems, Experimental Gameplay Project
 ---
 
 It's time for the follow up on my latest game [Bugger](/blog/2009/09/20/bugger//).

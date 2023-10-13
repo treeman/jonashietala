@@ -1,9 +1,9 @@
 ---
-title: "My book 'Why cryptocurrencies?' is done"
-tags: Cryptocurrency, Why cryptocurrencies?
+title: "My book 'Why Cryptocurrencies?' is done"
+tags: Cryptocurrency, Why Cryptocurrencies?
 ---
 
-My first commit on my book [Why cryptocurrencies?][main] is from Dec 19, 2018, and now about 17 months later and 1006 more commits I'm finally done!
+My first commit on my book [Why Cryptocurrencies?][main] is from Dec 19, 2018, and now about 17 months later and 1006 more commits I'm finally done!
 
 Well, I'm done with the online version at least. I still plan to create an e-book, a PDF and a paperback and who knows how long that will take? It would be great to have a physical copy in my hands in 2020, but as I've never done these things before I don't know if that's a realistic expectation or not. Especially as I only work on it a little here and there---we did get our second kid in February after all!
 
@@ -89,7 +89,7 @@ So around 1735 lines in Racket and 1702 lines in Sass. Kind of interesting how t
 
 My experience with the technologies I used has been quite positive, but I plan to write about it more in detail in a future post.
 
-[main]: https://whycryptocurrencies.com/ "Why cryptocurrencies?"
+[main]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?"
 [pollen]: https://docs.racket-lang.org/pollen/ "Pollen: the book is a program"
 [racket]: https://racket-lang.org/ "Racket"
 [sass]: https://sass-lang.com/ "Sass: CSS with superpowers"

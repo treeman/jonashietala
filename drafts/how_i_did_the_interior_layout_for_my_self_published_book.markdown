@@ -1,6 +1,6 @@
 ---
 title: "How I did the interior layout for my self-published book"
-tags: Cryptocurrency, Why cryptocurrencies?
+tags: Cryptocurrency, Why Cryptocurrencies?
 ---
 
 # To generate or not?

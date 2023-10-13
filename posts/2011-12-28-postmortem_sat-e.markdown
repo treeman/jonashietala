@@ -2,7 +2,7 @@
 layout: post
 title: "Postmortem: Sat-E"
 category: Postmortems
-tags: Postmortems, Ludum Dare, 7days
+tags: Postmortems, Ludum Dare, Experimental Gameplay Project
 time: 19:22:02
 ---
 This is my postmortem for my [Ludum Dare 22](http://www.ludumdare.com/compo/ludum-dare-22/?action=preview) entry, [Sat-E](http://www.ludumdare.com/compo/ludum-dare-22/?action=preview&uid=1895). You can find the timelapse [over here](http://www.ludumdare.com/compo/2011/12/19/sat-e-timelapse).

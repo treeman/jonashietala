@@ -1,6 +1,6 @@
 ---
 title: "How I wrote a book using Pollen"
-tags: [Cryptocurrency, Programming, Pollen, Racket, Why cryptocurrencies?, CSS]
+tags: [Cryptocurrency, Programming, Pollen, Racket, Why Cryptocurrencies?, CSS]
 series: making-cryptobook
 recommended: true
 ---
@@ -465,7 +465,7 @@ There are some things that doesn't work as I want them to, but that I didn't bot
 
 And that's it I think for the large part? I'm sure I missed something, but feel free to [check out the source code][crypto-src] if you're curious about anything.
 
-[main]: https://whycryptocurrencies.com/ "Why cryptocurrencies?"
+[main]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?"
 [pollen]: https://docs.racket-lang.org/pollen/ "Pollen: the book is a program"
 [racket]: https://racket-lang.org/ "Racket"
 [sass]: https://sass-lang.com/ "Sass: CSS with superpowers"
@@ -474,6 +474,6 @@ And that's it I think for the large part? I'm sure I missed something, but feel 
 [sidenotes]: /blog/2019/03/04/pollen_sidenotes/ "Tufte style sidenotes and marginnotes in Pollen"
 [sidenote-code]: https://github.com/treeman/why_cryptocurrencies/blob/master/rkt/sidenotes.rkt "Github sidenotes"
 [neovim]: https://neovim.io/ "neovim"
-[crypto-src]: https://github.com/treeman/why_cryptocurrencies "Source code to the book 'Why cryptocurrencies?'"
+[crypto-src]: https://github.com/treeman/why_cryptocurrencies "Source code to the book 'Why Cryptocurrencies?'"
 [S3]: /blog/2019/04/03/easy-setup-of-a-static-site-on-amazon-s3-with-ssl/ "Hosting a static site on Amazon S3"
 

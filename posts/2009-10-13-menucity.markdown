@@ -1,6 +1,6 @@
 ---
 title: "MenuCity"
-tags: Games, 7days
+tags: Games, Experimental Gameplay Project
 ---
 
 This game is called MenuCity and it's a numbers game. Well that's the theme anyway. The game pretty much held to what I planned for - except that it deviated from the theme -again- a bit.

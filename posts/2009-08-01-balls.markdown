@@ -1,6 +1,6 @@
 ---
 title: "Balls"
-tags: Games, 7days
+tags: Games, Experimental Gameplay Project
 ---
 
 Here's my first ever experimental game! The theme was *Addictive Gaming*. My first thought was oh god I'll be making another tetris clone but the end result turned out a bit different. I'm not sure it's very addictive but it's actually okay! =D

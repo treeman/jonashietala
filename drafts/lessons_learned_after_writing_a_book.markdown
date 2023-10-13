@@ -1,6 +1,6 @@
 ---
 title: "Writing lessons learned after writing a book"
-tags: [Cryptocurrency, Why cryptocurrencies?]
+tags: [Cryptocurrency, Why Cryptocurrencies?]
 ---
 
 > A good writer isn't born; a good writer is created

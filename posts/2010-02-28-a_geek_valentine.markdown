@@ -1,6 +1,6 @@
 ---
 title: "A Geek Valentine"
-tags: Games, 7days
+tags: Games, Experimental Gameplay Project
 ---
 
 Yes! I made it! It's 22:22 on the very last day of February and I've been programming virtually non-stop for the past two days, my brain feels like mashed potatoes.

@@ -1,6 +1,6 @@
 ---
 title: "Jonas IceCream Stand"
-tags: Games, 7days
+tags: Games, Experimental Gameplay Project
 ---
 
 Ahoy there! This time I'll take you along for a ride with an arty Tycoon game.

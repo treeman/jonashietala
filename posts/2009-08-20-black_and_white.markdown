@@ -1,6 +1,6 @@
 ---
 title: "Black and White"
-tags: Games, 7days
+tags: Games, Experimental Gameplay Project
 ---
 
 Here it is at last! Boasting a unoriginal name, themed *Bare Minimum*. My thoughts where to create a game where graphics where included into the gameplay but sadly it didn't come out nearly as good as I expected it too.

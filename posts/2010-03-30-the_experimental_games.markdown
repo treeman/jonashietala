@@ -2,7 +2,7 @@
 layout: post
 title: "The Experimental Games"
 category: Prototyping
-tags: 7days, Postmortems
+tags: Postmortems, Experimental Gameplay Project
 time: 11:26:56
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Where's Teddy?"
-tags: Games, 7days
+tags: Games
 ---
 
 So I did this course Game Design and what's a course on Game Design without a game? Well, here it is. Made in about seven days (more likely eight) and I thought it became quite cool.

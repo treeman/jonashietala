@@ -1,6 +1,6 @@
 ---
 title: "Converting my static site to epub"
-tags: Cryptocurrency, Programming, Pollen, Racket, Why cryptocurrencies?
+tags: Cryptocurrency, Programming, Pollen, Racket, Why Cryptocurrencies?
 ---
 
 # Creating an epub
