@@ -2,7 +2,7 @@
 layout: post
 title: "I Made It!"
 category: Game Making
-tags: Game Making
+tags: Ludum Dare
 time: 02:52:25
 ---
 It's been over a year, but I haven't lost (most) my touch yet! For the second time I've completed a [Ludum Dare](http://www.ludumdare.com/)! Not an easy feat and yet there are tons of games that look absolutely wonderful. I'm not there yet but now I have at least gotten back into game making again, long overdue.
