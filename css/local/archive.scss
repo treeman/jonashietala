@@ -1,10 +1,22 @@
 @use "../components/highlight" as *;
+@use "../global/font_size" as *;
 
 article.archive {
   h1 > * {
     @include large-underline-highlight(var(--color-highlight-archive));
   }
+  .tagged h1 > * {
+    @include large-underline-highlight(var(--color-highlight-tags));
+  }
+
+  .tagged > .tagged_by {
+    @extend %sans-serif;
+    @include font-size("s");
+    color: var(--color-highlight-archive);
+  }
+
   h1 {
     margin-block-end: var(--space-m);
+    line-height: 1.3;
   }
 }

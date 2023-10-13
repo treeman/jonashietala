@@ -11,7 +11,8 @@ article.tags-list {
   .tags {
     @include overflow-bleed;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(11em, 1fr));
+    grid-column-gap: var(--space-2xs);
   }
   .tags a {
     color: var(--color-tags);

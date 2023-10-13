@@ -1,7 +1,13 @@
 {% import "post_info.html" as macros %} {% extends "site.html" %} {% block
 content %}
 <article class="archive">
+  {% if tag_filter %}
+  <div class="tagged">
+    <div class="tagged_by">Posts tagged</div>
+    <h1><span>{{ title }}</span></h1>
+  </div>
+  {% else %}
   <h1><span>{{ title }}</span></h1>
-  {{ macros::post_items(posts=posts) }}
+  {% endif %} {{ macros::post_items(posts=posts) }}
 </article>
 {% endblock content %}

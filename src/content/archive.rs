@@ -30,11 +30,13 @@ pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {
         title: "All posts".to_string(),
         url: SiteUrl::parse("/blog").unwrap(),
         posts: posts.keys().map(Clone::clone).collect(),
+        tag_filter: None,
     }];
     res.extend(by_year.into_iter().map(|(year, posts)| ArchiveItem {
         title: format!("{}", year),
         url: SiteUrl::parse(&format!("/blog/{}", year)).unwrap(),
         posts,
+        tag_filter: None,
     }));
     res.extend(by_year_month.into_iter().map(|((year, month), posts)| {
         let date = NaiveDate::from_ymd_opt(year, month, 1).unwrap();
@@ -42,6 +44,7 @@ pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {
             title: date.format("%B %Y").to_string(),
             url: SiteUrl::parse(&date.format("/blog/%Y/%m").to_string()).unwrap(),
             posts,
+            tag_filter: None,
         }
     }));
     res
@@ -52,6 +55,7 @@ pub struct ArchiveItem {
     pub title: String,
     pub url: SiteUrl,
     pub posts: Vec<PostRef>,
+    pub tag_filter: Option<String>,
 }
 
 impl TeraItem for ArchiveItem {
@@ -63,6 +67,7 @@ impl TeraItem for ArchiveItem {
                 .iter()
                 .map(|post| PostRefContext::from_ref(post, ctx))
                 .collect(),
+            tag_filter: self.tag_filter.clone(),
         })
         .unwrap()
     }
@@ -80,4 +85,5 @@ impl TeraItem for ArchiveItem {
 struct ArchiveContext<'a> {
     title: &'a str,
     posts: Vec<PostRefContext<'a>>,
+    tag_filter: Option<String>,
 }

@@ -15,9 +15,10 @@ use tera::Context;
 pub fn tags_archives(tags: &HashMap<Tag, Vec<PostRef>>) -> Vec<ArchiveItem> {
     tags.iter()
         .map(|(tag, posts)| ArchiveItem {
-            title: format!("Posts tagged {}", tag.name),
+            title: tag.name.clone(),
             url: tag.url.clone(),
             posts: posts.to_vec(),
+            tag_filter: Some(tag.name.clone()),
         })
         .collect()
 }
