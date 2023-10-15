@@ -19,9 +19,6 @@ article.series {
     // }
   }
 
-  .series-description {
-    @include flow;
-  }
   .series-footer {
     margin-block-start: calc(var(--space-xs) + var(--space-xs));
   }
@@ -38,6 +35,10 @@ article.series {
 
   .series-item {
     @include flow(var(--space-xs));
+
+    .description {
+      @include flow;
+    }
 
     h2 {
       @include large-link-underline-highlight(
