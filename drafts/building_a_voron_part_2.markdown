@@ -1,5 +1,5 @@
 ---
-title: "Let's build a VORON: Print head"
+title: "Let's build a VORON: Toolhead"
 tags: ["3D printing", "VORON"]
 series: voron_trident
 ---
@@ -13,7 +13,8 @@ Since the last update I've made some good progress:
 
 ![Purple means Pretty.](/images/trident/front_p2.jpg)
 
-I've also run into a few problems on the way that I'll try to document.
+I've run into a few problems on the way that I'll try to document, but other than that the build has been really fun so far.
+The design of Clockwork, Stealthburner and Core XY is really cool and it's been very interesting to assemble them to see how it all comes together.
 
 # X-axis and belts
 
@@ -25,8 +26,6 @@ I didn't encounter any issue assembling the x-axis or the belts.
 /images/trident/belts.jpg
 /images/trident/belts_back.jpg
 :::
-
-I must say, the way Core XY works is really cool.
 
 # Toolhead
 
@@ -120,7 +119,7 @@ Luckily I found [a YouTube video showing how to install it][rapido-install]:
 
 ![Oooh, you just remove the top part (and don't install the UHF parts) and it fits!](/images/trident/rapido_fits.jpg)
 
-Crisis averted, all is well.
+Crisis averted; all is well.
 
 ## Stealthburner assembly
 
@@ -159,6 +158,8 @@ At this point I discovered I'm missing a few things:
 
 I've contacted 3Djake about the washer and neopixels, maybe they'll find some replacement parts for me.
 But even if they don't it's no big deal.
+
+Progress has felt good.
 
 [adxl]: https://github.com/VoronDesign/Voron-Stealthburner/blob/main/STLs/Stealthburner/ADXL345_Mounts/sb_adxl_mount_ldo_15mm_c_c.stl
 
