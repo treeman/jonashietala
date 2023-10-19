@@ -27,6 +27,8 @@ I didn't encounter any issue assembling the x-axis or the belts.
 /images/trident/belts_back.jpg
 :::
 
+I'm slightly worried that I messed something up as moving the gantry from front to back has a very slight hiccup in the middle, but it doesn't come up when I move it from back to front or if I move it slowly.
+
 # Toolhead
 
 Up to here it's been fairly straightforward.
@@ -47,6 +49,9 @@ This was confusing and I managed to trip up on several things.
 
 My plan wasn't actually to build Tap from the start, and instead rely on the standard inductive probe.
 Even though [the kit stated][trident-kit] the probe was included, it wasn't listed in the parts checklist so I assume it wasn't included in the kit?
+
+> I later found it in a bag in the cable box.
+{ :notice }
 
 No big deal.
 Instead of building the Klicky probe just to tear it down and replace with Tap later, I decided to build Tap from the get-go.
@@ -87,13 +92,23 @@ Of course later on I found a plastic part that was made for the job and replaced
 >  THIS MOD NO LONGER REQUIRED for V2.4 Rev. C - the kit includes the Stealthburner PCBs and works with the stock parts.
 
 I'm not building a V2.4, so I didn't think it applied to me.
-But this was a bad assumption, and it did apply to me as I'm building the Rev. C of the Trident so I should've used the original printed parts.
+But now I think it was a bad assumption.
+I'm building the Rev.C of the Trident, which seems to have the new version of the PCB that fits the standard parts.
 
 At first I was going to leave it like this cause why bother, but then I read [a note hidden in the wiring guide][ldo-wiring] that for the new PCB I needed to use a [specific cable cover][] that of course wasn't compatible with the modified parts...
 
 So I redid everything.
 
+And then I discovered that the [specific cable cover][] I had was missing the thermistor holder:
+
+![My printed part doesn't have this holder.](/images/trident/missing_thermistor_holder.png)
+
+Darn it.
+
+But I think (hope) it should finally be finished enough; I can probably tuck the thermistor somewhere to get it to print.
+
 ![Now I think it's built as it should be?](/images/trident/clockwork.jpg)
+
 
 ## Installing a hotend
 
@@ -147,19 +162,22 @@ At this point I discovered I'm missing a few things:
   Input shaper seems to be a temporary thing that you should remove after some calibration,
   so I guess I can just tape it temporarily.
 
-- Stealthburner neopixels
+- The LDO [specific cable cover][] I mentioned before.
 
-  I assembled Stealthburner without them, they're not critical in any way.
-
-- Locking Washer, M5
+- 2 Locking Washer, M5
 
   Maybe I can find two of these things in the hardware store somewhere?
   Ordering these online for only two pieces seems like a hassle.
 
-I've contacted 3Djake about the washer and neopixels, maybe they'll find some replacement parts for me.
-But even if they don't it's no big deal.
+  I've contacted 3Djake about the washers, maybe they'll find some replacement parts for me.
+  But even if they don't it's no big deal.
 
-Progress has felt good.
+I thought I was missing the neopixels and the inductive probe, but they were hiding in a bag in the cable box.
+
+# How does it feel?
+
+Even though I've had a fair amount of trouble sorting through documentation and other issues, the progress has felt good.
+It's really fascinating to assemble things like the belt system and the toolhead and see how they come together.
 
 [adxl]: https://github.com/VoronDesign/Voron-Stealthburner/blob/main/STLs/Stealthburner/ADXL345_Mounts/sb_adxl_mount_ldo_15mm_c_c.stl
 
