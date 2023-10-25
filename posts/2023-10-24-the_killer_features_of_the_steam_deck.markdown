@@ -30,8 +30,10 @@ It's no exaggeration to say that without this one feature, nothing else could've
 The ability to instantly put it down and go to the screaming baby has been crucial,
 and being able to instantly teleport myself back into an immersive gaming experience has been fantastic.
 
-If you're a parent who want to game, this is the feature you've been waiting for.
-If a gaming device doesn't have this, don't bother.
+If you're a parent who wants to game, this is the feature you've been waiting for.
+Even if you're not a parent this is an amazing feature.
+
+If a portable gaming device doesn't have this, don't bother.
 
 # Killer feature #2: The steam library
 
@@ -43,7 +45,7 @@ Many games are heavily discounted over the year, and you can even get AAA games 
 Contrast this with Nintendo where the games are never on sale.
 
 To be sure, the Steam Deck is a handheld and won't be able to run the most demanding games and it also runs Linux so it will have compatibility issues with a lot of games.
-But the device is surprisingly powerful, and the work Valve has put in to make [Windows games work on Linux][ProtonDB] is astounding, so a lot of the games will just work.
+But the device is surprisingly powerful, and the work Valve has put in to make [Windows games work on Linux][ProtonDB] is astounding, so a lot of the games will work outright or with some minor tweaks (by changing the [Proton][ProtonDB] version or tweaking graphics settings).
 
 Just to give you a taste, here's a variety of games that are installed on my Deck that all work great:
 
@@ -69,7 +71,7 @@ The LEGO games have been popular, although they're a bit too difficult at times 
 
 ![](/images/steam_deck/overcooked2.jpg)
 
-As great as the LEGO games are, Overcooked! 2 is my favorite game for kids.
+As great as the LEGO games are, [Overcooked! 2][] is my favorite game for kids.
 The beauty is how it forces you to collaborate with each other in a very nice way.
 
 ## [Forza Horizon 5][]
@@ -78,8 +80,8 @@ The beauty is how it forces you to collaborate with each other in a very nice wa
 
 ![](/images/steam_deck/forza.jpg)
 
-Forza Horizon is another game that works great on the Deck.
-It hasn't been played as much as other games because it's still a but too difficult, even with driving assist.
+[Forza Horizon 5][] is another game that works great on the Deck.
+It hasn't been played as much as other games because it's still a bit too difficult, even with driving assist.
 
 ## [Teenage Mutant Ninja Turtles: Shredder's Revenge][shredder]
 
@@ -89,8 +91,8 @@ It hasn't been played as much as other games because it's still a but too diffic
 
 I went with the boys to watch [Teenage Mutant Ninja Turtles: Mutant Mayhem][] on cinema.
 They, and I, loved it.
-Shredder's Revenge has also been very well received, but alas, once again, it's a little too difficult for my young kids.
-Or should I say, they haven't learned to handle defeat properly yet.
+[Shredder's Revenge][shredder] has also been very well received, but alas, once again, it's a little too difficult for my young kids.
+Or should I say; they haven't learned to handle defeat properly yet.
 
 
 [Teenage Mutant Ninja Turtles: Mutant Mayhem]: https://www.imdb.com/title/tt8589698/
@@ -110,8 +112,10 @@ Make no mistake, this game is *really hard*.
 
 [Parkitect]: https://store.steampowered.com/app/453090/Parkitect/
 
-Parkitect is an ode to one of my favorite games of all time: Rollercoaster Tycoon.
+[Parkitect][] is an ode to one of my favorite games of all time: [Rollercoaster Tycoon][].
 And I must admit, Parkitect is *even better*.
+
+[Rollercoaster Tycoon]: https://store.steampowered.com/app/285310/RollerCoaster_Tycoon_Deluxe/
 
 ## [Grim Dawn][]
 
@@ -120,9 +124,11 @@ And I must admit, Parkitect is *even better*.
 ![](/images/steam_deck/grim_dawn.jpg)
 
 People were hyping on Diablo 4 so much.
-Me being so over Blizzard, I instead played some Grim Dawn.
+Me being so over Blizzard, I instead played some [Grim Dawn][].
 According to the internet it's an objectively better game.
 Regardless if that's correct, the game does work very well on the Deck.
+
+(I actually haven't played it that much---I didn't enjoy the ARPG grind.)
 
 ## [Tony Hawk's Pro Skater 1 + 2][tony]
 
@@ -130,15 +136,15 @@ Regardless if that's correct, the game does work very well on the Deck.
 
 ![](/images/steam_deck/tony_hawk.jpg)
 
-I have very fond memories of playing Tony Hawk games on the GameBoy Advance and on the PC.
-Even though the game has online DRM (mega booh), I couldn't help myself.
+I have very fond memories of playing [Tony Hawk][tony] games on the GameBoy Advance and on the PC.
+I couldn't help myself and had to relive those memories.
 
-And to be honest, the game runs like a dream.
+And the game runs like a dream.
 
 # Killer feature #3: Steam input
 
 You may have noticed that I listed some games you wouldn't think worked well on a handheld.
-Parkitect for instance heavily relies on the mouse, and Faster than Light is a decade old game that's also mouse based and doesn't have an gamepad specific mappings.
+[Parkitect][] for instance heavily relies on the mouse, and [Faster than Light][FTL] is a decade old game that's also mouse based and doesn't have an gamepad specific mappings.
 What gives?
 
 With [Steam Input][] the Deck allows you to remap any key or command to whatever input you want.
@@ -152,9 +158,9 @@ Some notable features to mention:
 
 - Right trackpad as a mouse.
 - Buttons for the most common utilities (doors, teleport, hacking, return to stations...).
-- Sticks for number rows (weapon and drone selection).
+- Sticks for number rows (weapon and drone selection) and `M` for mindcontrol.
 - Shift and control are relegated to back buttons.
-- In FTL there are two pause buttons (space bar and mouse middle click). By pressing them quickly in succession you can [micro pause][FTL-micro-pause] and advance the game just a few frames. I've bound a single button on the Deck to do this, with a 100ms pause between.
+- In FTL there are two pause buttons (space bar and mouse middle click). By pressing them quickly in succession you can [micro pause][FTL-micro-pause] and advance the game just a few frames. I've bound a single button on the Deck to do this, with a small delay between.
 
 This may seem scary, but for most games you won't need to change anything.
 But when you do, [Steam Input][] is a godsend.
@@ -179,7 +185,7 @@ And thanks to [Proton][ProtonDB] I think that's absolutely true, but the real va
 - Don't want to bring your laptop, but **need to do some development** on the go?
 
   Just setup your environment and go.
-  You can program using the virtual keyboard, but it sucks in a major way, so bringing a keyboard is advisable.
+  You can program using the virtual keyboard, but it sucks in a major way, so bring a keyboard.
 
   ![My Neovim config running on the Deck. See [this post](https://blog.meinside.dev/How-to-Setup-Development-Environment-on-Steam-Deck/) on how to install Neovim on the Steam Deck.](/images/steam_deck/neovim.jpg)
 
@@ -193,7 +199,7 @@ I'm a strong believer in that you should be allowed to do whatever you want with
 
 The last feature I want to bring up ties into the previous: the Steam Deck is an amazing platform for emulation.
 
-I've never emulated anything before, but it was very easy to setup using [EmuDeck][].
+I'm new to emulation, but it was very easy to setup using [EmuDeck][].
 The device itself is powerful enough to run basically any older game, and even many popular Switch games.
 
 You may ask, if Steam already has tons of games, why bother with emulation?
@@ -204,7 +210,7 @@ I've got a few reasons:
 1. Nostalgia.
 1. Experience the classics.
 1. Some gaming experiences aren't replicated well by the newer styles of games.
-1. If you look at the many "best games of all time" lists out there (which I did when I asked myself what have I been missing out on) you'll find that a lot of them are from older systems.
+1. If you look at the many "best games of all time" lists out there (which I did when I asked myself what have I been missing out on during my years of not gaming) you'll find that a lot of them are from older systems.
 
 For example, maybe you've heard of **The Legend of Zelda**?
 I have, but I've only ever played a single game (Link's Awakening).
@@ -220,7 +226,7 @@ I admit this is a contrived example because I haven't done this yet (I plan to p
 
 ![](/images/steam_deck/mario_kart.jpg)
 
-Both of my boys (5 and 3 years) love Mario Kart.
+Both of my boys (6 and 3 years) love Mario Kart.
 The best feature is probably the driving assist, so the younger kid can play even if all he does is press the jump button and shout.
 
 ## Super Smash Bros
@@ -245,30 +251,31 @@ Since he hasn't learned to read yet the "real" Pokémon games are a bit too much
 Punch Out is pure nostalgia for me.
 Amazing.
 
-## Pokémon Unbound
+## [Pokémon Unbound][unbound]
 
 ![](/images/steam_deck/unbound.jpg)
 
 Speaking of nostalgia, of course I need to mention Pokémon.
 I had difficulty deciding what Pokémon game to play---there are a few---and then I just happened to discover the rabbit hole of Pokémon ROM hacks.
 
-According to my pre-study Pokémon Unbound is the best ROM hack there is, so that's where I started.
+According to my pre-study [Pokémon Unbound][unbound] is the best ROM hack there is, so that's where I started.
 But there's *a lot* here to explore.
 Maybe I'll get there eventually.
+
+[unbound]: https://www.pokemoncoders.com/pokemon-unbound/
 
 # Isn't there more to the Steam Deck?
 
 There's absolutely more to like about the Deck. For instance:
 
 - It's a handheld you can dock.
-- The processor is very capable with the amount of power it uses.
-- You can connect a lot of things to it. Controllers, fight sticks, Wii guitars etc.
+- The processor is very capable given the amount of power it uses.
+- You can connect a lot of things to it; controllers, fight sticks, Wii guitars etc.
 - The trackpads are very good as a mouse replacement.
 - The year of Linux has finally arrived!
 
 While nice, they don't quite qualify for my killer features list.
-
-And most importantly, I wanted to keep it simple and only select five killer features.
+And most importantly: I wanted to keep it simple and only select five killer features.
 
 [Steam Deck]: https://www.steamdeck.com/en/ "Steam Dcke: All-in-one portable PC gaming."
 [burnout and depression]: /blog/2023/03/14/battling_burnout/
