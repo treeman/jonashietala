@@ -7,7 +7,7 @@ series: t-34
 Almost two and a half years ago I embarked on the journey to change keyboard layout.
 At first I tried out existing ones, but it didn't take long before I figured it's better to develop my own---and things went downhill fast from there.
 
-![(Some) horizontal combos of the [T-34 layout][t-34]. It doesn't look complicated at all.](/images/t-34-curr/hcombos.png)
+![(Some) horizontal combos of the [T-34 layout][t-34].](/images/t-34-curr/hcombos.png)
 
 But now that I haven't made any changes to the layout for over a year, I think it's time for some introspection and ask the dreaded question: was it worth it?
 And should you---the dear reader---do the same?
@@ -70,13 +70,15 @@ I don't actually think you need to be actually crazy to design a keyboard layout
 
 I'm not motivated to make any large changes or experiments with the layout now, but there are some things I wish I had tried out more:
 
-1. One-shot shift on the thumb instead of `E`.
+1. [One shot][] shift on the thumb instead of `E`.
 
-   The one-shot shift seems like such a fantastic feature, but that would require me to move `E` away from the thumb which would snowball into an entirely different layout.
+   The [one shot][] shift seems like such a fantastic feature, but that would require me to move `E` away from the thumb which would snowball into an entirely different layout.
+
+   Using a combo for [one shot][] shift is another thing I'd like to try that wouldn't be too invasive.
 
 1. [Home-row mods][].
 
-   [Home-row mods][] is another very popular feature that would unlock a lot of extra space on the keyboard as it would allow secondary effects on long-press instead of shifting.
+   [Home-row mods][] is another very popular feature that would unlock a lot of extra space on the keyboard as it would allow secondary effects on long-press instead of shifting and reduce the amount of combos I have.
 
    I did try it out a little bit, but maybe I could get used to it with more effort?
 
@@ -128,15 +130,21 @@ I honestly thought it was really **fun** (even though learning it was mostly a p
 
 Something that people seem to miss with alternative layouts---even people designing them---is that a layout is much more than just where the alpha characters goes.
 
-I've spent much more time on where to [place the symbols][symbols], how to [handle numbers][numbers], what type of [modifiers][] I want, a [navigation layer][] and [shortcuts][] than the base layer.
+I've spent much more time on where to [place the symbols][symbols], how to [handle numbers][numbers], what type of [modifiers][] I want, a [navigation layer][] and [shortcuts][] than the base layer, and that's where most of the benefit of my layout comes from.
 
-And that is where I think you can extract the most value; because the symbols you use will be much more dependent on the programming languages you use it's more worth to optimize them than to try to improve [Colemak-DH][], which is already pretty darn good.
+Symbols for example are very dependent on the programming languages you use, so there's lots of benefit to a symbols layer optimized for those. It's much more productive to spend time on that than to try to improve [Colemak-DH][], which is already pretty darn good.
 
-# My recommendation
+Even simple things like adding a [navigation layer][] (with arrow keys under your fingertips) or moving Escape are hugely beneficial.
+And of course, avoiding the gymnastics of pressing Ctrl in the lower left with the pinky is a big win.
+
+## My recommendation
 
 If you want to make a change to your setup, these are my recommendations sorted from least to most effort:
 
 1. Get a programmable keyboard (so you can remap things on the keyboard instead of the OS).
+
+   Moving Escape to Caps Lock and adding Ctrl as a [Mod-Tap][] on it are great to do on a regular keyboard. (You might be able to do that on the OS level too.)
+
 1. Get a more ergonomical keyboard.
 
    I think a split keyboard with tenting is a great start.
@@ -152,11 +160,10 @@ If you want to make a change to your setup, these are my recommendations sorted 
 1. Make your own completely custom layout.
 
 You don't have to do everything at once and you can try out the different levels to see how painful and time consuming the changes are.
-Keep in mind that diminishing returns are real.
 
 # How do you even learn a new layout?
 
-![The [T-34][t-34] base layer.](/images/t-34-2/base.png)
+![The [T-34][t-34] base layer. There's not a trace of QWERTY left.](/images/t-34-2/base.png)
 
 Say that you've decided to learn a new layout. Now what?
 
@@ -171,7 +178,7 @@ But here are some tips to make the process better:
 
 - Practice in small bursts.
 
-  Small and frequent sessions is better than few but larger ones.
+  Small and frequent sessions are better than few but larger ones.
 
 - Learn to touch type.
 
@@ -191,11 +198,11 @@ These are some I used:
 - [typelit][]: Practice by retyping entire novels. Awesome idea, although I didn't manage to get through the Count of Monte Cristo as I planned to.
 
 It's important to stress how much motivation matters.
-Even though I feel l...
+Even though I feel that I want to pick up the practice again when I'm writing this,
+I don't think that will actually happen as I'm not really motivated enough.
+But if you start using a new layout you *have* to practice, and you have to practice quite a lot at least at the beginning.
 
-![My MonkeyType stats. Note that it includes different practice settings, like numbers, symbols and programming languages.](/images/monkey_stats.png)
-
-![My practice died off hard a year ago.](/images/monkey_sessions.png)
+![My practice died off hard a year ago when I got good enough.](/images/monkey_sessions.png)
 
 # FAQ
 
@@ -217,9 +224,19 @@ Even though I feel l...
 
   Beyond that it depends on how diligent you are with practice.
 
+- **Sounds like a massive effort, I don't think it's worth it?**
+
+  If this sounds too much for you, it probably is.
+
+  I motivated it for myself by saying that I'll spend a few decades more programming, so a big investment now will pay for itself with time.
+
 [t-34]: /blog/2022/09/06/the_current_t-34_keyboard_layout/
 [symbols]: /blog/2021/06/03/the-t-34-keyboard-layout/#symbols
 [heatmaps]: /blog/2022/08/28/the_t-342_keyboard_layout/#more-heatmaps
+[numbers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#numbers
+[modifiers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#modifiers
+[navigation layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#navigation-layer
+[shortcuts]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#one-handed-shortcuts
 [Betteridge's law of headlines]: https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines
 [BEAKL 15]: https://deskthority.net/wiki/BEAKL#BEAKL_15 "BEAKL 15 keyboard layout"
 [Colemak-DH]: https://colemakmods.github.io/mod-dh/ "Colemak-DH keyboard layout"
@@ -231,3 +248,5 @@ Even though I feel l...
 [ngram-type]: https://ranelpadon.github.io/ngram-type/
 [typelit]: https://www.typelit.io/
 [MonkeyType]: https://monkeytype.com/
+[Home-row mods]: https://precondition.github.io/home-row-mods
+[One shot]: https://docs.qmk.fm/#/one_shot_keys
