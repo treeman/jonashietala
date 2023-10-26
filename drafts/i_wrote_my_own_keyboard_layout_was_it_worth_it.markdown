@@ -72,13 +72,13 @@ I'm not motivated to make any large changes or experiments with the layout now, 
 
 1. [One shot][] shift on the thumb instead of `E`.
 
-   The [one shot][] shift seems like such a fantastic feature, but that would require me to move `E` away from the thumb which would snowball into an entirely different layout.
+   The [one shot][] shift seems like such a fantastic feature, but that would require me to move `E` away from the thumb, which would snowball into an entirely different layout.
 
    Using a combo for [one shot][] shift is another thing I'd like to try that wouldn't be too invasive.
 
 1. [Home-row mods][].
 
-   [Home-row mods][] is another very popular feature that would unlock a lot of extra space on the keyboard as it would allow secondary effects on long-press instead of shifting and reduce the amount of combos I have.
+   [Home-row mods][] is another very popular feature that would unlock a lot of extra space on the keyboard (as it would allow secondary effects on long-press instead of shifting and reduce the amount of combos I have).
 
    I did try it out a little bit, but maybe I could get used to it with more effort?
 
@@ -135,7 +135,7 @@ I've spent much more time on where to [place the symbols][symbols], how to [hand
 Symbols for example are very dependent on the programming languages you use, so there's lots of benefit to a symbols layer optimized for those. It's much more productive to spend time on that than to try to improve [Colemak-DH][], which is already pretty darn good.
 
 Even simple things like adding a [navigation layer][] (with arrow keys under your fingertips) or moving Escape are hugely beneficial.
-And of course, avoiding the gymnastics of pressing Ctrl in the lower left with the pinky is a big win.
+And of course, avoiding the gymnastics of pressing Ctrl in the lower left corner with the pinky is a big win.
 
 ## My recommendation
 
@@ -154,7 +154,7 @@ If you want to make a change to your setup, these are my recommendations sorted 
 
    For a Vim user, remapping Escape is a classic.
    Ctrl, Shift, Alt, and Enter are also good candidates for moving to a thumb button, a [combo][] or a [Mod-Tap][].
-1. Add a [navigation layer][].
+1. Add a [navigation layer][] (or [two][workspace layer] or [three][windows layer]).
 1. Use an alternative layout such as [Colemak-DH][], [Hands Down][] or [MTGAP 2.0][].
 1. Start tweaking the symbols and numbers (and other things you can come up with).
 1. Make your own completely custom layout.
@@ -168,7 +168,7 @@ You don't have to do everything at once and you can try out the different levels
 Say that you've decided to learn a new layout. Now what?
 
 The simple answer is that you just need to practice.
-But here are some tips to make the process better:
+But here are some tips to make the process more efficient:
 
 - Don't look at a reference of the layout.
 
@@ -190,7 +190,7 @@ But here are some tips to make the process better:
   Pressing space with a different thumb is another trick that may help.
 
 There are very good online tools to help you learn any layout.
-These are some I used:
+Here are some I used:
 
 - [keybr][]: Great for learning the initial characters.
 - [Monkeytype][]: Great when you sort-of know where the characters are.
@@ -236,6 +236,8 @@ But if you start using a new layout you *have* to practice, and you have to prac
 [numbers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#numbers
 [modifiers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#modifiers
 [navigation layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#navigation-layer
+[workspace layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#workspace-layer
+[windows layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#windows-layer
 [shortcuts]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#one-handed-shortcuts
 [Betteridge's law of headlines]: https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines
 [BEAKL 15]: https://deskthority.net/wiki/BEAKL#BEAKL_15 "BEAKL 15 keyboard layout"
