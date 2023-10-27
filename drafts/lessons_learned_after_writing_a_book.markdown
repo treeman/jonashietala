@@ -74,29 +74,30 @@ Yes, it's difficult to explain a hard subject in simple terms.
 ## Be sure, and make it personal
 
 One common piece of advice I'd like to push back on is to keep the technical writing dry and impersonal.
-To avoid "you", "in my opinion" and to hedge your bets with "maybe", "there's a chance" and "occasionally".
+The advice is to avoid "you", "in my opinion" and to hedge your bets with "maybe", "there's a chance" and "occasionally".
 
 It's much more memorable and interesting to expose your personal opinions and to use strong wording.
+Be confident.
 
-If you point out every exception to the rule, add dozens of qualifiers to every statement, you will muddy the water so much that the core message will be drowned out.
+If you point out every exception to the rule and add dozens of qualifiers to every statement, you will muddy the water so much that the core message will be drowned out.
 
 Instead, focus to deliver the core message to the best of your abilities.
 Deliver it with confidence, then the reader will remember it.
 Make it colorful.
 Show your personality; make it interesting, make it funny and make it memorable.
 
-Write like a chad!
+Write like a Chad!
 
 # Consistency is the most important thing
 
 If you're going to write a larger piece of work like a book, the most important thing is consistency.
 
 Anyone can write when motivation runs high, but what separates the wheat from the chaff is if you write when you're not motivated.
-It's exactly like exercising; the people who gets results are those who go to the gym every time and those who go out for a run even when it's raining like mad.
+It's exactly like exercising; the people who gets results are those who go to the gym every time or who go out for a run even when it's raining like mad.
 
 It's comforting to think about very successful authors who only write with the help of inspiration, but I think it's a trap.
 
-[A Song of Ice and Fire][] is my favorite book series, but I'm sure that if George R. R. Martin had been more focused on writing consistently, instead of waiting for inspiration, we wouldn't be here still waiting for the next book a decade later, worried that he'll die before he finishes the series.
+[A Song of Ice and Fire][] is my favorite book series, but I'm sure that if George R. R. Martin had been more focused on writing consistently---instead of waiting for inspiration---we wouldn't be here still waiting for the next book a decade later, worried that he'll die before he finishes the series.
 
 And he's not alone. [The Gentlemen Bastard][] series is just as good, but we've been waiting a decade for the next book there too.
 
@@ -114,9 +115,23 @@ We want it to be great!
 
 I think the key here is to let go.
 Allow it to suck, as long as we get *something* down to work with.
-Because then the real writing starts: **the rewrite**.
+Then you'll move forward and allow yourself to get into writer mode where the words will flow.
 
-I really think that changing, revising, rewriting and refactoring is the key to writing well.
+It's only then that the real writing can start: **the rewrite**.
+
+I really think that changing, revising, rewriting, and refactoring is the key to writing well.
+It's the rewrite that will allow you to:
+
+1. Make the text fluent.
+1. Make the writing consistent.
+1. Find and fix errors, both large and small.
+1. Reduce fluff.
+1. Ensure that the core message is delivered as clearly and strongly as possible.
+
+In my mind the rewrite is like polishing a gem.
+Without it, the gem is not much more than a glittering rock;
+you can see the potential, but it's nothing special.
+But after the polish it will sparkle and captivate you.
 
 # Clarity of thought translates into clear writing
 
