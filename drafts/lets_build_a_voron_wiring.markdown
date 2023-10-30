@@ -39,6 +39,7 @@ TODO need more pictures
 # Everything
 
 ![](/images/trident/full_top.jpg)
+![](/images/trident/full_pre_power.jpg)
 
 # Unsorted
 

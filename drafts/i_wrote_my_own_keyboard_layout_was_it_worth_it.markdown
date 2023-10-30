@@ -1,5 +1,5 @@
 ---
-title: "I wrote my own keyboard layout. Was it worth it?"
+title: "I designed my own keyboard layout. Was it worth it?"
 tags: [Computer, Keyboards, T-34]
 series: t-34
 ---
@@ -12,7 +12,7 @@ At first I tried out existing ones, but it didn't take long before I figured it'
 But now that I haven't made any changes to the layout for over a year, I think it's time for some introspection and ask the dreaded question: was it worth it?
 And should you---the dear reader---do the same?
 
-# What was my goal in creating my own?
+# What were my goals in creating my own?
 
 I essentially had two big goals with my layout:
 
@@ -31,7 +31,7 @@ I essentially had two big goals with my layout:
    - Write Swedish and English
    - Coding in a myriad of different programming languages
 
-Did I succeed with the goals?
+# Did I succeed with the goals?
 
 For the first I can say that in combination with the [Ferris][]---a split keyboard with 34 keys---my RSI did indeed get a lot better.
 
@@ -48,7 +48,8 @@ But now I'm satisfied with saying that it just *feels really good*.
 
 # You have to be a little crazy
 
-I do think you have to be a little crazy to design your own layout. I know I was.
+It's quite extreme to design your own layout and I think you have to be a little crazy to do it.
+I know I was.
 
 ---
 
@@ -58,13 +59,13 @@ I was trying to learn the [BEAKL 15][] layout but it just wasn't working for me.
 Maybe I could tweak it a little---so I did.
 Maybe I could tweak it some more? I did that too.
 
-Eventually the sleep deprivation took over and I threw that away and started to design my own layout.
+Eventually the sleep deprivation took over and I abandoned it and started to design my own layout.
 
 And that's how I mostly designed my layout: I designed, tweaked and learned it in the middle of the night as I was trying to get our little kid to sleep.
 
 ---
 
-I don't actually think you need to be actually crazy to design a keyboard layout---but it probably helps.
+I don't think you have to be crazy to design a keyboard layout---but it probably helps.
 
 # What could I have done differently?
 
@@ -99,10 +100,9 @@ Let's summon [Betteridge's law of headlines][] that says:
 
 I wouldn't go quite that far, but you need to realize that there's very real diminishing returns of completely designing your own layout.
 
-In the *vast* majority of cases it would be good enough to switch to something like [Colemak-DH][] or [Hands Down][].
-And depending on what you're after, switching to a more ergonomical keyboard would probably suffice.
+In the *vast* majority of cases it would be good enough to switch to something like [Colemak-DH][] or [Hands Down][], and depending on what you're after switching to a more ergonomical keyboard would probably suffice.
 
-Or maybe not do anything at all. Even though QWERTY is a really bad layout, it probably doesn't matter in the grand scheme of things.
+Or maybe not do anything at all. Lot's of people have been happy with a regular keyboard and QWERTY.
 
 ## When should I make a change?
 
@@ -112,27 +112,28 @@ I think it comes down to two things:
 2. How motivated are you?
 
 First an important note: changing the layout because you want to type faster will probably not work out.
-You've probably been using QWERTY for many years and the amount of practice you need to catch up to and surpass your QWERTY speed will be *staggering*.
+Chances are you've been using QWERTY for many years and the amount of practice you need to catch up to and surpass your QWERTY speed will be *staggering*.
+Most will burn out long before reaching that point (including me).
 
 The biggest benefit I see with an alternative layout is comfort.
 If you're worried about RSI, and you foresee yourself spending a few decades more in front of the computer, then switching layout might be a good idea.
 
 Another benefit is if you have some special requirements with your layout.
-In my case for example I wanted to comfortably be able to type Swedish on a tiny keyboard, and just using Colemak-DH or something wouldn't really support that well.
+In my case for example I wanted to be able to comfortably type Swedish on a tiny keyboard, and just using Colemak-DH or something wouldn't really support that well.
 But with my own layout I could.
 
-And of course, if you find the idea of designing your own layout interesting or fun, you should totally do that.
-I honestly thought it was really **fun** (even though learning it was mostly a pain).
+And of course, if you find the idea of designing your own layout interesting or fun, you should totally do it!
+I honestly thought it was **really fun** (even though learning it was a pain).
 
-## A layout is more than alphanumerics
+## A layout is more than alpha characters
 
 ![Symbols are very important for a programmer.](/images/t-34-2/sym.png)
 
 Something that people seem to miss with alternative layouts---even people designing them---is that a layout is much more than just where the alpha characters goes.
 
-I've spent much more time on where to [place the symbols][symbols], how to [handle numbers][numbers], what type of [modifiers][] I want, a [navigation layer][] and [shortcuts][] than the base layer, and that's where most of the benefit of my layout comes from.
+I've spent much more time on where to [place the symbols][symbols], how to [handle numbers][numbers], what type of [modifiers][] I want, a [navigation layer][], and [shortcuts][] than the base layer, and that's also where most of the benefit of my layout comes from.
 
-Symbols for example are very dependent on the programming languages you use, so there's lots of benefit to a symbols layer optimized for those. It's much more productive to spend time on that than to try to improve [Colemak-DH][], which is already pretty darn good.
+Symbols for example are very dependent on the programming languages you use, so there's lots of benefit to a symbols layer optimized for those. It's much more productive to spend time on optimizing symbols placement than to try to improve [Colemak-DH][], which is already pretty darn good.
 
 Even simple things like adding a [navigation layer][] (with arrow keys under your fingertips) or moving Escape are hugely beneficial.
 And of course, avoiding the gymnastics of pressing Ctrl in the lower left corner with the pinky is a big win.
@@ -143,7 +144,7 @@ If you want to make a change to your setup, these are my recommendations sorted 
 
 1. Get a programmable keyboard (so you can remap things on the keyboard instead of the OS).
 
-   Moving Escape to Caps Lock and adding Ctrl as a [Mod-Tap][] on it are great to do on a regular keyboard. (You might be able to do that on the OS level too.)
+   Moving Escape to Caps Lock and [acting as Ctrl][Mod-Tap] when held are great modifications for a regular keyboard. (You might be able to do that on the OS level too.)
 
 1. Get a more ergonomical keyboard.
 
@@ -184,18 +185,21 @@ But here are some tips to make the process more efficient:
 
   Might as well learn it properly from the start.
 
+  Note that you don't have to be super strict.
+  I press the upper corners with my ring fingers instead of the pinky for instance (because I'm weird and it feels better).
+
 - If you want to retain the ability to type QWERTY, use a different setup.
 
   Use a different keyboard for a different layout can help keep them separate.
   Pressing space with a different thumb is another trick that may help.
 
 There are very good online tools to help you learn any layout.
-Here are some I used:
+Here are some I like:
 
 - [keybr][]: Great for learning the initial characters.
 - [Monkeytype][]: Great when you sort-of know where the characters are.
 - [ngram-type][]: Practice the common ngrams. Great site, although I didn't find it interesting enough to use as much as I maybe should have.
-- [typelit][]: Practice by retyping entire novels. Awesome idea, although I didn't manage to get through the Count of Monte Cristo as I planned to.
+- [typelit][]: Practice by retyping entire novels. Awesome idea, even though I didn't manage to get through the Count of Monte Cristo as I planned to.
 
 It's important to stress how much motivation matters.
 Even though I feel that I want to pick up the practice again when I'm writing this,
@@ -213,7 +217,7 @@ But if you start using a new layout you *have* to practice, and you have to prac
 
 - **I still want to use QWERTY on a regular keyboard**
 
-  If you just use it regularly you'll be fine.
+  If you continue using it regularly you'll be fine.
   I can still type faster with QWERTY on my laptop than with my own layout on my ergonomical keyboard.
 
 - **How long does it take to learn a new layout?**
