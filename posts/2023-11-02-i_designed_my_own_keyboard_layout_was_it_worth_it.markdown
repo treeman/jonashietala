@@ -7,7 +7,7 @@ series: t-34
 Almost two and a half years ago I embarked on the journey to change keyboard layout.
 At first I tried out existing ones, but it didn't take long before I figured it's better to develop my own---and things went downhill fast from there.
 
-![(Some) horizontal combos of the [T-34 layout][t-34].](/images/t-34-curr/hcombos.png)
+![(Some) [horizontal combos][combos] of the [T-34 layout][t-34].](/images/t-34-curr/hcombos.png)
 
 But now that I haven't made any changes to the layout for over a year, I think it's time for some introspection and ask the dreaded question: was it worth it?
 And should you---the dear reader---do the same?
@@ -65,7 +65,7 @@ And that's how I mostly designed my layout: I designed, tweaked and learned it i
 
 ---
 
-I don't think you have to be crazy to design a keyboard layout---but it probably helps.
+I don't think you have to be crazy to design a keyboard layout---but it probably helps to overcome the healthy fear of overoptimization and diminishing returns.
 
 # What could I have done differently?
 
@@ -87,6 +87,7 @@ I'm not motivated to make any large changes or experiments with the layout now, 
 
    It would be fairly simple to go down to 32 keys, with only a single key for each thumb.
    The idea appeals to me, but I don't think there are any practical benefits for me to do so.
+   I might do it in the future if/when I build a new keyboard.
 
 1. More practice.
 
@@ -119,8 +120,9 @@ The biggest benefit I see with an alternative layout is comfort.
 If you're worried about RSI, and you foresee yourself spending a few decades more in front of the computer, then switching layout might be a good idea.
 
 Another benefit is if you have some special requirements with your layout.
-In my case for example I wanted to be able to comfortably type Swedish on a tiny keyboard, and just using Colemak-DH or something wouldn't really support that well.
-But with my own layout I could.
+In my case for example I wanted to be able to comfortably type Swedish on a tiny keyboard, and just using [Colemak-DH][] or something wouldn't really support that well because I couldn't fit `åäö` on the base layer.
+
+But with my own layout I could have `åäö` [easily accessible][swedish] (by toggling between `()_` and `åäö` with a layer).
 
 And of course, if you find the idea of designing your own layout interesting or fun, you should totally do it!
 I honestly thought it was **really fun** (even though learning it was a pain).
@@ -129,7 +131,7 @@ I honestly thought it was **really fun** (even though learning it was a pain).
 
 ![Symbols are very important for a programmer.](/images/t-34-2/sym.png)
 
-Something that people seem to miss with alternative layouts---even people designing them---is that a layout is much more than just where the alpha characters goes.
+Something that people seem to miss with alternative layouts---even people designing them---is that a layout is much more than where the alpha characters goes.
 
 I've spent much more time on where to [place the symbols][symbols], how to [handle numbers][numbers], what type of [modifiers][] I want, a [navigation layer][], and [shortcuts][] than the base layer, and that's also where most of the benefit of my layout comes from.
 
@@ -142,9 +144,9 @@ And of course, avoiding the gymnastics of pressing Ctrl in the lower left corner
 
 If you want to make a change to your setup, these are my recommendations sorted from least to most effort:
 
-1. Get a programmable keyboard (so you can remap things on the keyboard instead of the OS).
+1. Get a programmable keyboard.
 
-   Moving Escape to Caps Lock and [acting as Ctrl][Mod-Tap] when held are great modifications for a regular keyboard. (You might be able to do that on the OS level too.)
+   For example, moving Escape to Caps Lock and [behave like Ctrl when held][Mod-Tap] are great modifications for a regular keyboard. (You might be able to do that on the OS level too.)
 
 1. Get a more ergonomical keyboard.
 
@@ -156,8 +158,8 @@ If you want to make a change to your setup, these are my recommendations sorted 
    For a Vim user, remapping Escape is a classic.
    Ctrl, Shift, Alt, and Enter are also good candidates for moving to a thumb button, a [combo][] or a [Mod-Tap][].
 1. Add a [navigation layer][] (or [two][workspace layer] or [three][windows layer]).
-1. Use an alternative layout such as [Colemak-DH][], [Hands Down][] or [MTGAP 2.0][].
 1. Start tweaking the symbols and numbers (and other things you can come up with).
+1. Use an alternative layout such as [Colemak-DH][], [Hands Down][] or [MTGAP 2.0][].
 1. Make your own completely custom layout.
 
 You don't have to do everything at once and you can try out the different levels to see how painful and time consuming the changes are.
@@ -171,11 +173,9 @@ Say that you've decided to learn a new layout. Now what?
 The simple answer is that you just need to practice.
 But here are some tips to make the process more efficient:
 
-- Don't look at a reference of the layout.
+- Don't look at a reference of the layout and use blank keycaps.
 
   Being forced to remember is painful but recall helps you learn faster.
-
-- Use blank keycaps.
 
 - Practice in small bursts.
 
@@ -190,23 +190,24 @@ But here are some tips to make the process more efficient:
 
 - If you want to retain the ability to type QWERTY, use a different setup.
 
-  Use a different keyboard for a different layout can help keep them separate.
+  A different keyboard for a different layout can help keep them separate.
   Pressing space with a different thumb is another trick that may help.
 
-There are very good online tools to help you learn any layout.
+There are very good online tools to help you learn a layout.
 Here are some I like:
 
 - [keybr][]: Great for learning the initial characters.
 - [Monkeytype][]: Great when you sort-of know where the characters are.
 - [ngram-type][]: Practice the common ngrams. Great site, although I didn't find it interesting enough to use as much as I maybe should have.
-- [typelit][]: Practice by retyping entire novels. Awesome idea, even though I didn't manage to get through the Count of Monte Cristo as I planned to.
+- [typelit][]: Practice by retyping entire novels. Awesome idea, even though I didn't manage to get through the Count of Monte Cristo like I planned to.
 
 It's important to stress how much motivation matters.
 Even though I feel that I want to pick up the practice again when I'm writing this,
 I don't think that will actually happen as I'm not really motivated enough.
 But if you start using a new layout you *have* to practice, and you have to practice quite a lot at least at the beginning.
 
-![My practice died off hard a year ago when I got good enough.](/images/monkey_sessions.png)
+![My practice died off hard a year ago when I got good enough, around 70 wpm.  
+(Some of this was spent practicing numbers and symbols.)](/images/monkey_sessions.png)
 
 # FAQ
 
@@ -218,7 +219,7 @@ But if you start using a new layout you *have* to practice, and you have to prac
 - **I still want to use QWERTY on a regular keyboard**
 
   If you continue using it regularly you'll be fine.
-  I can still type faster with QWERTY on my laptop than with my own layout on my ergonomical keyboard.
+  After 2 years I can still type faster with QWERTY on my laptop than with my own layout on my ergonomical keyboard, and I can use both an English and Swedish layout (symbols move around and `åäö` are added).
 
 - **How long does it take to learn a new layout?**
 
@@ -232,7 +233,9 @@ But if you start using a new layout you *have* to practice, and you have to prac
 
   If this sounds too much for you, it probably is.
 
-  I motivated it for myself by saying that I'll spend a few decades more programming, so a big investment now will pay for itself with time.
+  I rationalized it by saying that I'll spend a few decades more programming, so a big investment now will pay for itself with time as long as there's some benefit.
+
+  (This is indeed the trick on how to waste time on Very Productive™ things like [rewriting your Neovim setup][neovim].)
 
 [t-34]: /blog/2022/09/06/the_current_t-34_keyboard_layout/
 [symbols]: /blog/2021/06/03/the-t-34-keyboard-layout/#symbols
@@ -256,3 +259,6 @@ But if you start using a new layout you *have* to practice, and you have to prac
 [MonkeyType]: https://monkeytype.com/
 [Home-row mods]: https://precondition.github.io/home-row-mods
 [One shot]: https://docs.qmk.fm/#/one_shot_keys
+[combos]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#combos
+[swedish]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#swedish-overlay
+[neovim]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua/

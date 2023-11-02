@@ -1,7 +1,7 @@
 ---
 title: The T-34 keyboard layout
-completed: false
-post_note: See [this post](/blog/2022/09/06/the_current_t-34_keyboard_layout/) for a full reference of how the layout looks now.
+completed: true
+post_note: See [this post](/blog/2022/09/06/the_current_t-34_keyboard_layout/) for a full reference of how the layout looks at the moment.
 img: /images/t-34-2/freq/all.png
 homepage: true
 ---

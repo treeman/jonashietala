@@ -49,3 +49,12 @@ article.series {
 .series-description {
   @include flow;
 }
+
+.series-info .completed {
+  color: var(--color-series-completed);
+  font-style: italic;
+}
+.series-info .ongoing {
+  color: var(--color-series-ongoing);
+  font-style: italic;
+}

@@ -49,11 +49,13 @@ This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, wi
 
 ## Numbers
 
-![Numbers. The darkened keys turn off [NUMWORD].](/images/t-34-2/num.png)
+![Numbers. The darkened keys turn off [NUMWORD].](/images/t-34-curr/num.png)
 
 While I can activate the number layer persistently (using [leader sequences]) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD] for larger numbers (like `1984`).
 
 [NUMWORD] makes the number layer smart, so it will deactivate when certain keys are pressed (colored dark gray in the image). It's used to type numbers in text or code and for relative movement in Vim, where `17J` would move 17 lines down and then turn off the number layer.
+
+`@u` is there to easily activate macros in Vim. For example `7@u` in the number layer would run the `u` macro 7 times and then turn off [NUMWORD].
 
 ## Function keys
 
@@ -113,7 +115,7 @@ Note that some have a separate hold behaviour; for instance holding `Escape` act
 
 ![Vertical combos. All except `;` are pressed with a single finger between the keys.](/images/t-34-curr/vcombos.png)
 
-`vsplt` and `hsplit` splits windows in Vim, and there are also combos for closing a window and saving.
+`vsplt` and `hsplit` splits windows in Vim, and there are also horizontal combos for closing a window and saving.
 
 ## Numbers and symbols
 

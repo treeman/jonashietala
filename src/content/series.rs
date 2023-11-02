@@ -130,8 +130,8 @@ impl SeriesItem {
             last_created: self
                 .posts
                 .iter()
-                .next()
-                .expect("Should have posts")
+                .last()
+                .expect("Series must have at least one post")
                 .0
                 .created,
         }
