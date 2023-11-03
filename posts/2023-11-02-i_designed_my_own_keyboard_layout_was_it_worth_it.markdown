@@ -237,28 +237,28 @@ But if you start using a new layout you *have* to practice, and you have to prac
 
   (This is indeed the trick on how to waste time on Very Productive™ things like [rewriting your Neovim setup][neovim].)
 
-[t-34]: /blog/2022/09/06/the_current_t-34_keyboard_layout/
-[symbols]: /blog/2021/06/03/the-t-34-keyboard-layout/#symbols
-[heatmaps]: /blog/2022/08/28/the_t-342_keyboard_layout/#more-heatmaps
-[numbers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#numbers
-[modifiers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#modifiers
-[navigation layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#navigation-layer
-[workspace layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#workspace-layer
-[windows layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#windows-layer
-[shortcuts]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#one-handed-shortcuts
-[Betteridge's law of headlines]: https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines
+[heatmaps]: /blog/2022/08/28/the_t-342_keyboard_layout/#more-heatmaps "The T-34/2 keyboard layout: More heatmaps"
+[t-34]: /blog/2022/09/06/the_current_t-34_keyboard_layout/ "The current T-34 keyboard layout"
+[symbols]: /blog/2021/06/03/the-t-34-keyboard-layout/#symbols "The current T-34 keyboard layout: Symbols"
+[numbers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#numbers "The current T-34 keyboard layout: Numbers"
+[modifiers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#modifiers "The current T-34 keyboard layout: Modifiers"
+[navigation layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#navigation-layer "The current T-34 keyboard layout: Navigation layer"
+[workspace layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#workspace-layer "The current T-34 keyboard layout: Workspace layer"
+[windows layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#windows-layer "The current T-34 keyboard layout: Windows layer"
+[shortcuts]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#one-handed-shortcuts "The current T-34 keyboard layout: One-handed shortcuts"
+[combos]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#combos "The current T-34 keyboard layout: Combos"
+[swedish]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#swedish-overlay "The current T-34 keyboard layout: Swedish overlay"
+[Betteridge's law of headlines]: https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines "Wikipedia: Betteridge's lay of headlines"
 [BEAKL 15]: https://deskthority.net/wiki/BEAKL#BEAKL_15 "BEAKL 15 keyboard layout"
 [Colemak-DH]: https://colemakmods.github.io/mod-dh/ "Colemak-DH keyboard layout"
 [Hands Down]: https://sites.google.com/alanreiser.com/handsdown "Hands Down keyboard layout"
-[combo]: https://docs.qmk.fm/#/feature_combo
-[Mod-Tap]: https://docs.qmk.fm/#/mod_tap
-[MTGAP 2.0]: https://mathematicalmulticore.wordpress.com/2010/06/21/mtgaps-keyboard-layout-2-0/ "MTGAP 2.0 keyboard layout"
-[keybr]: https://www.keybr.com/
-[ngram-type]: https://ranelpadon.github.io/ngram-type/
-[typelit]: https://www.typelit.io/
-[MonkeyType]: https://monkeytype.com/
-[Home-row mods]: https://precondition.github.io/home-row-mods
-[One shot]: https://docs.qmk.fm/#/one_shot_keys
-[combos]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#combos
-[swedish]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#swedish-overlay
-[neovim]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua/
+[combo]: https://docs.qmk.fm/#/feature_combo "QMK combos"
+[Mod-Tap]: https://docs.qmk.fm/#/mod_tap "QMK mod tap"
+[One shot]: https://docs.qmk.fm/#/one_shot_keys "QMK one-shot keys"
+[MTGAP 2.0]: https://mathematicalmulticore.wordpress.com/the-keyboard-layout-project/ "MTGAP 2.0 keyboard layout"
+[keybr]: https://www.keybr.com/ "Keybr: Typing practice"
+[ngram-type]: https://ranelpadon.github.io/ngram-type/ "Ngram Type"
+[typelit]: https://www.typelit.io/ "Practice typing by retyping ENTIRE novels"
+[MonkeyType]: https://monkeytype.com/ "Monkeytype: Typing test"
+[Home-row mods]: https://precondition.github.io/home-row-mods "A guide to home row mods"
+[neovim]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua/ "Rewriting my Neovim config in Lua" 

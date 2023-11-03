@@ -384,7 +384,7 @@ I use QMK and [my keymap is on GitHub][keymap].
 [GergoPlex]: https://www.gboards.ca/product/gergoplex "GergoPlex"
 [Kyria]: https://splitkb.com/products/kyria-pcb-kit "Kyria PCB Kit"
 [Colemak Mod-DH]: https://colemakmods.github.io/mod-dh/ "Colemak Mod-DH keyboard layout"
-[MTGAP 2.0]: https://mathematicalmulticore.wordpress.com/2010/06/21/mtgaps-keyboard-layout-2-0/ "MTGAP 2.0 keyboard layout"
+[MTGAP 2.0]: https://mathematicalmulticore.wordpress.com/the-keyboard-layout-project/ "MTGAP 2.0 keyboard layout"
 [Hands Down]: https://sites.google.com/alanreiser.com/handsdown "Hands Down keyboard layout"
 [Dvorak]: https://en.wikipedia.org/wiki/Dvorak_keyboard_layout "Dvorak keyboard layout"
 [Workman]: https://workmanlayout.org/ "Workman keyboard layout"
