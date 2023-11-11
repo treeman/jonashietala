@@ -84,7 +84,7 @@ If you point out every exception to the rule and add dozens of qualifiers to eve
 Instead, focus to deliver the core message to the best of your abilities.
 Deliver it with confidence, then the reader will remember it.
 Make it colorful.
-Show your personality; make it interesting, make it funny and make it memorable.
+Show your personality; make it interesting, make it funny, and make it memorable.
 
 Write like a Chad!
 
@@ -105,6 +105,7 @@ Do yourself a favor and turn yourself into an author that grinds out results, no
 The trick is, you can "force" inspiration to come by forcing yourself into writer mode.
 And the way to do that is by making it a habit.
 
+TODO what worked for me...
 
 # Rewrite, rewrite, rewrite
 
@@ -129,9 +130,11 @@ It's the rewrite that will allow you to:
 1. Ensure that the core message is delivered as clearly and strongly as possible.
 
 In my mind the rewrite is like polishing a gem.
-Without it, the gem is not much more than a glittering rock;
+Without it, the gem is not much more than a glittering rock---
 you can see the potential, but it's nothing special.
-But after the polish it will sparkle and captivate you.
+Yet after the polish it will sparkle and captivate you.
+
+The rewrite is essential to good writing.
 
 # Clarity of thought translates into clear writing
 
