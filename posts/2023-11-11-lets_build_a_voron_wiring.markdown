@@ -12,7 +12,7 @@ It's time for the part of my VORON build that I've been dreading: the wiring.
 It's scary because I really have no clue what I'm doing, and mistakes can be very costly and time-consuming.
 
 I've taken my time to double- and triple-check everything, and I took lots of pictures.
-I ran into some issues, but this post will mostly be filled with pictures to gawp at.
+I ran into some issues I'll document here, but this post will mostly be filled with pictures to gawp at.
 
 # Cable chains
 
@@ -88,19 +88,19 @@ My suspicion is that I got the wrong cable because the [V2.4 wiring guide][] spe
 
 I complained about this to 3DJake (where I bought the kit from), who reached out to LDO where I got the response that they're sorry, but I can connect the hotend to `HE1` and change something in `printer.cfg` to make it work.
 
-Not ideal is I do have the Phaetus Rapido, and according to LDO's [V2.4 errata][] it's advisable to switch:
+Not ideal as I do have the Phaetus Rapido, and according to LDO's [V2.4 errata][] it's advisable to switch:
 
 > It has been reported that the Rapido hotend (by Phaetus) draws a large amount of current during initial heat-up. If you are using this hotend with our kit, please consider swapping the bed and hotend connections at the Octopus side.
 
-I guess I need to find some spade terminals and change the wires later.
+I'm not thrilled about it, but I guess I need to find some spade terminals and change the wires later.
 
 ## Full picture
 
-![A better overview of the wiring with skirts and all.](/images/trident/breakout.jpg)
+![A better overview of the wiring with breakout cables (and other things).](/images/trident/breakout.jpg)
 
 # Raspberry
 
-The Raspberry Pi uses 5V via some PCBs:
+The Raspberry Pi uses 5V from the Octopus via some PCBs:
 
 ![The Raspberry Pi is connected.](/images/trident/raspberry.jpg)
 
@@ -115,10 +115,12 @@ I got a cute little PCB for connecting two LED strips in the kit.
 ![It's neat. I like it.  
 (I later moved the LED wire so it goes down in the front instead of behind the belts.)](/images/trident/led_pcb.jpg)
 
+![I wasn't sure how to mount the LEDs, so I added a wire cover below the LED strips to give it a platform to attach on.](/images/trident/leds_mounted.jpg)
+
 ## Controller fan
 
 I should've gotten another PCB mount to mount the fan PCB, but I didn't get one from the print-it-forward service.
-Maybe I should've mounted the fan PCB with the mount and wait with the LEDs, but I couldn't be bothered.
+Maybe I should've mounted the fan PCB with the mount instead of the LED PCB, but I couldn't be bothered.
 
 ![Some tape to prevent shorts.](/images/trident/fan_pcb.jpg)
 
@@ -163,21 +165,27 @@ It was time to rectify that.
 I didn't do it when building the toolhead because I didn't have the tools for it.
 So I ordered wire strippers, a crimping tool, JST connectors and some wire from Amazon.
 
-No, I didn't have a wire stripper and I've never created a cable before.
+> No, I didn't have a wire stripper and I've never created a cable before.
+{ :notice }
 
 ![Crimping was fiddly but after a dozen attempts I think I got it down.](/images/trident/crimp.jpg)
 
-After I painstakingly created the Tap cable, with a 3-pin JST on each end, I noticed that the Tap PCB required a smaller connector than the ones I had. Oh no, do I have to order *another* connector kit?.
+After I painstakingly created the Tap cable---with a 3-pin JST on each end---I noticed that the Tap PCB required a smaller connector than the ones I had. Oh no... Do I have to order *another* connector kit?
 
 But luckily the Tap kit came with one such connector.
+(Please don't break it.)
 
-So I tried to change it... But after trying for some time I noticed that the wires I had were too thick, and didn't fit this smaller connector. 
+So I tried to change it... But after trying for some time I noticed that the wires I had were too thick, and didn't fit this smaller connector.
+I nearly destroyed the connector while trying to insert the wires...
+
 Things aren't going my way, maybe I need to order (and wait for) new wire?
 
 But wait!
 
 Remember how I complained about the hotend cables having the wrong connector?
-Turns out the hotend comes with extension cables with the connectors I wanted, and one of them has the same JST connector and has a thinner wire.
+Turns out the Rapido comes with extension cables with the connectors I wanted.
+The thermistor extension cable has thinner wires and the same JST connector I have...
+
 Maybe I could shorten that cable and use the leftover wire for the Tap cable?
 
 ![A shortened extension cable for the hotend thermistor.](/images/trident/short_cable.jpg)
@@ -190,9 +198,10 @@ I can't imagine the frustration if I had to create all wiring from scratch (ther
 
 One problem I still have is the excessive wiring coming out from the toolhead, and I don't really know what to do with it.
 
-![Excessive wiring. Should I try to hide it inside the cable chain?](/images/trident/cable_bundle2.jpg)
+![Too many cables. Should I try to hide it inside the cable chain?](/images/trident/cable_bundle2.jpg)
 
-Maybe I could try to shorten them all... But I'm not skilled or brave enough to try.
+Maybe I could try to shorten them all...
+But I'm not skilled or brave enough to try.
 
 ![It's not pretty... It sort of ruins the nice looking toolhead don't you think?](/images/trident/cable_bundle.jpg)
 
@@ -200,15 +209,15 @@ Maybe I could try to shorten them all... But I'm not skilled or brave enough to 
 
 When building the printer I've been jumping around a little, and somewhere in the middle of the wiring I decided I should try to [solve the gantry racking][].
 
-I'd noticed that the gantry catches a little when moving it around, and I got a tip from the [VORON forum][] that I should rack the gantry to try to fix it.
+I had noticed that the gantry catches a little when moving it around, and I got a tip from the [VORON forum][] that I should rack the gantry to try to fix it.
 
 And it did solve the issue!
-The movement isn't as smooth as in NERO 3D's video, but at least it doesn't catch anywhere.
+The movement isn't as smooth as in [NERO 3D's video][solve the gantry racking], but at least it doesn't catch anywhere.
 
 > I did this with the motors and everything connected, which is NOT recommended as it may damage the components.
 > At one point I saw the display flashing and thought "huh, that's weird", but clueless as I am the implications didn't register at that time.
 > 
-> Yeah I know that NERO 3D said so in the gantry racking video, but it had slipped my mind.
+> Yeah I know that NERO 3D said to watch out for it in the gantry racking video, but it had slipped my mind.
 > Now I'm really worried that I've screwed myself over in a major way.
 { :notice }
 
@@ -225,10 +234,10 @@ After installing the bed and racking the gantry, I noticed a big issue with the 
 
 Turns out I had made a mistake when installing the cable chains, as they're all too short and they max out too soon, stopping the movement.
 
-There were 4 extra links in the kit, but I didn't know what to do with them so I forgot about them and just assumed that the three cable chains would work as-is.
-Maybe this is assumed knowledge, but when installing them I should've checked the range of motion to be sure they were long enough.
+There were 4 extra links in the kit, but I didn't know what to do with them so I forgot about them and took for granted that the three cable chains would work as-is.
+Maybe this is assumed knowledge, but when installing them---and before running the wires through---I should've checked the range of motion to be sure they were long enough.
 
-Now I had to break open the chains and add the extra links.
+Now I had to break open the chains and add the extra links afterwards.
 This was super annoying because I had to pull more wire to the chains, meaning I had to undo all the wiring work for all the motors and toolhead cables.
 
 ![Opening up the xy cable chains.](/images/trident/redo_chain.jpg)
@@ -237,7 +246,7 @@ I added two links to the z chain and one link each to the x and y chains.
 For x and y I also had to add some extra space by offsetting them so the chains aren't flush to the edge of the extrusion holder or toolhead.
 
 ![I had to add some extra spacing on the x and y chains to get the required range of motion.
-I wish I didn't clip away the tab, so I could zip tie the cables to it.](/images/trident/redo_chain2.jpg)
+I wish I hadn't clipped away the tab, so I could zip tie the cables to it.](/images/trident/redo_chain2.jpg)
 
 ::: Flex
 /images/trident/redo_chain3.jpg
@@ -263,8 +272,7 @@ And the lights are glowing! *Huzzah!*
 ![The lights are glowing, and there's no smoke from the Octopus.  
 I disconnected the hotend and Raspberry as a safety measure before turning it on.](/images/trident/octopus_lights.jpg)
 
-![The Raspberry Pi also has some lights when turned on.
-I think that's a good sign, but I can't tell for sure before flashing.](/images/trident/pi_lights.jpg)
+![The Raspberry Pi also has some lights when turned on.](/images/trident/pi_lights.jpg)
 
 The status lights are promising, but I can't tell for sure before flashing.
 
