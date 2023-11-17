@@ -17,7 +17,7 @@ I chose to install Mainsail instead of Fluidd simply because I liked the screens
 From what I understand they're very similar and the choice doesn't really matter.
 I flashed it using [pi-imager].
 
-It was great to see the display turning on being able to ssh to the Pi.
+It was great to see the display turning on and being able to ssh to the Pi---such a relief!
 
 ![The Raspberry Pi and the display are alive and kicking, although the display is rotated 180 degress.](/images/trident/display_alive.jpg)
 
@@ -36,7 +36,6 @@ serial: /dev/serial/by-id/usb-Klipper_stm32f446xx_140045000F50535556323420-if00
 
 It's good to see my old friend the Linux login prompt on the display, but that's not really what we want here.
 Instead we should install [KlipperScreen] to be able to control the printer via a user-friendly UI.
-
 I installed it using a [manual install][klipper-install], but in hindsight I maybe should've [KIAUH]. Oh well.
 
 To rotate the screen you edit `/boot/config.txt` according to the [LDO docs][rotate-docs]:
@@ -52,7 +51,14 @@ dtoverlay=rpi-ft5406,touchscreen-inverted-x=1,touchscreen-inverted-y=1
 
 ![The display is rotated and uses KlipperScreen.](/images/trident/klipperscreen.jpg)
 
-## Home assistant
+## Home Assistant
+
+![Home Assistant integration with plenty of controls and sensors.](/images/trident/trident_ha.png)
+
+Of course, I had to hook up the printer to [Home Assistant].
+This was easily done using the [Moonraker Home Assistant] plugin via HACS.
+
+Maybe I'll actually make a functional dashboard with it... Some day.
 
 # Initial config
 
@@ -76,7 +82,7 @@ Luckily the XY motors worked as expected (I hadn't configured Z yet) but it coul
 
 The bed---through the SSR---is connected to `HE0`, corresponding to the `PA2` pin (`BED_OUT` is `PA1`):
 
-```cfg
+```
 [heater_bed]
 # SSR Pin - HE0
 heater_pin: PA2
@@ -86,7 +92,7 @@ heater_pin: PA2
 
 The hotend is connected to the non-standard `HE1` (since my cable didn't come with a fork spade to connect it to `BED_OUT`, as advised in the [LDO wiring docs][]):
 
-```cfg
+```
 [extruder]
 # Heater - HE1
 heater_pin: PA3
@@ -98,7 +104,7 @@ None of the values in the [common thermistors][] documentation worked for the Ph
 
 ## Tap
 
-Configuring Tap was straightforward, I just followed the steps in the [Updating your Klipper config for Tap][tap_klipper] instructions.
+Configuring Tap was straightforward, I simply followed the steps in the [Updating your Klipper config for Tap][tap_klipper] instructions.
 
 The one thing that confused me was this this line about `PROBE_CALIBRATE`:
 
@@ -106,14 +112,12 @@ The one thing that confused me was this this line about `PROBE_CALIBRATE`:
 
 Turns out it's the process described in [configuring the Z Offset Adjustment][z_offset] in the VORON documentation, only substituting `Z_ENDSTOP_CALIBRATE` with `PROBE_CALIBRATE`. I ended up with this line in the config:
 
-```cfg
+```
 #*# [probe]
 #*# z_offset = -1.195
 ```
 
-Then how good is Tap?
-
-After warming up the enclosure a little bit I ran `PROBE_ACCURACY` to find out:
+To see if Tap is working I warmed up the enclosure a little bit I ran `PROBE_ACCURACY`:
 
 ```
 probe accuracy results:
@@ -128,7 +132,7 @@ probe accuracy results:
 I doubt that I built everything that well, but I'll take it!
 
 I'm a little confused what the negative numbers mean; is my `z_offset` too low, causing the probe values to be negative?
-Or are they uncorrelated?
+Or are they uncorrelated and this is completely fine?
 
 ## Extruder
 
@@ -141,7 +145,7 @@ I know I checked it when assembling the Clockwork 2, but by god I couldn't get i
 After a long time of fiddling, and considering if I should just disassemble it all, I somehow got it to work.
 
 I think it was a combination of the extruder direction being inverted and some filament getting stuck, but I just don't know.
-I'll just file it under user error and forget about it.
+I'll file it under user error and forget about it.
 
 ```
 [extruder]
@@ -151,6 +155,8 @@ dir_pin: PF0 # Inverted by removing the `!`
 I don't understand how you're supposed to properly measure the amount of filament when calibrating
 the extruder, the VORON docs isn't particularly clear about it.
 What I did was to pull it taught and try to measure from there, but I fear it wasn't *that* precise.
+
+Maybe it would be easier without the top panel?
 
 ![The small red mark was 100mm away from the edge of the black holder part before I tried to extrude 100mm of filament. I think this is good enough?](/images/trident/extrude_calibration2.jpg)
 
@@ -175,9 +181,20 @@ The doors doesn't have foam tape between them and the frame unlike the rest of t
 
 I wonder why that is?
 I worry that they will scramble against the frame and it won't make a good seal, which I think could've been avoided.
-I'll probably look for mods for the doors, maybe I'll replace the doors with a magnetically mounted panel or something.
+I'll probably look for mods for the doors; maybe I'll replace the doors with a magnetically mounted panel or something.
 
 # Slicer
+
+I do feel my 3D printing inexperience when I have to setup yet another thing: a slicer.
+There are quite a few options, but I didn't care to try out them all---I simply wanted to get up and running smoothly.
+
+I picked [SuperSlicer] because it works on Linux, has a custom [Voron Design profile] to import, and seems fairly popular.
+
+![Viewing the layers is weirdly satisfying.](/images/trident/superslicer.png)
+
+I was initially super confused on how to see the layer preview.
+Turns out there was some error with only using the preconfigured Voron v1 250 0.4mm config I selected in the configuration wizard.
+Importing the [Voron Design profile] and selecting it seems to have resolved the issue.
 
 # What's left?
 
@@ -216,3 +233,7 @@ And after that there are still things left to do:
 [snapd]: https://snapcraft.io/install/snapd/raspbian
 [VORON initial startup docs]: https://docs.vorondesign.com/build/startup/
 [tap_docs]: https://github.com/VoronDesign/Voron-Tap
+[SuperSlicer]: https://github.com/supermerill/SuperSlicer
+[Voron Design profile]: https://github.com/VoronDesign/Voron-2/tree/Voron2.4/slicer_profiles/PrusaSlicer
+[Home Assistant]: https://www.home-assistant.io/
+[Moonraker Home Assistant]: https://github.com/marcolivierarsenault/moonraker-home-assistant
