@@ -105,7 +105,8 @@ Do yourself a favor and turn yourself into an author that grinds out results, no
 The trick is, you can "force" inspiration to come by forcing yourself into writer mode.
 And the way to do that is by making it a habit.
 
-TODO what worked for me...
+What worked for me was to allocate 15--30 minutes of writing every morning (which sometimes became much more).
+Even though I only worked on the book a few hours a week, this consistent work worked wonders for me.
 
 # Rewrite, rewrite, rewrite
 
@@ -136,9 +137,51 @@ Yet after the polish it will sparkle and captivate you.
 
 The rewrite is essential to good writing.
 
+# Have a plan and an outline
+
+I think it's good to approach writing top-down instead of bottom-up, where you focus on the big picture and then drill down.
+
+For that you need a high-level plan, and creating outlines is a simple and effective way of getting some structure.
+This may not be the best approach for a novel, but for the type of technical book and blog posts I write creating outlines has served me very well.
+
+On the highest level the chapter titles can serve to guide you through the book, and doubly so if you organize them in sections (real or imagined).
+
+This isn't just a help for you during the writing process, but it also gives the reader some insight into the book ... TODO
+For example, even if you've never seen my book before, these three sections should give you a good idea on the main arguments in the book:
+
+> **What is a cryptocurrency?**  
+> Properties of a cryptocurrency  
+> How do cryptocurrencies work?  
+> Look out for snake oil  
+> What is money?  
+> Are cryptocurrencies money?
+> 
+> **Better digital payments**  
+> Cheaper & faster  
+> “Undesirable” businesses  
+> Freezing of merchant accounts  
+> Uncensorable donations  
+> For the unbanked
+> 
+> **A better currency**  
+> The financial crisis, bad loans and bailouts  
+> The blind leading the blind  
+> A defective system  
+> Private money  
+> A global currency
+
+With this high-level outline all I had to do was to fill it in.
+Yes, I know that's simplifying the reality a bit, but it's pretty close to how I wrote my book.
+I had 
+
+This may be difficult to do this early, but don't worry about it too much.
+You can always change them later, the point is to have a rough idea to guide you.
+
 # Clarity of thought translates into clear writing
 
-# Have a plan and an outline
+Sometimes when you try to 
+
+Sometimes when you're proof-reading or rewriting something you wrote, you get 
 
 # Get a proof-reader or two
 
