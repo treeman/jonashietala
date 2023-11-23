@@ -107,6 +107,8 @@ But it's actually not that terrible?
 It's far from perfect, but the lighting is fairly harsh and it looks better in real-life.
 My friends have shown many 3D prints that look a lot worse.
 
+# Functional prints
+
 High on adrenaline I set out to do my first functional print: an [exhaust cover][] for the back of the printer.
 I'm going to replace it with a proper filter in the future, but I wanted something to cover the big hole in the back when printing ABS, so I wanted to make a temporary in PLA.
 
@@ -122,6 +124,16 @@ The nozzle didn't hit the bed and it was the stepper motors being super loud... 
 When I re-ran the print and stopped messing with it, the printer spit out a functional print:
 
 ![Honestly, pretty good quality.](/images/trident/print_exhaust.jpg)
+
+Other things weren't that good:
+
+![A part needed to mount the Nevermore filter to the extrusion.
+It's hard to see in this image, but the top edge is drifting upwards quite a bit.](/images/trident/not_great_nevermore_mount.jpg)
+
+Simpler models seem to print well, but it struggles with more complex geometry.
+While I can probably use this Nevermore mount with some sanding, this level of quality isn't high enough to for example print parts for a VORON.
+
+More tuning is needed.
 
 # Print tuning
 
