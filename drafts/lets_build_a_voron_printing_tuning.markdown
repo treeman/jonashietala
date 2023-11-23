@@ -21,45 +21,10 @@ I don't know what filament is good and what I need, so I decided to get a few di
 
 ![I think I went overboard with the filament order.](/images/trident/filament.jpg)
 
-# First print
-
-The VORON docs [makes the first print seem so simple][voron-print]---just upload the print and eat a bowl of cereal.
-And I was looking forward to just hitting print and watching it go brr...
-But of course things wouldn't go so smoothly.
-
-
-Problems I've had include:
-
-1. Print stopped with `Hotend not enough` (Tap reduces temp to 150)
-
-   This happens because the Tap G-code reduces the hotend temperature to 150° when probing to not damage the bed, but then the temperature is too low for printing.
-
-   This made me implement [a better print_start macro][].
-
-1. Filament didn't load.
-
-   And KlipperScreen complains about `FILAMENT_LOAD` not existing. Sigh.
-
-1. First layer not sticking to the bed.
-
-1. After a few failed attempts, the filament clogs.
-
-   ![The filament clogged somehow, and I had to disassemble the toolhead to fix it.](/images/trident/clogged.jpg)
-
-1. Bunch of "Unknown command" errors in the mainsail log.
-
-   I assume it's because Klipper wasn't selected in the "G-code flavor" in SuperSlicer.
-
-https://reprap.org/wiki/G-code
-
-  Unknown command:"M101"
-  Unknown command:"M126"
-  Unknown command:"M127"
-
-
 # Secondary printer tuning
 
-Continuing with the VORON docs the next part is the [Secondary printer tuning][].
+At this point the next step in the VORON docs is making a print.
+But I had various issues, so I went through the [Secondary printer tuning][] before getting my first successful print.
 
 ## Gantry racking & squaring
 
@@ -96,16 +61,73 @@ I also wanted to use [Klipper Adaptive Meshing & Purging][] (KAMP).
 The guide references input shaping, which is included in the LDO kit.
 But [NERO 3D][] recommended to wait with input shaping until you've printed with it a bit, so I've held off on it until I've done some more printing.
 
+# First print
+
+The VORON docs [makes the first print seem so simple][voron-print]---just upload the print and eat a bowl of cereal.
+And I was looking forward to just hitting print and watching it go brr...
+But of course things wouldn't go so smoothly.
+
+Problems I've had include but isn't limited to:
+
+1. Print stopped with `Hotend not enough`
+
+   This happens because the Tap G-code reduces the hotend temperature to 150° when probing to not damage the bed, but then the temperature is too low for printing.
+
+   This made me implement [a better print_start macro][].
+
+1. Filament didn't load.
+
+   And KlipperScreen complains about `FILAMENT_LOAD` not existing. Sigh.
+
+1. First layer not sticking to the bed.
+
+1. After a few failed attempts, the filament clogs.
+
+   ![The filament clogged somehow, and I had to disassemble the toolhead to fix it.](/images/trident/clogged.jpg)
+
+1. Bunch of "Unknown command" errors in the mainsail log.
+
+   I assume it's because Klipper wasn't selected in the "G-code flavor" in SuperSlicer.
+
+1. The print coming loose from the bed after a while.
+
+   ![Oh FFS.](/images/trident/fail_print.jpg)
+
+   I struggled with this a fair bit.
+   I reconfigured `z_offset` which seemed to work, but maybe it's extruding too much filament causing the toolhead to hit the print?
+
+After all that trouble I was running into I was expecting for getting an absolutely shit print...
+But it's actually not that terrible?
+
+::: Flex
+/images/trident/first_cube_top.jpg
+/images/trident/first_cube_x.jpg
+:::
+
+It's far from perfect, but the lighting is fairly harsh and it looks better in real-life.
+My friends have shown many 3D prints that look a lot worse.
+
+High on adrenaline I set out to do my first functional print: an [exhaust cover][] for the back of the printer.
+I'm going to replace it with a proper filter in the future, but I wanted something to cover the big hole in the back when printing ABS, so I wanted to make a temporary in PLA.
+
+But it things can't go that smoothly:
+
+![I messed with the z-offset during print, and the result was this mess.](/images/trident/fail_print_exhaust.jpg)
+
+The printer made some extremely unpleasant sounds, and I was scared that the nozzle was grinding against the bed.
+I tried to tweak the z-offset during print, but I the sound didn't stop and I ended up destroying the print.
+
+The nozzle didn't hit the bed and it was the stepper motors being super loud... But more on that in a future post.
+
+When I re-ran the print and stopped messing with it, the printer spit out a functional print:
+
+![Honestly, pretty good quality.](/images/trident/print_exhaust.jpg)
+
 # Print tuning
 
 <https://ellis3dp.com/Print-Tuning-Guide/>
 
 # Print comparison
-
-# A functional print
-
-Exhaust cover
-  https://github.com/MotorDynamicsLab/LDOVoron2/blob/main/STLs/exhaust_cover.stl
 
 [3DJAKE niceABS Black]: https://www.3djake.com/3djake/niceabs-black?sai=3802
 [eSUN ABS+ Purple]: https://www.3djake.com/esun/abs-purple-2?sai=11812
@@ -119,3 +141,4 @@ Exhaust cover
 [Secondary printer tuning]: https://docs.vorondesign.com/tuning/secondary_printer_tuning.html
 [voron-print]: https://docs.vorondesign.com/build/slicer/first_print.html
 [a better print_start macro]: https://github.com/jontek2/A-better-print_start-macro
+[exhaust cover]: https://github.com/MotorDynamicsLab/LDOVoron2/blob/main/STLs/exhaust_cover.stl

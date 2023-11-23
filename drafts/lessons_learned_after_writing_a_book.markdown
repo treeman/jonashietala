@@ -144,10 +144,8 @@ I think it's good to approach writing top-down instead of bottom-up, where you f
 For that you need a high-level plan, and creating outlines is a simple and effective way of getting some structure.
 This may not be the best approach for a novel, but for the type of technical book and blog posts I write creating outlines has served me very well.
 
-On the highest level the chapter titles can serve to guide you through the book, and doubly so if you organize them in sections (real or imagined).
-
-This isn't just a help for you during the writing process, but it also gives the reader some insight into the book ... TODO
-For example, even if you've never seen my book before, these three sections should give you a good idea on the main arguments in the book:
+On the highest level the chapter titles can serve to guide you (both the reader and the writer) through the book, and doubly so if you organize them in sections (real or imagined).
+For example, even if you've never seen my book before, the three main sections should give you a good idea on what the book is about and the journey it'll take you through:
 
 > **What is a cryptocurrency?**  
 > Properties of a cryptocurrency  
@@ -171,11 +169,29 @@ For example, even if you've never seen my book before, these three sections shou
 > A global currency
 
 With this high-level outline all I had to do was to fill it in.
-Yes, I know that's simplifying the reality a bit, but it's pretty close to how I wrote my book.
-I had 
+Yes, I know that's simplifying the reality a bit, but it's pretty close to how I wrote my book:
+I had a bunch of ideas that I turned into chapters and filled them in while revisiting the chapter and section layout.
 
-This may be difficult to do this early, but don't worry about it too much.
-You can always change them later, the point is to have a rough idea to guide you.
+This approach works great inside the chapters or in a longer blog post too.
+There I organize the big points I want to make using headers and sub-headers.
+As an example, these are the headers from the post [Battling burnout][]:
+
+> Is it burnout, depression or both?  
+> No apparent reason  
+> Red flags  
+> Seeking help  
+> What was the actual cause?  
+> Things that helped me  
+> The only thing that really helped me  
+> Are you ever cured?
+
+This approach has several advantages:
+
+1. Writing it down forces you to organize your thoughts (at least a bit)
+1. It helps you see the big picture and hit on the most important points
+1. Having an outline makes it easier to jump in and start writing
+
+   You already know what to do, just fill it in!
 
 # Clarity of thought translates into clear writing
 
@@ -191,3 +207,4 @@ Sometimes when you're proof-reading or rewriting something you wrote, you get
 [types]: https://practicaltypography.com/type-composition.html
 [A Song of Ice and Fire]: https://www.goodreads.com/series/43790-a-song-of-ice-and-fire
 [The Gentlemen Bastard]: https://www.goodreads.com/series/43531-gentleman-bastard
+[Battling burnout]: /blog/2023/03/14/battling_burnout/
