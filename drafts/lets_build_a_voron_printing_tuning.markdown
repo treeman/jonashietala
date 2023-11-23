@@ -135,9 +135,30 @@ While I can probably use this Nevermore mount with some sanding, this level of q
 
 More tuning is needed.
 
-# Print tuning
+# More print tuning
 
-<https://ellis3dp.com/Print-Tuning-Guide/>
+[Ellis' print tuning guide][] seems like the go-to guide for tuning your prints.
+It contains a *lot* of info, so I won't write about it too much lest we'll be here all day.
+
+- Go through and tighten everything again
+- Tighten nozzle *while hot* (I didn't do this previously!)
+
+- Extruder calibration
+
+  This contains the images I was missing from the VORON docs.
+  I redid the calibration but with the top panel removed to get a more accurate measure.
+
+- Wash the build surface (don't mention it in the blog?)
+
+- First layer squish
+
+- Pressure advance
+
+- Extrusion multiplier
+
+- Stringing? (Need to dry the filament?)
+
+- Stepover
 
 # Print comparison
 
@@ -154,3 +175,4 @@ More tuning is needed.
 [voron-print]: https://docs.vorondesign.com/build/slicer/first_print.html
 [a better print_start macro]: https://github.com/jontek2/A-better-print_start-macro
 [exhaust cover]: https://github.com/MotorDynamicsLab/LDOVoron2/blob/main/STLs/exhaust_cover.stl
+[Ellis' print tuning guide]: https://ellis3dp.com/Print-Tuning-Guide/
