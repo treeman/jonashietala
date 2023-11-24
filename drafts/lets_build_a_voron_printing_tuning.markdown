@@ -123,7 +123,7 @@ The nozzle didn't hit the bed and it was the stepper motors being super loud... 
 
 When I re-ran the print and stopped messing with it, the printer spit out a functional print:
 
-![Honestly, pretty good quality.](/images/trident/print_exhaust.jpg)
+![Surprisingly good quality.](/images/trident/print_exhaust.jpg)
 
 Other things weren't that good:
 

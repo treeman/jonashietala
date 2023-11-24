@@ -15,7 +15,7 @@ Many lessons are from the excellent book [On Writing Well: The Classic Guide to 
 
 # Writing is a skill
 
-The most important thing to remember is that writing is a skill.
+Realize that writing is a skill.
 A skill can be improved, but it will take conscious effort.
 
 ## Deliberate practice
@@ -26,9 +26,9 @@ Without practice, everything else is meaningless.
 But it's not enough to "just write", you also need to evaluate your progress and try to notice what you're lacking and where you can improve.
 
 Be introspective, think about what you're doing and be your own critic.
-This is an extremely valuable skill, which will helpful for you no matter what you want to improve upon.
+This is an extremely valuable skill, which will helpful no matter what area you want to improve in.
 
-It can be difficult, so here are some questions I try to ask myself whenever I write:
+It can be difficult, here are some questions I try to ask myself whenever I write:
 
 - Does the text flow nicely?
 - Where is the red thread?
@@ -36,12 +36,11 @@ It can be difficult, so here are some questions I try to ask myself whenever I w
 - What is the purpose of this section/chapter/paragraph?
 - Can I remove these words?
 - Am I repeating myself?
-- Can I replace any of these words to make it simpler, more succinct or more correct?
+- Can I replace any of these words to make it simpler, more succinct, or more correct?
 - Does the text sound good?
 - Are the sentences too short? Too long?
 - Is there sufficient variation in the text?
 - Are you [using the character types][types]; commas, ellipses, hyphens, dashes and brackets?
-
 
 ## Remove unnecessary words
 
@@ -56,14 +55,14 @@ If I'm not strict on myself I've found that I'm very good at adding redundant wo
 
 ## Keep it simple stupid
 
-KISS, a common acronym in software development that is applicable to writing too.
+KISS, a common acronym in software development, is also applicable to writing.
 Complexity is an alluring mistress, especially for the bright and motivated,
 but using simpler words and sentence structures is often the better way.
 
 This is especially true in non-fiction where you're trying to explain a technical concept.
 By keeping things simpler---often simpler than you'd like---your explanation will be more easily understood by more people.
 
-The reader will be tasked hard enough to understand the subject matter at hand, throwing complicated jargon at them will only make it harder.
+The reader will be tasked hard enough to understand the subject matter at hand, throwing complicated jargon at them will only make understanding harder.
 
 Yes, it's difficult to explain a hard subject in simple terms.
 
@@ -74,39 +73,36 @@ Yes, it's difficult to explain a hard subject in simple terms.
 ## Be sure, and make it personal
 
 One common piece of advice I'd like to push back on is to keep the technical writing dry and impersonal.
-The advice is to avoid "you", "in my opinion" and to hedge your bets with "maybe", "there's a chance" and "occasionally".
+The advice is to avoid "you", "I", and "in my opinion" while hedging your bets with "maybe", "there's a chance", and "occasionally".
 
 It's much more memorable and interesting to expose your personal opinions and to use strong wording.
-Be confident.
-
 If you point out every exception to the rule and add dozens of qualifiers to every statement, you will muddy the water so much that the core message will be drowned out.
 
 Instead, focus to deliver the core message to the best of your abilities.
-Deliver it with confidence, then the reader will remember it.
+Deliver it with confidence then the reader will remember it.
 Make it colorful.
 Show your personality; make it interesting, make it funny, and make it memorable.
 
-Write like a Chad!
-
 # Consistency is the most important thing
 
-If you're going to write a larger piece of work like a book, the most important thing is consistency.
+If you're going to write a larger piece of work like a book, the most important thing to get it done is working on it consistently.
 
 Anyone can write when motivation runs high, but what separates the wheat from the chaff is if you write when you're not motivated.
-It's exactly like exercising; the people who gets results are those who go to the gym every time or who go out for a run even when it's raining like mad.
+It's exactly like exercising; the people who gets results are those who go to the gym when they don't feel like it, or who go out for a run even when it's raining like mad.
 
 It's comforting to think about very successful authors who only write with the help of inspiration, but I think it's a trap.
 
 [A Song of Ice and Fire][] is my favorite book series, but I'm sure that if George R. R. Martin had been more focused on writing consistently---instead of waiting for inspiration---we wouldn't be here still waiting for the next book a decade later, worried that he'll die before he finishes the series.
 
 And he's not alone. [The Gentlemen Bastard][] series is just as good, but we've been waiting a decade for the next book there too.
+Although I haven't read it yet, [The Kingkiller Chronicle][] is another example.
 
 Do yourself a favor and turn yourself into an author that grinds out results, not one who waits for inspiration to strike.
 The trick is, you can "force" inspiration to come by forcing yourself into writer mode.
 And the way to do that is by making it a habit.
 
 What worked for me was to allocate 15--30 minutes of writing every morning (which sometimes became much more).
-Even though I only worked on the book a few hours a week, this consistent work worked wonders for me.
+Even though I only worked on the book a few hours a week, this consistent work---this habit---worked wonders for me.
 
 # Rewrite, rewrite, rewrite
 
@@ -137,12 +133,34 @@ Yet after the polish it will sparkle and captivate you.
 
 The rewrite is essential to good writing.
 
+# Clarity of thought translates into clear writing
+
+> Clear thinking becomes clear writing; one can't exist without the other.
+{ author=William Zinsser }
+
+Writing can be hard sometimes.
+You have a plan, you get something down and you try to rewrite and mold it to something good.
+But despite doing everything "right", what you've written still sucks.
+It's frustrating.
+
+When this happens to me, the problem isn't the writing itself---it's my thoughts.
+
+If your thoughts are muddy and unclear, then what you write will also be muddy and unclear.
+But if your thoughts are sharp and clear, then the writing will be also be sharp and clear.
+
+In practice this means it's often better to take a step back and organize your thoughts than to force unfinished ideas on paper.
+
+It may sound like it runs counter to my previous advice of getting something down and then working with it, but I think they compliment each other.
+Rewriting is one way of organizing your thoughts, but it's not a panacea.
+
 # Have a plan and an outline
 
-I think it's good to approach writing top-down instead of bottom-up, where you focus on the big picture and then drill down.
+Another way of organizing your thoughts is to approach writing top-down instead of bottom-up, where you focus on the big picture and then drill down.
 
-For that you need a high-level plan, and creating outlines is a simple and effective way of getting some structure.
-This may not be the best approach for a novel, but for the type of technical book and blog posts I write creating outlines has served me very well.
+A good way is to formulate a high-level plan, and creating outlines is a simple and effective way of getting some structure.
+This may not be the best approach for a novel, but for the type of technical writing I do creating outlines has served me very well.
+
+## Organizing a book
 
 On the highest level the chapter titles can serve to guide you (both the reader and the writer) through the book, and doubly so if you organize them in sections (real or imagined).
 For example, even if you've never seen my book before, the three main sections should give you a good idea on what the book is about and the journey it'll take you through:
@@ -169,11 +187,22 @@ For example, even if you've never seen my book before, the three main sections s
 > A global currency
 
 With this high-level outline all I had to do was to fill it in.
-Yes, I know that's simplifying the reality a bit, but it's pretty close to how I wrote my book:
-I had a bunch of ideas that I turned into chapters and filled them in while revisiting the chapter and section layout.
+Yeah, that's simplifying the reality a little, but it's actually pretty close to how I wrote my book:
 
-This approach works great inside the chapters or in a longer blog post too.
-There I organize the big points I want to make using headers and sub-headers.
+1. I had a bunch of ideas that I turned into chapters.
+1. I wrote one chapter at a time (not necessarily in order).
+1. I revised the planned chapters over time.
+1. I rewrote *a lot*.
+
+It may sound too simplistic and too perfect---surely you cannot plan so well that this is all there is to writing a book?
+Remember that this is only a rough plan to guide you, in reality the process will be messy.
+Moving, rewriting and throwing away chapters will be necessary.
+
+## Organizing chapters or blog posts
+
+This approach with first creating an outline works great inside the chapters or in a longer blog post too.
+
+I may start with a simple list of things I want to say, but my goal is to turn that into headers and sub-headers.
 As an example, these are the headers from the post [Battling burnout][]:
 
 > Is it burnout, depression or both?  
@@ -185,26 +214,41 @@ As an example, these are the headers from the post [Battling burnout][]:
 > The only thing that really helped me  
 > Are you ever cured?
 
-This approach has several advantages:
-
-1. Writing it down forces you to organize your thoughts (at least a bit)
-1. It helps you see the big picture and hit on the most important points
-1. Having an outline makes it easier to jump in and start writing
-
-   You already know what to do, just fill it in!
-
-# Clarity of thought translates into clear writing
-
-Sometimes when you try to 
-
-Sometimes when you're proof-reading or rewriting something you wrote, you get 
-
-# Get a proof-reader or two
+Burnout was quite a difficult subject for me to write about, and I didn't know how to approach it.
+But with an outline like this it was much easier---just follow the headers and fill it in!
 
 # Perfectionism is a blessing and a curse
+
+On one hand it's good to strive for perfectionism.
+Even if you never reach it, the act of trying to make something as good as it can possibly be will increase the quality.
+
+But on the other hand trying to be perfect may be a hindrance.
+It may be paralyzing and I suspect it's a big contributing factor for the famous "writer's block", where the writer is severely slowed down or even becoming unable to write.
+
+> Perfect is the enemy of good
+
+I felt this effect after I had put way too much time designing the web version and the physical version of the book.
+I think the result was really good; the book looks beautiful and is pleasing to read, but I burned out hard when I had to do it again with the eBook version.
+2 years after the book was done, the eBook/PDF are still not available from regular stores, and truthfully I don't know if I'll ever gather the energy to do that.
+
+The problem is that my standard was too high.
+I wanted it to look as good as possible, but chasing perfection only led to burnout.
+
+I'm still trying to be satisfied with things that are good enough instead of wanting perfection.
+But it's hard.
+
+# Summary
+
+1. Consciously try to improve your writing ability.
+1. Create a writing habit.
+1. Rewrite everything.
+1. Clear up your thoughts to clear up your writing.
+1. Outline the book and chapters.
+1. Don't strive for perfection.
 
 [writing-well]: https://www.goodreads.com/book/show/53343.On_Writing_Well
 [types]: https://practicaltypography.com/type-composition.html
 [A Song of Ice and Fire]: https://www.goodreads.com/series/43790-a-song-of-ice-and-fire
 [The Gentlemen Bastard]: https://www.goodreads.com/series/43531-gentleman-bastard
 [Battling burnout]: /blog/2023/03/14/battling_burnout/
+[The Kingkiller Chronicle]: https://en.wikipedia.org/wiki/The_Kingkiller_Chronicle
