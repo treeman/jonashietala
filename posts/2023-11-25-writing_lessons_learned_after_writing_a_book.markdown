@@ -1,17 +1,18 @@
 ---
 title: "Writing lessons learned after writing a book"
-tags: [Cryptocurrency, Why Cryptocurrencies?]
+tags: [Cryptocurrency, Why Cryptocurrencies?, Writing]
+series: making-cryptobook
 ---
 
 > A good writer isn't born; a good writer is created
 { :epigraph }
 
 It may sound dumb, but one of my reasons for writing a book was to improve my writing ability.
-Maybe I could've practiced on the blog instead, but putting things on paper gave it some added weight I don't I would've gotten otherwise.
+Maybe I could've practiced on the blog instead, but putting things on paper gave it some added weight I don't think I would've gotten otherwise.
 
 Here are some of my most important writing takeaways I've gotten from the process of writing a book.
 These aren't original by any means, just things I've collected during the process.
-Many lessons are from the excellent book [On Writing Well: The Classic Guide to Writing Nonfiction][writing-well] that I can't recommend highly enough.
+Many details are from the excellent book [On Writing Well: The Classic Guide to Writing Nonfiction][writing-well] that I can't recommend highly enough.
 
 # Writing is a skill
 
@@ -50,7 +51,7 @@ My biggest takeaway from [On Writing Well][writing-well] is that if you can remo
 1. We often use extra words that don't add anything of value.
 1. We often use redundant words.
 
-It's not wise to go overboard, but for me it's been a very helpful idea to keep in mind.
+It's not wise to go overboard, but for me it's been very helpful to keep in mind.
 If I'm not strict on myself I've found that I'm very good at adding redundant words everywhere.
 
 ## Keep it simple stupid
@@ -69,7 +70,6 @@ Yes, it's difficult to explain a hard subject in simple terms.
 > If I had more time, I would have written a shorter letter
 { author=Attributed to far too many people }
 
-
 ## Be sure, and make it personal
 
 One common piece of advice I'd like to push back on is to keep the technical writing dry and impersonal.
@@ -79,9 +79,9 @@ It's much more memorable and interesting to expose your personal opinions and to
 If you point out every exception to the rule and add dozens of qualifiers to every statement, you will muddy the water so much that the core message will be drowned out.
 
 Instead, focus to deliver the core message to the best of your abilities.
-Deliver it with confidence then the reader will remember it.
-Make it colorful.
+Make it colorful and deliver it with confidence.
 Show your personality; make it interesting, make it funny, and make it memorable.
+The reader will thank you for it.
 
 # Consistency is the most important thing
 
@@ -163,7 +163,7 @@ This may not be the best approach for a novel, but for the type of technical wri
 ## Organizing a book
 
 On the highest level the chapter titles can serve to guide you (both the reader and the writer) through the book, and doubly so if you organize them in sections (real or imagined).
-For example, even if you've never seen my book before, the three main sections should give you a good idea on what the book is about and the journey it'll take you through:
+For example, even if you've never seen [my book][whycrypto] before, the three main sections should give you a good idea on what the book is about and the journey it'll take you through:
 
 > **What is a cryptocurrency?**  
 > Properties of a cryptocurrency  
@@ -195,12 +195,12 @@ Yeah, that's simplifying the reality a little, but it's actually pretty close to
 1. I rewrote *a lot*.
 
 It may sound too simplistic and too perfect---surely you cannot plan so well that this is all there is to writing a book?
-Remember that this is only a rough plan to guide you, in reality the process will be messy.
+But remember that this is only a rough plan to guide you, in reality the process will be messy.
 Moving, rewriting and throwing away chapters will be necessary.
 
 ## Organizing chapters or blog posts
 
-This approach with first creating an outline works great inside the chapters or in a longer blog post too.
+This approach with first creating an outline also works great inside the chapters or in a longer blog post.
 
 I may start with a simple list of things I want to say, but my goal is to turn that into headers and sub-headers.
 As an example, these are the headers from the post [Battling burnout][]:
@@ -215,15 +215,15 @@ As an example, these are the headers from the post [Battling burnout][]:
 > Are you ever cured?
 
 Burnout was quite a difficult subject for me to write about, and I didn't know how to approach it.
-But with an outline like this it was much easier---just follow the headers and fill it in!
+But with an outline I got past the block and could start to chip away at the post.
 
 # Perfectionism is a blessing and a curse
 
 On one hand it's good to strive for perfectionism.
 Even if you never reach it, the act of trying to make something as good as it can possibly be will increase the quality.
 
-But on the other hand trying to be perfect may be a hindrance.
-It may be paralyzing and I suspect it's a big contributing factor for the famous "writer's block", where the writer is severely slowed down or even becoming unable to write.
+But on the other hand, trying to be perfect may be a hindrance.
+It may be paralyzing and I suspect it's a big contributing factor for the famous "writer's block", where the writer is severely slowed down or even becoming unable to produce anything at all.
 
 > Perfect is the enemy of good
 
@@ -231,7 +231,7 @@ I felt this effect after I had put way too much time designing the web version a
 I think the result was really good; the book looks beautiful and is pleasing to read, but I burned out hard when I had to do it again with the eBook version.
 2 years after the book was done, the eBook/PDF are still not available from regular stores, and truthfully I don't know if I'll ever gather the energy to do that.
 
-The problem is that my standard was too high.
+The problem is that my standard was (is?) too high.
 I wanted it to look as good as possible, but chasing perfection only led to burnout.
 
 I'm still trying to be satisfied with things that are good enough instead of wanting perfection.
@@ -239,12 +239,16 @@ But it's hard.
 
 # Summary
 
-1. Consciously try to improve your writing ability.
-1. Create a writing habit.
-1. Rewrite everything.
-1. Clear up your thoughts to clear up your writing.
-1. Outline the book and chapters.
-1. Don't strive for perfection.
+To summarize, these are my main takeaways that *totally* coincidentally corresponds to the headers in this post:
+
+1. [Writing is a skill that can be improved.](#writing-is-a-skill)
+1. [Establishing a writing habit is crucial.](#consistency-is-the-most-important-thing)
+1. [Rewriting is very important.](#rewrite-rewrite-rewrite)
+1. [Clear up your thoughts to clear up your writing.](#clarity-of-thought-translates-into-clear-writing)
+1. [Outlining the book and chapters helps you and the reader.](#have-a-plan-and-an-outline)
+1. [Don't strive for perfection.](#perfectionism-is-a-blessing-and-a-curse)
+
+I am by no means an authority on this matter; these are just some lessons that I learned when writing a book.
 
 [writing-well]: https://www.goodreads.com/book/show/53343.On_Writing_Well
 [types]: https://practicaltypography.com/type-composition.html
@@ -252,3 +256,4 @@ But it's hard.
 [The Gentlemen Bastard]: https://www.goodreads.com/series/43531-gentleman-bastard
 [Battling burnout]: /blog/2023/03/14/battling_burnout/
 [The Kingkiller Chronicle]: https://en.wikipedia.org/wiki/The_Kingkiller_Chronicle
+[whycrypto]: https://whycryptocurrencies.com/

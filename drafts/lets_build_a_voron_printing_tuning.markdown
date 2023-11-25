@@ -145,12 +145,16 @@ It contains a *lot* of info, so I won't write about it too much lest we'll be he
 
 - Extruder calibration
 
-  This contains the images I was missing from the VORON docs.
+  This contains the images on how to measure the extrusion distance I was missing from the VORON docs.
   I redid the calibration but with the top panel removed to get a more accurate measure.
+  Turns out my previous calibration was 10% off.
 
 - Wash the build surface (don't mention it in the blog?)
 
 - First layer squish
+
+  Ellis starts talking about acceleration, so I decided to do input shaping here.
+  By this point the printer has 6 hours of printing time, maybe that's good enough?
 
 - Pressure advance
 

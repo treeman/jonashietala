@@ -51,6 +51,11 @@ gcode:
 ```
 
 
+# Nevermore fans
+
+https://github.com/nevermore3d/Nevermore_Micro/issues/29
+
+
 # Loud stepper noise
 
 Another really annoying noise was the steppers.
