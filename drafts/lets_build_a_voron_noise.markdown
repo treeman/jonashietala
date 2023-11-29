@@ -51,11 +51,6 @@ gcode:
 ```
 
 
-# Nevermore fans
-
-https://github.com/nevermore3d/Nevermore_Micro/issues/29
-
-
 # Loud stepper noise
 
 Another really annoying noise was the steppers.
@@ -87,6 +82,11 @@ This seems to be a [common issue with some 0.9° steppers][09_issue] and I tried
 1. I tried `interpolate: true`, but I didn't notice any improvements.
 
 While things aren't *that* bad anymore, while I was tweaking I gave in and ordered two `Wantai 42BYGHM810` steppers from Aliexpress that [according to the linked discussion][09_issue] should be much quieter. (1.8° should generally be much better too.)
+
+
+# Nevermore fans
+
+https://github.com/nevermore3d/Nevermore_Micro/issues/29
 
 
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
