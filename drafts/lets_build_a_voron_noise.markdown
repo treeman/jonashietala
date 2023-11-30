@@ -81,7 +81,8 @@ This seems to be a [common issue with some 0.9° steppers][09_issue] and I tried
 
 1. I tried `interpolate: true`, but I didn't notice any improvements.
 
-While things aren't *that* bad anymore, while I was tweaking I gave in and ordered two `Wantai 42BYGHM810` steppers from Aliexpress that [according to the linked discussion][09_issue] should be much quieter. (1.8° should generally be much better too.)
+While things mostly weren't *that* bad anymore, at certain speeds and certain angles the noise was still way too jarring for me to leave it alone.
+So I gave in and ordered two `Wantai 42BYGHM810` steppers from Aliexpress that [according to the linked discussion][09_issue] should be much quieter. (1.8° degree steppers should generally be much better too.)
 
 
 # Nevermore fans

@@ -84,13 +84,15 @@ Problems I've had include but isn't limited to:
 
    This happens because the Tap G-code reduces the hotend temperature to 150° when probing to not damage the bed, but then the temperature is too low for printing.
 
-   To fix it I implemented [a better `PRINT_START` macro][print_start] (that I later updated).
+   To fix it I had to manually set bed and hotend temperatures after Tap and modifying SuperSlicer to provide these values to the `PRINT_START` macro as detailed in [a better `PRINT_START` macro][print_start].
 
 1. Filament didn't load.
 
    And KlipperScreen complains about `FILAMENT_LOAD` not existing. Sigh.
 
 1. First layer not sticking to the bed.
+
+   A combination of using the wrong temperature and `z_offset` was to blame.
 
 1. After a few failed attempts, the filament clogs.
 
@@ -132,7 +134,7 @@ I tried to tweak the z-offset during print, but I the sound didn't stop and I en
 
 The nozzle didn't hit the bed and it was the stepper motors being super loud... But more on that in a future post.
 
-When I re-ran the print and stopped messing with it, the printer spit out a functional print:
+When I re-ran the print and stopped messing with it, the printer spat out a functional print:
 
 ![Surprisingly good quality.](/images/trident/print_exhaust.jpg)
 

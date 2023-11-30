@@ -56,6 +56,11 @@ TODO image
 
 2 <https://github.com/MotorDynamicsLab/LDOVoron2/blob/main/STLs/handlebar_spacer_x4.stl>
 
+The kit came with some very sturdy handles, but unfortunately they install over the top panel so you can't remove the panel without removing the handles.
+This clashes badly with my plan to make a more easily removable top panel, but fortunately I found 3D printed handles that work.
+
+<https://mods.vorondesign.com/detail/EAM1ZiQJCUzXznvOA767w>
+
 ## LED mounts
 
 There were no instructions on how to install the LEDs, so I taped them on top of the included extrusions covers.
