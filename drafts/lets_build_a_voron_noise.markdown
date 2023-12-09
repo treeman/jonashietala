@@ -75,9 +75,9 @@ This seems to be a [common issue with some 0.9° steppers][09_issue] and I tried
 
 1. Increased microsteps.
 
-   `microsteps: 128` on z an `microsteps: 256` on xy
+   `microsteps: 128` on xy
 
-   As long as the MCU can handle it there should be no downsides, and it does help with lowering noise.
+   As long as the MCU can handle it there should be no downsides(?), and it does help with lowering noise.
 
 1. I tried `interpolate: true`, but I didn't notice any improvements.
 
@@ -87,10 +87,21 @@ So I gave in and ordered two `Wantai 42BYGHM810` steppers from Aliexpress that [
 
 # Nevermore fans
 
-https://github.com/nevermore3d/Nevermore_Micro/issues/29
+Another annoyingly loud part was the fans on the Nevermore filter.
+I could try to reduce the fan speeds, but that would also reduce the effectiveness of the filtering which I'm very reluctant to do.
 
+The I found an issue discussing that [the plenum lid makes the fans loud and weak][nevermore-issue] because it restricts the airflow.
+I can only confirm that it made a noticeable difference.
+It's by no means quiet like the Noctua fans, but now it's similar in noise level to the hotend and partcooling fans.
+
+![It's ugly because the prints don't match, but it's much quieter (and more effective).](/images/trident/nevermore_noise.jpg)
+
+# Is it silent?
+
+Despite my best efforts, the printer isn't silent.
 
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
 [4pin]: https://www.nicksherlock.com/2022/01/driving-a-4-pin-computer-pwm-fan-on-the-btt-octopus-using-klipper/
 [noctua-pins]: https://faqs.noctua.at/en/support/solutions/articles/101000081757
 [09_issue]: https://klipper.discourse.group/t/stepper-0-9-deg-very-noise/6961/1
+[nevermore-issue]: https://github.com/nevermore3d/Nevermore_Micro/issues/29

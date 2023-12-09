@@ -22,7 +22,7 @@ It was cute how LDO included a small board so that you don't have to crimp any c
 
 # HEPA exhaust filter
 
-![](/images/trident/hepa_filter.jpg)
+![A new HEPA filter. I wasn't able to color match with the print-it-forward parts...](/images/trident/hepa_filter.jpg)
 
 While I have the Nevermore filter, it doesn't filter Ultra-Fine Particulates.
 For that you need a HEPA filter.
@@ -37,7 +37,7 @@ I found the [Voron HEPA Exhaust Filter][] that replaces the stock filter.
 
 [Voron HEPA Exhaust Filter]: https://github.com/jmattingley23/voron-hepa-exhaust-filter
 
-# Missing parts for mods included in the kit
+# Mods included in the kit
 
 With Nevermore and a HEPA exhaust filter I have a setup that I feel is safe enough to print ABS, so I can finally print out the parts I've been missing to complete the build.
 
@@ -74,14 +74,25 @@ TODO image after
 
 ## Purge bucket
 
-<https://github.com/MotorDynamicsLab/LDOVoron2/tree/main/STLs/Purge%20Bucket>
+The kit comes with a steel brush and references the [Decontaminator Purge Bucket & Nozzle Scrubber][purge] mod that I was quite excited for.
 
-<https://github.com/VoronDesign/VoronUsers/tree/master/orphaned_mods/printer_mods/edwardyeeks/Decontaminator_Purge_Bucket_%26_Nozzle_Scrubber>
+Unfortunately, Tap decreases the range of motion for the toolhead so that the nozzle no longer can reach back behind the bed:
+
+![This is as far back the nozzle can go. As you can see, it doesn't reach the (now unused) z endstop, and there's no room for a purge bucket / nozzle scrubber.](/images/trident/noise_y_reach.jpg)
+
+One solution is to replace printed Tap with a [CNC Tap][] which is thinner than the printed Tap I use, so it doesn't compromise range in the Y-direction.
+
+[CNC Tap]: https://www.3djake.com/chaoticlab/cnc-voron-tap-black-v2
 
 # RockNRoll
 
-<https://mods.vorondesign.com/detail/tiIhFDTh9tHJY0JNJK9A>
-<https://www.printables.com/model/638776-voron-rocknroll-mod-stilts/files>
+![](/images/trident/rocknroll.jpg)
+
+Flipping over the printer to access the electronics apartment is a huge pain.
+There's a very cool [inverted electronics bay mod][] for Trident printers, but it's a tall ask for me to redo *all* the wiring at this point.
+
+But then I found the simple [RockNRoll][] mod that allows you to easily tilt the printer.
+Just having the rockers doesn't work as the center of gravity is too high for the Trident, but with [these additional stilts][rock-stilts] it works great.
 
 # Bowden Tube Guide
 
@@ -113,7 +124,21 @@ TODO image after
 
 <https://mods.vorondesign.com/detail/6QtRuihC2dy6oBljKYymw>
 
+# Spool holder
+
+Issue: too short for some spools.
+
+Possible solutions:
+
+- https://mods.vorondesign.com/detail/wWS3pc510oGqxGo0awsFKA just longer
+- https://mods.vorondesign.com/detail/VjlccbeeOuH5iax4AFHA top, but needs more things
+- https://mods.vorondesign.com/detail/x2umK6ZcG6l2c5EEM2LQjQ can mount horizontally
+- https://www.printables.com/model/369877-better-voron-spool-holder
+- https://www.printables.com/model/227260-voron-24-top-mount-single-dual-spool-holder dual
+
 # Galileo 2
+
+Replace the Clockwork 2 extruder with the [Galileo 2].
 
 # I foresee more mods in this printer's future
 
@@ -121,23 +146,12 @@ The printer is now Officially Done™ and here's a video of it in action:
 
 TODO
 
-But a project like this is never *really* done now is it?
-I still have plenty of ideas I'd like to explore with the printer, for example:
-
-1. Attach a camera so I can view the print from my phone.
-
-1. Connect a filament runout sensor to pause the printer if filament runs out.
-
-   Shouldn't this be standard?
-
-1. Replace the Clockwork 2 extruder with the [Galileo 2].
-
-   It's new and shiny!
-
-But that's a story for another time.
-
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
 [4pin]: https://www.nicksherlock.com/2022/01/driving-a-4-pin-computer-pwm-fan-on-the-btt-octopus-using-klipper/
 [noctua-pins]: https://faqs.noctua.at/en/support/solutions/articles/101000081757
 [Galileo 2]: https://github.com/JaredC01/Galileo2
 [nevermore-trident]: https://www.ldomotion.com/p/guide/Nevermore-V5-Duo--Trident
+[purge]: https://github.com/VoronDesign/VoronUsers/tree/master/orphaned_mods/printer_mods/edwardyeeks/Decontaminator_Purge_Bucket_%26_Nozzle_Scrubber
+[inverted electronics bay mod]: https://github.com/VoronDesign/VoronUsers/tree/master/printer_mods/LoganFraser/TridentInvertedElectronics
+[RockNRoll]: https://mods.vorondesign.com/detail/tiIhFDTh9tHJY0JNJK9A
+[rock-stilts]: https://www.printables.com/model/638776-voron-rocknroll-mod-stilts/files
