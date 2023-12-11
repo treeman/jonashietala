@@ -89,7 +89,7 @@ One solution is to replace printed Tap with a [CNC Tap][] which is thinner than 
 ![](/images/trident/rocknroll.jpg)
 
 Flipping over the printer to access the electronics apartment is a huge pain.
-There's a very cool [inverted electronics bay mod][] for Trident printers, but it's a tall ask for me to redo *all* the wiring at this point.
+There's a very cool [inverted electronics bay mod][] for Trident printers, but it's a tall ask for me to redo _all_ the wiring at this point.
 
 But then I found the simple [RockNRoll][] mod that allows you to easily tilt the printer.
 Just having the rockers doesn't work as the center of gravity is too high for the Trident, but with [these additional stilts][rock-stilts] it works great.
@@ -139,12 +139,6 @@ Possible solutions:
 # Galileo 2
 
 Replace the Clockwork 2 extruder with the [Galileo 2].
-
-# I foresee more mods in this printer's future
-
-The printer is now Officially Done™ and here's a video of it in action:
-
-TODO
 
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
 [4pin]: https://www.nicksherlock.com/2022/01/driving-a-4-pin-computer-pwm-fan-on-the-btt-octopus-using-klipper/
