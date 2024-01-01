@@ -6,9 +6,16 @@ tags: [Yearly Review]
 This is my [yearly review][] #14.
 Amazing that I've kept up with this for 14 years.
 
+Even though it's not anything advanced, I really like looking back at the year to see what has happened.
+Maybe it's a very light version of a [reverse bucket list][], and I can see that it provides some of the same happiness benefits.
+
 # 2023 Non-Geek Achievements
 
-- Wrote [16 blog posts][posts]!
+- All my three kids are happy and healthy.
+
+  It's thanks to Veronica, but I'd like to think I've contributed something.
+
+- Wrote [17 blog posts][posts]!
 
   Most of them were written (and published) in the last quarter where I got bitten by the blogging bug.
 
@@ -32,6 +39,8 @@ Amazing that I've kept up with this for 14 years.
   The reason is that I made it available with [my payment processor][bitpal], but I ran out of energy so I shut down the server.
   I really need to get it together and just upload it somewhere so it's purchasable normally.
 
+  Maybe I should just make it available for free, so I can close the chapter on the book project?
+
 - I didn't read that many books---at least I don't remember that I did.
 
 - Despite me trying to reduce it, the boardgame list of shame grew this year.
@@ -40,9 +49,17 @@ Amazing that I've kept up with this for 14 years.
 
 # Plans for 2024
 
+- Focus on mental and physical health, with a focus on strength training.
+
 - Finally complete the book project by putting the eBook widely available and finishing the [How I wrote 'Why Cryptocurrencies?'][crypto-series] series.
 
-- Focus on mental and physical health, with a focus on strength training.
+- Finish my planned mods on my [VORON][] 3D printer and complete the blog series.
+
+- Complete my Git rewrite in Rust project, that i left hanging back in 2020.
+
+- Start a new long-term project.
+
+  I've promised myself to finish up my ongoing projects before I'm allowed to do this, but we'll see how that goes.
 
 
 [posts]: /blog/2023/ "My blog posts in 2023"
@@ -57,3 +74,5 @@ Amazing that I've kept up with this for 14 years.
 [neovim-lua]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua/ "Rewriting my Neovim config in Lua"
 [crypto-series]: /series/making-cryptobook/ "How I wrote 'Why Cryptocurrencies?'"
 [yearly review]: /blog/tags/yearly_review/ "Yearly reviews"
+[reverse bucket list]: https://www.inc.com/jessica-stillman/happiness-fulfillment-reverse-bucket-list.html "The Secret to Happiness, According to This Harvard Professor: A Reverse Bucket List"
+[burnout]: /blog/2023/03/14/battling_burnout/ "Battling burnout"

@@ -38,15 +38,33 @@ Unfortunately, Tap decreases the range of motion for the toolhead so that the no
 
 ![This is as far back the nozzle can go. As you can see, it doesn't reach the (now unused) z endstop, and there's no room for a purge bucket / nozzle scrubber.](/images/trident/noise_y_reach.jpg)
 
-One solution is to replace printed Tap with a [CNC Tap][] which is thinner than the printed Tap I use, so it doesn't compromise range in the Y-direction.
+There are some things I could do:
 
-[CNC Tap]: https://www.3djake.com/chaoticlab/cnc-voron-tap-black-v2
+- Ditch Tap and use Klicky probe instead.
+
+- Replace the printed Tap with a CNC Tap.
+
+  The Chaoticlab CNC Voron Tap v2 should save around 4mm in the y-axis while Vitalii's version should save around 1.4mm.
+
+- [Sensorless XY homing][sensorless] might also give back some range.
+
+- Moving the bed is a theoretical solution, but that seems difficult to me.
+
+I bought a [Chaoticlab CNC Voron Tap][chaotic_tap], but had I known about the sensorless homing I might have tried that out first.
+
+[sensorless]: https://docs.vorondesign.com/community/howto/clee/sensorless_xy_homing.html "Setting Up and Calibrating Sensorless XY Homing"
+[chaotic_tap]: https://www.3djake.com/chaoticlab/cnc-voron-tap-black-v2
 
 # Flex plate stops
 
 <https://www.printables.com/model/411428-voron-24-flex-plate-stops>
 
 # Filament runout sensor
+
+- BTT Smart filament sensor 2.0: https://www.3djake.com/bigtreetech/smart-filament-sensor-v20
+- Mounting bracket: https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra
+
+<https://mods.vorondesign.com/detail/yrBU4iTiddQRSvLqSDWMuA>
 
 <https://mods.vorondesign.com/detail/6QtRuihC2dy6oBljKYymw>
 

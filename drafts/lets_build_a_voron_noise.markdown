@@ -4,6 +4,12 @@ tags: ["3D printing", "VORON"]
 series: voron_trident
 ---
 
+The build is going well and the printer is printing tons of random stuff and I'm generally in awe of how cool the printer is.
+
+But there's one thing that sucks: it's **damn loud**.
+
+I knew that it wouldn't be silent, but I wasn't prepared for this kind of noise.
+
 # Silent controller fans
 
 The very first mod I made (even before my first print) was to replace the LOUD skirt fans with silent [Noctua FN-A6x25].
@@ -18,7 +24,7 @@ The fans will fit as they are and I only made some small tweaks:
 1. Used the 12V selection jumper for the fan output on the Octopus.
 1. Converted the 3-pin cable to a 2-pin JST connector, and used the existing fan PCB to split the Octopus output.
 
-   I simply ignored [the yellow RPM speed signal cable][noctua-pins].
+   (You can ignore [the yellow RPM speed signal cable][noctua-pins].)
 
 The connection looks like this:
 
@@ -32,7 +38,7 @@ I also took the opportunity to cleanup the wiring and place the fans on the othe
 
 ![The wiring looks pretty neat. I hope I don't have to mess with it in a long time.](/images/trident/clean_wiring.jpg)
 
-You could do something smart with the fan management, but it's now silent enough that I can leave it on all the time.
+You could do something smart with the fan management, but I no longer hear the fans so I just leave them on all the time.
 This is how I set that up in `printer.cfg`:
 
 ```
@@ -49,6 +55,17 @@ initial_duration: 1.0
 gcode:
     SET_FAN_SPEED FAN=controller_fan SPEED=1.0
 ```
+
+# Nevermore fans
+
+Another annoyingly loud part was the fans on the Nevermore filter.
+I could try to reduce the fan speeds, but that would also reduce the effectiveness of the filtering which I'm reluctant to do.
+
+Then I found an issue discussing that [the plenum lid makes the fans loud and weak][nevermore-issue] because it restricts the airflow.
+I can only confirm that it made a noticeable difference.
+It's by no means quiet like the Noctua fans, but now it's similar in noise level to the hotend and partcooling fans.
+
+![It's ugly because the prints don't match, but it's much quieter (and more effective).](/images/trident/nevermore_noise.jpg)
 
 
 # Loud stepper noise
@@ -82,19 +99,13 @@ This seems to be a [common issue with some 0.9° steppers][09_issue] and I tried
 1. I tried `interpolate: true`, but I didn't notice any improvements.
 
 While things mostly weren't *that* bad anymore, at certain speeds and certain angles the noise was still way too jarring for me to leave it alone.
+And it wasn't just too high speeds, sometimes decreasing the speed made it worse!
+
+![77dB is loud!](/images/trident/steppers_loud.png)
+
+
 So I gave in and ordered two `Wantai 42BYGHM810` steppers from Aliexpress that [according to the linked discussion][09_issue] should be much quieter. (1.8° degree steppers should generally be much better too.)
 
-
-# Nevermore fans
-
-Another annoyingly loud part was the fans on the Nevermore filter.
-I could try to reduce the fan speeds, but that would also reduce the effectiveness of the filtering which I'm very reluctant to do.
-
-The I found an issue discussing that [the plenum lid makes the fans loud and weak][nevermore-issue] because it restricts the airflow.
-I can only confirm that it made a noticeable difference.
-It's by no means quiet like the Noctua fans, but now it's similar in noise level to the hotend and partcooling fans.
-
-![It's ugly because the prints don't match, but it's much quieter (and more effective).](/images/trident/nevermore_noise.jpg)
 
 # Is it silent?
 
