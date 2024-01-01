@@ -19,18 +19,17 @@ Maybe it's a very light version of a [reverse bucket list][], and I can see that
 
   Most of them were written (and published) in the last quarter where I got bitten by the blogging bug.
 
-- I wrapped up my series about the [T-34 keyboard layout][t-34].
-
 # 2023 Geek Achievements
 
 - [I beat FTL on Hard with all ships in the game][ftl].
 - [I built a VORON][VORON] and got into 3D printing.
-- [Two][hn1] of [my][hn2] blog posts got to the front page of Hacker News.
+- [Two][hn1] of my [blog][hn2] posts got to the front page of Hacker News.
 
   I've always blogged to write for myself and never because I wanted my blog to be popular, but it was still nice to see some people appreciate it.
 
 - I [rewrote my Neovim config in Lua][neovim-lua].
 - I gave the blog a [sorely needed facelift][facelift].
+- I wrapped up my series about the [T-34 keyboard layout][t-34].
 
 # 2023 Misadventures
 
@@ -57,9 +56,13 @@ Maybe it's a very light version of a [reverse bucket list][], and I can see that
 
 - Complete my Git rewrite in Rust project, that i left hanging back in 2020.
 
+  I'm already thinking of postponing this again...
+  But maybe I can make some amount of progress at least?
+
 - Start a new long-term project.
 
   I've promised myself to finish up my ongoing projects before I'm allowed to do this, but we'll see how that goes.
+  (Not well I suppose.)
 
 
 [posts]: /blog/2023/ "My blog posts in 2023"
