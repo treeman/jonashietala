@@ -7,16 +7,29 @@ series: voron_trident
 It's finally done™.
 I've built a VORON that prints reliably and I've modded it enough to be able to leave it alone for a while, so I think it's time to wrap up this build series with a little retrospective.
 
-TODO img/video/timelapse here
+TODO video of print in progress here
+
+# The build
+
+## What about LDO?
+
+# Printing
+
+## No major issues
+
+- Apart from initial temperature calibration, zero issues with first layers
+
+## So many things to learn
+
+- Klipper configuration
+- Slicer management
+- Nozzle sizes, filament selection, supports, brims...
+- Stuck filament, wet filament, filament tuning...
+
 
 ---
 
-
-- Video of it printing in real-time (and/or a gif)
-- Timelapse of it printing
-- Apart from initial calibration, zero issues with first layers
 - Even though I've tried to be as detailed as possible, there are still many things I left out:
-
   - G-code configuration
   - Slicer management
   - Minor issues here and there (stuck filament, wet filament, etc)
@@ -27,12 +40,16 @@ TODO img/video/timelapse here
 
 The printer has X hours already.
 
-# The build
-
-# So many things to learn
-
 # Issues
 
 1. Noisy
 1. Not the best for PLA
 1. Had to mod in HEPA filter, and still not sure I want to work next to it
+
+# What's left?
+
+1. A backup printer
+2. Multimaterial support
+3. Other toolheads
+
+[ERCF_2]: https://github.com/Enraged-Rabbit-Community/ERCF_v2a
