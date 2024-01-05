@@ -35,7 +35,7 @@ article {
   .series-info {
     @extend %sans-serif;
     @include font-size("s");
-    @include hflow();
+    gap: var(--space-3xs) var(--space-2xs);
     display: flex;
     flex-wrap: wrap;
     justify-content: left;

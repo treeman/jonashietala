@@ -108,7 +108,7 @@ And I don't even know what a "thread locker" is.
 
 After some research time it seems I really do want a thread locker, but I live in a really small community and I don't know where to buy this (except ordering online and waiting for a week).
 
-Well maybe nail polish works just as well? So armed to the teeth with fire red lipstick I was ready to tackle the problem...
+Well maybe nail polish works just as well? So armed to the teeth with fire red ~lipstick~ polish I was ready to tackle the problem...
 
 And I see that thread locker has been pre-applied to the set screws.
 Maybe it will pay off with the more expensive kit after all?
