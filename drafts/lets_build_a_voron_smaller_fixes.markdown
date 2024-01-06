@@ -30,6 +30,10 @@ Apart from the overhangs, the green printout looks pretty good, but the overhang
 The white still has some defects, but it's **so** much smoother.
 ](/images/trident/bulging_nerf.jpg)
 
+## Extruder skipping
+
+![](/images/trident/bad_skip.jpg)
+
 ## Bed mesh offset in one corner
 
 See Discord pin
@@ -52,10 +56,15 @@ TODO image before
 
 TODO image after
 
+![Before the LED strips were mounted flat.](/images/trident/led_old.jpg)
+
+![Now they're tilted inwards and have shields to direct the light towards the build plate.](/images/trident/leds_installed.jpg)
+
 36 <https://github.com/VoronDesign/VoronUsers/blob/master/printer_mods/eddie/LED_Bar_Clip/LED_Bar_Clip_Misumi_version2.stl>
 
 ## Spool holder
 
+![](/images/trident/longer_holder.jpg)
 
 Issue: too short for some spools.
 
@@ -81,6 +90,8 @@ This clashes badly with my plan to make a more easily removable top panel, but f
 <https://mods.vorondesign.com/detail/EAM1ZiQJCUzXznvOA767w>
 
 ## Bowden Tube Guide
+
+![](/images/trident/bowden_holder.jpg)
 
 <https://mods.vorondesign.com/detail/8CxQeqS1lXhlGphwkyqh7g>
 

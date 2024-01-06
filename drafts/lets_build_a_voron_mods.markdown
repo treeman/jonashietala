@@ -20,13 +20,36 @@ Just having the rockers doesn't work as the center of gravity is too high for th
 
 # Removable panels
 
-<https://mods.vorondesign.com/detail/9Rdnf5vD2oaJLmR7BpAuQ> (snap latches, for non-front...? Maybe)
+![](/images/trident/magnetic_top.jpg)
 
-<https://mods.vorondesign.com/detail/xQAsIUzijkbXU2yXrRKdXg> (best so far)
+Having to screw and unscrew the panels when modding or messing around with the toolhead got old fast.
+Therefore I made the panels easily removable by using magnets and snap latches.
 
-<https://mods.vorondesign.com/detail/GawFyXN2J0rlSecCAJUpZQ> (small strips of VHB, uses more magnets and more moving parts)
+The top is completely magnetic using the [Magnetic panels with Magnet Inserts][] mod and is very easy to remove and replace.
+
+![Installation of the corner magnets.](/images/trident/corner_jig.jpg)
+
+I played around with the amazing [snap latches][] mod to hold the panels together:
+
+![The latch closes with a very satisfying thud.](/images/trident/snap_latch.jpg)
+
+But they're a bit cumbersome to lock and unlock, so I compromised and used the latches in the middle of the side panels and used magnets for the corners:
+
+![](/images/trident/magnetic_side.jpg)
+
+I also made the bottom panel magnetic using [the bottom panel mag clip][] mod:
+
+[snap latches]: https://mods.vorondesign.com/detail/9Rdnf5vD2oaJLmR7BpAuQ "Printable snap latches for 2020 extrusion"
+[the bottom panel mag clip]: https://mods.vorondesign.com/detail/mRnQfulRJGN3pfPBbSjzA "Bottom Panel Mag Clip"
+[Magnetic panels with Magnet Inserts]: https://mods.vorondesign.com/detail/GawFyXN2J0rlSecCAJUpZQ "Magnetic panels with Magnet Inserts"
+
+![](/images/trident/magnetic_bottom.jpg)
 
 # Angry cam
+
+![](/images/trident/angrycam_mount.jpg)
+
+TODO HA screnshot
 
 <https://mods.vorondesign.com/detail/RYpQW53mtem8Nj1JKqiSQ>
 
@@ -55,10 +78,6 @@ I bought a [Chaoticlab CNC Voron Tap][chaotic_tap], but had I known about the se
 [sensorless]: https://docs.vorondesign.com/community/howto/clee/sensorless_xy_homing.html "Setting Up and Calibrating Sensorless XY Homing"
 [chaotic_tap]: https://www.3djake.com/chaoticlab/cnc-voron-tap-black-v2
 
-# Flex plate stops
-
-<https://www.printables.com/model/411428-voron-24-flex-plate-stops>
-
 # Filament runout sensor
 
 - BTT Smart filament sensor 2.0: https://www.3djake.com/bigtreetech/smart-filament-sensor-v20
@@ -67,6 +86,13 @@ I bought a [Chaoticlab CNC Voron Tap][chaotic_tap], but had I known about the se
 <https://mods.vorondesign.com/detail/yrBU4iTiddQRSvLqSDWMuA>
 
 <https://mods.vorondesign.com/detail/6QtRuihC2dy6oBljKYymw>
+
+
+# Flex plate stops
+
+<https://www.printables.com/model/411428-voron-24-flex-plate-stops>
+
+# Gridfinity mounts
 
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
 [4pin]: https://www.nicksherlock.com/2022/01/driving-a-4-pin-computer-pwm-fan-on-the-btt-octopus-using-klipper/
