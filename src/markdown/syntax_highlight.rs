@@ -206,6 +206,8 @@ fn syntect_lang_name(lang: &str) -> &str {
         "ruby" => "Ruby",
         "rust" => "Rust",
         "shell" => "Shell-Unix-Generic",
+        "erlang" => "Erlang",
+        "js" => "JavaScript",
 
         // "pollen" => "",
         x => x,

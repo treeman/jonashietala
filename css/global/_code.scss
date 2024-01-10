@@ -110,6 +110,9 @@ aside {
   &.shell::before {
     content: "shell";
   }
+  &.shell-unix-generic::before {
+    content: "shell";
+  }
   &.vhdl::before {
     content: "vhdl";
   }
@@ -127,6 +130,18 @@ aside {
   }
   &.toml::before {
     content: "toml";
+  }
+  &.javascript::before {
+    content: "javascript";
+  }
+  &.gleam::before {
+    content: "gleam";
+  }
+  &.elixir::before {
+    content: "elixir";
+  }
+  &.erlang::before {
+    content: "erlang";
   }
 }
 

@@ -16,3 +16,6 @@
 [submodule "syntaxes/Toml"]
 	path = syntaxes/Toml
 	url = https://github.com/evandroforks/Toml
+[submodule "syntaxes/sublime-text-gleam"]
+	path = syntaxes/sublime-text-gleam
+	url = https://github.com/itsgreggreg/sublime-text-gleam
