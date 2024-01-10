@@ -120,7 +120,9 @@ article {
   table {
     @extend %serif;
     // Need tabular numbers to align properly
-    font-feature-settings: "kern" on, "tnum" on;
+    font-feature-settings:
+      "kern" on,
+      "tnum" on;
   }
   th,
   td {
@@ -269,6 +271,13 @@ article {
     background-color: var(--melange_a_float);
     padding: var(--space-xs);
     border: 1px dashed var(--melange_c_red);
+  }
+
+  aside {
+    code,
+    pre {
+      background-color: var(--melange_a_sel);
+    }
   }
 
   /*
