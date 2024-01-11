@@ -27,7 +27,7 @@ Let's explore.
 If you want to follow along, make sure you have the respective compilers installed.
 I'll base the examples from a clean new repo:
 
-```shell
+```
 $ gleam new myapp
 ```
 
@@ -49,7 +49,7 @@ pub fn main() {
 
 That if run will call the `uniform` function in the `rand` Erlang module:
 
-```sh
+```
 $ gleam run
 0.43487935467166317
 ```
@@ -74,7 +74,7 @@ pub fn main() {
 
 And Gleam will download and compile the Erlang dependency:
 
-```sh
+```
 $ gleam run
   Compiling base32
 ===> Fetching rebar3_hex v7.0.7
@@ -113,7 +113,7 @@ pub fn main() {
 }
 ```
 
-```sh
+```
 $ gleam run
 ping
 ```
@@ -137,7 +137,7 @@ ping() ->
     mypong:pong(). % Call the Gleam function
 ```
 
-```sh
+```
 $ gleam run
 ping from Erlang
 pong
@@ -165,7 +165,7 @@ Note that Elixir modules gets an `Elixir` prefix and that we're still calling ex
 
 Dependencies are added from [Hex][], exactly the same as with Erlang dependencies:
 
-```sh
+```
 $ gleam add random_color
 $ gleam run
 #3724C9
@@ -194,7 +194,7 @@ pub fn main() {
 }
 ```
 
-```sh
+```
 $ gleam run
 ping from Elixir
 pong
@@ -216,13 +216,13 @@ First we need to create a Rust project somewhere.
 We can create it in the top level of the Gleam repo or in a `native/` folder or wherever.
 For this example I'll just leave it at the top:
 
-```sh
+```
 $ cargo new rslib --lib
 ```
 
 On the Rust side I'll use [rustler][] to create the NIF:
 
-```sh
+```
 $ cd rslib/
 $ cargo add rustler
 ```
@@ -247,7 +247,7 @@ crate-type = ["dylib"]
 
 Then build it in release mode:
 
-```sh
+```
 $ cargo build --release
   ...
 ```
@@ -257,7 +257,7 @@ Yes, my naming choice here sucked, but let's roll with it.
 
 For Gleam to be able to use this file we need to copy it to `priv/` (relative to the Gleam root, not the Rust project):
 
-```sh
+```
 $ mkdir ../priv
 $ cp target/release/librslib.so ../priv/
 ```
@@ -318,7 +318,7 @@ pub fn main() {
 
 And now we can call our [truly random][] Rust function!
 
-```sh
+```
 $ gleam run
 4
 ```
@@ -344,7 +344,7 @@ Gleam can also compile to JavaScript, and this blog post wouldn't be complete wi
 
 To compile for JavaScript we can add `target = javascript` to our `gleam.toml` or use the target flag:
 
-```sh
+```
 $ gleam run --target javascript
 ```
 
@@ -373,7 +373,7 @@ pub fn main() {
 
 And when run you'll see that we can call the JavaScript `ping` function which in turns calls our Gleam `pong` function:
 
-```sh
+```
 $ gleam run --target javascript
 ping from JavaScript
 pong

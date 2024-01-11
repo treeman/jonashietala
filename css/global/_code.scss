@@ -472,3 +472,39 @@ aside {
 .support.type.viml {
   color: var(--melange_a_com);
 }
+
+.meta.import.gleam .keyword.other.gleam {
+  color: var(--melange_b_green);
+}
+.string.quoted.gleam .punctuation.definition {
+  color: var(--melange_b_blue);
+}
+
+.keyword.control.module.elixir:first-child {
+  color: var(--melange_b_green);
+}
+.meta.module.elixir .entity.name {
+  color: var(--melange_b_cyan);
+}
+.entity.name.class.elixir {
+  color: var(--melange_b_cyan);
+}
+.string.quoted.elixir .punctuation.definition {
+  color: var(--melange_b_blue);
+}
+.constant.other.symbol.elixir {
+  color: var(--melange_b_cyan);
+}
+.constant.other.symbol.elixir .punctuation.definition {
+  color: var(--melange_b_cyan);
+}
+.punctuation.separator.method.elixir {
+  color: var(--melange_b_red);
+}
+
+.keyword.import.js {
+  color: var(--melange_b_green);
+}
+.keyword.declaration.function.js {
+  color: var(--melange_b_green);
+}

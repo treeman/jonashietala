@@ -49,7 +49,7 @@ git remote add upstream https://github.com/rust-lang/rust
 For me it looks like this:
 
 ```shell
-$ g remote -v
+$ git remote -v
 origin      git@github.com:treeman/rust.git (fetch)
 origin      git@github.com:treeman/rust.git (push)
 upstream    https://github.com/rust-lang/rust (fetch)
@@ -72,7 +72,7 @@ $ git rebase upstream/master
 
 When done, push locally to github:
 
-```
+```shell
 $ git push origin mybranch
 ```
 
@@ -87,7 +87,7 @@ If you have a lot of commits in your pull request, or if they aren't very descri
 
 When satisfied:
 
-```
+```shell
 $ git push origin mybranch -f
 ```
 
