@@ -285,7 +285,7 @@ To include the library we'll use some Erlang.
 We'll use `src/rslib.erl` similar to before, but with [Erlang NIFs][erlang_nif_tut]:
 
 ```erlang
--module(rslib).
+-module(librs).
 -export([truly_random/0]).
 -nifs([truly_random/0]).
 -on_load(init/0).
