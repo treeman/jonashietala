@@ -4,7 +4,8 @@ tags: ["3D printing", "VORON"]
 series: voron_trident
 ---
 
-I can print, but there are still some parts I've had to print myself to complete the mods included in the LDO kit, and I also wanted to add more mods I've found.
+The printer is done, but I feel one of the best part of a VORON printer is the ability to modify and personalize it.
+There a *tons* of mods you can do, and while I've done a few there are lots more that I'd like to do some day.
 
 It's a wonderful feeling to augment the printer with parts made by the printer itself.
 
@@ -45,13 +46,43 @@ I also made the bottom panel magnetic using [the bottom panel mag clip][] mod:
 
 ![](/images/trident/magnetic_bottom.jpg)
 
+Necessary?
+No, but they sure are nice.
+
 # Angry cam
 
 ![](/images/trident/angrycam_mount.jpg)
 
-TODO HA screnshot
+The mod I most appreciate is probably having an integrated camera.
+It's great to be able to just glance at my phone to see how the print is going, instead of having to go down to the basement to check.
 
-<https://mods.vorondesign.com/detail/RYpQW53mtem8Nj1JKqiSQ>
+I used the [Angry CAM USB][] mod to mount a small camera module in the front of the printer, above the doors.
+The camera itself showed up in Mainsail and to my relief it worked immediately.
+To configure resolution you can alter `crowsnest.conf` like so:
+
+```
+[cam 1]
+mode: ustreamer                         # ustreamer - Provides mjpg and snapshots. (All devices)
+resolution: 2592x1944                   # widthxheight format
+max_fps: 15                             # If Hardware Supports this it will be forced, otherwise ignored/coerced.
+```
+
+To see what resolution and fps the camera supports, you can take a look in `~/printer_data/logs/crowsnest.log`.
+
+I used the MJPEG IP Camera integration to get the feed into Home assistant, using `http://192.168.1.32/webcam/?action=stream` as the URL and made a quick dashboard for the printer:
+
+![Can you smell what the rock is cooking?!](/images/trident/ha_galileo.png){ width=80% }
+
+I should probably rework this and all other dashboards one day...
+
+The mount works well, but the camera is far from perfect.
+It's good enough for checking in on the print, but a more clear view would've been nice.
+The focus isn't working well, the colors are off and I don't see the whole build plate.
+Worse, the toolhead often covers up the print so I can't see if it's still printing well.
+
+I won't do anything about it right now, but in the future I'll probably try to replace it with something else.
+
+[Angry CAM USB]: https://mods.vorondesign.com/detail/RYpQW53mtem8Nj1JKqiSQ>
 
 # Purge bucket
 
@@ -80,19 +111,28 @@ I bought a [Chaoticlab CNC Voron Tap][chaotic_tap], but had I known about the se
 
 # Filament runout sensor
 
-- BTT Smart filament sensor 2.0: https://www.3djake.com/bigtreetech/smart-filament-sensor-v20
-- Mounting bracket: https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra
-
-<https://mods.vorondesign.com/detail/yrBU4iTiddQRSvLqSDWMuA>
-
-<https://mods.vorondesign.com/detail/6QtRuihC2dy6oBljKYymw>
-
+<https://www.3djake.com/bigtreetech/smart-filament-sensor-v20>
+<https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra>
 
 # Flex plate stops
 
-<https://www.printables.com/model/411428-voron-24-flex-plate-stops>
+::: Flex
+/images/trident/flexplate_endstop.jpg
+/images/trident/flexplate_endstop2.jpg
+:::
+
+Aligning the flex plate isn't too much of a pain, but adding some [flex plate stops][] makes the process easier.
+
+To fit it at the back I removed the now unused z-endstop (I use Tap instead).
+
+[flex plate stops]: https://www.printables.com/model/411428-voron-24-flex-plate-stops>
 
 # Gridfinity mounts
+
+I've been slowly easing into [Gridfinity][]---a free and open organization system.
+So naturally I wanted to add some some holders to the printer.
+
+I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] holders, and they work great.
 
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
 [4pin]: https://www.nicksherlock.com/2022/01/driving-a-4-pin-computer-pwm-fan-on-the-btt-octopus-using-klipper/
@@ -102,3 +142,6 @@ I bought a [Chaoticlab CNC Voron Tap][chaotic_tap], but had I known about the se
 [inverted electronics bay mod]: https://github.com/VoronDesign/VoronUsers/tree/master/printer_mods/LoganFraser/TridentInvertedElectronics
 [RockNRoll]: https://mods.vorondesign.com/detail/tiIhFDTh9tHJY0JNJK9A
 [rock-stilts]: https://www.printables.com/model/638776-voron-rocknroll-mod-stilts/files
+[Gridfinity]: https://www.youtube.com/watch?v=ra_9zU-mnl8
+[top-gridfinity]: https://www.printables.com/model/175108-gridfinity-holder-for-voron-printers-2020-extrusio
+[bottom-gridfinity]: https://www.printables.com/model/431489-gridfinity-mount-for-2020-extrusions-voron-printer

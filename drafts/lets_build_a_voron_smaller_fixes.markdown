@@ -4,7 +4,40 @@ tags: ["3D printing", "VORON"]
 series: voron_trident
 ---
 
-# Tuning
+I've been busy.
+Busy printing stuff.
+
+Which is awesome, because one big worry I had was if I'd actually use the printer or just end up modding and tweaking it until the end of time.
+
+But of course, I've been slowly working through my large mods-I-want list.
+My initial plan was to write one blog post about modding, but for space and sanity reasons I've decided to split it up.
+
+This post goes through a bunch of smaller fixes and mods I've done to the printer, and I'll leave the more involved mods to later posts.
+
+# Tweaks & tuning
+
+My plan was to take tuning seriously and go through all the tuning guides to get the printer to produce perfect prints.
+But I didn't have patience for that and I've only made some tweaks when the prints had noticeable defects.
+Here are the major tweaks I've done since the last post:
+
+## Bed mesh offset in one corner
+
+It got pointed out to me in the [VORON forum][] that I my right rear Y extrusion was a bit high.
+The Trident has automatic bed leveling, but because the bed is only attached in three positions it can't compensate for a difference in the rear.
+If you're unlucky this might mean some bed adhesion problems.
+
+Turns out I've had some problems with bed adhesion.
+Not a lot mind you, but enough to bother me on some trickier prints.
+I've seen the offset on the corner go down to `-0.26`, which is more than the standard `0.2` layer height I use, so this might be the cause of some of the issues I've seen.
+
+![Before adjusting the right Y extrusion.](/images/trident/wonky_offset.png)
+
+In the `voron_1_trident_questions` channel on the VORONDesign Discord there was a pinned message on how to adjust this.
+I ended up adjusting the front right Y extrusion upwards quite a bit to compensate for this.
+
+![After adjusting the right Y extrusion upwards.](/images/trident/mesh_fixed.png)
+
+The mesh still isn't perfect (and it can sometimes look worse than the adjusted picture above), but it's now a lot better and importantly the rear corners are much more level.
 
 ## Bulging corners
 
@@ -17,12 +50,14 @@ One significant print issue I've had is bulging in the corners on overhangs:
 Maybe it was overheating? But it happened consistently, with long layer times, with max fans, and for PLA/ABS/ASA.
 Another idea was over extrusion, but I think that should've shown up in other places?
 
-Then I found the [Bulging][] section in Ellis' Print Tuning Guide.
+Then I found the [Bulging][] section in Ellis' Print Tuning Guide that made the issue disappear.
 These were the changes I made:
 
 - Enable `external perimiter first`
 - Set `threshold for bridge flow` to 0
 - I also experimented with disabling overhangs specific settings completely (set `threshold for bridge flow` to 0 or the disable checkbox), but I'm uncertain how effectual that was compared to the other two settings.
+
+Some of these were specific to SuperSlicer, the slicer I use.
 
 ![These are two prints that show the difference between the settings.
 The green is without the changes and white is with the changes.
@@ -32,13 +67,84 @@ The white still has some defects, but it's **so** much smoother.
 
 ## Extruder skipping
 
+I had printed for around 400 hours when the extruder suddenly started skipping.
+At first it was just minor artifacts, but after a while prints started failing in major ways or refusing to extrude anything at all:
+
 ![](/images/trident/bad_skip.jpg)
 
-## Bed mesh offset in one corner
+My first idea was that I had messed up the tension in the extruder, so it no longer got a good grip on the filament.
+(I had some major issues with loading filament at one time, and I started screwing around with everything I could think of.)
 
-See Discord pin
+But alas I couldn't solve it with a quick-fix, so I had to open up the toolhead.
+Which I should have done much sooner, because there were a bunch of broken filament stuck in the gears:
+
+![One piece of broken filament inside the CW2, together with a bunch of dirt.](/images/trident/cw2_dirty.jpg)
+
+I really didn't want to disassemble it because I was afraid of the effort to do so, but in the end it was just a few screws and the whole cleaning process took 10 min.
+Building your own printer has some benefits, I should have more faith in the process.
+
+## 2mm PTFE between extruder and hotend
+
+There were a lot of leftovers after the build; nuts, screws, belts, etc.
+But also an unused bag with "Teflon Tubing, 4x2mm", which surely shouldn't be completely unused?
+
+Turns out you're supposed to use a tube with an inner diameter of 2mm between the extruder and hotend, but I had used the regular PTFE tube that had an inner diameter of 3mm.
+This isn't ideal and requires more retraction (which I didn't compensate for), and it can cause stringing issues (which I had).
 
 # Mods
+
+These are some smaller mods from the LDO kit I hadn't gotten around to installing, and some other small mods that fixed some annoyances I've had.
+
+## Handles
+
+![](/images/trident/handles.jpg)
+
+The kit includes some very nice handles you can install.
+But unfortunately they cover up the top panel so you have to remove the handles before you can remove the panel---a gigantic pain.
+
+So I ended up printing some [sturdy handles][] instead.
+They're really large comparatively, but they get the job done.
+I haven't had that much use for them yet, but I felt obliged installing them since some kind of handles came with the kit.
+
+[sturdy handles]: https://mods.vorondesign.com/detail/EAM1ZiQJCUzXznvOA767w>
+
+
+## LED mounts
+
+There were no instructions on how to install the LEDs, so I taped them on top of the included extrusions covers.
+Turns out you were supposed to print a bunch of [LED mounts][] to get the LEDs pointing inwards towards the print for better lighting:
+
+![Before the LED strips were mounted flat.](/images/trident/led_old.jpg)
+
+![Now they're tilted inwards and have shields to direct the light towards the build plate.](/images/trident/leds_installed.jpg)
+
+[LED mounts]: https://github.com/VoronDesign/VoronUsers/blob/master/printer_mods/eddie/LED_Bar_Clip/LED_Bar_Clip_Misumi_version2.stl
+
+## Longer spool holder
+
+![The stock spool holder to the left, a longer one I printed to the right.](/images/trident/longer_holder.jpg)
+
+I ran into the surprising issue that some spools were too wide for the stock spool holder (3DJake's filament for example).
+So I replaced it with a [longer one][spool_holder].
+
+In the future I should probably replace it with a [top mounted spool holder][], but I got lazy when I saw I didn't have the required M5 hardware.
+Maybe another day.
+
+[spool_holder]: https://mods.vorondesign.com/detail/wWS3pc510oGqxGo0awsFKA
+[top mounted spool holder]: https://mods.vorondesign.com/detail/VjlccbeeOuH5iax4AFHA
+
+## Bowden Tube Guide
+
+![](/images/trident/bowden_holder.jpg)
+
+I had some issues with the bowden tube getting stuck, so I printed this small [bowden tube guide][] to keep it away.
+Works great.
+
+> Note to self: Don't use a tube with an inner diameter of 2mm, the filament will get stuck due to friction.
+{ :notice }
+
+[bowden tube guide]: https://mods.vorondesign.com/detail/8CxQeqS1lXhlGphwkyqh7g
+
 
 ## Display mount
 
@@ -47,52 +153,17 @@ Now I have a mount that doesn't require tape to hold it together:
 
 TODO
 
-## LED mounts
-
-There were no instructions on how to install the LEDs, so I taped them on top of the included extrusions covers.
-Turns out you were supposed to print a bunch of LED mounts to get the LEDs pointing inwards towards the print for better lighting:
-
-TODO image before
-
-TODO image after
-
-![Before the LED strips were mounted flat.](/images/trident/led_old.jpg)
-
-![Now they're tilted inwards and have shields to direct the light towards the build plate.](/images/trident/leds_installed.jpg)
-
-36 <https://github.com/VoronDesign/VoronUsers/blob/master/printer_mods/eddie/LED_Bar_Clip/LED_Bar_Clip_Misumi_version2.stl>
-
-## Spool holder
-
-![](/images/trident/longer_holder.jpg)
-
-Issue: too short for some spools.
-
-Possible solutions:
-
-- https://mods.vorondesign.com/detail/wWS3pc510oGqxGo0awsFKA just longer (Pick this one)
-- https://mods.vorondesign.com/detail/VjlccbeeOuH5iax4AFHA top, but needs more things
-- https://mods.vorondesign.com/detail/x2umK6ZcG6l2c5EEM2LQjQ can mount horizontally
-- https://www.printables.com/model/369877-better-voron-spool-holder
-- https://www.printables.com/model/227260-voron-24-top-mount-single-dual-spool-holder dual
-
-## Handles
-
-I had to have these spacers to mount the handles included in the kit:
-
-TODO image
-
-2 <https://github.com/MotorDynamicsLab/LDOVoron2/blob/main/STLs/handlebar_spacer_x4.stl>
-
-The kit came with some very sturdy handles, but unfortunately they install over the top panel so you can't remove the panel without removing the handles.
-This clashes badly with my plan to make a more easily removable top panel, but fortunately I found 3D printed handles that work.
-
-<https://mods.vorondesign.com/detail/EAM1ZiQJCUzXznvOA767w>
-
-## Bowden Tube Guide
-
-![](/images/trident/bowden_holder.jpg)
-
-<https://mods.vorondesign.com/detail/8CxQeqS1lXhlGphwkyqh7g>
-
 [Bulging]: https://ellis3dp.com/Print-Tuning-Guide/articles/troubleshooting/bulging.html
+
+## Improved seal in extrusions
+
+![](/images/trident/sugru.jpg)
+
+Despite having the Nevermore filter and a HEPA filter exhaust, I could very clearly smell ABS fumes from the printer.
+Looking at the extrusions, there were large holes in the blind joints and I suspect that doesn't help.
+
+Therefore I tried to cover up the holes with some Sugru.
+
+# Are we done yet?
+
+It's true that the printer can now be considered Done™---and it has been done for a while---I still have some mods I'd like to document before I wrap up this build series.
