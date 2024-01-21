@@ -47,34 +47,27 @@ Before getting into the tiles---which is the meat of the game---let me first add
 There's an [official board][] you can use, but I really didn't like it for one major reason:
 the balls can easily drop off the board, onto the table and roll down to the floor where our 1-year old might find and try to eat them.
 
-- A [modular board][] 
-- The [super fancy remix][]
+Luckily, [Hextraction][] advertises itself as a hackable game, and Thangs user [Inaudible][] has created two wonderful alternative boards for us to enjoy:
+
+1. The [super fancy remix][] with full gutters, variable size, ball holders and more.
+2. A [modular board][] you can rebuild into smaller and larger weirdly shaped boards.
+
+I started with the modular board because I thought it would be nice to be able to modify it later, but mostly it was because it had just been released and my monkey brain thought "newer = better".
 
 # Tiles we like
 
-- https://thangs.com/designer/QTManygo/3d-model/Hextraction%20-%20Speed%20Bumps%20Tiles-903950 (not too fun)
-- https://thangs.com/designer/jaceubs/3d-model/Hextraction%20Reroute%20Tiles-902024
-- Flip-flop tiles
-- Pachinko tile
-- https://thangs.com/designer/IceChes/3d-model/Hextraction%20-%20UwU%20Tile-903488
-- https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Zoidberg%20Tile-856450
-- Loop tile. Because it's silly.
+The fun part of [Hextraction][] is the tiles, and there are lots of different tiles.
+At first I thought it'd be a challenge to find fun and interesting tiles that don't require special rules, but there were plenty of tiles for me and my kids to enjoy.
 
 ## Regular tiles
 
-- https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Basic%20Tiles-856511
+Honestly, a lot of the times when playing the game one of the most appreciated tiles to draw is just a regular tile.
+The original creator provides a [good selection of basic tiles][basic_tiles], most with short descriptive names; the DC, DIC, X, J, S, Z, Asterisk, and Peace tiles.
+I've added the [Xc Tile][] and a bunch of [Reroute tiles][].
 
-   2x DIC Tile           Green
-   4x DC Tile            Green
-   2x Peace Tile        Pink
-   4x X Tile            Blue
-   2x Asterisk  Tile     Army Light Green
-
-   2x J Tile            Pink
-   2x S Tile            Blue
-   2x Z Tile            Blue
-
-- https://thangs.com/designer/theethetree/3d-model/Xc%20Tile%20-%20Hextraction-871018
+[basic_tiles]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Basic%20Tiles-856511
+[Xc Tile]: https://thangs.com/designer/theethetree/3d-model/Xc%20Tile%20-%20Hextraction-871018
+[Reroute tiles]: https://thangs.com/designer/jaceubs/3d-model/Hextraction%20Reroute%20Tiles-902024
 
 ## Trap tiles
 
@@ -94,10 +87,19 @@ https://www.printables.com/model/496253-secret-lid-inverted-upgrade-for-hextract
 
 https://www.printables.com/model/594135-hextraction-alt-secret-tiles
 
+## Silly tiles
+
+- Flip-flop tiles
+- Pachinko tile
+- https://thangs.com/designer/IceChes/3d-model/Hextraction%20-%20UwU%20Tile-903488
+- https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Zoidberg%20Tile-856450
+- Loop tile. Because it's silly.
+
 # Tiles we didn't like
 
 - Sozu Tile: never got it to work properly
 - Speed bump tiles
+- https://thangs.com/designer/QTManygo/3d-model/Hextraction%20-%20Speed%20Bumps%20Tiles-903950 (not too fun)
 
 [modular board]: https://thangs.com/designer/Inaudable/3d-model/Modular%20Hextraction%20Board%21-972454
 [super fancy remix]: https://thangs.com/designer/Inaudable/3d-model/Super%20Fancy%20Remix%20of%20the%20Hextraction%20Game%20Board-955813
