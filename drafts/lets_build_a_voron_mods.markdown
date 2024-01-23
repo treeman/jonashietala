@@ -84,6 +84,66 @@ I won't do anything about it right now, but in the future I'll probably try to r
 
 [Angry CAM USB]: https://mods.vorondesign.com/detail/RYpQW53mtem8Nj1JKqiSQ>
 
+# Filament runout sensor
+
+<https://www.3djake.com/bigtreetech/smart-filament-sensor-v20>
+<https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra>
+
+# Flex plate stops
+
+::: Flex
+/images/trident/flexplate_endstop.jpg
+/images/trident/flexplate_endstop2.jpg
+:::
+
+Aligning the flex plate isn't too much of a pain, but adding some [flex plate stops][] makes the process easier.
+
+To fit it at the back I removed the now unused z-endstop (I use Tap instead).
+
+[flex plate stops]: https://www.printables.com/model/411428-voron-24-flex-plate-stops>
+
+# Gridfinity mounts
+
+TODO image
+
+I've been slowly easing into [Gridfinity][]---a free and open organization system.
+So naturally I wanted to add some some holders to the printer.
+
+I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] holders, and they work great.
+
+# Meshed panels
+
+TODO image
+
+<https://www.printables.com/model/455437-voron-trident-mesh-skirts>
+
+<https://www.printables.com/model/373916-trident-mesh-skirts-ssps-only>
+
+# Galileo 2
+
+![](/images/trident/galileo_6.jpg)
+
+I replaced the Clockwork 2 extruder with the [Galileo 2].
+
+This wasn't exactly needed, I just thought it would be interesting as building the Clockwork was one of the most interesting parts of the build, and this [planetary gears][] thing looked pretty interesting.
+And the FOMO kicked in as I was following the discussion online, with people hyping about it but not being able to find a kit.
+So when I happened to find one I couldn't help myself.
+
+I was planning to make a separate post only about the build, but the build was surprisingly very quick so I think it works if I include it in this blog post.
+
+![I was worried about the quality of my printed parts, but they fit well.](/images/trident/galileo_1.jpg)
+
+![The planetary gears.](/images/trident/galileo_2.jpg)
+
+![Time to shove the motor into place.](/images/trident/galileo_3.jpg)
+
+![The drive gear is installed.](/images/trident/galileo_5.jpg)
+
+The only difficulty I encountered was to align the drive gear.
+It touched the printed part, and I was worried my prints came out all wrong.
+The manual says that you can push down the carrier shaft, but I had to disassemble it and realign it before attaching the motor.
+After the reassembly it luckily aligned properly.
+
 # Purge bucket
 
 The kit comes with a steel brush and references the [Decontaminator Purge Bucket & Nozzle Scrubber][purge] mod that I was quite excited for.
@@ -109,30 +169,8 @@ I bought a [Chaoticlab CNC Voron Tap][chaotic_tap], but had I known about the se
 [sensorless]: https://docs.vorondesign.com/community/howto/clee/sensorless_xy_homing.html "Setting Up and Calibrating Sensorless XY Homing"
 [chaotic_tap]: https://www.3djake.com/chaoticlab/cnc-voron-tap-black-v2
 
-# Filament runout sensor
 
-<https://www.3djake.com/bigtreetech/smart-filament-sensor-v20>
-<https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra>
-
-# Flex plate stops
-
-::: Flex
-/images/trident/flexplate_endstop.jpg
-/images/trident/flexplate_endstop2.jpg
-:::
-
-Aligning the flex plate isn't too much of a pain, but adding some [flex plate stops][] makes the process easier.
-
-To fit it at the back I removed the now unused z-endstop (I use Tap instead).
-
-[flex plate stops]: https://www.printables.com/model/411428-voron-24-flex-plate-stops>
-
-# Gridfinity mounts
-
-I've been slowly easing into [Gridfinity][]---a free and open organization system.
-So naturally I wanted to add some some holders to the printer.
-
-I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] holders, and they work great.
+[Galileo 2]: https://github.com/JaredC01/Galileo2
 
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
 [4pin]: https://www.nicksherlock.com/2022/01/driving-a-4-pin-computer-pwm-fan-on-the-btt-octopus-using-klipper/
@@ -145,3 +183,4 @@ I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] ho
 [Gridfinity]: https://www.youtube.com/watch?v=ra_9zU-mnl8
 [top-gridfinity]: https://www.printables.com/model/175108-gridfinity-holder-for-voron-printers-2020-extrusio
 [bottom-gridfinity]: https://www.printables.com/model/431489-gridfinity-mount-for-2020-extrusions-voron-printer
+[planetary gears]: https://www.engineeringclicks.com/planetary-gears/

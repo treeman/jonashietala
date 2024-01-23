@@ -30,6 +30,9 @@ The mind boggles with cool and interesting plays with these kinds of tiles...
 But they all have their own specific rules that you have to remember or read on a rules card.
 Having to constantly be reminded of rules isn't really fun, and our kids can't read Swedish let alone English yet, so unfortunately the special effect tiles must be ignored for now.
 
+Another thing I've avoided are the "launcher" tiles that will launch the balls in the air, so you can try to jump over tiles or onto the goals.
+Although they look fun---and they would be perfect for my boys---I dislike the idea of launching balls to our 1-year old crawling on the floor.
+
 Other than that the rules we use are very simple:
 
 1. Place a tile (out of a hand of 3)
@@ -54,12 +57,18 @@ Luckily, [Hextraction][] advertises itself as a hackable game, and Thangs user [
 
 I started with the modular board because I thought it would be nice to be able to modify it later, but mostly it was because it had just been released and my monkey brain thought "newer = better".
 
+TODO images
+
 # Tiles we like
 
+TODO image
+
 The fun part of [Hextraction][] is the tiles, and there are lots of different tiles.
-At first I thought it'd be a challenge to find fun and interesting tiles that don't require special rules, but there were plenty of tiles for me and my kids to enjoy.
+At first I thought it'd be a challenge to find fun and interesting tiles when I've disqualified many of the most fun ones, but there were plenty of tiles for me and my kids to enjoy.
 
 ## Regular tiles
+
+TODO image
 
 Honestly, a lot of the times when playing the game one of the most appreciated tiles to draw is just a regular tile.
 The original creator provides a [good selection of basic tiles][basic_tiles], most with short descriptive names; the DC, DIC, X, J, S, Z, Asterisk, and Peace tiles.
@@ -69,37 +78,95 @@ I've added the [Xc Tile][] and a bunch of [Reroute tiles][].
 [Xc Tile]: https://thangs.com/designer/theethetree/3d-model/Xc%20Tile%20-%20Hextraction-871018
 [Reroute tiles]: https://thangs.com/designer/jaceubs/3d-model/Hextraction%20Reroute%20Tiles-902024
 
-## Trap tiles
-
-Double and triple trap tiles are great
-https://thangs.com/designer/hpalinux/3d-model/Hextraction%20Tile%3A%20Angry%20Crab-911792
-- Quad trap tile (not the best?)
-- Newton's cradle
-
 ## Secret tiles
 
-https://thangs.com/designer/theethetree/3d-model/Xc%20Stealth%20Tile-871054?manualModelView=true&source=All+Files
+TODO image
 
-Fixed:
-https://www.printables.com/model/496288-fixed-secret-hextraction-mystery-tiles/files
-https://thangs.com/designer/timothyjackman/3d-model/Fixed%20Hextraction%20Secret%20Flipper%20Tile-884171
-https://www.printables.com/model/496253-secret-lid-inverted-upgrade-for-hextraction-game-n
+We had some mixed feelings about the secret tiles.
+On one hand it's great fun to place a tile that only you know how it works,
+but on the other hand the ball tends to get stuck inside them quite often, making the "3-ball then destroy the tile" rule difficult to keep track of.
 
-https://www.printables.com/model/594135-hextraction-alt-secret-tiles
+So I replaced them with [alternative secret tiles][] that never blocks a ball path:
+
+TODO image
+
+I also used the [inverted secret lid][] to make the lid (much) easier to print well.
+
+> If you want to use the standard secret tiles, please note that the holes for the lids are too shallow for a few of them.
+> See [this link][fix-secret] and [this link][fix-flipper] for fixes.
+{ :notice}
+
+[fix-secret]: https://www.printables.com/model/496288-fixed-secret-hextraction-mystery-tiles/files
+[fix-flipper]: https://thangs.com/designer/timothyjackman/3d-model/Fixed%20Hextraction%20Secret%20Flipper%20Tile-884171
+[inverted secret lid]: https://www.printables.com/model/496253-secret-lid-inverted-upgrade-for-hextraction-game-n
+[alternative secret tiles]: https://www.printables.com/model/594135-hextraction-alt-secret-tiles
+
+## Trap tiles
+
+TODO image
+
+The trap tiles add quite a lot of depth to the game.
+The [double trap tiles][] are the best, but I've added a triple and a [quad trap tile][] too.
+
+[Newton's Cradle][] and the [Angry Crab][] are probably my two favorite tiles in the game.
+
+Traps are interesting because they allow you to block paths, allowing you to throw a wrench into your opponents plans at a crucial time.
+This often leads to the players having to route around existing paths, without blocking them off completely.
+
+
+[double trap tiles]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Trap%20Tiles%20-%20Double%20and%20Triple%20Trap-837140
+[quad trap tile]: https://thangs.com/designer/jaceubs/3d-model/Hextraction%20Quad%20Trap%20Tile-911169
+[Newton's Cradle]: https://www.printables.com/model/636021-hextraction-newtons-cradle-tile-no-supports-remix
+[Angry Crab]: https://thangs.com/designer/hpalinux/3d-model/Hextraction%20Tile%3A%20Angry%20Crab-911792
 
 ## Silly tiles
 
-- Flip-flop tiles
-- Pachinko tile
-- https://thangs.com/designer/IceChes/3d-model/Hextraction%20-%20UwU%20Tile-903488
-- https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Zoidberg%20Tile-856450
-- Loop tile. Because it's silly.
+TODO image
 
-# Tiles we didn't like
+Even though it can malfunction at times, the [Flip-flop tile][] is great as it adds a small state machine to the game.
+I personally greatly enjoy the [Pachinko tile][] as it's a great way to add some more randomness.
 
-- Sozu Tile: never got it to work properly
+Because that level of randomness isn't enough, the beautiful [UwU tile][] and the [Zoidberg tile][] acts as a random trap tile.
+
+I also threw in a [loop][], because it's silly and it's fun when you manage to get a ball through it.
+
+To store the balls I use [The Ultimate Hextraction Storage Box][].
+It's also a tile, although you can't play with it.
+
+[Flip-flop tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Flip-Flop%20Tile-856502
+[Pachinko tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Pachinko%20Tile-837138
+[UwU tile]: https://thangs.com/designer/IceChes/3d-model/Hextraction%20-%20UwU%20Tile-903488
+[Zoidberg tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Zoidberg%20Tile-856450
+[loop]: https://thangs.com/designer/theethetree/3d-model/Hextraction%20Loop-de-loop%20tile-873977
+
+# Tiles we have removed
+
+TODO image
+
+There are some tiles I printed but that I've removed from our game:
+
+- Sozu Tile
+
+  I never got it to work consistently and having an extra rule of "first insert ball here" goes against our simplistic rules policy.
+
 - Speed bump tiles
-- https://thangs.com/designer/QTManygo/3d-model/Hextraction%20-%20Speed%20Bumps%20Tiles-903950 (not too fun)
+
+  I actually really like the idea: they trap the ball if it's moving to slow, and decreases the speed otherwise.
+  The issue is that the kids gets a bit too frustrated with them, so I've reduced the number of speed bump tiles in circulation.
+
+  We still have two that we use, mostly because I like the educational aspect of the tiles (it's physics!).
+
+# Print it, play it!
+
+If you have a 3D printer lying around (or have a friend with one), I heavily recommend you to check out [Hextraction][].
+It's a very cool and silly game, which works very well even for young kids with minor tweaks.
+(To be honest, our 3-year old doesn't *play* the game, he just uses it as a marble run. But that's fine too.)
+
+It's a build your own adventure type of a game, and you can even design your own tiles (or boards, if you're a madman).
+If you're like me and haven't yet learned the dark CAD magic, there are [lots of designs][] out there for you to include into your game.
+
+And if you don't have a 3D printer yet, go ~buy~ [build one][voron]!
+
 
 [modular board]: https://thangs.com/designer/Inaudable/3d-model/Modular%20Hextraction%20Board%21-972454
 [super fancy remix]: https://thangs.com/designer/Inaudable/3d-model/Super%20Fancy%20Remix%20of%20the%20Hextraction%20Game%20Board-955813
@@ -108,3 +175,7 @@ https://www.printables.com/model/594135-hextraction-alt-secret-tiles
 [Teleport Tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Teleport%20Tile-856643
 [Clone Tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Clone%20Tile-855930
 [official board]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Game%20Boards-856439
+[Speed bump tiles]: https://thangs.com/designer/QTManygo/3d-model/Hextraction%20-%20Speed%20Bumps%20Tiles-903950
+[lots of designs]: https://thangs.com/search/hextraction?scope=all
+[Inaudible]: https://thangs.com/designer/Inaudable
+[The Ultimate Hextraction Storage Box]: https://thangs.com/designer/andrewtho5942/3d-model/The%20Ultimate%20Hextraction%20Storage%20Box-885493
