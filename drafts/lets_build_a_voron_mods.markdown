@@ -1,5 +1,5 @@
 ---
-title: "Let's build a VORON: Quality of life mods"
+title: "Let's build a VORON: More mods"
 tags: ["3D printing", "VORON"]
 series: voron_trident
 ---
@@ -139,7 +139,7 @@ I was planning to make a separate post only about the build, but the build was s
 
 ![The drive gear is installed.](/images/trident/galileo_5.jpg)
 
-The only difficulty I encountered was to align the drive gear.
+The only difficulty I encountered when assembling the extruder itself was to align the drive gear.
 It touched the printed part, and I was worried my prints came out all wrong.
 The manual says that you can push down the carrier shaft, but I had to disassemble it and realign it before attaching the motor.
 After the reassembly it luckily aligned properly.
