@@ -1,21 +1,22 @@
-use std::fs;
-
 use chrono::NaiveDate;
-use eyre::{eyre, Result};
+use eyre::Result;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::cmp::Ordering;
 use tera::Context;
-use yaml_front_matter::{Document, YamlFrontMatter};
 
 use crate::{
-    item::RenderContext, item::TeraItem, markdown::find_markdown_files, markdown::markdown_to_html,
-    paths::AbsPath, site_url::SiteUrl,
+    item::RenderContext,
+    item::TeraItem,
+    markup::find_markup_files,
+    markup::{RawMarkup, TransformedMarkup},
+    paths::AbsPath,
+    site_url::SiteUrl,
 };
 
 #[derive(Debug)]
 pub struct ProjectsItem {
-    prematter: String,
+    prematter: TransformedMarkup,
     title: String,
     url: SiteUrl,
     pub projects: Vec<Project>,
@@ -24,13 +25,13 @@ pub struct ProjectsItem {
 
 impl ProjectsItem {
     pub fn new(dir: &AbsPath) -> Result<Self> {
-        let raw_content = fs::read_to_string(dir.join("projects.markdown"))?;
-        let Document { metadata, content } =
-            YamlFrontMatter::parse::<ProjectsMetadata>(&raw_content)
-                .map_err(|err| eyre!("Failed to parse metadata for projects\n{}", err))?;
-        let url = SiteUrl::parse("/projects").expect("Should be able to create a url");
+        let markup =
+            RawMarkup::from_file(dir.join("projects.markdown"))?.transform::<ProjectsMetadata>()?;
 
-        let project_files = find_markdown_files(dir.join("projects"));
+        let url = SiteUrl::parse("/projects").expect("Should be able to create a url");
+        let title = markup.metadata.title.clone();
+
+        let project_files = find_markup_files(&[dir.join("projects")]);
 
         let mut projects = project_files
             .iter()
@@ -48,8 +49,8 @@ impl ProjectsItem {
 
         Ok(Self {
             url,
-            prematter: content,
-            title: metadata.title,
+            prematter: markup.content,
+            title,
             projects,
             games,
         })
@@ -60,8 +61,7 @@ impl TeraItem for ProjectsItem {
     fn context(&self, ctx: &RenderContext) -> Context {
         Context::from_serialize(ProjectsContext {
             title: html_escape::encode_text(&self.title),
-
-            prematter: markdown_to_html(&self.prematter),
+            prematter: &self.prematter.0,
             projects: self
                 .projects
                 .iter()
@@ -89,39 +89,37 @@ struct ProjectsMetadata {
 #[derive(Debug, Serialize)]
 struct ProjectsContext<'a> {
     title: Cow<'a, str>,
-    prematter: String,
+    prematter: &'a str,
     projects: Vec<ProjectContext<'a>>,
     games: Vec<GameContext<'a>>,
 }
 
-#[derive(Debug, Eq, Clone)]
+#[derive(Debug, Clone)]
 pub struct Project {
     title: String,
     link: Option<String>,
     year: u32,
     path: AbsPath,
-    descr: String,
+    descr: TransformedMarkup,
     pub homepage: bool,
 }
 
 impl Project {
     fn from_file(path: AbsPath) -> Result<Self> {
-        let raw_content = fs::read_to_string(&path)?;
-        Self::from_string(path, raw_content)
+        let markup = RawMarkup::from_file(path)?;
+        Self::from_markup(markup)
     }
 
-    pub fn from_string(path: AbsPath, raw_content: String) -> Result<Self> {
-        let Document { metadata, content } =
-            YamlFrontMatter::parse::<ProjectMetadata>(&raw_content)
-                .map_err(|err| eyre!("Failed to parse metadata for project: {}\n{}", path, err))?;
+    pub fn from_markup(markup: RawMarkup) -> Result<Self> {
+        let markup = markup.transform::<ProjectMetadata>()?;
 
         Ok(Self {
-            title: metadata.title,
-            link: metadata.link,
-            year: metadata.year,
-            path,
-            descr: content,
-            homepage: metadata.homepage.unwrap_or(false),
+            title: markup.metadata.title,
+            link: markup.metadata.link,
+            year: markup.metadata.year,
+            path: markup.path,
+            descr: markup.content,
+            homepage: markup.metadata.homepage.unwrap_or(false),
         })
     }
 
@@ -130,7 +128,7 @@ impl Project {
             title: html_escape::encode_text(&self.title),
             link: self.link.as_deref(),
             year: self.year,
-            descr: markdown_to_html(&self.descr),
+            descr: &self.descr.0,
         }
     }
 }
@@ -147,6 +145,8 @@ impl Ord for Project {
     }
 }
 
+impl Eq for Project {}
+
 impl PartialEq for Project {
     fn eq(&self, other: &Self) -> bool {
         self.path == other.path
@@ -158,7 +158,7 @@ pub struct ProjectContext<'a> {
     title: Cow<'a, str>,
     link: Option<&'a str>,
     year: u32,
-    descr: String,
+    descr: &'a str,
 }
 
 #[derive(Deserialize, Debug)]
@@ -182,28 +182,24 @@ pub struct Game {
 
 impl Game {
     fn from_file(path: AbsPath) -> Result<Self> {
-        let raw_content = fs::read_to_string(&path)?;
-        Self::from_string(path, raw_content)
+        let markup = RawMarkup::from_file(path)?;
+        Self::from_markup(markup)
     }
 
-    pub fn from_string(path: AbsPath, raw_content: String) -> Result<Self> {
-        let Document {
-            metadata,
-            content: _,
-        } = YamlFrontMatter::parse::<GameMetadata>(&raw_content)
-            .map_err(|err| eyre!("Failed to parse metadata for game: {}\n{}", path, err))?;
+    pub fn from_markup(markup: RawMarkup) -> Result<Self> {
+        let markup = markup.transform::<GameMetadata>()?;
 
-        let published = NaiveDate::parse_from_str(&metadata.published, "%Y-%m-%d")?;
-        let url = SiteUrl::parse(&metadata.url)?;
-        let img = SiteUrl::parse(&metadata.img)?;
+        let published = NaiveDate::parse_from_str(&markup.metadata.published, "%Y-%m-%d")?;
+        let url = SiteUrl::parse(&markup.metadata.url)?;
+        let img = SiteUrl::parse(&markup.metadata.img)?;
 
         Ok(Self {
-            title: metadata.title,
-            event: metadata.event,
-            event_link: metadata.event_link,
+            title: markup.metadata.title,
+            event: markup.metadata.event,
+            event_link: markup.metadata.event_link,
             url,
             img,
-            path,
+            path: markup.path,
             published,
         })
     }

@@ -43,6 +43,13 @@ article {
     margin-block-start: var(--space-3xs);
   }
 
+  .post-info .draft {
+    color: var(--color-highlight);
+    color: var(--melange_b_red);
+    text-decoration: underline;
+    margin-right: -2px;
+  }
+
   time a {
     text-decoration: none;
     color: var(--color-text);
@@ -120,9 +127,7 @@ article {
   table {
     @extend %serif;
     // Need tabular numbers to align properly
-    font-feature-settings:
-      "kern" on,
-      "tnum" on;
+    font-feature-settings: "kern" on, "tnum" on;
   }
   th,
   td {

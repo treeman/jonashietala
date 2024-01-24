@@ -8,6 +8,7 @@ use lazy_static::lazy_static;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use serde::Serialize;
 use std::collections::BTreeMap;
+use std::collections::BTreeSet;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fmt::Debug;
@@ -17,10 +18,8 @@ use tera::{Context, Tera};
 use tracing::{debug, error, info, warn};
 use url::Url;
 
-use crate::content::load_drafts;
 use crate::content::load_series;
 use crate::content::set_post_prev_next;
-use crate::content::DraftRef;
 use crate::content::PostRef;
 use crate::content::SeriesArchiveItem;
 use crate::content::SeriesItem;
@@ -32,8 +31,8 @@ use crate::paths::FilePath;
 use crate::paths::RelPath;
 use crate::{
     content::{
-        load_posts, load_standalones, post_archives, tags_archives, ArchiveItem, DraftArchiveItem,
-        DraftItem, HomepageItem, PostItem, ProjectsItem, Sass, StandaloneItem, Tag, TagListItem,
+        load_posts, load_standalones, post_archives, tags_archives, ArchiveItem, HomepageItem,
+        PostItem, ProjectsItem, Sass, StandaloneItem, Tag, TagListItem,
     },
     item::RenderContext,
     site_url::SiteUrl,
@@ -58,30 +57,49 @@ pub struct SiteContent {
 
     pub posts: BTreeMap<PostRef, PostItem>,
     pub series: BTreeMap<SeriesRef, SeriesItem>,
-    pub drafts: Option<BTreeMap<DraftRef, DraftItem>>,
+    pub drafts: Option<BTreeSet<PostRef>>,
 
     pub standalones: HashSet<StandaloneItem>,
 }
 
 impl SiteContent {
     fn load(opts: &SiteOptions) -> Result<Self> {
-        let mut posts = load_posts(opts.input_dir.join("posts"))?;
+        let post_dirs = if opts.include_drafts {
+            vec!["posts", "drafts"]
+        } else {
+            vec!["posts"]
+        }
+        .into_iter()
+        .map(|x| opts.input_dir.join(x))
+        .collect::<Vec<_>>();
+
+        let mut posts = load_posts(&post_dirs)?;
         let series = load_series(opts.input_dir.join("series"), &mut posts)?;
         let standalones = load_standalones(opts.input_dir.join("static"))?;
 
         let drafts = if opts.include_drafts {
-            let drafts = load_drafts(opts.input_dir.join("drafts"))?;
-            Some(drafts)
+            Some(
+                posts
+                    .iter()
+                    .filter_map(|(post_ref, item)| {
+                        if item.is_draft {
+                            Some(post_ref.clone())
+                        } else {
+                            None
+                        }
+                    })
+                    .collect(),
+            )
         } else {
             None
         };
 
         println!(
-            "posts: {} series: {} standalones: {} drafts: {:?}",
+            "posts: {} series: {} standalones: {} drafts: {}",
             posts.len(),
             series.len(),
             standalones.len(),
-            drafts.as_ref().map(|x| x.len())
+            drafts.as_ref().map(|x: &BTreeSet<_>| x.len()).unwrap_or(0)
         );
 
         let projects = ProjectsItem::new(&opts.input_dir)?;
@@ -115,16 +133,6 @@ impl SiteContent {
         set_post_prev_next(&mut self.posts);
         self.update_homepage();
         prev_post
-    }
-
-    pub fn insert_draft(&mut self, draft: DraftItem) -> Option<DraftItem> {
-        let draft_ref = draft.draft_ref();
-        let prev_draft = self
-            .drafts
-            .as_mut()
-            .unwrap()
-            .insert(draft_ref.clone(), draft);
-        prev_draft
     }
 
     pub fn update_homepage(&mut self) {
@@ -174,7 +182,6 @@ pub struct Site {
 struct SiteRenderOpts<'a> {
     all_posts: bool,
     all_standalones: bool,
-    all_drafts: bool,
     draft_archive: bool,
     post_archives: bool,
     tags_archives: bool,
@@ -195,7 +202,6 @@ impl SiteRenderOpts<'_> {
         Self {
             all_posts: true,
             all_standalones: true,
-            all_drafts: true,
             draft_archive: true,
             post_archives: true,
             tags_archives: true,
@@ -220,6 +226,7 @@ impl SiteRenderOpts<'_> {
             tags_archives: has_tags,
             tags_list: has_tags,
             post_archives: true,
+            draft_archive: post.is_draft,
             series_archive: has_series,
             series: has_series,
             homepage: true,
@@ -234,6 +241,7 @@ impl SiteRenderOpts<'_> {
         let tags_changed = new.tags != old.tags;
         let series_changed = new.series.is_some() || new.series != old.series;
         let recommended_changed = new.recommended != old.recommended;
+        let is_draft = old.is_draft || new.is_draft;
 
         SiteRenderOpts {
             // NOTE
@@ -244,27 +252,12 @@ impl SiteRenderOpts<'_> {
             tags_archives: title_changed || tags_changed,
             tags_list: tags_changed,
             post_archives: title_changed,
+            draft_archive: is_draft && title_changed,
             series_archive: title_changed || series_changed,
             series: title_changed || series_changed,
             homepage: title_changed || recommended_changed || tags_changed || series_changed,
             extra_render: vec![new],
             feed: true,
-            ..Default::default()
-        }
-    }
-
-    fn draft_created<'a>(draft: &'a DraftItem) -> SiteRenderOpts<'a> {
-        SiteRenderOpts {
-            draft_archive: true,
-            extra_render: vec![draft],
-            ..Default::default()
-        }
-    }
-
-    fn draft_updated<'a>(old: &DraftItem, new: &'a DraftItem) -> SiteRenderOpts<'a> {
-        SiteRenderOpts {
-            draft_archive: new.title != old.title,
-            extra_render: vec![new],
             ..Default::default()
         }
     }
@@ -275,7 +268,7 @@ struct SiteRenderExtra<'a> {
     series_archive: Option<SeriesArchiveItem>,
     tags_archives: Option<Vec<ArchiveItem>>,
     tags_list: Option<TagListItem<'a>>,
-    draft_archive: Option<DraftArchiveItem<'a>>,
+    draft_archive: Option<ArchiveItem>,
 }
 
 impl<'a> SiteRenderExtra<'a> {
@@ -383,11 +376,12 @@ impl Site {
         })
     }
 
-    fn draft_archive(&self) -> Option<DraftArchiveItem> {
-        self.content.drafts.as_ref().map(|drafts| DraftArchiveItem {
-            drafts: drafts.values().collect(),
+    fn draft_archive(&self) -> Option<ArchiveItem> {
+        self.content.drafts.as_ref().map(|drafts| ArchiveItem {
+            posts: drafts.iter().cloned().collect(),
             url: SiteUrl::parse("/drafts").unwrap(),
             title: "Drafts".to_string(),
+            tag_filter: None,
         })
     }
 
@@ -422,14 +416,6 @@ impl Site {
             info!("Rebuilding all standalones");
             for standalone in &self.content.standalones {
                 items.push(standalone);
-            }
-        }
-        if opts.all_drafts {
-            info!("Rebuilding all drafts");
-            if let Some(ref drafts) = self.content.drafts {
-                for draft in drafts.values() {
-                    items.push(draft);
-                }
             }
         }
         if opts.homepage {
@@ -680,16 +666,17 @@ impl Site {
         }
 
         info!("Draft changed: {path}");
-        let updated = DraftItem::from_file(path.clone())?;
-        let draft_ref = updated.draft_ref();
-        let prev_draft = self.content.insert_draft(updated);
+        let updated = PostItem::from_file(path.clone())?;
+        let draft_ref = updated.post_ref();
+        let prev_draft = self.content.insert_post(updated);
 
-        let drafts = &self.content.drafts.as_ref().unwrap();
-        let updated = drafts.get(&draft_ref).unwrap();
+        // let drafts = &self.content.drafts.as_ref().unwrap();
+        // let updated = drafts.get(&draft_ref).unwrap();
+        let updated = self.content.posts.get(&draft_ref).unwrap();
 
         let render_opts = match prev_draft {
-            Some(old) => SiteRenderOpts::draft_updated(&old, &updated),
-            None => SiteRenderOpts::draft_created(&updated),
+            Some(old) => SiteRenderOpts::post_updated(&old, &updated),
+            None => SiteRenderOpts::post_created(&updated),
         };
 
         self.render(render_opts)
@@ -782,7 +769,6 @@ impl Site {
             "site.html" => SiteRenderOpts {
                 all_posts: true,
                 all_standalones: true,
-                all_drafts: true,
                 draft_archive: true,
                 post_archives: true,
                 tags_archives: true,
@@ -799,7 +785,6 @@ impl Site {
             },
             "post.html" => SiteRenderOpts {
                 all_posts: true,
-                all_drafts: true,
                 ..Default::default()
             },
             "static.html" => SiteRenderOpts {
@@ -943,13 +928,13 @@ mod tests {
             let output_file = post.output_file(&output_path);
             assert!(output_file.exists());
         }
-        if let Some(ref drafts) = site.content.drafts {
-            assert!(!drafts.is_empty());
-            for draft in drafts.values() {
-                let output_file = draft.output_file(&output_path);
-                assert!(output_file.exists());
-            }
-        }
+        // if let Some(ref drafts) = site.content.drafts {
+        //     assert!(!drafts.is_empty());
+        //     for draft in drafts.values() {
+        //         let output_file = draft.output_file(&output_path);
+        //         assert!(output_file.exists());
+        //     }
+        // }
 
         let rel_path = |path| {
             let mut res = output_path.0.clone();

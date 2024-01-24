@@ -1,5 +1,4 @@
 mod archive;
-mod drafts;
 mod external;
 mod homepage;
 mod nav_highlight;
@@ -11,7 +10,6 @@ mod standalone;
 mod tags;
 
 pub use archive::{post_archives, ArchiveItem};
-pub use drafts::{load_drafts, DraftArchiveItem, DraftItem, DraftRef};
 pub use external::Sass;
 pub use homepage::HomepageItem;
 pub use nav_highlight::add_nav_highlight;

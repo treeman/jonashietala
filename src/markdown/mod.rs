@@ -14,7 +14,6 @@ use regex::Regex;
 pub use syntax_highlight::{dump_syntax_binary, dump_theme};
 
 use auto_figures::AutoFigures;
-use camino::Utf8Path;
 use embed_youtube::EmbedYoutube;
 use fenced_blocks::parse_fenced_blocks;
 use pulldown_cmark::{BrokenLink, CowStr, LinkType, Options, Parser};
@@ -24,9 +23,8 @@ use syntax_highlight::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use table_attrs::TableAttrs;
 use tracing::warn;
 use transform_headers::TransformHeaders;
-use walkdir::WalkDir;
 
-use crate::{paths::FilePath, util};
+use crate::util;
 
 pub fn markdown_to_html(markdown: &str) -> String {
     parse_markdown(&preprocess(markdown))
@@ -119,27 +117,27 @@ fn display_broken_link(link: &BrokenLink<'_>, markdown: &str) {
     warn!("Broken link: {}", &markdown[link.span.clone()]);
 }
 
-pub fn find_markdown_files<'a, P: 'a + AsRef<Utf8Path>>(dir: P) -> Vec<FilePath> {
-    let dir = dir.as_ref();
-    WalkDir::new(dir.as_std_path())
-        .into_iter()
-        .filter_map(|e| e.ok())
-        .filter(|e| match e.metadata() {
-            Ok(e) => !e.is_dir(),
-            _ => false,
-        })
-        // .filter_map(|e| Utf8PathBuf::from_path_buf(e.into_path()).ok())
-        .filter_map(|e| FilePath::from_std_path(dir, e.into_path()).ok())
-        .filter(|e| has_markdown_ext(&e.rel_path.0))
-        .collect()
-}
+// pub fn find_markdown_files<'a, P: 'a + AsRef<Utf8Path>>(dir: P) -> Vec<FilePath> {
+//     let dir = dir.as_ref();
+//     WalkDir::new(dir.as_std_path())
+//         .into_iter()
+//         .filter_map(|e| e.ok())
+//         .filter(|e| match e.metadata() {
+//             Ok(e) => !e.is_dir(),
+//             _ => false,
+//         })
+//         // .filter_map(|e| Utf8PathBuf::from_path_buf(e.into_path()).ok())
+//         .filter_map(|e| FilePath::from_std_path(dir, e.into_path()).ok())
+//         .filter(|e| has_markdown_ext(&e.rel_path.0))
+//         .collect()
+// }
 
-fn has_markdown_ext(file: &Utf8Path) -> bool {
-    match file.extension() {
-        Some(ext) => ext == "markdown" || ext == "md",
-        None => false,
-    }
-}
+// fn has_markdown_ext(file: &Utf8Path) -> bool {
+//     match file.extension() {
+//         Some(ext) => ext == "markdown" || ext == "md",
+//         None => false,
+//     }
+// }
 
 #[cfg(test)]
 mod tests {

@@ -1,4 +1,4 @@
-use crate::{content::PostDirMetadata, markdown, paths::AbsPath, util};
+use crate::{content::PostDirMetadata, markup, paths::AbsPath, util};
 use camino::{Utf8Path, Utf8PathBuf};
 use chrono::Utc;
 use colored::Colorize;
@@ -60,7 +60,7 @@ pub fn promote(pattern: String) -> Result<()> {
 
 pub fn demote(pattern: String) -> Result<()> {
     let post_path = match_single_file_path(&pattern, "posts/".into())?;
-    let PostDirMetadata { date: _date, slug } = PostDirMetadata::from_path(&post_path)?;
+    let PostDirMetadata { slug, .. } = PostDirMetadata::parse_post(&post_path)?;
     let draft_path = draft_path(&slug);
     rename(&post_path, &draft_path, "Demoted")?;
     Ok(())
@@ -101,7 +101,7 @@ fn match_single_file_path(pattern: &str, dir: &Utf8Path) -> Result<AbsPath> {
 fn match_file_path(pattern: &str, dir: &Utf8Path) -> Result<Vec<AbsPath>> {
     // Add in case insensitivity
     let re = Regex::new(&format!("(?i){pattern}"))?;
-    let files = markdown::find_markdown_files(dir.as_str());
+    let files = markup::find_markup_files(&[dir.as_str()]);
 
     let mut res = Vec::new();
     for file in files.into_iter() {

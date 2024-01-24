@@ -11,10 +11,21 @@ use crate::{
 };
 
 pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {
+    let posts: Vec<PostRef> = posts
+        .iter()
+        .filter_map(|(post_ref, post)| {
+            if post.is_draft {
+                None
+            } else {
+                Some(post_ref.clone())
+            }
+        })
+        .collect();
+
     let mut by_year: HashMap<i32, Vec<PostRef>> = HashMap::new();
     let mut by_year_month: HashMap<(i32, u32), Vec<PostRef>> = HashMap::new();
 
-    for post in posts.keys() {
+    for post in posts.iter() {
         by_year
             .entry(post.created.year())
             .or_insert_with(Vec::new)
@@ -29,7 +40,7 @@ pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {
     let mut res = vec![ArchiveItem {
         title: "All posts".to_string(),
         url: SiteUrl::parse("/blog").unwrap(),
-        posts: posts.keys().map(Clone::clone).collect(),
+        posts,
         tag_filter: None,
     }];
     res.extend(by_year.into_iter().map(|(year, posts)| ArchiveItem {

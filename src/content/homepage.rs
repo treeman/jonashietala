@@ -47,7 +47,12 @@ impl HomepageItem {
     }
 
     fn filter_recent(posts: &BTreeMap<PostRef, PostItem>) -> Vec<PostRef> {
-        posts.keys().take(5).map(Clone::clone).collect()
+        posts
+            .iter()
+            .filter(|(_, post)| !post.is_draft)
+            .take(5)
+            .map(|(post_ref, _)| post_ref.clone())
+            .collect()
     }
 
     fn filter_recommended(posts: &BTreeMap<PostRef, PostItem>) -> Vec<PostRef> {

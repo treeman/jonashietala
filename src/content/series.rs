@@ -1,10 +1,10 @@
 use crate::item::Item;
-use crate::markdown::{markdown_to_html, markdown_to_html_strip_one_paragraph};
+use crate::markdown::markdown_to_html_strip_one_paragraph;
+use crate::markup::{find_markup_files, RawMarkup, TransformedMarkup};
 use crate::paths::AbsPath;
 use crate::{
     content::PostItem,
     item::{RenderContext, TeraItem},
-    markdown::find_markdown_files,
     site_url::SiteUrl,
 };
 use chrono::NaiveDateTime;
@@ -15,10 +15,8 @@ use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::cmp::Reverse;
 use std::collections::{BTreeMap, BTreeSet, HashMap};
-use std::fs;
 use tera::Context;
 use tracing::warn;
-use yaml_front_matter::{Document, YamlFrontMatter};
 
 use super::posts::{PostRef, PostRefContext};
 
@@ -36,7 +34,7 @@ pub fn load_series(
         }
     }
 
-    let mut series = find_markdown_files(dir)
+    let mut series = find_markup_files(&[dir])
         .par_iter_mut()
         .map(|path| SeriesItem::from_file(path.abs_path()).map(|serie| (serie.id.clone(), serie)))
         .collect::<Result<HashMap<_, _>>>()?;
@@ -81,7 +79,7 @@ pub struct SeriesItem {
     pub img: SiteUrl,
     pub path: AbsPath,
     pub url: SiteUrl,
-    pub description: String,
+    pub description: TransformedMarkup,
     pub post_note: Option<String>,
     pub posts: BTreeSet<Reverse<PostRef>>,
     pub homepage: bool,
@@ -89,38 +87,41 @@ pub struct SeriesItem {
 
 impl SeriesItem {
     pub fn from_file(path: AbsPath) -> Result<Self> {
-        let raw_content = fs::read_to_string(&path)?;
-        Self::from_string(path, raw_content)
+        let markup = RawMarkup::from_file(path)?;
+        Self::from_markup(markup)
     }
 
-    pub fn from_string(path: AbsPath, raw_content: String) -> Result<Self> {
-        let SeriesDirMetadata { id } = SeriesDirMetadata::from_path(&path)?;
-
-        let Document { metadata, content } = YamlFrontMatter::parse::<SeriesMetadata>(&raw_content)
-            .map_err(|err| eyre!("Failed to parse metadata for serie: {}\n{}", path, err))?;
+    pub fn from_markup(markup: RawMarkup) -> Result<Self> {
+        let markup = markup.transform::<SeriesMetadata>()?;
+        let SeriesDirMetadata { id } = SeriesDirMetadata::from_path(&markup.path)?;
 
         let url =
             SiteUrl::parse(&format!("/series/{id}/")).expect("Should be able to create a url");
 
-        let transformed_description = markdown_to_html(&content);
-        let transformmed_post_note = metadata
+        let transformed_description = markup.content;
+
+        // NOTE metadata post note assumes markdown!
+        // Should probably change it so that it uses the same markup language as the series.
+        let transformed_post_note = markup
+            .metadata
             .post_note
             .as_ref()
             .map(|x| markdown_to_html_strip_one_paragraph(x).into_owned());
 
-        let img = SiteUrl::parse(&metadata.img).expect("Should be able to create url to image");
+        let img =
+            SiteUrl::parse(&markup.metadata.img).expect("Should be able to create url to image");
 
         Ok(Self {
             id,
-            title: metadata.title,
-            completed: metadata.completed,
+            title: markup.metadata.title,
+            completed: markup.metadata.completed,
             img,
-            path,
+            path: markup.path,
             url,
             description: transformed_description,
-            post_note: transformmed_post_note,
+            post_note: transformed_post_note,
             posts: BTreeSet::new(),
-            homepage: metadata.homepage.unwrap_or(false),
+            homepage: markup.metadata.homepage.unwrap_or(false),
         })
     }
 
@@ -177,7 +178,7 @@ impl<'a> SeriesContext<'a> {
         Self {
             title: html_escape::encode_text(&series.title),
             url: series.url.href(),
-            description: &series.description,
+            description: &series.description.0,
             completed: series.completed,
             img: series.img.href(),
             posts: series

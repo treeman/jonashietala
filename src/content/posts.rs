@@ -16,13 +16,12 @@ use crate::content::series::SeriesRef;
 use crate::content::tags::{Tag, TagPostContext, TagsMeta};
 use crate::item::Item;
 use crate::item::RenderContext;
-use crate::markdown::find_markdown_files;
-use crate::markup::{Markup, RawMarkup};
+use crate::markup::{self, Markup, RawMarkup};
 use crate::paths::AbsPath;
 use crate::{content::SeriesItem, item::TeraItem, site_url::SiteUrl, util};
 
-pub fn load_posts(dir: AbsPath) -> Result<BTreeMap<PostRef, PostItem>> {
-    let mut posts = find_markdown_files(dir)
+pub fn load_posts(dirs: &[AbsPath]) -> Result<BTreeMap<PostRef, PostItem>> {
+    let mut posts = markup::find_markup_files(dirs)
         .par_iter()
         .map(|path| PostItem::from_file(path.abs_path()).map(|post| (post.post_ref(), post)))
         .collect::<Result<BTreeMap<PostRef, PostItem>>>()?;
@@ -76,7 +75,7 @@ impl PostItem {
     }
 
     pub fn from_markup(markup: RawMarkup, modified: NaiveDateTime) -> Result<Self> {
-        let post_dir = PostDirMetadata::from_path(&markup.path)?;
+        let post_dir = PostDirMetadata::from_path(&markup.path, &modified)?;
 
         let markup = markup.transform::<PostMetadata>()?;
 
@@ -106,7 +105,7 @@ impl PostItem {
             series_id,
             series: None,
             recommended,
-            is_draft: false,
+            is_draft: post_dir.is_draft,
         })
     }
 
@@ -134,12 +133,13 @@ impl TeraItem for PostItem {
             title: html_escape::encode_text(&self.title),
             url: self.url.href(),
             created: self.created.format("%FT%T%.fZ").to_string(),
-            content: &self.markup.content,
+            content: &self.markup.content.0,
             tags: self.tags.iter().map(TagPostContext::from).collect(),
             meta_keywords: self.tags.iter().map(|tag| tag.name.as_str()).collect(),
             series,
             prev: self.prev.as_ref().map(|x| PostRefContext::from_ref(x, ctx)),
             next: self.next.as_ref().map(|x| PostRefContext::from_ref(x, ctx)),
+            is_draft: self.is_draft,
         })
         .unwrap()
     }
@@ -164,6 +164,7 @@ struct PostContext<'a> {
     series: Option<PostSeriesContext<'a>>,
     prev: Option<PostRefContext<'a>>,
     next: Option<PostRefContext<'a>>,
+    is_draft: bool,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -174,6 +175,7 @@ struct PostSeriesContext<'a> {
     part_number: usize,
     post_note: Option<&'a str>,
     next_url: Option<Cow<'a, str>>,
+    is_draft: bool,
 }
 
 impl<'a> PostSeriesContext<'a> {
@@ -193,6 +195,7 @@ impl<'a> PostSeriesContext<'a> {
             part_number: post_index + 1,
             next_url,
             post_note: series.post_note.as_deref(),
+            is_draft: post.is_draft,
         }
     }
 }
@@ -203,6 +206,7 @@ pub struct PostRefContext<'a> {
     url: Cow<'a, str>,
     created: String,
     tags: Vec<TagPostContext<'a>>,
+    is_draft: bool,
 }
 
 impl<'a> PostRefContext<'a> {
@@ -212,6 +216,7 @@ impl<'a> PostRefContext<'a> {
             url: post.url.href(),
             created: post.created.format("%FT%T%.fZ").to_string(),
             tags: post.tags.iter().map(TagPostContext::from).collect(),
+            is_draft: post.is_draft,
         }
     }
 
@@ -234,10 +239,15 @@ pub struct PostMetadata {
 pub struct PostDirMetadata {
     pub date: NaiveDate,
     pub slug: String,
+    pub is_draft: bool,
 }
 
 impl PostDirMetadata {
-    pub fn from_path(path: &Utf8Path) -> Result<Self> {
+    pub fn from_path(path: &Utf8Path, modified: &NaiveDateTime) -> Result<Self> {
+        Self::parse_post(path).or_else(|_| Self::parse_draft(path, modified))
+    }
+
+    pub fn parse_post(path: &Utf8Path) -> Result<Self> {
         lazy_static! {
             static ref RE: Regex = Regex::new(r"^(\d{4})-(\d{2})-(\d{2})-(\S+)$").unwrap();
         }
@@ -253,15 +263,33 @@ impl PostDirMetadata {
             )
             .ok_or_else(|| eyre!("Post has invalid ymd: {}", path))?,
             slug: captures[4].to_string(),
+            is_draft: false,
+        })
+    }
+
+    pub fn parse_draft(path: &Utf8Path, modified: &NaiveDateTime) -> Result<Self> {
+        let slug = path
+            .file_stem()
+            .ok_or_else(|| eyre!("Missing file stem: {path}"))?
+            .to_string();
+
+        Ok(Self {
+            date: modified.date(),
+            slug,
+            is_draft: true,
         })
     }
 
     pub fn to_url(&self) -> Result<SiteUrl> {
-        SiteUrl::parse(&format!(
-            "/blog/{}/{}/",
-            self.date.format("%Y/%m/%d"),
-            self.slug
-        ))
+        if self.is_draft {
+            SiteUrl::parse(&format!("/drafts/{}", self.slug))
+        } else {
+            SiteUrl::parse(&format!(
+                "/blog/{}/{}/",
+                self.date.format("%Y/%m/%d"),
+                self.slug
+            ))
+        }
     }
 }
 

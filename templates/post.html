@@ -10,8 +10,7 @@ content %}
     </h2>
     {% endif %}
     <h1><a href="{{url}}">{{title}}</a></h1>
-    {% if created %} {{ macros::post_info(created=created, tags=tags) }} {%
-    endif %}
+    {{ macros::post_info(created=created, tags=tags, is_draft=is_draft) }}
   </header>
 
   {% if series %}

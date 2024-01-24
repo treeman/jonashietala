@@ -3,9 +3,12 @@
 <time datetime="{{created}}" title="{{human_created}}">
   {{created | date(format="%B %e,")}} <a href="/blog/{{year}}">{{year}}</a>
 </time>
-{% endmacro post_date %} {% macro post_info(created, tags) %}
+{% endmacro post_date %} {% macro post_info(created, tags, is_draft) %}
 <div class="post-info">
   <div class="created">{{ self::post_date(created=created) }}</div>
+  {% if is_draft %}
+  <div class="draft">Draft</div>
+  {% endif %}
   <nav class="tag-links">
     {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
       href="{{ tag.href }}"
@@ -20,7 +23,7 @@
   <div class="post-item">
     <h2><a href="{{ post.url }}" class="title">{{ post.title }}</a></h2>
     {% if post.created %} {{ self::post_info(created=post.created,
-    tags=post.tags) }} {% endif %}
+    tags=post.tags, is_draft=post.is_draft) }} {% endif %}
   </div>
   {% endfor %}
 </section>
