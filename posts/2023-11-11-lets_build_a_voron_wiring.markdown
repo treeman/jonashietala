@@ -29,7 +29,6 @@ There wasn't a ton of instructions on the cable chains, but I felt it went well.
 :::
 
 ![](/images/trident/loose_top.jpg)
-![](/images/trident/chain_pretty.jpg)
 
 ::: Flex
 /images/trident/hidden_side.jpg
@@ -280,7 +279,7 @@ The status lights are promising, but I can't tell for sure before flashing.
 [V2.4 wiring guide]: https://docs.ldomotors.com/en/voron/voron2/wiring_guide_rev_c
 [V2.4 errata]: https://docs.ldomotors.com/en/voron/voron2/kit-errata
 [assembling the stealthburner]: /blog/2023/10/18/lets_build_a_voron_toolhead/#stealthburner-assembly
-[chains_short]: #cable-chains-are-too-short
+[chains_short]: #lack-of-range-for-the-toolhead
 [solve the gantry racking]: https://www.youtube.com/watch?v=cOn6u9kXvy0
 [VORON forum]: https://forum.vorondesign.com/
 [r/cableporn]: https://www.reddit.com/r/cableporn/

@@ -1,7 +1,6 @@
 use std::borrow::Cow;
 use std::collections::BTreeMap;
 use std::fmt::Debug;
-use std::fs;
 
 use camino::Utf8Path;
 use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
@@ -12,14 +11,13 @@ use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use tera::Context;
-use yaml_front_matter::{Document, YamlFrontMatter};
 
 use crate::content::series::SeriesRef;
 use crate::content::tags::{Tag, TagPostContext, TagsMeta};
 use crate::item::Item;
 use crate::item::RenderContext;
 use crate::markdown::find_markdown_files;
-use crate::markdown::markdown_to_html;
+use crate::markup::{Markup, RawMarkup};
 use crate::paths::AbsPath;
 use crate::{content::SeriesItem, item::TeraItem, site_url::SiteUrl, util};
 
@@ -64,55 +62,51 @@ pub struct PostItem {
     pub prev: Option<PostRef>,
     pub next: Option<PostRef>,
     pub recommended: bool,
-    pub raw_content: String,
-    pub transformed_content: String,
+    pub markup: Markup<PostMetadata>,
     pub series_id: Option<String>,
     pub series: Option<SeriesRef>,
+    pub is_draft: bool,
 }
 
 impl PostItem {
     pub fn from_file(path: AbsPath) -> Result<Self> {
         let modified = util::last_modified(&path)?;
-        let raw_content = fs::read_to_string(&path)?;
-        Self::from_string(path, raw_content, modified)
+        let markup = RawMarkup::from_file(path)?;
+        Self::from_markup(markup, modified)
     }
 
-    pub fn from_string(
-        path: AbsPath,
-        raw_content: String,
-        modified: NaiveDateTime,
-    ) -> Result<Self> {
-        let post_dir = PostDirMetadata::from_path(&path)?;
+    pub fn from_markup(markup: RawMarkup, modified: NaiveDateTime) -> Result<Self> {
+        let post_dir = PostDirMetadata::from_path(&markup.path)?;
 
-        let Document { metadata, content } =
-            YamlFrontMatter::parse::<PostMetadata>(&raw_content)
-                .map_err(|err| eyre!("Failed to parse metadata for post: {}\n{}", path, err))?;
+        let markup = markup.transform::<PostMetadata>()?;
 
-        let time = match &metadata.time {
+        let time = match &markup.metadata.time {
             Some(time_str) => parse_time(&time_str)?,
             None => NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
         };
 
         let created = NaiveDateTime::new(post_dir.date, time);
-
         let url = post_dir.to_url().expect("Should be able to create a url");
 
-        let transformed_content = markdown_to_html(&content);
+        let title = markup.metadata.title.clone();
+        let tags = markup.metadata.tags.clone().into();
+        let recommended = markup.metadata.recommended.clone().unwrap_or(false);
+        let series_id = markup.metadata.series.clone();
 
         Ok(Self {
-            title: metadata.title,
-            tags: metadata.tags.into(),
+            title,
+            tags,
             created,
             updated: modified,
-            path,
+            path: markup.path.clone(),
             url,
             prev: None,
             next: None,
-            raw_content: content,
-            transformed_content,
-            series_id: metadata.series,
+            markup,
+            series_id,
             series: None,
-            recommended: metadata.recommended.unwrap_or(false),
+            recommended,
+            is_draft: false,
         })
     }
 
@@ -140,7 +134,7 @@ impl TeraItem for PostItem {
             title: html_escape::encode_text(&self.title),
             url: self.url.href(),
             created: self.created.format("%FT%T%.fZ").to_string(),
-            content: &self.transformed_content,
+            content: &self.markup.content,
             tags: self.tags.iter().map(TagPostContext::from).collect(),
             meta_keywords: self.tags.iter().map(|tag| tag.name.as_str()).collect(),
             series,
@@ -228,7 +222,7 @@ impl<'a> PostRefContext<'a> {
 }
 
 #[derive(Deserialize, Debug)]
-struct PostMetadata {
+pub struct PostMetadata {
     title: String,
     tags: TagsMeta,
     time: Option<String>,
@@ -285,9 +279,11 @@ fn parse_time(s: &str) -> Result<NaiveTime> {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
     use std::path::PathBuf;
 
     use super::*;
+    use crate::markup::MarkupType;
     use crate::tests::*;
     use crate::{item::RenderContext, site::SiteContext};
     use scraper::{node::Element, Html, Selector};
@@ -297,9 +293,12 @@ mod tests {
         let path = "posts/2022-01-31-test_post.markdown";
         let content = fs::read_to_string(PathBuf::from("test-site").join(path))?;
         // let (path, content) = tests::raw_post1();
-        let post = PostItem::from_string(
-            path.into(),
-            content,
+        let post = PostItem::from_markup(
+            RawMarkup {
+                t: MarkupType::Markdown,
+                path: path.into(),
+                content,
+            },
             NaiveDateTime::new(
                 NaiveDate::from_ymd_opt(2022, 4, 30).unwrap(),
                 NaiveTime::from_hms_opt(1, 2, 3).unwrap(),
@@ -329,7 +328,7 @@ mod tests {
                 NaiveTime::from_hms_opt(7, 7, 0).unwrap()
             )
         );
-        assert!(post.raw_content.contains("# Header 1"));
+        assert!(post.markup.raw_content.contains("# Header 1"));
         assert_eq!(post.url.path(), "/blog/2022/01/31/test_post/");
         assert_eq!(post.url.href(), "/blog/2022/01/31/test_post/");
         assert_eq!(

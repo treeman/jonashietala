@@ -71,7 +71,7 @@ impl<'a> From<&'a Tag> for TagPostContext<'a> {
 //      tags: [Tag1, Tag2]
 //
 // But here we do the manual splitting on ',' if it's of the first version.
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(untagged)]
 pub enum TagsMeta {
     Seq(Vec<String>),

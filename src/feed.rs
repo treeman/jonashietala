@@ -35,7 +35,7 @@ impl From<&PostItem> for Entry {
             content: Some(Content {
                 base: Some(BASE_SITE_URL.to_string()),
                 content_type: Some("html".to_string()),
-                value: Some(markdown_to_html_feed(&post.raw_content)),
+                value: Some(markdown_to_html_feed(&post.markup.raw_content)),
                 ..Default::default()
             }),
             ..Default::default()

@@ -1022,6 +1022,7 @@ mod tests {
         assert!(!test_site
             .find_post("2022-01-31-test_post.markdown")
             .unwrap()
+            .markup
             .raw_content
             .contains("Drafts"));
 
@@ -1054,6 +1055,7 @@ My created post
         assert!(test_site
             .find_post("2023-01-31-new_post.markdown")
             .unwrap()
+            .markup
             .raw_content
             .contains("My created post"));
 
@@ -1180,6 +1182,7 @@ My created static
         assert!(test_site
             .find_post("2022-01-31-test_post.markdown")
             .unwrap()
+            .markup
             .raw_content
             .contains("☃︎"));
 
@@ -1188,6 +1191,7 @@ My created static
         assert!(test_site
             .find_post("2022-01-31-test_post.markdown")
             .unwrap()
+            .markup
             .raw_content
             .contains('💩'));
 

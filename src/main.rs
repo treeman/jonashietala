@@ -3,6 +3,7 @@ mod feed;
 mod gen;
 mod item;
 mod markdown;
+mod markup;
 mod paths;
 mod site;
 mod site_url;

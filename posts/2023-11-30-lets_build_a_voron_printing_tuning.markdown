@@ -12,12 +12,12 @@ Less exciting---but necessary---tuning the printer to make the prints better.
 Even though I've been building the printer for more than a month, I wasn't ready for it being time for printing so soon.
 I don't know what filament is good and what I need, so I decided to get a few different brands and colors to try out:
 
-- [3DJAKE niceABS Black]
-- [eSUN ABS+ Purple]
-- Polymaker PolyTerra PLA [Army Dark Green] and [Army Blue]
-- [3DJAKE ecoPLA White & Black]
-- [Spectrum PLA Dragon Red]
-- [eSUN eSilk PLA Gold]
+- [3DJAKE niceABS Black][]
+- [eSUN ABS+ Purple][]
+- Polymaker PolyTerra PLA [Army Dark Green][] and [Army Blue][]
+- [3DJAKE ecoPLA White & Black][]
+- [Spectrum PLA Dragon Red][]
+- [eSUN eSilk PLA Gold][]
 
 ![I think I went overboard with the filament order.](/images/trident/filament.jpg)
 
@@ -202,8 +202,8 @@ The prints were absolutely good enough for me to start printing a bunch of mods 
 
 [3DJAKE niceABS Black]: https://www.3djake.com/3djake/niceabs-black?sai=3802
 [eSUN ABS+ Purple]: https://www.3djake.com/esun/abs-purple-2?sai=11812
-[PLA Army Blue]: https://www.3djake.com/polymaker/polyterra-pla-army-blue?sai=14897
-[PLA Army Dark Green]: https://www.3djake.com/polymaker/polyterra-pla-army-dark-green?sai=11933
+[Army Blue]: https://www.3djake.com/polymaker/polyterra-pla-army-blue?sai=14897
+[Army Dark Green]: https://www.3djake.com/polymaker/polyterra-pla-army-dark-green?sai=11933
 [3DJAKE ecoPLA White & Black]: https://www.3djake.com/3djake/ecopla-white-black-economy-set?sai=5063
 [Spectrum PLA Dragon Red]: https://www.3djake.com/spectrum/pla-dragon-red?sai=3969
 [eSUN eSilk PLA Gold]: https://www.3djake.com/esun/esilk-pla-gold?sai=11857
