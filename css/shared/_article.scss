@@ -15,13 +15,16 @@ article {
   }
 
   @include flow;
+  & > section {
+    @include flow;
+  }
 
-  > h1,
-  > h2,
-  > h3,
-  > h4,
-  > h5,
-  > h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     & > a:not(:first-of-type) {
       text-decoration: underline;
     }
@@ -109,7 +112,8 @@ article {
     padding-block: var(--space-2xs);
     @include flow;
   }
-  & > blockquote {
+  & > blockquote,
+  & > section > blockquote {
     border-left: 3px solid var(--color-blockquote-bar);
   }
   .epigraph {

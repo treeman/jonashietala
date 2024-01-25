@@ -1410,6 +1410,7 @@ dependencies = [
  "html-escape",
  "itemref-derive",
  "itertools",
+ "jotdown",
  "lazy_static",
  "md5",
  "new_mime_guess",
@@ -1436,6 +1437,12 @@ dependencies = [
  "xml-rs",
  "yaml-front-matter",
 ]
+
+[[package]]
+name = "jotdown"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d3c1b81e2665d2cf501a82c93164caf3f56919d73611e8d53340ba352912c996"
 
 [[package]]
 name = "js-sys"

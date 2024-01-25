@@ -117,28 +117,6 @@ fn display_broken_link(link: &BrokenLink<'_>, markdown: &str) {
     warn!("Broken link: {}", &markdown[link.span.clone()]);
 }
 
-// pub fn find_markdown_files<'a, P: 'a + AsRef<Utf8Path>>(dir: P) -> Vec<FilePath> {
-//     let dir = dir.as_ref();
-//     WalkDir::new(dir.as_std_path())
-//         .into_iter()
-//         .filter_map(|e| e.ok())
-//         .filter(|e| match e.metadata() {
-//             Ok(e) => !e.is_dir(),
-//             _ => false,
-//         })
-//         // .filter_map(|e| Utf8PathBuf::from_path_buf(e.into_path()).ok())
-//         .filter_map(|e| FilePath::from_std_path(dir, e.into_path()).ok())
-//         .filter(|e| has_markdown_ext(&e.rel_path.0))
-//         .collect()
-// }
-
-// fn has_markdown_ext(file: &Utf8Path) -> bool {
-//     match file.extension() {
-//         Some(ext) => ext == "markdown" || ext == "md",
-//         None => false,
-//     }
-// }
-
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -1,4 +1,5 @@
 mod content;
+mod djot;
 mod feed;
 mod gen;
 mod item;

@@ -5,6 +5,7 @@ use std::fs;
 use walkdir::WalkDir;
 use yaml_front_matter::{Document, YamlFrontMatter};
 
+use crate::djot::djot_to_html;
 use crate::markdown::markdown_to_html;
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
@@ -63,7 +64,7 @@ impl RawMarkup {
 
         let content = match self.t {
             MarkupType::Markdown => markdown_to_html(&content),
-            MarkupType::Djot => content.clone(),
+            MarkupType::Djot => djot_to_html(&content)?,
         };
 
         Ok(Markup {
