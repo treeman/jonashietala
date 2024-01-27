@@ -7,6 +7,11 @@
 article {
   @include full-bleed-wrapper;
 
+  section {
+    @include full-bleed;
+    @include full-bleed-wrapper;
+  }
+
   /*
    * General setup
    */
@@ -15,7 +20,7 @@ article {
   }
 
   @include flow;
-  & > section {
+  section {
     @include flow;
   }
 

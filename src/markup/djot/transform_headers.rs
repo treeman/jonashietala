@@ -1,7 +1,4 @@
 use jotdown::{Attributes, Container, Event, LinkType, SpanLinkType};
-use std::borrow::Cow;
-
-use crate::util;
 
 pub struct TransformHeaders<'a, I: Iterator<Item = Event<'a>>> {
     parent: I,
@@ -25,7 +22,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for TransformHeaders<'a, I> {
             return Some(event);
         }
 
-        let (level, has_section, id, attrs) = match dbg!(self.parent.next()?) {
+        let (level, has_section, id, attrs) = match self.parent.next()? {
             Event::Start(
                 Container::Heading {
                     level,
@@ -34,22 +31,6 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for TransformHeaders<'a, I> {
                 },
                 attrs,
             ) => (level, has_section, id, attrs),
-            // Djot wraps sections around header parts with auto generated ids.
-            // But we have our own id generation scheme, let's just override it
-            // (for no other reason than to preserve our existing url appearance).
-            Event::Start(Container::Section { id }, attrs) => {
-                return Some(Event::Start(
-                    Container::Section {
-                        id: util::to_id(&id).into(),
-                    },
-                    attrs,
-                ));
-            }
-            Event::End(Container::Section { id }) => {
-                return Some(Event::End(Container::Section {
-                    id: util::to_id(&id).into(),
-                }));
-            }
             other => return Some(other),
         };
 
@@ -61,7 +42,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for TransformHeaders<'a, I> {
             }
         }
 
-        let id: Cow<_> = util::to_id(&id).into();
+        // let id: Cow<_> = util::to_id(&id).into();
         let level = level + 1;
 
         let heading = Container::Heading {
@@ -106,8 +87,8 @@ mod tests {
         let s = "# Header 1";
         assert_eq!(
             convert(s)?,
-            r##"<section id="header-1">
-<h2><a href="#header-1" class="heading-ref">Header 1</a></h2>
+            r##"<section id="Header-1">
+<h2><a href="#Header-1" class="heading-ref">Header 1</a></h2>
 </section>
 "##
         );
@@ -115,8 +96,8 @@ mod tests {
         let s = "## Header 2";
         assert_eq!(
             convert(s)?,
-            r##"<section id="header-2">
-<h3><a href="#header-2" class="heading-ref">Header 2</a></h3>
+            r##"<section id="Header-2">
+<h3><a href="#Header-2" class="heading-ref">Header 2</a></h3>
 </section>
 "##
         );
@@ -124,8 +105,8 @@ mod tests {
         let s = "## With [link](#x)";
         assert_eq!(
             convert(s)?,
-            r##"<section id="with-link">
-<h3><a href="#with-link" class="heading-ref">With <a href="#x">link</a></a></h3>
+            r##"<section id="With-link">
+<h3><a href="#With-link" class="heading-ref">With <a href="#x">link</a></a></h3>
 </section>
 "##
         );

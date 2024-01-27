@@ -131,8 +131,6 @@ pub fn parse_html_files(output_dir: &Utf8Path) -> Result<ParsedFiles> {
             let html = Html::parse_document(&content);
             let path = Utf8PathBuf::from_path_buf(path).unwrap();
 
-            // dbg!(&content);
-
             let links = collect_links(&html)
                 .map_err(|err| eyre!("Error parsing file `{}`:\n  {}", path, err))?;
             let imgs = collect_imgs(&html)

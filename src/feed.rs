@@ -14,7 +14,6 @@ use tracing::debug;
 use crate::content::PostItem;
 use crate::item::Item;
 use crate::item::RenderContext;
-use crate::markdown::markdown_to_html_feed;
 use crate::site::BASE_SITE_URL;
 use crate::site_url::SiteUrl;
 
@@ -35,7 +34,12 @@ impl From<&PostItem> for Entry {
             content: Some(Content {
                 base: Some(BASE_SITE_URL.to_string()),
                 content_type: Some("html".to_string()),
-                value: Some(markdown_to_html_feed(&post.markup.raw_content)),
+                value: Some(
+                    post.markup
+                        .transform_feed()
+                        .expect("Should be able to generate feed markup")
+                        .0,
+                ),
                 ..Default::default()
             }),
             ..Default::default()

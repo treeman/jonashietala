@@ -1,6 +1,6 @@
-use crate::markdown::attrs::{parse_attrs, Attrs};
-use crate::markdown::html::push_open_tag;
-use crate::markdown::pd_html::HtmlWriter;
+use crate::markup::markdown::attrs::{parse_attrs, Attrs};
+use crate::markup::markdown::html::push_open_tag;
+use crate::markup::markdown::pd_html::HtmlWriter;
 use itertools::{Itertools, MultiPeek};
 use pulldown_cmark::{Event, Tag};
 

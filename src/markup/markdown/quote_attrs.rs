@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::markdown::attrs::{parse_attrs, Attrs};
+use crate::markup::markdown::attrs::{parse_attrs, Attrs};
 use itertools::{Itertools, MultiPeek};
 use pulldown_cmark::{html::push_html, Event, Tag};
 

@@ -1,9 +1,7 @@
 mod content;
-mod djot;
 mod feed;
 mod gen;
 mod item;
-mod markdown;
 mod markup;
 mod paths;
 mod site;
@@ -151,10 +149,10 @@ async fn main() -> Result<()> {
             .await?;
         }
         Commands::DumpSyntaxBinary => {
-            markdown::dump_syntax_binary()?;
+            markup::dump_syntax_binary()?;
         }
         Commands::DumpTheme { file } => {
-            markdown::dump_theme(file)?;
+            markup::dump_theme(file)?;
         }
         Commands::CheckExternalLinks => {
             check_external_links().await?;

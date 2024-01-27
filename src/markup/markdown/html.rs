@@ -1,4 +1,4 @@
-use super::markdown_to_html_strip_one_paragraph;
+use crate::markup::{markdown_to_html, strip_one_paragraph};
 use pulldown_cmark::escape;
 use std::collections::BTreeMap;
 
@@ -27,7 +27,7 @@ impl<'a> Figure<'a> {
         }
 
         if let Some(caption) = &self.caption {
-            let caption = markdown_to_html_strip_one_paragraph(caption);
+            let caption = strip_one_paragraph(markdown_to_html(caption).into());
             s.push_str(&format!("<figcaption>{caption}</figcaption>\n"));
         }
         s.push_str("</figure>");

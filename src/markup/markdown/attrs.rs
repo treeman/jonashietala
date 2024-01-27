@@ -1,11 +1,10 @@
 use super::html;
 use super::pd_html;
-use super::strip_one_paragraph;
+use crate::markup::strip_one_paragraph;
 use eyre::{eyre, Result};
 use lazy_static::lazy_static;
 use pulldown_cmark::Event;
 use regex::Regex;
-use std::borrow::Cow;
 use std::collections::HashMap;
 
 pub fn parse_ending_attrs(s: &str) -> Result<Option<(&str, Attrs)>> {
@@ -154,7 +153,7 @@ fn tag_content(events: Vec<Event>, tag: &str) -> String {
 fn surround_content(events: Vec<Event>, prefix: &str, suffix: &str) -> String {
     let mut content = String::new();
     pd_html::push_html(&mut content, events.into_iter());
-    let content = strip_one_paragraph(Cow::from(content));
+    let content = strip_one_paragraph(content.into());
 
     format!("{prefix}{content}{suffix}")
 }

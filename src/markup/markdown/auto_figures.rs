@@ -2,8 +2,8 @@ use itertools::{Itertools, MultiPeek};
 use pulldown_cmark::{html::push_html, Event, Tag};
 use tracing::warn;
 
-use crate::markdown::attrs::{parse_attrs, Attrs};
-use crate::markdown::html::{Figure, Img};
+use crate::markup::markdown::attrs::{parse_attrs, Attrs};
+use crate::markup::markdown::html::{Figure, Img};
 
 pub struct AutoFigures<'a, I: Iterator<Item = Event<'a>>> {
     parent: MultiPeek<I>,

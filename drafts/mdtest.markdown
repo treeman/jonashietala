@@ -291,5 +291,3 @@ End gallery. Ooh so pretty! :)
 
 http://www.youtube.com/watch?v=eoKDyhxCVm0
 
-# Sidenotes
-

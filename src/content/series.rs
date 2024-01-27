@@ -1,5 +1,4 @@
 use crate::item::Item;
-use crate::markdown::markdown_to_html_strip_one_paragraph;
 use crate::markup::{find_markup_files, RawMarkup, TransformedMarkup};
 use crate::paths::AbsPath;
 use crate::{
@@ -80,7 +79,7 @@ pub struct SeriesItem {
     pub path: AbsPath,
     pub url: SiteUrl,
     pub description: TransformedMarkup,
-    pub post_note: Option<String>,
+    pub post_note: Option<TransformedMarkup>,
     pub posts: BTreeSet<Reverse<PostRef>>,
     pub homepage: bool,
 }
@@ -100,13 +99,10 @@ impl SeriesItem {
 
         let transformed_description = markup.content;
 
-        // NOTE metadata post note assumes markdown!
-        // Should probably change it so that it uses the same markup language as the series.
-        let transformed_post_note = markup
-            .metadata
-            .post_note
-            .as_ref()
-            .map(|x| markdown_to_html_strip_one_paragraph(x).into_owned());
+        let post_note = match markup.metadata.post_note {
+            Some(note) => Some(TransformedMarkup::parse(&note, markup.t)?.strip_one_paragraph()),
+            None => None,
+        };
 
         let img =
             SiteUrl::parse(&markup.metadata.img).expect("Should be able to create url to image");
@@ -119,7 +115,7 @@ impl SeriesItem {
             path: markup.path,
             url,
             description: transformed_description,
-            post_note: transformed_post_note,
+            post_note,
             posts: BTreeSet::new(),
             homepage: markup.metadata.homepage.unwrap_or(false),
         })

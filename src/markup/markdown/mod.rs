@@ -1,25 +1,23 @@
 mod attrs;
 mod auto_figures;
+mod code;
 mod embed_youtube;
 mod fenced_blocks;
 mod html;
 mod pd_html;
 mod quote_attrs;
-mod syntax_highlight;
 mod table_attrs;
 mod transform_headers;
-use lazy_static::lazy_static;
-use regex::Regex;
 
-pub use syntax_highlight::{dump_syntax_binary, dump_theme};
+pub use crate::markup::syntax_highlight::{dump_syntax_binary, dump_theme};
 
 use auto_figures::AutoFigures;
+use code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use embed_youtube::EmbedYoutube;
 use fenced_blocks::parse_fenced_blocks;
 use pulldown_cmark::{BrokenLink, CowStr, LinkType, Options, Parser};
 use quote_attrs::QuoteAttrs;
 use std::borrow::Cow;
-use syntax_highlight::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use table_attrs::TableAttrs;
 use tracing::warn;
 use transform_headers::TransformHeaders;
@@ -81,56 +79,7 @@ fn parse_markdown_to_feed(s: &str) -> String {
     body
 }
 
-pub fn inline_markdown_to_html(markdown: &str) -> String {
-    let parser = Parser::new_ext(markdown, Options::all());
-
-    let mut body = String::new();
-    pd_html::push_html(&mut body, parser);
-    body
-}
-
-pub fn markdown_to_html_strip_one_paragraph(markdown: &str) -> Cow<str> {
-    let html = inline_markdown_to_html(markdown);
-    strip_one_paragraph(Cow::from(html))
-}
-
-lazy_static! {
-    static ref PARAGRAPH: Regex = Regex::new(r"<p>(.+?)</p>").unwrap();
-}
-
-pub fn strip_one_paragraph(html: Cow<str>) -> Cow<str> {
-    // Why do something insane like use regex to strip a paragraph?
-    // I tried to use `scraper::Html` to parse it properly, but the attribute order
-    // wasn't deterministic when parsing and rebuilding.
-    // This jank seems to work fine, so why not?!
-    let paragraphs: Vec<_> = PARAGRAPH.captures_iter(&html).collect();
-
-    match paragraphs.len() {
-        0 => html,
-        1 => Cow::from(paragraphs[0].get(1).unwrap().as_str().to_owned()),
-        _ => html,
-    }
-}
-
 fn display_broken_link(link: &BrokenLink<'_>, markdown: &str) {
     // FIXME make this a panic for posts but not for drafts
     warn!("Broken link: {}", &markdown[link.span.clone()]);
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_strip_one_markdown_paragraph() {
-        assert_eq!(
-            markdown_to_html_strip_one_paragraph(r"One *thing*"),
-            r"One <em>thing</em>"
-        );
-
-        assert_eq!(
-            markdown_to_html_strip_one_paragraph("One\n\nTwo"),
-            "<p>One</p>\n<p>Two</p>\n"
-        );
-    }
 }

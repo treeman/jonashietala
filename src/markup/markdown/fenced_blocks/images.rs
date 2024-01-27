@@ -1,5 +1,5 @@
-use crate::markdown::attrs::parse_ending_attrs;
-use crate::markdown::html::{Figure, Img};
+use crate::markup::markdown::attrs::parse_ending_attrs;
+use crate::markup::markdown::html::{Figure, Img};
 
 pub fn parse_flex(content: &str) -> String {
     let (imgs, caption) = split_imgs_caption(content);
