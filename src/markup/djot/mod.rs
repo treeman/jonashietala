@@ -6,7 +6,7 @@ mod quote_transforms;
 mod transform_headers;
 
 use eyre::Result;
-use jotdown::{html, Parser, Render};
+use jotdown::{html::Renderer, Parser, Render};
 
 use self::auto_figures::AutoFigures;
 use self::code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
@@ -26,7 +26,7 @@ pub fn djot_to_html(djot: &str) -> Result<String> {
     let transformed = QuoteTransforms::new(transformed);
 
     let mut body = String::new();
-    html::Renderer::default().push(transformed, &mut body)?;
+    Renderer::default().push(transformed, &mut body)?;
     Ok(body)
 }
 
@@ -39,6 +39,6 @@ pub fn djot_to_html_feed(djot: &str) -> Result<String> {
     let transformed = DivTransforms::new(transformed);
 
     let mut body = String::new();
-    html::Renderer::default().push(transformed, &mut body)?;
+    Renderer::default().push(transformed, &mut body)?;
     Ok(body)
 }

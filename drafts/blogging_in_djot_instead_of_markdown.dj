@@ -62,26 +62,13 @@ As for parsing I found [Jotdown][], which is a Rust library with an API inspired
 # Customized markup
 
 For the blog I have some [markup transformations][] I apply to Markdown.
-This includes demoting headers (they only `h1` i want is the post title), embedding bare YouTube links and prettifying code.
+This includes demoting headers (they only `h1` i want is the post title), embedding bare YouTube links and prettifying code markup.
 
-[markup transformations]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#markdown-transformations
+It's a bit hacky though.
 
-## Epigraph
+## Epigraphs
 
-Before:
-
-```markdown
-> This is an epigraph
-{ :epigraph }
-```
-
-```djot
-::: epigraph
-> This is an epigraph
-:::
-```
-
-Produces:
+For example, I want to be able to turn a quote into an epigraph by wrapping it inside a div:
 
 ```html
 <div class="epigraph">
@@ -91,33 +78,119 @@ Produces:
 </div>
 ```
 
+But the parser doesn't process markdown inside html, so I [added an attribute parser][extending-pulldown_cmark] to wrap a quote in an epigraph:
+
+```markdown
+> This is an epigraph
+{ :epigraph }
+```
+
+The implementation isn't pretty, and only works for specific elements such as a blockquote.
+But Djot has a built-in syntax for divs, so I can just write this to produce the same epigraph html output:
+
+```djot
+::: epigraph
+> This is an epigraph
+:::
+```
+
 ## Asides
 
-```markdown
-> This is an <aside>
-{ :notice }
+I still need to do a bunch of transformations to reproduce existing functionality.
+
+For instance, for notices I want html output like this:
+
+```html
+<aside>
+  <p>This is a notice</p>
+</aside>
 ```
 
-## Images and figures
+The `div` system works well here, so I can use this kind of input:
 
-::: Flex
-/images/configura14/octree1.png
-/images/configura14/octree2.png
+```djot
+::: notice
+This is a notice
 :::
+```
+
+And then match on the `notice` class to transform the `div` into `aside`.
+
+In [Jotdown][], like with [pulldown-cmark][], transformations are made by transforming iterators over events.
+It's a bit awkward, so keeping the transformations small is a nice win.
+
+## Images
+
+I used the same syntax in Markdown to create collections of images:
 
 ```markdown
 ::: Flex
-/images/configura14/octree1.png
-/images/configura14/octree2.png
+/images/configura14/octree1.png{ height=300 }
+/images/configura14/octree2.png{ height=300 }
 :::
 ```
+
+This would wrap the images in a flex container to display them side-by-side:
+
+::: flex
+![](/images/configura14/octree1.png){ height=300 }
+![](/images/configura14/octree2.png){ height=300 }
+:::
+
+```html
+<figure class="flex-50">
+  <a href="/images/configura14/octree1.png"><img height="300" alt="" src="/images/configura14/octree1.png"></a>
+  <a href="/images/configura14/octree2.png"><img height="300" alt="" src="/images/configura14/octree2.png"></a>
+</figure>
+```
+
+I (naturally) used to do this with Regex in a preprocessor step,
+and had some fun adding attribute parsing.
+
+Now all I do is transform the `div` to a `figure` with the proper class.
+Even something like this with references outside and attributes works now, without any special handling on my end:
 
 ```djot
 ::: flex
-![](/images/configura14/octree1.png){ height=100 }
-![](/images/configura14/octree2.png){ height=100 }
+![][one]{ height=300 }
+![][two]{ height=300 }
 :::
+
+[one]: /images/configura14/octree1.png
+[two]: /images/configura14/octree2.png
 ```
+
+(Yeah maybe I gloss over the gross implementation a little.)
+
+## Other transformations
+
+There are other transformations I do with Djot as well:
+
+```rust
+pub fn djot_to_html(djot: &str) -> Result<String> {
+    let transformed = Parser::new(djot);
+    // Demote headers (eg h1 -> h2) and give them an "a" tag.
+    let transformed = TransformHeaders::new(transformed);
+    // Convert standalone images to figures.
+    let transformed = AutoFigures::new(transformed);
+    // Embed raw youtube links using iframes.
+    let transformed = EmbedYoutube::new(transformed);
+    // Syntax highlighting.
+    let transformed = CodeBlockSyntaxHighlight::new(transformed);
+    let transformed = InlineCodeSyntaxHighlight::new(transformed);
+    // Transform divs, such as asides and figures.
+    let transformed = DivTransforms::new(transformed);
+    // Add a <footer> with author info to quotes.
+    let transformed = QuoteTransforms::new(transformed);
+
+    let mut body = String::new();
+    Renderer::default().push(transformed, &mut body)?;
+    Ok(body)
+}
+```
+
+The ones I didn't bring up in the blog are pretty similar to their previous implementations.
+I'm not going to go through them in detail, see the source code if you're interested.
 
 [CommonMark]: https://commonmark.org/
 [Pandoc]: https://pandoc.org/
@@ -125,3 +198,5 @@ Produces:
 [Djot]: https://github.com/jgm/djot
 [pulldown-cmark]: https://crates.io/crates/pulldown-cmark
 [Jotdown]: https://github.com/hellux/jotdown
+[markup transformations]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#markdown-transformations
+[extending-pulldown_cmark]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#extending-pulldown_cmark
