@@ -2,6 +2,7 @@ mod auto_figures;
 mod code;
 mod div_transforms;
 mod embed_youtube;
+mod quote_transforms;
 mod transform_headers;
 
 use eyre::Result;
@@ -11,6 +12,7 @@ use self::auto_figures::AutoFigures;
 use self::code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use self::div_transforms::DivTransforms;
 use self::embed_youtube::EmbedYoutube;
+use self::quote_transforms::QuoteTransforms;
 use self::transform_headers::TransformHeaders;
 
 pub fn djot_to_html(djot: &str) -> Result<String> {
@@ -21,6 +23,7 @@ pub fn djot_to_html(djot: &str) -> Result<String> {
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = DivTransforms::new(transformed);
+    let transformed = QuoteTransforms::new(transformed);
 
     let mut body = String::new();
     html::Renderer::default().push(transformed, &mut body)?;

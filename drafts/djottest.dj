@@ -70,8 +70,9 @@ Ordered list:
 
 # Quotes and attributes
 
+::: epigraph
 > This is an epigraph
-{ :epigraph }
+:::
 
 Text
 
@@ -95,8 +96,8 @@ This is [a notice](#)
 
 Text
 
+{ author="John Doe" }
 > With author attribution
-{ author=John Doe }
 
 # Tables
 

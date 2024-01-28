@@ -1,0 +1,127 @@
+---
+title: "Blogging in Djot instead of Markdown"
+tags: ["Djot", "Webpage", "Rust"]
+---
+
+I recently happened to see an offhand comment on [Hacker News][] about a markup language called [Djot][].
+I don't really have any large issues with the {-Markdown-} [CommonMark][] I use to generate the posts for this website, but my brain saw a chance to get sidetracked yet again, and here we are.
+
+I spent some hours to port my hacky custom markup extensions to Djot and started to write my posts in Djot.
+Having used Markdown for many years, I'm still not comfortable with some of Djot's different syntax choices, but it ...
+
+# What and why Djot?
+
+The creator of Djot is John MacFarlane, the same philosophy professor that also created [Pandoc][] and [CommonMark][].
+These might be two of the most influential projects in the markup space, so you'd get the feeling that there should be a good reason for [Djot][]'s creation.
+
+The rationale for [Djot][] is specified in the [GitHub repo][Djot] and references his blog post [Beyond Markdown][] that inspired the whole project.
+
+If I should make an attempt to summarize the goals of [Djot][], I'd say that Djot tries to fix flaws of CommonMark in two areas:
+
+1. It's much easier to parse.
+
+  {author="John Macfarlane"}
+  > So, to fully specify emphasis parsing, we need additional rules. The 17 discouragingly complex rules in the CommonMark spec are intended to force the sorts of readings that humans will find most natural.
+
+  17 rules just to parse emphasis sounds like fun times...
+
+  At least it's better than Markdown that's ambiguous.
+
+1. More features than CommonMark.
+
+   For instance proper support for footnotes, math, divs, and attributes that can be applied to any element.
+
+I'm sympathetic to the parsing problem, and for that alone I was willing to at least try it out.
+But what really sold me was first-class support for attributes and divs, something I've added ugly hacks to work around.
+
+If I'm going to bring up the negative parts, it's that for a regular user Djot mostly fixes edge-cases.
+For me, 95% of the time it's just like writing Markdown, and (unfortunately) it'll have difficulties overcoming the "good enough" barrier of the various flavors of Markdown.
+
+# Tools
+
+Given that Djot is a relatively young project, I expected the tooling to be lacking.
+There are for sure some things missing, but it wasn't so bad for my use-case.
+
+I found a Djot Sublime Text grammar I can use for syntax highlighting the blog,
+and there is Vim syntax highlighting in the [Djot repo][Djot].
+
+(Sad for those who don't use Vim I guess.)
+
+More annoying is that there's no treesitter implementation for Djot.
+This is unfortunate, as with treesitter I get proper syntax highlighting inside code blocks for Markdown and I have a general treesitter jump command that, for Markdown, jumps between headers with `]g` and `[g`.
+(In Rust it jumps between structs, implementations, enums, and functions.)
+
+Not a deal-breaker of course.
+Using the Markdown treesitter works well enough for the time being.
+(Maybe I need to explore how treesitter grammars work one day, and create one for Djot.)
+
+As for parsing I found [Jotdown][], which is a Rust library with an API inspired by [pulldown-cmark][], the library I use to parse CommonMark.
+
+# Abstracting away markup parsing
+
+# Customized markup
+
+For the blog I have some [markup transformations][] I apply to Markdown.
+This includes demoting headers (they only `h1` i want is the post title), embedding bare YouTube links and prettifying code.
+
+[markup transformations]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#markdown-transformations
+
+## Epigraph
+
+Before:
+
+```markdown
+> This is an epigraph
+{ :epigraph }
+```
+
+```djot
+::: epigraph
+> This is an epigraph
+:::
+```
+
+Produces:
+
+```html
+<div class="epigraph">
+  <blockquote>
+    <p>This is an epigraph</p>
+  </blockquote>
+</div>
+```
+
+## Asides
+
+```markdown
+> This is an <aside>
+{ :notice }
+```
+
+## Images and figures
+
+::: Flex
+/images/configura14/octree1.png
+/images/configura14/octree2.png
+:::
+
+```markdown
+::: Flex
+/images/configura14/octree1.png
+/images/configura14/octree2.png
+:::
+```
+
+```djot
+::: flex
+![](/images/configura14/octree1.png){ height=100 }
+![](/images/configura14/octree2.png){ height=100 }
+:::
+```
+
+[CommonMark]: https://commonmark.org/
+[Pandoc]: https://pandoc.org/
+[Beyond Markdown]: https://johnmacfarlane.net/beyond-markdown.html
+[Djot]: https://github.com/jgm/djot
+[pulldown-cmark]: https://crates.io/crates/pulldown-cmark
+[Jotdown]: https://github.com/hellux/jotdown

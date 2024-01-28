@@ -23,11 +23,11 @@ pub fn new_draft(title: String) -> Result<()> {
 
 fn post_path(slug: &str) -> Utf8PathBuf {
     let now = Utc::now();
-    format!("posts/{}-{}.markdown", now.format("%Y-%m-%d"), slug).into()
+    format!("posts/{}-{}.dj", now.format("%Y-%m-%d"), slug).into()
 }
 
 fn draft_path(slug: &str) -> Utf8PathBuf {
-    format!("drafts/{slug}.markdown").into()
+    format!("drafts/{slug}.dj").into()
 }
 
 fn new_prototype(title: &str, path: &Utf8Path) -> Result<()> {
@@ -41,7 +41,7 @@ fn prototype_post(title: &str) -> String {
     format!(
         r#"---
 title: "{title}"
-tags: [Tag1, Tag2]
+tags: ["Tag1", "Tag2"]
 ---
 
 Lorem ipsum...
