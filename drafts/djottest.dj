@@ -99,6 +99,10 @@ Text
 { author="John Doe" }
 > With author attribution
 
+
+> With author attribution
+> ^ John Doe
+
 # Tables
 
 Table:

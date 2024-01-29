@@ -124,14 +124,14 @@ pub struct PostItem {
 }
 ```
 
-With the right types in place the rest of the refactoring falls into place automatically.
+With the right types in place the rest of the refactoring follows almost automatically.
 Just hide any Markdown and Djot specific implementation behind these types, follow the compile errors, and you're soon done.
 Thinking and designing with types is usually a pleasure.
 
 # Customized markup
 
 For the blog I have some [markup transformations][] I apply to Markdown.
-This includes demoting headers (they only `h1` i want is the post title), embedding bare YouTube links and prettifying code markup.
+This includes demoting headers (the only `h1` i want is the post title), embedding bare YouTube links and prettifying code markup.
 
 It's a bit hacky though.
 
@@ -191,7 +191,7 @@ It's a bit awkward, so keeping the transformations small is nice.
 
 ## Images
 
-I used the same syntax in Markdown to create collections of images:
+I used the same `div` syntax in Markdown to create collections of images:
 
 ```markdown
 ::: Flex
@@ -218,7 +218,7 @@ I (naturally) used to do this with Regex in a preprocessor step,
 and had some fun adding attribute parsing.
 
 Now all I do is transform the `div` to a `figure` with the proper class.
-Even something like this with references outside and attributes works now, without any special handling on my end:
+Even something like this with references outside and attributes works, without any special handling on my end:
 
 ```djot
 ::: flex
@@ -259,8 +259,21 @@ pub fn djot_to_html(djot: &str) -> Result<String> {
 }
 ```
 
-The ones I didn't bring up in the blog are pretty similar to their Markdown implementation.
+The ones I didn't bring up in the blog are pretty similar to their corresponding Markdown implementation.
 I'm not going to go through them in detail, see the source code if you're interested.
+
+# Complaints about Djot
+
+```djot
+- List
+
+  List text needs surrounding spaces in Djot
+```
+
+```djot
+- List
+  While this is fine in Markdown
+```
 
 [CommonMark]: https://commonmark.org/
 [Pandoc]: https://pandoc.org/
