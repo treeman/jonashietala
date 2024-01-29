@@ -1,4 +1,6 @@
 use jotdown::{Attributes, Container, Event};
+use lazy_static::lazy_static;
+use regex::Regex;
 
 pub struct QuoteTransforms<'a, I: Iterator<Item = Event<'a>>> {
     parent: I,
@@ -22,43 +24,48 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for QuoteTransforms<'a, I> {
             return Some(event);
         }
 
-        let author = match self.parent.next()? {
-            Event::Start(Container::Blockquote, attrs) => {
-                if let Some(author) = attrs.get("author") {
-                    author.to_string()
-                } else {
-                    return Some(Event::Start(Container::Blockquote, attrs));
-                }
-            }
+        let start = match self.parent.next()? {
+            start @ Event::Start(Container::Blockquote, _) => start,
             other => return Some(other),
         };
 
+        lazy_static! {
+            static ref AUTHOR: Regex = Regex::new(r"^\^\s(.+)").unwrap();
+        }
+        let html = Container::RawBlock { format: "html" };
+
         let mut events = Vec::new();
+        let mut attributes = Vec::new();
+
         loop {
             match self.parent.next()? {
-                // Yeah, don't support nesting for now.
-                Event::End(Container::Blockquote) => {
-                    break;
-                }
+                Event::End(Container::Blockquote) => break,
+                Event::Str(s) => match AUTHOR.captures(&s) {
+                    Some(captures) => {
+                        attributes.push(Event::Start(html.clone(), Attributes::new()));
+                        attributes.push(Event::Str(r#"<footer><span class="author">"#.into()));
+                        attributes.push(Event::End(html.clone()));
+
+                        attributes.push(Event::Str(captures[1].to_owned().into()));
+
+                        attributes.push(Event::Start(html.clone(), Attributes::new()));
+                        attributes.push(Event::Str(r#"</span></footer>"#.into()));
+                        attributes.push(Event::End(html.clone()));
+                    }
+                    _ => events.push(Event::Str(s)),
+                },
                 other => events.push(other),
             }
         }
 
-        let html = Container::RawBlock { format: "html" };
         self.event_queue.push(Event::End(Container::Blockquote));
-        self.event_queue.push(Event::End(html.clone()));
-        self.event_queue.push(Event::Str(
-            format!(
-                r#"<footer><span class="author">{}</span></footer>"#,
-                html_escape::encode_text(&author),
-            )
-            .into(),
-        ));
-        self.event_queue.push(Event::Start(html, Attributes::new()));
+        for x in attributes.into_iter().rev() {
+            self.event_queue.push(x);
+        }
         for x in events.into_iter().rev() {
             self.event_queue.push(x);
         }
-        Some(Event::Start(Container::Blockquote, Attributes::new()))
+        Some(start)
     }
 }
 
@@ -69,7 +76,7 @@ mod tests {
     use jotdown::{html, Parser, Render};
 
     fn convert(s: &str) -> Result<String> {
-        let parser = Parser::new(s);
+        let parser = Parser::new(s).map(|x| dbg!(x));
         let transformed = QuoteTransforms::new(parser);
         let mut body = String::new();
         html::Renderer::default().push(transformed, &mut body)?;
@@ -79,15 +86,17 @@ mod tests {
     #[test]
     fn test_quote_src() -> Result<()> {
         let s = r#"
-{author="John > Jane"}
 > Text here
+> ^ John > Jane
 "#;
         assert_eq!(
             convert(s)?,
             r#"
 <blockquote>
-<p>Text here</p>
-<footer><span class="author">John &gt; Jane</span></footer>
+<p>Text here
+</p>
+<footer><span class="author">John &gt; Jane
+</span></footer>
 </blockquote>
 "#
         );
