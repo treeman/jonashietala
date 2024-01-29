@@ -3,11 +3,8 @@ use serde::{Deserialize, Serialize};
 use std::{borrow::Cow, collections::HashSet};
 use tera::Context;
 
-use crate::markup::TransformedMarkup;
-use crate::{
-    item::Item, item::RenderContext, item::TeraItem, markup::find_markup_files, markup::RawMarkup,
-    paths::AbsPath, site_url::SiteUrl,
-};
+use crate::markup::{find_markup_files, Html, RawMarkupFile};
+use crate::{item::Item, item::RenderContext, item::TeraItem, paths::AbsPath, site_url::SiteUrl};
 
 pub fn load_standalones(dir: AbsPath) -> Result<HashSet<StandaloneItem>> {
     find_markup_files(&[dir])
@@ -21,7 +18,7 @@ pub struct StandaloneItem {
     pub title: String,
     pub path: AbsPath,
     pub url: SiteUrl,
-    pub content: TransformedMarkup,
+    pub content: Html,
 }
 
 impl PartialEq for StandaloneItem {
@@ -40,12 +37,12 @@ impl std::hash::Hash for StandaloneItem {
 
 impl StandaloneItem {
     pub fn from_file(path: AbsPath) -> Result<Self> {
-        let markup = RawMarkup::from_file(path)?;
+        let markup = RawMarkupFile::from_file(path)?;
         Self::from_markup(markup)
     }
 
-    pub fn from_markup(markup: RawMarkup) -> Result<Self> {
-        let markup = markup.transform::<StandaloneMetadata>()?;
+    pub fn from_markup(markup: RawMarkupFile<StandaloneMetadata>) -> Result<Self> {
+        let markup = markup.parse()?;
         let slug = markup
             .path
             .file_stem()
@@ -55,10 +52,10 @@ impl StandaloneItem {
         let url = SiteUrl::parse(&format!("/{slug}/")).expect("Should be able to create a url");
 
         Ok(Self {
-            title: markup.metadata.title,
+            title: markup.markup_meta.title,
             path: markup.path,
             url,
-            content: markup.content,
+            content: markup.html,
         })
     }
 }
@@ -88,6 +85,6 @@ struct StandaloneContext<'a> {
 }
 
 #[derive(Deserialize, Debug)]
-struct StandaloneMetadata {
+pub struct StandaloneMetadata {
     title: String,
 }

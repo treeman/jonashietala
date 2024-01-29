@@ -28,68 +28,39 @@ pub enum MarkupType {
 
 impl MarkupType {
     pub fn from_file(file: &Utf8Path) -> Option<Self> {
-        match file.extension() {
-            Some("markdown" | "md") => Some(MarkupType::Markdown),
-            Some("dj") => Some(MarkupType::Djot),
+        file.extension().and_then(Self::from_extension)
+    }
+
+    pub fn from_extension(ext: &str) -> Option<Self> {
+        match ext {
+            "markdown" | "md" => Some(MarkupType::Markdown),
+            "dj" => Some(MarkupType::Djot),
             _ => None,
         }
     }
 }
 
-#[derive(Debug)]
-pub struct RawMarkup {
-    pub t: MarkupType,
-    pub content: String,
-    pub path: AbsPath,
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Html(pub String);
+
+impl Deref for Html {
+    type Target = str;
+
+    fn deref(&self) -> &Self::Target {
+        self.0.as_ref()
+    }
 }
 
-impl RawMarkup {
-    pub fn from_file(path: AbsPath) -> Result<Self> {
-        let t = if let Some(t) = MarkupType::from_file(&path) {
-            t
-        } else {
-            return Err(eyre!("Unsupported file format: `{}`", &path));
-        };
-
-        let content = fs::read_to_string(&path)?;
-
-        Ok(RawMarkup { t, path, content })
-    }
-
-    pub fn transform<Meta: DeserializeOwned>(self: Self) -> Result<Markup<Meta>> {
-        let Document { metadata, content } = YamlFrontMatter::parse::<Meta>(&self.content)
-            .map_err(|err| eyre!("Failed to parse metadata for file: {}\n{}", self.path, err))?;
-
-        let content = TransformedMarkup::parse(&content, self.t)?;
-
-        Ok(Markup {
-            t: self.t,
-            path: self.path,
-            content,
-            raw_content: self.content,
-            metadata,
-        })
+impl Html {
+    pub fn strip_one_paragraph(self) -> Html {
+        Html(strip_one_paragraph(self.0.into()).into())
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct TransformedMarkup(pub String);
+pub struct FeedHtml(pub String);
 
-impl TransformedMarkup {
-    pub fn parse(s: &str, t: MarkupType) -> Result<Self> {
-        let res = match t {
-            MarkupType::Markdown => markdown_to_html(&s),
-            MarkupType::Djot => djot_to_html(&s)?,
-        };
-        Ok(TransformedMarkup(res))
-    }
-
-    pub fn strip_one_paragraph(self) -> TransformedMarkup {
-        TransformedMarkup(strip_one_paragraph(self.0.into()).into())
-    }
-}
-
-impl Deref for TransformedMarkup {
+impl Deref for FeedHtml {
     type Target = str;
 
     fn deref(&self) -> &Self::Target {
@@ -98,31 +69,92 @@ impl Deref for TransformedMarkup {
 }
 
 #[derive(Debug, Clone)]
-pub struct TransformedFeedMarkup(pub String);
+pub enum Markup {
+    Markdown(String),
+    Djot(String),
+}
 
-impl TransformedFeedMarkup {
-    pub fn parse(s: &str, t: MarkupType) -> Result<Self> {
-        let res = match t {
-            MarkupType::Markdown => markdown_to_html_feed(&s),
-            MarkupType::Djot => djot_to_html_feed(&s)?,
-        };
-        Ok(TransformedFeedMarkup(res))
+impl Markup {
+    pub fn new(s: String, t: MarkupType) -> Self {
+        match t {
+            MarkupType::Markdown => Self::Markdown(s),
+            MarkupType::Djot => Self::Djot(s),
+        }
+    }
+
+    pub fn t(&self) -> MarkupType {
+        match self {
+            Self::Markdown(_) => MarkupType::Markdown,
+            Self::Djot(_) => MarkupType::Djot,
+        }
+    }
+
+    pub fn parse(&self) -> Result<Html> {
+        match self {
+            Self::Markdown(s) => Ok(markdown_to_html(&s)),
+            Self::Djot(s) => djot_to_html(&s),
+        }
+    }
+
+    pub fn parse_feed(&self) -> Result<FeedHtml> {
+        match self {
+            Self::Markdown(s) => Ok(markdown_to_html_feed(&s)),
+            Self::Djot(s) => djot_to_html_feed(&s),
+        }
+    }
+
+    #[cfg(test)]
+    pub fn content(&self) -> &str {
+        match self {
+            Self::Markdown(s) => s.as_str(),
+            Self::Djot(s) => s.as_str(),
+        }
     }
 }
 
 #[derive(Debug)]
-pub struct Markup<Meta: DeserializeOwned> {
-    pub t: MarkupType,
-    pub content: TransformedMarkup,
-    pub raw_content: String,
+pub struct RawMarkupFile<Meta: DeserializeOwned> {
+    pub markup: Markup,
     pub path: AbsPath,
-    pub metadata: Meta,
+    pub markup_meta: Meta,
 }
 
-impl<Meta: DeserializeOwned> Markup<Meta> {
-    pub fn transform_feed(&self) -> Result<TransformedFeedMarkup> {
-        TransformedFeedMarkup::parse(self.raw_content.as_str(), self.t)
+impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
+    pub fn from_file(path: AbsPath) -> Result<Self> {
+        let content = fs::read_to_string(&path)?;
+        Self::from_content(content, path)
     }
+
+    pub fn from_content(content: String, path: AbsPath) -> Result<Self> {
+        let t = MarkupType::from_file(&path)
+            .ok_or_else(|| eyre!("Unsupported file format: `{}`", &path))?;
+        let Document { metadata, content } = YamlFrontMatter::parse::<Meta>(&content)
+            .map_err(|err| eyre!("Failed to parse metadata for file: {}\n{}", path, err))?;
+
+        Ok(Self {
+            markup: Markup::new(content, t),
+            markup_meta: metadata,
+            path,
+        })
+    }
+
+    pub fn parse(self: Self) -> Result<MarkupFile<Meta>> {
+        let html = self.markup.parse()?;
+        Ok(MarkupFile {
+            markup: self.markup,
+            html,
+            path: self.path,
+            markup_meta: self.markup_meta,
+        })
+    }
+}
+
+#[derive(Debug)]
+pub struct MarkupFile<Meta: DeserializeOwned> {
+    pub markup: Markup,
+    pub html: Html,
+    pub path: AbsPath,
+    pub markup_meta: Meta,
 }
 
 pub fn find_markup_files<'a, P: 'a + AsRef<Utf8Path>>(dirs: &[P]) -> Vec<FilePath> {

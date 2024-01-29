@@ -1008,7 +1008,7 @@ mod tests {
             .find_post("2022-01-31-test_post.markdown")
             .unwrap()
             .markup
-            .raw_content
+            .content()
             .contains("Drafts"));
 
         Ok(())
@@ -1041,7 +1041,7 @@ My created post
             .find_post("2023-01-31-new_post.markdown")
             .unwrap()
             .markup
-            .raw_content
+            .content()
             .contains("My created post"));
 
         let homepage = test_site.output_content("index.html")?;
@@ -1168,7 +1168,7 @@ My created static
             .find_post("2022-01-31-test_post.markdown")
             .unwrap()
             .markup
-            .raw_content
+            .content()
             .contains("☃︎"));
 
         test_site.change_file("posts/2022-01-31-test_post.markdown", "☃︎", "💩")?;
@@ -1177,7 +1177,7 @@ My created static
             .find_post("2022-01-31-test_post.markdown")
             .unwrap()
             .markup
-            .raw_content
+            .content()
             .contains('💩'));
 
         Ok(())

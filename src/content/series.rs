@@ -1,5 +1,5 @@
 use crate::item::Item;
-use crate::markup::{find_markup_files, RawMarkup, TransformedMarkup};
+use crate::markup::{find_markup_files, Html, Markup, RawMarkupFile};
 use crate::paths::AbsPath;
 use crate::{
     content::PostItem,
@@ -78,46 +78,48 @@ pub struct SeriesItem {
     pub img: SiteUrl,
     pub path: AbsPath,
     pub url: SiteUrl,
-    pub description: TransformedMarkup,
-    pub post_note: Option<TransformedMarkup>,
+    pub description: Html,
+    pub post_note: Option<Html>,
     pub posts: BTreeSet<Reverse<PostRef>>,
     pub homepage: bool,
 }
 
 impl SeriesItem {
     pub fn from_file(path: AbsPath) -> Result<Self> {
-        let markup = RawMarkup::from_file(path)?;
+        let markup = RawMarkupFile::from_file(path)?;
         Self::from_markup(markup)
     }
 
-    pub fn from_markup(markup: RawMarkup) -> Result<Self> {
-        let markup = markup.transform::<SeriesMetadata>()?;
+    pub fn from_markup(markup: RawMarkupFile<SeriesMetadata>) -> Result<Self> {
+        let markup = markup.parse()?;
         let SeriesDirMetadata { id } = SeriesDirMetadata::from_path(&markup.path)?;
 
         let url =
             SiteUrl::parse(&format!("/series/{id}/")).expect("Should be able to create a url");
 
-        let transformed_description = markup.content;
-
-        let post_note = match markup.metadata.post_note {
-            Some(note) => Some(TransformedMarkup::parse(&note, markup.t)?.strip_one_paragraph()),
+        let post_note = match markup.markup_meta.post_note {
+            Some(note) => Some(
+                Markup::new(note, markup.markup.t())
+                    .parse()?
+                    .strip_one_paragraph(),
+            ),
             None => None,
         };
 
         let img =
-            SiteUrl::parse(&markup.metadata.img).expect("Should be able to create url to image");
+            SiteUrl::parse(&markup.markup_meta.img).expect("Should be able to create url to image");
 
         Ok(Self {
             id,
-            title: markup.metadata.title,
-            completed: markup.metadata.completed,
+            title: markup.markup_meta.title,
+            completed: markup.markup_meta.completed,
             img,
             path: markup.path,
             url,
-            description: transformed_description,
+            description: markup.html,
             post_note,
             posts: BTreeSet::new(),
-            homepage: markup.metadata.homepage.unwrap_or(false),
+            homepage: markup.markup_meta.homepage.unwrap_or(false),
         })
     }
 
@@ -188,7 +190,7 @@ impl<'a> SeriesContext<'a> {
 }
 
 #[derive(Deserialize, Debug)]
-struct SeriesMetadata {
+pub struct SeriesMetadata {
     title: String,
     completed: bool,
     post_note: Option<String>,

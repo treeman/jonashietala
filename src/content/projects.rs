@@ -9,14 +9,14 @@ use crate::{
     item::RenderContext,
     item::TeraItem,
     markup::find_markup_files,
-    markup::{RawMarkup, TransformedMarkup},
+    markup::{Html, MarkupFile, RawMarkupFile},
     paths::AbsPath,
     site_url::SiteUrl,
 };
 
 #[derive(Debug)]
 pub struct ProjectsItem {
-    prematter: TransformedMarkup,
+    prematter: Html,
     title: String,
     url: SiteUrl,
     pub projects: Vec<Project>,
@@ -25,11 +25,11 @@ pub struct ProjectsItem {
 
 impl ProjectsItem {
     pub fn new(dir: &AbsPath) -> Result<Self> {
-        let markup =
-            RawMarkup::from_file(dir.join("projects.markdown"))?.transform::<ProjectsMetadata>()?;
+        let markup: MarkupFile<ProjectsMetadata> =
+            RawMarkupFile::from_file(dir.join("projects.markdown"))?.parse()?;
 
         let url = SiteUrl::parse("/projects").expect("Should be able to create a url");
-        let title = markup.metadata.title.clone();
+        let title = markup.markup_meta.title.clone();
 
         let project_files = find_markup_files(&[dir.join("projects")]);
 
@@ -49,7 +49,7 @@ impl ProjectsItem {
 
         Ok(Self {
             url,
-            prematter: markup.content,
+            prematter: markup.html,
             title,
             projects,
             games,
@@ -82,7 +82,7 @@ impl TeraItem for ProjectsItem {
 }
 
 #[derive(Deserialize, Debug)]
-struct ProjectsMetadata {
+pub struct ProjectsMetadata {
     title: String,
 }
 
@@ -100,26 +100,26 @@ pub struct Project {
     link: Option<String>,
     year: u32,
     path: AbsPath,
-    descr: TransformedMarkup,
+    descr: Html,
     pub homepage: bool,
 }
 
 impl Project {
     fn from_file(path: AbsPath) -> Result<Self> {
-        let markup = RawMarkup::from_file(path)?;
+        let markup = RawMarkupFile::from_file(path)?;
         Self::from_markup(markup)
     }
 
-    pub fn from_markup(markup: RawMarkup) -> Result<Self> {
-        let markup = markup.transform::<ProjectMetadata>()?;
+    pub fn from_markup(markup: RawMarkupFile<ProjectMetadata>) -> Result<Self> {
+        let markup = markup.parse()?;
 
         Ok(Self {
-            title: markup.metadata.title,
-            link: markup.metadata.link,
-            year: markup.metadata.year,
+            title: markup.markup_meta.title,
+            link: markup.markup_meta.link,
+            year: markup.markup_meta.year,
             path: markup.path,
-            descr: markup.content,
-            homepage: markup.metadata.homepage.unwrap_or(false),
+            descr: markup.html,
+            homepage: markup.markup_meta.homepage.unwrap_or(false),
         })
     }
 
@@ -162,7 +162,7 @@ pub struct ProjectContext<'a> {
 }
 
 #[derive(Deserialize, Debug)]
-struct ProjectMetadata {
+pub struct ProjectMetadata {
     title: String,
     link: Option<String>,
     year: u32,
@@ -182,21 +182,21 @@ pub struct Game {
 
 impl Game {
     fn from_file(path: AbsPath) -> Result<Self> {
-        let markup = RawMarkup::from_file(path)?;
+        let markup = RawMarkupFile::from_file(path)?;
         Self::from_markup(markup)
     }
 
-    pub fn from_markup(markup: RawMarkup) -> Result<Self> {
-        let markup = markup.transform::<GameMetadata>()?;
+    pub fn from_markup(markup: RawMarkupFile<GameMetadata>) -> Result<Self> {
+        let markup = markup.parse()?;
 
-        let published = NaiveDate::parse_from_str(&markup.metadata.published, "%Y-%m-%d")?;
-        let url = SiteUrl::parse(&markup.metadata.url)?;
-        let img = SiteUrl::parse(&markup.metadata.img)?;
+        let published = NaiveDate::parse_from_str(&markup.markup_meta.published, "%Y-%m-%d")?;
+        let url = SiteUrl::parse(&markup.markup_meta.url)?;
+        let img = SiteUrl::parse(&markup.markup_meta.img)?;
 
         Ok(Self {
-            title: markup.metadata.title,
-            event: markup.metadata.event,
-            event_link: markup.metadata.event_link,
+            title: markup.markup_meta.title,
+            event: markup.markup_meta.event,
+            event_link: markup.markup_meta.event_link,
             url,
             img,
             path: markup.path,
@@ -247,7 +247,7 @@ impl<'a> From<&'a Game> for GameContext<'a> {
 }
 
 #[derive(Deserialize, Debug)]
-struct GameMetadata {
+pub struct GameMetadata {
     title: String,
     event: String,
     event_link: Option<String>,

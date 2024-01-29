@@ -27,7 +27,7 @@ impl<'a> Figure<'a> {
         }
 
         if let Some(caption) = &self.caption {
-            let caption = strip_one_paragraph(markdown_to_html(caption).into());
+            let caption = strip_one_paragraph(markdown_to_html(caption).0.into());
             s.push_str(&format!("<figcaption>{caption}</figcaption>\n"));
         }
         s.push_str("</figure>");

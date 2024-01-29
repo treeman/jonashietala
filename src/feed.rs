@@ -36,7 +36,7 @@ impl From<&PostItem> for Entry {
                 content_type: Some("html".to_string()),
                 value: Some(
                     post.markup
-                        .transform_feed()
+                        .parse_feed()
                         .expect("Should be able to generate feed markup")
                         .0,
                 ),

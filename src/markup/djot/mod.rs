@@ -14,8 +14,9 @@ use self::div_transforms::DivTransforms;
 use self::embed_youtube::EmbedYoutube;
 use self::quote_transforms::QuoteTransforms;
 use self::transform_headers::TransformHeaders;
+use crate::markup;
 
-pub fn djot_to_html(djot: &str) -> Result<String> {
+pub fn djot_to_html(djot: &str) -> Result<markup::Html> {
     let transformed = Parser::new(djot);
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);
@@ -27,10 +28,10 @@ pub fn djot_to_html(djot: &str) -> Result<String> {
 
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;
-    Ok(body)
+    Ok(markup::Html(body))
 }
 
-pub fn djot_to_html_feed(djot: &str) -> Result<String> {
+pub fn djot_to_html_feed(djot: &str) -> Result<markup::FeedHtml> {
     let transformed = Parser::new(djot);
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);
@@ -40,5 +41,5 @@ pub fn djot_to_html_feed(djot: &str) -> Result<String> {
 
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;
-    Ok(body)
+    Ok(markup::FeedHtml(body))
 }

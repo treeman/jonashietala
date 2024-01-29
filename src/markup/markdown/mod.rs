@@ -24,12 +24,14 @@ use transform_headers::TransformHeaders;
 
 use crate::util;
 
-pub fn markdown_to_html(markdown: &str) -> String {
-    parse_markdown(&preprocess(markdown))
+use crate::markup;
+
+pub fn markdown_to_html(markdown: &str) -> markup::Html {
+    markup::Html(parse_markdown(&preprocess(markdown)))
 }
 
-pub fn markdown_to_html_feed(markdown: &str) -> String {
-    parse_markdown_to_feed(&preprocess(markdown))
+pub fn markdown_to_html_feed(markdown: &str) -> markup::FeedHtml {
+    markup::FeedHtml(parse_markdown_to_feed(&preprocess(markdown)))
 }
 
 fn preprocess(s: &str) -> Cow<str> {

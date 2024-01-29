@@ -16,7 +16,7 @@ use crate::content::series::SeriesRef;
 use crate::content::tags::{Tag, TagPostContext, TagsMeta};
 use crate::item::Item;
 use crate::item::RenderContext;
-use crate::markup::{self, Markup, RawMarkup};
+use crate::markup::{self, Html, Markup, RawMarkupFile};
 use crate::paths::AbsPath;
 use crate::{content::SeriesItem, item::TeraItem, site_url::SiteUrl, util};
 
@@ -61,7 +61,8 @@ pub struct PostItem {
     pub prev: Option<PostRef>,
     pub next: Option<PostRef>,
     pub recommended: bool,
-    pub markup: Markup<PostMetadata>,
+    pub content: Html,
+    pub markup: Markup,
     pub series_id: Option<String>,
     pub series: Option<SeriesRef>,
     pub is_draft: bool,
@@ -70,16 +71,19 @@ pub struct PostItem {
 impl PostItem {
     pub fn from_file(path: AbsPath) -> Result<Self> {
         let modified = util::last_modified(&path)?;
-        let markup = RawMarkup::from_file(path)?;
+        let markup = RawMarkupFile::from_file(path)?;
         Self::from_markup(markup, modified)
     }
 
-    pub fn from_markup(markup: RawMarkup, modified: NaiveDateTime) -> Result<Self> {
+    pub fn from_markup(
+        markup: RawMarkupFile<PostMetadata>,
+        modified: NaiveDateTime,
+    ) -> Result<Self> {
         let post_dir = PostDirMetadata::from_path(&markup.path, &modified)?;
 
-        let markup = markup.transform::<PostMetadata>()?;
+        let markup = markup.parse()?;
 
-        let time = match &markup.metadata.time {
+        let time = match &markup.markup_meta.time {
             Some(time_str) => parse_time(&time_str)?,
             None => NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
         };
@@ -87,24 +91,20 @@ impl PostItem {
         let created = NaiveDateTime::new(post_dir.date, time);
         let url = post_dir.to_url().expect("Should be able to create a url");
 
-        let title = markup.metadata.title.clone();
-        let tags = markup.metadata.tags.clone().into();
-        let recommended = markup.metadata.recommended.clone().unwrap_or(false);
-        let series_id = markup.metadata.series.clone();
-
         Ok(Self {
-            title,
-            tags,
+            title: markup.markup_meta.title,
+            tags: markup.markup_meta.tags.into(),
             created,
             updated: modified,
-            path: markup.path.clone(),
+            path: markup.path,
             url,
             prev: None,
             next: None,
-            markup,
-            series_id,
+            content: markup.html,
+            markup: markup.markup,
+            series_id: markup.markup_meta.series,
             series: None,
-            recommended,
+            recommended: markup.markup_meta.recommended.unwrap_or(false),
             is_draft: post_dir.is_draft,
         })
     }
@@ -133,7 +133,7 @@ impl TeraItem for PostItem {
             title: html_escape::encode_text(&self.title),
             url: self.url.href(),
             created: self.created.format("%FT%T%.fZ").to_string(),
-            content: &self.markup.content.0,
+            content: &self.content,
             tags: self.tags.iter().map(TagPostContext::from).collect(),
             meta_keywords: self.tags.iter().map(|tag| tag.name.as_str()).collect(),
             series,
@@ -311,7 +311,6 @@ mod tests {
     use std::path::PathBuf;
 
     use super::*;
-    use crate::markup::MarkupType;
     use crate::tests::*;
     use crate::{item::RenderContext, site::SiteContext};
     use scraper::{node::Element, Html, Selector};
@@ -322,11 +321,7 @@ mod tests {
         let content = fs::read_to_string(PathBuf::from("test-site").join(path))?;
         // let (path, content) = tests::raw_post1();
         let post = PostItem::from_markup(
-            RawMarkup {
-                t: MarkupType::Markdown,
-                path: path.into(),
-                content,
-            },
+            RawMarkupFile::from_content(content, path.into())?,
             NaiveDateTime::new(
                 NaiveDate::from_ymd_opt(2022, 4, 30).unwrap(),
                 NaiveTime::from_hms_opt(1, 2, 3).unwrap(),
@@ -356,7 +351,7 @@ mod tests {
                 NaiveTime::from_hms_opt(7, 7, 0).unwrap()
             )
         );
-        assert!(post.markup.raw_content.contains("# Header 1"));
+        assert!(post.markup.content().contains("# Header 1"));
         assert_eq!(post.url.path(), "/blog/2022/01/31/test_post/");
         assert_eq!(post.url.href(), "/blog/2022/01/31/test_post/");
         assert_eq!(

@@ -77,22 +77,6 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_notice() -> Result<()> {
-        let s = "::: notice
-Text here
-:::";
-        assert_eq!(
-            convert(s)?,
-            r"<aside>
-<p>Text here</p>
-</aside>
-"
-        );
-
-        Ok(())
-    }
-
-    #[test]
     fn test_quote_src() -> Result<()> {
         let s = r#"
 {author="John > Jane"}
