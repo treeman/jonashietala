@@ -71,7 +71,7 @@ To see what resolution and fps the camera supports, you can take a look in `~/pr
 
 I used the MJPEG IP Camera integration to get the feed into Home assistant, using `http://192.168.1.32/webcam/?action=stream` as the URL and made a quick dashboard for the printer:
 
-![Can you smell what the rock is cooking?!](/images/trident/ha_galileo.png){ width=80% }
+![Can you smell what the rock is cooking?!](/images/trident/ha_galileo.png){width="80%"}
 
 I should probably rework this and all other dashboards one day...
 
@@ -86,14 +86,16 @@ I won't do anything about it right now, but in the future I'll probably try to r
 
 # Filament runout sensor
 
+![](/images/trident/tangled_spool.jpg)
+
 <https://www.3djake.com/bigtreetech/smart-filament-sensor-v20>
 <https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra>
 
 # Flex plate stops
 
 ::: Flex
-/images/trident/flexplate_endstop.jpg
-/images/trident/flexplate_endstop2.jpg
+![](/images/trident/flexplate_endstop.jpg)
+![](/images/trident/flexplate_endstop2.jpg)
 :::
 
 Aligning the flex plate isn't too much of a pain, but adding some [flex plate stops][] makes the process easier.
@@ -113,7 +115,7 @@ I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] ho
 
 # Meshed panels
 
-TODO image
+![](/images/trident/meshes.jpg)
 
 <https://www.printables.com/model/455437-voron-trident-mesh-skirts>
 
@@ -143,6 +145,16 @@ The only difficulty I encountered when assembling the extruder itself was to ali
 It touched the printed part, and I was worried my prints came out all wrong.
 The manual says that you can push down the carrier shaft, but I had to disassemble it and realign it before attaching the motor.
 After the reassembly it luckily aligned properly.
+
+![](/images/trident/galileo_mounted.jpg)
+![](/images/trident/galileo_undo_wiring.jpg)
+
+Issues:
+
+1. The LDO toolhead PCB fits, but with all the cables it's a very tight fit.
+2. I liked the latch on the Clockwork 2 much more because you can operate it with just one hand.
+   With the Galileo 2 you need to use both hands to feed the filament.
+3. I used the ECAS coupler, but for me that sucks.
 
 # Purge bucket
 

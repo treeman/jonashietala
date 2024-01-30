@@ -111,6 +111,24 @@ mod tests {
     }
 
     #[test]
+    fn test_quote() -> Result<()> {
+        let s = r#"
+> Text here
+"#;
+        assert_eq!(
+            convert(s)?,
+            r#"
+<blockquote>
+<p>Text here
+</p>
+</blockquote>
+"#
+        );
+
+        Ok(())
+    }
+
+    #[test]
     fn test_quote_src() -> Result<()> {
         let s = r#"
 > Text here

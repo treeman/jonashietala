@@ -91,6 +91,44 @@ But also an unused bag with "Teflon Tubing, 4x2mm", which surely shouldn't be co
 Turns out you're supposed to use a tube with an inner diameter of 2mm between the extruder and hotend, but I had used the regular PTFE tube that had an inner diameter of 3mm.
 This isn't ideal and requires more retraction (which I didn't compensate for), and it can cause stringing issues (which I had).
 
+::: notice
+Note to self: Don't use a tube with an inner diameter of 2mm between the extruder and spool, the filament will get stuck due to friction.
+:::
+
+
+## First layer woes
+
+For a long time I was really happy with how my first layers looked.
+I didn't a lot of bed adhesion issues and I could generally just start a print and it would finish without issue most of the time.
+
+But sometimes I had these "blobs" that started collecting:
+
+![This is some extra filament that has been pushed around and gotten stuck on the print.](/images/trident/filament_blob_printing.jpg)
+
+I couldn't figure out where it was coming from. Overextrusion maybe, but i didn't find any issues with it and this only happened in the beginning of the print.
+
+And later on I started to get _severe_ issues with bed adhesion where I felt lucky if a part stuck around long enough for the print to finish.
+The first layer started to look garbage as well:
+
+::: flex
+![](/images/trident/clickfinity_bad.jpg)
+![](/images/trident/clickfinity_bad2.jpg)
+:::
+
+The worst part is, I didn't think I had changed anything.
+
+::: notice
+In hindsight me fixing the [bed mesh offset][Bed mesh offset in one corner] might have been the cause my sudden problems.
+:::
+
+I tried a bunch of things; changing nozzle, recalibrating PA and EM, changing filament, and even replacing the extruder (more on that in a future post) yet the issue remained.
+
+What finally fixed it was recalibrating the [z offset][] and tuning [first layer squish][] once more.
+I'm not sure why I had to do this again (doesn't Tap magically solve everything?), but now the first layer is pretty and the bed adhesion problems are almost completely gone.
+
+![Beautiful first layer!](/images/trident/clickfinity_good.jpg)
+
+
 # Mods
 
 These are some smaller mods from the LDO kit I hadn't gotten around to installing, and some other small mods that fixed some annoyances I've had.
@@ -133,25 +171,34 @@ Maybe another day.
 [spool_holder]: https://mods.vorondesign.com/detail/wWS3pc510oGqxGo0awsFKA
 [top mounted spool holder]: https://mods.vorondesign.com/detail/VjlccbeeOuH5iax4AFHA
 
-## Bowden Tube Guide
+## Reverse bowden noodle
 
-![](/images/trident/bowden_holder.jpg)
+I had some issues with the bowden tube getting stuck, so I tried the [bowden tube guide][] to keep it away:
 
-I had some issues with the bowden tube getting stuck, so I printed this small [bowden tube guide][] to keep it away.
-Works great.
+![The holder keeps the tube from getting stuck behind the cable chain.](/images/trident/bowden_holder.jpg)
 
-> Note to self: Don't use a tube with an inner diameter of 2mm, the filament will get stuck due to friction.
-{ :notice }
+But unfortunately it caused a bend in the tube that drastically increased the friction on the filament.
 
+I instead use the [Trident noodle][] which is made to prevent the tube from colliding with the roof of the printer.
+
+TODO img
+
+The tube still snags on the chain sometimes, but I guess the real solution is to convert to an umbilical setup, and get rid of the bothersome chains once and for all.
+Maybe one day.
+
+[Trident noodle]: https://github.com/Diyshift/3D-Printer/tree/main/Trident%20Noodle
 [bowden tube guide]: https://mods.vorondesign.com/detail/8CxQeqS1lXhlGphwkyqh7g
-
 
 ## Display mount
 
-The display mounts I got from the print-it-forward service wasn't compatible with the screen I got.
-Now I have a mount that doesn't require tape to hold it together:
+![](/images/trident/display.jpg)
 
-TODO
+The display mounts I got from the print-it-forward service wasn't compatible with the screen I got, so I had to hold it together with tape.
+
+So I tried to find the proper parts to print, but I must be missing something because the screw holds to hold the display cover still don't line up.
+I don't care to spend more energy on this, it's a bit weird but tape does the job well enough.
+
+At least I got the display cover in an accent color.
 
 [Bulging]: https://ellis3dp.com/Print-Tuning-Guide/articles/troubleshooting/bulging.html
 
@@ -163,7 +210,12 @@ Despite having the Nevermore filter and a HEPA filter exhaust, I could very clea
 Looking at the extrusions, there were large holes in the blind joints and I suspect that doesn't help.
 
 Therefore I tried to cover up the holes with some Sugru.
+It helps, but I should probably replace the front door too.
 
 # Are we done yet?
 
 It's true that the printer can now be considered Done™---and it has been done for a while---I still have some mods I'd like to document before I wrap up this build series.
+
+[VORON forum]: https://forum.vorondesign.com/threads/ldo-trident-250-complete-3d-printer-beginner.1089/
+[z offset]: https://docs.vorondesign.com/build/startup/#z-offset-adjustment
+[first layer squish]: https://ellis3dp.com/Print-Tuning-Guide/articles/first_layer_squish.html
