@@ -5,11 +5,6 @@ tags: ["3D printing", "Hextraction"]
 
 ![A session of Hextraction, a 3D printed board game.](/images/hextraction/hextraction_session.jpg)
 
-![](/images/hextraction/storage.jpg)
-
-![](/images/hextraction/modular_board.jpg)
-
-![](/images/hextraction/opened_secret_tiles.jpg)
 
 I did it.
 I made something actually useful with [my 3D printer][voron] instead of just tinkering with it.
@@ -61,11 +56,31 @@ Luckily, [Hextraction][] advertises itself as a hackable game, and Thangs user [
 1. The [super fancy remix][] with full gutters, variable size, ball holders and more.
 2. A [modular board][] you can rebuild into smaller and larger weirdly shaped boards.
 
+## Modular board
+
+![The modular board.
+I failed a little with my color selection as the two darker gray colors are nearly indistinguishable.](/images/hextraction/modular_board.jpg)
+
 I started with the modular board because I thought it would be nice to be able to modify it later, but mostly it was because it had just been released and my monkey brain thought "newer = better".
+
+Pros:
+
+1. Easily repairable if something breaks.
+2. Can be made in a cool varying colorscheme.
+3. Proper gutters that captures the ball.
+4. Can easily be made smaller, larger, or in a strange layout.
+
+Cons:
+
+1. Assembling it took some time.
+2. It was easy to break the goals (they act like levers). I broke three of them.
+3. It's not so easy to remove the balls from the gutters.
+
+## Super fancy remix
 
 TODO images
 
-# Tiles we like
+# Tiles
 
 TODO image
 
@@ -78,7 +93,9 @@ TODO image
 
 Honestly, a lot of the times when playing the game one of the most appreciated tiles to draw is just a regular tile.
 The original creator provides a [good selection of basic tiles][basic_tiles], most with short descriptive names; the DC, DIC, X, J, S, Z, Asterisk, and Peace tiles.
-I've added the [Xc Tile][] and a bunch of [Reroute tiles][].
+I've added the [Xc Tile][] (which is great) and some [Reroute tiles][].
+
+![The [Reroute tiles][] lets the ball try an exit, and if blocked it can try another one.](/images/hextraction/reroute_tiles.jpg)
 
 [basic_tiles]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Basic%20Tiles-856511
 [Xc Tile]: https://thangs.com/designer/theethetree/3d-model/Xc%20Tile%20-%20Hextraction-871018
@@ -86,7 +103,7 @@ I've added the [Xc Tile][] and a bunch of [Reroute tiles][].
 
 ## Secret tiles
 
-TODO image
+![](/images/hextraction/secret_tiles.jpg)
 
 We had some mixed feelings about the secret tiles.
 On one hand it's great fun to place a tile that only you know how it works,
@@ -94,13 +111,14 @@ but on the other hand the ball tends to get stuck inside them quite often, makin
 
 So I replaced them with [alternative secret tiles][] that never blocks a ball path:
 
-TODO image
+![This is the tiles before I glued the lid on. Although it wasn't supposed to, the ball sometimes got stuck in the crossed out tile, so we threw that one away.](/images/hextraction/opened_secret_tiles.jpg)
 
 I also used the [inverted secret lid][] to make the lid (much) easier to print well.
 
-> If you want to use the standard secret tiles, please note that the holes for the lids are too shallow for a few of them.
-> See [this link][fix-secret] and [this link][fix-flipper] for fixes.
-{ :notice}
+::: notice
+If you want to use the standard secret tiles, please note that the holes for the lids are too shallow for a few of them.
+See [this link][fix-secret] and [this link][fix-flipper] for fixes.
+:::
 
 [fix-secret]: https://www.printables.com/model/496288-fixed-secret-hextraction-mystery-tiles/files
 [fix-flipper]: https://thangs.com/designer/timothyjackman/3d-model/Fixed%20Hextraction%20Secret%20Flipper%20Tile-884171
@@ -109,35 +127,62 @@ I also used the [inverted secret lid][] to make the lid (much) easier to print w
 
 ## Trap tiles
 
-TODO image
+![](/images/hextraction/trap_tiles.jpg)
 
 The trap tiles add quite a lot of depth to the game.
-The [double trap tiles][] are the best, but I've added a triple and a [quad trap tile][] too.
 
-[Newton's Cradle][] and the [Angry Crab][] are probably my two favorite tiles in the game.
+![Of the [standard trap tiles][], the double one is the best IMHO.](/images/hextraction/regular_trap_tiles.jpg)
 
 Traps are interesting because they allow you to block paths, allowing you to throw a wrench into your opponents plans at a crucial time.
 This often leads to the players having to route around existing paths, without blocking them off completely.
 
+![The [Angry Crab][] acts as a trap for the middle, and is released from the sides.](/images/hextraction/angry_crab.jpg)
 
-[double trap tiles]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Trap%20Tiles%20-%20Double%20and%20Triple%20Trap-837140
+![[Newton's Cradle][] is an interesting one. Depending on how you orient the tile, it can act as a trap (that you can release from the other side) or as a regular tile.](/images/hextraction/newtons_cradle.jpg)
+
+[Newton's Cradle][] and the [Angry Crab][] are probably my two favorite tiles in the game.
+I should print more of them.
+
+[standard trap tiles]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Trap%20Tiles%20-%20Double%20and%20Triple%20Trap-837140
 [quad trap tile]: https://thangs.com/designer/jaceubs/3d-model/Hextraction%20Quad%20Trap%20Tile-911169
 [Newton's Cradle]: https://www.printables.com/model/636021-hextraction-newtons-cradle-tile-no-supports-remix
 [Angry Crab]: https://thangs.com/designer/hpalinux/3d-model/Hextraction%20Tile%3A%20Angry%20Crab-911792
+
+## Speed bump tiles
+
+![Some [speed bump tiles][].](/images/hextraction/speed_bump_tiles.jpg)
+
+The [speed bump tiles][] decreases the speed of the ball, trapping it if it's moving too slow.
+The issue is that the kids gets a bit too frustrated with them, so I've reduced the number of speed bump tiles in circulation.
+
+We still have three that we use, mostly because I like the educational aspect of the tiles (it's physics!).
+
+[speed bump tiles]: https://thangs.com/designer/QTManygo/3d-model/Hextraction%20-%20Speed%20Bumps%20Tiles-903950
 
 ## Silly tiles
 
 TODO image
 
 Even though it can malfunction at times, the [Flip-flop tile][] is great as it adds a small state machine to the game.
-I personally greatly enjoy the [Pachinko tile][] as it's a great way to add some more randomness.
+
+![The [Pachinko tile][].](/images/hextraction/pachinko.jpg)
+
+I personally really enjoy the [Pachinko tile][] as it's a great way to add some more randomness.
+
+![[UwU][UwU tile] and [Zoidberg][Zoidberg tile] gives a face to Hextraction.](/images/hextraction/uwu_zoidberg.jpg)
 
 Because that level of randomness isn't enough, the beautiful [UwU tile][] and the [Zoidberg tile][] acts as a random trap tile.
+But they're mostly traps.
+
+![A [loop][]. You need speed if you want to get through this one.](/images/hextraction/loop.jpg)
 
 I also threw in a [loop][], because it's silly and it's fun when you manage to get a ball through it.
+It has the same pedagogical effect as a [speed bump tile][Speed bump tiles] while having a cooler effect.
+
+![Is there a better way to store balls than in a tile?](/images/hextraction/storage.jpg)
 
 To store the balls I use [The Ultimate Hextraction Storage Box][].
-It's also a tile, although you can't play with it.
+It's also a tile, although you {-can't-} shouldn't play with it.
 
 [Flip-flop tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Flip-Flop%20Tile-856502
 [Pachinko tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Pachinko%20Tile-837138
@@ -145,11 +190,15 @@ It's also a tile, although you can't play with it.
 [Zoidberg tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Zoidberg%20Tile-856450
 [loop]: https://thangs.com/designer/theethetree/3d-model/Hextraction%20Loop-de-loop%20tile-873977
 
-# Tiles we have removed
+## Tiles we have removed
 
 TODO image
 
 There are some tiles I printed but that I've removed from our game:
+
+- Original secret tiles
+
+  As [noted before][Secret tiles], 
 
 - Sozu Tile
 
@@ -157,10 +206,9 @@ There are some tiles I printed but that I've removed from our game:
 
 - Speed bump tiles
 
-  I actually really like the idea: they trap the ball if it's moving to slow, and decreases the speed otherwise.
-  The issue is that the kids gets a bit too frustrated with them, so I've reduced the number of speed bump tiles in circulation.
+- [quad trap tile][] 
 
-  We still have two that we use, mostly because I like the educational aspect of the tiles (it's physics!).
+- Vortex tile
 
 # Print it, play it!
 
