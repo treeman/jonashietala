@@ -9,7 +9,7 @@ use crate::{
     item::RenderContext,
     item::TeraItem,
     markup::find_markup_files,
-    markup::{Html, MarkupFile, RawMarkupFile},
+    markup::{Html, MarkupFile, ParseContext, RawMarkupFile},
     paths::AbsPath,
     site_url::SiteUrl,
 };
@@ -26,7 +26,8 @@ pub struct ProjectsItem {
 impl ProjectsItem {
     pub fn new(dir: &AbsPath) -> Result<Self> {
         let markup: MarkupFile<ProjectsMetadata> =
-            RawMarkupFile::from_file(dir.join("projects.markdown"))?.parse()?;
+            RawMarkupFile::from_file(dir.join("projects.markdown"))?
+                .parse(ParseContext::default())?;
 
         let url = SiteUrl::parse("/projects").expect("Should be able to create a url");
         let title = markup.markup_meta.title.clone();
@@ -111,7 +112,7 @@ impl Project {
     }
 
     pub fn from_markup(markup: RawMarkupFile<ProjectMetadata>) -> Result<Self> {
-        let markup = markup.parse()?;
+        let markup = markup.parse(ParseContext::default())?;
 
         Ok(Self {
             title: markup.markup_meta.title,
@@ -187,7 +188,7 @@ impl Game {
     }
 
     pub fn from_markup(markup: RawMarkupFile<GameMetadata>) -> Result<Self> {
-        let markup = markup.parse()?;
+        let markup = markup.parse(ParseContext::default())?;
 
         let published = NaiveDate::parse_from_str(&markup.markup_meta.published, "%Y-%m-%d")?;
         let url = SiteUrl::parse(&markup.markup_meta.url)?;

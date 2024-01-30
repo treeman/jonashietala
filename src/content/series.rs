@@ -1,5 +1,5 @@
 use crate::item::Item;
-use crate::markup::{find_markup_files, Html, Markup, RawMarkupFile};
+use crate::markup::{find_markup_files, Html, Markup, ParseContext, RawMarkupFile};
 use crate::paths::AbsPath;
 use crate::{
     content::PostItem,
@@ -91,7 +91,7 @@ impl SeriesItem {
     }
 
     pub fn from_markup(markup: RawMarkupFile<SeriesMetadata>) -> Result<Self> {
-        let markup = markup.parse()?;
+        let markup = markup.parse(ParseContext::default())?;
         let SeriesDirMetadata { id } = SeriesDirMetadata::from_path(&markup.path)?;
 
         let url =
@@ -100,7 +100,7 @@ impl SeriesItem {
         let post_note = match markup.markup_meta.post_note {
             Some(note) => Some(
                 Markup::new(note, markup.markup.t())
-                    .parse()?
+                    .parse(ParseContext::default().with_path(&markup.path))?
                     .strip_one_paragraph(),
             ),
             None => None,

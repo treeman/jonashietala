@@ -10,6 +10,7 @@ use serde::de::DeserializeOwned;
 use std::borrow::Cow;
 use std::fs;
 use std::ops::Deref;
+use tracing::{error, warn};
 use walkdir::WalkDir;
 use yaml_front_matter::{Document, YamlFrontMatter};
 
@@ -89,17 +90,17 @@ impl Markup {
         }
     }
 
-    pub fn parse(&self) -> Result<Html> {
+    pub fn parse(&self, context: ParseContext) -> Result<Html> {
         match self {
             Self::Markdown(s) => Ok(markdown_to_html(&s)),
-            Self::Djot(s) => djot_to_html(&s),
+            Self::Djot(s) => djot_to_html(&s, context.in_feed(false)),
         }
     }
 
-    pub fn parse_feed(&self) -> Result<FeedHtml> {
+    pub fn parse_feed(&self, context: ParseContext) -> Result<FeedHtml> {
         match self {
             Self::Markdown(s) => Ok(markdown_to_html_feed(&s)),
-            Self::Djot(s) => djot_to_html_feed(&s),
+            Self::Djot(s) => djot_to_html_feed(&s, context.in_feed(true)),
         }
     }
 
@@ -138,8 +139,8 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
         })
     }
 
-    pub fn parse(self: Self) -> Result<MarkupFile<Meta>> {
-        let html = self.markup.parse()?;
+    pub fn parse(self: Self, context: ParseContext) -> Result<MarkupFile<Meta>> {
+        let html = self.markup.parse(context.with_path(&self.path))?;
         Ok(MarkupFile {
             markup: self.markup,
             html,
@@ -189,6 +190,65 @@ fn strip_one_paragraph(html: Cow<str>) -> Cow<str> {
     match paragraphs.len() {
         1 => paragraphs[0].get(1).unwrap().as_str().to_owned().into(),
         _ => html.into(),
+    }
+}
+
+#[derive(Debug, Copy, Clone)]
+pub struct ParseContext<'a> {
+    pub path: Option<&'a Utf8Path>,
+    pub is_draft: bool,
+    pub in_feed: bool,
+}
+
+impl<'a> Default for ParseContext<'a> {
+    fn default() -> Self {
+        ParseContext {
+            path: None,
+            is_draft: false,
+            in_feed: false,
+        }
+    }
+}
+
+impl<'a> ParseContext<'a> {
+    pub fn new_with_draft(is_draft: bool) -> Self {
+        Self {
+            is_draft,
+            ..Default::default()
+        }
+    }
+
+    pub fn is_draft(mut self, is_draft: bool) -> Self {
+        self.is_draft = is_draft;
+        self
+    }
+
+    pub fn with_path(mut self, path: &'a Utf8Path) -> Self {
+        self.path = Some(path);
+        self
+    }
+
+    pub fn in_feed(mut self, in_feed: bool) -> Self {
+        self.in_feed = in_feed;
+        self
+    }
+
+    pub fn log_broken_link(self, target: &str) {
+        if self.in_feed {
+            return;
+        }
+
+        let msg = if let Some(path) = self.path {
+            format!("Broken image reference to: `{target}` in `{}`", path)
+        } else {
+            format!("Broken image reference to: `{target}` in unknown path")
+        };
+
+        if self.is_draft {
+            warn!("{}", msg);
+        } else {
+            error!("{}", msg);
+        }
     }
 }
 

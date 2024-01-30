@@ -16,7 +16,7 @@ use crate::content::series::SeriesRef;
 use crate::content::tags::{Tag, TagPostContext, TagsMeta};
 use crate::item::Item;
 use crate::item::RenderContext;
-use crate::markup::{self, Html, Markup, RawMarkupFile};
+use crate::markup::{self, Html, Markup, ParseContext, RawMarkupFile};
 use crate::paths::AbsPath;
 use crate::{content::SeriesItem, item::TeraItem, site_url::SiteUrl, util};
 
@@ -81,7 +81,7 @@ impl PostItem {
     ) -> Result<Self> {
         let post_dir = PostDirMetadata::from_path(&markup.path, &modified)?;
 
-        let markup = markup.parse()?;
+        let markup = markup.parse(ParseContext::new_with_draft(post_dir.is_draft))?;
 
         let time = match &markup.markup_meta.time {
             Some(time_str) => parse_time(&time_str)?,

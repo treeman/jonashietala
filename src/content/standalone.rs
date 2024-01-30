@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::{borrow::Cow, collections::HashSet};
 use tera::Context;
 
-use crate::markup::{find_markup_files, Html, RawMarkupFile};
+use crate::markup::{find_markup_files, Html, ParseContext, RawMarkupFile};
 use crate::{item::Item, item::RenderContext, item::TeraItem, paths::AbsPath, site_url::SiteUrl};
 
 pub fn load_standalones(dir: AbsPath) -> Result<HashSet<StandaloneItem>> {
@@ -42,7 +42,7 @@ impl StandaloneItem {
     }
 
     pub fn from_markup(markup: RawMarkupFile<StandaloneMetadata>) -> Result<Self> {
-        let markup = markup.parse()?;
+        let markup = markup.parse(ParseContext::default())?;
         let slug = markup
             .path
             .file_stem()
