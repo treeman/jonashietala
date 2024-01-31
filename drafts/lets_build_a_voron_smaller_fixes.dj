@@ -54,8 +54,8 @@ Then I found the [Bulging][] section in Ellis' Print Tuning Guide that made the 
 These were the changes I made:
 
 - Enable `external perimiter first`
-- Set `threshold for bridge flow` to 0
-- I also experimented with disabling overhangs specific settings completely (set `threshold for bridge flow` to 0 or the disable checkbox), but I'm uncertain how effectual that was compared to the other two settings.
+- Set overhang `threshold for bridge flow` to 0
+- I also experimented with disabling overhangs specific settings completely (set `bridge speed and fan` to 0 or the disable checkbox), but I'm uncertain how effectual that was compared to the other two settings.
 
 Some of these were specific to SuperSlicer, the slicer I use.
 
@@ -99,7 +99,7 @@ Note to self: Don't use a tube with an inner diameter of 2mm between the extrude
 ## First layer woes
 
 For a long time I was really happy with how my first layers looked.
-I didn't a lot of bed adhesion issues and I could generally just start a print and it would finish without issue most of the time.
+I didn't that many bed adhesion issues and I could start a print and it would finish without issue most of the time.
 
 But sometimes I had these "blobs" that started collecting:
 
@@ -177,14 +177,13 @@ I had some issues with the bowden tube getting stuck, so I tried the [bowden tub
 
 ![The holder keeps the tube from getting stuck behind the cable chain.](/images/trident/bowden_holder.jpg)
 
-But unfortunately it caused a bend in the tube that drastically increased the friction on the filament.
+But unfortunately it caused a bend in the tube that drastically increased the friction on the filament, which I suspect was the cause for some prints failing.
 
 I instead use the [Trident noodle][] which is made to prevent the tube from colliding with the roof of the printer.
 
-TODO img
+![](/images/trident/noodle.jpg)
 
 The tube still snags on the chain sometimes, but I guess the real solution is to convert to an umbilical setup, and get rid of the bothersome chains once and for all.
-Maybe one day.
 
 [Trident noodle]: https://github.com/Diyshift/3D-Printer/tree/main/Trident%20Noodle
 [bowden tube guide]: https://mods.vorondesign.com/detail/8CxQeqS1lXhlGphwkyqh7g
@@ -195,8 +194,8 @@ Maybe one day.
 
 The display mounts I got from the print-it-forward service wasn't compatible with the screen I got, so I had to hold it together with tape.
 
-So I tried to find the proper parts to print, but I must be missing something because the screw holds to hold the display cover still don't line up.
-I don't care to spend more energy on this, it's a bit weird but tape does the job well enough.
+So I tried to find the proper parts to print, but I must be missing something because the screw holes to hold the display cover still don't line up.
+I don't care to spend more energy on this; it's a bit weird but tape does the job well enough.
 
 At least I got the display cover in an accent color.
 
@@ -210,11 +209,11 @@ Despite having the Nevermore filter and a HEPA filter exhaust, I could very clea
 Looking at the extrusions, there were large holes in the blind joints and I suspect that doesn't help.
 
 Therefore I tried to cover up the holes with some Sugru.
-It helps, but I should probably replace the front door too.
+It's better, but I should probably replace the front door too.
 
 # Are we done yet?
 
-It's true that the printer can now be considered Done™---and it has been done for a while---I still have some mods I'd like to document before I wrap up this build series.
+It's true that the printer can now be considered Done™---and it has been done for a while---but I still have some mods I'd like to document before I wrap up this build series.
 
 [VORON forum]: https://forum.vorondesign.com/threads/ldo-trident-250-complete-3d-printer-beginner.1089/
 [z offset]: https://docs.vorondesign.com/build/startup/#z-offset-adjustment

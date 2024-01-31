@@ -190,25 +190,17 @@ It's also a tile, although you {-can't-} shouldn't play with it.
 [Zoidberg tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Zoidberg%20Tile-856450
 [loop]: https://thangs.com/designer/theethetree/3d-model/Hextraction%20Loop-de-loop%20tile-873977
 
-## Tiles we have removed
+## Other removed tiles
 
 TODO image
 
 There are some tiles I printed but that I've removed from our game:
 
-- Original secret tiles
+- I never got the [Sozu tile][] to work consistently and having an extra rule of "first insert ball here" goes against our simplistic rules policy.
 
-  As [noted before][Secret tiles], 
+- There were a bit too many traps, so we cut the [quad trap tile][].
 
-- Sozu Tile
-
-  I never got it to work consistently and having an extra rule of "first insert ball here" goes against our simplistic rules policy.
-
-- Speed bump tiles
-
-- [quad trap tile][] 
-
-- Vortex tile
+- Vortex tile (or maybe file it down??)
 
 # Print it, play it!
 
@@ -219,7 +211,7 @@ It's a very cool and silly game, which works very well even for young kids with 
 It's a build your own adventure type of a game, and you can even design your own tiles (or boards, if you're a madman).
 If you're like me and haven't yet learned the dark CAD magic, there are [lots of designs][] out there for you to include into your game.
 
-And if you don't have a 3D printer yet, go ~buy~ [build one][voron]!
+And if you don't have a 3D printer yet, go {-buy-} [build one][voron]!
 
 
 [modular board]: https://thangs.com/designer/Inaudable/3d-model/Modular%20Hextraction%20Board%21-972454
@@ -233,3 +225,4 @@ And if you don't have a 3D printer yet, go ~buy~ [build one][voron]!
 [lots of designs]: https://thangs.com/search/hextraction?scope=all
 [Inaudible]: https://thangs.com/designer/Inaudable
 [The Ultimate Hextraction Storage Box]: https://thangs.com/designer/andrewtho5942/3d-model/The%20Ultimate%20Hextraction%20Storage%20Box-885493
+[Sozu tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Sozu%20Tile-856441

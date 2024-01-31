@@ -49,6 +49,8 @@ I also made the bottom panel magnetic using [the bottom panel mag clip][] mod:
 Necessary?
 No, but they sure are nice.
 
+# Clicky-clack door
+
 # Angry cam
 
 ![](/images/trident/angrycam_mount.jpg)
@@ -84,12 +86,64 @@ I won't do anything about it right now, but in the future I'll probably try to r
 
 [Angry CAM USB]: https://mods.vorondesign.com/detail/RYpQW53mtem8Nj1JKqiSQ>
 
-# Filament runout sensor
+# Smart filament sensor
 
-![](/images/trident/tangled_spool.jpg)
+![](/images/trident/btt_with_spool.jpg)
 
-<https://www.3djake.com/bigtreetech/smart-filament-sensor-v20>
-<https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra>
+Bed adhesion and first layer problems are annoying, but they can be mitigated by watching the first layer go down and if it goes badly you don't lose that much time.
+
+Something I think is much more annoying is when the filament tangles.
+According to the internet, this "should never happen" but it has happened with four different spools from different manufacturers and it sucks when the print fails multiple hours in.
+
+![See this? This damned spool ruined 4 prints in a row for me.
+It's not a real knot, but it's tangled hard enough that the extruder couldn't pull it free, and it started to grind down the filament instead of extruding it.](/images/trident/tangled_spool.jpg)
+
+Fed up, I ordered Bigtreetech's [Smart Filament Sensor V2.0][] that can detect both running out of filament and these "knotted" spools.
+
+There are some [nice mounts][btt_mounts] for it, but finding a good mounting point was difficult.
+I ended up moving the spool to the side of the printer, and routing the cable through the back panel:
+
+![](/images/trident/btt_mounted.jpg)
+
+One difficulty was that the wire was just a tad too short. I got it to reach, but just barely.
+I couldn't route the cables to make the underside pretty... But meh.
+
+![The Octopus has dedicated ports for the two BTT connectors.](/images/trident/btt_octopus.jpg)
+
+To setup Klipper I used this code:
+
+```
+[filament_switch_sensor filament_sensor_switch]
+switch_pin: ^PG12
+pause_on_runout: True
+insert_gcode:
+    M117 Insert detected
+runout_gcode:
+    M117 Runout detected
+    SET_DISPLAY_TEXT MSG="Runout detected!"
+
+[filament_motion_sensor filament_sensor_motion]
+switch_pin: ^PG13
+detection_length: 10 # ellis recommends to start at 10mm, could maybe adjust this?
+extruder: extruder
+pause_on_runout: True
+insert_gcode:
+    M117 Insert detected
+runout_gcode:
+    M117 Runout detected
+    SET_DISPLAY_TEXT MSG="Runout detected!"
+```
+
+You also need proper `PAUSE`/`RESUME` macros.
+I just copied the macros from [Ellis' print tuning guide][pause_resume].
+
+I tested it by holding the filament during the print, trying to simulate a knot in the filament.
+This worked, but damn was it HARD.
+The extruder really does have force behind it.
+
+[pause_resume]: https://ellis3dp.com/Print-Tuning-Guide/articles/useful_macros/pause_resume_filament.html
+[Smart Filament Sensor V2.0]: https://www.3djake.com/bigtreetech/smart-filament-sensor-v20
+[btt_mounts]: https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra
 
 # Flex plate stops
 
@@ -106,9 +160,9 @@ To fit it at the back I removed the now unused z-endstop (I use Tap instead).
 
 # Gridfinity mounts
 
-![](/images/trident/bottom_gridfinity_mounts.jpg)
-
 ![](/images/trident/top_gridfinity_mounts.jpg)
+
+![](/images/trident/bottom_gridfinity_mounts.jpg)
 
 I've been slowly easing into [Gridfinity][]---a free and open organization system.
 So naturally I wanted to add some some holders to the printer.
@@ -119,15 +173,19 @@ I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] ho
 
 ![](/images/trident/meshes.jpg)
 
-<https://www.printables.com/model/455437-voron-trident-mesh-skirts>
+Adding [meshes for the panels][meshes] might be one of the prettiest mods you can do---and I think it's very pretty---but that's not why I did it.
+I added it as a safety measure against my kids (or me!) inserting something like a screwdriver inside the electronics while the printer is running.
 
-<https://www.printables.com/model/373916-trident-mesh-skirts-ssps-only>
+I didn't do any fancy filament swapping prints, I just printed the meshes and glued them onto the backs of the panels.
+It works.
+
+[meshes]: https://www.printables.com/model/455437-voron-trident-mesh-skirts
 
 # Galileo 2
 
 ![](/images/trident/galileo_6.jpg)
 
-I replaced the Clockwork 2 extruder with the [Galileo 2].
+I replaced the Clockwork 2 extruder with the [Galileo 2][].
 
 This wasn't exactly needed, I just thought it would be interesting as building the Clockwork was one of the most interesting parts of the build, and this [planetary gears][] thing looked pretty interesting.
 And the FOMO kicked in as I was following the discussion online, with people hyping about it but not being able to find a kit.
