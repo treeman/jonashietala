@@ -16,7 +16,7 @@ These might be two of the most influential projects in the markup space, so you'
 
 # The devil is in the details
 
-I was going to give a few examples of what Djot looks like, but honestly, 95% of the Djot I write looks exactly like Markdown.
+I was going to give a few examples of what Djot looks like, but honestly, 95% of the Djot I write looks very similar to Markdown, with only minor differences.
 
 So what's the point?
 
@@ -187,7 +187,7 @@ This is a notice
 And then match on the `notice` class to transform the `div` into `aside`.
 
 In [Jotdown][], like with [pulldown-cmark][], transformations are made by transforming iterators over events (in this case I'm looking for `Event::Start(Container::Div, attrs)` and `Event::End(Container::Div)`).
-It's a bit awkward, so keeping the transformations small is nice.
+It's a bit awkward, so keeping the transformations as small as possible is nice.
 
 ## Images
 

@@ -171,7 +171,9 @@ Maybe another day.
 [spool_holder]: https://mods.vorondesign.com/detail/wWS3pc510oGqxGo0awsFKA
 [top mounted spool holder]: https://mods.vorondesign.com/detail/VjlccbeeOuH5iax4AFHA
 
-## Reverse bowden noodle
+## Bowden tube routing
+
+![](/images/trident/bowden_tube_routing.jpg)
 
 I had some issues with the bowden tube getting stuck, so I tried the [bowden tube guide][] to keep it away:
 

@@ -239,9 +239,9 @@ impl<'a> ParseContext<'a> {
         }
 
         let msg = if let Some(path) = self.path {
-            format!("Broken image reference to: `{target}` in `{}`", path)
+            format!("Broken reference to: `{target}` in `{}`", path)
         } else {
-            format!("Broken image reference to: `{target}` in unknown path")
+            format!("Broken reference to: `{target}` in unknown path")
         };
 
         if self.is_draft {
