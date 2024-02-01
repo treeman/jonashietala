@@ -108,8 +108,6 @@ I've added the [K tile][], [V tile][], [W tile][], [Xc tile][], [Triangle tile][
 
 ## Secret tiles
 
-![](/images/hextraction/secret_tiles.jpg)
-
 We had some mixed feelings about the secret tiles.
 On one hand it's great fun to place a tile that only you know how it works,
 but on the other hand the ball tends to get stuck inside them quite often, making the "3-ball then destroy the tile" rule difficult to keep track of.
@@ -164,20 +162,19 @@ We still have three that we use, mostly because I like the educational aspect of
 
 [speed bump tiles]: https://thangs.com/designer/QTManygo/3d-model/Hextraction%20-%20Speed%20Bumps%20Tiles-903950
 
-## Silly tiles
+## Flip-flop tiles
 
-TODO image
-
-
-![[Flip-flop tiles][Flip-flop tile]](/images/hextraction/spinners.jpg)
+![](/images/hextraction/spinners.jpg)
 
 Even though it can malfunction at times, the [Flip-flop tile][] is great as it adds a small state machine to the game.
+
+## Misc tiles
 
 ![The [Pachinko tile][].](/images/hextraction/pachinko.jpg)
 
 I personally really enjoy the [Pachinko tile][] as it's a great way to add some more randomness.
 
-![[UwU][UwU tile] and [Zoidberg][Zoidberg tile] gives a face to Hextraction.](/images/hextraction/uwu_zoidberg.jpg)
+![[Zoidberg][Zoidberg tile] and [UwU][UwU tile] gives a face to Hextraction.](/images/hextraction/uwu_zoidberg.jpg)
 
 Because that level of randomness isn't enough, the beautiful [UwU tile][] and the [Zoidberg tile][] acts as a random trap tile.
 But they're mostly traps.
