@@ -3,6 +3,7 @@ title: "Printing Hextraction for my kids"
 tags: ["3D printing", "Hextraction"]
 ---
 
+
 ![A session of Hextraction, a 3D printed board game.](/images/hextraction/hextraction_session.jpg)
 
 
@@ -59,7 +60,7 @@ Luckily, [Hextraction][] advertises itself as a hackable game, and Thangs user [
 ## Modular board
 
 ![The modular board.
-I failed a little with my color selection as the two darker gray colors are nearly indistinguishable.](/images/hextraction/modular_board.jpg)
+I failed a little with my color selection as the two darker gray colors are way too similar.](/images/hextraction/modular_board.jpg)
 
 I started with the modular board because I thought it would be nice to be able to modify it later, but mostly it was because it had just been released and my monkey brain thought "newer = better".
 
@@ -80,25 +81,29 @@ Cons:
 
 TODO images
 
+## Which board should you print?
+
 # Tiles
 
-TODO image
+![](/images/hextraction/pile_o_tiles.jpg)
 
 The fun part of [Hextraction][] is the tiles, and there are lots of different tiles.
 At first I thought it'd be a challenge to find fun and interesting tiles when I've disqualified many of the most fun ones, but there were plenty of tiles for me and my kids to enjoy.
 
-## Regular tiles
+## Path tiles
 
-TODO image
+![](/images/hextraction/path_tiles.jpg)
 
 Honestly, a lot of the times when playing the game one of the most appreciated tiles to draw is just a regular tile.
-The original creator provides a [good selection of basic tiles][basic_tiles], most with short descriptive names; the DC, DIC, X, J, S, Z, Asterisk, and Peace tiles.
-I've added the [Xc Tile][] (which is great) and some [Reroute tiles][].
+Around half of the tiles we use are these basic path tiles.
+It's tempting to go nuts with the special tiles, but you need basic tiles to make the reasonable.
+If everything is special, then nothing is.
 
-![The [Reroute tiles][] lets the ball try an exit, and if blocked it can try another one.](/images/hextraction/reroute_tiles.jpg)
+The original creator provides a [good selection of basic tiles][basic_tiles], most with short descriptive names; the DC, DIC, X, J, S, Z, Asterisk, and Peace tiles.
+I've added the [K tile][], [V tile][], [W tile][], [Xc tile][], [Triangle tile][], [Scissors tile][], [Rectangle tile][], and some [Reroute tiles][].
 
 [basic_tiles]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Basic%20Tiles-856511
-[Xc Tile]: https://thangs.com/designer/theethetree/3d-model/Xc%20Tile%20-%20Hextraction-871018
+[Xc tile]: https://thangs.com/designer/theethetree/3d-model/Xc%20Tile%20-%20Hextraction-871018
 [Reroute tiles]: https://thangs.com/designer/jaceubs/3d-model/Hextraction%20Reroute%20Tiles-902024
 
 ## Secret tiles
@@ -150,7 +155,7 @@ I should print more of them.
 
 ## Speed bump tiles
 
-![Some [speed bump tiles][].](/images/hextraction/speed_bump_tiles.jpg)
+![](/images/hextraction/speed_bump_tiles.jpg)
 
 The [speed bump tiles][] decreases the speed of the ball, trapping it if it's moving too slow.
 The issue is that the kids gets a bit too frustrated with them, so I've reduced the number of speed bump tiles in circulation.
@@ -162,6 +167,9 @@ We still have three that we use, mostly because I like the educational aspect of
 ## Silly tiles
 
 TODO image
+
+
+![[Flip-flop tiles][Flip-flop tile]](/images/hextraction/spinners.jpg)
 
 Even though it can malfunction at times, the [Flip-flop tile][] is great as it adds a small state machine to the game.
 
@@ -179,6 +187,11 @@ But they're mostly traps.
 I also threw in a [loop][], because it's silly and it's fun when you manage to get a ball through it.
 It has the same pedagogical effect as a [speed bump tile][Speed bump tiles] while having a cooler effect.
 
+![Who doesn't love a good [vortex][]?](/images/hextraction/vortex.jpg)
+
+Every marble run needs a vortex, and there's the [Vortex tile][vortex] to fill that spot in Hextraction.
+I did have some issues getting it to print the tunnels correctly for my 10mm balls, but some filing took care of that issue.
+
 ![Is there a better way to store balls than in a tile?](/images/hextraction/storage.jpg)
 
 To store the balls I use [The Ultimate Hextraction Storage Box][].
@@ -189,18 +202,25 @@ It's also a tile, although you {-can't-} shouldn't play with it.
 [UwU tile]: https://thangs.com/designer/IceChes/3d-model/Hextraction%20-%20UwU%20Tile-903488
 [Zoidberg tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Zoidberg%20Tile-856450
 [loop]: https://thangs.com/designer/theethetree/3d-model/Hextraction%20Loop-de-loop%20tile-873977
+[vortex]: https://thangs.com/designer/timothyjackman/3d-model/Hextraction%20Vortex%20Tile-886610
 
-## Other removed tiles
+# Make the game yours
 
-TODO image
+The best thing about the game is that you can modify it to suit your needs.
 
-There are some tiles I printed but that I've removed from our game:
+Don't like a tile?
+Hide it in a box or throw it in the trash.
 
-- I never got the [Sozu tile][] to work consistently and having an extra rule of "first insert ball here" goes against our simplistic rules policy.
+![A box of unused Hextraction stuff.](/images/hextraction/unused_tiles.jpg)
 
-- There were a bit too many traps, so we cut the [quad trap tile][].
+For example, I liked the idea of the [Sozu tile][], but I couldn't get it to work consistently and having an extra rule of "first insert ball here" goes against our simplistic rules policy.
 
-- Vortex tile (or maybe file it down??)
+We don't use any of the special effects tiles, but you can (and should) try them out.
+You can even make your own tiles, with your own silly rules.
+The [bomb tile][] for example removes _all_ adjacent tiles when it's removed, and the [angel down tile][] allows you to remove a trapped ball on any tile below.
+
+[bomb tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Cartoon%20Bomb%20Tile-856458
+[angel down tile]: https://thangs.com/designer/theethetree/3d-model/Hextraction%20-%20Angel%20Down%20Tile-902916
 
 # Print it, play it!
 
