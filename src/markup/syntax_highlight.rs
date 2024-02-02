@@ -10,6 +10,7 @@ use syntect::{
     parsing::SyntaxSet, util::LinesWithEndings,
 };
 use tracing::{info, warn};
+use tracing_subscriber::field::display;
 
 lazy_static! {
     static ref SS: SyntaxSet = syntax_set();
@@ -38,6 +39,7 @@ pub fn dump_theme(file: &Utf8Path) -> Result<()> {
 
 struct HighlightSpec<'a> {
     pub html_id: String,
+    pub display_name: String,
     pub syntax: &'a SyntaxReference,
 }
 
@@ -46,14 +48,19 @@ impl<'a> HighlightSpec<'a> {
         if original.is_empty() {
             return None;
         }
-        let mapped = syntect_lang_name(original);
+        let id = to_language_id(original);
+
+        let syntect_name = syntect_lang_name(&id);
 
         let syntax = SS
-            .find_syntax_by_name(mapped)
-            .or_else(|| SS.find_syntax_by_extension(mapped))?;
+            .find_syntax_by_name(syntect_name)
+            .or_else(|| SS.find_syntax_by_extension(syntect_name))?;
+
+        let display_name = lang_display_name(&id).to_owned();
 
         Some(Self {
-            html_id: to_language_id(&syntax.name),
+            html_id: id,
+            display_name,
             syntax,
         })
     }
@@ -64,7 +71,13 @@ pub fn push_code_block<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &st
         Some(lang) => match HighlightSpec::find(lang.as_ref()) {
             Some(spec) => match highlight(&spec, code) {
                 Ok(highlight) => {
-                    push_code_block_highlight(s, &spec.html_id, code, &highlight);
+                    push_code_block_highlight(
+                        s,
+                        &spec.html_id,
+                        &spec.display_name,
+                        code,
+                        &highlight,
+                    );
                 }
                 Err(err) => {
                     panic!("Syntax highlight error: {}", err);
@@ -101,6 +114,7 @@ pub fn push_code_inline(s: &mut String, lang: &str, code: &str) {
 fn push_code_block_highlight(
     s: &mut String,
     html_id: &str,
+    display_name: &str,
     original_code: &str,
     highlighted_code: &str,
 ) {
@@ -109,7 +123,11 @@ fn push_code_block_highlight(
     // Set the language as a class and insert text using ::before to
     // not interfere with readers of different types.
     push_code_wrapper_start(s, original_code);
-    s.push_str(&format!(r#"<div class="lang {}"></div>"#, html_id));
+    s.push_str(&format!(
+        r#"<div class="lang {}" data-lang="{}"></div>"#,
+        html_id,
+        html_escape::encode_safe(display_name)
+    ));
     s.push_str("<pre>");
     push_code_highlight(s, html_id, highlighted_code);
     s.push_str(r#"</pre>"#);
@@ -209,6 +227,15 @@ fn syntect_lang_name(lang: &str) -> &str {
         "djot" => "Djot",
 
         // "pollen" => "",
+        x => x,
+    }
+}
+
+fn lang_display_name(lang: &str) -> &str {
+    match lang {
+        "cpp" => "c++",
+        "md" => "markdown",
+        "vim" => "vimscript",
         x => x,
     }
 }
