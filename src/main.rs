@@ -180,6 +180,7 @@ fn build() -> Result<()> {
         input_dir: CURRENT_DIR.clone(),
         clear_output_dir: true,
         include_drafts: false,
+        generate_feed: true,
     })?;
 
     site.render_all()?;
@@ -193,6 +194,7 @@ async fn watch() -> Result<()> {
         input_dir: CURRENT_DIR.clone(),
         clear_output_dir: true,
         include_drafts: true,
+        generate_feed: false,
     })?;
 
     site.render_all()?;

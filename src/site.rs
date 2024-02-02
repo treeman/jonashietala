@@ -49,6 +49,7 @@ pub struct SiteOptions {
     pub output_dir: AbsPath,
     pub clear_output_dir: bool,
     pub include_drafts: bool,
+    pub generate_feed: bool,
 }
 
 pub struct SiteContent {
@@ -464,9 +465,11 @@ impl Site {
         }
 
         let feed = SiteFeed;
-        if opts.feed {
-            info!("Rebuilding feed");
-            items.push(&feed);
+        if self.opts.generate_feed {
+            if opts.feed {
+                info!("Rebuilding feed");
+                items.push(&feed);
+            }
         }
         render_items(&items, &ctx)?;
 
