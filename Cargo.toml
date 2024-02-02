@@ -49,3 +49,5 @@ xml-rs = "0.8.19"
 sxd-xpath = "0.4.2"
 sxd-document = "0.3.2"
 jotdown = "0.3.2"
+tokio-websockets = { version = "0.5.1", features = ["server", "openssl"] }
+futures-util = "0.3.30"

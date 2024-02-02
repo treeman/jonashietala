@@ -8,18 +8,17 @@ mod site;
 mod site_url;
 mod upload;
 mod util;
+mod watch;
 
 #[cfg(test)]
 mod tests;
 
 use crate::site_url::{HrefUrl, ImgUrl};
-use axum::{routing::get_service, Router};
 use camino::Utf8PathBuf;
 use clap::{Parser, Subcommand};
 use colored::Colorize;
 use eyre::Result;
 use futures::future::join_all;
-use hotwatch::Hotwatch;
 use lazy_static::lazy_static;
 use paths::AbsPath;
 use reqwest::Client;
@@ -27,9 +26,7 @@ use s3::creds::Credentials;
 use s3::Bucket;
 use s3::Region;
 use site::{Site, SiteOptions};
-use std::{collections::HashSet, net::SocketAddr, thread, time::Duration};
-use tower_http::{services::ServeDir, trace::TraceLayer};
-use tracing::{error, info};
+use std::collections::HashSet;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use upload::SyncOpts;
 use url::Url;
@@ -113,7 +110,7 @@ async fn main() -> Result<()> {
             build()?;
         }
         Commands::Watch => {
-            watch().await?;
+            watch::watch(&OUTPUT_DIR, &CURRENT_DIR).await?;
         }
         Commands::Post { title } => {
             gen::new_post(title.join(" "))?;
@@ -184,48 +181,6 @@ fn build() -> Result<()> {
     })?;
 
     site.render_all()?;
-
-    Ok(())
-}
-
-async fn watch() -> Result<()> {
-    let mut site = Site::load_content(SiteOptions {
-        output_dir: OUTPUT_DIR.clone(),
-        input_dir: CURRENT_DIR.clone(),
-        clear_output_dir: true,
-        include_drafts: true,
-        generate_feed: false,
-    })?;
-
-    site.render_all()?;
-
-    tokio::task::spawn_blocking(move || {
-        let mut hotwatch = Hotwatch::new_with_custom_delay(Duration::from_millis(100))
-            .expect("hotwatch failed to initialize!");
-
-        hotwatch
-            .watch(".", move |event| {
-                if let Err(err) = site.file_changed(event) {
-                    error!("{err}");
-                }
-            })
-            .expect("failed to watch folder!");
-
-        loop {
-            thread::sleep(Duration::from_secs(1));
-        }
-    });
-
-    let app: _ = Router::new()
-        .fallback(get_service(ServeDir::new(&*OUTPUT_DIR)))
-        .layer(TraceLayer::new_for_http());
-
-    let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
-
-    info!("serving site on {addr}");
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await?;
 
     Ok(())
 }

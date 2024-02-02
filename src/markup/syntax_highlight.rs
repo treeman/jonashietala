@@ -10,7 +10,6 @@ use syntect::{
     parsing::SyntaxSet, util::LinesWithEndings,
 };
 use tracing::{info, warn};
-use tracing_subscriber::field::display;
 
 lazy_static! {
     static ref SS: SyntaxSet = syntax_set();
