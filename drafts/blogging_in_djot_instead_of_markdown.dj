@@ -327,10 +327,10 @@ I'm not going to go through them in detail, see [the source code][src] if you're
 [Djot][] is a young project but with the more expressive custom markup it has improved my blogging experience.
 But more improvements are upcoming, with [ongoing discussions][] on quite a few topics that would remove the need for many of my custom transformations, for example:
 
-- [Native blockquote attributions][]
-- [Auto block-level figures][]
-- [Captions for figures/tables][]
-- [Custom tags support][] (convert `div` into `aside`)
+i. [Native blockquote attributions][]
+i. [Auto block-level figures][]
+i. [Captions for figures/tables][]
+i. [Custom tags support][] (convert `div` into `aside`)
 
 While I don't currently use the added features compared to CommonMark, in the future I might start making use of the other types of lists (who doesn't love a good list?) and footnotes might be a good addition to the more long-form blog posts I've been gravitating towards.
 

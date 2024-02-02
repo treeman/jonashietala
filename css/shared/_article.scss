@@ -166,14 +166,6 @@ article {
   /*
    * Lists
    */
-  ul,
-  ol {
-    list-style: none;
-    margin-left: var(--space-m);
-  }
-  ol {
-    counter-reset: ordered-counter;
-  }
   // Consistent spacing between items
   ol,
   ul {
@@ -185,6 +177,14 @@ article {
   }
   // Replace standard item bullets/numbers with our own
   // and add in some spacing.
+  ul,
+  ol {
+    list-style: none;
+    margin-left: var(--space-m);
+  }
+  ol {
+    counter-reset: ordered-counter;
+  }
   ol > li::before,
   ul > li::before {
     float: left;
@@ -196,9 +196,32 @@ article {
     counter-increment: ordered-counter;
     content: counter(ordered-counter);
   }
+  ol[type="A"s] > li::before {
+    content: counter(ordered-counter, upper-alpha);
+  }
+  ol[type="a"s] > li::before {
+    content: counter(ordered-counter, lower-alpha);
+  }
+  ol[type="I"s] > li::before {
+    content: counter(ordered-counter, upper-roman);
+  }
+  ol[type="i"s] > li::before {
+    content: counter(ordered-counter, lower-roman);
+  }
+  .greek ol[type="a"s] > li::before {
+    content: counter(ordered-counter, lower-greek);
+  }
   ul > li::before {
     @extend %sans-serif;
     content: "•";
+  }
+  ul > li.checked::before {
+    @extend %sans-serif;
+    content: "[×]";
+  }
+  ul > li.unchecked::before {
+    @extend %sans-serif;
+    content: "[ ]";
   }
 
   /*

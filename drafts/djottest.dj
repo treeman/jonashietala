@@ -62,11 +62,41 @@ Ordered list:
 
    Can also have some text here
 
-   And here
-
    1. Another
    2. Nested
    3. List
+
+Alpha-enumerated:
+
+a. Alpha
+a. Beta
+
+Upper-alpha:
+
+A. Alpha
+A. Beta
+
+Roman:
+
+i. One
+i. Two
+
+Roman:
+
+I. One
+I. Two
+
+Greek:
+
+::: greek
+a. alpha
+b. beta
+:::
+
+Tasks:
+
+- [ ] Not completed
+- [x] Completed
 
 # Quotes and attributes
 
