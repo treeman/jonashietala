@@ -4,14 +4,14 @@ tags: ["Djot", "Webpage", "Rust"]
 ---
 
 ::: epigraph
-{author="John Macfarlane"}
 > What if we weren’t chained to the past? What if we tried to create a light markup syntax that keeps what is good about Markdown, while revising some of the features that have led to bloat and complexity in the CommonMark spec?
+> ^ John Macfarlane, [Beyond Markdown][]
 :::
 
 I recently happened to see an offhand comment on [Hacker News][] about a markup language called [Djot][].
 I don't really have any large issues with the {-Markdown-} [CommonMark][] I use to generate the posts for this website, but my brain saw a chance to get sidetracked yet again, and here we are.
 
-The creator of Djot is John MacFarlane, the same philosophy professor that also created [Pandoc][] and [CommonMark][].
+The creator of [Djot][] is John MacFarlane, the same philosophy professor that also created [Pandoc][] and [CommonMark][].
 These might be two of the most influential projects in the markup space, so you'd get the feeling that maybe there's something to this [Djot][] thing.
 
 # The devil is in the details
@@ -22,15 +22,16 @@ So what's the point?
 
 The point is to try to take the good parts of CommonMark (the standard, unambiguous syntax specification for Markdown) and improve it in two ways:
 
-1. Make it much easier to parse.
-2. Add some more features.
+1. Make it easier to parse.
+2. Extend the feature set.
 
-I'm sympathetic to the parsing problem, as it [doesn't sound that fun][Beyond Markdown]:
+I'm sympathetic to the parsing problem, as it doesn't sound that fun:
 
 > There are 17 principles governing emphasis, for example, and these rules still leave cases undecided. The rules for list items and HTML blocks are also very complex. All of these rules lead to unexpected results sometimes, and they make writing a parser for CommonMark a complex affair. I despair, at times, of getting to a spec that is worth calling 1.0.
+> ^ John Macfarlane, [Beyond Markdown][]
 
 For this alone I'd be willing to at least try Djot, but there are some added features I'd like to use.
-It's true that I probably won't have much use for things like definition lists, different ordered list styles, footnotes, or math for my blog posts, but the native support for divs and the ability to add attributes to any element is something I've really been missing.
+It's true that I probably won't have much use for things like definition lists or math for my blog posts, but the native support for divs and the ability to add attributes to any element is something I've really been missing.
 
 # Tools
 
@@ -43,24 +44,24 @@ and there is Vim syntax highlighting in the [Djot repo][Djot].
 (Sad for those who don't use Vim I guess.)
 
 More annoying is that there's no treesitter implementation for Djot.
-This is unfortunate, as with treesitter I get proper syntax highlighting inside code blocks for Markdown and I have a general treesitter jump command that, for Markdown, jumps between headers with `]g` and `[g`.
-(In Rust it jumps between structs, implementations, enums, and functions.)
+This is unfortunate, as with treesitter for Markdown I get proper syntax highlighting inside code blocks and I have a general treesitter jump command that, for Markdown, jumps between headers with `]g` and `[g`.
+(In Rust it jumps between structs, implementations, enums, and functions. It's a general treesitter mapping.)
 
 Not a deal-breaker of course.
-Using the Markdown treesitter works well enough for the time being.
+Using the Markdown treesitter for Djot works well enough for the time being.
 (Maybe I need to explore how treesitter grammars work one day, and create one for Djot.)
 
 As for parsing I found [Jotdown][], which is a Rust library with an API inspired by [pulldown-cmark][], the library I use to parse CommonMark.
 
 # Abstracting away markup parsing
 
-I didn't want to convert my existing Markdown files as I have more than 250 posts. (Yes, that's mad.)
+I didn't want to convert my existing Markdown files as I have more than 250 posts. (Yeah, I don't know how that happened.)
 
 So to add Djot support I had to refactor my site generator a bit and support both Djot and Markdown parsing.
 I've been lazy so this wasn't as straightforward as I hoped; I had sprinkled calls to Markdown parsing all over the place.
 
 When I don't really know where to begin unwinding such a mess, I like to begin by modeling the data types in the domain.
-If I get them right, the rest usually falls into place fairly quickly.
+If I get the data modeling right, the rest has a tendency to fall into place fairly quickly.
 
 One of the things I love about Rust is the enums (or sum types for you fancy people) which makes it easy to model an "either this or that" type:
 
@@ -84,7 +85,7 @@ pub enum Markup {
 
 This is nice because now the type system prevents you from accidentally using the wrong format, which would be easier if you stored a `MarkupType` and a `String` separately.
 
-I did indeed do this:
+I did indeed store untagged data previously:
 
 ```rust
 pub struct PostItem {
@@ -94,7 +95,7 @@ pub struct PostItem {
 }
 ```
 
-To prevent this we we should probably create a newtype for html as well:
+To make this harder we should probably create a newtype for html as well:
 
 ```rust
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -114,7 +115,7 @@ impl Markup {
 }
 ```
 
-Now posts can hold `Markup` and `Html` structs and not having to worry about losing track of what content they represent:
+Now posts can hold `Markup` and `Html` structs and we can rely on the compiler to ensure we don't accidentally mix them:
 
 ```rust
 pub struct PostItem {
@@ -124,14 +125,18 @@ pub struct PostItem {
 }
 ```
 
-With the right types in place the rest of the refactoring follows almost automatically.
+With the right types in place the rest of the refactoring follows naturally.
 Just hide any Markdown and Djot specific implementation behind these types, follow the compile errors, and you're soon done.
 Thinking and designing with types is usually a pleasure.
+
+(Yeah, maybe it's not _quite_ that simple, but it's a very helpful approach nevertheless.)
+
+See the [source for the website][src] for more details.
 
 # Customized markup
 
 For the blog I have some [markup transformations][] I apply to Markdown.
-This includes demoting headers (the only `h1` i want is the post title), embedding bare YouTube links and prettifying code markup.
+This includes demoting headers, embedding bare YouTube links, transforming image collections, syntax highlighting, and more.
 
 It's a bit hacky though.
 
@@ -184,10 +189,11 @@ This is a notice
 :::
 ```
 
-And then match on the `notice` class to transform the `div` into `aside`.
+And then match on the `notice` class to transform the `div` into `aside`, and we're done.
 
-In [Jotdown][], like with [pulldown-cmark][], transformations are made by transforming iterators over events (in this case I'm looking for `Event::Start(Container::Div, attrs)` and `Event::End(Container::Div)`).
-It's a bit awkward, so keeping the transformations as small as possible is nice.
+In [Jotdown][], like with [pulldown-cmark][], transformations are made by transforming iterators over events.
+Here I'm looking for `Event::Start(Container::Div, attrs)` and `Event::End(Container::Div)` (I ignore nesting).
+Transforming with iterators instead of an AST structure is awkward, so keeping the transformations as small as possible is nice.
 
 ## Images
 
@@ -209,8 +215,8 @@ This would wrap the images in a flex container to display them side-by-side:
 
 ```html
 <figure class="flex-50">
-  <a href="/images/configura14/octree1.png"><img height="300" alt="" src="/images/configura14/octree1.png"></a>
-  <a href="/images/configura14/octree2.png"><img height="300" alt="" src="/images/configura14/octree2.png"></a>
+  <a href="/images/configura14/octree1.png"><img height="300" src="/images/configura14/octree1.png"></a>
+  <a href="/images/configura14/octree2.png"><img height="300" src="/images/configura14/octree2.png"></a>
 </figure>
 ```
 
@@ -232,6 +238,58 @@ Even something like this with references outside and attributes works, without a
 
 (Yeah maybe I gloss over the gross implementation a little.)
 
+## Blockquote citations
+
+Quotes are nice, but I want to be able to add author attribution to them sometimes.
+
+The html I want looks something like this:
+
+```html
+<blockquote>
+  <p>With author attribution</p>
+  <footer>
+    <span class="author">John Doe</span>
+  </footer>
+</blockquote>
+```
+
+With Markdown, I used custom attribute parsing to add author metadata:
+
+```markdown
+> With author attribution
+{ author=John Doe }
+```
+
+I could've done the same thing with Djot, or piggyback on Djot's general attribute parsing and match on that (the attributes go before the quote, but otherwise looks similar).
+
+But I got inspired by an ongoing discussion on the Djot repo about [adding blockquote attribution support][djotblock] where this clean syntax was suggested:
+
+```djot
+> With author attribution
+> ^ John Doe
+```
+
+There's no support for this yet, so I had to do the transformation myself.
+But on the upside, by passing through the [Jotdown][] events after `^` during the iteration transformation we can easily support links or other Djot markup in the author field.
+
+So this example:
+
+```djot
+> With author attribution
+> ^ [John Doe](#) ^31/1^
+```
+
+Would produce:
+
+```html
+<blockquote>
+  <p>With author attribution</p>
+  <footer>
+    <span class="author"><a href="#">John Doe</a> <sup>31/1</sup></span>
+  </footer>
+</blockquote>
+```
+
 ## Other transformations
 
 There are other transformations I do with Djot as well:
@@ -252,6 +310,8 @@ pub fn djot_to_html(djot: &str) -> Result<String> {
     let transformed = DivTransforms::new(transformed);
     // Add a <footer> with author info to quotes.
     let transformed = QuoteTransforms::new(transformed);
+    // Warn if any broken links are detected.
+    let transformed = BrokenLink::new(transformed, context);
 
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;
@@ -260,20 +320,57 @@ pub fn djot_to_html(djot: &str) -> Result<String> {
 ```
 
 The ones I didn't bring up in the blog are pretty similar to their corresponding Markdown implementation.
-I'm not going to go through them in detail, see the source code if you're interested.
+I'm not going to go through them in detail, see [the source code][src] if you're interested.
+
+# The future is bright
+
+[Djot][] is a young project but with the more expressive custom markup it has improved my blogging experience.
+But more improvements are upcoming, with [ongoing discussions][] on quite a few topics that would remove the need for many of my custom transformations, for example:
+
+- [Native blockquote attributions][]
+- [Auto block-level figures][]
+- [Captions for figures/tables][]
+- [Custom tags support][] (convert `div` into `aside`)
+
+While I don't currently use the added features compared to CommonMark, in the future I might start making use of the other types of lists (who doesn't love a good list?) and footnotes might be a good addition to the more long-form blog posts I've been gravitating towards.
 
 # Complaints about Djot
 
+I've seen some people dismiss Djot because of its handling of sublists:
+
+>  Exactly, the sublist newline stuff is a total nonstarter for me. Sorry, I guess I'll run a markdown parser that takes an extra second or whatever to run.
+> ^ [qbasic_forever](https://news.ycombinator.com/item?id=33871415)
+
+In Djot you have to surround a sublist with newlines. You can't write this:
+
+```djot
+- List
+  - This is fine in Markdown, but not in Djot
+```
+
+You have to do this:
+
 ```djot
 - List
 
-  List text needs surrounding spaces in Djot
+  - This is fine in both Djot an Markdown
 ```
 
-```djot
-- List
-  While this is fine in Markdown
-```
+It is indeeed more annoying at times, especially if you use the markup for smaller pieces of text, or use it to maintain a todo list with subtasks.
+But for more long-form content I don't think it's a big deal (which is what Djot targets more I guess).
+
+Another complaint I've seen is that Djot doesn't represent enough of an improvement compared to the different Markdown flavors to overtake them in popularity.
+This is a fair take---but I don't care if it ever dethrones Markdown/CommonMark/whatever.
+It's useful for me, and that's all that really matters.
+
+
+[Native blockquote attributions]: https://github.com/jgm/djot/issues/198
+[Auto block-level figures]: https://github.com/jgm/djot/issues/87
+[Captions for figures/tables]: https://github.com/jgm/djot/issues/31
+[Custom tags support]: https://github.com/jgm/djot/issues/240
+
+
+
 
 [CommonMark]: https://commonmark.org/
 [Pandoc]: https://pandoc.org/
@@ -283,3 +380,7 @@ I'm not going to go through them in detail, see the source code if you're intere
 [Jotdown]: https://github.com/hellux/jotdown
 [markup transformations]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#markdown-transformations
 [extending-pulldown_cmark]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#extending-pulldown_cmark
+[Hacker News]:https://news.ycombinator.com/item?id=33867636 
+[src]: https://github.com/treeman/jonashietala
+[djotblock]: https://github.com/jgm/djot/issues/198
+[ongoing discussions]: https://github.com/jgm/djot/issues

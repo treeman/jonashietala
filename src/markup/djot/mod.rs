@@ -18,12 +18,6 @@ use self::quote_transforms::QuoteTransforms;
 use self::transform_headers::TransformHeaders;
 use crate::markup::{self, ParseContext};
 
-// Syntax discussons in progress:
-// Blockquote attribution: https://github.com/jgm/djot/issues/198
-// Auto block-level figures: https://github.com/jgm/djot/issues/87
-// Metadata: https://github.com/jgm/djot/issues/35
-// Captions: https://github.com/jgm/djot/issues/31
-
 pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<markup::Html> {
     let transformed = Parser::new(djot);
     let transformed = TransformHeaders::new(transformed);

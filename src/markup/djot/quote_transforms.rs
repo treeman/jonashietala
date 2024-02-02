@@ -30,7 +30,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for QuoteTransforms<'a, I> {
         };
 
         lazy_static! {
-            static ref AUTHOR: Regex = Regex::new(r"^\^\s(.+)").unwrap();
+            static ref AUTHOR: Regex = Regex::new(r"^\^\s(.*)").unwrap();
         }
         let html = Container::RawBlock { format: "html" };
 
