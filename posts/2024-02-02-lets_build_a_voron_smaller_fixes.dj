@@ -23,8 +23,8 @@ Here are the major tweaks I've done since the last post:
 ## Bed mesh offset in one corner
 
 It got pointed out to me in the [VORON forum][] that I my right rear Y extrusion was a bit high.
-The Trident has automatic bed leveling, but because the bed is only attached in three positions it can't compensate for a difference in the rear.
-If you're unlucky this might mean some bed adhesion problems.
+The Trident has automatic bed leveling, but because the bed is only attached in three positions it can't compensate for a difference in the rear that only has a single mount in the middle.
+If you're unlucky this might cause issues with bed adhesion.
 
 Turns out I've had some problems with bed adhesion.
 Not a lot mind you, but enough to bother me on some trickier prints.
@@ -35,7 +35,7 @@ I've seen the offset on the corner go down to `-0.26`, which is more than the st
 In the `voron_1_trident_questions` channel on the VORONDesign Discord there was a pinned message on how to adjust this.
 I ended up adjusting the front right Y extrusion upwards quite a bit to compensate for this.
 
-![After adjusting the right Y extrusion upwards.](/images/trident/mesh_fixed.png)
+![After adjusting the front right Y extrusion upwards.](/images/trident/mesh_fixed.png)
 
 The mesh still isn't perfect (and it can sometimes look worse than the adjusted picture above), but it's now a lot better and importantly the rear corners are much more level.
 
@@ -98,8 +98,7 @@ Note to self: Don't use a tube with an inner diameter of 2mm between the extrude
 
 ## First layer woes
 
-For a long time I was really happy with how my first layers looked.
-I didn't that many bed adhesion issues and I could start a print and it would finish without issue most of the time.
+For a long time I was really happy with how my first layers looked and I could start a print and it would finish without issue most of the time.
 
 But sometimes I had these "blobs" that started collecting:
 
@@ -125,8 +124,9 @@ I tried a bunch of things; changing nozzle, recalibrating PA and EM, changing fi
 
 What finally fixed it was recalibrating the [z offset][] and tuning [first layer squish][] once more.
 I'm not sure why I had to do this again (doesn't Tap magically solve everything?), but now the first layer is pretty and the bed adhesion problems are almost completely gone.
+(Some prints have a tendency to warp a little, but I guess it's hard to get things perfect.)
 
-![Beautiful first layer!](/images/trident/clickfinity_good.jpg)
+![Much better first layer!](/images/trident/clickfinity_good.jpg)
 
 
 # Mods
@@ -175,17 +175,12 @@ Maybe another day.
 
 ![](/images/trident/bowden_tube_routing.jpg)
 
-I had some issues with the bowden tube getting stuck, so I tried the [bowden tube guide][] to keep it away:
+I had some issues with the bowden tube getting stuck behind or under the cable chain, so I tried the [bowden tube guide][] to keep it away.
+It was difficult to find a route that worked well. Depending on the mount position it had a tendency to cause a bend in the tube that drastically increased the friction on the filament, which I suspect was the cause for some prints failing.
 
-![The holder keeps the tube from getting stuck behind the cable chain.](/images/trident/bowden_holder.jpg)
-
-But unfortunately it caused a bend in the tube that drastically increased the friction on the filament, which I suspect was the cause for some prints failing.
-
-I instead use the [Trident noodle][] which is made to prevent the tube from colliding with the roof of the printer.
+I also use the [Trident noodle][] that's made to prevent the tube from colliding with the roof of the printer, and this combination works very well.
 
 ![](/images/trident/noodle.jpg)
-
-The tube still snags on the chain sometimes, but I guess the real solution is to convert to an umbilical setup, and get rid of the bothersome chains once and for all.
 
 [Trident noodle]: https://github.com/Diyshift/3D-Printer/tree/main/Trident%20Noodle
 [bowden tube guide]: https://mods.vorondesign.com/detail/8CxQeqS1lXhlGphwkyqh7g
