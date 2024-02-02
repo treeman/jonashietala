@@ -332,7 +332,7 @@ i. [Auto block-level figures][]
 i. [Captions for figures/tables][]
 i. [Custom tags support][] (convert `div` into `aside`)
 
-While I don't currently use the added features compared to CommonMark, in the future I might start making use of the other types of lists (who doesn't love a good list?) and footnotes might be a good addition to the more long-form blog posts I've been gravitating towards.
+While I don't currently use most of the added features compared to CommonMark, in the future I might start making use of the other types of lists (who doesn't love a good list?) and footnotes might be a good addition to the more long-form blog posts I've been gravitating towards.
 
 # Complaints about Djot
 
