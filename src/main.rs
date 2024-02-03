@@ -100,7 +100,7 @@ async fn main() -> Result<()> {
 
     tracing_subscriber::registry()
         .with(tracing_subscriber::EnvFilter::new(format!(
-            "jonashietala_se={log_level},tower_http={log_level}"
+            "jonashietala_se={log_level},tower_http={log_level},jonashietala_se::watch=DEBUG"
         )))
         .with(tracing_subscriber::fmt::layer())
         .init();
@@ -178,6 +178,7 @@ fn build() -> Result<()> {
         clear_output_dir: true,
         include_drafts: false,
         generate_feed: true,
+        include_js: false,
     })?;
 
     site.render_all()?;

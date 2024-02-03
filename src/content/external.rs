@@ -5,9 +5,9 @@ use crate::item::RenderContext;
 use crate::util;
 use eyre::{eyre, Result};
 
-pub struct Sass;
+pub struct SassItem;
 
-impl Item for Sass {
+impl Item for SassItem {
     fn render(&self, ctx: &RenderContext) -> Result<()> {
         let sass = grass::from_path("css/main.scss", &grass::Options::default())
             .map_err(|err| eyre!("Sass error: {}", err))?;
@@ -17,5 +17,17 @@ impl Item for Sass {
 
     fn id(&self) -> Cow<str> {
         "sass".into()
+    }
+}
+
+pub struct JsItem;
+
+impl Item for JsItem {
+    fn render(&self, ctx: &RenderContext) -> Result<()> {
+        util::copy_file("js/main.js".into(), &ctx.output_dir.join("js/main.js"))
+    }
+
+    fn id(&self) -> Cow<str> {
+        "js".into()
     }
 }

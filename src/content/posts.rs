@@ -416,7 +416,7 @@ mod tests {
             .unwrap();
 
         let rendered = post.render_to_string(&RenderContext {
-            parent_context: &Context::from_serialize(SiteContext::new(false)).unwrap(),
+            parent_context: &Context::from_serialize(SiteContext::new(false, false)).unwrap(),
             output_dir: ".test_output".into(), // Not used
             tera: tests::templates(),
             content: &test_site.site.content,

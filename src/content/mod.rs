@@ -10,7 +10,7 @@ mod standalone;
 mod tags;
 
 pub use archive::{post_archives, ArchiveItem};
-pub use external::Sass;
+pub use external::{JsItem, SassItem};
 pub use homepage::HomepageItem;
 pub use nav_highlight::add_nav_highlight;
 pub use posts::{load_posts, set_post_prev_next, PostDirMetadata, PostItem, PostRef};

@@ -51,3 +51,4 @@ sxd-document = "0.3.2"
 jotdown = "0.3.2"
 tokio-websockets = { version = "0.5.1", features = ["server", "openssl"] }
 futures-util = "0.3.30"
+flume = "0.11.0"

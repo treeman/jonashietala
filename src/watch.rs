@@ -1,28 +1,42 @@
 use axum::{routing::get_service, Router};
 use eyre::Result;
-use futures_util::StreamExt;
+use futures::select;
+use futures_util::{SinkExt, StreamExt, TryStreamExt};
 use hotwatch::Hotwatch;
 use std::{net::SocketAddr, thread, time::Duration};
-use tokio::net::TcpListener;
-use tokio_websockets::ServerBuilder;
+use tokio::net::{TcpListener, TcpStream};
+// use tokio::sync::mpsc::{self, Receiver, Sender};
+// use std::sync::mpsc::{self, Receiver, Sender};
+use flume::{Receiver, Sender};
+use tokio_websockets::{Message, ServerBuilder};
 use tower_http::{services::ServeDir, trace::TraceLayer};
-use tracing::{error, info};
+use tracing::{debug, error, info};
 
 use crate::paths::AbsPath;
 use crate::site::{Site, SiteOptions};
 
+#[derive(Debug)]
+pub enum InternalEvent {
+    RefreshAll,
+    RefreshUrl(),
+}
+
 pub async fn watch(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
-    let site = Site::load_content(SiteOptions {
+    let mut site = Site::load_content(SiteOptions {
         output_dir: output_dir.clone(),
         input_dir: current_dir.clone(),
         clear_output_dir: true,
         include_drafts: true,
         generate_feed: false,
+        include_js: true,
     })?;
 
     site.render_all()?;
 
-    start_ws().await;
+    let (tx, rx) = flume::unbounded::<InternalEvent>();
+    site.set_notifier(tx);
+
+    start_ws(rx).await?;
     start_hotwatch(site);
     start_watch_server(output_dir).await?;
 
@@ -48,27 +62,62 @@ fn start_hotwatch(mut site: Site) {
     });
 }
 
-async fn run_ws() -> Result<()> {
-    let addr = "127.0.0.1:8081";
-    let listener = TcpListener::bind(addr).await?;
-    info!("events socked on {addr}");
+async fn run_ws_server(conn: TcpStream, rx: Receiver<InternalEvent>) -> Result<()> {
+    let mut server = ServerBuilder::new().accept(conn).await?;
+
+    info!("Connected over ws");
 
     loop {
-        let (conn, _) = listener.accept().await?;
-        let mut server = ServerBuilder::new().accept(conn).await?;
+        // if let Ok(Some(msg)) = server.try_next().await {
+        //     if msg.is_close() {
+        //         info!("Closing ws connection");
+        //         break;
+        //     }
 
-        while let Some(Ok(msg)) = server.next().await {
-            info!("Received: {msg:?}");
-        }
+        //     debug!("Received from ws: {msg:?}");
+        // }
+
+        let x = rx.recv_async().await?;
+        debug!("Received from rx: {x:?}");
     }
+
+    // while let Some(Ok(msg)) = server.next().await {
+    //     if msg.is_close() {
+    //         info!("Closing ws connection");
+    //         break;
+    //     }
+
+    //     server
+    //         .send(Message::text("Pong from the watcher".to_string()))
+    //         .await?;
+    // }
+
+    // Ok(())
 }
 
-async fn start_ws() {
+async fn start_ws(rx: Receiver<InternalEvent>) -> Result<()> {
+    let addr = "127.0.0.1:8081";
+    let listener = TcpListener::bind(addr).await?;
+
     tokio::spawn(async move {
-        run_ws()
-            .await
-            .unwrap_or_else(|e| panic!("Websocket crashed {e:?}"));
+        info!("events socked on {addr}");
+
+        loop {
+            match listener.accept().await {
+                Ok((conn, _)) => {
+                    let rx = rx.clone();
+                    tokio::spawn(async move {
+                        if let Err(e) = run_ws_server(conn, rx).await {
+                            error!("Websocket error: {e:?}");
+                        }
+                    });
+                }
+                Err(e) => error!("Listener error: {e:?}"),
+            }
+        }
     });
+
+    Ok(())
 }
 
 async fn start_watch_server(output_dir: &AbsPath) -> Result<()> {

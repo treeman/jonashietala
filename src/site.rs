@@ -1,5 +1,6 @@
 use eyre::eyre;
 use eyre::Result;
+use flume::Sender;
 use hotwatch::notify::event::ModifyKind;
 use hotwatch::notify::event::RenameMode;
 use hotwatch::Event;
@@ -29,10 +30,11 @@ use crate::item::Item;
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
 use crate::paths::RelPath;
+use crate::watch::InternalEvent;
 use crate::{
     content::{
         load_posts, load_standalones, post_archives, tags_archives, ArchiveItem, HomepageItem,
-        PostItem, ProjectsItem, Sass, StandaloneItem, Tag, TagListItem,
+        JsItem, PostItem, ProjectsItem, SassItem, StandaloneItem, Tag, TagListItem,
     },
     item::RenderContext,
     site_url::SiteUrl,
@@ -50,6 +52,7 @@ pub struct SiteOptions {
     pub clear_output_dir: bool,
     pub include_drafts: bool,
     pub generate_feed: bool,
+    pub include_js: bool,
 }
 
 pub struct SiteContent {
@@ -177,6 +180,9 @@ pub struct Site {
     pub opts: SiteOptions,
     // Cached rendering context
     context: Context,
+
+    // Notifier to send rebuild events to, if applicable
+    notifier: Option<Sender<InternalEvent>>,
 }
 
 #[derive(Default)]
@@ -313,6 +319,7 @@ impl<'a> SiteRenderExtra<'a> {
 enum PathEvent {
     SourceFile,
     Css,
+    Js,
     Post,
     Static,
     Draft,
@@ -333,6 +340,8 @@ impl PathEvent {
             Self::SourceFile
         } else if path.rel_path.starts_with("css/") {
             Self::Css
+        } else if path.rel_path.starts_with("js/") {
+            Self::Js
         } else if path.rel_path.starts_with("posts/") {
             Self::Post
         } else if path.rel_path.starts_with("static/") {
@@ -366,7 +375,9 @@ impl Site {
     pub fn with_content(content: SiteContent, opts: SiteOptions) -> Result<Self> {
         let lookup = SiteLookup::from_content(&content);
         let templates = load_templates("templates/*.html")?;
-        let context = Context::from_serialize(SiteContext::new(opts.include_drafts)).unwrap();
+        let context =
+            Context::from_serialize(SiteContext::new(opts.include_drafts, opts.include_js))
+                .unwrap();
 
         Ok(Self {
             opts,
@@ -374,6 +385,7 @@ impl Site {
             content,
             lookup,
             context,
+            notifier: None,
         })
     }
 
@@ -458,18 +470,22 @@ impl Site {
             items.push(draft_archive);
         }
 
-        let sass = Sass;
+        let sass = SassItem;
         if opts.sass {
             info!("Rebuilding css");
             items.push(&sass);
         }
 
+        let js = JsItem;
+        if self.opts.include_js {
+            info!("Rebuilding js");
+            items.push(&js);
+        }
+
         let feed = SiteFeed;
-        if self.opts.generate_feed {
-            if opts.feed {
-                info!("Rebuilding feed");
-                items.push(&feed);
-            }
+        if self.opts.generate_feed && opts.feed {
+            info!("Rebuilding feed");
+            items.push(&feed);
         }
         render_items(&items, &ctx)?;
 
@@ -484,6 +500,9 @@ impl Site {
                 &self.opts.output_dir,
             )?;
         }
+
+        // FIXME doesn't register if images are changed?
+        self.notify_change(&items)?;
 
         Ok(())
     }
@@ -542,6 +561,7 @@ impl Site {
         match PathEvent::from_path(&path) {
             PathEvent::SourceFile => error!("Source file changed `{path}`, please rebuild"),
             PathEvent::Css => self.rebuild_css()?,
+            PathEvent::Js => self.rebuild_js()?,
             PathEvent::Post => self.rebuild_post(path.abs_path())?,
             PathEvent::Static => self.rebuild_standalone(path.abs_path())?,
             PathEvent::Draft => self.rebuild_draft(path.abs_path())?,
@@ -563,6 +583,7 @@ impl Site {
         match PathEvent::from_path(&path) {
             PathEvent::SourceFile => error!("Source file changed `{path}`, please rebuild"),
             PathEvent::Css => self.rebuild_css()?,
+            PathEvent::Js => self.rebuild_js()?,
             PathEvent::Static => self.rebuild_standalone(path.abs_path())?,
             PathEvent::Draft => self.rebuild_draft(path.abs_path())?,
             PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
@@ -634,7 +655,17 @@ impl Site {
 
     fn rebuild_css(&self) -> Result<()> {
         info!("Rebuilding css");
-        self.render_item(&Sass {})
+        self.render_item(&SassItem {})
+    }
+
+    fn rebuild_js(&self) -> Result<()> {
+        if self.opts.include_js {
+            info!("Rebuilding js");
+            self.render_item(&JsItem {})
+        } else {
+            debug!("Skip js");
+            Ok(())
+        }
     }
 
     fn rebuild_post(&mut self, path: AbsPath) -> Result<()> {
@@ -846,6 +877,17 @@ impl Site {
     fn file_path(&self, path: PathBuf) -> Result<FilePath> {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
+
+    pub fn set_notifier(&mut self, notifier: Sender<InternalEvent>) {
+        self.notifier = Some(notifier);
+    }
+
+    fn notify_change(&self, items: &[&dyn Item]) -> Result<()> {
+        if let Some(ref notifier) = self.notifier {
+            notifier.send(InternalEvent::RefreshAll)?;
+        }
+        Ok(())
+    }
 }
 
 fn render_items(items: &[&dyn Item], ctx: &RenderContext) -> Result<()> {
@@ -878,14 +920,16 @@ pub struct SiteContext {
     mail: &'static str,
     meta_keywords: Vec<String>,
     include_drafts: bool,
+    include_js: bool,
 }
 
 impl SiteContext {
-    pub fn new(include_drafts: bool) -> Self {
+    pub fn new(include_drafts: bool, include_js: bool) -> Self {
         Self {
             mail: "mail@jonashietala.se",
             meta_keywords: vec![],
             include_drafts,
+            include_js,
         }
     }
 }
@@ -923,6 +967,8 @@ mod tests {
             input_dir: AbsPath::current_dir().unwrap(),
             clear_output_dir: false,
             include_drafts: true,
+            generate_feed: true,
+            include_js: false,
         })?;
         site.render_all()?;
 
