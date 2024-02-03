@@ -1,10 +1,11 @@
 use axum::{routing::get_service, Router};
 use eyre::Result;
-use flume::Receiver;
+use flume::{Receiver, Sender};
 use futures_util::{SinkExt, StreamExt};
 use hotwatch::Hotwatch;
 use serde::Serialize;
 use std::{net::SocketAddr, thread, time::Duration};
+use tokio::io::AsyncReadExt;
 use tokio::net::{TcpListener, TcpStream};
 // use tokio_websockets::{Message, ServerBuilder};
 use tokio_tungstenite::{accept_async, tungstenite::Message};
@@ -34,9 +35,9 @@ pub async fn watch(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
     site.render_all()?;
 
     let (tx, rx) = flume::unbounded::<InternalEvent>();
-    site.set_notifier(tx);
-
+    site.set_notifier(tx.clone());
     start_ws(rx).await?;
+    start_tcp_listener(tx).await?;
     start_hotwatch(site);
     start_watch_server(output_dir).await?;
 
@@ -117,6 +118,32 @@ async fn start_ws(rx: Receiver<InternalEvent>) -> Result<()> {
                     tokio::spawn(async move {
                         if let Err(e) = run_ws_server(stream, rx).await {
                             error!("Websocket error: {e:?}");
+                        }
+                    });
+                }
+                Err(e) => error!("Listener error: {e:?}"),
+            }
+        }
+    });
+
+    Ok(())
+}
+
+async fn start_tcp_listener(tx: Sender<InternalEvent>) -> Result<()> {
+    let addr = "127.0.0.1:8082";
+    let listener = TcpListener::bind(addr).await?;
+
+    tokio::spawn(async move {
+        info!("tcp socket on: {addr}");
+        loop {
+            match listener.accept().await {
+                Ok((mut stream, _)) => {
+                    tokio::spawn(async move {
+                        loop {
+                            // FIXME or use BufReader::new(stream) and .read_line() ?
+                            let mut s = String::new();
+                            stream.read_to_string(&mut s).await.expect("TODO");
+                            dbg!(s);
                         }
                     });
                 }
