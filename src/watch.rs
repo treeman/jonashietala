@@ -80,7 +80,7 @@ async fn start_ws(rx: Receiver<InternalEvent>) -> Result<()> {
     let listener = TcpListener::bind(addr).await?;
 
     tokio::spawn(async move {
-        info!("events socked on {addr}");
+        info!("events socket on {addr}");
 
         loop {
             match listener.accept().await {
