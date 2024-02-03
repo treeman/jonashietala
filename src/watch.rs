@@ -1,13 +1,12 @@
 use axum::{routing::get_service, Router};
 use eyre::Result;
+use flume::{Receiver, Sender};
 use futures::select;
 use futures_util::{SinkExt, StreamExt, TryStreamExt};
 use hotwatch::Hotwatch;
+use serde::Serialize;
 use std::{net::SocketAddr, thread, time::Duration};
 use tokio::net::{TcpListener, TcpStream};
-// use tokio::sync::mpsc::{self, Receiver, Sender};
-// use std::sync::mpsc::{self, Receiver, Sender};
-use flume::{Receiver, Sender};
 use tokio_websockets::{Message, ServerBuilder};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::{debug, error, info};
@@ -15,7 +14,7 @@ use tracing::{debug, error, info};
 use crate::paths::AbsPath;
 use crate::site::{Site, SiteOptions};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub enum InternalEvent {
     RefreshAll,
     RefreshUrl(),
@@ -77,8 +76,8 @@ async fn run_ws_server(conn: TcpStream, rx: Receiver<InternalEvent>) -> Result<(
         //     debug!("Received from ws: {msg:?}");
         // }
 
-        let x = rx.recv_async().await?;
-        debug!("Received from rx: {x:?}");
+        let event = rx.recv_async().await?;
+        server.send(Message::text(serde_json::to_string(&event)?));
     }
 
     // while let Some(Ok(msg)) = server.next().await {
