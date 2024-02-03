@@ -198,6 +198,7 @@ struct SiteRenderOpts<'a> {
     projects: bool,
     series: bool,
     sass: bool,
+    js: bool,
     copy_files: bool,
     feed: bool,
 
@@ -218,6 +219,7 @@ impl SiteRenderOpts<'_> {
             projects: true,
             series: true,
             sass: true,
+            js: true,
             copy_files: true,
             feed: true,
             extra_render: vec![],
@@ -477,7 +479,7 @@ impl Site {
         }
 
         let js = JsItem;
-        if self.opts.include_js {
+        if self.opts.include_js && opts.js {
             info!("Rebuilding js");
             items.push(&js);
         }
@@ -500,6 +502,8 @@ impl Site {
                 &self.opts.output_dir,
             )?;
         }
+
+        debug!("Render completed");
 
         // FIXME doesn't register if images are changed?
         self.notify_change(&items)?;
@@ -882,9 +886,12 @@ impl Site {
         self.notifier = Some(notifier);
     }
 
-    fn notify_change(&self, items: &[&dyn Item]) -> Result<()> {
+    fn notify_change(&self, _items: &[&dyn Item]) -> Result<()> {
         if let Some(ref notifier) = self.notifier {
             notifier.send(InternalEvent::RefreshAll)?;
+            // notifier.send(InternalEvent::RefreshPage {
+            //     path: "/blog/2024/02/02/blogging_in_djot_instead_of_markdown/".to_owned(),
+            // })?;
         }
         Ok(())
     }

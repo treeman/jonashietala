@@ -1,8 +1,7 @@
 use axum::{routing::get_service, Router};
 use eyre::Result;
-use flume::{Receiver, Sender};
-use futures::select;
-use futures_util::{SinkExt, StreamExt, TryStreamExt};
+use flume::Receiver;
+use futures_util::SinkExt;
 use hotwatch::Hotwatch;
 use serde::Serialize;
 use std::{net::SocketAddr, thread, time::Duration};
@@ -15,9 +14,10 @@ use crate::paths::AbsPath;
 use crate::site::{Site, SiteOptions};
 
 #[derive(Debug, Serialize)]
+#[serde(tag = "type")]
 pub enum InternalEvent {
     RefreshAll,
-    RefreshUrl(),
+    RefreshPage { path: String },
 }
 
 pub async fn watch(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
@@ -67,31 +67,12 @@ async fn run_ws_server(conn: TcpStream, rx: Receiver<InternalEvent>) -> Result<(
     info!("Connected over ws");
 
     loop {
-        // if let Ok(Some(msg)) = server.try_next().await {
-        //     if msg.is_close() {
-        //         info!("Closing ws connection");
-        //         break;
-        //     }
-
-        //     debug!("Received from ws: {msg:?}");
-        // }
-
         let event = rx.recv_async().await?;
-        server.send(Message::text(serde_json::to_string(&event)?));
+        debug!("Got internal event: {event:?}");
+        server
+            .send(Message::text(serde_json::to_string(&event)?))
+            .await?;
     }
-
-    // while let Some(Ok(msg)) = server.next().await {
-    //     if msg.is_close() {
-    //         info!("Closing ws connection");
-    //         break;
-    //     }
-
-    //     server
-    //         .send(Message::text("Pong from the watcher".to_string()))
-    //         .await?;
-    // }
-
-    // Ok(())
 }
 
 async fn start_ws(rx: Receiver<InternalEvent>) -> Result<()> {
