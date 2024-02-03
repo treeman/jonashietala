@@ -1,12 +1,13 @@
 use axum::{routing::get_service, Router};
 use eyre::Result;
 use flume::Receiver;
-use futures_util::SinkExt;
+use futures_util::{SinkExt, StreamExt};
 use hotwatch::Hotwatch;
 use serde::Serialize;
 use std::{net::SocketAddr, thread, time::Duration};
 use tokio::net::{TcpListener, TcpStream};
-use tokio_websockets::{Message, ServerBuilder};
+// use tokio_websockets::{Message, ServerBuilder};
+use tokio_tungstenite::{accept_async, tungstenite::Message};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::{debug, error, info};
 
@@ -61,18 +62,45 @@ fn start_hotwatch(mut site: Site) {
     });
 }
 
-async fn run_ws_server(conn: TcpStream, rx: Receiver<InternalEvent>) -> Result<()> {
-    let mut server = ServerBuilder::new().accept(conn).await?;
-
-    info!("Connected over ws");
+async fn run_ws_server(stream: TcpStream, rx: Receiver<InternalEvent>) -> Result<()> {
+    let peer = stream.peer_addr()?;
+    let ws_stream = accept_async(stream).await?;
+    info!("ws connection from: {peer}");
+    let (mut ws_sender, mut ws_receiver) = ws_stream.split();
 
     loop {
-        let event = rx.recv_async().await?;
-        debug!("Got internal event: {event:?}");
-        server
-            .send(Message::text(serde_json::to_string(&event)?))
-            .await?;
+        tokio::select! {
+            msg = ws_receiver.next() => {
+                match msg {
+                    Some(Ok(msg)) => {
+                        if msg.is_close() {
+                            debug!("ws connection closed");
+                            break;
+                        }
+                    },
+                    Some(Err(err)) => {
+                        error!("ws error: {err:?}, closing ws");
+                        break;
+                    },
+                    None => {
+                        error!("Got None msg, closing ws");
+                        break;
+                    }
+                }
+            }
+            msg = rx.recv_async() => {
+                match msg {
+                    Ok(msg) => {
+                        debug!("Got internal event: {msg:?}");
+                        ws_sender.send(Message::text(serde_json::to_string(&msg)?)).await?;
+                    },
+                    err => error!("Error receiving internal event: {err:?}"),
+                }
+            }
+        }
     }
+
+    Ok(())
 }
 
 async fn start_ws(rx: Receiver<InternalEvent>) -> Result<()> {
@@ -80,14 +108,14 @@ async fn start_ws(rx: Receiver<InternalEvent>) -> Result<()> {
     let listener = TcpListener::bind(addr).await?;
 
     tokio::spawn(async move {
-        info!("events socket on {addr}");
+        info!("events socket on: {addr}");
 
         loop {
             match listener.accept().await {
-                Ok((conn, _)) => {
+                Ok((stream, _)) => {
                     let rx = rx.clone();
                     tokio::spawn(async move {
-                        if let Err(e) = run_ws_server(conn, rx).await {
+                        if let Err(e) = run_ws_server(stream, rx).await {
                             error!("Websocket error: {e:?}");
                         }
                     });
