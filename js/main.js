@@ -26,6 +26,17 @@ function connect() {
           );
         }
         break;
+      case "PositionPage":
+        const cursor = msg.linenum / msg.linecount;
+        // console.log("cursor:", cursor);
+        // console.log("scrollMaxY:", window.scrollMaxY);
+        // console.log("screen height:", window.screen.height);
+        const target = window.scrollMaxY * cursor - window.screen.height / 6;
+        // console.log("Scrolling...", target);
+        window.scrollTo(0, target);
+        break;
+      default:
+        console.log("Unknown message: ", msg);
     }
 
     return false;

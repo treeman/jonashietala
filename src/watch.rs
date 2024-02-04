@@ -3,11 +3,11 @@ use eyre::Result;
 use flume::{Receiver, Sender};
 use futures_util::{SinkExt, StreamExt};
 use hotwatch::Hotwatch;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::{net::SocketAddr, thread, time::Duration};
-use tokio::io::AsyncReadExt;
+// use tokio::io::AsyncReadExt;
+use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::net::{TcpListener, TcpStream};
-// use tokio_websockets::{Message, ServerBuilder};
 use tokio_tungstenite::{accept_async, tungstenite::Message};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::{debug, error, info};
@@ -17,9 +17,44 @@ use crate::site::{Site, SiteOptions};
 
 #[derive(Debug, Serialize)]
 #[serde(tag = "type")]
-pub enum InternalEvent {
+pub enum JsEvent {
     RefreshAll,
-    RefreshPage { path: String },
+    RefreshPage {
+        path: String,
+    },
+    PositionPage {
+        path: String,
+        linenum: u32,
+        linecount: u32,
+    },
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(tag = "id")]
+enum NeovimEvent {
+    CursorMoved {
+        linenum: u32,
+        linecount: u32,
+        column: u32,
+        path: String,
+    },
+}
+
+impl Into<JsEvent> for NeovimEvent {
+    fn into(self) -> JsEvent {
+        match self {
+            Self::CursorMoved {
+                linenum,
+                linecount,
+                path,
+                ..
+            } => JsEvent::PositionPage {
+                linenum,
+                linecount,
+                path,
+            },
+        }
+    }
 }
 
 pub async fn watch(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
@@ -34,10 +69,10 @@ pub async fn watch(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
 
     site.render_all()?;
 
-    let (tx, rx) = flume::unbounded::<InternalEvent>();
+    let (tx, rx) = flume::unbounded::<JsEvent>();
     site.set_notifier(tx.clone());
     start_ws(rx).await?;
-    start_tcp_listener(tx).await?;
+    start_neovim_listener(tx).await?;
     start_hotwatch(site);
     start_watch_server(output_dir).await?;
 
@@ -63,7 +98,7 @@ fn start_hotwatch(mut site: Site) {
     });
 }
 
-async fn run_ws_server(stream: TcpStream, rx: Receiver<InternalEvent>) -> Result<()> {
+async fn run_ws_server(stream: TcpStream, rx: Receiver<JsEvent>) -> Result<()> {
     let peer = stream.peer_addr()?;
     let ws_stream = accept_async(stream).await?;
     info!("ws connection from: {peer}");
@@ -104,7 +139,7 @@ async fn run_ws_server(stream: TcpStream, rx: Receiver<InternalEvent>) -> Result
     Ok(())
 }
 
-async fn start_ws(rx: Receiver<InternalEvent>) -> Result<()> {
+async fn start_ws(rx: Receiver<JsEvent>) -> Result<()> {
     let addr = "127.0.0.1:8081";
     let listener = TcpListener::bind(addr).await?;
 
@@ -129,7 +164,26 @@ async fn start_ws(rx: Receiver<InternalEvent>) -> Result<()> {
     Ok(())
 }
 
-async fn start_tcp_listener(tx: Sender<InternalEvent>) -> Result<()> {
+async fn run_neovim_listener(stream: TcpStream, tx: Sender<JsEvent>) -> Result<()> {
+    let peer = stream.peer_addr()?;
+    info!("tcp connection from: {peer}");
+    let mut reader = BufReader::new(stream);
+    loop {
+        let mut s = String::new();
+        reader.read_line(&mut s).await?;
+        if s.is_empty() {
+            debug!("Tcp connection closed");
+            return Ok(());
+        } else {
+            // Maybe don't error out hard...?
+            let event = serde_json::from_str::<NeovimEvent>(&s)?;
+            dbg!(&event);
+            tx.send(event.into())?;
+        }
+    }
+}
+
+async fn start_neovim_listener(tx: Sender<JsEvent>) -> Result<()> {
     let addr = "127.0.0.1:8082";
     let listener = TcpListener::bind(addr).await?;
 
@@ -137,13 +191,11 @@ async fn start_tcp_listener(tx: Sender<InternalEvent>) -> Result<()> {
         info!("tcp socket on: {addr}");
         loop {
             match listener.accept().await {
-                Ok((mut stream, _)) => {
+                Ok((stream, _)) => {
+                    let tx = tx.clone();
                     tokio::spawn(async move {
-                        loop {
-                            // FIXME or use BufReader::new(stream) and .read_line() ?
-                            let mut s = String::new();
-                            stream.read_to_string(&mut s).await.expect("TODO");
-                            dbg!(s);
+                        if let Err(e) = run_neovim_listener(stream, tx).await {
+                            error!("Neovim listener error: {e:?}");
                         }
                     });
                 }
