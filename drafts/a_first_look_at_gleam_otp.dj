@@ -1,0 +1,30 @@
+---
+title: "A first look at Gleam OTP"
+tags: [Gleam, Erlang, Elixir]
+---
+
+1. Task
+2. Actor (Elixir's GenServer)
+3. Supervisor
+
+Missing:
+
+1. Agent
+2. Registry
+
+   Maybe we can use `register(pid, name)`gleam and `named(name: Atom)`gleam defined in `gleam/erlang/process`.
+
+3. DynamicSupervisor
+
+# Tasks
+
+# Actors
+
+i. Handle state
+i. Async and sync messages
+
+# Supervisors
+
+## PubSub
+
+Setup Phoenix.PubSub under a supervisor
