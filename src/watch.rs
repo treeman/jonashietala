@@ -1,9 +1,11 @@
 use axum::{routing::get_service, Router};
+use camino::Utf8PathBuf;
 use eyre::Result;
 use flume::{Receiver, Sender};
 use futures_util::{SinkExt, StreamExt};
 use hotwatch::Hotwatch;
 use serde::{Deserialize, Serialize};
+use std::sync::{Arc, Mutex};
 use std::{net::SocketAddr, thread, time::Duration};
 // use tokio::io::AsyncReadExt;
 use tokio::io::{AsyncBufReadExt, BufReader};
@@ -40,19 +42,30 @@ enum NeovimEvent {
     },
 }
 
-impl Into<JsEvent> for NeovimEvent {
-    fn into(self) -> JsEvent {
+impl NeovimEvent {
+    fn to_js_event(self, site: Arc<Mutex<Site>>) -> Result<JsEvent> {
         match self {
+            // TODO Use https://github.com/lotabout/fuzzy-matcher
+            // to calculate a better match with markup context
             Self::CursorMoved {
                 linenum,
                 linecount,
                 path,
                 ..
-            } => JsEvent::PositionPage {
-                linenum,
-                linecount,
-                path,
-            },
+            } => {
+                let site = site.lock().expect("To JsEvent failed");
+                let path = Utf8PathBuf::from(path);
+                // This works:
+                // dbg!(&site.content.find_post(&path.file_name().unwrap()));
+                // dbg!(&site
+                //     .content
+                //     .find_post(&site.file_path(path.clone().into())?.rel_path.0.as_str()));
+                Ok(JsEvent::PositionPage {
+                    linenum,
+                    linecount,
+                    path: path.to_string(),
+                })
+            }
         }
     }
 }
@@ -71,21 +84,25 @@ pub async fn watch(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
 
     let (tx, rx) = flume::unbounded::<JsEvent>();
     site.set_notifier(tx.clone());
+
+    let site = Arc::new(Mutex::new(site));
+
     start_ws(rx).await?;
-    start_neovim_listener(tx).await?;
+    start_neovim_listener(site.clone(), tx).await?;
     start_hotwatch(site);
     start_watch_server(output_dir).await?;
 
     Ok(())
 }
 
-fn start_hotwatch(mut site: Site) {
+fn start_hotwatch(site: Arc<Mutex<Site>>) {
     tokio::task::spawn_blocking(move || {
         let mut hotwatch = Hotwatch::new_with_custom_delay(Duration::from_millis(100))
             .expect("hotwatch failed to initialize!");
 
         hotwatch
             .watch(".", move |event| {
+                let mut site = site.lock().expect("Hotwatch failed");
                 if let Err(err) = site.file_changed(event) {
                     error!("{err}");
                 }
@@ -164,7 +181,11 @@ async fn start_ws(rx: Receiver<JsEvent>) -> Result<()> {
     Ok(())
 }
 
-async fn run_neovim_listener(stream: TcpStream, tx: Sender<JsEvent>) -> Result<()> {
+async fn run_neovim_listener(
+    site: Arc<Mutex<Site>>,
+    stream: TcpStream,
+    tx: Sender<JsEvent>,
+) -> Result<()> {
     let peer = stream.peer_addr()?;
     info!("tcp connection from: {peer}");
     let mut reader = BufReader::new(stream);
@@ -177,13 +198,12 @@ async fn run_neovim_listener(stream: TcpStream, tx: Sender<JsEvent>) -> Result<(
         } else {
             // Maybe don't error out hard...?
             let event = serde_json::from_str::<NeovimEvent>(&s)?;
-            dbg!(&event);
-            tx.send(event.into())?;
+            tx.send(event.to_js_event(site.clone())?)?;
         }
     }
 }
 
-async fn start_neovim_listener(tx: Sender<JsEvent>) -> Result<()> {
+async fn start_neovim_listener(site: Arc<Mutex<Site>>, tx: Sender<JsEvent>) -> Result<()> {
     let addr = "127.0.0.1:8082";
     let listener = TcpListener::bind(addr).await?;
 
@@ -193,8 +213,9 @@ async fn start_neovim_listener(tx: Sender<JsEvent>) -> Result<()> {
             match listener.accept().await {
                 Ok((stream, _)) => {
                     let tx = tx.clone();
+                    let site = site.clone();
                     tokio::spawn(async move {
-                        if let Err(e) = run_neovim_listener(stream, tx).await {
+                        if let Err(e) = run_neovim_listener(site, stream, tx).await {
                             error!("Neovim listener error: {e:?}");
                         }
                     });

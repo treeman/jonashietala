@@ -27,13 +27,17 @@ function connect() {
         }
         break;
       case "PositionPage":
+        // TODO this doesn't work when we have images.
+        // I guess we need to do some searching to find the best match...
+
+        // https://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript#22292000
+
         const cursor = msg.linenum / msg.linecount;
-        // console.log("cursor:", cursor);
-        // console.log("scrollMaxY:", window.scrollMaxY);
-        // console.log("screen height:", window.screen.height);
         const target = window.scrollMaxY * cursor - window.screen.height / 6;
-        // console.log("Scrolling...", target);
         window.scrollTo(0, target);
+
+        // window.scrollTo(0, 0);
+        // window.scrollByLines(msg.linenum);
         break;
       default:
         console.log("Unknown message: ", msg);

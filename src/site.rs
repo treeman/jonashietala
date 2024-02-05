@@ -878,7 +878,7 @@ impl Site {
         self.render_all()
     }
 
-    fn file_path(&self, path: PathBuf) -> Result<FilePath> {
+    pub fn file_path(&self, path: PathBuf) -> Result<FilePath> {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
 
