@@ -60,26 +60,55 @@ Luckily, [Hextraction][] advertises itself as a hackable game, and Thangs user [
 ![The modular board.
 I failed a little with my color selection as the two darker gray colors are way too similar.](/images/hextraction/modular_board.jpg)
 
-I started with the modular board because I thought it would be nice to be able to modify it later, but mostly it was because it had just been released and my monkey brain thought "newer = better".
+I started with the [modular board][] because I thought it would be nice to be able to modify it later, but mostly it was because it had just been released and my monkey brain thought "newer = better".
+
+I think the design is very cool.
+You can rearrange the board into cool and weird shapes, and add "blockers" right in the middle where no tiles can go.
+But we only use it as a regular board, because rearranging it is a bit of a chore, and overkill for my kids.
 
 Pros:
 
-1. Easily repairable if something breaks.
-2. Can be made in a cool varying colorscheme.
-3. Proper gutters that captures the ball.
-4. Can easily be made smaller, larger, or in a strange layout.
+- The mind boggles with the possibilities.
+- Easily repairable if something breaks.
+- Can be made in a cool varying colorscheme.
 
 Cons:
 
-1. Assembling it took some time.
-2. It was easy to break the goals (they act like levers). I broke three of them.
-3. It's not so easy to remove the balls from the gutters.
+- It was easy to break the goals (they act like levers). I broke three of them.
+- It's not so easy to remove the balls from the gutters.
 
 ## Super fancy remix
 
-![](/images/hextraction/fancy_board.jpg)
+![The super fancy board remix.
+I again failed with my color selection, as this is two (very similar) shades of brown.](/images/hextraction/fancy_board.jpg)
+
+Because I'm not a reasonable person, I also printed the [super fancy remix][].
+
+While you can make the board larger, everything is glued together so once the choice is made you'll have to live with it.
+I made it the same size as the other board, because... I don't know really.
+
+While the board is less exciting than the modular one, I greatly appreciate the integrated gutters that funnel the balls to the center of the board.
+There are some extra things, like dice and ball holders, but it's not something we use.
+
+Pros:
+
+- Feels more robust.
+- Good gutters that funnels all the balls into one place.
+
+Cons:
+
+- Doesn't have the same coolness factor or flexibility as the modular board.
 
 ## Which board should you print?
+
+If I had printed this for myself, I would've gone for the [modular board][] and played around with other layouts.
+But for my kids and our use-case, I think the [super fancy remix][] is better because it's a bit more robust and the fully integrated gutters are superior.
+
+You can of course print them both...
+But that require quite some time and material, so just pick one.
+The gutters are a must in my opinion, so I'd rather choose one of these boards over the [original board][].
+
+[original board]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Game%20Boards-856439
 
 # Tiles
 
@@ -220,6 +249,9 @@ We don't use any of the special effects tiles, but you can (and should) try them
 You can even make your own tiles, with your own silly rules.
 The [bomb tile][] for example removes _all_ adjacent tiles when it's removed, and the [angel down tile][] allows you to remove a trapped ball on any tile below.
 
+It's a build your own adventure type of a game, and you can even design your own tiles (or boards, if you're a madman).
+If you're like me and haven't yet learned the dark CAD magic, there are [lots of designs][] out there for you to include into your game.
+
 [bomb tile]: https://thangs.com/designer/ZackFreedman/3d-model/Hextraction%20Cartoon%20Bomb%20Tile-856458
 [angel down tile]: https://thangs.com/designer/theethetree/3d-model/Hextraction%20-%20Angel%20Down%20Tile-902916
 
@@ -227,10 +259,7 @@ The [bomb tile][] for example removes _all_ adjacent tiles when it's removed, an
 
 If you have a 3D printer lying around (or have a friend with one), I heavily recommend you to check out [Hextraction][].
 It's a very cool and silly game, which works very well even for young kids with minor tweaks.
-(To be honest, our 3-year old doesn't *play* the game, he just uses it as a marble run. But that's fine too.)
-
-It's a build your own adventure type of a game, and you can even design your own tiles (or boards, if you're a madman).
-If you're like me and haven't yet learned the dark CAD magic, there are [lots of designs][] out there for you to include into your game.
+(To be honest, our 3-year old often uses it as a marble run. But that's fine too.)
 
 And if you don't have a 3D printer yet, go {-buy-} [build one][voron]!
 

@@ -11,13 +11,11 @@ TODO video of print in progress here
 
 # The build
 
-## What about LDO?
-
 # Printing
 
 ## No major issues
 
-- Apart from initial temperature calibration, zero issues with first layers
+- Apart from initial temperature calibration, only some issues with first layers
 
 ## So many things to learn
 
@@ -26,6 +24,28 @@ TODO video of print in progress here
 - Nozzle sizes, filament selection, supports, brims...
 - Stuck filament, wet filament, filament tuning...
 
+# Future plans
+
+One might think that the printer is complete and that I won't touch it anymore, but no.
+Oh no, I've a bunch of large mods I want to do with the printer:
+
+i. Replace the camera I have with a better one.
+i. Remove drag chains and go umbilical.
+i. Complete the [purge bucket mod][].
+i. Replace Stealthburner with the [Xol toolhead][] for better PLA cooling.
+i. Multimaterial with the [Enraged Rabbit Carrot Feeder][].
+
+But before that I've identified a fatal flaw:
+I only have a single printer.
+
+What should I do if I find that I'm missing a printed part when I've disassembled the printer to mod it?
+What if I break something?
+And if I'm doing a long mod the printer will be down and I can't print things for any other project.
+
+This clearly isn't a sustainable solution---I need a second printer.
+
+And isn't that the best compliment one can give?
+That you haven't even finished it yet, but you're already pining for _another one_?
 
 ---
 
@@ -46,10 +66,5 @@ The printer has X hours already.
 1. Not the best for PLA
 1. Had to mod in HEPA filter, and still not sure I want to work next to it
 
-# What's left?
-
-1. A backup printer
-2. Multimaterial support
-3. Other toolheads
-
-[ERCF_2]: https://github.com/Enraged-Rabbit-Community/ERCF_v2a
+[Enraged Rabbit Carrot Feeder]: https://github.com/Enraged-Rabbit-Community/ERCF_v2
+[Xol toolhead]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/tree/main

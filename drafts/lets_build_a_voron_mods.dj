@@ -141,6 +141,9 @@ I tested it by holding the filament during the print, trying to simulate a knot 
 This worked, but damn was it HARD.
 The extruder really does have force behind it.
 
+Since installing the sensor it has already saved multiple prints.
+For sure a huge quality-of-life improvement, and it almost feels like a must-have.
+
 [pause_resume]: https://ellis3dp.com/Print-Tuning-Guide/articles/useful_macros/pause_resume_filament.html
 [Smart Filament Sensor V2.0]: https://www.3djake.com/bigtreetech/smart-filament-sensor-v20
 [btt_mounts]: https://www.printables.com/model/683859-bigtreetech-smart-filament-sensor-v20-mounting-bra
@@ -167,7 +170,7 @@ To fit it at the back I removed the now unused z-endstop (I use Tap instead).
 I've been slowly easing into [Gridfinity][]---a free and open organization system.
 So naturally I wanted to add some some holders to the printer.
 
-I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] holders, and they work great.
+I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] holders.
 
 # Meshed panels
 
@@ -206,17 +209,33 @@ It touched the printed part, and I was worried my prints came out all wrong.
 The manual says that you can push down the carrier shaft, but I had to disassemble it and realign it before attaching the motor.
 After the reassembly it luckily aligned properly.
 
-![](/images/trident/galileo_mounted.jpg)
-![](/images/trident/galileo_undo_wiring.jpg)
+There were no issues mounting the extruder onto Tap or into the Stealthburner either.
+The LDO toolhead PCB fit without having to use spacers, although closing the lid was _very_ tight.
 
-Issues:
+![Galileo 2 fits well on the printed Tap.](/images/trident/galileo_mounted.jpg)
 
-1. The LDO toolhead PCB fits, but with all the cables it's a very tight fit.
-2. I liked the latch on the Clockwork 2 much more because you can operate it with just one hand.
-   With the Galileo 2 you need to use both hands to feed the filament.
-3. I used the ECAS coupler, but for me that sucks.
+The biggest pain point was the wiring management (yet again).
+The drag chain mount on the Galileo 2 is higher up than on the Clockwork 2, which meant I had to pull through more wiring to be able reach the PCB.
 
-# Purge bucket
+![Opening up the drag chains to pull through more wiring.](/images/trident/galileo_undo_wiring.jpg)
+
+I really don't enjoy opening up the drag chains, it's just a huge pain.
+The next time I need to mess with it, I'll probably go Canbus or [Nitehawk][] and get rid of the annoying chains.
+
+I've seen some people complaining that they've lost some y-travel, but I don't understand why.
+For me the range has been unchanged.
+
+The big question is, *does it print better?*
+
+It's a difficult question, because I don't really know.
+Maybe it does, but I didn't make any test prints to really compare.
+But it's not an extreme improvement like some people online made me to believe.
+It's more an incremental improvement, and the Clockwork 2 would honestly be good enough for me.
+
+I do miss the latch of the Clockwork 2, but I don't think I'll switch back right now.
+Even small improvements to extrusion quality is nice.
+
+# Purge bucket & CNC Tap
 
 The kit comes with a steel brush and references the [Decontaminator Purge Bucket & Nozzle Scrubber][purge] mod that I was quite excited for.
 
@@ -238,10 +257,35 @@ There are some things I could do:
 
 I bought a [Chaoticlab CNC Voron Tap][chaotic_tap], but had I known about the sensorless homing I might have tried that out first.
 
-[sensorless]: https://docs.vorondesign.com/community/howto/clee/sensorless_xy_homing.html "Setting Up and Calibrating Sensorless XY Homing"
+Installation was straightforward, I just had to be mindful of these things:
+
+1. Grease the rails.
+
+1. Apply threadlocker to the screws.
+
+1. I had to switch the wiring in the Tap--PCB cable.
+
+1. Use `~!PG15` instead of `^PG15` in the probe config.
+
+But---and here's the big but---it's not compatible with LDO's X/Y Endstop PCB board:
+
+![There's nothing to press the X Endstop switch anymore.](/images/trident/tap_x_endstop.jpg)
+
+To make this work I'll have to add an X Endstop to the toolhead (there's a dedicated mount for it), which is fine.
+There's a X Endstop connector in the toolhead PCB...
+But I don't see how to get that signal out from LDO's breakout board in the electronics compartment (it takes it from the X/Y Endstop PCB).
+
+That feels like a lot of effort...
+So I gave up on the mod for now and replaced it with printed Tap once again.
+I'll revisit this when I move to an umbilical setup, where I plan to move the X and Y endstops anyway to get rid of the drag chains.
+
+But that's a larger project for the future, at the moment I'm content.
+
+> Back in no time.
+> ^ last words of William S. Burroughs
+
+[sensorless]: https://docs.vorondesign.com/community/howto/clee/sensorless_xy_homing.html
 [chaotic_tap]: https://www.3djake.com/chaoticlab/cnc-voron-tap-black-v2
-
-
 [Galileo 2]: https://github.com/JaredC01/Galileo2
 
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
@@ -256,3 +300,4 @@ I bought a [Chaoticlab CNC Voron Tap][chaotic_tap], but had I known about the se
 [top-gridfinity]: https://www.printables.com/model/175108-gridfinity-holder-for-voron-printers-2020-extrusio
 [bottom-gridfinity]: https://www.printables.com/model/431489-gridfinity-mount-for-2020-extrusions-voron-printer
 [planetary gears]: https://www.engineeringclicks.com/planetary-gears/
+[Nitehawk]: https://lab4450.com/product/ldo-nitehawk-sb/
