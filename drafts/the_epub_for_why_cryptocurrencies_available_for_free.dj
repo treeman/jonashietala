@@ -1,15 +1,122 @@
 ---
-title: "The epub for 'Why Cryptocurrencies?' is available for free"
-tags: ["Why Cryptocurrencies?", "Cryptocurrency"]
+title: "The eBook for 'Why Cryptocurrencies?' is now available for free"
+tags: ["Why Cryptocurrencies?", "Cryptocurrency", "Self-publishing"]
 ---
 
-Finally done... Download here!
+The eBook for my book [Why Cryptocurrencies?][] is now available for free.
 
-# The project is now done
+[Download here][dl]{.big-button}
 
+It's [almost been 4 years][] since the [web version][] was done, and [3 since the physical copy was available][]...
+Which can hardly be called a success.
 
-# I still believe in the potential, but...
+Things happened, so let's do a quick retrospective so we can, maybe, learn something from this failure.
 
-Bitcoin ETF was finally approved, and people were absolutely hyped.
+# The project done
 
-Crypto bros, laser eyes... {-Store of Value-} A speculative asset
+I'm very good at putting myself down and to focus on the negative parts to the expense of the positive.
+
+I need to learn to take a step back and appreciate the good things I do, and even though it took a log time the book project is now **completely done**.
+
+No matter how you look at it, actually finishing a large project such as self-publishing a book should be seen as a success.
+Sure, it took a lot longer than I wanted to wrap it up, but I _finished it_, which is a large accomplishment in itself.
+
+I've had this project hanging over me like a dark cloud, painfully aware that it's _almost_ done---and has been _almost_ done for years---continually increasing my stress levels.
+But now, I can finally let it go.
+
+> Let it go, let it go\
+Can't hold it back anymore\
+Let it go, let it go\
+Turn away and slam the door\
+I don't care what they're going to say\
+Let the storm rage on\
+The cold never bothered me anyway
+^ [Frozen](https://www.youtube.com/watch?v=YVVTZgwYwVo)
+
+(I prefer the [Swedish version](https://www.youtube.com/watch?v=BKCsFB5bPz8) of the song.)
+
+# I made it more difficult for myself than it had to be
+
+Despite reading countless advice to "focus on content", and "choose a simple solution", I added too much complexity and was a tad too ambitious.
+
+1. I used a non-standard web generator, with no native eBook or PDF generation support.
+
+   While generating a PDF was easy (it's basically a copy of the PDF for the printed book), generating a nice-looking and functional epub took a bunch of time.
+
+1. I was very particular with the typesetting and styling.
+
+   The result looks great, but styling the web version, the printed version, and then (re)style the epub took a _lot_ of extra time.
+
+1. I wanted to take payments in crypto, so before I made the eBook I made my own [cryptocurrency payment processor][BitPal].
+
+   The project suffered hard from ridiculous scope-creep, and it was far from "just accept a payment"
+   (which was done the first week...).
+   It's also yet-another "almost finished" project I want to revisit.
+
+In hindsight, the error is obvious.
+I should've written the book in an existing solution that would generate the website, epub, and PDF with minimal intervention from my side.
+Or at the very least I should've setup the epub and PDF generation from the start, instead of rushing the writing and leave the rest until later (leading to a bunch of extra work).
+
+The idea was to make the eBook purchasable with an assortment of crypto---and I did have that for a while---but I really should've focused on finishing the eBook in a timely manner instead.
+
+# Burnout, procrastination, and losing faith
+
+While I certainly bit off more than I could chew, there I faced other problems with the project:
+
+a. I got burnt out, hard.
+a. I'm an expert-level procrastinator.
+a. My faith in the cryptocurrency community continued to dwindle.
+a. We got another kid---twice! Now we have three.
+
+I wrote a [separate post about my burnout][burnout], no need to rehash the details of that unpleasant experience again here.
+With the burnout (and the depression that tagged along), my heavy procrastination, and the arrival of two kids, maybe the surprising thing isn't that it took so long, but that I got anything done at all?
+
+## Procrastination is about doing the wrong thing
+
+Wait a minute you might think; how can this person claim to procrastinate when he's done so many other things?
+
+It's true that I've spent a lot of time to do many other things, while neglecting the book project.
+But to me procrastination isn't about doing nothing, it's about doing things with less priority.
+
+For example, instead of finishing the book project I [rewrote the blog in Rust][], refactored it to [use Djot instead of Markdown][] despite Markdown working just fine, [built a 3D printer][], and spent tons of time [designing my own keyboard layout][]...
+
+These are really fun, cool, and even sort-of productive things.
+But they weren't the things I _should_ have prioritized, which in the logic of procrastination makes them _so appealing_ to my brain.
+
+I don't know how to remove procrastination from my brain.
+The best strategy I've found is to try to harness it and direct it to something productive (such as exploring a new programming language), and accept the fact that progress on other project will sometimes slow down.
+
+## I still believe in the potential of crypto....
+
+I still firmly believe that cryptocurrencies has an amazing unrealized potential---and I still stand behind the majority of my arguments [in the book][Why Cryptocurrencies?] where I focus on what cryptocurrencies can be useful for.
+In many ways I think the arguments of digital cash are even stronger today than when I started writing the book some 5 years ago.
+
+But I severely underestimated the negative effect "fast money" had on the cryptocurrency community, and how the focus completely shifted from cryptocurrencies being used to buy things in the real world, to just rampant speculation and get-rich-schemes.
+
+![The LaserEyes Bitcoin campaign exemplifies everything I loath about crypto.](/images/lasereyes-min.jpg)
+
+10 years ago, if you asked people what the point of Bitcoin was, they would've said that it's a new form of money that you can send almost instantly directly to anyone in the world basically for free.
+
+But today people will point at the newly approved Bitcoin ETF, that Bitcoin has tons of institutional investments, and that it's a great "Store of Value".
+Which is all only an euphemism for speculation and a desire to get rich.
+
+It makes me tired and sad, and drains me of the energy and makes me want to distance myself from the space, rather than try to improve it.
+
+...
+
+How's that for a pep-talk of recommending [my book][Why Cryptocurrencies?] extolling the virtues of crypto? :)
+
+# Main takeaways
+
+1. Focus on the content of the book, cut down everything else.
+
+   Except for marketing, but how to do that competently is a riddle you'll have to solve yourself.
+
+1. Sometimes shit out of your control happens.
+
+   I was going to add "don't get burnt out" as an item, but I should know that it's not something you easily avoid.
+
+[dl]: https://buy.whycryptocurrencies.com/download
+[Why Cryptocurrencies?]: https://whycryptocurrencies.com/
+[BitPal]: https://github.com/bitpal/bitpal
+[burnout]: /blog/2023/03/14/battling_burnout/

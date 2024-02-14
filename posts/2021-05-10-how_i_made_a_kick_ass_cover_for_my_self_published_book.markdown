@@ -1,6 +1,6 @@
 ---
 title: "How I made a kick-ass cover for my self-published book"
-tags: [Cryptocurrency, Why Cryptocurrencies?]
+tags: [Cryptocurrency, Why Cryptocurrencies?, Self-publishing]
 series: making-cryptobook
 ---
 
