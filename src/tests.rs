@@ -129,6 +129,7 @@ impl TestSiteBuilder {
             input_dir: input_path,
             clear_output_dir: true,
             include_drafts: self.include_drafts,
+            generate_feed: true,
         })?;
         site.render_all()?;
 

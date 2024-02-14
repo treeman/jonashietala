@@ -922,6 +922,7 @@ mod tests {
             input_dir: AbsPath::current_dir().unwrap(),
             clear_output_dir: false,
             include_drafts: true,
+            generate_feed: true,
         })?;
         site.render_all()?;
 
@@ -930,13 +931,6 @@ mod tests {
             let output_file = post.output_file(&output_path);
             assert!(output_file.exists());
         }
-        // if let Some(ref drafts) = site.content.drafts {
-        //     assert!(!drafts.is_empty());
-        //     for draft in drafts.values() {
-        //         let output_file = draft.output_file(&output_path);
-        //         assert!(output_file.exists());
-        //     }
-        // }
 
         let rel_path = |path| {
             let mut res = output_path.0.clone();
