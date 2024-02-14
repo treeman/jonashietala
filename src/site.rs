@@ -128,6 +128,10 @@ impl SiteContent {
             .find(|series| series.path.file_name() == Some(file_name))
     }
 
+    pub fn find_series_by_id<'a>(&'a self, id: &str) -> Option<&'a SeriesItem> {
+        self.series.values().find(|series| series.id == id)
+    }
+
     pub fn insert_post(&mut self, post: PostItem) -> Option<PostItem> {
         let post_ref = post.post_ref();
         let prev_post = self.posts.insert(post_ref.clone(), post);
@@ -639,8 +643,16 @@ impl Site {
 
     fn rebuild_post(&mut self, path: AbsPath) -> Result<()> {
         info!("Post changed: {path}");
-        // FIXME need to set series_id and series
-        let updated = PostItem::from_file(path.clone())?;
+        let mut updated = PostItem::from_file(path.clone())?;
+
+        if let Some(series) = updated
+            .series_id
+            .as_deref()
+            .and_then(|id| self.content.find_series_by_id(id))
+        {
+            updated.series = Some(series.series_ref());
+        }
+
         let post_ref = updated.post_ref();
         let prev_post = self.content.insert_post(updated);
 
@@ -669,21 +681,7 @@ impl Site {
             return Ok(());
         }
 
-        info!("Draft changed: {path}");
-        let updated = PostItem::from_file(path.clone())?;
-        let draft_ref = updated.post_ref();
-        let prev_draft = self.content.insert_post(updated);
-
-        // let drafts = &self.content.drafts.as_ref().unwrap();
-        // let updated = drafts.get(&draft_ref).unwrap();
-        let updated = self.content.posts.get(&draft_ref).unwrap();
-
-        let render_opts = match prev_draft {
-            Some(old) => SiteRenderOpts::post_updated(&old, &updated),
-            None => SiteRenderOpts::post_created(&updated),
-        };
-
-        self.render(render_opts)
+        self.rebuild_post(path)
     }
 
     fn rebuild_series(&mut self, path: AbsPath) -> Result<()> {
