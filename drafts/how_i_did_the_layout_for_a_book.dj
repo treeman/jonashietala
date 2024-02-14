@@ -1,9 +1,14 @@
 ---
-title: "Converting my static site to epub"
-tags: Cryptocurrency, Programming, Pollen, Racket, Why Cryptocurrencies?
+title: "How I did the layout for a book"
+tags: ["Tag1", "Tag2"]
 ---
 
-# Creating an epub
+# Web page
+
+
+# E-book
+
+## Creating an epub
 
 I looked at [epub3 examples](https://github.com/IDPF/epub3-samples)
 
@@ -16,7 +21,7 @@ zip -Xur9D why_cryptocurrencies.epub *
 ```
 
 
-# Validating
+## Validating
 
 The commonly recommended [idpf validator][idpf] is down. I instead used [epubcheck][] I found on github. Turns out I had a few errors:
 
@@ -41,7 +46,7 @@ Fixing them is annoying and time consuming, but it's not hard. Most of them were
 0. Must provide .png fallbacks for all images.
 
 
-## Mass converting files:
+### Mass converting files:
 
 ```fish
 for file in *.svg
@@ -50,3 +55,20 @@ end
 ```
 
 Will from `energy-bars.svg` generate `energy-bars-fallback.png`.
+
+# Physical book
+
+## In-Design
+
+## XML-Importer
+
+Sucked
+
+## Lots of manual tweaks
+
+- Sidenotes
+- Lists
+- It's all about sizes and spacing
+
+
+# What I'd do differently
