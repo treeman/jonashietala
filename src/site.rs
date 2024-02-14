@@ -639,6 +639,7 @@ impl Site {
 
     fn rebuild_post(&mut self, path: AbsPath) -> Result<()> {
         info!("Post changed: {path}");
+        // FIXME need to set series_id and series
         let updated = PostItem::from_file(path.clone())?;
         let post_ref = updated.post_ref();
         let prev_post = self.content.insert_post(updated);

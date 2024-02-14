@@ -1,11 +1,25 @@
 ---
 title: "How I did the layout for my self-published book"
-tags: ["Why Cryptocurrencies?"]
+tags: ["Why Cryptocurrencies?", "Self-publishing"]
 series: making-cryptobook
 ---
 
+This is a rundown of how I typeset and laid out my self-published book for the web version, the EPUB version, and the printed version.
+
+::: notice
+I was planning to include much more details, but the project took a lot longer than planned so I've forgotten many of the details.
+:::
+
 # Web page
 
+I started by creating the book in a web format.
+It's a static site generator that simply outputs HTML with some custom CSS styling to make it look pretty.
+I wrote a separate post on [how I wrote a book with Pollen][], check it out if you want more details.
+
+As I've become more proficient with CSS, I would've used Flexbox and Grid instead of floats and other hacks.
+Still, I'm quite pleased with how it looks.
+
+I'm absolutely no CSS or design wizard, I just spent quite some time tweaking until I ended up with something decent (similar to how I designed this blog and other websites I make).
 
 # E-book
 
@@ -73,3 +87,5 @@ Sucked
 
 
 # What I'd do differently
+
+[how I wrote a book with Pollen]: /blog/2020/05/03/how_i_wrote_my_book_using_pollen/

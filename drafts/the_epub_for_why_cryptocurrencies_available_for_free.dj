@@ -7,7 +7,7 @@ The eBook for my book [Why Cryptocurrencies?][] is now available for free.
 
 [Download here][dl]{.big-button}
 
-It's [almost been 4 years][] since the [web version][] was done, and [3 since the physical copy was available][]...
+It's [almost been 4 years][web_done] since the [web version][] was done, and [3 since the physical copy was available][print_done]...
 Which can hardly be called a success.
 
 Things happened, so let's do a quick retrospective so we can, maybe, learn something from this failure.
@@ -78,7 +78,7 @@ Wait a minute you might think; how can this person claim to procrastinate when h
 It's true that I've spent a lot of time to do many other things, while neglecting the book project.
 But to me procrastination isn't about doing nothing, it's about doing things with less priority.
 
-For example, instead of finishing the book project I [rewrote the blog in Rust][], refactored it to [use Djot instead of Markdown][] despite Markdown working just fine, [built a 3D printer][], and spent tons of time [designing my own keyboard layout][]...
+For example, instead of finishing the book project I [rewrote the blog in Rust][], refactored it to [use Djot instead of Markdown][] (despite Markdown working just fine), [built a 3D printer][], and spent tons of time [designing my own keyboard layout][]...
 
 These are really fun, cool, and even sort-of productive things.
 But they weren't the things I _should_ have prioritized, which in the logic of procrastination makes them _so appealing_ to my brain.
@@ -95,7 +95,7 @@ But I severely underestimated the negative effect "fast money" had on the crypto
 
 ![The LaserEyes Bitcoin campaign exemplifies everything I loath about crypto.](/images/lasereyes-min.jpg)
 
-10 years ago, if you asked people what the point of Bitcoin was, they would've said that it's a new form of money that you can send almost instantly directly to anyone in the world basically for free.
+10 years ago, if you asked people what the point of Bitcoin was, they would've said that it's a new form of money that you can send instantly to anyone in the world, without handing it over to a third-party, and very cheaply.
 
 But today people will point at the newly approved Bitcoin ETF, that Bitcoin has tons of institutional investments, and that it's a great "Store of Value".
 Which is all only an euphemism for speculation and a desire to get rich.
@@ -120,3 +120,10 @@ How's that for a pep-talk of recommending [my book][Why Cryptocurrencies?] extol
 [Why Cryptocurrencies?]: https://whycryptocurrencies.com/
 [BitPal]: https://github.com/bitpal/bitpal
 [burnout]: /blog/2023/03/14/battling_burnout/
+[web_done]: /blog/2020/04/29/my_book_why_cryptocurrencies_is_done/
+[print_done]: /blog/2021/05/31/why_cryptocurrencies_is_now_available_in_print/
+[web version]: https://whycryptocurrencies.com/toc.html
+[rewrote the blog in Rust]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/
+[use Djot instead of Markdown]: /blog/2024/02/02/blogging_in_djot_instead_of_markdown/
+[built a 3D printer]: /series/voron_trident/
+[designing my own keyboard layout]: /series/t-34/
