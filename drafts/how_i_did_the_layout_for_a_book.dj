@@ -204,8 +204,9 @@ And this was after I had made a bunch of corrections. Sigh...
 
 Fixing them was annoying and time consuming, but it wasn't hard. Most of them were easily fixed by updating the templates and tag generation within Pollen.
 
-Errors I ran into includes xhtml being more strict than html, so I couldn't nest an `<aside>` inside a `<li>`, leading to a nice big refactor of my sidenote generation code, and I had to provide `.png` fallbacks for all `.svg` images.
+Errors I ran into includes xhtml being more strict than html, so I couldn't nest an `<aside>` inside a `<li>`, leading to a nice big refactor of my sidenote generation code
 
+Another error pointed out that I had to provide `.png` fallbacks for all `.svg` images.
 With the [fish shell][] and [inkscape][] you can mass convert images like so:
 
 ```fish
@@ -214,21 +215,37 @@ for file in *.svg
 end
 ```
 
-This will generate a `energy-bars-fallback.png` from `energy-bars.svg`, for example.
+And then specify the fallback in `content.opf` as shown before.
 
 # Physical book
 
-## In-Design
+The initial idea was, again, to use Pollen to create the book.
+I wanted to use Pollen to generate Latex that could produce the PDF I wanted.
 
-## XML-Importer
+But that's not the route I went with.
+Similar to how it was a big challenge to get Pollen to produce an EPUB version in conjunction to a regular HTML version, making it produce a Latex variant was a big task.
+In addition, making Latex reproduce my sidenote styling and placement wasn't at all straightforward (maybe I just suck at Latex).
 
-Sucked
+I instead laid out the PDF with InDesign.
+It required more manual tweaks that I really didn't enjoy, but on the flip side it was easy to make manual adjustments to get the layout _just_ right.
 
-## Lots of manual tweaks
+## XML importer
+
+Of course, we don't want to manually copy-paste the whole book, that would be silly.
+InDesign has an XML importer that we can use to import the book, and if we setup styles to automatically apply to certain elements (such as `<aside>` sidenotes) you get quite a lot of help.
+
+Yes, it's buggy and not well documented, but it's still a life-saver.
+
+## Styles
+
+To work effectively with InDesign I found that effective use of styles is a must.
 
 - Sidenotes
 - Lists
 - It's all about sizes and spacing
+
+## Lots of manual tweaks
+
 
 
 # What I'd do differently
