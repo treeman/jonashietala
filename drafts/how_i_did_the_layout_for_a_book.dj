@@ -19,13 +19,58 @@ I wrote a separate post on [how I wrote a book with Pollen][], check it out if y
 As I've become more proficient with CSS, I would've used Flexbox and Grid instead of floats and other hacks.
 Still, I'm quite pleased with how it looks.
 
-I'm absolutely no CSS or design wizard, I just spent quite some time tweaking until I ended up with something decent (similar to how I designed this blog and other websites I make).
+I'm absolutely no CSS or design wizard, I just spent quite some time tweaking until I ended up with something decent (I guess design is simple, but not easy).
 
-# E-book
+# EPUB
 
-## Creating an epub
+The initial plan was to use Pollen to generate both the web and eBook version from the same source.
+This is supported in Pollen by branching in the output functions, for example this emphasis function [from the tutorial][multi-tutorial]:
 
-I looked at [epub3 examples](https://github.com/IDPF/epub3-samples)
+```racket
+(define (emph . elements)
+  (case (current-poly-target)
+    [(txt) `("**" ,@elements "**")]
+    [else (txexpr 'strong empty elements)]))
+```
+
+Unfortunately, I didn't do this from the beginning and I wanted to create an EPUB after the book, and all the functions, had already been made.
+
+I could of course go back and modify them all, but it faster to just branch the repo and modify the webpage until it produced a valid EPUB.
+Hardly ideal, but it actually wasn't as bad as it may sound.
+
+Check out the [epub3 branch][] on GitHub for the complete source for the EPUB.
+
+
+## Creating an EPUB
+
+There are many EPUB generators out there, but those I tried didn't produce very pretty books (in many cases the results were quite bad).
+But an EPUB is merely XHTML with some extra files, so it's fairly straightforward to create one by hand.
+
+There is an [EPUB 3 specification][] one can reference, but I've always found that it's much easier to get going by [looking at examples][epub3 examples].
+
+For my book, this is how the file structure ended up in the EPUB:
+
+```
+├── META-INF
+│   ├── container.xml
+│   └── encryption.xml
+├── OEBPS
+│   ├── content.opf
+│   ├── main.css
+│   ├── toc.ncx
+│   ├── fonts
+│   │   └── ...
+│   ├── images
+│   │   ├── emission-rates-fallback.png
+│   │   ├── emission-rates.svg
+│   │   ├── generals.png
+│   │   └── ...
+│   ├── how_do_cryptocurrencies_work.xhtml
+│   └── ...
+└── mimetype
+```
+
+The `.epub` file itself is just a zip of the above, with the mimetype first in the archive:
 
 ```bash
 #!/bin/bash
@@ -35,13 +80,119 @@ zip -X0 why_cryptocurrencies.epub mimetype
 zip -Xur9D why_cryptocurrencies.epub *
 ```
 
+If you want to take a closer look, you can [download the EPUB for free][dl] of the book and unzip it.
+
+The `mimetype` contains the mimetype (without a trailing newline):
+
+```
+application/epub+zip
+```
+
+The entry-point to everything is the `META-INF/container.xml` file that simply redirects us to `OEBPS/content.opf`:
+
+```xml
+<?xml version="1.0"?>
+<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
+    <rootfiles>
+        <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
+   </rootfiles>
+</container>
+```
+
+We don't have to use the `OEBPS/` directory, but most of the examples I looked at used it so I ran with it.
+Maybe it's some standard or something, I don't know.
+
+`content.opf` contains what you think it does: all the content for the book:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="pub-identifier" version="3.0" xml:lang="en">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+        <!-- There are other meta fields you want to set, this is just an example -->
+        <dc:title id="title">Why Cryptocurrencies?</dc:title>
+        <meta refines="#title" property="title-type">main</meta>
+        <!-- Sets the cover page that shows up in EPUB readers -->
+        <meta name="cover" content="images-cover-front" />
+        <!-- With EPUB 3 you can also create fixed layouts.
+             My EPUB tries to mimic the reflowable web version,
+             although you could bundle both in the same EPUB file if you wanted to. -->
+        <meta property="rendition:layout">reflowable</meta>
+        <meta property="rendition:flow">scrolled-doc</meta>
+        ...
+    </metadata>
+    <manifest>
+        <!-- The .ncx file is a deprecated file that EPUB 3 readers should ignore,
+             but it may be included to help EPUB 2 readers understand the file.
+             Instead the <spine> element is used to describe the reading order of the book.
+             I won't describe the file more, if you're curious download the epub and crack it open. -->
+        <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+        <item id="style" href="main.css" media-type="text/css" />
+
+        <!-- Every chapter in the book has its own .xhtml file. -->
+        <item id="how_do_cryptocurrencies_work" href="how_do_cryptocurrencies_work.xhtml" media-type="application/xhtml+xml" />
+        ...
+
+        <!-- All images needs its own entry too. -->
+        <item id="images-generals" href="images/generals.png" media-type="image/png"  />
+        <!-- This is the cover reference defined earlier in the <metadata> section. -->
+        <item id="images-cover-front" href="images/cover/front.png" media-type="image/png"  properties="cover-image"/>
+        <!-- Svg images should specify a png fallback. -->
+        <item id="images-emission-rates" href="images/emission-rates.svg" media-type="image/svg+xml" fallback="images-emission-rates-fallback" />
+        <item id="images-emission-rates-fallback" href="images/emission-rates-fallback.png" media-type="image/png" />
+        ...
+
+        <!-- And the fonts needs to be specified as well. -->
+        <item id="century_supra_a_regular" href="fonts/century_supra_a_regular.woff2" media-type="application/font-woff" />
+        ...
+    </manifest>
+    <spine toc="ncx">
+        <!-- The spine contains the default reading order of chapters
+             (or "items", they don't have to be chapters). -->
+        <itemref idref="coverpage" />
+        <itemref idref="titlepage" linear="yes" properties="page-spread-left"/>
+        <itemref idref="dedication" linear="yes" properties="page-spread-right"/>
+        <itemref idref="acknowledgements" linear="yes" properties="page-spread-right"/>
+        <itemref idref="toc"  properties="page-spread-right"/>
+        <itemref idref="about_the_book" properties="page-spread-right"/>
+        <itemref idref="eli5" properties="page-spread-right"/>
+        ...
+    </spine>
+</package>
+```
+
+There's also font "encryption" via `encryption.xml` (which is only obfuscation) that I had to use because of the license of the fonts I use, but generally it's not needed.
+
+And that's basically all an EPUB is.
+I used a very hacky [Python script][ebookify] to move the files into position, generate the spine, image items, and the other stuff I alluded to above.
+
+Why did I write that in Python instead of in Racket, which the rest of the book made with?
+I really have no idea...
+
+## Styling
+
+I had an incredibly frustrating experience trying to style the EPUB to match the web version, with matching spacing, typeset, sidenotes, and the rest.
+It felt that whatever I tried, any reader I tried would just ignore all the styling and fall back to their own and---in my opinion---horrible appearance.
+
+I even gave up on the eBook for a time because of it.
+
+But then I noticed I had made an EPUB 2 instead of an EPUB 3, and with the newer version all styling worked with very little modification.
+This of course depends on the EPUB reader, but there's not much I can do about that:
+
+::: Flex
+![](/images/crypto_readers/ReadEra.png)
+![](/images/crypto_readers/eBoox.png)
+![](/images/crypto_readers/lithium.png)
+
+Different Android readers (ReadEra, eBoox, and Lithium) renders the EPUB very differently.
+Unfortunately, the EPUB won't look great on all readers.
+:::
 
 ## Validating
 
-The commonly recommended [idpf validator][idpf] is down. I instead used [epubcheck][] I found on github. Turns out I had a few errors:
+With the EPUB created, you should validate it.
+The commonly recommended [idpf validator][idpf] seems to be down, I instead used [epubcheck][] I found on github.
 
-[idpf]: http://validator.idpf.org/
-[epubcheck]: https://github.com/w3c/epubcheck
+Turns out I had a few errors in my EPUB:
 
 ```
 $ java -jar epubcheck.jar ~/code/why_cryptocurrencies/_ebook/why_cryptocurrencies.epub
@@ -49,19 +200,13 @@ Check finished with errors
 Messages: 2 fatals / 2183 errors / 2 warnings / 0 infos
 ```
 
-And this was after I had made a bunch of corrections. Sigh.
+And this was after I had made a bunch of corrections. Sigh...
 
-Fixing them is annoying and time consuming, but it's not hard. Most of them were easily fixed by updating the templates and tag generation within Pollen.
+Fixing them was annoying and time consuming, but it wasn't hard. Most of them were easily fixed by updating the templates and tag generation within Pollen.
 
-0. Need to provide manifest and spine information in a `.opf` file.
-0. Convert html to xhtml, with some stricter requirements such as `<aside>` aren't allowed inside `<li>`.
+Errors I ran into includes xhtml being more strict than html, so I couldn't nest an `<aside>` inside a `<li>`, leading to a nice big refactor of my sidenote generation code, and I had to provide `.png` fallbacks for all `.svg` images.
 
-   Some the errors where dumb things I did with html generally, such as not escaping `?` in link fragments.
-
-0. Must provide .png fallbacks for all images.
-
-
-### Mass converting files:
+With the [fish shell][] and [inkscape][] you can mass convert images like so:
 
 ```fish
 for file in *.svg
@@ -69,7 +214,7 @@ for file in *.svg
 end
 ```
 
-Will from `energy-bars.svg` generate `energy-bars-fallback.png`.
+This will generate a `energy-bars-fallback.png` from `energy-bars.svg`, for example.
 
 # Physical book
 
@@ -89,3 +234,11 @@ Sucked
 # What I'd do differently
 
 [how I wrote a book with Pollen]: /blog/2020/05/03/how_i_wrote_my_book_using_pollen/
+[multi-tutorial]: https://docs.racket-lang.org/pollen/fourth-tutorial.html
+[idpf]: http://validator.idpf.org/
+[epubcheck]: https://github.com/w3c/epubcheck
+[epub3 examples]: https://github.com/IDPF/epub3-samples
+[EPUB 3 specification]: https://www.w3.org/TR/epub-33/
+[dl]: https://buy.whycryptocurrencies.com/download
+[epub3 branch]: https://github.com/treeman/why_cryptocurrencies/tree/epub3
+[ebookify]: https://github.com/treeman/why_cryptocurrencies/blob/epub3/ebookify
