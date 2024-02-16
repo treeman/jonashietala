@@ -1,0 +1,19 @@
+---
+title: "Let's build a VORON: Major failure"
+tags: ["3D printing", "VORON"]
+series: voron_trident
+---
+
+![The left POM nut got ground down, making the bed fall down.](/images/trident/pom_bed_imbalanced.jpg)
+
+After 600 hours, the printer met it's first major failure.
+I know I earlier [described how the extruder starter skipping][skipping] in a major way, but that was just some filament getting stuck in the extruder.
+This time a part physically broke down.
+
+What happened was that the rod on one of the Z-motors started to grind down the POM nut that holds up the bed:
+
+![](/images/trident/pom_chips.jpg)
+
+It did this so much that the threads got ground down, making the bed fall down.
+
+[skipping]: /blog/2024/02/02/lets_build_a_voron_smaller_fixes/#Extruder-skipping
