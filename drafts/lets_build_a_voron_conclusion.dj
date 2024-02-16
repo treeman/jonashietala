@@ -9,20 +9,60 @@ I've built a VORON that prints reliably and I've modded it enough to be able to 
 
 TODO video of print in progress here
 
-# The build
+# Building the printer was really fun and rewarding
 
-# Printing
+I've always seen myself as a software person instead of a hardware person.
+But I must admit, assembling the printer was a very fun and rewarding experience.
 
-## No major issues
+Seeing how you go from bags of bits and pieces to a fully functional printer, and knowing that I---someone clueless about hardware---put everything together, is an awesome feeling.
 
-- Apart from initial temperature calibration, only some issues with first layers
+And to then mod the printer---to print out parts to modify and enhance the printer---was also very cool and one of the best parts of this project.
+I think I enjoyed the building experience so much that I was seeking out more mods just to extend that sensation.
 
-## So many things to learn
+# There's so much to learn
 
-- Klipper configuration
+Even though I've tried to include as much details as possible in this blog series, there are still many things I left out that you need to learn if you're new to 3D printing like I am.
+For example:
+
+- Lots of klipper & G-code configuration
 - Slicer management
-- Nozzle sizes, filament selection, supports, brims...
-- Stuck filament, wet filament, filament tuning...
+- Nozzle sizes, supports, brims, rafts, skirts...
+- Filament selection, stuck filament, wet filament, filament tuning...
+
+You can absolutely start from zero with a VORON like I did, just realize that there's a lot to learn, and building the printer is only the beginning of the journey.
+
+Take it slow and ask for help, and I'm sure you could do it too.
+
+# Some modding is required
+
+Okay, you can use the printer as-is.
+But in my mind some modding is required to get the most out of it:
+
+1. [HEPA-filter][] seems like a must.
+
+   Sure, there are crazy people who even print ABS in their bedroom without an enclosure---but come on.
+   Your health is the most important thing, you should take better care of it.
+
+1. A [smart filament sensor][] saves you so much grief.
+
+There are a lot of other great mods too, but I concede they're not required.
+If you're building a Trident I'd at least consider these mods as well:
+
+A. [Removable top panel][].
+A. [Some sort of camera][] (maybe not the Angry CAM).
+A. [RockNRoll][] (or [inverted electronics][], but plan for that from the beginning).
+
+(Modding is also one of the most fun parts, feel free to go nuts!)
+
+# Issues with the kit
+
+Overall, the printer and kit was good and I haven't had many issues with it.
+I did however have two larger issues:
+
+1. The [printer was loud][].
+2. The [POM nuts wore out][].
+
+This isn't a knock on the printer design (I think), but an issue with some of the parts I received in the LDO Trident kit.
 
 # Future plans
 
@@ -32,6 +72,7 @@ Oh no, I've a bunch of large mods I want to do with the printer:
 i. Replace the camera I have with a better one.
 i. Remove drag chains and go umbilical.
 i. Complete the [purge bucket mod][].
+i. Try the [inverted electronics][] mod.
 i. Replace Stealthburner with the [Xol toolhead][] for better PLA cooling.
 i. Multimaterial with the [Enraged Rabbit Carrot Feeder][].
 
@@ -47,24 +88,6 @@ This clearly isn't a sustainable solution---I need a second printer.
 And isn't that the best compliment one can give?
 That you haven't even finished it yet, but you're already pining for _another one_?
 
----
-
-- Even though I've tried to be as detailed as possible, there are still many things I left out:
-  - G-code configuration
-  - Slicer management
-  - Minor issues here and there (stuck filament, wet filament, etc)
-- Thought about VORON?
-- Thought about the LDO kit?
-- Thought about Tap?
-- No idea how many hours I've put into it
-
-The printer has X hours already.
-
-# Issues
-
-1. Noisy
-1. Not the best for PLA
-1. Had to mod in HEPA filter, and still not sure I want to work next to it
-
 [Enraged Rabbit Carrot Feeder]: https://github.com/Enraged-Rabbit-Community/ERCF_v2
 [Xol toolhead]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/tree/main
+[inverted electronics]: https://mods.vorondesign.com/details/pXkXHVIUbqSWqQKJISczw

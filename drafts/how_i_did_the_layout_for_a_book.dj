@@ -239,16 +239,35 @@ Yes, it's buggy and not well documented, but it's still a life-saver.
 ## Styles
 
 To work effectively with InDesign I found that effective use of styles is a must.
+The most important part of laying out my book was getting sizing and spacing right, and to do that you setup styles for the different cases and just apply them.
 
-- Sidenotes
-- Lists
-- It's all about sizes and spacing
+Lots of people love to rag on CSS, but CSS is very powerful and it's relatively simple to for example style a list, with proper spacing before, after, and between elements and text just the way you want it.
+With InDesign this wasn't nearly as straightforward, and I ended up with several styles I had to apply depending on the surrounding context:
+
+TODO img
 
 ## Lots of manual tweaks
 
+Most of the time what I did in InDesign is read through the book to make small adjustments.
+I adjusted sidenote placements, tweaked styles here and there, adjusted page breaks to balance pages, adjusted paragraphs, added index references... And did it all over again.
 
+Yes it's time consuming and annoying, but also weirdly therapeutic.
+I could satisfy my need for perfection by nudging text boxes around until the end of time.
 
 # What I'd do differently
+
+If I would write a book again, I would do what I wanted to in the first place: generate all versions from a single source. 
+
+I wouldn't have used Pollen.
+While it feels really nice to be able to inject code anywhere in your markup, having to maintain 3 different outputs with every function you write is a bit much.
+
+Instead I'd try some kind of standard markup format with preexisting EPUB and PDF generation.
+I could still set it up to have custom transformations, but it would be so much easier to work with compared to programming the generation completely by myself.
+
+Working with InDesign was actually fine, but it was difficult to sync corrections between the versions, so it would still be beneficial to cut it out from the process if possible.
+
+But I'd still want to do the layout myself.
+It didn't feel difficult, I mostly enjoyed the process, and I think the result was quite good.
 
 [how I wrote a book with Pollen]: /blog/2020/05/03/how_i_wrote_my_book_using_pollen/
 [multi-tutorial]: https://docs.racket-lang.org/pollen/fourth-tutorial.html
@@ -259,3 +278,5 @@ To work effectively with InDesign I found that effective use of styles is a must
 [dl]: https://buy.whycryptocurrencies.com/download
 [epub3 branch]: https://github.com/treeman/why_cryptocurrencies/tree/epub3
 [ebookify]: https://github.com/treeman/why_cryptocurrencies/blob/epub3/ebookify
+[fish shell]: https://fishshell.com/
+[inkscape]: https://inkscape.org/

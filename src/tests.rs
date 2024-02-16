@@ -9,6 +9,7 @@ use crate::util::{load_templates, ParsedFile, ParsedFiles};
 use camino::Utf8Path;
 use camino::Utf8PathBuf;
 use eyre::Result;
+use hotwatch::notify::event::DataChange;
 use hotwatch::notify::event::RemoveKind;
 use hotwatch::notify::event::RenameMode;
 use hotwatch::notify::event::{CreateKind, ModifyKind};
@@ -39,8 +40,9 @@ impl TestSite {
         let path = self.input_dir.path().join(file);
         let content = fs::read_to_string(&path)?.replace(from, to);
         fs::write(&path, content)?;
-        self.site
-            .file_changed(Event::new(EventKind::Modify(ModifyKind::Any)).add_path(path))
+        self.site.file_changed(
+            Event::new(EventKind::Modify(ModifyKind::Data(DataChange::Any))).add_path(path),
+        )
     }
 
     pub fn rename_file(&mut self, from: &str, to: &str) -> Result<()> {

@@ -84,16 +84,13 @@ mod tests {
     fn test_convert_todo() -> Result<()> {
         let s = "Before
 
-TODO
+TODO some text
 
 After";
         assert_eq!(
             convert(s)?.trim_end(),
             r#"<p>Before</p>
-
-<div class="todo">
-    TODO
-</div>
+<div><span class="todo">TODO some text</span></div>
 <p>After</p>"#
         );
 

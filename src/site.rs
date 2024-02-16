@@ -134,6 +134,11 @@ impl SiteContent {
 
     pub fn insert_post(&mut self, post: PostItem) -> Option<PostItem> {
         let post_ref = post.post_ref();
+        if post.is_draft {
+            self.drafts.as_mut().map(|drafts| {
+                drafts.insert(post_ref.clone());
+            });
+        }
         let prev_post = self.posts.insert(post_ref.clone(), post);
         set_post_prev_next(&mut self.posts);
         self.update_homepage();
@@ -183,7 +188,7 @@ pub struct Site {
     context: Context,
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 struct SiteRenderOpts<'a> {
     all_posts: bool,
     all_standalones: bool,

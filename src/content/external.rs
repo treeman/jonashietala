@@ -5,6 +5,7 @@ use crate::item::RenderContext;
 use crate::util;
 use eyre::{eyre, Result};
 
+#[derive(Debug)]
 pub struct Sass;
 
 impl Item for Sass {

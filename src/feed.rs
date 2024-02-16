@@ -18,6 +18,7 @@ use crate::markup::ParseContext;
 use crate::site::BASE_SITE_URL;
 use crate::site_url::SiteUrl;
 
+#[derive(Debug)]
 pub struct SiteFeed;
 
 impl From<&PostItem> for Entry {

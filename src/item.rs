@@ -2,13 +2,14 @@ use crate::{content, site::SiteContent, site_url::SiteUrl};
 use camino::{Utf8Path, Utf8PathBuf};
 use eyre::Result;
 use std::borrow::Cow;
+use std::fmt::Debug;
 use std::fs;
 use std::fs::File;
 use std::io::Write;
 use tera::{Context, Tera};
 use tracing::debug;
 
-pub trait Item: Send + Sync {
+pub trait Item: Send + Sync + Debug {
     fn render(&self, ctx: &RenderContext) -> Result<()>;
 
     fn id(&self) -> Cow<str>;
@@ -59,7 +60,7 @@ pub trait TeraItem {
     }
 }
 
-impl<T: TeraItem + Send + Sync> Item for T {
+impl<T: TeraItem + Send + Sync + Debug> Item for T {
     fn render(&self, ctx: &RenderContext) -> Result<()> {
         let output_file = self.url().output_file(ctx.output_dir);
         self.render_to_file(ctx, &output_file)
