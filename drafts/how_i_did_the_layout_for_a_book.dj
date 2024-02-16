@@ -226,13 +226,15 @@ But that's not the route I went with.
 Similar to how it was a big challenge to get Pollen to produce an EPUB version in conjunction to a regular HTML version, making it produce a Latex variant was a big task.
 In addition, making Latex reproduce my sidenote styling and placement wasn't at all straightforward (maybe I just suck at Latex).
 
-I instead laid out the PDF with InDesign.
+I instead laid out the PDF with [InDesign][].
 It required more manual tweaks that I really didn't enjoy, but on the flip side it was easy to make manual adjustments to get the layout _just_ right.
 
 ## XML importer
 
 Of course, we don't want to manually copy-paste the whole book, that would be silly.
 InDesign has an XML importer that we can use to import the book, and if we setup styles to automatically apply to certain elements (such as `<aside>` sidenotes) you get quite a lot of help.
+
+![I had to style the references manually because the importer messed them up...](/images/crypto_indesign/references.png)
 
 Yes, it's buggy and not well documented, but it's still a life-saver.
 
@@ -244,7 +246,11 @@ The most important part of laying out my book was getting sizing and spacing rig
 Lots of people love to rag on CSS, but CSS is very powerful and it's relatively simple to for example style a list, with proper spacing before, after, and between elements and text just the way you want it.
 With InDesign this wasn't nearly as straightforward, and I ended up with several styles I had to apply depending on the surrounding context:
 
-TODO img
+![I ended up with quite a few paragraphs related to lists. The first and last paragraph needed special handling because the spacing was slightly different in order to play nice with other styles, and then there's "multi" that contains multiple paragraphs in one list item.](/images/crypto_indesign/list_paragraph_styles.png)
+
+All this just to get consistent spacing for my various lists.
+
+![I think the lists look nice and are very readable.](/images/crypto_indesign/styled_lists_spread.png)
 
 ## Lots of manual tweaks
 
@@ -254,11 +260,32 @@ I adjusted sidenote placements, tweaked styles here and there, adjusted page bre
 Yes it's time consuming and annoying, but also weirdly therapeutic.
 I could satisfy my need for perfection by nudging text boxes around until the end of time.
 
+![Who needs therapy when you can lay out boxes?](/images/crypto_indesign/boxes_laid_out.png)
+
+## Printed books have certain expectations
+
+If you upload a book on a website, or even if you create an EPUB, you can almost do whatever you want and it'll probably be fine.
+But printed books has certain expectations that should be followed.
+
+For example how a new chapter or section should start on a new page to the right, and leave the left page blank if needed.
+Or how page chapters and sections next to page numbers on the bottom can help you navigate a technical book such as mine.
+These are things you don't really notice, unless you come across a book that breaks them.
+
+One thing that's easy to forget about in the internet age the *index* you can find at the end of many books.
+It's designed to help you easily find things in the book, sort of like a curated search engine, but on paper.
+
+![A correctly structured index is invaluable. Mine at least exists.](/images/crypto_indesign/index.png)
+
+Designing a good index is hard, because it's not about listing all keywords in the book.
+It's about anticipating the needs of the reader, so someone searching for "Blockchain" may be redirected to the chapter "How do cryptocurrencies work?". It also acts as a sort of overview of what topics are discussed.
+
+This seems difficult to do well---and I probably failed hard---but I tried.
+
 # What I'd do differently
 
 If I would write a book again, I would do what I wanted to in the first place: generate all versions from a single source. 
 
-I wouldn't have used Pollen.
+I wouldn't have used [Pollen][].
 While it feels really nice to be able to inject code anywhere in your markup, having to maintain 3 different outputs with every function you write is a bit much.
 
 Instead I'd try some kind of standard markup format with preexisting EPUB and PDF generation.
@@ -280,3 +307,5 @@ It didn't feel difficult, I mostly enjoyed the process, and I think the result w
 [ebookify]: https://github.com/treeman/why_cryptocurrencies/blob/epub3/ebookify
 [fish shell]: https://fishshell.com/
 [inkscape]: https://inkscape.org/
+[InDesign]: https://www.adobe.com/products/indesign.html
+[Pollen]: https://docs.racket-lang.org/pollen/index.html
