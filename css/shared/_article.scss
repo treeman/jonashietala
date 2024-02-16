@@ -78,6 +78,10 @@ article {
     color: var(--color-tags-hover);
   }
 
+  a:not([href]) {
+    color: var(--color-link-error);
+  }
+
   /*
    * Code
    */
@@ -315,6 +319,27 @@ article {
     pre {
       background-color: var(--melange_a_sel);
     }
+  }
+
+  /*
+   * TODO comments
+   * FIXME comments
+   * NOTE comments
+   */
+  .todo,
+  .fixme,
+  .note {
+    color: var(--melange_a_bg);
+    padding: var(--space-3xs);
+  }
+  .todo {
+    background-color: var(--melange_c_blue);
+  }
+  .fixme {
+    background-color: var(--melange_c_red);
+  }
+  .note {
+    background-color: var(--melange_c_cyan);
   }
 
   /*

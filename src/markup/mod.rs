@@ -238,16 +238,23 @@ impl<'a> ParseContext<'a> {
             return;
         }
 
-        let msg = if let Some(path) = self.path {
-            format!("Broken reference to: `{target}` in `{}`", path)
-        } else {
-            format!("Broken reference to: `{target}` in unknown path")
-        };
+        let msg = format!("Broken reference to: `{target}` in {}", self.format_path());
 
         if self.is_draft {
             warn!("{}", msg);
         } else {
             error!("{}", msg);
+        }
+    }
+
+    pub fn log_todo_comment(self, comment: &str) {
+        warn!("{} in {}", comment, self.format_path())
+    }
+
+    fn format_path(self) -> String {
+        match self.path {
+            Some(path) => format!("`{}`", path),
+            None => format!("unknown path"),
         }
     }
 }
