@@ -161,6 +161,17 @@ let x = 2;
     }
 
     #[test]
+    fn test_highlight_empty_code_block() -> Result<()> {
+        let s = r"
+```rust
+```";
+        let res = convert(s)?;
+        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="lang rust" data-lang="rust"></div><pre><code class="highlight rust">"#));
+        assert!(res.ends_with("</code></pre></div>"));
+        Ok(())
+    }
+
+    #[test]
     fn test_highlight_extension() -> Result<()> {
         let s = r"
 ```ml

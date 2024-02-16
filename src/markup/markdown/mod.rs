@@ -82,6 +82,5 @@ fn parse_markdown_to_feed(s: &str) -> String {
 }
 
 fn display_broken_link(link: &BrokenLink<'_>, markdown: &str) {
-    // FIXME make this a panic for posts but not for drafts
     warn!("Broken link: {}", &markdown[link.span.clone()]);
 }

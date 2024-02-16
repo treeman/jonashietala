@@ -1,6 +1,7 @@
 use crate::util;
 use camino::{Utf8Path, Utf8PathBuf};
 use colored::Colorize;
+use eyre::eyre;
 use eyre::Result;
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -189,11 +190,15 @@ fn highlight(spec: &HighlightSpec, code: &str) -> Result<String> {
     }
     let generated = html_generator.finalize();
 
+    // Empty syntax blocks will panic when we try to replace the generated <span>
+    if generated.is_empty() {
+        return Ok("".into());
+    }
+
     // Strip wrapping <span>, later to be replaced with a <code> tag.
-    // FIXME panics if highlighting is empty
     let cap = SPAN_WRAPPER
         .captures(&generated)
-        .expect("Failed to match syntax span");
+        .ok_or_else(|| eyre!("Failed to match syntax span"))?;
     Ok(cap[1].trim().to_string())
 }
 
