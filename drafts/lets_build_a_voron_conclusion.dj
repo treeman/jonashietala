@@ -1,5 +1,5 @@
 ---
-title: "Let's build a VORON: Conclusion"
+title: "Let's build a VORON: Wrap-up"
 tags: ["3D printing", "VORON"]
 series: voron_trident
 ---
@@ -38,7 +38,7 @@ Take it slow and ask for help, and I'm sure you could do it too.
 Okay, you can use the printer as-is.
 But in my mind some modding is required to get the most out of it:
 
-1. [HEPA-filter][] seems like a must.
+1. [HEPA filter][] seems like a must.
 
    Sure, there are crazy people who even print ABS in their bedroom without an enclosure---but come on.
    Your health is the most important thing, you should take better care of it.
@@ -91,3 +91,4 @@ That you haven't even finished it yet, but you're already pining for _another on
 [Enraged Rabbit Carrot Feeder]: https://github.com/Enraged-Rabbit-Community/ERCF_v2
 [Xol toolhead]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/tree/main
 [inverted electronics]: https://mods.vorondesign.com/details/pXkXHVIUbqSWqQKJISczw
+[HEPA filter]: /blog/2023/12/15/lets_build_a_voron_filters/#hepa-exhaust-filter

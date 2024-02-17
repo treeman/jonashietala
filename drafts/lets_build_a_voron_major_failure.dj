@@ -7,7 +7,7 @@ series: voron_trident
 ![The left POM nut got ground down, making the bed fall down.](/images/trident/pom_bed_imbalanced.jpg)
 
 After 600 hours, the printer met it's first major failure.
-I know I earlier [described how the extruder starter skipping][skipping] in a major way, but that was just some filament getting stuck in the extruder.
+I know I earlier [described how the extruder starter skipping][skipping] in a big way, but that was just some filament getting stuck in the extruder.
 This time a part physically broke down.
 
 What happened was that the rod on one of the Z-motors started to grind down the POM nut that holds up the bed:
@@ -15,5 +15,34 @@ What happened was that the rod on one of the Z-motors started to grind down the 
 ![](/images/trident/pom_chips.jpg)
 
 It did this so much that the threads got ground down, making the bed fall down.
+
+The POM nuts are considered expendable items, but a failure after only 600 hours "shouldn't happen".
+But here we are.
+
+Someone in the VORON Discord said that this is a well-known problem with LDO Trident kits (sigh, I chose the expensive option to avoid problems like these...).
+
+![The Z-motor I have is LDO-42STH40-1684CL300T.
+I don't know what kind of POM nut I have (it's black and it came with the LDO kit...)](/images/trident/z_motor_type.jpg)
+
+Tightening the nuts holding the POM nut is also something that can cause issues, although I _think_ they're not tightened hard.
+
+![One potential issue I found is a gap between the motor mount and the front extrusion.](/images/trident/gap_holder.jpg)
+
+I've found one potential issue in my setup, and it's that the motor mount wasn't completely flat against the extrusion at the front, but it was flat further back against the side extrusion.
+This should mean that the rod would be tilting backwards at a slight angle, which might mean that the rod would catch against the nut more in that direction, increasing the attrition on the nut.
+
+The theory meshes well with the unevenly ground threads, especially since I mostly print things at a similar Z-height (as you can see in the first photo where the rod has collected a lot of flakes).
+
+::: flex
+![](/images/trident/pom_ground_1.jpg)
+![](/images/trident/pom_ground_2.jpg)
+
+The threads aren't ground down evenly.
+One side is almost completely flat, while the threads are clearly visible on the other.
+:::
+
+This is just one theory, I really don't know the cause of this.
+I flattened the motor mount, replaced the POM nut, and loosened the screws/nuts connected to the POM nut; I hope the issue won't reappear anytime soon.
+
 
 [skipping]: /blog/2024/02/02/lets_build_a_voron_smaller_fixes/#Extruder-skipping

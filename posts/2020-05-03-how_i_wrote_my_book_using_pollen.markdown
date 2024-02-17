@@ -1,6 +1,6 @@
 ---
 title: "How I wrote a book using Pollen"
-tags: [Cryptocurrency, Programming, Pollen, Racket, Why Cryptocurrencies?, CSS, Self-publishing]
+tags: [Programming, Pollen, Racket, Why Cryptocurrencies?, CSS, Self-publishing]
 series: making-cryptobook
 recommended: true
 ---

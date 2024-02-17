@@ -4,10 +4,10 @@ tags: ["Why Cryptocurrencies?", "Self-publishing"]
 series: making-cryptobook
 ---
 
-This is a rundown of how I typeset and laid out my self-published book for the web version, the EPUB version, and the printed version.
+This is a rundown of how I typeset and laid out my self-published book for the [web version][], the [EPUB version][], and the [printed version][].
 
 ::: notice
-I was planning to include many more details, but the project took a lot longer than planned so I've forgotten a lot of what I did.
+I was planning to include many more details, but the project took a lot longer than planned so I've forgotten some things.
 :::
 
 # Web page
@@ -17,7 +17,7 @@ It's a static site generator that simply outputs HTML with some custom CSS styli
 I wrote a separate post on [how I wrote a book with Pollen][], check it out if you want more details.
 
 As I've become more proficient with CSS, I would've used Flexbox and Grid instead of floats and other hacks.
-Still, I'm quite pleased with how it looks.
+Still, I'm quite pleased with how it looks even though I'd rather not look at the implementation.
 
 I'm absolutely no CSS or design wizard, I just spent quite some time tweaking until I ended up with something decent (I guess design is simple, but not easy).
 
@@ -35,7 +35,7 @@ This is supported in Pollen by branching in the output functions, for example th
 
 Unfortunately, I didn't do this from the beginning and I wanted to create an EPUB after the book, and all the functions, had already been made.
 
-I could of course go back and modify them all, but it faster to just branch the repo and modify the webpage until it produced a valid EPUB.
+I could of course go back and modify them all, but it was much faster to just branch the repo and modify the webpage until it produced a valid EPUB.
 Hardly ideal, but it actually wasn't as bad as it may sound.
 
 Check out the [epub3 branch][] on GitHub for the complete source for the EPUB.
@@ -80,7 +80,7 @@ zip -X0 why_cryptocurrencies.epub mimetype
 zip -Xur9D why_cryptocurrencies.epub *
 ```
 
-If you want to take a closer look, you can [download the EPUB for free][dl] of the book and unzip it.
+If you want to take a closer look, you can [download the EPUB for free][dl] and unzip it.
 
 The `mimetype` contains the mimetype (without a trailing newline):
 
@@ -100,7 +100,7 @@ The entry-point to everything is the `META-INF/container.xml` file that simply r
 ```
 
 We don't have to use the `OEBPS/` directory, but most of the examples I looked at used it so I ran with it.
-Maybe it's some standard or something, I don't know.
+Maybe it's some kind of standard or something, I don't know.
 
 `content.opf` contains what you think it does: all the content for the book:
 
@@ -171,11 +171,11 @@ I really have no idea...
 ## Styling
 
 I had an incredibly frustrating experience trying to style the EPUB to match the web version, with matching spacing, typeset, sidenotes, and the rest.
-It felt that whatever I tried, any reader I tried would just ignore all the styling and fall back to their own and---in my opinion---horrible appearance.
+It felt that whatever I tried, every reader would just ignore all the styling and fall back to their own and---in my opinion---horrible appearance.
 
 I even gave up on the eBook for a time because of it.
 
-But then I noticed I had made an EPUB 2 instead of an EPUB 3, and with the newer version all styling worked with very little modification.
+But then I noticed I had made an EPUB 2 instead of an EPUB 3, and with the newer version all styling worked with little modification.
 This of course depends on the EPUB reader, but there's not much I can do about that:
 
 ::: Flex
@@ -204,7 +204,7 @@ And this was after I had made a bunch of corrections. Sigh...
 
 Fixing them was annoying and time consuming, but it wasn't hard. Most of them were easily fixed by updating the templates and tag generation within Pollen.
 
-Errors I ran into includes xhtml being more strict than html, so I couldn't nest an `<aside>` inside a `<li>`, leading to a nice big refactor of my sidenote generation code
+Errors I ran into includes xhtml being more strict than html, so I couldn't nest an `<aside>` inside a `<li>`, leading to a nice big refactor of my sidenote generation code.
 
 Another error pointed out that I had to provide `.png` fallbacks for all `.svg` images.
 With the [fish shell][] and [inkscape][] you can mass convert images like so:
@@ -227,26 +227,27 @@ Similar to how it was a big challenge to get Pollen to produce an EPUB version i
 In addition, making Latex reproduce my sidenote styling and placement wasn't at all straightforward (maybe I just suck at Latex).
 
 I instead laid out the PDF with [InDesign][].
-It required more manual tweaks that I really didn't enjoy, but on the flip side it was easy to make manual adjustments to get the layout _just_ right.
+It required more manual tweaks that I really didn't enjoy, but on the flip side it was very easy to make manual adjustments to get the layout _just_ right.
 
 ## XML importer
 
 Of course, we don't want to manually copy-paste the whole book, that would be silly.
 InDesign has an XML importer that we can use to import the book, and if we setup styles to automatically apply to certain elements (such as `<aside>` sidenotes) you get quite a lot of help.
 
-![I had to style the references manually because the importer messed them up...](/images/crypto_indesign/references.png)
-
 Yes, it's buggy and not well documented, but it's still a life-saver.
+
+![I had to style the references manually because the importer messed them up...](/images/crypto_indesign/references.png)
 
 ## Styles
 
 To work effectively with InDesign I found that effective use of styles is a must.
-The most important part of laying out my book was getting sizing and spacing right, and to do that you setup styles for the different cases and just apply them.
+The most important part of laying out my book was getting sizing and spacing right, and to do that you setup styles for the different cases and apply them (mostly to paragraphs).
 
 Lots of people love to rag on CSS, but CSS is very powerful and it's relatively simple to for example style a list, with proper spacing before, after, and between elements and text just the way you want it.
 With InDesign this wasn't nearly as straightforward, and I ended up with several styles I had to apply depending on the surrounding context:
 
-![I ended up with quite a few paragraphs related to lists. The first and last paragraph needed special handling because the spacing was slightly different in order to play nice with other styles, and then there's "multi" that contains multiple paragraphs in one list item.](/images/crypto_indesign/list_paragraph_styles.png)
+![I ended up with quite a few paragraphs related to lists. The first and last paragraph needed special handling because the spacing was slightly different in order to play nice with other styles.
+Then there's "multi" that contains multiple paragraphs in one list item, nested lists, and different types of lists...](/images/crypto_indesign/list_paragraph_styles.png)
 
 All this just to get consistent spacing for my various lists.
 
@@ -255,7 +256,7 @@ All this just to get consistent spacing for my various lists.
 ## Lots of manual tweaks
 
 Most of the time what I did in InDesign is read through the book to make small adjustments.
-I adjusted sidenote placements, tweaked styles here and there, adjusted page breaks to balance pages, adjusted paragraphs, added index references... And did it all over again.
+I adjusted sidenote placements, tweaked styles here and there, adjusted page breaks to balance pages, adjusted paragraphs, added index references... And then I did it all over again.
 
 Yes it's time consuming and annoying, but also weirdly therapeutic.
 I could satisfy my need for perfection by nudging text boxes around until the end of time.
@@ -268,8 +269,9 @@ If you upload a book on a website, or even if you create an EPUB, you can almost
 But printed books has certain expectations that should be followed.
 
 For example how a new chapter or section should start on a new page to the right, and leave the left page blank if needed.
-Or how page chapters and sections next to page numbers on the bottom can help you navigate a technical book such as mine.
-These are things you don't really notice, unless you come across a book that breaks them.
+Or how chapters and sections next to page numbers on the bottom can help you navigate a technical book such as mine.
+These are things you don't really notice, unless you come across a book without them.
+(Fiction has other expectations because you don't jump around when you read.)
 
 One thing that's easy to forget about in the internet age the *index* you can find at the end of many books.
 It's designed to help you easily find things in the book, sort of like a curated search engine, but on paper.
@@ -277,13 +279,19 @@ It's designed to help you easily find things in the book, sort of like a curated
 ![A correctly structured index is invaluable. Mine at least exists.](/images/crypto_indesign/index.png)
 
 Designing a good index is hard, because it's not about listing all keywords in the book.
-It's about anticipating the needs of the reader, so someone searching for "Blockchain" may be redirected to the chapter "How do cryptocurrencies work?". It also acts as a sort of overview of what topics are discussed.
+It's about anticipating the needs of the reader, so someone searching for "Bitcoin" may be redirected to the chapter [How do cryptocurrencies work?][], even though Bitcoin isn't singled out in the chapter (it discuses cryptocurrencies in general).
+
+The index also acts as a sort of overview of what topics are discussed.
+(Aren't you curious why [Dakota Skye is mentioned in the index][]?)
+
+[Dakota Skye is mentioned in the index]: https://whycryptocurrencies.com/undesirable_businesses.html
+[How do cryptocurrencies work?]: https://whycryptocurrencies.com/how_do_cryptocurrencies_work.html
 
 This seems difficult to do well---and I probably failed hard---but I tried.
 
 # What I'd do differently
 
-If I would write a book again, I would do what I wanted to in the first place: generate all versions from a single source. 
+If I would write a book again, I would try to do what I wanted to in the first place: generate all versions from a single source. 
 
 I wouldn't have used [Pollen][].
 While it feels really nice to be able to inject code anywhere in your markup, having to maintain 3 different outputs with every function you write is a bit much.
@@ -291,10 +299,12 @@ While it feels really nice to be able to inject code anywhere in your markup, ha
 Instead I'd try some kind of standard markup format with preexisting EPUB and PDF generation.
 I could still set it up to have custom transformations, but it would be so much easier to work with compared to programming the generation completely by myself.
 
-Working with InDesign was actually fine, but it was difficult to sync corrections between the versions, so it would still be beneficial to cut it out from the process if possible.
+Working with InDesign was actually fine, but keeping the different versions in sync was difficult, so it would still be beneficial to cut it out from the process if possible.
 
 But I'd still want to do the layout myself.
 It didn't feel difficult, I mostly enjoyed the process, and I think the result was quite good.
+
+The boxes don't nudge themselves you know?
 
 [how I wrote a book with Pollen]: /blog/2020/05/03/how_i_wrote_my_book_using_pollen/
 [multi-tutorial]: https://docs.racket-lang.org/pollen/fourth-tutorial.html
@@ -309,3 +319,6 @@ It didn't feel difficult, I mostly enjoyed the process, and I think the result w
 [inkscape]: https://inkscape.org/
 [InDesign]: https://www.adobe.com/products/indesign.html
 [Pollen]: https://docs.racket-lang.org/pollen/index.html
+[web version]: https://whycryptocurrencies.com/toc.html
+[printed version]: https://whycryptocurrencies.com/#print
+[EPUB version]: https://buy.whycryptocurrencies.com/download

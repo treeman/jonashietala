@@ -182,6 +182,8 @@ impl<'a> PostSeriesContext<'a> {
     fn new(post: &PostItem, series: &'a SeriesItem, ctx: &'a RenderContext) -> Self {
         let posts: Vec<_> = series.posts.iter().collect();
 
+        // FIXME this sometimes crashes.
+        // If we add a draft?
         let post_index = posts.iter().position(|curr| &curr.0 == post).unwrap();
         let next_url = posts
             .get(post_index + 1)

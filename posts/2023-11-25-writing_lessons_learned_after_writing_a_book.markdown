@@ -1,6 +1,6 @@
 ---
 title: "Writing lessons learned after writing a book"
-tags: [Cryptocurrency, Why Cryptocurrencies?, Writing, Self-publishing]
+tags: [Why Cryptocurrencies?, Writing, Self-publishing]
 series: making-cryptobook
 ---
 

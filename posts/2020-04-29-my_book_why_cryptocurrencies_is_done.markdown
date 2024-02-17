@@ -1,6 +1,6 @@
 ---
 title: "My book 'Why Cryptocurrencies?' is done"
-tags: Cryptocurrency, Why Cryptocurrencies?
+tags: ["Why Cryptocurrencies?", "Self-publishing"]
 ---
 
 My first commit on my book [Why Cryptocurrencies?][main] is from Dec 19, 2018, and now about 17 months later and 1006 more commits I'm finally done!

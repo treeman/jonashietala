@@ -249,7 +249,7 @@ impl SiteRenderOpts<'_> {
     fn post_updated<'a>(old: &PostItem, new: &'a PostItem) -> SiteRenderOpts<'a> {
         let title_changed = new.title != old.title;
         let tags_changed = new.tags != old.tags;
-        let series_changed = new.series.is_some() || new.series != old.series;
+        let series_changed = new.series != old.series;
         let recommended_changed = new.recommended != old.recommended;
         let is_draft = old.is_draft || new.is_draft;
 
@@ -664,8 +664,14 @@ impl Site {
         let updated = self.content.posts.get(&post_ref).unwrap();
 
         let render_opts = match prev_post {
-            Some(old) => SiteRenderOpts::post_updated(&old, &updated),
-            None => SiteRenderOpts::post_created(&updated),
+            Some(old) => {
+                info!("updating... {:?}", &post_ref);
+                SiteRenderOpts::post_updated(&old, &updated)
+            }
+            None => {
+                info!("updating... {:?}", &post_ref);
+                SiteRenderOpts::post_created(&updated)
+            }
         };
 
         self.render(render_opts)
