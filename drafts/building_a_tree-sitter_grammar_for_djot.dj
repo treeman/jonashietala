@@ -1,0 +1,26 @@
+---
+title: "Building a tree-sitter grammar for Djot"
+tags: ["Tag1", "Tag2"]
+---
+
+# Our subset
+
+1. Paragraphs
+1. Divs
+1. Emphasis
+
+# A first parser
+
+- Simple paragraphs
+- Newlines
+- Text
+- Emphasis
+
+# Naive div support
+
+# External scanner
+
+There are some issues with our div implementation:
+
+1. There can be an arbitrary number of `:`, allowing divs to be nested.
+1. 
