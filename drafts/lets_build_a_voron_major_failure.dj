@@ -24,14 +24,20 @@ Someone in the VORON Discord said that this is a well-known problem with LDO Tri
 ![The Z-motor I have is LDO-42STH40-1684CL300T.
 I don't know what kind of POM nut I have (it's black and it came with the LDO kit...)](/images/trident/z_motor_type.jpg)
 
-Tightening the nuts holding the POM nut is also something that can cause issues, although I _think_ they're not tightened hard.
+Potential issues that people have brought up:
 
-![One potential issue I found is a gap between the motor mount and the front extrusion.](/images/trident/gap_holder.jpg)
+1. Tightening the nuts holding the POM too hard.
+1. A gap between the motor mount and the front extrusion.
 
-I've found one potential issue in my setup, and it's that the motor mount wasn't completely flat against the extrusion at the front, but it was flat further back against the side extrusion.
-This should mean that the rod would be tilting backwards at a slight angle, which might mean that the rod would catch against the nut more in that direction, increasing the attrition on the nut.
+   ![I found is a gap between the motor mount and the front extrusion.](/images/trident/gap_holder.jpg)
 
-The theory meshes well with the unevenly ground threads, especially since I mostly print things at a similar Z-height (as you can see in the first photo where the rod has collected a lot of flakes).
+   This should mean that the rod would be tilting backwards at a slight angle, which might mean that the rod would catch against the nut more in that direction, increasing the attrition on the nut.
+
+   The theory meshes well with the unevenly ground threads, especially since I mostly print things at a similar Z-height (as you can see in the first photo where the rod has collected a lot of flakes).
+
+1. I used the [wrong grease][] for the rods (POM's are self-lubricating, you shouldn't even need grease).
+1. Dust/dirt stuck in the nut.
+1. An issue with the LDO kit.
 
 ::: flex
 ![](/images/trident/pom_ground_1.jpg)
@@ -41,8 +47,5 @@ The threads aren't ground down evenly.
 One side is almost completely flat, while the threads are clearly visible on the other.
 :::
 
-This is just one theory, I really don't know the cause of this.
-I flattened the motor mount, replaced the POM nut, and loosened the screws/nuts connected to the POM nut; I hope the issue won't reappear anytime soon.
-
-
 [skipping]: /blog/2024/02/02/lets_build_a_voron_smaller_fixes/#Extruder-skipping
+[wrong grease]: https://forum.vorondesign.com/threads/this-is-not-good.1519/#post-9936
