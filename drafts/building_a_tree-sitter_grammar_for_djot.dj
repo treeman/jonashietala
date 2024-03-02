@@ -126,7 +126,7 @@ both closed when the top-level div is closed
 
 This is... Complicated.
 
-Sure, we can work around the varying levels of `:` with something hacky like enumerating the number of colons, like this:
+Sure, we can work around the varying levels of `:` with something hacky like enumerating the number of colons, with something like this:
 
 ```js
 div: ($) => choice($._div3, $._div4, $._div5, $._div6, $._div7, $._div8),
@@ -136,8 +136,7 @@ _div5: ($) => seq(/:{5}/, $._inside_div, /:{5}/, "\n"),
 _div6: ($) => seq(/:{6}/, $._inside_div, /:{6}/, "\n"),
 _div7: ($) => seq(/:{7}/, $._inside_div, /:{7}/, "\n"),
 _div8: ($) => seq(/:{8}/, $._inside_div, /:{8}/, "\n"),
-_inside_div: ($) =>
-  prec.left("\n", repeat($._block))),
+_inside_div: ($) => prec.left("\n", repeat($._block)),
 ```
 
 But it's not _neat_, and automatically closing matching blocks is much harder (to my brain it seems impossible, but I'm no expert).
@@ -161,7 +160,131 @@ Basically you need to:
 
 Let's take a look.
 
-## Closing a div closes an open paragraph
+## Div markers closes open paragraphs
+
+Let's start by closing a paragraph early when a `:::` is encountered.
+This is simpler because we don't have to store any state.
+
+When parsing `$.paragraph` we'll give the parser a choice between ending the paragraph on a newline or on our new `$._close_paragraph` token:
+
+
+```js
+paragraph: ($) =>
+  seq(repeat1(seq($._inline, "\n")), choice("\n", $._close_paragraph)),
+```
+
+`$._close_paragraph` is handled by the external scanner, which is specified using the `externals` field:
+
+```js
+externals: ($) => [$._close_paragraph],
+```
+
+Now let's turn our attention to `src/scanner.c`.
+
+The tokens in `externals` gets assigned an incremented number, starting from 0...
+Just like an enum in C!
+
+```c
+// We only have a single element right now, but keep in mind that the order
+// must match the `externals` array in `grammar.js`.
+typedef enum { CLOSE_PARAGRAPH } TokenType;
+```
+
+The five functions we need to implement are these:
+
+```c
+// You should replace `sdjot` with whatever project name you chose.
+bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
+                                             const bool *valid_symbols) {
+  // All the scanning goes here.
+  return false;
+}
+
+// If we need to allocate/deallocate state, we do it in these functions.
+void *tree_sitter_sdjot_external_scanner_create() { return NULL; }
+void tree_sitter_sdjot_external_scanner_destroy(void *payload) {}
+
+// If we have state, we should load and save it in these functions.
+unsigned tree_sitter_sdjot_external_scanner_serialize(void *payload,
+                                                      char *buffer) {
+  return 0;
+}
+void tree_sitter_sdjot_external_scanner_deserialize(void *payload, char *buffer,
+                                                    unsigned length) {}
+```
+
+Because we won't use any state, we'll only have to update the `scan` function.
+
+What you're supposed to do is check `valid_symbols` for the tokens we can return at any point in time, and return `true` if any was found:
+
+```c
+bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
+                                             const bool *valid_symbols) {
+  if (valid_symbols[CLOSE_PARAGRAPH] && parse_close_paragraph(lexer)) {
+    return true;
+  }
+  return false;
+}
+```
+
+The matched token should be stored in `lexer->result_symbol`c:
+
+```c
+bool parse_close_paragraph(TSLexer *lexer) {
+  // Mark the end before advancing so that the CLOSE_PARAGRAPH token doesn't
+  // consume any characters.
+  lexer->mark_end(lexer);
+
+  uint8_t colons = consume_chars(lexer, ':');
+  if (colons == 3) {
+    lexer->result_symbol = CLOSE_PARAGRAPH;
+    return true;
+  } else {
+    return false;
+  }
+}
+```
+
+Note that the resulting token will mark any symbol we advance over as owned by that token.
+So `:::` would be marked as `_close_paragraph` (which will be ignored by the output since it begins with an underscore), instead of `div_marker`.
+To stop prevent this, we turn `_close_paragraph` into a zero-width token by marking the end before advancing the lexer.
+
+How do we advance the lexer?
+We call `lexer->advance`c:
+
+```c
+uint8_t consume_chars(TSLexer *lexer, char c) {
+  uint8_t count = 0;
+  while (lexer->lookahead == c) {
+    lexer->advance(lexer, false);
+    ++count;
+  }
+  return count;
+}
+```
+
+This is almost all we can do with the lexer.
+We only process one character at a time, cannot look behind, and our only tool to look ahead is to `mark_end` at the correct place.
+(We can also query the current column position.)
+
+With this we have a working external scanner and div tags now close paragraphs:
+
+```
+:::
+A paragraph inside a div
+:::
+```
+
+```fish
+$ tree-sitter parse example-file
+(document [0, 0] - [4, 0]
+  (div [0, 0] - [3, 0]
+    (div_marker [0, 0] - [0, 3])
+    (paragraph [1, 0] - [2, 0])
+    (div_marker [2, 0] - [2, 3])))
+```
+
+(This may not be the best design, having to parse div markers multiple times, but it gets the job done.)
 
     *   *    *
 
