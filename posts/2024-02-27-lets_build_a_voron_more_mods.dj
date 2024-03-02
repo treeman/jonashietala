@@ -47,7 +47,7 @@ I also made the bottom panel magnetic using [the bottom panel mag clip][] mod:
 ![](/images/trident/magnetic_bottom.jpg)
 
 Necessary?
-No, but they sure are nice.
+No---but it feels nice.
 
 # Clicky-clack door
 
@@ -56,7 +56,7 @@ No, but they sure are nice.
 I really didn't like the stock doors on the printer.
 I was planning to use the same magnetic and/or latch system for the front door, but I realized it would be very bothersome compared to a door you can swing open.
 
-Luckily I found the [Clicky-Clack Fridge Door][] mod that's a full panel door that swings open, provides a better seal than the stock doors, and can easily be removed.
+Luckily I found the [Clicky-Clack Fridge Door][] mod that replaces the split panels with a full panel door and that can swing open, provides a better seal than the stock doors, and can easily be removed.
 It may not win any beauty awards, but it sure is functional.
 
 [Clicky-Clack Fridge Door]: https://github.com/tanaes/whopping_Voron_mods/tree/main/clickyclacky_door
@@ -81,15 +81,15 @@ max_fps: 15                             # If Hardware Supports this it will be f
 
 To see what resolution and fps the camera supports, you can take a look in `~/printer_data/logs/crowsnest.log`.
 
-I used the MJPEG IP Camera integration to get the feed into Home assistant, using `http://192.168.1.32/webcam/?action=stream` as the URL and made a quick dashboard for the printer:
+I used the MJPEG IP Camera integration to get the feed into Home Assistant, using `http://192.168.1.32/webcam/?action=stream` as the URL and made a quick dashboard for the printer:
 
 ![Can you smell what the rock is cooking?!](/images/trident/ha_galileo.png){width="80%"}
 
-I should probably rework this and all other dashboards one day...
+I should probably rework this and all other Home Assistant dashboards one day...
 
 The mount works well, but the camera is far from perfect.
 It's good enough for checking in on the print, but a more clear view would've been nice.
-The focus isn't working well, the colors are off and I don't see the whole build plate.
+The focus isn't working well, the colors are off, and I don't see the whole build plate.
 Worse, the toolhead often covers up the print so I can't see if it's still printing well.
 
 I won't do anything about it right now, but in the future I'll probably try to replace it with something else.
@@ -102,8 +102,8 @@ I won't do anything about it right now, but in the future I'll probably try to r
 
 Bed adhesion and first layer problems are annoying, but they can be mitigated by watching the first layer go down and if it goes badly you don't lose that much time.
 
-Something I think is much more annoying is when the filament tangles.
-According to the internet, this "should never happen" but it has happened with four different spools from different manufacturers and it sucks when the print fails multiple hours in.
+Something much more annoying is when the filament tangles.
+According to the internet it "should never happen", but it has happened with four different spools from different manufacturers and it sucks when the print fails multiple hours in.
 
 ![See this? This damned spool ruined 4 prints in a row for me.
 It's not a real knot, but it's tangled hard enough that the extruder couldn't pull it free, and it started to grind down the filament instead of extruding it.](/images/trident/tangled_spool.jpg)
@@ -152,7 +152,7 @@ This worked, but damn was it HARD.
 The extruder really does have force behind it.
 
 Since installing the sensor it has already saved multiple prints.
-For sure a huge quality-of-life improvement, and it almost feels like a must-have.
+For sure a huge quality-of-life improvement, and feels like a must-have.
 
 [pause_resume]: https://ellis3dp.com/Print-Tuning-Guide/articles/useful_macros/pause_resume_filament.html
 [Smart Filament Sensor V2.0]: https://www.3djake.com/bigtreetech/smart-filament-sensor-v20
@@ -187,7 +187,7 @@ I used a combination of [top][top-gridfinity] and [bottom][bottom-gridfinity] ho
 ![](/images/trident/meshes.jpg)
 
 Adding [meshes for the panels][meshes] might be one of the prettiest mods you can do---and I think it's very pretty---but that's not why I did it.
-I added it as a safety measure against my kids (or me!) inserting something like a screwdriver inside the electronics while the printer is running.
+I added it as a safety measure against my kids (or me) inserting something like a screwdriver inside the electronics while the printer is running.
 
 I didn't do any fancy filament swapping prints, I just printed the meshes and glued them onto the backs of the panels.
 It works.
@@ -200,7 +200,7 @@ It works.
 
 I replaced the Clockwork 2 extruder with the [Galileo 2][].
 
-This wasn't exactly needed, I just thought it would be interesting as building the Clockwork was one of the most interesting parts of the build, and this [planetary gears][] thing looked pretty interesting.
+This wasn't exactly needed, I just thought it would be fun as building the Clockwork was one of the most interesting parts of the build, and this [planetary gears][] thing looked pretty interesting.
 And the FOMO kicked in as I was following the discussion online, with people hyping about it but not being able to find a kit.
 So when I happened to find one I couldn't help myself.
 
@@ -286,7 +286,7 @@ There's a X Endstop connector in the toolhead PCB...
 But I don't see how to get that signal out from LDO's breakout board in the electronics compartment (it takes it from the X/Y Endstop PCB).
 
 That feels like a lot of effort...
-So I gave up on the mod for now and replaced it with printed Tap once again.
+And I told myself I would not drag more wires through the drag chain, so I gave up on the mod for now.
 I'll revisit this when I move to an umbilical setup, where I plan to move the X and Y endstops anyway to get rid of the drag chains.
 
 But that's a larger project for the future, at the moment I'm content.

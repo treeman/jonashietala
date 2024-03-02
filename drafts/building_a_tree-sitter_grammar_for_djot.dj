@@ -1,56 +1,169 @@
 ---
-title: "Building a tree-sitter grammar for Djot"
-tags: ["Tag1", "Tag2"]
+title: "Creating a Tree-sitter grammar for a subset of Djot"
+tags: ["Djot", "Tree-sitter", "C"]
 ---
 
+One of my favorite features in Neovim is the Tree-sitter integration.
+It allows for fast syntax highlighting that works well even in an error state (often the case when you're editing code), and it has additional semantics (you can differentiate between function parameters and local variables).
+
+With [nvim-treesitter-textobjects][] you can also jump between nodes (such as `]c` to jump to next class) or target deletion (`cif` to delete the function body and enter insert mode).
+An amazing feature as it works across languages, no matter how the look like.
+
+But, you might wonder how does Tree-sitter work?
+How do you create a Tree-sitter parser for a language?
+
+I started thinking about this and before I knew it I was trying to make my own parser for [Djot][] (a markup language similar to Markdown).
+There are some good tutorials on how to get started, but not on some mare advanced things.
+
+Specifically, I had some questions on how to use an external scanner, and here's a post on how and why you can use an external scanner in your Tree-sitter parser.
+
+[nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+
 # Our subset
+
+For the purpose of this blog post, we'll implement a small subset of [Djot][]:
 
 1. Paragraphs
 1. Divs
 1. Emphasis
 
+This allows us to parse markup like this:
+
 ```djot
-This is a paragraph
+This is a
+multiline _paragraph_
 
-::: some-class
-This is inside a div
+::: div-class
+This is a paragraph inside a div
 :::
-
-This uses _emphasis_
 ```
 
-# A first parser
+At first blush, this seems like it's too simple to require anything more complex other than some simple grammar rules, but later on we'll see that even these simple rules contain complicated edge-cases.
 
-- Simple paragraphs
-- Newlines
-- Text
-- Emphasis
-- Div
+# Simple beginnings
 
-# External scanner
+The point of this post isn't to go through how the Tree-sitter grammar description in `grammar.js` works.
+The [Tree-sitter docs][] goes through how to get started pretty well.
+I named the project `sdjot` and this is the `grammar.js` we'll start with:
 
-There are some issues with our div implementation:
+[Tree-sitter docs]: https://tree-sitter.github.io/tree-sitter/creating-parsers
+
+```js
+module.exports = grammar({
+  name: "sdjot",
+
+  // Skip carriage returns.
+  // We could skip spaces here as well, but the actual markup language
+  // has significant spaces in some places, so let's remove them here too.
+  extras: (_) => ["\r"],
+
+  rules: {
+    document: ($) => repeat($._block),
+
+    // All blocks should end with a newline, but we can also eat newlines directly.
+    _block: ($) => choice($.div, $.paragraph, "\n"),
+
+    // A div contains other blocks.
+    div: ($) =>
+      prec.left(seq($.div_marker, "\n", repeat($._block), $.div_marker, "\n")),
+    div_marker: (_) => ":::",
+
+    // A paragraph contains inline content and is terminated by a blankline
+    // (two newlines in a row).
+    paragraph: ($) => seq(repeat1(seq($._inline, "\n")), "\n"),
+
+    // The markup parser could separate block and inline parsing into separate steps,
+    // but we'll do everything in one parser.
+    _inline: ($) => repeat1(choice($.emphasis, /[^\n]/)),
+    emphasis: ($) => prec.left(seq("_", $._inline, "_")),
+  },
+});
+```
+
+It recognizes paragraphs with text and emphasis, and it identifies divs with begin and end tags.
+
+We can create an `example-file` with these contents:
+
+```djot
+:::
+A paragraph _with emphasis_ inside a div
+
+:::
+```
+
+And parse it with the `tree-sitter` cli:
+
+```fish
+$ tree-sitter parse example-file
+(document [0, 0] - [5, 0]
+  (div [0, 0] - [4, 0]
+    (div_marker [0, 0] - [0, 3])
+    (paragraph [1, 0] - [3, 0]
+      (emphasis [1, 12] - [1, 27]))
+    (div_marker [3, 0] - [3, 3])))
+```
+
+Et voilà!
+
+## Missing features
+
+But I told you it wasn't supposed to be this easy, and there are two features missing from our parser:
 
 1. There can be an arbitrary number of `:`, allowing divs to be nested.
-1. Closing a div should close the paragraph.
+1. Closing a div should close other open blocks (divs and paragraphs in our case).
 
-While we could work around the varying levels of `:` with something hacky like this:
+In essence, we need to be able to parse this:
+
+```djot
+:::
+Top-level div
+
+::::
+A paragraph inside a second div,
+both closed when the top-level div is closed
+:::
+```
+
+This is... Complicated.
+
+Sure, we can work around the varying levels of `:` with something hacky like enumerating the number of colons, like this:
 
 ```js
 div: ($) => choice($._div3, $._div4, $._div5, $._div6, $._div7, $._div8),
-_div3: ($) => seq(/:{3}/, $._inside_div, /:{3}/),
-_div4: ($) => seq(/:{4}/, $._inside_div, /:{4}/),
-_div5: ($) => seq(/:{5}/, $._inside_div, /:{5}/), _div6: ($) => seq(/:{6}/, $._inside_div, /:{6}/),
-_div7: ($) => seq(/:{7}/, $._inside_div, /:{7}/),
-_div8: ($) => seq(/:{8}/, $._inside_div, /:{8}/),
+_div3: ($) => seq(/:{3}/, $._inside_div, /:{3}/, "\n"),
+_div4: ($) => seq(/:{4}/, $._inside_div, /:{4}/, "\n"),
+_div5: ($) => seq(/:{5}/, $._inside_div, /:{5}/, "\n"),
+_div6: ($) => seq(/:{6}/, $._inside_div, /:{6}/, "\n"),
+_div7: ($) => seq(/:{7}/, $._inside_div, /:{7}/, "\n"),
+_div8: ($) => seq(/:{8}/, $._inside_div, /:{8}/, "\n"),
 _inside_div: ($) =>
-  prec.left(seq(/[ ]*/, optional($.class_name), "\n", repeat($._block))),
-class_name: (_) => /\w+/,
+  prec.left("\n", repeat($._block))),
 ```
 
-Automatically closing a paragraph when a div closes is harder (which in Djot is more general, and is used to close other elements such as code blocks too).
+But it's not _neat_, and automatically closing matching blocks is much harder (to my brain it seems impossible, but I'm no expert).
 
-To do this we need an external scanner, which essentially means we need some custom scanner code in C.
+With an external scanner we can do this (and more).
+
+# External scanner
+
+A Tree-sitter parser is actually a C program.
+The grammar we've seen has been described in JavaScript, but it's only used as a description to generate the parser in C.
+If you're a masochist, you can take a look at it in `src/parser.c` after running `tree-sitter generate`.
+
+An external scanner is just some custom C code that's inserted into the parser, and it allows us to override the parser precedence, keep track of a context state, or whatever else we might need or want to do.
+
+To get started the [official docs][external-scanners] was pretty good.
+Basically you need to:
+
+1. Create a `src/scanner.c` and include it in `binding.gyp` `bindings/rust/build.rs`.
+1. Setup `externals` tokens in `grammar.js` and a matching C enum in `scanner.c`.
+1. Define and implement five C functions.
+
+Let's take a look.
+
+## Closing a div closes an open paragraph
+
+    *   *    *
 
 ## A simple scanner
 
@@ -894,3 +1007,5 @@ void tree_sitter_djot_external_scanner_deserialize(void *payload, char *buffer,
 # Adding highlights
 
 ## Using our grammar with Neovim
+
+[external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners

@@ -12,7 +12,7 @@ I knew that it wouldn't be silent, but I wasn't prepared for this kind of noise.
 
 # Silent controller fans
 
-The very first mod I made (even before my first print) was to replace the LOUD skirt fans with silent [Noctua FN-A6x25].
+The very first mod I made (even before my first print) was to replace the LOUD skirt fans with silent [Noctua FN-A6x25][].
 When I say the fans were loud, I mean that they were **incredibly damn loud**.
 I don't see how anyone could be near the printer with fans this loud for a prolonged period of time.
 
@@ -37,6 +37,10 @@ I didn't have a compatible 3-pin splitter for the fans so I used the PCB I had o
 I also took the opportunity to cleanup the wiring and place the fans on the other side, closer to the Raspberry Pi:
 
 ![The wiring looks pretty neat. I hope I don't have to mess with it in a long time.](/images/trident/clean_wiring.jpg)
+
+::: notice
+Note from the future: I've been writing these posts out of order, and I've had to mess with the wiring a bit.
+:::
 
 You could do something smart with the fan management, but I no longer hear the fans so I just leave them on all the time.
 This is how I set that up in `printer.cfg`:
@@ -101,15 +105,32 @@ This seems to be a [common issue with some 0.9° steppers][09_issue] and I tried
 While things mostly weren't *that* bad anymore, at certain speeds and certain angles the noise was still way too jarring for me to leave it alone.
 And it wasn't just too high speeds, sometimes decreasing the speed made it worse!
 
-![77dB is loud!](/images/trident/steppers_loud.png)
-
+![77dB is loud! This was from long diagonal movement during (non-first layer) solid infill, which was one of the movements that generated the most noise.](/images/trident/steppers_loud.png)
 
 So I gave in and ordered two `Wantai 42BYGHM810` steppers from Aliexpress that [according to the linked discussion][09_issue] should be much quieter. (1.8° degree steppers should generally be much better too.)
+
+After waiting quite a while, the motor I got had the correct label of `42BYGHM810` but marked as 1.8°, despite being sold as a 0.9°.
+The joy of Aliexpress sometimes...
+
+But it does seem that it is a 0.9° motor, and it was just badly labeled.
+
+Swapping the motors was very easy, just loosen the belts a bit and I could pull them out.
+With some Molex Micro-Fit  3.0 4-Pin connectors (and some crimping...) I got it to run with a `run_current: 1.1` and it's _so much quieter_!
+
+![The motors run at 52dB in the same conditions as the LDO motors, which is _really_ quiet.
+I can't understate how large a 20dB difference truly is.
+The 63dB peak was from the filament getting pulled from the spool.](/images/trident/steppers_quiet.png)
 
 
 # Is it silent?
 
-Despite my best efforts, the printer isn't silent.
+Of course, the printer isn't nearly as quiet as my water cooled computer---how could it?
+But these changes have made the printer _much_ quieter, which is important to me as I'm quite sensitive to noise.
+
+It's still a bit noisy---too much if I want to sit in silence and ponder a difficult problem---
+but it's silent enough so I can have it running in the background while I'm working.
+I'll probably pause it if I'm in a call, and I won't have it running all the time during work hours.
+(The printer is in my office, right behind me.)
 
 [Noctua FN-A6x25]: https://noctua.at/en/nf-a6x25-flx
 [4pin]: https://www.nicksherlock.com/2022/01/driving-a-4-pin-computer-pwm-fan-on-the-btt-octopus-using-klipper/
