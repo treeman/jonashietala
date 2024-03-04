@@ -116,8 +116,8 @@ Here's a list of the full specs:
 - **SSD**: 2x 500GB Samsung 960 Evo
 - **SSD**: Kingston KC3000 M.2 2280 NVMe SSD 2TB
 - **Case**: Phanteks Enthoo Primo
-- **Monitor**: BenQ EW3270U 31,5"
-- **Monitor** 2x DELL U2211H ULTRASHARP 21,5"
+- **Monitor**: BenQ EW3270U 31,5\"
+- **Monitor** 2x DELL U2211H ULTRASHARP 21,5\"
 
 ## Sound
 

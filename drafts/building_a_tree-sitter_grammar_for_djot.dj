@@ -286,6 +286,22 @@ $ tree-sitter parse example-file
 
 (This may not be the best design, having to parse div markers multiple times, but it gets the job done.)
 
+## Tracking nested blocks
+
+To automatically close other open blocks we need to add some context to our parser, which means we'll need state management.
+
+The small subset we're using for the blog is only concerned with divs because it would be a terribly long post otherwise, but I'll try to implement this in a general manner, to be more indicative of a real-world parser.
+
+
+TODO
+
+(alloc and array are new features!)
+
+1. Use ts_ from "tree_sitter/alloc.h"
+1. Use array macros from "tree_sitter/array.h"
+1. Should detect if we're in an error detection mode
+
+
     *   *    *
 
 ## A simple scanner

@@ -24,9 +24,8 @@ I think I enjoyed the building experience so much that I was seeking out more mo
 Even though I've tried to include as much details as possible in this blog series, there are still many things I left out that you need to learn if you're new to 3D printing like I am.
 For example:
 
-- Lots of klipper & G-code configuration
-- Slicer management
-- Nozzle sizes, supports, brims, rafts, skirts...
+- Klipper & G-code configuration
+- Slicer management and the thousands of settings
 - Filament selection, stuck filament, wet filament, filament tuning...
 
 You can absolutely start from zero with a VORON like I did, just realize that there's a lot to learn, and building the printer is only the beginning of the journey.
@@ -50,7 +49,7 @@ If you're building a Trident I'd at least consider these mods as well:
 
 A. [Removable top panel][].
 A. [Some sort of camera][] (maybe not the Angry CAM).
-A. [RockNRoll][] (or [inverted electronics][], but plan for that from the beginning).
+A. [RockNRoll][] (or [inverted electronics][], but maybe plan for that from the start).
 
 (Modding is also one of the most fun parts, feel free to go nuts!)
 
@@ -62,14 +61,16 @@ I did however have two larger issues:
 1. The [printer was loud][].
 2. The [POM nuts wore out][].
 
-This isn't a knock on the printer design (I think), but an issue with some of the parts I received in the LDO Trident kit.
+This isn't a knock on the printer design (I think).
+Maybe it was an issue with some of the parts I received in the LDO Trident kit, but I don't know.
+It could also be plain old user error.
 
 # Future plans
 
-One might think that the printer is complete and that I won't touch it anymore, but no.
+One might think that the printer is complete and that I won't touch it anymore, but nooo.
 Oh no, I've a bunch of large mods I want to do with the printer:
 
-i. Replace the camera I have with a better one.
+i. Replace the camera with a better one (maybe also a nozzle camera?).
 i. Remove drag chains and go umbilical.
 i. Complete the [purge bucket mod][].
 i. Try the [inverted electronics][] mod.
@@ -92,3 +93,10 @@ That you haven't even finished it yet, but you're already pining for _another on
 [Xol toolhead]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/tree/main
 [inverted electronics]: https://mods.vorondesign.com/details/pXkXHVIUbqSWqQKJISczw
 [HEPA filter]: /blog/2023/12/15/lets_build_a_voron_filters/#hepa-exhaust-filter
+[smart filament sensor]: /blog/2024/02/27/lets_build_a_voron_more_mods/#Smart-filament-sensor
+[Removable top panel]: /blog/2024/02/27/lets_build_a_voron_more_mods/#Removable-panels
+[Some sort of camera]: /blog/2024/02/27/lets_build_a_voron_more_mods/#Angry-cam
+[RockNRoll]: /blog/2024/02/27/lets_build_a_voron_more_mods/#RockNRoll
+[printer was loud]: /blog/2024/02/28/lets_build_a_voron_noise/
+[POM nuts wore out]: /blog/2024/03/01/lets_build_a_voron_major_failure/
+[purge bucket mod]: /blog/2024/02/27/lets_build_a_voron_more_mods/#Purge-bucket-CNC-Tap
