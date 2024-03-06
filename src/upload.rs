@@ -1,5 +1,3 @@
-use axum::http::HeaderMap;
-use axum::http::HeaderValue;
 use eyre::eyre;
 use eyre::Result;
 use futures::future;
@@ -7,8 +5,8 @@ use lazy_static::lazy_static;
 use rayon::iter::IntoParallelIterator;
 use rayon::iter::ParallelIterator;
 use regex::Regex;
-use reqwest::header::HeaderName;
 use reqwest::header::CACHE_CONTROL;
+use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use s3::bucket::Bucket;
 use s3::serde_types::Object;
 use std::collections::HashMap;
