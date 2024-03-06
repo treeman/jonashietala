@@ -58,63 +58,63 @@ $melange_dark_d_blue: #273142;
 $melange_dark_d_magenta: #422741;
 
 :root {
-  --melange_a_bg: $melange_light_a_bg;
-  --melange_a_float: $melange_light_a_float;
-  --melange_a_sel: $melange_light_a_sel;
-  --melange_a_ui: $melange_light_a_ui;
-  --melange_a_com: $melange_light_a_com;
-  --melange_a_fg: $melange_light_a_fg;
+  --melange_a_bg: #{$melange_light_a_bg};
+  --melange_a_float: #{$melange_light_a_float};
+  --melange_a_sel: #{$melange_light_a_sel};
+  --melange_a_ui: #{$melange_light_a_ui};
+  --melange_a_com: #{$melange_light_a_com};
+  --melange_a_fg: #{$melange_light_a_fg};
 
-  --melange_b_red: $melange_light_b_red;
-  --melange_b_yellow: $melange_light_b_yellow;
-  --melange_b_green: $melange_light_b_green;
-  --melange_b_cyan: $melange_light_b_cyan;
-  --melange_b_blue: $melange_light_b_blue;
-  --melange_b_magenta: $melange_light_b_magenta;
+  --melange_b_red: #{$melange_light_b_red};
+  --melange_b_yellow: #{$melange_light_b_yellow};
+  --melange_b_green: #{$melange_light_b_green};
+  --melange_b_cyan: #{$melange_light_b_cyan};
+  --melange_b_blue: #{$melange_light_b_blue};
+  --melange_b_magenta: #{$melange_light_b_magenta};
 
-  --melange_c_red: $melange_light_c_red;
-  --melange_c_yellow: $melange_light_c_yellow;
-  --melange_c_green: $melange_light_c_green;
-  --melange_c_cyan: $melange_light_c_cyan;
-  --melange_c_blue: $melange_light_c_blue;
-  --melange_c_magenta: $melange_light_c_magenta;
+  --melange_c_red: #{$melange_light_c_red};
+  --melange_c_yellow: #{$melange_light_c_yellow};
+  --melange_c_green: #{$melange_light_c_green};
+  --melange_c_cyan: #{$melange_light_c_cyan};
+  --melange_c_blue: #{$melange_light_c_blue};
+  --melange_c_magenta: #{$melange_light_c_magenta};
 
-  --melange_d_red: $melange_light_d_red;
-  --melange_d_yellow: $melange_light_d_yellow;
-  --melange_d_green: $melange_light_d_green;
-  --melange_d_cyan: $melange_light_d_cyan;
-  --melange_d_blue: $melange_light_d_blue;
-  --melange_d_magenta: $melange_light_d_magenta;
+  --melange_d_red: #{$melange_light_d_red};
+  --melange_d_yellow: #{$melange_light_d_yellow};
+  --melange_d_green: #{$melange_light_d_green};
+  --melange_d_cyan: #{$melange_light_d_cyan};
+  --melange_d_blue: #{$melange_light_d_blue};
+  --melange_d_magenta: #{$melange_light_d_magenta};
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --melange_a_bg: $melange_dark_a_bg;
-    --melange_a_float: $melange_dark_a_float;
-    --melange_a_sel: $melange_dark_a_sel;
-    --melange_a_ui: $melange_dark_a_ui;
-    --melange_a_com: $melange_dark_a_com;
-    --melange_a_fg: $melange_dark_a_fg;
+    --melange_a_bg: #{$melange_dark_a_bg};
+    --melange_a_float: #{$melange_dark_a_float};
+    --melange_a_sel: #{$melange_dark_a_sel};
+    --melange_a_ui: #{$melange_dark_a_ui};
+    --melange_a_com: #{$melange_dark_a_com};
+    --melange_a_fg: #{$melange_dark_a_fg};
 
-    --melange_b_red: $melange_dark_b_red;
-    --melange_b_yellow: $melange_dark_b_yellow;
-    --melange_b_green: $melange_dark_b_green;
-    --melange_b_cyan: $melange_dark_b_cyan;
-    --melange_b_blue: $melange_dark_b_blue;
+    --melange_b_red: #{$melange_dark_b_red};
+    --melange_b_yellow: #{$melange_dark_b_yellow};
+    --melange_b_green: #{$melange_dark_b_green};
+    --melange_b_cyan: #{$melange_dark_b_cyan};
+    --melange_b_blue: #{$melange_dark_b_blue};
 
-    --melange_b_magenta: $melange_dark_b_magenta;
-    --melange_c_red: $melange_dark_c_red;
-    --melange_c_yellow: $melange_dark_c_yellow;
-    --melange_c_green: $melange_dark_c_green;
-    --melange_c_cyan: $melange_dark_c_cyan;
-    --melange_c_blue: $melange_dark_c_blue;
-    --melange_c_magenta: $melange_dark_c_magenta;
+    --melange_b_magenta: #{$melange_dark_b_magenta};
+    --melange_c_red: #{$melange_dark_c_red};
+    --melange_c_yellow: #{$melange_dark_c_yellow};
+    --melange_c_green: #{$melange_dark_c_green};
+    --melange_c_cyan: #{$melange_dark_c_cyan};
+    --melange_c_blue: #{$melange_dark_c_blue};
+    --melange_c_magenta: #{$melange_dark_c_magenta};
 
-    --melange_d_red: $melange_dark_d_red;
-    --melange_d_yellow: $melange_dark_d_yellow;
-    --melange_d_green: $melange_dark_d_green;
-    --melange_d_cyan: $melange_dark_d_cyan;
-    --melange_d_blue: $melange_dark_d_blue;
-    --melange_d_magenta: $melange_dark_d_magenta;
+    --melange_d_red: #{$melange_dark_d_red};
+    --melange_d_yellow: #{$melange_dark_d_yellow};
+    --melange_d_green: #{$melange_dark_d_green};
+    --melange_d_cyan: #{$melange_dark_d_cyan};
+    --melange_d_blue: #{$melange_dark_d_blue};
+    --melange_d_magenta: #{$melange_dark_d_magenta};
   }
 }

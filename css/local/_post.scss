@@ -1,5 +1,6 @@
 @use "../global/spacing" as *;
 @use "../global/font_size" as *;
+@use "../global/fonts" as *;
 @use "../components/system" as *;
 @use "../components/highlight" as *;
 
@@ -23,7 +24,7 @@ article.post {
     margin-block-start: var(--space-2xs);
   }
   .post-footer .post-nav {
-    @extend %sans-serif;
+    @include sans-serif;
     @include font-size("s");
     display: flex;
     justify-content: space-between;

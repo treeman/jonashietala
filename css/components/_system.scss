@@ -38,7 +38,7 @@
   & > * + * {
     margin-block-start: var(--flow-space);
     @if $space {
-      --flow-space: $space;
+      --flow-space: #{$space};
     }
   }
 }
@@ -46,7 +46,7 @@
   & > * + * {
     margin-inline-start: var(--flow-hspace);
     @if $space {
-      --flow-hspace: $space;
+      --flow-hspace: #{$space};
     }
   }
 }
