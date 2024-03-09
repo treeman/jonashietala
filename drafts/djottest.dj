@@ -134,7 +134,7 @@ Text
 Table:
 
 | Left aligned |  Centered  | Right aligned |
-| :----------- | :--------: | ------------: |
+|:-------------|:----------:|--------------:|
 | First row    |    Data    |          Data |
 | Second row   | **Cell** 1 |          1111 |
 | Third row    | **Cell** 2 |          3333 |
@@ -143,7 +143,7 @@ Table:
 Easy table So cool
 
 | Movie | Rank this year | Rank last year | change |
-| :----- | :------------- | :------------- | :----- |
+|:------|:---------------|:---------------|:-------|
 | Avengers: Endgame                   | 1 | - | - |
 | Guardians of the Galaxy             | 2 | 5 | +3 |
 | Avengers: Infinity War              | 3 | 4 | +1 |
@@ -152,7 +152,7 @@ Easy table So cool
 { .movie-table }
 
 | Movie | Rank this year | Rank last year | change |
-| :----- | :------------- | :------------- | :----- |
+|:------|:---------------|:---------------|:-------|
 | The Incredible Hulk     | 21 | 19 | -2 |
 | Thor 2: The Dark World  | 22 | 17 | -5 |
 { .movie-table }
