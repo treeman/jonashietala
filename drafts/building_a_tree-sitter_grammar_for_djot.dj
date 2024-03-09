@@ -1148,3 +1148,11 @@ void tree_sitter_djot_external_scanner_deserialize(void *payload, char *buffer,
 ## Using our grammar with Neovim
 
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
+
+# Misc stuff
+
+`:Inspect` and `:TSPlaygroundToggle`
+
+`:help treesitter-highlight-groups`
+
+Symlink queries file
