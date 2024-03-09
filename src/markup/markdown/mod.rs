@@ -9,8 +9,6 @@ mod quote_attrs;
 mod table_attrs;
 mod transform_headers;
 
-pub use crate::markup::syntax_highlight::{dump_syntax_binary, dump_theme};
-
 use auto_figures::AutoFigures;
 use code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use embed_youtube::EmbedYoutube;

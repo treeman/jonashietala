@@ -41,7 +41,7 @@ article {
 
   .post-info,
   .series-info {
-    @extend %sans-serif;
+    @include sans-serif;
     @include font-size("s");
     gap: var(--space-3xs) var(--space-2xs);
     display: flex;
@@ -68,7 +68,7 @@ article {
   }
 
   .tag-links {
-    @extend %sans-serif;
+    @include sans-serif;
     @include font-size("s");
   }
   .tag-links a {
@@ -138,7 +138,7 @@ article {
    * Tables
    */
   table {
-    @extend %serif;
+    @include serif;
     // Need tabular numbers to align properly
     font-feature-settings: "kern" on, "tnum" on;
   }
@@ -196,7 +196,7 @@ article {
     color: var(--color-list-bullet);
   }
   ol > li::before {
-    @extend %sans-serif;
+    @include sans-serif;
     counter-increment: ordered-counter;
     content: counter(ordered-counter);
   }
@@ -216,15 +216,15 @@ article {
     content: counter(ordered-counter, lower-greek);
   }
   ul > li::before {
-    @extend %sans-serif;
+    @include sans-serif;
     content: "•";
   }
   ul > li.checked::before {
-    @extend %sans-serif;
+    @include sans-serif;
     content: "[×]";
   }
   ul > li.unchecked::before {
-    @extend %sans-serif;
+    @include sans-serif;
     content: "[ ]";
   }
 

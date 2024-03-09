@@ -37,7 +37,7 @@
 
     &.recent:after,
     &.featured:after {
-      @extend %sans-serif;
+      @include sans-serif;
       @include font-size("s");
       color: var(--color-highlight-archive);
       position: relative;

@@ -316,3 +316,11 @@ TODO
 ## Using our grammar with Neovim
 
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
+
+# Misc stuff
+
+`:Inspect` and `:TSPlaygroundToggle`
+
+`:help treesitter-highlight-groups`
+
+Symlink queries file

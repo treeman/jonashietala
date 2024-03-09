@@ -1,5 +1,6 @@
 @use "../components/highlight" as *;
 @use "../global/font_size" as *;
+@use "../global/fonts" as *;
 
 article.archive {
   h1 > * {
@@ -10,7 +11,7 @@ article.archive {
   }
 
   .tagged > .tagged_by {
-    @extend %sans-serif;
+    @include sans-serif;
     @include font-size("s");
     color: var(--color-highlight-archive);
   }

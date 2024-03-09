@@ -14,6 +14,7 @@ mod tests;
 
 use crate::site_url::{HrefUrl, ImgUrl};
 use axum::{routing::get_service, Router};
+use axum_server::Server;
 use camino::Utf8PathBuf;
 use clap::{Parser, Subcommand};
 use colored::Colorize;
@@ -216,16 +217,13 @@ async fn watch() -> Result<()> {
         }
     });
 
-    let app: _ = Router::new()
+    let app = Router::new()
         .fallback(get_service(ServeDir::new(&*OUTPUT_DIR)))
         .layer(TraceLayer::new_for_http());
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
-
     info!("serving site on {addr}");
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await?;
+    Server::bind(addr).serve(app.into_make_service()).await?;
 
     Ok(())
 }

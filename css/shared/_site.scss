@@ -15,7 +15,7 @@ body {
 }
 
 .site-header {
-  @extend %sans-serif;
+  @include sans-serif;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -100,7 +100,7 @@ body > footer {
   margin-block-start: var(--space-l);
   padding-block: var(--space-m);
 
-  @extend %sans-serif;
+  @include sans-serif;
 
   a {
     color: var(--color-text);
