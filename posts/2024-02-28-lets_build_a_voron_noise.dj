@@ -1,7 +1,7 @@
----
-title: "Let's build a VORON: Noise"
-tags: ["3D printing", "VORON"]
-series: voron_trident
+---toml
+title = "Let's build a VORON: Noise"
+tags = ["3D printing", "VORON"]
+series = "voron_trident"
 ---
 
 The build is going well and the printer is printing tons of random stuff and I'm generally in awe of how cool the printer is.

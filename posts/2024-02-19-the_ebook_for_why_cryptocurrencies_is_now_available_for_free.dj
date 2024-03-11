@@ -1,6 +1,6 @@
----
-title: "The eBook for 'Why Cryptocurrencies?' is now available for free"
-tags: ["Why Cryptocurrencies?", "Self-publishing"]
+---toml
+title = "The eBook for 'Why Cryptocurrencies?' is now available for free"
+tags = ["Why Cryptocurrencies?", "Self-publishing"]
 ---
 
 The eBook for my book [Why Cryptocurrencies?][] is now [available for free][dl].

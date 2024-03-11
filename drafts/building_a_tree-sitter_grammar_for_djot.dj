@@ -1,6 +1,6 @@
----
-title: "Creating a Tree-sitter grammar for a subset of Djot"
-tags: ["Djot", "Tree-sitter", "C"]
+---toml
+title = "Creating a Tree-sitter grammar for a subset of Djot"
+tags = ["Djot", "Tree-sitter", "C"]
 ---
 
 One of my favorite features in Neovim is the Tree-sitter integration.

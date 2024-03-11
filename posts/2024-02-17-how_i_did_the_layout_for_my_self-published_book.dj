@@ -1,7 +1,7 @@
----
-title: "How I did the layout for my self-published book"
-tags: ["Why Cryptocurrencies?", "Self-publishing"]
-series: making-cryptobook
+---toml
+title = "How I did the layout for my self-published book"
+tags = ["Why Cryptocurrencies?", "Self-publishing"]
+series = "making-cryptobook"
 ---
 
 This is a rundown of how I typeset and laid out my self-published book for the [web version][], the [EPUB version][], and the [printed version][].

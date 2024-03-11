@@ -1,6 +1,6 @@
----
-title: "Printing Hextraction for my kids"
-tags: ["3D printing", "Hextraction"]
+---toml
+title = "Printing Hextraction for my kids"
+tags = ["3D printing", "Hextraction"]
 ---
 
 ![A session of Hextraction, a 3D printed board game.](/images/hextraction/hextraction_session.jpg)

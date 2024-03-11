@@ -1,6 +1,6 @@
----
-title: Djot test
-tags: ["Some tag"]
+---toml
+title = "Djot test"
+tags = ["Some tag"]
 ---
 
 # Header 1 (h2)
@@ -19,9 +19,11 @@ font-size("m")
 
 font-size("s")
 
-#### Header 5 (h6)
+##### Header 5 (h6)
 
 font-size("xs")
+
+###### Header 6 (h7)
 
 # Just text
 
@@ -63,7 +65,7 @@ $`^n + y^n = z^n`
 
 `<a href="x">Test</a>`{=html}
 
-Here's a [wtf]{.wtf #wtf wtf="val"}
+Here's a [wtf]{.wtf #wtf wtf="val" anotther=2}
 
 # Some other blocks
 
@@ -81,7 +83,21 @@ Text
 
 With a footnote.[^wtf]
 
+[^a]: b
+
+   c
+
+x
+
 [^wtf]: My footnote wtf
+
+       another row
+
+[^wtf]: My footnote wtf
+
+       another row
+
+zomg
 
 # Lists
 

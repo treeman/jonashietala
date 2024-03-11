@@ -129,8 +129,7 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
     pub fn from_content(content: String, path: AbsPath) -> Result<Self> {
         let t = MarkupType::from_file(&path)
             .ok_or_else(|| eyre!("Unsupported file format: `{}`", &path))?;
-        let Document { metadata, content } = YamlFrontMatter::parse::<Meta>(&content)
-            .map_err(|err| eyre!("Failed to parse metadata for file: {}\n{}", path, err))?;
+        let (metadata, content) = extract_metadata(t, &content, &path)?;
 
         Ok(Self {
             markup: Markup::new(content, t),
@@ -147,6 +146,28 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
             path: self.path,
             markup_meta: self.markup_meta,
         })
+    }
+}
+
+fn extract_metadata<Meta: DeserializeOwned>(
+    t: MarkupType,
+    content: &str,
+    path: &AbsPath,
+) -> Result<(Meta, String)> {
+    match t {
+        MarkupType::Markdown => {
+            let Document { metadata, content } =
+                YamlFrontMatter::parse::<Meta>(content).map_err(|err| {
+                    eyre!("Failed to parse yaml metadata for file: {}\n{}", path, err)
+                })?;
+            Ok((metadata, content))
+        }
+        MarkupType::Djot => {
+            let (metadata, content) = toml_frontmatter::parse::<Meta>(content).map_err(|err| {
+                eyre!("Failed to parse toml metadata for file: {}\n{}", path, err)
+            })?;
+            Ok((metadata, content.to_string()))
+        }
     }
 }
 

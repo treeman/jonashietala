@@ -1,6 +1,6 @@
----
-title: "Tracking grappling practice strain"
-tags: ["Whoop", "Grappling"]
+---toml
+title = "Tracking grappling practice strain"
+tags = ["Whoop", "Grappling"]
 ---
 
 1. Chest strap

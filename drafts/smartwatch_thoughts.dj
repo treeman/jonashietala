@@ -1,6 +1,6 @@
----
-title: "Smartwatch thoughts"
-tags: ["Tag1", "Tag2"]
+---toml
+title = "Smartwatch thoughts"
+tags = ["Tag1", "Tag2"]
 ---
 
 # Requirements
