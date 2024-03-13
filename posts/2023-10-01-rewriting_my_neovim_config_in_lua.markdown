@@ -1,6 +1,7 @@
 ---
 title: "Rewriting my Neovim config in Lua"
 tags: ["Neovim", "Lua"]
+recommended: true
 ---
 
 ![This screenshot betrays just how much productive time was wasted setting this up.](/images/rewrite_neovim_lua/splash.png)

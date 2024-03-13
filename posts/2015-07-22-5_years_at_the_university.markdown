@@ -2,7 +2,6 @@
 layout: post
 title: "5 Years at Linköping's University"
 tags: Life, School
-recommended: true
 ---
 
 I recently finished my master's degree (civilingenjör or civil engineering) at Linköping's University. At first it felt like 5 years would be an eternity, but in hindsight it was over in a flash. my gut feeling is that I haven't learnt or done anything of note, except you know actually finishing my degree, but if I sit down and think about it I have done some things. Actually quite a lot of things.
