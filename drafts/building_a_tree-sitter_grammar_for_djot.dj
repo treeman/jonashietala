@@ -48,7 +48,7 @@ I named the project `sdjot` and this is the `grammar.js` we'll start with:
 
 [Tree-sitter docs]: https://tree-sitter.github.io/tree-sitter/creating-parsers
 
-```js
+```javascript
 module.exports = grammar({
   name: "sdjot",
 
@@ -128,7 +128,7 @@ This is... Complicated.
 
 Sure, we can work around the varying levels of `:` with something hacky like enumerating the number of colons, with something like this:
 
-```js
+```javascript
 div: ($) => choice($._div3, $._div4, $._div5, $._div6, $._div7, $._div8),
 _div3: ($) => seq(/:{3}/, $._inside_div, /:{3}/, "\n"),
 _div4: ($) => seq(/:{4}/, $._inside_div, /:{4}/, "\n"),
@@ -168,14 +168,14 @@ This is simpler because we don't have to store any state.
 When parsing `$.paragraph` we'll give the parser a choice between ending the paragraph on a newline or on our new `$._close_paragraph` token:
 
 
-```js
+```javascript
 paragraph: ($) =>
   seq(repeat1(seq($._inline, "\n")), choice("\n", $._close_paragraph)),
 ```
 
 `$._close_paragraph` is handled by the external scanner, which is specified using the `externals` field:
 
-```js
+```javascript
 externals: ($) => [$._close_paragraph],
 ```
 
@@ -269,7 +269,7 @@ We only process one character at a time, cannot look behind, and our only tool t
 
 With this we have a working external scanner and div tags now close paragraphs:
 
-```
+```djot
 :::
 A paragraph inside a div
 :::
