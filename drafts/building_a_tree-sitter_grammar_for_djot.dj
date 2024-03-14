@@ -48,7 +48,7 @@ I named the project `sdjot` and this is the `grammar.js` we'll start with:
 
 [Tree-sitter docs]: https://tree-sitter.github.io/tree-sitter/creating-parsers
 
-```js
+```javascript
 module.exports = grammar({
   name: "sdjot",
 
@@ -128,7 +128,7 @@ This is... Complicated.
 
 Sure, we can work around the varying levels of `:` with something hacky like enumerating the number of colons, with something like this:
 
-```js
+```javascript
 div: ($) => choice($._div3, $._div4, $._div5, $._div6, $._div7, $._div8),
 _div3: ($) => seq(/:{3}/, $._inside_div, /:{3}/, "\n"),
 _div4: ($) => seq(/:{4}/, $._inside_div, /:{4}/, "\n"),
@@ -168,14 +168,14 @@ This is simpler because we don't have to store any state.
 When parsing `$.paragraph` we'll give the parser a choice between ending the paragraph on a newline or on our new `$._close_paragraph` token:
 
 
-```js
+```javascript
 paragraph: ($) =>
   seq(repeat1(seq($._inline, "\n")), choice("\n", $._close_paragraph)),
 ```
 
 `$._close_paragraph` is handled by the external scanner, which is specified using the `externals` field:
 
-```js
+```javascript
 externals: ($) => [$._close_paragraph],
 ```
 
@@ -286,861 +286,484 @@ $ tree-sitter parse example-file
 
 (This may not be the best design, having to parse div markers multiple times, but it gets the job done.)
 
-## Tracking nested blocks
+## Nested blocks
 
 To automatically close other open blocks we need to add some context to our parser, which means we'll need state management.
 
 The small subset we're using for the blog is only concerned with divs because it would be a terribly long post otherwise, but I'll try to implement this in a general manner, to be more indicative of a real-world parser.
 
+Our strategy is this:
 
-TODO
+1. A div can have a varying number of `:` that must match.
 
-(alloc and array are new features!)
+   Therefore we'll parse colons in an external scanner and store it on a stack.
 
-1. Use ts_ from "tree_sitter/alloc.h"
-1. Use array macros from "tree_sitter/array.h"
-1. Should detect if we're in an error detection mode
+1. When we find a div marker, we'll need to decide if it should start a new div, or close an existing one.
 
+   We'll look at the stack of open blocks and see if we find a match.
 
-    *   *    *
+1. If we have need to close a nested div, that is if we want to close a div further down the stack, we need to close the nested div(s) first.
 
-## A simple scanner
+   Thus we'll introduce a `block_close` marker that ends a div, and leave the ending div marker as optional.
 
-First, lets ignore nested blocks and try to only replicate matching starting and ending `:::`.
+First we'll ask the grammar to let the external scanner manage the begin and end tokens.
+We'll use a `_block_close` marker to end the div, and leave the end marker optional.
+(You could probably use a `choice()` between the two, but this made more sense to me when I was implementing it.)
 
-## Arbitrary levels and nested blocks
+```javascript
+div: ($) =>
+  prec.left(
+    seq(
+      // A rule starting with "_" will be hidden in the output,
+      // and we can use "alias" to rename rules.
+      alias($._div_marker_begin, $.div_marker),
+      "\n",
+      repeat($._block),
+      $._block_close,
+      optional(alias($._div_marker_end, $.div_marker))
+    )
+  ),
 
-Something like this may parse...? But I dunno...
+externals: ($) => [
+  $._close_paragraph,
+  $._block_close,
+  $._div_marker_begin,
+  $._div_marker_end,
 
-```c
-static Block *find_block(Scanner *s, BlockType type, uint8_t level) {
-  for (size_t i = 0; i < s->open_blocks.size; ++i) {
-    Block *b = s->open_blocks.items[i];
-    if (b->type == type && b->level == level) {
-      return b;
-    }
-  }
-  return NULL;
-}
-
-static void dump_stach(Scanner *s) {
-  printf("=== Stack size: %zu\n", s->open_blocks.size);
-  for (size_t i = 0; i < s->open_blocks.size; ++i) {
-    Block *b = s->open_blocks.items[i];
-    printf("  %d\n", b->level);
-  }
-  printf("=== Stack\n");
-}
-
-// Remove blocks until 'b' is reached.
-// Is inclusive, so will free 'b'!
-static void remove_blocks_until(Scanner *s, Block *b) {
-  for (;;) {
-    Block *top = peek_block(s);
-    bool found = top == b;
-    // printf("-> removing block %d\n", top->level);
-    // TODO should issue a $._block_close token
-    // instead of just removing it here...
-    // So we need to set some kind of state here instead
-    // and pop the topmost block until we reach
-    // our target block.
-    pop_block(s);
-    dump_stach(s);
-
-    // Should always work, size check is just a safeguard.
-    if (found || s->open_blocks.size == 0) {
-      return;
-    }
-  }
-}
-
-static bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
-  uint8_t colons = 0;
-  while (lexer->lookahead == ':') {
-    lexer->advance(lexer, false);
-    ++colons;
-  }
-
-  if (colons < 3) {
-    return false;
-  }
-
-  // The context could either be a start or an end token.
-  // To figure out which we should do, we search through the entire
-  // block stack to find if there's an open block somewhere
-  // with the same number of colons.
-  // If there is, we should close that one, otherwise
-  // we start a new div.
-  Block *existing = find_block(s, DIV, colons);
-  if (existing) {
-    lexer->result_symbol = DIV_END;
-    remove_blocks_until(s, existing);
-
-    return true;
-  } else {
-    Block *b = malloc(sizeof(Block));
-    b->level = colons;
-    b->type = DIV;
-
-    push_block(s, b);
-    lexer->result_symbol = DIV_START;
-
-    return true;
-  }
-
-  // if (has_block(s)) {
-  //   Block *current = peek_block(s);
-  //   // We found a matching closing div tag
-  //   if (current->type == DIV && current->level == colons) {
-  //     pop_block(s);
-  //     lexer->result_symbol = DIV_END;
-  //     return true;
-  //   }
-  // }
-}
+  // This is used in the scanner internally,
+  // but shouldn't be used by the grammar.
+  $._ignored,
+],
 ```
 
-## Closing blocks
-
-This can close divs, but cannot close paragraphs:
-
-```js
-alias($._block_close, $.block_close),
-optional(alias($._div_end, $.div_marker_end))
-```
+And remember to update the list of external tokens in the scanner (order matters):
 
 ```c
-#include "tree_sitter/parser.h"
-#include <assert.h>
-#include <stdio.h>
-#include <string.h>
-
-// Maybe we should implement a growable stack or something,
-// but this is probably fine.
-#define STACK_SIZE 512
-
-typedef enum { BLOCK_CLOSE, DIV_START, DIV_END, ERROR, UNUSED } TokenType;
-
 typedef enum {
-  DIV,
-} BlockType;
-
-typedef struct {
-  // Level can be either indentation or number of opening/ending symbols.
-  // Or it may also be unused.
-  uint8_t level;
-  BlockType type;
-} Block;
-
-typedef struct {
-  struct {
-    size_t size;
-    Block *items[STACK_SIZE];
-  } open_blocks;
-
-  // How many $._close_block we should output right now?
-  uint8_t blocks_to_close;
-  // After we have closed all blocks, what symbol should we output?
-  TokenType block_close_final_token;
-  uint8_t final_token_width;
-} Scanner;
-
-static void push_block(Scanner *s, uint8_t level, BlockType type) {
-  Block *b = malloc(sizeof(Block));
-  b->level = level;
-  b->type = type;
-  s->open_blocks.items[s->open_blocks.size++] = b;
-}
-
-static void pop_block(Scanner *s) {
-  if (s->open_blocks.size > 0) {
-    printf("POP\n");
-    free(s->open_blocks.items[--s->open_blocks.size]);
-  }
-}
-
-static bool has_block(Scanner *s) { return s->open_blocks.size > 0; }
-
-static Block *peek_block(Scanner *s) {
-  assert(s->open_blocks.size > 0);
-  return s->open_blocks.items[s->open_blocks.size - 1];
-}
-
-// How many blocks from the top of the stack can we find a matching block?
-// If it's directly on the top, returns 1.
-// If it cannot be found, returns 0.
-static size_t number_of_blocks_from_top(Scanner *s, BlockType type,
-                                        uint8_t level) {
-  for (size_t i = 0; i < s->open_blocks.size; ++i) {
-    Block *b = s->open_blocks.items[i];
-    if (b->type == type && b->level == level) {
-      return s->open_blocks.size - i;
-    }
-  }
-  return 0;
-}
-
-// Remove 'count' blocks from the stack, freeing them.
-static void remove_blocks(Scanner *s, size_t count) {
-  while (count-- > 0) {
-    pop_block(s);
-  }
-}
-
-static void dump(Scanner *s) {
-  printf("=== Stack size: %zu\n", s->open_blocks.size);
-  for (size_t i = 0; i < s->open_blocks.size; ++i) {
-    Block *b = s->open_blocks.items[i];
-    printf("  %d\n", b->level);
-  }
-  printf("---\n");
-  printf("  blocks_to_close: %d\n", s->blocks_to_close);
-  printf("  final_token_width: %d\n", s->final_token_width);
-  printf("  block_close_final_token: %u\n", s->block_close_final_token);
-  printf("===\n");
-}
-
-static void close_blocks(Scanner *s, TSLexer *lexer, size_t count,
-                         TokenType final, uint8_t final_token_width) {
-  printf("CLOSE %zu blocks\n", count);
-  s->block_close_final_token = final;
-  s->blocks_to_close = count - 1;
-  s->final_token_width = final_token_width;
-  lexer->result_symbol = BLOCK_CLOSE;
-  pop_block(s);
-}
-
-static bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
-  uint8_t colons = 0;
-  // Because we want to emit a BLOCK_CLOSE token before
-  // consuming the `:::` token, we mark the end before advancing
-  // to allow us to peek forward.
-  lexer->mark_end(lexer);
-  while (lexer->lookahead == ':') {
-    lexer->advance(lexer, false);
-    ++colons;
-  }
-
-  if (colons < 3) {
-    return false;
-  }
-
-  // The context could either be a start or an end token.
-  // To figure out which we should do, we search through the entire
-  // block stack to find if there's an open block somewhere
-  // with the same number of colons.
-  // If there is, we should close that one (and all open blocks before),
-  // otherwise we start a new div.
-  size_t from_top = number_of_blocks_from_top(s, DIV, colons);
-  printf("from top: %d\n", from_top);
-  if (from_top > 0) {
-    close_blocks(s, lexer, from_top, DIV_END, 3);
-    dump(s);
-    return true;
-  } else {
-    // We can consume the colons as we start a new div now.
-    lexer->mark_end(lexer);
-    push_block(s, colons, DIV);
-    lexer->result_symbol = DIV_START;
-    printf("DIV_START\n");
-    dump(s);
-    return true;
-  }
-}
-
-bool tree_sitter_djot_external_scanner_scan(void *payload, TSLexer *lexer,
-                                            const bool *valid_symbols) {
-
-  Scanner *s = (Scanner *)payload;
-
-  printf("SCAN\n");
-  dump(s);
-  printf("? BLOCK_CLOSE %b\n", valid_symbols[BLOCK_CLOSE]);
-  printf("? DIV_START %b\n", valid_symbols[DIV_START]);
-  printf("? DIV_END %b\n", valid_symbols[DIV_END]);
-  printf("current '%c'\n", lexer->lookahead);
-
-  // If we reach oef with open blocks, we should close them all.
-  if (lexer->eof(lexer) && s->open_blocks.size > 0) {
-    printf("BLOCK_CLOSE eof\n");
-    lexer->result_symbol = BLOCK_CLOSE;
-    pop_block(s);
-    return true;
-  }
-
-  if (valid_symbols[BLOCK_CLOSE] && s->blocks_to_close > 0) {
-    printf("BLOCK_CLOSE extra\n");
-    lexer->result_symbol = BLOCK_CLOSE;
-    --s->blocks_to_close;
-    pop_block(s);
-    return true;
-  }
-  if (s->blocks_to_close > 0) {
-    printf("REJECTED, MUST CLOSE BLOCKS\n");
-    // Must close them blocks!
-    return false;
-  }
-
-  if (s->blocks_to_close == 0 && valid_symbols[s->block_close_final_token]) {
-    lexer->result_symbol = s->block_close_final_token;
-    s->block_close_final_token = UNUSED;
-    while (s->final_token_width--) {
-      lexer->advance(lexer, false);
-    }
-    printf("FINAL TOKEN\n");
-    return true;
-  }
-
-  if (valid_symbols[DIV_START] || valid_symbols[DIV_END]) {
-    return parse_div(s, lexer, valid_symbols);
-  }
-
-  return false;
-}
-
-void *tree_sitter_djot_external_scanner_create() {
-  Scanner *s = (Scanner *)malloc(sizeof(Scanner));
-  s->open_blocks.size = 0;
-  s->final_token_width = 0;
-  s->blocks_to_close = 0;
-  s->block_close_final_token = UNUSED;
-  // s->open_blocks.items = (Block *)calloc(1, sizeof(Block));
-  return s;
-}
-
-void tree_sitter_djot_external_scanner_destroy(void *payload) {
-  Scanner *s = (Scanner *)payload;
-  // printf("%zu", s->open_blocks.size);
-  for (size_t i = 0; i < s->open_blocks.size; i++) {
-    free(s->open_blocks.items[i]);
-  }
-  // free(s->open_blocks.items);
-  free(s);
-}
-
-unsigned tree_sitter_djot_external_scanner_serialize(void *payload,
-                                                     char *buffer) {
-  Scanner *s = (Scanner *)payload;
-  unsigned size = 0;
-  buffer[size++] = (char)s->blocks_to_close;
-  buffer[size++] = (char)s->block_close_final_token;
-  buffer[size++] = (char)s->final_token_width;
-  size_t blocks = s->open_blocks.size;
-  if (blocks > 0) {
-    size_t blocks_size = blocks * sizeof(Block);
-    memcpy(&buffer[size], s->open_blocks.items, blocks_size);
-    size += blocks_size;
-  }
-
-  return size;
-}
-
-void tree_sitter_djot_external_scanner_deserialize(void *payload, char *buffer,
-                                                   unsigned length) {
-  Scanner *s = (Scanner *)payload;
-  s->open_blocks.size = 0;
-  s->final_token_width = 0;
-  s->blocks_to_close = 0;
-  s->block_close_final_token = UNUSED;
-  if (length > 0) {
-    size_t size = 0;
-    s->blocks_to_close = (uint8_t)buffer[size++];
-    s->block_close_final_token = (TokenType)buffer[size++];
-    s->final_token_width = (uint8_t)buffer[size++];
-
-    size_t blocks_size = length - size;
-    if (blocks_size > 0) {
-      size_t blocks = blocks_size / sizeof(Block);
-      memcpy(s->open_blocks.items, &buffer[size], blocks_size);
-      s->open_blocks.size = blocks;
-    }
-  }
-}
-```
-
-## Closing paragraphs
-
-```js
-module.exports = grammar({
-  name: "djot",
-
-  // TODO need to escape special characters everywhere
-  // maybe we can do this early and automatically skip them in our token logic?
-
-  // Can be directly followed:
-  // - Thematic break or fenced block can be followed by paragraph
-  // But maybe we already have this?
-
-  // Paragraph can never be interrupted by the start of another block level element
-  // Paragraph end: blankline, eof, end of containing block
-
-  // Containing block should automatically close:
-  // - Paragraph
-  // - Header
-  // - Changing list style closes adjacent list of other type
-  // - Code block
-  // - Raw block
-  // - Div
-
-  // Container blocks that can close:
-  // - Code block
-  // - Raw block
-  // - Block quote
-  // - Div
-
-  // Link def url can be split into multiple lines
-
-  // Strategy with external scanner:
-  // Identify start and end of all blocks.
-  //
-  // Keep a stack of block level elements to close inside
-  // (meaning we need to track all blocks).
-  //
-  // When something is closed, we should issue a "$._close_block" token
-  // that we always match to close all blocks.
-  //
-  // Need to track paragraphs as well, and paragraphs should close
-  // either via $._close_block or blankline or eof.
-
-  extras: (_) => ["\r"],
-
-  // conflicts: ($) => [
-  //   [$.paragraph, $.div],
-  //   [$._inline_with_newlines, $._close_paragraph],
-  // ],
-
-  rules: {
-    document: ($) => repeat($._block),
-
-    // Every block contains a newline.
-    _block: ($) =>
-      choice(
-        $._heading,
-        // $.list, // Needs external scanner to match indentation!
-        // $.pipe_table, // External. Has a caption too that needs to match indent
-        // $.footnote, // External, needs to consider indentation level
-        $.div,
-        // $.codeblock,
-        // $.raw_block,
-        // $.thematicbreak,
-        $.blockquote,
-        $.link_reference_definition,
-        // $.block_attribute,
-        $.paragraph,
-        "\n"
-      ),
-
-    _heading: ($) =>
-      choice(
-        $.heading1,
-        $.heading2,
-        $.heading3,
-        $.heading4,
-        $.heading5,
-        $.heading6
-      ),
-    heading1: ($) => seq("#", $._gobble_header),
-    heading2: ($) => seq(/#{2}/, $._gobble_header),
-    heading3: ($) => seq(/#{3}/, $._gobble_header),
-    heading4: ($) => seq(/#{4}/, $._gobble_header),
-    heading5: ($) => seq(/#{5}/, $._gobble_header),
-    heading6: ($) => seq(/#{6}/, $._gobble_header),
-    // NOTE because we don't tag the `#` character individually,
-    // there's no need to match the beginning `#` of each consecutive line.
-    _gobble_header: ($) => seq($._inline_with_newlines, $._eof_or_blankline),
-
-    // I guess we could use an external scanner to allow arbitrary symbols,
-    // but this was easier :)
-    // div: ($) => choice($._div3, $._div4, $._div5, $._div6, $._div7, $._div8),
-    // _div3: ($) => seq(/:{3}/, $._inside_div, /:{3}/),
-    // _div4: ($) => seq(/:{4}/, $._inside_div, /:{4}/),
-    // _div5: ($) => seq(/:{5}/, $._inside_div, /:{5}/), _div6: ($) => seq(/:{6}/, $._inside_div, /:{6}/),
-    // _div7: ($) => seq(/:{7}/, $._inside_div, /:{7}/),
-    // _div8: ($) => seq(/:{8}/, $._inside_div, /:{8}/),
-    // _inside_div: ($) =>
-    //   prec.left(seq(/[ ]*/, optional($.class_name), "\n", repeat($._block))),
-    // class_name: (_) => /\w+/,
-    div: ($) =>
-      seq(
-        $.div_marker_start,
-        optional($.class_name),
-        "\n",
-        repeat($._block),
-        $._block_close,
-        optional(alias($._div_end, $.div_marker_end))
-    div_marker_start: ($) =>
-      seq($._div_start, optional(seq(/[ ]+/, $.class_name))),
-    class_name: (_) => /\w+/,
-
-    // It's fine to let inline gobble up leading `>` for lazy
-    // quotes lines.
-    blockquote: ($) => seq(">", $._inline_with_newlines, $._eof_or_blankline),
-
-    link_reference_definition: ($) =>
-      seq(
-        alias($._reference_link_label, $.link_label),
-        token.immediate(":"),
-        /\s+/,
-        $.link_destination,
-        $._one_or_two_newlines
-      ),
-    _reference_link_label: (_) =>
-      token(seq("[", token.immediate(/\w+/), token.immediate("]"))),
-    link_destination: (_) => /\S+/,
-
-    paragraph: ($) =>
-      seq(
-        $._inline_with_newlines,
-        choice($._eof_or_blankline, $._close_paragraph)
-      ),
-
-    _eof_or_blankline: (_) => choice("\0", "\n\n", "\n\0"),
-    _one_or_two_newlines: (_) => choice("\0", "\n\n", "\n"),
-
-    _inline: ($) =>
-      repeat1(
-        choice(
-          // $.image,
-          // $.autolink,
-          // $.verbatim, // Should match ` count
-          // $.emphasis,
-          // $.strong,
-          // $.highlighted,
-          // $.superscript,
-          // $.subscript,
-          // $.insert,
-          // $.delete,
-          // // Smart punctuation
-          // $.math,
-          // $.footnote_reference,
-          // $.line_break,
-          // $.comment,
-          // $.symbol,
-          // $.raw_inline,
-          // $.span,
-          // // $.inline_attribute,
-          $._link,
-          $._text,
-          // alias($._text, $.txt)
-          " "
-        )
-      ),
-    _inline_with_newlines: ($) => repeat1(prec.left(choice($._inline, /\s/))),
-
-    _link: ($) =>
-      choice($.full_reference_link, $.collapsed_reference_link, $.inline_link),
-
-    full_reference_link: ($) => seq($.link_text, $.link_label),
-    collapsed_reference_link: ($) => seq($.link_text, token.immediate("[]")),
-    inline_link: ($) => seq($.link_text, $.inline_link_destination),
-
-    link_text: ($) => seq("[", $._inline, "]"),
-
-    link_label: ($) => seq("[", $._inline, token.immediate("]")),
-    inline_link_destination: (_) => seq("(", /[^\)]+/, ")"),
-
-    _text: (_) => /\S/,
-  },
-
-  externals: ($) => [
-    $._block_close,
-    $._div_start,
-    $._div_end,
-    $._close_paragraph,
-
-    // Never valid and is used to kill parse branches.
-    $._error,
-    // Should never be used.
-    $._unusued,
-  ],
-});
-```
-
-```c
-#include "tree_sitter/parser.h"
-#include <assert.h>
-#include <stdio.h>
-#include <string.h>
-
-// Maybe we should implement a growable stack or something,
-// but this is probably fine.
-#define STACK_SIZE 512
-
-typedef enum {
-  BLOCK_CLOSE,
-  DIV_START,
-  DIV_END,
   CLOSE_PARAGRAPH,
-  ERROR,
-  UNUSED
+  BLOCK_CLOSE,
+  DIV_MARKER_BEGIN,
+  DIV_MARKER_END,
+  IGNORED
 } TokenType;
+```
 
-typedef enum {
-  DIV,
-} BlockType;
+Then to our stack of blocks.
+
+I used a `Block` type to keep track of the type and number of colons:
+
+```c
+// In a real implementation we'll have more block types.
+typedef enum { DIV } BlockType;
 
 typedef struct {
-  // Level can be either indentation or number of opening/ending symbols.
-  // Or it may also be unused.
-  uint8_t level;
   BlockType type;
+  uint8_t level;
 } Block;
+```
+
+I know that `level` isn't the best name, but I couldn't find a very good general names for the number of colons, indentation level, etc.
+With sum types you could model it in a clearer way, like this:
+
+```rust
+enum Block {
+    Div { colons: u32 },
+    Footnote { indent: u32 },
+    // etc
+}
+```
+
+But I digress, this is good enough.
+
+Another joy of programming C is that you'll get to re-implement standard data structures such as a growable stack.
+It's not truly difficult, but it's annoying and bug-prone.
+
+Luckily, during the time I'm writing this blog post, [tree-sitter 0.22.1][] was released with an array implementation.
+So now I don't have to show you my shoddy stack implementation, and we can use their array for our stack instead.
+
+We'll shove our `Array` of `Block*` into a `Scanner` struct, because we'll need to track more data later:
+
+```c
+#include "tree_sitter/array.h"
 
 typedef struct {
-  struct {
-    size_t size;
-    Block *items[STACK_SIZE];
-  } open_blocks;
-
-  // How many $._close_block we should output right now?
-  uint8_t blocks_to_close;
-  // After we have closed all blocks, what symbol should we output?
-  TokenType block_close_final_token;
-  uint8_t final_token_width;
+  Array(Block *) * open_blocks;
 } Scanner;
+```
 
-static void push_block(Scanner *s, uint8_t level, BlockType type) {
-  Block *b = malloc(sizeof(Block));
-  b->level = level;
-  b->type = type;
-  s->open_blocks.items[s->open_blocks.size++] = b;
+When you manage state in tree-sitter, you need to do some data management in the `tree_sitter_` functions we defined earlier.
+
+Allocations are managed in the `_create` and `_destroy` functions.
+Also new for 0.22.1 is the recommendation to use `ts_` functions for allocations, to allow consumers to override the default allocator:
+
+```c
+#include "tree_sitter/alloc.h"
+
+void *tree_sitter_sdjot_external_scanner_create() {
+  Scanner *s = (Scanner *)ts_malloc(sizeof(Scanner));
+
+  // This is how you create an empty array
+  s->open_blocks = ts_malloc(sizeof(Array(Block *)));
+  array_init(s->open_blocks);
+
+  return s;
 }
 
-static void pop_block(Scanner *s) {
-  if (s->open_blocks.size > 0) {
-    // printf("POP\n");
-    free(s->open_blocks.items[--s->open_blocks.size]);
+void tree_sitter_sdjot_external_scanner_destroy(void *payload) {
+  Scanner *s = (Scanner *)payload;
+
+  // I haven't shown the allocation of the blocks yet,
+  // but keep in mind that `array_delete` does not deallocate any memory
+  // you store in the array itself.
+  for (size_t i = 0; i < s->open_blocks->size; ++i) {
+    // `array_get` is preferrable even though you can index the contents directly.
+    ts_free(array_get(s->open_blocks, i));
+  }
+
+  // The array is a growable one, `array_delete` ensures that the
+  // memory is deleted.
+  array_delete(s->open_blocks);
+
+  ts_free(s);
+}
+```
+
+I allocate the blocks in a `push_block` helper:
+
+```c
+static void push_block(Scanner *s, BlockType type, uint8_t level) {
+  Block *b = ts_malloc(sizeof(Block));
+  b->type = type;
+  b->level = level;
+
+  array_push(s->open_blocks, b);
+}
+```
+
+You also need to define the serialize functions.
+These store and retrieve the managed state, to allow tree-sitter to backtrack.
+
+```c
+unsigned tree_sitter_sdjot_external_scanner_serialize(void *payload,
+                                                      char *buffer) {
+  Scanner *s = (Scanner *)payload;
+  unsigned size = 0;
+  for (size_t i = 0; i < s->open_blocks->size; ++i) {
+    Block *b = *array_get(s->open_blocks, i);
+    buffer[size++] = (char)b->type;
+    buffer[size++] = (char)b->level;
+  }
+  return size;
+}
+
+void tree_sitter_sdjot_external_scanner_deserialize(void *payload, char *buffer,
+                                                    unsigned length) {
+  Scanner *s = (Scanner *)payload;
+  array_init(s->open_blocks);
+  size_t size = 0;
+  while (size < length) {
+    BlockType type = (BlockType)buffer[size++];
+    uint8_t level = (uint8_t)buffer[size++];
+    push_block(s, type, level);
   }
 }
+```
 
-static bool has_block(Scanner *s) { return s->open_blocks.size > 0; }
+And that's the (initial) state management taken care of!
 
-static Block *peek_block(Scanner *s) {
-  assert(s->open_blocks.size > 0);
-  return s->open_blocks.items[s->open_blocks.size - 1];
+::: notice
+C is scary.
+Try [valgrind][].
+:::
+
+
+## Div markers
+
+Of course, we haven't used our state yet.
+Let's change that.
+
+First, let's add the `parse_div` entry point to our scan function:
+
+```c
+bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
+                                             const bool *valid_symbols) {
+  Scanner *s = (Scanner *)payload;
+
+  // Paragraph needs to be closed before we try to close divs.
+  if (valid_symbols[CLOSE_PARAGRAPH] && parse_close_paragraph(lexer)) {
+    return true;
+  }
+
+  // Check `valid_symbols` inside `parse_div` because of multiple valid symbols.
+  if (parse_div(s, lexer, valid_symbols)) {
+    return true;
+  }
+
+  return false;
+}
+```
+
+Because advancing the lexer is primitive, and we cannot "go back a char", it's important to only advance it if we really need to.
+Therefore we always need to check `valid_symbols` before we continue:
+
+```c
+bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+  if (!valid_symbols[DIV_MARKER_BEGIN] && !valid_symbols[DIV_MARKER_END]) {
+    return false;
+  }
+
+  // ...
+}
+```
+
+Next we'll need to consume all colons we're at, and only continue if we see at least three:
+
+```c
+uint8_t consume_chars(TSLexer *lexer, char c) {
+  uint8_t count = 0;
+  while (lexer->lookahead == c) {
+    lexer->advance(lexer, false);
+    ++count;
+  }
+  return count;
 }
 
+bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+  // ...
+
+  uint8_t colons = consume_chars(lexer, ':');
+  if (colons < 3) {
+    return false;
+  }
+
+  // ...
+}
+```
+
+Opening a new div is simple; we push the block and register the number of colons:
+
+```c
+push_block(s, DIV, colons);
+lexer->result_symbol = DIV_MARKER_BEGIN;
+return true;
+```
+
+But to the decide if we should open or close a div, we need a way to search through the stack.
+This function does that, while also returning how many blocks deep into the stack we found the div (which will use shortly):
+
+```c
 // How many blocks from the top of the stack can we find a matching block?
 // If it's directly on the top, returns 1.
 // If it cannot be found, returns 0.
 static size_t number_of_blocks_from_top(Scanner *s, BlockType type,
                                         uint8_t level) {
-  for (size_t i = 0; i < s->open_blocks.size; ++i) {
-    Block *b = s->open_blocks.items[i];
+  for (int i = s->open_blocks->size - 1; i >= 0; --i) {
+    Block *b = *array_get(s->open_blocks, i);
     if (b->type == type && b->level == level) {
-      return s->open_blocks.size - i;
+      return s->open_blocks->size - i;
     }
   }
   return 0;
 }
 
-// Remove 'count' blocks from the stack, freeing them.
-static void remove_blocks(Scanner *s, size_t count) {
-  while (count-- > 0) {
-    pop_block(s);
-  }
-}
-
-static void dump(Scanner *s) {
-  printf("=== Stack size: %zu\n", s->open_blocks.size);
-  for (size_t i = 0; i < s->open_blocks.size; ++i) {
-    Block *b = s->open_blocks.items[i];
-    printf("  %d\n", b->level);
-  }
-  printf("---\n");
-  printf("  blocks_to_close: %d\n", s->blocks_to_close);
-  printf("  final_token_width: %d\n", s->final_token_width);
-  printf("  block_close_final_token: %u\n", s->block_close_final_token);
-  printf("===\n");
-}
-
-static void close_blocks(Scanner *s, TSLexer *lexer, size_t count,
-                         TokenType final, uint8_t final_token_width) {
-  // printf("CLOSE %zu blocks\n", count);
-  s->block_close_final_token = final;
-  s->blocks_to_close = count - 1;
-  s->final_token_width = final_token_width;
-  lexer->result_symbol = BLOCK_CLOSE;
-  pop_block(s);
-}
-
-static bool should_close_paragraph(Scanner *s, TSLexer *lexer,
-                                   const bool *valid_symbols) {
-  // We're only peeking
-  // FIXME combine with parse_div
-  lexer->mark_end(lexer);
-
-  uint8_t colons = 0;
-  // Because we want to emit a BLOCK_CLOSE token before
-  // consuming the `:::` token, we mark the end before advancing
-  // to allow us to peek forward.
-  lexer->mark_end(lexer);
-  while (lexer->lookahead == ':') {
-    lexer->advance(lexer, false);
-    ++colons;
-  }
-
-  if (colons < 3) {
-    return false;
-  }
+bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+  // ...
 
   size_t from_top = number_of_blocks_from_top(s, DIV, colons);
-  return from_top != 0;
-}
 
-static bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
-  uint8_t colons = 0;
-  // Because we want to emit a BLOCK_CLOSE token before
-  // consuming the `:::` token, we mark the end before advancing
-  // to allow us to peek forward.
-  lexer->mark_end(lexer);
-  while (lexer->lookahead == ':') {
-    lexer->advance(lexer, false);
-    ++colons;
-  }
-
-  if (colons < 3) {
-    return false;
-  }
-
-  // The context could either be a start or an end token.
-  // To figure out which we should do, we search through the entire
-  // block stack to find if there's an open block somewhere
-  // with the same number of colons.
-  // If there is, we should close that one (and all open blocks before),
-  // otherwise we start a new div.
-  size_t from_top = number_of_blocks_from_top(s, DIV, colons);
-  // printf("from top: %zu\n", from_top);
+  // We could check if either DIV_MARKER_BEGIN or DIV_MARKER_END are valid here,
+  // but as the grammar is set up they're both always valid at the same time.
   if (from_top > 0) {
-    close_blocks(s, lexer, from_top, DIV_END, 3);
-    // dump(s);
-    return true;
+    // Close the current div, and all blocks above.
   } else {
-    // We can consume the colons as we start a new div now.
+    // No matching div to close, let's open a new.
     lexer->mark_end(lexer);
-    push_block(s, colons, DIV);
-    lexer->result_symbol = DIV_START;
-    // printf("DIV_START\n");
-    // dump(s);
+    push_block(s, DIV, colons);
+    lexer->result_symbol = DIV_MARKER_BEGIN;
     return true;
   }
 }
+```
 
-bool tree_sitter_djot_external_scanner_scan(void *payload, TSLexer *lexer,
-                                            const bool *valid_symbols) {
+But we have a problem: when we want to close the div, we want to be able to output multiple tokens.
 
+For example, with this type of input:
+
+```djot
+:::
+::::
+:::::::
+inception
+:::
+```
+
+We have a stack of 3 divs:
+
+```
+7 (top)
+4
+3 (the one we want to close)
+```
+
+In the code above, `from_top` will be `3` and we need to output 4 tokens: 3 `BLOCK_CLOSE` (one for each div) and 1 `DIV_MARKER_END` (for the last `:::`).
+But the scanner can only output a single token at a time.
+
+The way I solved this is by introducing more state to the Scanner.
+Specifically, I introduced a `blocks_to_close` variable that we'll use to output `BLOCK_CLOSE`, and some variables to output (and consume) the `DIV_MARKER_END`.
+
+```c
+typedef struct {
+  Array(Block *) * open_blocks;
+
+  // How many BLOCK_CLOSE we should output right now?
+  uint8_t blocks_to_close;
+
+  // Delayed output of a token.
+  TokenType delayed_token;
+  // Allows us to consume the width of a delayed token.
+  uint8_t delayed_token_width;
+} Scanner;
+```
+
+We need to remember to update the create and serialize functions too.
+
+Serialize:
+
+```c
+buffer[size++] = (char)s->blocks_to_close;
+buffer[size++] = (char)s->delayed_token;
+buffer[size++] = (char)s->delayed_token_width;
+```
+
+Deserialize:
+
+```c
+s->blocks_to_close = (uint8_t)buffer[size++];
+s->delayed_token = (TokenType)buffer[size++];
+s->delayed_token_width = (uint8_t)buffer[size++];
+```
+
+We'll use `IGNORED` as the unused token, so we'll need to reset it when we create the scanner:
+
+```c
+s->blocks_to_close = 0;
+s->delayed_token = IGNORED;
+```
+
+Now when we scan we should first check `blocks_to_close` and then `delayed_token`, before we scan other things:
+
+```c
+bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
+                                             const bool *valid_symbols) {
   Scanner *s = (Scanner *)payload;
 
-  // printf("SCAN\n");
-  // dump(s);
-  // printf("? BLOCK_CLOSE %b\n", valid_symbols[BLOCK_CLOSE]);
-  // printf("? DIV_START %b\n", valid_symbols[DIV_START]);
-  // printf("? DIV_END %b\n", valid_symbols[DIV_END]);
-  // printf("? CLOSE_PARAGRAPH %b\n", valid_symbols[CLOSE_PARAGRAPH]);
-  // printf("current '%c'\n", lexer->lookahead);
-
-  if (valid_symbols[CLOSE_PARAGRAPH] &&
-      should_close_paragraph(s, lexer, valid_symbols)) {
-    lexer->result_symbol = CLOSE_PARAGRAPH;
+  if (valid_symbols[BLOCK_CLOSE] && handle_blocks_to_close(s, lexer)) {
     return true;
   }
 
-  // If we reach oef with open blocks, we should close them all.
-  if (lexer->eof(lexer) && s->open_blocks.size > 0) {
-    // printf("BLOCK_CLOSE eof\n");
-    lexer->result_symbol = BLOCK_CLOSE;
-    pop_block(s);
+  if (output_delayed_token(s, lexer, valid_symbols)) {
     return true;
   }
 
-  if (valid_symbols[BLOCK_CLOSE] && s->blocks_to_close > 0) {
-    // printf("BLOCK_CLOSE extra\n");
-    lexer->result_symbol = BLOCK_CLOSE;
-    --s->blocks_to_close;
-    pop_block(s);
-    return true;
+  // Parse the other stuff
+}
+```
+
+When we see `blocks_to_close > 0`, then we should output a `BLOCK_CLOSE` and remove the top block (with some sanity checks for good measure):
+
+```c
+void remove_block(Scanner *s) {
+  if (s->open_blocks->size > 0) {
+    ts_free(array_pop(s->open_blocks));
+    if (s->blocks_to_close > 0) {
+      --s->blocks_to_close;
+    }
   }
-  if (s->blocks_to_close > 0) {
-    // printf("REJECTED, MUST CLOSE BLOCKS\n");
-    // Must close them blocks!
+}
+
+bool handle_blocks_to_close(Scanner *s, TSLexer *lexer) {
+  if (s->open_blocks->size == 0) {
     return false;
   }
 
-  if (s->blocks_to_close == 0 && valid_symbols[s->block_close_final_token]) {
-    lexer->result_symbol = s->block_close_final_token;
-    s->block_close_final_token = UNUSED;
-    while (s->final_token_width--) {
-      lexer->advance(lexer, false);
-    }
-    // printf("FINAL TOKEN\n");
+  if (s->blocks_to_close > 0) {
+    lexer->result_symbol = BLOCK_CLOSE;
+    remove_block(s);
     return true;
   }
-
-  if (valid_symbols[DIV_START] || valid_symbols[DIV_END]) {
-    return parse_div(s, lexer, valid_symbols);
-  }
-
   return false;
 }
+```
 
-void *tree_sitter_djot_external_scanner_create() {
-  Scanner *s = (Scanner *)malloc(sizeof(Scanner));
-  s->open_blocks.size = 0;
-  s->final_token_width = 0;
-  s->blocks_to_close = 0;
-  s->block_close_final_token = UNUSED;
-  // s->open_blocks.items = (Block *)calloc(1, sizeof(Block));
-  return s;
-}
+With this we can output multiple `BLOCK_CLOSE`, and now to handle delayed tokens:
 
-void tree_sitter_djot_external_scanner_destroy(void *payload) {
-  Scanner *s = (Scanner *)payload;
-  // printf("%zu", s->open_blocks.size);
-  for (size_t i = 0; i < s->open_blocks.size; i++) {
-    free(s->open_blocks.items[i]);
-  }
-  // free(s->open_blocks.items);
-  free(s);
-}
-
-unsigned tree_sitter_djot_external_scanner_serialize(void *payload,
-                                                     char *buffer) {
-  Scanner *s = (Scanner *)payload;
-  unsigned size = 0;
-  buffer[size++] = (char)s->blocks_to_close;
-  buffer[size++] = (char)s->block_close_final_token;
-  buffer[size++] = (char)s->final_token_width;
-  size_t blocks = s->open_blocks.size;
-  if (blocks > 0) {
-    size_t blocks_size = blocks * sizeof(Block);
-    memcpy(&buffer[size], s->open_blocks.items, blocks_size);
-    size += blocks_size;
+```c
+bool output_delayed_token(Scanner *s, TSLexer *lexer,
+                          const bool *valid_symbols) {
+  if (s->delayed_token == IGNORED || !valid_symbols[s->delayed_token]) {
+    return false;
   }
 
-  return size;
-}
-
-void tree_sitter_djot_external_scanner_deserialize(void *payload, char *buffer,
-                                                   unsigned length) {
-  Scanner *s = (Scanner *)payload;
-  s->open_blocks.size = 0;
-  s->final_token_width = 0;
-  s->blocks_to_close = 0;
-  s->block_close_final_token = UNUSED;
-  if (length > 0) {
-    size_t size = 0;
-    s->blocks_to_close = (uint8_t)buffer[size++];
-    s->block_close_final_token = (TokenType)buffer[size++];
-    s->final_token_width = (uint8_t)buffer[size++];
-
-    size_t blocks_size = length - size;
-    if (blocks_size > 0) {
-      size_t blocks = blocks_size / sizeof(Block);
-      memcpy(s->open_blocks.items, &buffer[size], blocks_size);
-      s->open_blocks.size = blocks;
-    }
+  lexer->result_symbol = s->delayed_token;
+  s->delayed_token = IGNORED;
+  // With `delayed_token_width` we can consume the ending `:::`, for example.
+  while (s->delayed_token_width--) {
+    lexer->advance(lexer, false);
   }
+  lexer->mark_end(lexer);
+  return true;
 }
+```
+
+Another way to design this is to have a stack of delayed tokens and then just pop that.
+It's certainly more powerful, I just happened to choose this way when I was playing around with it.
+
+Either way, we can now implement the div end handling. In `parse_div`:
+
+```c
+size_t from_top = number_of_blocks_from_top(s, DIV, colons);
+
+if (from_top > 0) {
+  // Found a div we should close.
+  close_blocks_with_final_token(s, lexer, from_top, DIV_MARKER_END, colons);
+  return true;
+} else {
+  lexer->mark_end(lexer);
+  push_block(s, DIV, colons);
+  lexer->result_symbol = DIV_MARKER_BEGIN;
+  return true;
+}
+```
+
+`close_blocks_with_final_token` is a general helper that sets up the number of blocks to close and the final token:
+
+```c
+void close_blocks_with_final_token(Scanner *s, TSLexer *lexer, size_t count,
+                                   TokenType final, uint8_t final_token_width) {
+  remove_block(s);
+  s->blocks_to_close = s->blocks_to_close + count - 1;
+  lexer->result_symbol = BLOCK_CLOSE;
+  s->delayed_token = final;
+  s->delayed_token_width = final_token_width;
+}
+```
+
+[tree-sitter 0.22.1]: https://github.com/tree-sitter/tree-sitter/releases/tag/v0.22.1
+
+    *   *   *
+
+# Don't forget package.json
+
+```json
+"tree-sitter": [
+  {
+    "scope": "source.sdjot",
+    "file-types": [
+      "sdj"
+    ],
+    "injection-regex": "sdjot"
+  }
+],
 ```
 
 # Adding highlights
@@ -1148,6 +771,7 @@ void tree_sitter_djot_external_scanner_deserialize(void *payload, char *buffer,
 ## Using our grammar with Neovim
 
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
+[valgrind]: https://valgrind.org/
 
 # Misc stuff
 
@@ -1156,3 +780,5 @@ void tree_sitter_djot_external_scanner_deserialize(void *payload, char *buffer,
 `:help treesitter-highlight-groups`
 
 Symlink queries file
+
+[Djot]: https://djot.net/
