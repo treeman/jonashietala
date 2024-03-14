@@ -7,7 +7,7 @@ One of my favorite features in Neovim is the Tree-sitter integration.
 It allows for fast syntax highlighting that works well even in an error state (often the case when you're editing code), and it has additional semantics (you can differentiate between function parameters and local variables).
 
 With [nvim-treesitter-textobjects][] you can also jump between nodes (such as `]c` to jump to next class) or target deletion (`cif` to delete the function body and enter insert mode).
-An amazing feature as it works across languages, no matter how the look like.
+An amazing feature as it works across languages, no matter how they look like.
 
 But, you might wonder how does Tree-sitter work?
 How do you create a Tree-sitter parser for a language?
@@ -15,7 +15,10 @@ How do you create a Tree-sitter parser for a language?
 I started thinking about this and before I knew it I was trying to make my own parser for [Djot][] (a markup language similar to Markdown).
 There are some good tutorials on how to get started, but not on some mare advanced things.
 
-Specifically, I had some questions on how to use an external scanner, and here's a post on how and why you can use an external scanner in your Tree-sitter parser.
+This is a decently long post that will go through:
+
+1. Use an external scanner
+1. TODO
 
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 
@@ -696,7 +699,8 @@ bool handle_blocks_to_close(Scanner *s, TSLexer *lexer) {
     return false;
   }
 
-  if (s->blocks_to_close > 0) {
+  // If we reach eof with open blocks, we should close them all.
+  if (lexer->eof(lexer) || s->blocks_to_close > 0) {
     lexer->result_symbol = BLOCK_CLOSE;
     remove_block(s);
     return true;
@@ -758,6 +762,138 @@ void close_blocks_with_final_token(Scanner *s, TSLexer *lexer, size_t count,
 }
 ```
 
+Now we can finally try to close divs:
+
+```djot
+::::
+:::
+:::::::
+Divception
+
+:::
+
+```
+
+```fish
+$ tree-sitter parse example-file
+(document [0, 0] - [6, 0]
+  (div [0, 0] - [6, 0]
+    (div_marker [0, 0] - [0, 4])
+    (div [1, 0] - [4, 3]
+      (div_marker [1, 0] - [1, 3])
+      (div [2, 0] - [4, 0]
+        (div_marker [2, 0] - [2, 7])
+        (paragraph [3, 0] - [4, 0]))
+      (div_marker [4, 0] - [4, 3]))))
+```
+
+We can see that it parses without error, and that the last marker closes the second div correctly, and captures the `:::` properly.
+
+
+# Handling conflicts
+
+Our grammar works pretty well, but there are issues you might want to fix.
+One issue, that took much longer to figure out than I care to admit, is adding a fallback to text when a markup rule doesn't match.
+
+A simple example for our grammar is a single underscore in a paragraph:
+
+```
+a_b
+```
+
+I'd assume this would produce a paragraph with text, but instead we'll get an error:
+
+```fish
+$ tree-sitter parse example-file
+(document [0, 0] - [2, 0]
+  (ERROR [0, 0] - [0, 3]))
+```
+
+This is weird, because one of the main selling points of Tree-sitter is the GLR algorithm, which should explore the different interpretations to find something that succeeds.
+But for some reason, it doesn't trigger for us.
+
+Let's take a look.
+These are the relevant lines from the grammar:
+
+```javascript
+_inline: ($) => repeat1(choice($.emphasis, $._text)),
+emphasis: ($) => prec.left(seq("_", $._inline, "_")),
+_text: (_) => /[^\n]/,
+```
+
+When we try to match a `_` then the grammar can match either `emphasis` or `_text` because `_` matches both `"_"`javascript and `/[^\n]/`javascript.
+The issue seems to be that Tree-sitter doesn't recognize this as a conflict.
+
+If we instead add a fallback with a `_` string then Tree-sitter will treat it as a conflict:
+
+```javascript
+_inline: ($) => repeat1(choice($.emphasis, $._text, $._fallback)),
+emphasis: ($) => prec.left(seq("_", $._inline, "_")),
+_fallback: (_) => "_",
+_text: (_) => /[^\n]/,
+```
+
+And when we call `tree-sitter generate` we're made aware of this fact:
+
+```
+$ tree-sitter generate
+Unresolved conflict for symbol sequence:
+
+  '_'  •  '_'  …
+
+Possible interpretations:
+
+  1:  (_fallback  '_')  •  '_'  …
+  2:  (emphasis  '_'  •  _inline  '_')  (precedence: 0, associativity: Left)
+
+Possible resolutions:
+
+  1:  Specify a higher precedence in `emphasis` than in the other rules.
+  2:  Specify a higher precedence in `_fallback` than in the other rules.
+  3:  Specify a left or right associativity in `_fallback`
+  4:  Add a conflict for these rules: `emphasis`, `_fallback`
+```
+
+What we'll want to do is add them as a conflict that's supposed to exist in the grammar to the `conflicts` field:
+
+```javascript
+conflicts: ($) => [[$.emphasis, $._fallback]],
+```
+
+There might be other gotchas.
+For example, it doesn't seem you can trigger the GLR algorithm with a token returned by an external scanner.
+
+
+# Using tree-sitter for something useful
+
+## Syntax highlighting
+
+## Language injection
+
+One big question I had when starting writing my grammar was how to mix multiple parsers in the same document, for example how you can use the correct language for highlighting inside a code block:
+
+````djot
+```rust
+// Highlighted rust code
+let x = 2;
+```
+````
+
+Turns out, this is quite straightforward.
+
+## Using our grammar with Neovim
+
+`:Inspect` and `:TSPlaygroundToggle`
+
+`:help treesitter-highlight-groups`
+
+Symlink queries file
+
+## Embedding the grammar with Rust
+
+## Jumping and selecting with textobjects
+
+
 [tree-sitter 0.22.1]: https://github.com/tree-sitter/tree-sitter/releases/tag/v0.22.1
 
     *   *   *
@@ -776,20 +912,6 @@ void close_blocks_with_final_token(Scanner *s, TSLexer *lexer, size_t count,
 ],
 ```
 
->>>>>>> bb20f8b0ee431d33700e26220a40a6cc0cf440c6
-# Adding highlights
-
-## Using our grammar with Neovim
-
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
 [valgrind]: https://valgrind.org/
-
-# Misc stuff
-
-`:Inspect` and `:TSPlaygroundToggle`
-
-`:help treesitter-highlight-groups`
-
-Symlink queries file
-
 [Djot]: https://djot.net/
