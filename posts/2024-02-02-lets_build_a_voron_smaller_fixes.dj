@@ -1,7 +1,7 @@
----
-title: "Let's build a VORON: Smaller fixes"
-tags: ["3D printing", "VORON"]
-series: voron_trident
+---toml
+title = "Let's build a VORON: Smaller fixes"
+tags = ["3D printing", "VORON"]
+series = "voron_trident"
 ---
 
 I've been busy.

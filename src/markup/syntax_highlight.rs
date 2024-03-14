@@ -249,6 +249,7 @@ fn to_language_id(s: &str) -> String {
 
     match s.as_str() {
         "c++" => "cpp".to_string(),
+        "javascript" => "js".to_string(),
         _ => s,
     }
 }
@@ -267,6 +268,11 @@ pub fn inline_code_spec(s: &str) -> Option<(String, String)> {
     let captures = INLINE_CODE_SPEC.captures(s)?;
 
     Some((captures[1].to_string(), captures[2].to_string()))
+}
+
+enum Block {
+    Div { colons: u32 },
+    Footnote { indent: u32 },
 }
 
 pub fn parse_code_spec(s: &str) -> Option<String> {

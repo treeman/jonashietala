@@ -1,6 +1,6 @@
----
-title: "Creating a Tree-sitter grammar for a subset of Djot"
-tags: ["Djot", "Tree-sitter", "C"]
+---toml
+title = "Creating a Tree-sitter grammar for a subset of Djot"
+tags = ["Djot", "Tree-sitter", "C"]
 ---
 
 One of my favorite features in Neovim is the Tree-sitter integration.
@@ -286,7 +286,7 @@ $ tree-sitter parse example-file
 
 (This may not be the best design, having to parse div markers multiple times, but it gets the job done.)
 
-## Tracking nested blocks
+## Nested blocks
 
 To automatically close other open blocks we need to add some context to our parser, which means we'll need state management.
 
@@ -301,21 +301,488 @@ I like Torvalds take on focusing on data structures:
 > ^ Linus Torvalds
 
 I might not be a "good programmer", but if you pretend enough maybe you'll accidentally turn into one?
-
-TODO
-
-(alloc and array are new features!)
-
-1. Use ts_ from "tree_sitter/alloc.h"
-1. Use array macros from "tree_sitter/array.h"
-1. Should detect if we're in an error detection mode
+Our strategy is this:
 
 
+1. A div can have a varying number of `:` that must match.
+
+   Therefore we'll parse colons in an external scanner and store it on a stack.
+
+1. When we find a div marker, we'll need to decide if it should start a new div, or close an existing one.
+
+   We'll look at the stack of open blocks and see if we find a match.
+
+1. If we have need to close a nested div, that is if we want to close a div further down the stack, we need to close the nested div(s) first.
+
+   Thus we'll introduce a `block_close` marker that ends a div, and leave the ending div marker as optional.
+
+First we'll ask the grammar to let the external scanner manage the begin and end tokens.
+We'll use a `_block_close` marker to end the div, and leave the end marker optional.
+(You could probably use a `choice()` between the two, but this made more sense to me when I was implementing it.)
+
+```javascript
+div: ($) =>
+  prec.left(
+    seq(
+      // A rule starting with "_" will be hidden in the output,
+      // and we can use "alias" to rename rules.
+      alias($._div_marker_begin, $.div_marker),
+      "\n",
+      repeat($._block),
+      $._block_close,
+      optional(alias($._div_marker_end, $.div_marker))
+    )
+  ),
+
+externals: ($) => [
+  $._close_paragraph,
+  $._block_close,
+  $._div_marker_begin,
+  $._div_marker_end,
+
+  // This is used in the scanner internally,
+  // but shouldn't be used by the grammar.
+  $._ignored,
+],
+```
+
+And remember to update the list of external tokens in the scanner (order matters):
+
+```c
+typedef enum {
+  CLOSE_PARAGRAPH,
+  BLOCK_CLOSE,
+  DIV_MARKER_BEGIN,
+  DIV_MARKER_END,
+  IGNORED
+} TokenType;
+```
+
+Then to our stack of blocks.
+
+I used a `Block` type to keep track of the type and number of colons:
+
+```c
+// In a real implementation we'll have more block types.
+typedef enum { DIV } BlockType;
+
+typedef struct {
+  BlockType type;
+  uint8_t level;
+} Block;
+```
+
+I know that `level` isn't the best name, but I couldn't find a very good general names for the number of colons, indentation level, etc.
+With sum types you could model it in a clearer way, like this:
+
+```rust
+enum Block {
+    Div { colons: u32 },
+    Footnote { indent: u32 },
+    // etc
+}
+```
+
+But I digress, this is good enough.
+
+Another joy of programming C is that you'll get to re-implement standard data structures such as a growable stack.
+It's not truly difficult, but it's annoying and bug-prone.
+
+Luckily, during the time I'm writing this blog post, [tree-sitter 0.22.1][] was released with an array implementation.
+So now I don't have to show you my shoddy stack implementation, and we can use their array for our stack instead.
+
+We'll shove our `Array` of `Block*` into a `Scanner` struct, because we'll need to track more data later:
+
+```c
+#include "tree_sitter/array.h"
+
+typedef struct {
+  Array(Block *) * open_blocks;
+} Scanner;
+```
+
+When you manage state in tree-sitter, you need to do some data management in the `tree_sitter_` functions we defined earlier.
+
+Allocations are managed in the `_create` and `_destroy` functions.
+Also new for 0.22.1 is the recommendation to use `ts_` functions for allocations, to allow consumers to override the default allocator:
+
+```c
+#include "tree_sitter/alloc.h"
+
+void *tree_sitter_sdjot_external_scanner_create() {
+  Scanner *s = (Scanner *)ts_malloc(sizeof(Scanner));
+
+  // This is how you create an empty array
+  s->open_blocks = ts_malloc(sizeof(Array(Block *)));
+  array_init(s->open_blocks);
+
+  return s;
+}
+
+void tree_sitter_sdjot_external_scanner_destroy(void *payload) {
+  Scanner *s = (Scanner *)payload;
+
+  // I haven't shown the allocation of the blocks yet,
+  // but keep in mind that `array_delete` does not deallocate any memory
+  // you store in the array itself.
+  for (size_t i = 0; i < s->open_blocks->size; ++i) {
+    // `array_get` is preferrable even though you can index the contents directly.
+    ts_free(array_get(s->open_blocks, i));
+  }
+
+  // The array is a growable one, `array_delete` ensures that the
+  // memory is deleted.
+  array_delete(s->open_blocks);
+
+  ts_free(s);
+}
+```
+
+I allocate the blocks in a `push_block` helper:
+
+```c
+static void push_block(Scanner *s, BlockType type, uint8_t level) {
+  Block *b = ts_malloc(sizeof(Block));
+  b->type = type;
+  b->level = level;
+
+  array_push(s->open_blocks, b);
+}
+```
+
+You also need to define the serialize functions.
+These store and retrieve the managed state, to allow tree-sitter to backtrack.
+
+```c
+unsigned tree_sitter_sdjot_external_scanner_serialize(void *payload,
+                                                      char *buffer) {
+  Scanner *s = (Scanner *)payload;
+  unsigned size = 0;
+  for (size_t i = 0; i < s->open_blocks->size; ++i) {
+    Block *b = *array_get(s->open_blocks, i);
+    buffer[size++] = (char)b->type;
+    buffer[size++] = (char)b->level;
+  }
+  return size;
+}
+
+void tree_sitter_sdjot_external_scanner_deserialize(void *payload, char *buffer,
+                                                    unsigned length) {
+  Scanner *s = (Scanner *)payload;
+  array_init(s->open_blocks);
+  size_t size = 0;
+  while (size < length) {
+    BlockType type = (BlockType)buffer[size++];
+    uint8_t level = (uint8_t)buffer[size++];
+    push_block(s, type, level);
+  }
+}
+```
+
+And that's the (initial) state management taken care of!
+
+::: notice
+C is scary.
+Try [valgrind][].
+:::
+
+
+## Div markers
+
+Of course, we haven't used our state yet.
+Let's change that.
+
+First, let's add the `parse_div` entry point to our scan function:
+
+```c
+bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
+                                             const bool *valid_symbols) {
+  Scanner *s = (Scanner *)payload;
+
+  // Paragraph needs to be closed before we try to close divs.
+  if (valid_symbols[CLOSE_PARAGRAPH] && parse_close_paragraph(lexer)) {
+    return true;
+  }
+
+  // Check `valid_symbols` inside `parse_div` because of multiple valid symbols.
+  if (parse_div(s, lexer, valid_symbols)) {
+    return true;
+  }
+
+  return false;
+}
+```
+
+Because advancing the lexer is primitive, and we cannot "go back a char", it's important to only advance it if we really need to.
+Therefore we always need to check `valid_symbols` before we continue:
+
+```c
+bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+  if (!valid_symbols[DIV_MARKER_BEGIN] && !valid_symbols[DIV_MARKER_END]) {
+    return false;
+  }
+
+  // ...
+}
+```
+
+Next we'll need to consume all colons we're at, and only continue if we see at least three:
+
+```c
+uint8_t consume_chars(TSLexer *lexer, char c) {
+  uint8_t count = 0;
+  while (lexer->lookahead == c) {
+    lexer->advance(lexer, false);
+    ++count;
+  }
+  return count;
+}
+
+bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+  // ...
+
+  uint8_t colons = consume_chars(lexer, ':');
+  if (colons < 3) {
+    return false;
+  }
+
+  // ...
+}
+```
+
+Opening a new div is simple; we push the block and register the number of colons:
+
+```c
+push_block(s, DIV, colons);
+lexer->result_symbol = DIV_MARKER_BEGIN;
+return true;
+```
+
+But to the decide if we should open or close a div, we need a way to search through the stack.
+This function does that, while also returning how many blocks deep into the stack we found the div (which will use shortly):
+
+```c
+// How many blocks from the top of the stack can we find a matching block?
+// If it's directly on the top, returns 1.
+// If it cannot be found, returns 0.
+static size_t number_of_blocks_from_top(Scanner *s, BlockType type,
+                                        uint8_t level) {
+  for (int i = s->open_blocks->size - 1; i >= 0; --i) {
+    Block *b = *array_get(s->open_blocks, i);
+    if (b->type == type && b->level == level) {
+      return s->open_blocks->size - i;
+    }
+  }
+  return 0;
+}
+
+bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+  // ...
+
+  size_t from_top = number_of_blocks_from_top(s, DIV, colons);
+
+  // We could check if either DIV_MARKER_BEGIN or DIV_MARKER_END are valid here,
+  // but as the grammar is set up they're both always valid at the same time.
+  if (from_top > 0) {
+    // Close the current div, and all blocks above.
+  } else {
+    // No matching div to close, let's open a new.
+    lexer->mark_end(lexer);
+    push_block(s, DIV, colons);
+    lexer->result_symbol = DIV_MARKER_BEGIN;
+    return true;
+  }
+}
+```
+
+But we have a problem: when we want to close the div, we want to be able to output multiple tokens.
+
+For example, with this type of input:
+
+```djot
+:::
+::::
+:::::::
+inception
+:::
+```
+
+We have a stack of 3 divs:
+
+```
+7 (top)
+4
+3 (the one we want to close)
+```
+
+In the code above, `from_top` will be `3` and we need to output 4 tokens: 3 `BLOCK_CLOSE` (one for each div) and 1 `DIV_MARKER_END` (for the last `:::`).
+But the scanner can only output a single token at a time.
+
+The way I solved this is by introducing more state to the Scanner.
+Specifically, I introduced a `blocks_to_close` variable that we'll use to output `BLOCK_CLOSE`, and some variables to output (and consume) the `DIV_MARKER_END`.
+
+```c
+typedef struct {
+  Array(Block *) * open_blocks;
+
+  // How many BLOCK_CLOSE we should output right now?
+  uint8_t blocks_to_close;
+
+  // Delayed output of a token.
+  TokenType delayed_token;
+  // Allows us to consume the width of a delayed token.
+  uint8_t delayed_token_width;
+} Scanner;
+```
+
+We need to remember to update the create and serialize functions too.
+
+Serialize:
+
+```c
+buffer[size++] = (char)s->blocks_to_close;
+buffer[size++] = (char)s->delayed_token;
+buffer[size++] = (char)s->delayed_token_width;
+```
+
+Deserialize:
+
+```c
+s->blocks_to_close = (uint8_t)buffer[size++];
+s->delayed_token = (TokenType)buffer[size++];
+s->delayed_token_width = (uint8_t)buffer[size++];
+```
+
+We'll use `IGNORED` as the unused token, so we'll need to reset it when we create the scanner:
+
+```c
+s->blocks_to_close = 0;
+s->delayed_token = IGNORED;
+```
+
+Now when we scan we should first check `blocks_to_close` and then `delayed_token`, before we scan other things:
+
+```c
+bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
+                                             const bool *valid_symbols) {
+  Scanner *s = (Scanner *)payload;
+
+  if (valid_symbols[BLOCK_CLOSE] && handle_blocks_to_close(s, lexer)) {
+    return true;
+  }
+
+  if (output_delayed_token(s, lexer, valid_symbols)) {
+    return true;
+  }
+
+  // Parse the other stuff
+}
+```
+
+When we see `blocks_to_close > 0`, then we should output a `BLOCK_CLOSE` and remove the top block (with some sanity checks for good measure):
+
+```c
+void remove_block(Scanner *s) {
+  if (s->open_blocks->size > 0) {
+    ts_free(array_pop(s->open_blocks));
+    if (s->blocks_to_close > 0) {
+      --s->blocks_to_close;
+    }
+  }
+}
+
+bool handle_blocks_to_close(Scanner *s, TSLexer *lexer) {
+  if (s->open_blocks->size == 0) {
+    return false;
+  }
+
+  if (s->blocks_to_close > 0) {
+    lexer->result_symbol = BLOCK_CLOSE;
+    remove_block(s);
+    return true;
+  }
+  return false;
+}
+```
+
+With this we can output multiple `BLOCK_CLOSE`, and now to handle delayed tokens:
+
+```c
+bool output_delayed_token(Scanner *s, TSLexer *lexer,
+                          const bool *valid_symbols) {
+  if (s->delayed_token == IGNORED || !valid_symbols[s->delayed_token]) {
+    return false;
+  }
+
+  lexer->result_symbol = s->delayed_token;
+  s->delayed_token = IGNORED;
+  // With `delayed_token_width` we can consume the ending `:::`, for example.
+  while (s->delayed_token_width--) {
+    lexer->advance(lexer, false);
+  }
+  lexer->mark_end(lexer);
+  return true;
+}
+```
+
+Another way to design this is to have a stack of delayed tokens and then just pop that.
+It's certainly more powerful, I just happened to choose this way when I was playing around with it.
+
+Either way, we can now implement the div end handling. In `parse_div`:
+
+```c
+size_t from_top = number_of_blocks_from_top(s, DIV, colons);
+
+if (from_top > 0) {
+  // Found a div we should close.
+  close_blocks_with_final_token(s, lexer, from_top, DIV_MARKER_END, colons);
+  return true;
+} else {
+  lexer->mark_end(lexer);
+  push_block(s, DIV, colons);
+  lexer->result_symbol = DIV_MARKER_BEGIN;
+  return true;
+}
+```
+
+`close_blocks_with_final_token` is a general helper that sets up the number of blocks to close and the final token:
+
+```c
+void close_blocks_with_final_token(Scanner *s, TSLexer *lexer, size_t count,
+                                   TokenType final, uint8_t final_token_width) {
+  remove_block(s);
+  s->blocks_to_close = s->blocks_to_close + count - 1;
+  lexer->result_symbol = BLOCK_CLOSE;
+  s->delayed_token = final;
+  s->delayed_token_width = final_token_width;
+}
+```
+
+[tree-sitter 0.22.1]: https://github.com/tree-sitter/tree-sitter/releases/tag/v0.22.1
+
+    *   *   *
+
+# Don't forget package.json
+
+```json
+"tree-sitter": [
+  {
+    "scope": "source.sdjot",
+    "file-types": [
+      "sdj"
+    ],
+    "injection-regex": "sdjot"
+  }
+],
+```
+
+>>>>>>> bb20f8b0ee431d33700e26220a40a6cc0cf440c6
 # Adding highlights
 
 ## Using our grammar with Neovim
 
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
+[valgrind]: https://valgrind.org/
 
 # Misc stuff
 
@@ -324,3 +791,5 @@ TODO
 `:help treesitter-highlight-groups`
 
 Symlink queries file
+
+[Djot]: https://djot.net/

@@ -1,6 +1,6 @@
----
-title: "A first look at Gleam OTP"
-tags: [Gleam, Erlang, Elixir]
+---toml
+title = "A first look at Gleam OTP"
+tags = ["Gleam", "Erlang", "Elixir"]
 ---
 
 1. Task

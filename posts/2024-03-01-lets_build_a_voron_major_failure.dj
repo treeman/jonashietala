@@ -1,7 +1,7 @@
----
-title: "Let's build a VORON: Major failure"
-tags: ["3D printing", "VORON"]
-series: voron_trident
+---toml
+title = "Let's build a VORON: Major failure"
+tags = ["3D printing", "VORON"]
+series = "voron_trident"
 ---
 
 ![The left POM nut got ground down, making the bed fall down.](/images/trident/pom_bed_imbalanced.jpg)
