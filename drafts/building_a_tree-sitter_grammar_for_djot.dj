@@ -17,8 +17,11 @@ There are some good tutorials on how to get started, but not on some mare advanc
 
 This is a decently long post that will go through:
 
-1. Use an external scanner
-1. TODO
+1. How to use an external scanner
+1. Conflicts resolution
+1. Syntax highlighting, including language injection
+1. Use the grammar from Neovim for highlighting and textobjects
+1. Embed the grammar into this Blog with Rust
 
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 
@@ -26,20 +29,25 @@ This is a decently long post that will go through:
 
 For the purpose of this blog post, we'll implement a small subset of [Djot][]:
 
-1. Paragraphs
-1. Divs
-1. Emphasis
+- Paragraphs
+- Divs
+- Code blocks
+- Emphasis
 
-This allows us to parse markup like this:
+This will allow us to parse markup like this:
 
-```djot
+````sdjot
 This is a
 multiline _paragraph_
 
-::: div-class
+:::
 This is a paragraph inside a div
 :::
+
+```rust
+let x = 2;
 ```
+````
 
 At first blush, this seems like it's too simple to require anything more complex other than some simple grammar rules, but later on we'll see that even these simple rules contain complicated edge-cases.
 
@@ -63,13 +71,26 @@ module.exports = grammar({
   rules: {
     document: ($) => repeat($._block),
 
-    // All blocks should end with a newline, but we can also eat newlines directly.
-    _block: ($) => choice($.div, $.paragraph, "\n"),
+    // All blocks should end with a newline, but we can also parse multiple newlines.
+    _block: ($) => choice($.div, $.code_block, $.paragraph, "\n"),
 
     // A div contains other blocks.
     div: ($) =>
       prec.left(seq($.div_marker, "\n", repeat($._block), $.div_marker, "\n")),
     div_marker: (_) => ":::",
+
+    // Code blocks may have a language specifier.
+    code_block: ($) =>
+      seq(
+        $.code_block_marker,
+        optional($.language),
+        "\n",
+        $.code,
+        $.code_block_marker
+      ),
+    code_block_marker: (_) => "```",
+    code: (_) => repeat1(seq(/[^\n]*/, "\n")),
+    language: (_) => /[^\s]+/,
 
     // A paragraph contains inline content and is terminated by a blankline
     // (two newlines in a row).
@@ -77,17 +98,18 @@ module.exports = grammar({
 
     // The markup parser could separate block and inline parsing into separate steps,
     // but we'll do everything in one parser.
-    _inline: ($) => repeat1(choice($.emphasis, /[^\n]/)),
+    _inline: ($) => repeat1(choice($.emphasis, $._text)),
     emphasis: ($) => prec.left(seq("_", $._inline, "_")),
+    _text: (_) => /[^\n]/,
   },
 });
 ```
 
-It recognizes paragraphs with text and emphasis, and it identifies divs with begin and end tags.
+It recognizes paragraphs with text and emphasis, and it identifies divs and code blocks.
 
 We can create an `example-file` with these contents:
 
-```djot
+```sdjot
 :::
 A paragraph _with emphasis_ inside a div
 
@@ -110,14 +132,15 @@ Et voilà!
 
 ## Missing features
 
-But I told you it wasn't supposed to be this easy, and there are two features missing from our parser:
+But I told you it wasn't supposed to be this easy, and there are features missing from our parser.
+Most notably:
 
 1. There can be an arbitrary number of `:`, allowing divs to be nested.
 1. Closing a div should close other open blocks (divs and paragraphs in our case).
 
 In essence, we need to be able to parse this:
 
-```djot
+```sdjot
 :::
 Top-level div
 
@@ -129,7 +152,7 @@ both closed when the top-level div is closed
 
 This is... Complicated.
 
-Sure, we can work around the varying levels of `:` with something hacky like enumerating the number of colons, with something like this:
+Sure, we can work around the varying levels of `:` with something hacky like enumerating the number of colons, using something like this:
 
 ```javascript
 div: ($) => choice($._div3, $._div4, $._div5, $._div6, $._div7, $._div8),
@@ -272,7 +295,7 @@ We only process one character at a time, cannot look behind, and our only tool t
 
 With this we have a working external scanner and div tags now close paragraphs:
 
-```djot
+```sdjot
 :::
 A paragraph inside a div
 :::
@@ -602,7 +625,7 @@ But we have a problem: when we want to close the div, we want to be able to outp
 
 For example, with this type of input:
 
-```djot
+```sdjot
 :::
 ::::
 :::::::
@@ -764,12 +787,11 @@ void close_blocks_with_final_token(Scanner *s, TSLexer *lexer, size_t count,
 
 Now we can finally try to close divs:
 
-```djot
+```sdjot
 ::::
 :::
 :::::::
 Divception
-
 :::
 
 ```
@@ -787,7 +809,7 @@ $ tree-sitter parse example-file
       (div_marker [4, 0] - [4, 3]))))
 ```
 
-We can see that it parses without error, and that the last marker closes the second div correctly, and captures the `:::` properly.
+We can see that it parses without error, the last marker closes the second div correctly, and the last marker captures the final `:::`.
 
 
 # Handling conflicts
@@ -833,7 +855,7 @@ _fallback: (_) => "_",
 _text: (_) => /[^\n]/,
 ```
 
-And when we call `tree-sitter generate` we're made aware of this fact:
+And when we call `tree-sitter generate` we're made aware of the conflict:
 
 ```
 $ tree-sitter generate
@@ -854,25 +876,98 @@ Possible resolutions:
   4:  Add a conflict for these rules: `emphasis`, `_fallback`
 ```
 
-What we'll want to do is add them as a conflict that's supposed to exist in the grammar to the `conflicts` field:
+What we want to do is mark them as a conflict that's supposed to exist in the grammar using the `conflicts` field:
 
 ```javascript
 conflicts: ($) => [[$.emphasis, $._fallback]],
 ```
 
-There might be other gotchas.
-For example, it doesn't seem you can trigger the GLR algorithm with a token returned by an external scanner.
+And now we can parse paragraphs containing only a single `_` without errors.
+
+I'm not 100% sure, but it doesn't seem like you can trigger the GLR algorithm with a token returned by an external scanner.
+
+
+# Some tests
+
+Using `tree-sitter parse example-file` (with or without the `-d` or `-D` flags, try them if you haven't) is fine for experimental tests, but we really should add the different test cases as proper unit tests.
+Tree-sitter has a built-in test harness for this purpose.
+
+Let's add the very first test case to `test/corpus/syntax.txt`:
+
+````
+===============================================================================
+Parsing goal
+===============================================================================
+This is a
+multiline _paragraph_
+
+:::
+This is a paragraph inside a div
+:::
+
+```rust
+let x = 2;
+```
+
+-------------------------------------------------------------------------------
+
+(document
+  (paragraph (emphasis))
+  (div
+    (div_marker)
+    (paragraph)
+    (div_marker))
+  (code_block
+    (code_block_marker)
+    (language)
+    (code)
+    (code_block_marker)))
+````
+
+And run it:
+
+```
+$ tree-sitter test
+  syntax:
+    ✓ Parsing goal
+```
+
+Yay!
+
+We should add (a lot) more tests here, but I won't bother writing them out in this already too long blog post.
 
 
 # Using tree-sitter for something useful
 
 ## Syntax highlighting
 
+Syntax highlighting is made using queries from the `highlights.scm` file.
+It's common to have it placed in the `src` directory in the same repository as the grammar, but it's not required.
+
+Here's an example `src/highlights.scm` file that highlights the different elements of our markup:
+
+```scm
+(div_marker) @punctuation.delimiter
+(code_block_marker) @punctuation.delimiter
+
+(emphasis "_" @punctuation.delimiter) @markup.italic
+(language) @tag.attribute
+
+(code_block) @markup.raw
+(paragraph) @markup
+```
+
+What colors to choose is a bit arbitrary, these works well enough I suppose.
+
+See the [documentation][syntax-highlight] for more details on how the queries and highlighting works.
+
+[syntax-highlight]: https://tree-sitter.github.io/tree-sitter/syntax-highlighting
+
 ## Language injection
 
-One big question I had when starting writing my grammar was how to mix multiple parsers in the same document, for example how you can use the correct language for highlighting inside a code block:
+One big question I had when starting writing my grammar was how to mix multiple parsers in the same document, to for example highlight code blocks using the specified language:
 
-````djot
+````sdjot
 ```rust
 // Highlighted rust code
 let x = 2;
@@ -881,24 +976,47 @@ let x = 2;
 
 Turns out, this is quite straightforward.
 
+With the initial grammar, the code block parses into:
+
+```
+(code_block
+  (code_block_marker)
+  (language)
+  (code)
+  (code_block_marker)))
+```
+
+Which we'll use in `src/injections.scm` to specify that we want to parse `(code)` using the grammar specified in `(language)`:
+
+```scm
+(code_block
+  (language) @injection.language
+  (code) @injection.content)
+```
+
+
 ## Using our grammar with Neovim
 
-`:Inspect` and `:TSPlaygroundToggle`
+I typically install Tree-sitter grammars in Neovim using `:TSInstall` provided by [nvim-treesitter][].
+But you can [install local Tree-sitter grammars][] as well:
 
-`:help treesitter-highlight-groups`
+```lua
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.sdjot = {
+    install_info = {
+        -- Change this url to your grammar
+        url = "~/code/tree-sitter-sdjot",
+        -- If you use an external scanner it needs to be included here
+        files = { "src/parser.c", "src/scanner.c" },
+        generate_reqires_npm = false,
+        requires_generate_from_grammar = false,
+    },
+    -- The filetype you want it registered as
+    filetype = "sdjot",
+}
+```
 
-Symlink queries file
-
-## Embedding the grammar with Rust
-
-## Jumping and selecting with textobjects
-
-
-[tree-sitter 0.22.1]: https://github.com/tree-sitter/tree-sitter/releases/tag/v0.22.1
-
-    *   *   *
-
-# Don't forget package.json
+Just make sure you have a `"tree-sitter"` section in the grammar's `package.json`:
 
 ```json
 "tree-sitter": [
@@ -912,6 +1030,38 @@ Symlink queries file
 ],
 ```
 
+With this you can do `:TSInstall sjdot` and `:TSUdate sdjot` when you make changes.
+
+`:TSInstall` doesn't install queries automatically though.
+What I did was to just symlink the queries directory into Neovims config directory:
+
+```
+ln -s ~/code/tree-sitter-sdjot/queries ~/.config/nvim/queries/sdjot
+```
+
+`:TSPlaygroundToggle` is very useful for debugging the grammar, and `:Inspect` shows you the highlight groups under your cursor.
+It might be good to check out `:help treesitter-highlight-groups` if you want to play with your theme.
+
+
+## Jumping and selecting with textobjects
+
+## Embedding the grammar with Rust
+
+
+# Within edge-cases lies complexity
+
+> The night is dark and full of terrors
+> ^ George R.R. Martin
+
+[tree-sitter 0.22.1]: https://github.com/tree-sitter/tree-sitter/releases/tag/v0.22.1
+
+    *   *   *
+
+# Don't forget package.json
+
+
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
 [valgrind]: https://valgrind.org/
 [Djot]: https://djot.net/
+[nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
+[install local Tree-sitter grammars]: https://github.com/nvim-treesitter/nvim-treesitter#adding-parsers

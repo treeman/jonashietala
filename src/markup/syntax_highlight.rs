@@ -270,11 +270,6 @@ pub fn inline_code_spec(s: &str) -> Option<(String, String)> {
     Some((captures[1].to_string(), captures[2].to_string()))
 }
 
-enum Block {
-    Div { colons: u32 },
-    Footnote { indent: u32 },
-}
-
 pub fn parse_code_spec(s: &str) -> Option<String> {
     if s.is_empty() {
         return None;
