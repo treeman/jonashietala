@@ -121,8 +121,7 @@ article {
     padding-block: var(--space-2xs);
     @include flow;
   }
-  & > blockquote,
-  & > section > blockquote {
+  & blockquote {
     border-left: 3px solid var(--color-blockquote-bar);
   }
   .epigraph {

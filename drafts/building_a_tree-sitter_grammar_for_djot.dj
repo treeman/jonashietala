@@ -318,17 +318,7 @@ To automatically close other open blocks we need to add some context to our pars
 
 The small subset we're using for the blog is only concerned with divs because it would be a terribly long post otherwise, but I'll try to implement this in a general manner, to be more indicative of a real-world parser.
 
-I like Torvalds take on focusing on data structures:
-
-> I will, in fact, claim that the difference between a bad programmer and a good one
-> is whether he considers his code or his data structures more important.
-> Bad programmers worry about the code.
-> Good programmers worry about data structures and their relationships.
-> ^ Linus Torvalds
-
-I might not be a "good programmer", but if you pretend enough maybe you'll accidentally turn into one?
 Our strategy is this:
-
 
 1. A div can have a varying number of `:` that must match.
 
@@ -410,6 +400,12 @@ enum Block {
 ```
 
 But I digress, this is good enough.
+
+> I will, in fact, claim that the difference between a bad programmer and a good one
+> is whether he considers his code or his data structures more important.
+> Bad programmers worry about the code.
+> Good programmers worry about data structures and their relationships.
+> ^ Linus Torvalds
 
 Another joy of programming C is that you'll get to re-implement standard data structures such as a growable stack.
 It's not truly difficult, but it's annoying and bug-prone.
