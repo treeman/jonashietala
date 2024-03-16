@@ -126,16 +126,25 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
-        (
-            "c",
-            HighlightConfiguration::new(
-                tree_sitter_c::language(),
-                &dbg!(read_nvim_treesitter_highlights("c")),
-                &read_nvim_treesitter_injections("c"),
-                &read_nvim_treesitter_locals("c"),
-            )
-            .unwrap(),
-        ),
+        // (
+        //     "sdjot",
+        //     HighlightConfiguration::new(
+        //         tree_sitter_sdjot::language(),
+        //         tree_sitter_sdjot::HIGHLIGHT_QUERY,
+        //         tree_sitter_sdjot::INJECTIONS_QUERY,
+        //         "",
+        //     ),
+        // ),
+        // (
+        //     "c",
+        //     HighlightConfiguration::new(
+        //         tree_sitter_c::language(),
+        //         &dbg!(read_nvim_treesitter_highlights("c")),
+        //         &read_nvim_treesitter_injections("c"),
+        //         &read_nvim_treesitter_locals("c"),
+        //     )
+        //     .unwrap(),
+        // ),
     ]
     .into_iter()
     .map(|(name, mut config)| {
