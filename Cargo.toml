@@ -53,3 +53,8 @@ jotdown = "0.3.2"
 pulldown-cmark-escape = "0.10.0"
 axum-server = "0.6.0"
 toml-frontmatter = "0.1.0"
+# Mismatched with rust
+# tree-sitter-highlight = "0.22.1"
+tree-sitter-highlight = "^0.20.0"
+tree-sitter-rust = "0.20.4"
+tree-sitter-c = "0.20.4"

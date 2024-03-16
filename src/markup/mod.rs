@@ -14,7 +14,7 @@ use tracing::{error, warn};
 use walkdir::WalkDir;
 use yaml_front_matter::{Document, YamlFrontMatter};
 
-pub use self::syntax_highlight::{dump_syntax_binary, dump_theme};
+pub use self::syntax_highlight::syntect_highlighter;
 
 use self::djot::{djot_to_html, djot_to_html_feed};
 use self::markdown::{markdown_to_html, markdown_to_html_feed};

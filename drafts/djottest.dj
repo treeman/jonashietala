@@ -47,14 +47,6 @@ This text is *bold*. This is _italicized_. This is *_both_* `Here's some code.`.
 
 [wtf]: /ref
 
-x
-[link_text][]
-[link_text][link_label]
-[link_text](inline_link_destination)
-![image_description][]
-![image_description][link_label]
-![image_description](inline_link_destination)
-
 With footnote[^foo]
 
 [^foo]: Foo here
@@ -75,7 +67,7 @@ With footnote[^foo]
 
 $`^n + y^n = z^n`
 
-`<a href="x">Test</a>`{=html}
+`<a href="#">Test</a>`{=html}
 
 Here's a [wtf]{.wtf #wtf wtf="val" anotther=2}
 
