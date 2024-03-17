@@ -1043,6 +1043,14 @@ It might be good to check out `:help treesitter-highlight-groups` if you want to
 
 ## Embedding the grammar with Rust
 
+```fish
+rg "@\w+" -INo --trim | sort | uniq
+```
+
+```fish
+rg "@[\w.]+" -INo --trim c/ rust/ | sort | uniq
+```
+
 
 # Within edge-cases lies complexity
 

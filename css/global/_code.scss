@@ -420,3 +420,13 @@ aside {
 .operator {
   color: var(--melange_b_red);
 }
+
+.markup.italic {
+  font-style: italic;
+}
+.markup.strong {
+  font-weight: heavy;
+}
+.punctuation.delimiter {
+  color: var(--melange_c_red);
+}
