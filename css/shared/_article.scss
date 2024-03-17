@@ -139,7 +139,9 @@ article {
   table {
     @include serif;
     // Need tabular numbers to align properly
-    font-feature-settings: "kern" on, "tnum" on;
+    font-feature-settings:
+      "kern" on,
+      "tnum" on;
   }
   th,
   td {
@@ -337,6 +339,12 @@ article {
   }
   .note {
     background-color: var(--melange_c_cyan);
+  }
+
+  mark {
+    background-color: var(--color-background);
+    font-weight: bold;
+    color: var(--melange_b_yellow);
   }
 
   /*

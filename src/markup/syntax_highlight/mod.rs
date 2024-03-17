@@ -149,7 +149,7 @@ impl<'a> Highlighter<'a> {
     fn highlight(&self, code: &str) -> Result<String> {
         match &self.highlighter {
             HighlighterType::Syntect(x) => x.highlight(code),
-            HighlighterType::Treesitter(x) => x.highlight(&self.lang_id, code),
+            HighlighterType::Treesitter(x) => x.highlight(code),
         }
     }
 }

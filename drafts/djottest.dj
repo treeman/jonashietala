@@ -45,6 +45,7 @@ This text is *bold*. This is _italicized_. This is *_both_* `Here's some code.`.
 
 [blog](/blogxxxxx) and auto <https://google.com> email: <mail@jonashietala.se> [blog][wtf] [blog][]
 
+[blog]: #
 [wtf]: /ref
 
 With footnote[^foo]
@@ -100,8 +101,6 @@ x
 [^wtf]: My footnote wtf
 
        another row
-
-zomg
 
 # Lists
 
@@ -258,6 +257,84 @@ python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm
 ```cpp
 int i = 2;
 ```
+
+````djot
+Djotception!
+
+# Header 1 (h2)
+## Header 2 (h3)
+### Header 3 (h4)
+#### Header 4 (h5)
+##### Header 5 (h6)
+###### Header 6 (h7)
+
+```rust
+let x = 2;
+```
+
+{= highlighted =}
+
+{+ insert +}
+
+{- delete -}
+
+:symbol:
+
+^superscript^
+
+~subscript~
+
+Here's a [wtf]{.wtf #wtf wtf="val" anotther=2}
+
+{.bar #id key="value"}
+Paragraph
+
+{% comment wtf %}
+Text
+
+With a footnote.[^wtf]
+
+[^a]: b
+
+- Milk
+- Bread
+
+1. Milk
+2. Bread
+
+- [ ] Not completed
+- [x] Completed
+
+: term
+
+  Def
+
+> Trailing
+
+| Left aligned |  Centered  | Right aligned |
+|:-------------|:----------:|--------------:|
+| First row    |    Data    |          Data |
+| Second row   | **Cell** 1 |          1111 |
+| Third row    | **Cell** 2 |          3333 |
+| Fourth row   | **Cell** 3 |          6789 |
+^ With table caption
+
+[blog](/blogxxxxx) and auto <https://google.com> \
+email: <mail@jonashietala.se> [blog][wtf] [blog][]
+
+With \_ ... \"
+
+   *   *   *
+
+[blog]: #
+[wtf]: /ref
+
+![](/images/configura14/octree1.png)
+
+![FTL is such an amazing game](/images/ftl_start.png)
+
+![FTL is such an amazing game][blog]
+````
 
 # Images
 

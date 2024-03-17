@@ -1,8 +1,10 @@
-use std::{collections::HashMap, fs};
+use std::collections::HashMap;
+// use std::fs;
 
 use camino::Utf8PathBuf;
 use eyre::Result;
 use lazy_static::lazy_static;
+use tracing::warn;
 use tree_sitter_highlight::{HighlightConfiguration, HighlightEvent, Highlighter};
 
 pub struct TreesitterHighlighter<'a> {
@@ -14,11 +16,17 @@ impl<'a> TreesitterHighlighter<'a> {
         CONFIGS.get(lang_id).map(|config| Self { config })
     }
 
-    pub fn highlight(&self, lang_id: &str, code: &str) -> Result<String> {
+    pub fn highlight(&self, code: &str) -> Result<String> {
         let mut highlighter = Highlighter::new();
 
         let highlights = highlighter
-            .highlight(self.config, code.as_bytes(), None, |x| CONFIGS.get(x))
+            .highlight(self.config, code.as_bytes(), None, |lang| {
+                let res = CONFIGS.get(lang);
+                if !res.is_some() {
+                    warn!("Couldn't find treesitter grammar for `{lang}` to inject");
+                }
+                res
+            })
             .unwrap();
 
         // This isn't very nice... How to generate strings dynamically from inside a Fn closure
@@ -39,9 +47,11 @@ impl<'a> TreesitterHighlighter<'a> {
                 HighlightEvent::HighlightEnd => res.push_str("</span>"),
                 HighlightEvent::HighlightStart(attr) => {
                     res.push_str(&format!(
-                        r#"<span class="{} {}">"#,
+                        r#"<span class="{}">"#,
+                        // FIXME doesn't work with ".1" classes
                         HIGHLIGHT_NAMES[attr.0].replace(".", " "),
-                        lang_id
+                        // FIXME language here is wrong during injected languages.
+                        // lang_id
                     ));
                 }
             }
@@ -177,33 +187,6 @@ lazy_static! {
     static ref CONFIGS: HashMap<String, HighlightConfiguration> = init_configurations();
 }
 
-fn read_nvim_treesitter_file(lang: &str, file: &str) -> String {
-    let path = HOME
-        .join(".local/share/nvim/lazy/nvim-treesitter/queries/")
-        .join(lang)
-        .join(file);
-    let content =
-        fs::read_to_string(&path).expect(&format!("Failed to find nvim-treesitter file: {path}"));
-    content
-}
-
-fn read_nvim_treesitter_highlights(lang: &str) -> String {
-    read_nvim_treesitter_file(lang, "highlights.scm")
-}
-
-fn read_nvim_treesitter_injections(lang: &str) -> String {
-    read_nvim_treesitter_file(lang, "injections.scm")
-}
-
-fn read_nvim_treesitter_locals(lang: &str) -> String {
-    read_nvim_treesitter_file(lang, "locals.scm")
-}
-
-// struct Config {
-//     lang: &'static str,
-//     langauge: Language,
-// }
-
 fn init_configurations() -> HashMap<String, HighlightConfiguration> {
     [
         (
@@ -226,16 +209,16 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
-        // (
-        //     "c",
-        //     HighlightConfiguration::new(
-        //         tree_sitter_c::language(),
-        //         &dbg!(read_nvim_treesitter_highlights("c")),
-        //         &read_nvim_treesitter_injections("c"),
-        //         &read_nvim_treesitter_locals("c"),
-        //     )
-        //     .unwrap(),
-        // ),
+        (
+            "djot",
+            HighlightConfiguration::new(
+                tree_sitter_djot::language(),
+                tree_sitter_djot::HIGHLIGHTS_QUERY,
+                tree_sitter_djot::INJECTIONS_QUERY,
+                "",
+            )
+            .unwrap(),
+        ),
     ]
     .into_iter()
     .map(|(name, mut config)| {
@@ -248,32 +231,29 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
     fn test_treesitter_highlight() {
         let highlighter = TreesitterHighlighter::find("rust").unwrap();
         assert_eq!(
-            highlighter.highlight("rust", "let x = 2;").unwrap(),
-            "<span class=\"keyword rust\">let</span> x = <span class=\"constant rust\">2</span><span class=\"punctuation delimiter rust\">;</span>\n"
+            highlighter.highlight("let x = 2;").unwrap(),
+            "<span class=\"keyword\">let</span> x = <span class=\"constant\">2</span><span class=\"punctuation delimiter\">;</span>\n"
         );
-        // assert!(false);
+    }
 
-        //         assert_eq!(
-        //             highlighter
-        //                 .highlight(
-        //                     "rust",
-        //                     r##"
-        // lazy_static! {
-        //     static ref BLOCK: Regex = Regex::new(
-        //         r#"
-        //         ^
-        //         $
-        //         "#
-        //     ).unwrap()
-        // }
-        // "##
-        //                 )
-        //                 .unwrap(),
-        //             "x"
-        //         );
+    #[test]
+    fn test_treesitter_highlight_sdjot_injection() {
+        let lang = "sdjot";
+        let highlighter = TreesitterHighlighter::find(lang).unwrap();
+        assert_eq!(
+            highlighter.highlight("```rust
+let x = 2;
+```
+").unwrap(),
+"<span class=\"markup raw\"><span class=\"punctuation delimiter\">```</span><span class=\"tag attribute\">rust</span>
+<span class=\"keyword\">let</span> x = <span class=\"constant builtin\">2</span><span class=\"punctuation delimiter\">;</span>
+<span class=\"punctuation delimiter\">```</span></span>
+"
+        );
     }
 }

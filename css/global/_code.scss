@@ -113,6 +113,9 @@ aside {
 .meta.function-call {
   color: var(--melange_b_yellow);
 }
+.meta.object {
+  color: var(--melange_a_fg);
+}
 // .invalid {
 //   color: $gb-lm-fg0;
 //   background-color: $gb-lm-dark-red;
@@ -425,8 +428,104 @@ aside {
   font-style: italic;
 }
 .markup.strong {
-  font-weight: heavy;
+  font-weight: bold;
 }
 .punctuation.delimiter {
   color: var(--melange_c_red);
+}
+.punctuation.special {
+  color: var(--melange_a_ui);
+}
+.tag.attribute,
+.label {
+  color: var(--melange_b_cyan);
+}
+
+// Maybe fix this in the future...
+.markup.heading,
+.text.title {
+  color: var(--melange_c_yellow);
+}
+// .markup.heading\.1 {
+//   color: "Title";
+// }
+// .markup.heading.2 {
+//   color: "Constant";
+// }
+// .markup.heading.3 {
+//   color: "DiagnosticOk";
+// }
+// .markup.heading.4 {
+//   color: "DiagnosticInfo";
+// }
+// .markup.heading.5 {
+//   color: "DiagnosticHint";
+// }
+// .markup.heading.6 {
+//   color: "DiagnosticError";
+// }
+
+.markup {
+  background-color: var(--melange_a_float);
+  color: var(--melange_a_fg);
+}
+
+.markup.highlighted {
+  color: var(--melange_b_yellow);
+}
+.markup.insert {
+  text-decoration: underline;
+}
+.markup.delete {
+  text-decoration-line: line-through;
+}
+.markup.superscript,
+.markup.subscript {
+  color: var(--melange_b_blue);
+  font-style: italic;
+}
+.markup.symbol {
+  color: var(--melange_b_cyan);
+}
+.markup.math,
+.markup.caption {
+  font-style: italic;
+}
+.markup.link.label {
+  color: var(--melange_b_cyan);
+}
+.markup.link.reference,
+.markup.link.definition {
+  color: var(--melange_c_magenta);
+}
+.markup.link.url {
+  color: var(--melange_c_blue);
+}
+.markup.footnote.definition,
+.markup.footnote.reference {
+  color: var(--melange_b_yellow);
+}
+.markup.todo,
+.markup.note,
+.markup.fixme {
+  color: var(--melange_a_com);
+}
+.markup.list {
+  color: var(--melange_d_yellow);
+}
+.markup.raw {
+  color: var(--melange_a_com);
+}
+.markup.link {
+  text-decoration: underline;
+}
+.markup.quote {
+  color: var(--melange_a_com);
+  font-style: italic;
+}
+.tag {
+  color: var(--melange_b_yellow);
+}
+.define {
+  color: var(--melange_b_green);
 }

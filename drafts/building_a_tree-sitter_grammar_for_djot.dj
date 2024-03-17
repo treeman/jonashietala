@@ -49,7 +49,9 @@ let x = 2;
 ```
 ````
 
-At first blush, this seems like it's too simple to require anything more complex other than some simple grammar rules, but later on we'll see that even these simple rules contain complicated edge-cases.
+(Yes, I [embedded the grammar into the Blog][Embedding the grammar with Rust] for the above highlighting.)
+
+At first blush, this seems like it's too simple to require anything more complex other than some simple grammar rules, but later on we'll see that even these simple rules contain complicated edge-cases and gotchas.
 
 # Simple beginnings
 
@@ -1051,6 +1053,19 @@ rg "@\w+" -INo --trim | sort | uniq
 rg "@[\w.]+" -INo --trim c/ rust/ | sort | uniq
 ```
 
+```rust
+fn read_nvim_treesitter_file(lang: &str, file: &str) -> String {
+    let path = HOME
+        .join(".local/share/nvim/lazy/nvim-treesitter/queries/")
+        .join(lang)
+        .join(file);
+    let content =
+        fs::read_to_string(&path).expect(&format!("Failed to find nvim-treesitter file: {path}"));
+    content
+}
+```
+
+Very odd problems. For instance, if I used `$.code`javascript to capture the embedded code, it wouldn't work. But with `optional($.code)`javascript, it.
 
 # Within edge-cases lies complexity
 

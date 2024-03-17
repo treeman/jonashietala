@@ -54,10 +54,12 @@ pulldown-cmark-escape = "0.10.0"
 axum-server = "0.6.0"
 toml-frontmatter = "0.1.0"
 # Mismatched with rust
-# tree-sitter-highlight = "0.22.1"
+# tree-sitter = "0.22.1"
 tree-sitter-highlight = "^0.20.0"
 tree-sitter-rust = "0.20.4"
-tree-sitter-c = "0.20.4"
 # tree-sitter-sdjot = { git = "https://github.com/treeman/tree-sitter-sdjot.git" } 
-tree-sitter-sdjot = { path = "../tree-sitter-sdjot" } 
+tree-sitter-sdjot = { path = "../tree-sitter-sdjot" }
+# tree-sitter-djot = { git = "https://github.com/treeman/tree-sitter-djot.git" } 
+tree-sitter-djot = { path = "../tree-sitter-djot" }
 dirs = "5.0.1"
+
