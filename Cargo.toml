@@ -57,9 +57,11 @@ toml-frontmatter = "0.1.0"
 # tree-sitter = "0.22.1"
 tree-sitter-highlight = "^0.20.0"
 tree-sitter-rust = "0.20.4"
-# tree-sitter-sdjot = { git = "https://github.com/treeman/tree-sitter-sdjot.git" } 
-tree-sitter-sdjot = { path = "../tree-sitter-sdjot" }
-# tree-sitter-djot = { git = "https://github.com/treeman/tree-sitter-djot.git" } 
-tree-sitter-djot = { path = "../tree-sitter-djot" }
+tree-sitter-sdjot = { git = "https://github.com/treeman/tree-sitter-sdjot.git" }
+# tree-sitter-sdjot = { path = "../tree-sitter-sdjot" }
+tree-sitter-djot = { git = "https://github.com/treeman/tree-sitter-djot.git" }
+# tree-sitter-djot = { path = "../tree-sitter-djot" }
+tree-sitter-fish = { git = "https://github.com/ram02z/tree-sitter-fish.git" }
+tree-sitter-gleam = { git = "https://github.com/gleam-lang/tree-sitter-gleam.git" }
 dirs = "5.0.1"
 

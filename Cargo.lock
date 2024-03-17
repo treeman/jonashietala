@@ -1523,6 +1523,8 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "tree-sitter-djot",
+ "tree-sitter-fish",
+ "tree-sitter-gleam",
  "tree-sitter-highlight",
  "tree-sitter-rust",
  "tree-sitter-sdjot",
@@ -3269,6 +3271,25 @@ dependencies = [
 [[package]]
 name = "tree-sitter-djot"
 version = "0.0.1"
+source = "git+https://github.com/treeman/tree-sitter-djot.git#ecb5a93d99b4492484a74c2b4e07cb09415eeefe"
+dependencies = [
+ "cc",
+ "tree-sitter",
+]
+
+[[package]]
+name = "tree-sitter-fish"
+version = "3.5.1"
+source = "git+https://github.com/ram02z/tree-sitter-fish.git#f9176908c9eb2e11eb684d79e1d00f3b29bd65c9"
+dependencies = [
+ "cc",
+ "tree-sitter",
+]
+
+[[package]]
+name = "tree-sitter-gleam"
+version = "1.0.0"
+source = "git+https://github.com/gleam-lang/tree-sitter-gleam.git#2012f294baacf30e7a62414754021284377366c6"
 dependencies = [
  "cc",
  "tree-sitter",
@@ -3298,6 +3319,7 @@ dependencies = [
 [[package]]
 name = "tree-sitter-sdjot"
 version = "0.0.1"
+source = "git+https://github.com/treeman/tree-sitter-sdjot.git#a63e900d7c78a4d54aa013972e2ecff8285ff602"
 dependencies = [
  "cc",
  "tree-sitter",

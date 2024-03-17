@@ -664,14 +664,8 @@ impl Site {
         let updated = self.content.posts.get(&post_ref).unwrap();
 
         let render_opts = match prev_post {
-            Some(old) => {
-                info!("updating... {:?}", &post_ref);
-                SiteRenderOpts::post_updated(&old, &updated)
-            }
-            None => {
-                info!("updating... {:?}", &post_ref);
-                SiteRenderOpts::post_created(&updated)
-            }
+            Some(old) => SiteRenderOpts::post_updated(&old, &updated),
+            None => SiteRenderOpts::post_created(&updated),
         };
 
         self.render(render_opts)

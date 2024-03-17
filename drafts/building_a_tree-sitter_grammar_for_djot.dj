@@ -49,7 +49,7 @@ let x = 2;
 ```
 ````
 
-(Yes, I [embedded the grammar into the Blog][Embedding the grammar with Rust] for the above highlighting.)
+(Yes, I [embedded the grammar into the Blog][Embedding the grammar with Rust] for the syntax highlighting.)
 
 At first blush, this seems like it's too simple to require anything more complex other than some simple grammar rules, but later on we'll see that even these simple rules contain complicated edge-cases and gotchas.
 
@@ -967,7 +967,6 @@ One big question I had when starting writing my grammar was how to mix multiple 
 
 ````sdjot
 ```rust
-// Highlighted rust code
 let x = 2;
 ```
 ````
@@ -1043,6 +1042,22 @@ It might be good to check out `:help treesitter-highlight-groups` if you want to
 
 ## Jumping and selecting with textobjects
 
+I mentioned [nvim-treesitter-textobjects][] as a good example of why Tree-sitter is about more than syntax highlighting.
+
+To make use of our grammar we can add some capture groups to `src/textobjects.scm`.
+For example we can register our code blocks as "functions":
+
+```scm
+(code_block (code) @function.inner) @function.outer
+```
+
+The objects are arbitrary, but `@function` is one of the standard objects so I guess it might make sense.
+
+With the symlink ready, you need to register keymaps with [nvim-treesitter-textobjects][] and you're good to go.
+I have it setup so I can jump between `@function.outer` with `[f` and `]f`, and selections with `af` and `if`.
+
+This means that with the above textobject definition I can for example jump to the next code block with `]f` and then remove all the code inside with `cif` to end up in insert mode, ready to replace it with some new code.
+
 ## Embedding the grammar with Rust
 
 ```fish
@@ -1072,13 +1087,17 @@ Very odd problems. For instance, if I used `$.code`javascript to capture the emb
 > The night is dark and full of terrors
 > ^ George R.R. Martin
 
+If you've read the post to the end, congratulations.
+You made it!
+
+I don't claim to be an expert at grammars or Tree-sitter, and I'm sure there are plenty of things that can be improved with the way the grammar is made.
+But I hope it can be helpful as a starting point if you're curious on how to write some Tree-sitter grammar of your own.
+
+Just one word of advice before you go.
+Writing a grammar for simple rules is pretty easy, but in the real world things can get messy quickly.
+This is especially true if you need to juggle multiple conflicting rules in the external scanner---keeping a sane structure is challenging.
+
 [tree-sitter 0.22.1]: https://github.com/tree-sitter/tree-sitter/releases/tag/v0.22.1
-
-    *   *   *
-
-# Don't forget package.json
-
-
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
 [valgrind]: https://valgrind.org/
 [Djot]: https://djot.net/

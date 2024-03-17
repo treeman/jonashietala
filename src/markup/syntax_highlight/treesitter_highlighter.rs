@@ -1,11 +1,10 @@
-use std::collections::HashMap;
-// use std::fs;
-
 use camino::Utf8PathBuf;
 use eyre::Result;
+use itertools::Itertools;
 use lazy_static::lazy_static;
+use std::collections::HashMap;
 use tracing::warn;
-use tree_sitter_highlight::{HighlightConfiguration, HighlightEvent, Highlighter};
+use tree_sitter_highlight::{HighlightConfiguration, HighlightEvent, Highlighter, HtmlRenderer};
 
 pub struct TreesitterHighlighter<'a> {
     config: &'a HighlightConfiguration,
@@ -32,36 +31,36 @@ impl<'a> TreesitterHighlighter<'a> {
         // This isn't very nice... How to generate strings dynamically from inside a Fn closure
         // that returns a byte slice?
         // Not very easily.
-        // let mut renderer = HtmlRenderer::new();
-        // renderer.render(highlights, code.as_bytes(), &|attr| {
-        //     CLASSES[attr.0].as_bytes()
-        // })?;
-        // let res = renderer.lines().join("");
-        // Ok(res)
-
-        let mut res = String::new();
-
-        for event in highlights {
-            match event? {
-                HighlightEvent::Source { start, end } => res.push_str(&code[start..end]),
-                HighlightEvent::HighlightEnd => res.push_str("</span>"),
-                HighlightEvent::HighlightStart(attr) => {
-                    res.push_str(&format!(
-                        r#"<span class="{}">"#,
-                        // FIXME doesn't work with ".1" classes
-                        HIGHLIGHT_NAMES[attr.0].replace(".", " "),
-                        // FIXME language here is wrong during injected languages.
-                        // lang_id
-                    ));
-                }
-            }
-        }
-
-        if !res.ends_with("\n") {
-            res.push('\n');
-        }
-
+        let mut renderer = HtmlRenderer::new();
+        renderer.render(highlights, code.as_bytes(), &|attr| {
+            CLASSES[attr.0].as_bytes()
+        })?;
+        let res = renderer.lines().join("");
         Ok(res)
+
+        // let mut res = String::new();
+
+        // for event in highlights {
+        //     match event? {
+        //         HighlightEvent::Source { start, end } => res.push_str(&code[start..end]),
+        //         HighlightEvent::HighlightEnd => res.push_str("</span>"),
+        //         HighlightEvent::HighlightStart(attr) => {
+        //             res.push_str(&format!(
+        //                 r#"<span class="{}">"#,
+        //                 // FIXME doesn't work with ".1" classes
+        //                 HIGHLIGHT_NAMES[attr.0].replace(".", " "),
+        //                 // FIXME language here is wrong during injected languages.
+        //                 // lang_id
+        //             ));
+        //         }
+        //     }
+        // }
+
+        // if !res.ends_with("\n") {
+        //     res.push('\n');
+        // }
+
+        // Ok(res)
     }
 }
 
@@ -179,10 +178,10 @@ static HIGHLIGHT_NAMES: &[&str] = &[
 ];
 
 lazy_static! {
-    // static ref CLASSES: Vec<String> = HIGHLIGHT_NAMES
-    //     .iter()
-    //     .map(|name| format!(r#"class="{}""#, name.replace(".", " ")))
-    //     .collect();
+    static ref CLASSES: Vec<String> = HIGHLIGHT_NAMES
+        .iter()
+        .map(|name| format!(r#"class="{}""#, name.replace(".", " ")))
+        .collect();
     static ref HOME: Utf8PathBuf = Utf8PathBuf::from_path_buf(dirs::home_dir().unwrap()).unwrap();
     static ref CONFIGS: HashMap<String, HighlightConfiguration> = init_configurations();
 }
@@ -219,6 +218,28 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
+        (
+            "gleam",
+            HighlightConfiguration::new(
+                tree_sitter_gleam::language(),
+                tree_sitter_gleam::HIGHLIGHTS_QUERY,
+                "",
+                tree_sitter_gleam::LOCALS_QUERY,
+            )
+            .unwrap(),
+        ),
+        (
+            "fish",
+            HighlightConfiguration::new(
+                tree_sitter_fish::language(),
+                tree_sitter_fish::HIGHLIGHTS_QUERY,
+                "",
+                "",
+            )
+            .unwrap(),
+        ),
+        // For .scm
+        // https://github.com/tree-sitter-grammars/tree-sitter-query
     ]
     .into_iter()
     .map(|(name, mut config)| {
