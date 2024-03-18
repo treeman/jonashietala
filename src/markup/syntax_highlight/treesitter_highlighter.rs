@@ -161,6 +161,7 @@ lazy_static! {
 
 fn init_configurations() -> HashMap<String, HighlightConfiguration> {
     [
+        // Rust seems to be highlighted better with syntect
         // (
         //     "rust",
         //     HighlightConfiguration::new(
@@ -226,11 +227,11 @@ mod tests {
 
     #[test]
     fn test_treesitter_highlight() {
-        let highlighter = TreesitterHighlighter::find("rust").unwrap();
+        let highlighter = TreesitterHighlighter::find("gleam").unwrap();
         assert_eq!(
             highlighter.highlight("let x = 2;").unwrap(),
-            "<span class=\"keyword\">let</span> x = <span class=\"constant\">2</span><span class=\"punctuation delimiter\">;</span>\n"
-        );
+            "<span class=\"keyword\">let</span> <span class=\"variable\">x</span> <span class=\"punctuation delimiter\">=</span> <span class=\"number\">2</span>;\n"
+            );
     }
 
     #[test]
@@ -238,13 +239,13 @@ mod tests {
         let lang = "sdjot";
         let highlighter = TreesitterHighlighter::find(lang).unwrap();
         assert_eq!(
-            highlighter.highlight("```rust
+            highlighter.highlight("```gleam
 let x = 2;
 ```
 ").unwrap(),
-"<span class=\"markup raw\"><span class=\"punctuation delimiter\">```</span><span class=\"tag attribute\">rust</span>
-<span class=\"keyword\">let</span> x = <span class=\"constant builtin\">2</span><span class=\"punctuation delimiter\">;</span>
-<span class=\"punctuation delimiter\">```</span></span>
+"<span class=\"markup raw\"><span class=\"punctuation delimiter\">```</span><span class=\"tag attribute\">gleam</span></span>
+<span class=\"markup raw\"><span class=\"keyword\">let</span> <span class=\"variable\">x</span> <span class=\"punctuation delimiter\">=</span> <span class=\"number\">2</span>;</span>
+<span class=\"markup raw\"><span class=\"punctuation delimiter\">```</span></span>
 "
         );
     }

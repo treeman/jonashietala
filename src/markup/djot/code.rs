@@ -222,7 +222,7 @@ let square x = x * x
 x->y
 ```";
         let res = convert(s)?;
-        assert_eq!(res, "");
+        assert_eq!(res, "<div class=\"code-wrapper\"><div class=\"lang c\" data-lang=\"c\"></div><pre><code class=\"highlight c\"><span class=\"source c\">x<span class=\"punctuation accessor c\">-&gt;</span>y\n</span></code></pre></div>");
         Ok(())
     }
 
