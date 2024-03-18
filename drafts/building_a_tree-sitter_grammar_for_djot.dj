@@ -754,7 +754,7 @@ bool output_delayed_token(Scanner *s, TSLexer *lexer,
 ```
 
 Another way to design this is to have a stack of delayed tokens and then just pop that.
-It's certainly more powerful, I just happened to choose this way when I was playing around with it.
+It's certainly more powerful, I just happened to choose this way when I was playing around with it because it's more explicit and it felt a little easier to follow what was happening.
 
 Either way, we can now implement the div end handling. In `parse_div`:
 
@@ -789,7 +789,7 @@ void close_blocks_with_final_token(Scanner *s, TSLexer *lexer, size_t count,
 Now we can finally try to close divs:
 
 ```sdjot
-::::
+:::::
 :::
 :::::::
 Divception
@@ -801,7 +801,7 @@ Divception
 $ tree-sitter parse example-file
 (document [0, 0] - [6, 0]
   (div [0, 0] - [6, 0]
-    (div_marker [0, 0] - [0, 4])
+    (div_marker [0, 0] - [0, 5])
     (div [1, 0] - [4, 3]
       (div_marker [1, 0] - [1, 3])
       (div [2, 0] - [4, 0]
@@ -812,6 +812,46 @@ $ tree-sitter parse example-file
 
 We can see that it parses without error, the last marker closes the second div correctly, and the last marker captures the final `:::`.
 
+While I'm implementing this correctly immediately in this post, when I first did this that was of course not the case.
+I found the `-d` argument useful to see what characters are consumed and what token is output in each step.
+
+Here's a part of the output (when scanning the final `:::`), with some comments to point out some interesting things:
+
+```fish
+$ tree-sitter parse example-file -d
+...
+process version:0, version_count:1, state:34, row:4, col:0
+lex_external state:4, row:4, column:0
+  consume character:':'                         // Scan `:::`
+  consume character:':'
+  consume character:':'
+lexed_lookahead sym:_close_paragraph, size:0    // Output _close_paragraph
+reduce sym:paragraph_repeat1, child_count:2
+shift state:17
+process version:0, version_count:1, state:17, row:4, col:0
+lex_external state:3, row:4, column:0           // Still on first `:`
+  consume character:':'                         // Scan `:::` again
+  consume character:':'
+  consume character:':'
+lexed_lookahead sym:_block_close, size:0        // Close div with _block_close
+reduce sym:paragraph, child_count:2
+shift state:12
+process version:0, version_count:1, state:12, row:4, col:0
+lex_external state:5, row:4, column:0           // Still on first `:`
+lexed_lookahead sym:_block_close, size:0        // Close second div with _block_close
+reduce sym:div, child_count:4
+shift state:12
+process version:0, version_count:1, state:12, row:4, col:0
+lex_external state:5, row:4, column:0           // Still on first `:`
+  consume character:':'                         // Consume `:::`
+  consume character:':'
+  consume character:':'
+lexed_lookahead sym:div_marker, size:3          // div_marker is size 3, marks `:::`
+shift state:23
+```
+
+While the output seems confusing, when you know what to look for it's very useful.
+I've found that a deliberate process, where I look at a single character at a time, helps me get through any issues I find.
 
 # Handling conflicts
 
@@ -820,11 +860,11 @@ One issue, that took much longer to figure out than I care to admit, is adding a
 
 A simple example for our grammar is a single underscore in a paragraph:
 
-```
+```sdjot
 a_b
 ```
 
-I'd assume this would produce a paragraph with text, but instead we'll get an error:
+I'd assume this would produce a paragraph with text, but instead we get an error:
 
 ```fish
 $ tree-sitter parse example-file
@@ -858,7 +898,7 @@ _text: (_) => /[^\n]/,
 
 And when we call `tree-sitter generate` we're made aware of the conflict:
 
-```
+```fish
 $ tree-sitter generate
 Unresolved conflict for symbol sequence:
 
@@ -885,7 +925,8 @@ conflicts: ($) => [[$.emphasis, $._fallback]],
 
 And now we can parse paragraphs containing only a single `_` without errors.
 
-I'm not 100% sure, but it doesn't seem like you can trigger the GLR algorithm with a token returned by an external scanner.
+So it seems like Tree-Sitter doesn't recognize a conflict between a string and a regex.
+Another gotcha is that it doesn't seem like you can trigger the GLR algorithm with a token returned by an external scanner, because the external scanner overrules Tree-sitter's lexing behavior.
 
 
 # Some tests
@@ -940,6 +981,9 @@ We should add (a lot) more tests here, but I won't bother writing them out in th
 
 # Using tree-sitter for something useful
 
+I like a theoretical excursion as much as the next nerd, but I started looking at Tree-sitter because I wanted to _do_ something with the Grammar, not just play around with it all day.
+Let's end the post by seeing some things we can use it for.
+
 ## Syntax highlighting
 
 Syntax highlighting is made using queries from the `highlights.scm` file.
@@ -993,8 +1037,12 @@ Which we'll use in `src/injections.scm` to specify that we want to parse `(code)
   (code) @injection.content)
 ```
 
+When we'll embed the grammar into a program with highlighting support, it will delegate the text inside the code block to the injected language.
+
 
 ## Using our grammar with Neovim
+
+![](/images/sdjot_neovim.png)
 
 I typically install Tree-sitter grammars in Neovim using `:TSInstall` provided by [nvim-treesitter][].
 But you can [install local Tree-sitter grammars][] as well:
@@ -1024,7 +1072,10 @@ Just make sure you have a `"tree-sitter"` section in the grammar's `package.json
     "file-types": [
       "sdj"
     ],
-    "injection-regex": "sdjot"
+    "injection-regex": "sdjot",
+    "highlights": [
+      "queries/highlights.scm"
+    ]
   }
 ],
 ```
@@ -1032,14 +1083,16 @@ Just make sure you have a `"tree-sitter"` section in the grammar's `package.json
 With this you can do `:TSInstall sjdot` and `:TSUdate sdjot` when you make changes.
 
 `:TSInstall` doesn't install queries automatically though.
-What I did was to just symlink the queries directory into Neovims config directory:
+What I did was symlink the queries directory into Neovims config directory:
 
 ```fish
 ln -s ~/code/tree-sitter-sdjot/queries ~/.config/nvim/queries/sdjot
 ```
 
 `:TSPlaygroundToggle` is very useful for debugging the grammar, and `:Inspect` shows you the highlight groups under your cursor.
-It might be good to check out `:help treesitter-highlight-groups` if you want to play with your theme.
+It might be good to check out `:help treesitter-highlight-groups` if you want to play with your theme, as the theme needs to support the highlight groups we use for coloring to appear.
+
+You also need to have the Tree-sitter grammar for the injected language installed, if you want to highlight the contents of code blocks.
 
 
 ## Jumping and selecting with textobjects
@@ -1060,13 +1113,31 @@ I have it setup so I can jump between `@function.outer` with `[f` and `]f`, and 
 
 This means that with the above textobject definition I can for example jump to the next code block with `]f` and then remove all the code inside with `cif` to end up in insert mode, ready to replace it with some new code.
 
+Although this example is a bit arbitrary, this general functionality is *_extremely_* useful for programming languages.
+For a markup language like [Djot][], jumping between headings might be a more relevant use-case.
+
 ## Embedding the grammar with Rust
+
+One of the selling points of Tree-sitter is that you should be able to embed it in any application.
+Such as this blog!
+
+I've been wanting to add Tree-sitter powered highlighting to my blog for a while, and now I have an excuse to do just that.
+
+This blog is a static site generator written in Rust, and [tree-sitter-highlight][] looks like a suitable library to try.
+Let's add it to our `Cargo.toml`:
 
 ```toml
 [dependencies]
 tree-sitter-highlight = "^0.20.0"
 tree-sitter-sdjot = { git = "https://github.com/treeman/tree-sitter-sdjot.git" }
 ```
+
+I use a slightly older version because some other grammars I want depend on the older version, and it's a big pain but they all need to use a matching version.
+Bleh.
+
+[According to the docs][tree-sitter-highlight] we first need to setup a `HighlightConfiguration`.
+I used `lazy_static!` to create a global map with configurations to be used by any parallel rendering on the blog.
+It's not the most beautiful code I've written, but it gets the job done:
 
 ```rust
 // All highlights needs to be listed explicitly.
@@ -1105,6 +1176,11 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
     .collect()
 }
 ```
+
+Notice how all highlight names we're interested in have to be explicitly specified.
+This is a big pain, especially if you're going to include many larger grammars.
+
+The names can be filtered for with [ripgrep][] with something like this:
 
 ```fish
 rg "@[\w.]+" -INo --trim highlights.scm | sort | uniq
@@ -1168,18 +1244,18 @@ Very odd problems. For instance, if I used `$.code`javascript to capture the emb
 
 # Within edge-cases lies complexity
 
-> The night is dark and full of terrors
-> ^ George R.R. Martin
-
 If you've read the post to the end, congratulations.
 You made it!
 
 I don't claim to be an expert at grammars or Tree-sitter, and I'm sure there are plenty of things that can be improved with the way the grammar is made.
-But I hope it can be helpful as a starting point if you're curious on how to write some Tree-sitter grammar of your own.
+But I hope it can be helpful as a starting point if you're curious on how to write a Tree-sitter grammar of your own.
 
 Just one word of advice before you go.
 Writing a grammar for simple rules is pretty easy, but in the real world things can get messy quickly.
 This is especially true if you need to juggle multiple conflicting rules in the external scanner---keeping a sane structure is challenging.
+
+> The night is dark and full of terrors
+> ^ George R.R. Martin
 
 [tree-sitter 0.22.1]: https://github.com/tree-sitter/tree-sitter/releases/tag/v0.22.1
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
@@ -1191,4 +1267,4 @@ This is especially true if you need to juggle multiple conflicting rules in the 
 [Tree-sitter docs]: https://tree-sitter.github.io/tree-sitter/creating-parsers
 [sdjot-GitHub]: https://github.com/treeman/tree-sitter-sdjot
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-[tree_sitter_highlight]: https://docs.rs/tree-sitter-highlight/latest/tree_sitter_highlight/
+[tree-sitter-highlight]: https://docs.rs/tree-sitter-highlight/latest/tree_sitter_highlight/
