@@ -286,6 +286,12 @@ aside {
 //   color: $gb-lm-light-aqua;
 // }
 
+.function-call.c {
+  color: var(--melange_a_fg);
+}
+.function-call.c .variable.function {
+  color: var(--melange_b_yellow);
+}
 .function-call.fish .keyword.control .string.unquoted {
   color: var(--melange_c_yellow);
   font-style: normal;

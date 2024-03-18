@@ -3,7 +3,13 @@ title = "Djot test"
 tags = ["Some tag"]
 ---
 
-`x->y`c
+```
+let x = 2
+```
+
+```c
+int x = 2;
+```
 
 # Header 1 (h2)
 

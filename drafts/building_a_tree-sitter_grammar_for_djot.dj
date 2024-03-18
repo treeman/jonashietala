@@ -316,13 +316,11 @@ $ tree-sitter parse example-file
     (div_marker [2, 0] - [2, 3])))
 ```
 
-(This may not be the best design, having to parse div markers multiple times, but it gets the job done.)
-
 ## Nested blocks
 
 To automatically close other open blocks we need to add some context to our parser, which means we'll need state management.
 
-The small subset we're using for the blog is only concerned with divs because it would be a terribly long post otherwise, but I'll try to implement this in a general manner, to be more indicative of a real-world parser.
+The small subset we're implementing is only concerned with closing divs---because it would be a terribly long post otherwise---but I'll try to implement this in a general manner, to be more indicative of a real-world parser.
 
 Our strategy is this:
 
@@ -394,7 +392,7 @@ typedef struct {
 } Block;
 ```
 
-I know that `level` isn't the best name, but I couldn't find a very good general names for the number of colons, indentation level, etc.
+I know that `level` isn't the best name, but I couldn't find a very good general name for the number of colons, indentation level, etc.
 With sum types you could model it in a clearer way, like this:
 
 ```rust
@@ -405,13 +403,13 @@ enum Block {
 }
 ```
 
-But I digress, this is good enough.
-
 > I will, in fact, claim that the difference between a bad programmer and a good one
 > is whether he considers his code or his data structures more important.
 > Bad programmers worry about the code.
 > Good programmers worry about data structures and their relationships.
 > ^ Linus Torvalds
+
+But I digress, I'll go with `level` like a bad programmer.
 
 Another joy of programming C is that you'll get to re-implement standard data structures such as a growable stack.
 It's not truly difficult, but it's annoying and bug-prone.
@@ -454,7 +452,7 @@ void tree_sitter_sdjot_external_scanner_destroy(void *payload) {
   // but keep in mind that `array_delete` does not deallocate any memory
   // you store in the array itself.
   for (size_t i = 0; i < s->open_blocks->size; ++i) {
-    // `array_get` is preferrable even though you can index the contents directly.
+    // I use `array_get` even though you can index the contents directly.
     ts_free(array_get(s->open_blocks, i));
   }
 
@@ -474,6 +472,7 @@ static void push_block(Scanner *s, BlockType type, uint8_t level) {
   b->type = type;
   b->level = level;
 
+  // Grows the stack automatically.
   array_push(s->open_blocks, b);
 }
 ```
