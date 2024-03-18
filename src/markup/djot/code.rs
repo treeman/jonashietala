@@ -2,6 +2,7 @@ use crate::markup::syntax_highlight::*;
 use colored::Colorize;
 use itertools::{Itertools, MultiPeek};
 use jotdown::{html, Attributes, Container, Event, Render};
+use tracing::warn;
 
 pub struct CodeBlockSyntaxHighlight<'a, I: Iterator<Item = Event<'a>>> {
     parent: I,
@@ -76,7 +77,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
             other => return Some(other),
         };
 
-        // We need to peek at directly after the verbatim.
+        // We need to peek directly after the verbatim.
         loop {
             if let Some(Event::End(Container::Verbatim)) = self.parent.peek() {
                 break;
@@ -93,17 +94,17 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
         }
 
         // Now lets eat it up!
-        let mut code = Vec::new();
+        let mut code = String::new();
         loop {
             match self.parent.next()? {
                 Event::End(Container::Verbatim) => break,
-                other => code.push(other),
+                Event::Str(text) => code.push_str(&text),
+                x => {
+                    warn!("Unexpected event: {x:?}");
+                    return Some(start);
+                }
             }
         }
-        let mut code_str = String::new();
-        html::Renderer::default()
-            .push(code.into_iter(), &mut code_str)
-            .expect("Should be able to render inline code");
 
         let txt = match self.parent.next()? {
             Event::Str(txt) => txt,
@@ -114,12 +115,12 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
             Some(x) => x,
             None => panic!(
                 "Inline code spec not matched: {}",
-                format!("`{code_str}`{txt}").red()
+                format!("`{code}`{txt}").red()
             ),
         };
 
         let mut res = String::new();
-        push_code_inline(&mut res, &lang, &code_str);
+        push_code_inline(&mut res, &lang, &code);
 
         let html = Container::RawBlock { format: "html" };
 
@@ -196,6 +197,32 @@ let square x = x * x
 <code class="highlight rust">"#
         ));
         assert!(res.ends_with(r#"</code> end</p>"#));
+        Ok(())
+    }
+
+    #[test]
+    fn test_highlight_inline_code_no_escape() -> Result<()> {
+        // Text
+        // ..
+        // Code
+        // Text("rust end")
+        let s = r"`x->y`c";
+        let res = convert(s)?;
+        assert_eq!(res, "<p>\n<code class=\"highlight c\"><span class=\"source c\">x<span class=\"punctuation accessor c\">-&gt;</span>y</span></code></p>");
+        Ok(())
+    }
+
+    #[test]
+    fn test_highlight_code_block_no_escape() -> Result<()> {
+        // Text
+        // ..
+        // Code
+        // Text("rust end")
+        let s = r"```c
+x->y
+```";
+        let res = convert(s)?;
+        assert_eq!(res, "");
         Ok(())
     }
 

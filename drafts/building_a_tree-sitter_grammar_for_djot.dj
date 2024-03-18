@@ -7,27 +7,30 @@ One of my favorite features in Neovim is the Tree-sitter integration.
 It allows for fast syntax highlighting that works well even in an error state (often the case when you're editing code), and it has additional semantics (you can differentiate between function parameters and local variables).
 
 With [nvim-treesitter-textobjects][] you can also jump between nodes (such as `]c` to jump to next class) or target deletion (`cif` to delete the function body and enter insert mode).
-An amazing feature as it works across languages, no matter how they look like.
+An amazing feature as it works across languages, no matter how they look like, as long as they have a Tree-sitter grammar (most do).
 
-But, you might wonder how does Tree-sitter work?
-How do you create a Tree-sitter parser for a language?
+But, you might wonder how does a Tree-sitter grammar look like,
+and how do you create one for a language?
 
 I started thinking about this and before I knew it I was trying to make my own parser for [Djot][] (a markup language similar to Markdown).
 There are some good tutorials on how to get started, but not on some mare advanced things.
 
-This is a decently long post that will go through:
+I spent quite some time trying to figure it out---while refreshing my 10 year old knowledge of grammars---and decided to document some of my findings.
+
+The post spiraled out of control a little, and it will go through:
 
 1. How to use an external scanner
-1. Conflicts resolution
-1. Syntax highlighting, including language injection
-1. Use the grammar from Neovim for highlighting and textobjects
-1. Embed the grammar into this Blog with Rust
+1. Using Tree-sitter's built-in conflicts resolution
+1. Syntax highlighting with language injection
+1. Use the grammar from Neovim for syntax highlighting and textobjects
+1. Embed the grammar into this Blog for syntax highlighting
 
-[nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+The source code for the complete grammar we'll develop [can be found on GitHub][sdjot-GitHub].
+
 
 # Our subset
 
-For the purpose of this blog post, we'll implement a small subset of [Djot][]:
+For the purpose of this blog post, we'll implement a small subset of [Djot][], where we'll support:
 
 - Paragraphs
 - Divs
@@ -49,17 +52,16 @@ let x = 2;
 ```
 ````
 
-(Yes, I [embedded the grammar into the Blog][Embedding the grammar with Rust] for the syntax highlighting.)
+(Yes, the `sdjot` highlight uses our grammar.)
 
-At first blush, this seems like it's too simple to require anything more complex other than some simple grammar rules, but later on we'll see that even these simple rules contain complicated edge-cases and gotchas.
+At first blush, this seems like it's too simple to require anything more complex than some simple grammar rules, but later on we'll see that even these simple rules requires a bit more effort to fully support.
 
 # Simple beginnings
 
 The point of this post isn't to go through how the Tree-sitter grammar description in `grammar.js` works.
-The [Tree-sitter docs][] goes through how to get started pretty well.
+The [Tree-sitter docs][] goes through how to get started.
 I named the project `sdjot` and this is the `grammar.js` we'll start with:
 
-[Tree-sitter docs]: https://tree-sitter.github.io/tree-sitter/creating-parsers
 
 ```javascript
 module.exports = grammar({
@@ -148,7 +150,7 @@ Top-level div
 
 ::::
 A paragraph inside a second div,
-both closed when the top-level div is closed
+both closed when the top-level div is closedj
 :::
 ```
 
@@ -167,7 +169,7 @@ _div8: ($) => seq(/:{8}/, $._inside_div, /:{8}/, "\n"),
 _inside_div: ($) => prec.left("\n", repeat($._block)),
 ```
 
-But it's not _neat_, and automatically closing matching blocks is much harder (to my brain it seems impossible, but I'm no expert).
+But it's not _neat_, and automatically closing contained blocks is much harder (to my brain it seems impossible, but I'm no expert).
 
 With an external scanner we can do this (and more).
 
@@ -191,7 +193,7 @@ Let's take a look.
 ## Div markers closes open paragraphs
 
 Let's start by closing a paragraph early when a `:::` is encountered.
-This is simpler because we don't have to store any state.
+This is simpler because we can solve this without storing any state.
 
 When parsing `$.paragraph` we'll give the parser a choice between ending the paragraph on a newline or on our new `$._close_paragraph` token:
 
@@ -208,7 +210,6 @@ externals: ($) => [$._close_paragraph],
 ```
 
 Now let's turn our attention to `src/scanner.c`.
-
 The tokens in `externals` gets assigned an incremented number, starting from 0...
 Just like an enum in C!
 
@@ -255,6 +256,9 @@ bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
 }
 ```
 
+To decide if we're going to close the paragraph early, we'll look ahead for any `:::`, and if so we'll close it without consuming any characters.
+This might not be the most efficient solution because we'll have to parse the `:::` again, but it gets the job done.
+
 The matched token should be stored in `lexer->result_symbol`c:
 
 ```c
@@ -264,7 +268,7 @@ bool parse_close_paragraph(TSLexer *lexer) {
   lexer->mark_end(lexer);
 
   uint8_t colons = consume_chars(lexer, ':');
-  if (colons == 3) {
+  if (colons >= 3) {
     lexer->result_symbol = CLOSE_PARAGRAPH;
     return true;
   } else {
@@ -275,7 +279,7 @@ bool parse_close_paragraph(TSLexer *lexer) {
 
 Note that the resulting token will mark any symbol we advance over as owned by that token.
 So `:::` would be marked as `_close_paragraph` (which will be ignored by the output since it begins with an underscore), instead of `div_marker`.
-To stop prevent this, we turn `_close_paragraph` into a zero-width token by marking the end before advancing the lexer.
+To prevent this, we turn `_close_paragraph` into a zero-width token by marking the end before advancing the lexer.
 
 How do we advance the lexer?
 We call `lexer->advance`c:
@@ -959,7 +963,6 @@ What colors to choose is a bit arbitrary, these works well enough I suppose.
 
 See the [documentation][syntax-highlight] for more details on how the queries and highlighting works.
 
-[syntax-highlight]: https://tree-sitter.github.io/tree-sitter/syntax-highlighting
 
 ## Language injection
 
@@ -1164,8 +1167,6 @@ renderer.render(highlights, code.as_bytes(), &|attr| {
 
 Very odd problems. For instance, if I used `$.code`javascript to capture the embedded code, it wouldn't work. But with `optional($.code)`javascript, it.
 
-[tree_sitter_highlight]: https://docs.rs/tree-sitter-highlight/latest/tree_sitter_highlight/
-
 # Within edge-cases lies complexity
 
 > The night is dark and full of terrors
@@ -1187,3 +1188,8 @@ This is especially true if you need to juggle multiple conflicting rules in the 
 [Djot]: https://djot.net/
 [nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
 [install local Tree-sitter grammars]: https://github.com/nvim-treesitter/nvim-treesitter#adding-parsers
+[syntax-highlight]: https://tree-sitter.github.io/tree-sitter/syntax-highlighting
+[Tree-sitter docs]: https://tree-sitter.github.io/tree-sitter/creating-parsers
+[sdjot-GitHub]: https://github.com/treeman/tree-sitter-sdjot
+[nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+[tree_sitter_highlight]: https://docs.rs/tree-sitter-highlight/latest/tree_sitter_highlight/

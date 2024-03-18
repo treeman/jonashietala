@@ -3,6 +3,8 @@ title = "Djot test"
 tags = ["Some tag"]
 ---
 
+`x->y`c
+
 # Header 1 (h2)
 
 font-size("xl")
