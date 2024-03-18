@@ -44,7 +44,7 @@ multiline _paragraph_
 This is a paragraph inside a div
 :::
 
-```rust
+```gleam
 let x = 2;
 ```
 ````
@@ -903,7 +903,7 @@ multiline _paragraph_
 This is a paragraph inside a div
 :::
 
-```rust
+```gleam
 let x = 2;
 ```
 
@@ -966,7 +966,7 @@ See the [documentation][syntax-highlight] for more details on how the queries an
 One big question I had when starting writing my grammar was how to mix multiple parsers in the same document, to for example highlight code blocks using the specified language:
 
 ````sdjot
-```rust
+```gleam
 let x = 2;
 ```
 ````
@@ -1032,7 +1032,7 @@ With this you can do `:TSInstall sjdot` and `:TSUdate sdjot` when you make chang
 `:TSInstall` doesn't install queries automatically though.
 What I did was to just symlink the queries directory into Neovims config directory:
 
-```
+```fish
 ln -s ~/code/tree-sitter-sdjot/queries ~/.config/nvim/queries/sdjot
 ```
 
@@ -1060,27 +1060,111 @@ This means that with the above textobject definition I can for example jump to t
 
 ## Embedding the grammar with Rust
 
-```fish
-rg "@\w+" -INo --trim | sort | uniq
-```
-
-```fish
-rg "@[\w.]+" -INo --trim c/ rust/ | sort | uniq
+```toml
+[dependencies]
+tree-sitter-highlight = "^0.20.0"
+tree-sitter-sdjot = { git = "https://github.com/treeman/tree-sitter-sdjot.git" }
 ```
 
 ```rust
-fn read_nvim_treesitter_file(lang: &str, file: &str) -> String {
-    let path = HOME
-        .join(".local/share/nvim/lazy/nvim-treesitter/queries/")
-        .join(lang)
-        .join(file);
-    let content =
-        fs::read_to_string(&path).expect(&format!("Failed to find nvim-treesitter file: {path}"));
-    content
+// All highlights needs to be listed explicitly.
+static HIGHLIGHT_NAMES: &[&str] = &[
+    // I have +100 entries here, this is for sdjot.
+   "markup",
+   "markup.italic",
+   "markup.raw",
+   "punctuation.delimiter",
+   "tag.attribute",
+];
+
+lazy_static! {
+    static ref CONFIGS: HashMap<String, HighlightConfiguration> = init_configurations();
+}
+
+fn init_configurations() -> HashMap<String, HighlightConfiguration> {
+    [
+        // I have more languages here
+        (
+            "sdjot",
+            HighlightConfiguration::new(
+                tree_sitter_sdjot::language(),
+                tree_sitter_sdjot::HIGHLIGHTS_QUERY,
+                tree_sitter_sdjot::INJECTIONS_QUERY,
+                "",
+            )
+            .unwrap(),
+        ),
+    ]
+    .into_iter()
+    .map(|(name, mut config)| {
+        config.configure(&HIGHLIGHT_NAMES);
+        (name.to_string(), config)
+    })
+    .collect()
 }
 ```
 
+```fish
+rg "@[\w.]+" -INo --trim highlights.scm | sort | uniq
+```
+
+```rust
+pub struct TreesitterHighlighter<'a> {
+    config: &'a HighlightConfiguration,
+}
+
+impl<'a> TreesitterHighlighter<'a> {
+    pub fn find(lang_id: &str) -> Option<Self> {
+        CONFIGS.get(lang_id).map(|config| Self { config })
+    }
+}
+```
+
+```rust
+impl<'a> TreesitterHighlighter<'a> {
+    pub fn highlight(&self, code: &str) -> Result<String> {
+        let mut highlighter = Highlighter::new();
+
+        let highlights = highlighter
+            .highlight(self.config, code.as_bytes(), None, |lang| {
+                let res = CONFIGS.get(lang);
+                if !res.is_some() {
+                    warn!("Couldn't find treesitter grammar for `{lang}` to inject");
+                }
+                res
+            })
+            .unwrap();
+
+        let mut renderer = HtmlRenderer::new();
+        renderer.render(highlights, code.as_bytes(), &|attr| {
+            // This isn't very nice... How to generate strings dynamically from inside a Fn closure
+            // that returns a byte slice?
+            // Not easily.
+        })?;
+        let res = renderer.lines().join("");
+        Ok(res)
+    }
+}
+```
+
+```rust
+lazy_static! {
+    static ref CLASSES: Vec<String> = HIGHLIGHT_NAMES
+        .iter()
+        .map(|name| format!(r#"class="{}""#, name.replace(".", " ")))
+        .collect();
+}
+```
+
+```rust
+renderer.render(highlights, code.as_bytes(), &|attr| {
+    CLASSES[attr.0].as_bytes()
+})?;
+```
+
 Very odd problems. For instance, if I used `$.code`javascript to capture the embedded code, it wouldn't work. But with `optional($.code)`javascript, it.
+
+[tree_sitter_highlight]: https://docs.rs/tree-sitter-highlight/latest/tree_sitter_highlight/
 
 # Within edge-cases lies complexity
 

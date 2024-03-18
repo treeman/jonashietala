@@ -87,7 +87,8 @@ aside {
   color: var(--melange_c_cyan);
 }
 .string,
-.string.unquoted.heredoc .string {
+.string.unquoted.heredoc .string,
+.punctuation.definition.string {
   color: var(--melange_b_blue);
   font-style: italic;
 }
@@ -144,6 +145,9 @@ aside {
 .entity.name.tag {
   color: var(--melange_b_yellow);
   font-weight: bold;
+}
+.entity.name.tag.toml {
+  color: var(--melange_a_fg);
 }
 .function.return-type {
   color: var(--melange_c_cyan);
@@ -312,13 +316,28 @@ aside {
 // }
 
 .support.macro {
-  color: var(--melange_b_yellow);
+  color: var(--melange_b_cyan);
 }
 .storage.type.rust {
-  color: var(--melange_b_green);
+  color: var(--melange_c_yellow);
+}
+.support.type.rust {
+  color: var(--melange_c_magenta);
+}
+.storage.type.function.rust {
+  color: var(--melange_c_green);
 }
 .storage.modifier.rust {
   color: var(--melange_c_yellow);
+}
+.variable.parameter.rust {
+  color: var(--melange_a_fg);
+}
+.meta.function {
+  color: var(--melange_a_fg);
+}
+.entity.name {
+  color: var(--melange_c_green);
 }
 // .meta.path.rust { // Standard is fine
 //   color: $gb-lm-light-red;
@@ -446,24 +465,25 @@ aside {
 .text.title {
   color: var(--melange_c_yellow);
 }
-// .markup.heading\.1 {
-//   color: "Title";
-// }
-// .markup.heading.2 {
-//   color: "Constant";
-// }
-// .markup.heading.3 {
-//   color: "DiagnosticOk";
-// }
-// .markup.heading.4 {
-//   color: "DiagnosticInfo";
-// }
-// .markup.heading.5 {
-//   color: "DiagnosticHint";
-// }
-// .markup.heading.6 {
-//   color: "DiagnosticError";
-// }
+// Number only classes needs to be escaped :)
+.markup.heading.\31 {
+  color: var(--melange_c_yellow);
+}
+.markup.heading.\32 {
+  color: var(--melange_c_magenta);
+}
+.markup.heading.\33 {
+  color: var(--melange_c_green);
+}
+.markup.heading.\34 {
+  color: var(--melange_c_blue);
+}
+.markup.heading.\35 {
+  color: var(--melange_c_cyan);
+}
+.markup.heading.\36 {
+  color: var(--melange_c_red);
+}
 
 .markup {
   background-color: var(--melange_a_float);
@@ -528,4 +548,16 @@ aside {
 }
 .define {
   color: var(--melange_b_green);
+}
+.function {
+  color: var(--melange_b_yellow);
+}
+.function.macro {
+  color: var(--melange_b_green);
+}
+.variable {
+  color: var(--melange_a_fg);
+}
+.number {
+  color: var(--melange_c_magenta);
 }

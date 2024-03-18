@@ -1,10 +1,9 @@
-use camino::Utf8PathBuf;
 use eyre::Result;
 use itertools::Itertools;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 use tracing::warn;
-use tree_sitter_highlight::{HighlightConfiguration, HighlightEvent, Highlighter, HtmlRenderer};
+use tree_sitter_highlight::{HighlightConfiguration, Highlighter, HtmlRenderer};
 
 pub struct TreesitterHighlighter<'a> {
     config: &'a HighlightConfiguration,
@@ -37,34 +36,9 @@ impl<'a> TreesitterHighlighter<'a> {
         })?;
         let res = renderer.lines().join("");
         Ok(res)
-
-        // let mut res = String::new();
-
-        // for event in highlights {
-        //     match event? {
-        //         HighlightEvent::Source { start, end } => res.push_str(&code[start..end]),
-        //         HighlightEvent::HighlightEnd => res.push_str("</span>"),
-        //         HighlightEvent::HighlightStart(attr) => {
-        //             res.push_str(&format!(
-        //                 r#"<span class="{}">"#,
-        //                 // FIXME doesn't work with ".1" classes
-        //                 HIGHLIGHT_NAMES[attr.0].replace(".", " "),
-        //                 // FIXME language here is wrong during injected languages.
-        //                 // lang_id
-        //             ));
-        //         }
-        //     }
-        // }
-
-        // if !res.ends_with("\n") {
-        //     res.push('\n');
-        // }
-
-        // Ok(res)
     }
 }
 
-// TODO more things...
 static HIGHLIGHT_NAMES: &[&str] = &[
     "attribute",
     "boolean",
@@ -182,22 +156,21 @@ lazy_static! {
         .iter()
         .map(|name| format!(r#"class="{}""#, name.replace(".", " ")))
         .collect();
-    static ref HOME: Utf8PathBuf = Utf8PathBuf::from_path_buf(dirs::home_dir().unwrap()).unwrap();
     static ref CONFIGS: HashMap<String, HighlightConfiguration> = init_configurations();
 }
 
 fn init_configurations() -> HashMap<String, HighlightConfiguration> {
     [
-        (
-            "rust",
-            HighlightConfiguration::new(
-                tree_sitter_rust::language(),
-                tree_sitter_rust::HIGHLIGHT_QUERY,
-                tree_sitter_rust::INJECTIONS_QUERY,
-                "",
-            )
-            .unwrap(),
-        ),
+        // (
+        //     "rust",
+        //     HighlightConfiguration::new(
+        //         tree_sitter_rust::language(),
+        //         tree_sitter_rust::HIGHLIGHT_QUERY,
+        //         tree_sitter_rust::INJECTIONS_QUERY,
+        //         "",
+        //     )
+        //     .unwrap(),
+        // ),
         (
             "sdjot",
             HighlightConfiguration::new(
@@ -238,8 +211,6 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
-        // For .scm
-        // https://github.com/tree-sitter-grammars/tree-sitter-query
     ]
     .into_iter()
     .map(|(name, mut config)| {

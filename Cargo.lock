@@ -170,7 +170,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3776743bb68d4ad02ba30ba8f64373f1be4e082fe47651767171ce75bb2f6cf5"
 dependencies = [
  "attohttpc",
- "dirs 4.0.0",
+ "dirs",
  "log",
  "quick-xml 0.26.0",
  "rust-ini",
@@ -684,16 +684,7 @@ version = "4.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ca3aa72a6f96ea37bbc5aa912f6788242832f75369bdfdadcb0e38423f100059"
 dependencies = [
- "dirs-sys 0.3.7",
-]
-
-[[package]]
-name = "dirs"
-version = "5.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44c45a9d03d6676652bcb5e724c7e988de1acad23a711b5217ab9cbecbec2225"
-dependencies = [
- "dirs-sys 0.4.1",
+ "dirs-sys",
 ]
 
 [[package]]
@@ -705,18 +696,6 @@ dependencies = [
  "libc",
  "redox_users",
  "winapi",
-]
-
-[[package]]
-name = "dirs-sys"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "520f05a5cbd335fae5a99ff7a6ab8627577660ee5cfd6a94a6a929b52ff0321c"
-dependencies = [
- "libc",
- "option-ext",
- "redox_users",
- "windows-sys 0.48.0",
 ]
 
 [[package]]
@@ -1488,7 +1467,6 @@ dependencies = [
  "chrono",
  "clap",
  "colored",
- "dirs 5.0.1",
  "eyre",
  "fs_extra",
  "futures",
@@ -1526,7 +1504,6 @@ dependencies = [
  "tree-sitter-fish",
  "tree-sitter-gleam",
  "tree-sitter-highlight",
- "tree-sitter-rust",
  "tree-sitter-sdjot",
  "url",
  "walkdir",
@@ -1935,12 +1912,6 @@ dependencies = [
  "pkg-config",
  "vcpkg",
 ]
-
-[[package]]
-name = "option-ext"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04744f49eae99ab78e0d5c0b603ab218f515ea8cfe5a456d7629ad883a3b6e7d"
 
 [[package]]
 name = "ordered-multimap"
@@ -3280,7 +3251,7 @@ dependencies = [
 [[package]]
 name = "tree-sitter-fish"
 version = "3.5.1"
-source = "git+https://github.com/ram02z/tree-sitter-fish.git#f9176908c9eb2e11eb684d79e1d00f3b29bd65c9"
+source = "git+https://github.com/ram02z/tree-sitter-fish.git?rev=f9176908c#f9176908c9eb2e11eb684d79e1d00f3b29bd65c9"
 dependencies = [
  "cc",
  "tree-sitter",
@@ -3289,7 +3260,7 @@ dependencies = [
 [[package]]
 name = "tree-sitter-gleam"
 version = "1.0.0"
-source = "git+https://github.com/gleam-lang/tree-sitter-gleam.git#2012f294baacf30e7a62414754021284377366c6"
+source = "git+https://github.com/gleam-lang/tree-sitter-gleam.git?rev=2012f29#2012f294baacf30e7a62414754021284377366c6"
 dependencies = [
  "cc",
  "tree-sitter",
@@ -3303,16 +3274,6 @@ checksum = "042342584c5a7a0b833d9fc4e2bdab3f9868ddc6c4b339a1e01451c6720868bc"
 dependencies = [
  "regex",
  "thiserror",
- "tree-sitter",
-]
-
-[[package]]
-name = "tree-sitter-rust"
-version = "0.20.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b0832309b0b2b6d33760ce5c0e818cb47e1d72b468516bfe4134408926fa7594"
-dependencies = [
- "cc",
  "tree-sitter",
 ]
 
