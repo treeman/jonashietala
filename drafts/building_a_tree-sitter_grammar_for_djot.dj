@@ -587,7 +587,7 @@ return true;
 ```
 
 But to the decide if we should open or close a div, we need a way to search through the stack.
-This function does that, while also returning how many blocks deep into the stack we found the div (which will use shortly):
+This function does that, while also returning how many blocks deep into the stack we found the div (which we'll use shortly):
 
 ```c
 // How many blocks from the top of the stack can we find a matching block?
@@ -614,7 +614,7 @@ bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
   if (from_top > 0) {
     // Close the current div, and all blocks above.
   } else {
-    // No matching div to close, let's open a new.
+    // No matching div to close, let's open one.
     lexer->mark_end(lexer);
     push_block(s, DIV, colons);
     lexer->result_symbol = DIV_MARKER_BEGIN;
@@ -635,7 +635,7 @@ inception
 :::
 ```
 
-We have a stack of 3 divs:
+We'll have a stack of 3 divs when we see the closing `:::` marker:
 
 ```
 7 (top)
@@ -703,11 +703,11 @@ bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
     return true;
   }
 
-  // Parse the other stuff
+  // Scan the other stuff
 }
 ```
 
-When we see `blocks_to_close > 0`, then we should output a `BLOCK_CLOSE` and remove the top block (with some sanity checks for good measure):
+When we see `blocks_to_close > 0`, we should output a `BLOCK_CLOSE` and remove the top block (with some sanity checks for good measure):
 
 ```c
 void remove_block(Scanner *s) {
