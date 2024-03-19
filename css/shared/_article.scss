@@ -139,9 +139,7 @@ article {
   table {
     @include serif;
     // Need tabular numbers to align properly
-    font-feature-settings:
-      "kern" on,
-      "tnum" on;
+    font-feature-settings: "kern" on, "tnum" on;
   }
   th,
   td {
@@ -172,9 +170,12 @@ article {
    * Lists
    */
   // Consistent spacing between items
-  ol,
-  ul {
-    @include flow();
+  // Narrow lists don't have paragraphs in them
+  :is(ol, ul):not(:has(p)) {
+    @include flow(var(--space-2xs));
+  }
+  :is(ol, ul):has(p) {
+    @include flow(var(--space-xs));
   }
   // Consistent spacing inside items
   li {
@@ -190,8 +191,7 @@ article {
   ol {
     counter-reset: ordered-counter;
   }
-  ol > li::before,
-  ul > li::before {
+  :is(ol, ul) > li::before {
     float: left;
     margin-left: calc(-1 * var(--space-m));
     color: var(--color-list-bullet);

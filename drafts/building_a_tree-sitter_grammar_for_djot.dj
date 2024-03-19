@@ -139,8 +139,8 @@ Et voilà!
 But I told you it wasn't supposed to be this easy, and there are features missing from our parser.
 Most notably:
 
-1. There can be an arbitrary number of `:`, allowing divs to be nested.
-1. Closing a div should close other open blocks (divs and paragraphs in our case).
+A. There can be an arbitrary number of `:`, allowing divs to be nested.
+A. Closing a div should close other open blocks (divs and paragraphs in our case).
 
 In essence, we need to be able to parse this:
 
@@ -1308,19 +1308,21 @@ But I won't.
 
 There are some issues:
 
-1. You need a compatible version of `tree-sitter` for all grammars.
+::: greek
+a. You need a compatible version of `tree-sitter` for all grammars.
 
    The more grammars you add the more painful the upgrade path becomes.
 
-1. Syntect gives better highlighting for some languages (like Rust and C).
+a. Syntect gives better highlighting for some languages (like Rust and C).
 
    Neovim has their own highlighter implementation and has made tweaks to certain grammars and gets much nicer highlighting than I got out of the box.
 
    Integrating that code into my site generator is probably possible, but not a rabbit hole I want to jump into right now.
 
-1. The highlighter library feels a bit immature.
+a. The highlighter library feels a bit immature.
 
    A newer library broke the highlight groups I got from some grammars and I don't see any support for how to add a language specific class to `span` for injected languages.
+:::
 
 Because of these issues I'll evaluate what highlighter to use on a case-by-case basis, with Syntect as the default choice.
 
