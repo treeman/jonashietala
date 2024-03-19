@@ -39,6 +39,12 @@ article {
     }
   }
 
+  // All headers are wrapped in sections in Djot,
+  // so the margin on the :not(:first-child) headers will never happen.
+  section {
+    margin-block-start: var(--space-m);
+  }
+
   .post-info,
   .series-info {
     @include sans-serif;
