@@ -89,8 +89,8 @@ module.exports = grammar({
         $.code_block_marker,
         optional($.language),
         "\n",
-        $.code,
-        $.code_block_marker
+        optional($.code),
+        $.code_block_marker,
       ),
     code_block_marker: (_) => "```",
     code: (_) => repeat1(seq(/[^\n]*/, "\n")),
@@ -262,7 +262,7 @@ This might not be the most efficient solution because we'll have to parse the `:
 The matched token should be stored in `lexer->result_symbol`c:
 
 ```c
-bool parse_close_paragraph(TSLexer *lexer) {
+static bool parse_close_paragraph(TSLexer *lexer) {
   // Mark the end before advancing so that the CLOSE_PARAGRAPH token doesn't
   // consume any characters.
   lexer->mark_end(lexer);
@@ -285,7 +285,7 @@ How do we advance the lexer?
 We call `lexer->advance`c:
 
 ```c
-uint8_t consume_chars(TSLexer *lexer, char c) {
+static uint8_t consume_chars(TSLexer *lexer, char c) {
   uint8_t count = 0;
   while (lexer->lookahead == c) {
     lexer->advance(lexer, false);
@@ -544,7 +544,7 @@ Because advancing the lexer is primitive, and we cannot "go back a char", it's i
 Therefore we always need to check `valid_symbols` before we continue:
 
 ```c
-bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+static bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
   if (!valid_symbols[DIV_MARKER_BEGIN] && !valid_symbols[DIV_MARKER_END]) {
     return false;
   }
@@ -556,7 +556,7 @@ bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
 Next we'll need to consume all colons we're at, and only continue if we see at least three:
 
 ```c
-uint8_t consume_chars(TSLexer *lexer, char c) {
+static uint8_t consume_chars(TSLexer *lexer, char c) {
   uint8_t count = 0;
   while (lexer->lookahead == c) {
     lexer->advance(lexer, false);
@@ -565,7 +565,7 @@ uint8_t consume_chars(TSLexer *lexer, char c) {
   return count;
 }
 
-bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+static bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
   // ...
 
   uint8_t colons = consume_chars(lexer, ':');
@@ -603,7 +603,7 @@ static size_t number_of_blocks_from_top(Scanner *s, BlockType type,
   return 0;
 }
 
-bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+static bool parse_div(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
   // ...
 
   size_t from_top = number_of_blocks_from_top(s, DIV, colons);
@@ -709,7 +709,7 @@ bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
 When we see `blocks_to_close > 0`, we should output a `BLOCK_CLOSE` and remove the top block (with some sanity checks for good measure):
 
 ```c
-void remove_block(Scanner *s) {
+static void remove_block(Scanner *s) {
   if (s->open_blocks->size > 0) {
     ts_free(array_pop(s->open_blocks));
     if (s->blocks_to_close > 0) {
@@ -718,7 +718,7 @@ void remove_block(Scanner *s) {
   }
 }
 
-bool handle_blocks_to_close(Scanner *s, TSLexer *lexer) {
+static bool handle_blocks_to_close(Scanner *s, TSLexer *lexer) {
   if (s->open_blocks->size == 0) {
     return false;
   }
@@ -736,7 +736,7 @@ bool handle_blocks_to_close(Scanner *s, TSLexer *lexer) {
 With this we can output multiple `BLOCK_CLOSE`, and now to handle delayed tokens:
 
 ```c
-bool output_delayed_token(Scanner *s, TSLexer *lexer,
+static bool output_delayed_token(Scanner *s, TSLexer *lexer,
                           const bool *valid_symbols) {
   if (s->delayed_token == IGNORED || !valid_symbols[s->delayed_token]) {
     return false;
@@ -776,8 +776,9 @@ if (from_top > 0) {
 `close_blocks_with_final_token` is a general helper that sets up the number of blocks to close and the final token:
 
 ```c
-void close_blocks_with_final_token(Scanner *s, TSLexer *lexer, size_t count,
-                                   TokenType final, uint8_t final_token_width) {
+static void close_blocks_with_final_token(Scanner *s, TSLexer *lexer,
+                                          size_t count, TokenType final,
+                                          uint8_t final_token_width) {
   remove_block(s);
   s->blocks_to_close = s->blocks_to_close + count - 1;
   lexer->result_symbol = BLOCK_CLOSE;
@@ -809,9 +810,9 @@ $ tree-sitter parse example-file
       (div_marker [4, 0] - [4, 3]))))
 ```
 
-We can see that it parses without error, the last marker closes the second div correctly, and the last marker captures the final `:::`.
+We can see that it parses without error, the last marker closes the _second_ div correctly, and the last marker captures the final `:::`.
 
-While I'm implementing this correctly immediately in this post, when I first did this that was of course not the case.
+While I'm jumping to a working implementation directly in this post, when I first did this that was of course not the case.
 I found the `-d` argument useful to see what characters are consumed and what token is output in each step.
 
 Here's a part of the output (when scanning the final `:::`), with some comments to point out some interesting things:
@@ -850,7 +851,7 @@ shift state:23
 ```
 
 While the output seems confusing, when you know what to look for it's very useful.
-I've found that a deliberate process, where I look at a single character at a time, helps me get through any issues I find.
+I've found that a deliberate process, where I look at a single character at a time, helps me get through the problems I've encountered so far.
 
 # Handling conflicts
 
@@ -891,7 +892,9 @@ If we instead add a fallback with a `_` string then Tree-sitter will treat it as
 ```javascript
 _inline: ($) => repeat1(choice($.emphasis, $._text, $._fallback)),
 emphasis: ($) => prec.left(seq("_", $._inline, "_")),
-_fallback: (_) => "_",
+// prec.dynamic() is used during conflict resolution to choose which
+// branch to choose if multiple succeed.
+_fallback: (_) => prec.dynamic(-100, "_"),
 _text: (_) => /[^\n]/,
 ```
 
@@ -1298,7 +1301,7 @@ But speed isn't a bottleneck here and I'd rather just return a `String` with `fo
 With this I've integrated Tree-sitter based syntax highlighting into my blog!
 
 ````sdjot
-```
+```uncle-ben
 With great powers comes great responsibility
 ```
 ````
@@ -1308,21 +1311,19 @@ But I won't.
 
 There are some issues:
 
-::: greek
-a. You need a compatible version of `tree-sitter` for all grammars.
+A. You need a compatible version of `tree-sitter` for all grammars.
 
    The more grammars you add the more painful the upgrade path becomes.
 
-a. Syntect gives better highlighting for some languages (like Rust and C).
+A. Syntect gives better highlighting for some languages (like Rust and C).
 
    Neovim has their own highlighter implementation and has made tweaks to certain grammars and gets much nicer highlighting than I got out of the box.
 
    Integrating that code into my site generator is probably possible, but not a rabbit hole I want to jump into right now.
 
-a. The highlighter library feels a bit immature.
+A. The highlighter library feels a bit immature.
 
    A newer library broke the highlight groups I got from some grammars and I don't see any support for how to add a language specific class to `span` for injected languages.
-:::
 
 Because of these issues I'll evaluate what highlighter to use on a case-by-case basis, with Syntect as the default choice.
 
