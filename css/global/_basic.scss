@@ -36,7 +36,6 @@ h1 {
 }
 h2 {
   @include font-size("xl");
-  // margin-top: var(--space-xs);
 }
 h3 {
   @include font-size("l");

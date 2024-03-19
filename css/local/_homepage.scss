@@ -19,8 +19,7 @@
   > article > .section-title {
     padding-left: var(--space-2xs);
   }
-  > article > .section-title ~ article,
-  > article > .section-title ~ section {
+  > article > .section-title ~ :is(article, section) {
     margin-block-start: var(--space-xs);
   }
 
