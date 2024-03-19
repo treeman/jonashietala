@@ -54,7 +54,8 @@ fn push_code_block_highlight(
     original_code: &str,
     highlighted_code: &str,
 ) {
-    let html_id = lang_display_name(lang_id);
+    let display_name = html_escape::encode_safe(lang_display_name(lang_id));
+    let html_id = html_escape::encode_safe(lang_id);
 
     // Wrap things in an extra div to allow the language display div to
     // be visible outside the <pre> tag.
@@ -63,11 +64,10 @@ fn push_code_block_highlight(
     push_code_wrapper_start(s, original_code);
     s.push_str(&format!(
         r#"<div class="lang {}" data-lang="{}"></div>"#,
-        html_id,
-        html_escape::encode_safe(lang_id)
+        html_id, display_name
     ));
     s.push_str("<pre>");
-    push_code_highlight(s, html_id, highlighted_code);
+    push_code_highlight(s, &html_id, highlighted_code);
     s.push_str(r#"</pre>"#);
     s.push_str(r#"</div>"#);
 }
@@ -159,15 +159,16 @@ fn lang_display_name(lang: &str) -> &str {
         "cpp" => "c++",
         "md" => "markdown",
         "vim" => "vimscript",
+        "fish-shell" => "fish",
         x => x,
     }
 }
 
 lazy_static! {
-    pub static ref BLOCK_CODE_SPEC: Regex = Regex::new(r"^\w+$").unwrap();
+    pub static ref BLOCK_CODE_SPEC: Regex = Regex::new(r"^[\w_-]+$").unwrap();
 }
 lazy_static! {
-    pub static ref INLINE_CODE_SPEC: Regex = Regex::new(r"^(\w+)(.*?)$").unwrap();
+    pub static ref INLINE_CODE_SPEC: Regex = Regex::new(r"^([\w_-]+)(.*?)$").unwrap();
 }
 
 pub fn inline_code_spec(s: &str) -> Option<(String, String)> {

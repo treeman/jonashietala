@@ -122,7 +122,7 @@ A paragraph _with emphasis_ inside a div
 
 And parse it with the `tree-sitter` cli:
 
-```fish
+```fish-shell
 $ tree-sitter parse example-file
 (document [0, 0] - [5, 0]
   (div [0, 0] - [4, 0]
@@ -307,7 +307,7 @@ A paragraph inside a div
 :::
 ```
 
-```fish
+```fish-shell
 $ tree-sitter parse example-file
 (document [0, 0] - [4, 0]
   (div [0, 0] - [3, 0]
@@ -797,7 +797,7 @@ Divception
 :::
 ```
 
-```fish
+```fish-shell
 $ tree-sitter parse example-file
 (document [0, 0] - [6, 0]
   (div [0, 0] - [6, 0]
@@ -817,7 +817,7 @@ I found the `-d` argument useful to see what characters are consumed and what to
 
 Here's a part of the output (when scanning the final `:::`), with some comments to point out some interesting things:
 
-```fish
+```fish-shell
 $ tree-sitter parse example-file -d
 ...
 process version:0, version_count:1, state:34, row:4, col:0
@@ -866,7 +866,7 @@ a_b
 
 I'd assume this would produce a paragraph with text, but instead we get an error:
 
-```fish
+```fish-shell
 $ tree-sitter parse example-file
 (document [0, 0] - [2, 0]
   (ERROR [0, 0] - [0, 3]))
@@ -900,7 +900,7 @@ _text: (_) => /[^\n]/,
 
 And when we call `tree-sitter generate` we're made aware of the conflict:
 
-```fish
+```fish-shell
 $ tree-sitter generate
 Unresolved conflict for symbol sequence:
 

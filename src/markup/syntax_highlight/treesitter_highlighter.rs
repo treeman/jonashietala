@@ -210,6 +210,16 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
+        (
+            "fish-shell",
+            HighlightConfiguration::new(
+                tree_sitter_fishshell::language(),
+                tree_sitter_fishshell::HIGHLIGHTS_QUERY,
+                tree_sitter_fishshell::INJECTIONS_QUERY,
+                "",
+            )
+            .unwrap(),
+        ),
     ]
     .into_iter()
     .map(|(name, mut config)| {

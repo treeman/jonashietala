@@ -455,7 +455,6 @@ mod tests {
 
         // Just make sure that code is highlighted
         let rust_code = select_inner_html(&document, r#"pre code.rust"#).unwrap();
-        dbg!(&rust_code);
         assert!(rust_code.contains("<span class=\"storage type rust\">let</span> x"));
         Ok(())
     }

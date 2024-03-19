@@ -1502,6 +1502,7 @@ dependencies = [
  "tracing-subscriber",
  "tree-sitter-djot",
  "tree-sitter-fish",
+ "tree-sitter-fishshell",
  "tree-sitter-gleam",
  "tree-sitter-highlight",
  "tree-sitter-sdjot",
@@ -3252,6 +3253,15 @@ dependencies = [
 name = "tree-sitter-fish"
 version = "3.5.1"
 source = "git+https://github.com/ram02z/tree-sitter-fish.git?rev=f9176908c#f9176908c9eb2e11eb684d79e1d00f3b29bd65c9"
+dependencies = [
+ "cc",
+ "tree-sitter",
+]
+
+[[package]]
+name = "tree-sitter-fishshell"
+version = "0.0.1"
+source = "git+https://github.com/treeman/tree-sitter-fishshell.git#0fca71e03fd03528787eec167022bf59ec84788f"
 dependencies = [
  "cc",
  "tree-sitter",
