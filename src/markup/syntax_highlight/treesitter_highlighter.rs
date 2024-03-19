@@ -72,6 +72,7 @@ static HIGHLIGHT_NAMES: &[&str] = &[
     "keyword.exception",
     "keyword.function",
     "keyword.import",
+    "keyword.import",
     "keyword.operator",
     "keyword.repeat",
     "keyword.return",
