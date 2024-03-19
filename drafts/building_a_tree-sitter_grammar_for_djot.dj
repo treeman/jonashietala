@@ -1301,7 +1301,7 @@ But speed isn't a bottleneck here and I'd rather just return a `String` with `fo
 With this I've integrated Tree-sitter based syntax highlighting into my blog!
 
 ````sdjot
-```uncle-ben
+```
 With great powers comes great responsibility
 ```
 ````

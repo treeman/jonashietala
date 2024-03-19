@@ -1,7 +1,7 @@
 use crate::markup::syntax_highlight::*;
 use colored::Colorize;
 use itertools::{Itertools, MultiPeek};
-use jotdown::{html, Attributes, Container, Event, Render};
+use jotdown::{Attributes, Container, Event};
 use tracing::warn;
 
 pub struct CodeBlockSyntaxHighlight<'a, I: Iterator<Item = Event<'a>>> {

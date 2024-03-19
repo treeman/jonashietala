@@ -3,13 +3,6 @@ title = "Djot test"
 tags = ["Some tag"]
 ---
 
-```
-let x = 2
-```
-
-```c
-int x = 2;
-```
 
 # Header 1 (h2)
 
@@ -267,7 +260,9 @@ int i = 2;
 ```
 
 ````djot
-Djotception!
+```gleam
+let x = 2;
+```
 
 # Header 1 (h2)
 ## Header 2 (h3)
@@ -275,10 +270,6 @@ Djotception!
 #### Header 4 (h5)
 ##### Header 5 (h6)
 ###### Header 6 (h7)
-
-```rust
-let x = 2;
-```
 
 {= highlighted =}
 

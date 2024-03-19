@@ -1,5 +1,5 @@
 use camino::{Utf8Path, Utf8PathBuf};
-use chrono::NaiveDateTime;
+use chrono::{DateTime, NaiveDateTime};
 use eyre::eyre;
 use eyre::Result;
 use glob::glob;
@@ -16,11 +16,12 @@ use crate::site_url::{HrefUrl, ImgUrl};
 
 pub fn last_modified(path: &Utf8Path) -> Result<NaiveDateTime> {
     let modified = fs::metadata(path)?.modified()?;
-    Ok(NaiveDateTime::from_timestamp_opt(
+    Ok(DateTime::from_timestamp(
         modified.duration_since(UNIX_EPOCH)?.as_secs().try_into()?,
         0,
     )
-    .unwrap())
+    .unwrap()
+    .naive_local())
 }
 
 pub fn write_to_file(file: &Utf8Path, content: &str) -> Result<()> {
