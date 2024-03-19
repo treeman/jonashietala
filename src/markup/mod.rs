@@ -149,7 +149,7 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
     }
 }
 
-fn extract_metadata<Meta: DeserializeOwned>(
+pub fn extract_metadata<Meta: DeserializeOwned>(
     t: MarkupType,
     content: &str,
     path: &AbsPath,

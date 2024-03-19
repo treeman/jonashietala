@@ -230,11 +230,11 @@ impl<'a> PostRefContext<'a> {
 
 #[derive(Deserialize, Debug)]
 pub struct PostMetadata {
-    title: String,
-    tags: TagsMeta,
-    time: Option<String>,
-    series: Option<String>,
-    recommended: Option<bool>,
+    pub title: String,
+    pub tags: TagsMeta,
+    pub time: Option<String>,
+    pub series: Option<String>,
+    pub recommended: Option<bool>,
 }
 
 #[derive(Debug)]

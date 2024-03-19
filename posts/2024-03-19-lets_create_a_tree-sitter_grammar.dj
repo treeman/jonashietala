@@ -1,6 +1,6 @@
 ---toml
-title = "Creating a Tree-sitter grammar for a subset of Djot"
-tags = ["Djot", "Tree-sitter", "C"]
+title = "Let's create a Tree-sitter grammar"
+tags = ["Djot", "Tree-sitter", "C", "Rust", "Neovim"]
 ---
 
 One of my favorite features in Neovim is the Tree-sitter integration.
@@ -12,7 +12,7 @@ An amazing feature as it works across languages, no matter how they look like, a
 But, you might wonder how does a Tree-sitter grammar look like,
 and how do you create one for a language?
 
-I started thinking about this and before I knew it I was trying to make my own parser for [Djot][] (a markup language similar to Markdown).
+I started thinking about this and before I knew it I was [trying to make my own parser][tree-sitter-djot] for [Djot][] (a markup language similar to Markdown).
 There are some good tutorials on how to get started, but not on some mare advanced things.
 
 I spent quite some time trying to figure it out---while refreshing my 10 year old knowledge of grammars---and decided to document some of my findings.
@@ -1335,6 +1335,8 @@ You made it!
 I don't claim to be an expert at grammars or Tree-sitter, and I'm sure there are plenty of things that can be improved with the way the grammar is made.
 But I hope it can be helpful as a starting point if you're curious on how to write a Tree-sitter grammar of your own.
 
+See the [tree-sitter-djot repo][tree-sitter-djot] for how I developed the grammar further to support the full [Djot specification][] (but remember, I'm not an expert).
+
 Just one word of advice before you go.
 Writing a grammar for simple rules is pretty easy, but in the real world things can get messy quickly.
 This is especially true if you need to juggle multiple conflicting rules in the external scanner---keeping a sane structure is challenging.
@@ -1348,6 +1350,7 @@ This is especially true if you need to juggle multiple conflicting rules in the 
 [external-scanners]: https://tree-sitter.github.io/tree-sitter/creating-parsers#external-scanners
 [valgrind]: https://valgrind.org/
 [Djot]: https://djot.net/
+[Djot specification]: https://htmlpreview.github.io/?https://github.com/jgm/djot/blob/master/doc/syntax.html
 [nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
 [install local Tree-sitter grammars]: https://github.com/nvim-treesitter/nvim-treesitter#adding-parsers
 [syntax-highlight]: https://tree-sitter.github.io/tree-sitter/syntax-highlighting
@@ -1357,3 +1360,4 @@ This is especially true if you need to juggle multiple conflicting rules in the 
 [tree-sitter-highlight]: https://docs.rs/tree-sitter-highlight/latest/tree_sitter_highlight/
 [ripgrep]: https://github.com/BurntSushi/ripgrep
 [syntect]: https://github.com/trishume/syntect
+[tree-sitter-djot]: [https://github.com/treeman/tree-sitter-djot
