@@ -3280,7 +3280,7 @@ dependencies = [
 [[package]]
 name = "tree-sitter-sdjot"
 version = "0.0.1"
-source = "git+https://github.com/treeman/tree-sitter-sdjot.git#a63e900d7c78a4d54aa013972e2ecff8285ff602"
+source = "git+https://github.com/treeman/tree-sitter-sdjot.git#f7aa3b2e61d2cfa0d96569f969516b41ccd91545"
 dependencies = [
  "cc",
  "tree-sitter",

@@ -17,15 +17,13 @@ impl<'a> TreesitterHighlighter<'a> {
     pub fn highlight(&self, code: &str) -> Result<String> {
         let mut highlighter = Highlighter::new();
 
-        let highlights = highlighter
-            .highlight(self.config, code.as_bytes(), None, |lang| {
-                let res = CONFIGS.get(lang);
-                if !res.is_some() {
-                    warn!("Couldn't find treesitter grammar for `{lang}` to inject");
-                }
-                res
-            })
-            .unwrap();
+        let highlights = highlighter.highlight(self.config, code.as_bytes(), None, |lang| {
+            let res = CONFIGS.get(lang);
+            if !res.is_some() {
+                warn!("Couldn't find treesitter grammar for `{lang}` to inject");
+            }
+            res
+        })?;
 
         // This isn't very nice... How to generate strings dynamically from inside a Fn closure
         // that returns a byte slice?

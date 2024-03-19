@@ -628,9 +628,9 @@ For example, with this type of input:
 
 ```sdjot
 :::
-::::
+:::::
 :::::::
-inception
+text
 :::
 ```
 
@@ -638,7 +638,7 @@ We'll have a stack of 3 divs when we see the closing `:::` marker:
 
 ```
 7 (top)
-4
+5
 3 (the one we want to close)
 ```
 
@@ -794,7 +794,6 @@ Now we can finally try to close divs:
 :::::::
 Divception
 :::
-
 ```
 
 ```fish
@@ -1186,7 +1185,14 @@ The names can be filtered for with [ripgrep][] with something like this:
 rg "@[\w.]+" -INo --trim highlights.scm | sort | uniq
 ```
 
+I already have syntax highlighting via [syntect][], so I wrap the highlighters in their own types:
+
 ```rust
+enum HighlighterType<'a> {
+    Syntect(SyntectHighlighter<'a>),
+    Treesitter(TreesitterHighlighter<'a>),
+}
+
 pub struct TreesitterHighlighter<'a> {
     config: &'a HighlightConfiguration,
 }
@@ -1198,32 +1204,76 @@ impl<'a> TreesitterHighlighter<'a> {
 }
 ```
 
+The interesting part is of course the `highlight` method, that takes a string of code and applies syntax highlighting on it:
+
 ```rust
 impl<'a> TreesitterHighlighter<'a> {
     pub fn highlight(&self, code: &str) -> Result<String> {
         let mut highlighter = Highlighter::new();
 
-        let highlights = highlighter
-            .highlight(self.config, code.as_bytes(), None, |lang| {
-                let res = CONFIGS.get(lang);
-                if !res.is_some() {
-                    warn!("Couldn't find treesitter grammar for `{lang}` to inject");
-                }
-                res
-            })
-            .unwrap();
+        let highlights = highlighter.highlight(self.config, code.as_bytes(), None, |lang| {
+            // This callback handles language injection
+            // and should return a `HighlightConfiguration`.
+            let res = CONFIGS.get(lang);
+            if !res.is_some() {
+                warn!("Couldn't find treesitter grammar for `{lang}` to inject");
+            }
+            res
+        })?;
 
         let mut renderer = HtmlRenderer::new();
         renderer.render(highlights, code.as_bytes(), &|attr| {
-            // This isn't very nice... How to generate strings dynamically from inside a Fn closure
-            // that returns a byte slice?
-            // Not easily.
+            // This should return a `&'a [u8]` with the same lifetime as `code`.
         })?;
         let res = renderer.lines().join("");
         Ok(res)
     }
 }
 ```
+
+I want to point out the API in `HtmlRenderer`, where we stumble upon a very annoying problem:
+what should we return from the callback, and how should we do that?
+
+What the callback does is inject the return value into the `span` element, like this:
+
+```html
+<span CALLBACK_RESULT >highlight</span>
+```
+
+So we'd like to return something like `"class=\"markup italic\""`rust, using `attr` which is only a `usize` into `HIGHLIGHT_NAMES`:
+
+```rust
+renderer.render(highlights, code.as_bytes(), &|attr| {
+    format!(r#"class="{}""#, HIGHLIGHT_NAMES[attr.0].replace(".", " ")).as_bytes()
+})?;
+```
+
+Because we return a slice of bytes into a string that's created inside the callback, of course the Rust compiler will be mad at us:
+
+```
+error[E0515]: cannot return value referencing temporary value
+  --> src/markup/syntax_highlight/treesitter_highlighter.rs:33:13
+   |
+33 |             format!(r#"class="{}""#, HIGHLIGHT_NAMES[attr.0].replace(".", " ")).as_bytes()
+   |             -------------------------------------------------------------------^^^^^^^^^^^
+   |             |
+   |             returns a value referencing data owned by the current function
+   |             temporary value created here
+```
+
+How to dynamically create a string from inside the callback... That outlives the callback itself?
+
+Not easily I tell you.
+
+It would be so much easier if the callback would return a `Cow<str>` or something.
+I wonder how the designers of the API expects it to be used?
+This surely isn't a very unique requirement, to wrap the attribute in a `class`?
+
+Oh well.
+One way to solve this is to store the generated strings in a container that outlives the callback, and reference that (yeah it's a `Fn` callback, but there are hacky ways around that).
+Or you could, you know, write your own `HtmlRenderer`.
+
+Or you could pre-generate the classes and reference them:
 
 ```rust
 lazy_static! {
@@ -1240,7 +1290,39 @@ renderer.render(highlights, code.as_bytes(), &|attr| {
 })?;
 ```
 
-Very odd problems. For instance, if I used `$.code`javascript to capture the embedded code, it wouldn't work. But with `optional($.code)`javascript, it.
+This should be the fastest option and is the one I currently use...
+But speed isn't a bottleneck here and I'd rather just return a `String` with `format!` and be done with it.
+
+ * * *
+
+With this I've integrated Tree-sitter based syntax highlighting into my blog!
+
+````sdjot
+```
+With great powers comes great responsibility
+```
+````
+
+I could start moving the various languages over from Syntect to Tree-sitter...
+But I won't.
+
+There are some issues:
+
+1. You need a compatible version of `tree-sitter` for all grammars.
+
+   The more grammars you add the more painful the upgrade path becomes.
+
+1. Syntect gives better highlighting for some languages (like Rust and C).
+
+   Neovim has their own highlighter implementation and has made tweaks to certain grammars and gets much nicer highlighting than I got out of the box.
+
+   Integrating that code into my site generator is probably possible, but not a rabbit hole I want to jump into right now.
+
+1. The highlighter library feels a bit immature.
+
+   A newer library broke the highlight groups I got from some grammars and I don't see any support for how to add a language specific class to `span` for injected languages.
+
+Because of these issues I'll evaluate what highlighter to use on a case-by-case basis, with Syntect as the default choice.
 
 # Within edge-cases lies complexity
 
@@ -1253,6 +1335,8 @@ But I hope it can be helpful as a starting point if you're curious on how to wri
 Just one word of advice before you go.
 Writing a grammar for simple rules is pretty easy, but in the real world things can get messy quickly.
 This is especially true if you need to juggle multiple conflicting rules in the external scanner---keeping a sane structure is challenging.
+
+(Even in our simple grammar there are bugs, but I don't care to fix them.)
 
 > The night is dark and full of terrors
 > ^ George R.R. Martin
@@ -1268,3 +1352,5 @@ This is especially true if you need to juggle multiple conflicting rules in the 
 [sdjot-GitHub]: https://github.com/treeman/tree-sitter-sdjot
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 [tree-sitter-highlight]: https://docs.rs/tree-sitter-highlight/latest/tree_sitter_highlight/
+[ripgrep]: https://github.com/BurntSushi/ripgrep
+[syntect]: https://github.com/trishume/syntect
