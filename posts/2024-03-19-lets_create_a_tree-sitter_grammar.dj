@@ -9,7 +9,7 @@ It allows for fast syntax highlighting that works well even in an error state (o
 With [nvim-treesitter-textobjects][] you can also jump between nodes (such as `]c` to jump to next class) or target deletion (`cif` to delete the function body and enter insert mode).
 An amazing feature as it works across languages, no matter how they look like, as long as they have a Tree-sitter grammar (most do).
 
-But, you might wonder how does a Tree-sitter grammar look like,
+But, you might wonder what does a Tree-sitter grammar look like,
 and how do you create one for a language?
 
 I started thinking about this and before I knew it I was [trying to make my own parser][tree-sitter-djot] for [Djot][] (a markup language similar to Markdown).
