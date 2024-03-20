@@ -3261,7 +3261,7 @@ dependencies = [
 [[package]]
 name = "tree-sitter-fishshell"
 version = "0.0.1"
-source = "git+https://github.com/treeman/tree-sitter-fishshell.git#0fca71e03fd03528787eec167022bf59ec84788f"
+source = "git+https://github.com/treeman/tree-sitter-fishshell.git#9c7668551229417416ed56862fe759b3ee43a7a7"
 dependencies = [
  "cc",
  "tree-sitter",

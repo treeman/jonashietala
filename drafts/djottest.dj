@@ -55,11 +55,11 @@ With footnote[^foo]
 
 # Inline styles
 
-{= highlighted =}
+{=highlighted=}
 
-{+ insert +}
+{+insert+}
 
-{- delete -}
+{-delete-}
 
 :symbol:
 
@@ -71,7 +71,7 @@ $`^n + y^n = z^n`
 
 `<a href="#">Test</a>`{=html}
 
-Here's a [wtf]{.wtf #wtf wtf="val" anotther=2}
+Here's a [span]{.wtf #wtf wtf="val" anotther=2}
 
 # Some other blocks
 
