@@ -13,7 +13,7 @@ But, you might wonder how does a Tree-sitter grammar look like,
 and how do you create one for a language?
 
 I started thinking about this and before I knew it I was [trying to make my own parser][tree-sitter-djot] for [Djot][] (a markup language similar to Markdown).
-There are some good tutorials on how to get started, but not on some mare advanced things.
+There are some good tutorials on how to get started, but not on some more advanced things.
 
 I spent quite some time trying to figure it out---while refreshing my 10 year old knowledge of grammars---and decided to document some of my findings.
 
