@@ -1082,7 +1082,7 @@ Just make sure you have a `"tree-sitter"` section in the grammar's `package.json
 ],
 ```
 
-With this you can do `:TSInstall sjdot` and `:TSUdate sdjot` when you make changes.
+With this you can do `:TSInstall sjdot` and `:TSUpdate sdjot` when you make changes.
 
 `:TSInstall` doesn't install queries automatically though.
 What I did was symlink the queries directory into Neovims config directory:
