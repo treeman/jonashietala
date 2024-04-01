@@ -4,11 +4,11 @@ mod gen;
 mod item;
 mod markup;
 mod paths;
+mod server;
 mod site;
 mod site_url;
 mod upload;
 mod util;
-mod watch;
 
 #[cfg(test)]
 mod tests;
@@ -110,7 +110,8 @@ async fn main() -> Result<()> {
             build()?;
         }
         Commands::Watch => {
-            watch::watch(&OUTPUT_DIR, &CURRENT_DIR).await?;
+            server::run(&OUTPUT_DIR, &CURRENT_DIR).await?;
+            // watch::watch(&OUTPUT_DIR, &CURRENT_DIR).await?;
         }
         Commands::Post { title } => {
             gen::new_post(title.join(" "))?;
