@@ -1,13 +1,12 @@
-use crate::{content::PostDirMetadata, markup, paths::AbsPath, util};
+use crate::markup::MarkupType;
+use crate::{content::PostDirMetadata, content::PostMetadata, markup, paths::AbsPath, util};
 use camino::{Utf8Path, Utf8PathBuf};
 use chrono::Utc;
 use colored::Colorize;
 use eyre::{eyre, Result};
 use regex::Regex;
-use serde::Deserialize;
 use std::fs;
 use tracing::info;
-use yaml_front_matter::{Document, YamlFrontMatter};
 
 pub fn new_post(title: String) -> Result<()> {
     let slug = util::slugify(&title);
@@ -126,19 +125,16 @@ fn matches_file(re: &Regex, path: &Utf8Path) -> Result<bool> {
     Ok(false)
 }
 
+// TODO move into posts?
+// Or use PostItem::from_file()?
 fn read_title(path: &Utf8Path) -> Result<String> {
     let content = fs::read_to_string(&path)?;
 
-    let Document {
-        metadata,
-        content: _,
-    } = YamlFrontMatter::parse::<TitleMetadata>(&content)
-        .map_err(|err| eyre!("Failed to parse metadata for : {:#?}\n{}", path, err))?;
+    let t = MarkupType::from_file(&path)
+        .ok_or_else(|| eyre!("Unsupported file format: `{}`", &path))?;
+
+    let (metadata, _content) =
+        markup::extract_metadata::<PostMetadata>(t, &content, &AbsPath(path.to_owned()))?;
 
     Ok(metadata.title)
-}
-
-#[derive(Deserialize, Debug)]
-struct TitleMetadata {
-    title: String,
 }

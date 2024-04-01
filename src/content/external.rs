@@ -5,6 +5,7 @@ use crate::item::RenderContext;
 use crate::util;
 use eyre::{eyre, Result};
 
+#[derive(Debug)]
 pub struct SassItem;
 
 impl Item for SassItem {
@@ -20,6 +21,7 @@ impl Item for SassItem {
     }
 }
 
+#[derive(Debug)]
 pub struct JsItem;
 
 impl Item for JsItem {

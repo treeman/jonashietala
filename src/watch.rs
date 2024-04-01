@@ -1,4 +1,5 @@
 use axum::{routing::get_service, Router};
+use axum_server::Server;
 use camino::Utf8PathBuf;
 use eyre::Result;
 use flume::{Receiver, Sender};
@@ -236,9 +237,7 @@ async fn start_watch_server(output_dir: &AbsPath) -> Result<()> {
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
 
     info!("serving site on {addr}");
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await?;
+    Server::bind(addr).serve(app.into_make_service()).await?;
 
     Ok(())
 }

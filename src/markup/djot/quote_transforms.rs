@@ -73,21 +73,23 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for QuoteTransforms<'a, I> {
 
         self.event_queue.push(Event::End(Container::Blockquote));
 
-        self.event_queue.push(Event::End(html.clone()));
-        self.event_queue
-            .push(Event::Str(r#"</span></footer>"#.into()));
-        self.event_queue
-            .push(Event::Start(html.clone(), Attributes::new()));
+        if !author.is_empty() {
+            self.event_queue.push(Event::End(html.clone()));
+            self.event_queue
+                .push(Event::Str(r#"</span></footer>"#.into()));
+            self.event_queue
+                .push(Event::Start(html.clone(), Attributes::new()));
 
-        for x in author.into_iter().rev() {
-            self.event_queue.push(x);
+            for x in author.into_iter().rev() {
+                self.event_queue.push(x);
+            }
+
+            self.event_queue.push(Event::End(html.clone()));
+            self.event_queue
+                .push(Event::Str(r#"<footer><span class="author">"#.into()));
+            self.event_queue
+                .push(Event::Start(html.clone(), Attributes::new()));
         }
-
-        self.event_queue.push(Event::End(html.clone()));
-        self.event_queue
-            .push(Event::Str(r#"<footer><span class="author">"#.into()));
-        self.event_queue
-            .push(Event::Start(html.clone(), Attributes::new()));
 
         for x in events.into_iter().rev() {
             self.event_queue.push(x);
@@ -111,7 +113,7 @@ mod tests {
     }
 
     #[test]
-    fn test_quote() -> Result<()> {
+    fn test_quote_simple() -> Result<()> {
         let s = r#"
 > Text here
 "#;
@@ -119,8 +121,7 @@ mod tests {
             convert(s)?,
             r#"
 <blockquote>
-<p>Text here
-</p>
+<p>Text here</p>
 </blockquote>
 "#
         );

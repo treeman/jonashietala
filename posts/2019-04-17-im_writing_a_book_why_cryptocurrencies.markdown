@@ -1,6 +1,6 @@
 ---
 title: "I'm writing a book: Why Cryptocurrencies?"
-tags: Cryptocurrency, Why Cryptocurrencies?
+tags: ["Why Cryptocurrencies?", "Self-publishing"]
 ---
 
 I decided to write a book. It's called "Why Cryptocurrencies?" and I will be uploading chapters as I complete them. It's available to [read online for free][link]. I've only uploaded the introductory parts but I've got a bunch more planned.

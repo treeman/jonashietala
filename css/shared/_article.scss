@@ -39,9 +39,15 @@ article {
     }
   }
 
+  // All headers are wrapped in sections in Djot,
+  // so the margin on the :not(:first-child) headers will never happen.
+  section > :is(h1, h2, h3, h4, h5, h6):first-child {
+    margin-block-start: var(--space-m);
+  }
+
   .post-info,
   .series-info {
-    @extend %sans-serif;
+    @include sans-serif;
     @include font-size("s");
     gap: var(--space-3xs) var(--space-2xs);
     display: flex;
@@ -68,7 +74,7 @@ article {
   }
 
   .tag-links {
-    @extend %sans-serif;
+    @include sans-serif;
     @include font-size("s");
   }
   .tag-links a {
@@ -76,6 +82,10 @@ article {
   }
   .tag-links a:hover {
     color: var(--color-tags-hover);
+  }
+
+  a:not([href]) {
+    color: var(--color-link-error);
   }
 
   /*
@@ -117,8 +127,7 @@ article {
     padding-block: var(--space-2xs);
     @include flow;
   }
-  & > blockquote,
-  & > section > blockquote {
+  & blockquote {
     border-left: 3px solid var(--color-blockquote-bar);
   }
   .epigraph {
@@ -134,7 +143,7 @@ article {
    * Tables
    */
   table {
-    @extend %serif;
+    @include serif;
     // Need tabular numbers to align properly
     font-feature-settings: "kern" on, "tnum" on;
   }
@@ -167,9 +176,12 @@ article {
    * Lists
    */
   // Consistent spacing between items
-  ol,
-  ul {
-    @include flow();
+  // Narrow lists don't have paragraphs in them
+  :is(ol, ul):not(:has(p)) {
+    @include flow(var(--space-2xs));
+  }
+  :is(ol, ul):has(p) {
+    @include flow(var(--space-xs));
   }
   // Consistent spacing inside items
   li {
@@ -185,14 +197,13 @@ article {
   ol {
     counter-reset: ordered-counter;
   }
-  ol > li::before,
-  ul > li::before {
+  :is(ol, ul) > li::before {
     float: left;
     margin-left: calc(-1 * var(--space-m));
     color: var(--color-list-bullet);
   }
   ol > li::before {
-    @extend %sans-serif;
+    @include sans-serif;
     counter-increment: ordered-counter;
     content: counter(ordered-counter);
   }
@@ -212,15 +223,15 @@ article {
     content: counter(ordered-counter, lower-greek);
   }
   ul > li::before {
-    @extend %sans-serif;
+    @include sans-serif;
     content: "•";
   }
   ul > li.checked::before {
-    @extend %sans-serif;
+    @include sans-serif;
     content: "[×]";
   }
   ul > li.unchecked::before {
-    @extend %sans-serif;
+    @include sans-serif;
     content: "[ ]";
   }
 
@@ -315,6 +326,31 @@ article {
     pre {
       background-color: var(--melange_a_sel);
     }
+  }
+
+  /*
+   * todo comments
+   */
+  .todo,
+  .fixme,
+  .note {
+    color: var(--melange_a_bg);
+    padding: var(--space-3xs);
+  }
+  .todo {
+    background-color: var(--melange_c_blue);
+  }
+  .fixme {
+    background-color: var(--melange_c_red);
+  }
+  .note {
+    background-color: var(--melange_c_cyan);
+  }
+
+  mark {
+    background-color: var(--color-background);
+    font-weight: bold;
+    color: var(--melange_b_yellow);
   }
 
   /*

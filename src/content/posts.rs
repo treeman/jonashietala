@@ -182,6 +182,8 @@ impl<'a> PostSeriesContext<'a> {
     fn new(post: &PostItem, series: &'a SeriesItem, ctx: &'a RenderContext) -> Self {
         let posts: Vec<_> = series.posts.iter().collect();
 
+        // FIXME this sometimes crashes.
+        // If we add a draft?
         let post_index = posts.iter().position(|curr| &curr.0 == post).unwrap();
         let next_url = posts
             .get(post_index + 1)
@@ -228,11 +230,11 @@ impl<'a> PostRefContext<'a> {
 
 #[derive(Deserialize, Debug)]
 pub struct PostMetadata {
-    title: String,
-    tags: TagsMeta,
-    time: Option<String>,
-    series: Option<String>,
-    recommended: Option<bool>,
+    pub title: String,
+    pub tags: TagsMeta,
+    pub time: Option<String>,
+    pub series: Option<String>,
+    pub recommended: Option<bool>,
 }
 
 #[derive(Debug)]
@@ -453,7 +455,7 @@ mod tests {
 
         // Just make sure that code is highlighted
         let rust_code = select_inner_html(&document, r#"pre code.rust"#).unwrap();
-        assert!(rust_code.contains("<span class=\"storage type rust\">let</span> x "));
+        assert!(rust_code.contains("<span class=\"storage type rust\">let</span> x"));
         Ok(())
     }
 }

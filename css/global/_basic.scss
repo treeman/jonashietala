@@ -9,7 +9,7 @@ img {
 }
 
 body {
-  @extend %serif;
+  @include serif;
   @include font-size("m");
   line-height: 1.4; // line-height calculation is broken here, override it explicitly instead
 
@@ -39,6 +39,7 @@ h2 {
 }
 h3 {
   @include font-size("l");
+  // margin-top: var(--space-xs);
 }
 h4 {
   @include font-size("m");
@@ -56,7 +57,7 @@ h3,
 h4,
 h5,
 h6 {
-  @extend %sans-serif;
+  @include sans-serif;
 
   a {
     color: var(--color-text);

@@ -9,8 +9,6 @@ mod quote_attrs;
 mod table_attrs;
 mod transform_headers;
 
-pub use crate::markup::syntax_highlight::{dump_syntax_binary, dump_theme};
-
 use auto_figures::AutoFigures;
 use code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use embed_youtube::EmbedYoutube;
@@ -82,6 +80,5 @@ fn parse_markdown_to_feed(s: &str) -> String {
 }
 
 fn display_broken_link(link: &BrokenLink<'_>, markdown: &str) {
-    // FIXME make this a panic for posts but not for drafts
     warn!("Broken link: {}", &markdown[link.span.clone()]);
 }

@@ -4,6 +4,7 @@ mod code;
 mod div_transforms;
 mod embed_youtube;
 mod quote_transforms;
+mod todos;
 mod transform_headers;
 
 use eyre::Result;
@@ -15,6 +16,7 @@ use self::code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use self::div_transforms::DivTransforms;
 use self::embed_youtube::EmbedYoutube;
 use self::quote_transforms::QuoteTransforms;
+use self::todos::TransformTodoComments;
 use self::transform_headers::TransformHeaders;
 use crate::markup::{self, ParseContext};
 
@@ -23,6 +25,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<markup::Html> {
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);
     let transformed = EmbedYoutube::new(transformed);
+    let transformed = TransformTodoComments::new(transformed, context);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = DivTransforms::new(transformed);

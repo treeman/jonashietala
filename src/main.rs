@@ -146,10 +146,10 @@ async fn main() -> Result<()> {
             .await?;
         }
         Commands::DumpSyntaxBinary => {
-            markup::dump_syntax_binary()?;
+            markup::syntect_highlighter::dump_syntax_binary()?;
         }
         Commands::DumpTheme { file } => {
-            markup::dump_theme(file)?;
+            markup::syntect_highlighter::dump_theme(file)?;
         }
         Commands::CheckExternalLinks => {
             check_external_links().await?;

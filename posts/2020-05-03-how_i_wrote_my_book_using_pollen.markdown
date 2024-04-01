@@ -1,6 +1,6 @@
 ---
 title: "How I wrote a book using Pollen"
-tags: [Cryptocurrency, Programming, Pollen, Racket, Why Cryptocurrencies?, CSS]
+tags: [Programming, Pollen, Racket, Why Cryptocurrencies?, CSS, Self-publishing]
 series: making-cryptobook
 recommended: true
 ---
@@ -17,7 +17,7 @@ If you want to use Pollen yourself the [Pollen documentation][pollen] is pretty 
 First off I do my writing and coding in vim (or rather [neovim][]). I use plugins for Racket and Pollen (but truthfully I don't remember what they do, syntax highlighting perhaps?) and I also have two keybindings for two special chars I don't normally use:
 
 ```vim
-" Plugin handling using vim-plug 
+" Plugin handling using vim-plug
 Plug 'https://github.com/wlangstroth/vim-racket'
 Plug 'https://github.com/otherjoel/vim-pollen.git'
 

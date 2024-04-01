@@ -1,7 +1,8 @@
+---toml
+title = "Djot test"
+tags = ["Some tag"]
 ---
-title: Djot test
-tags: ["Some tag"]
----
+
 
 # Header 1 (h2)
 
@@ -19,9 +20,11 @@ font-size("m")
 
 font-size("s")
 
-#### Header 5 (h6)
+##### Header 5 (h6)
 
 font-size("xs")
+
+###### Header 6 (h7)
 
 # Just text
 
@@ -37,9 +40,68 @@ Unicode snowman: ☃︎ and "auto quotes" enabled. It's good. --dashes--? Conver
 
 Quotes are "cool". Or are they 'cool'? 1234567890
 
-This text is **bold**. This is _italicized_. This is **_both_** `Here's some code.`.
+Some \"straight\" \'quotes\'
 
-[blog](/blog) and auto <https://google.com> email: <mail@jonashietala.se>
+This text is *bold*. This is _italicized_. This is *_both_* `Here's some code.`. With \_\
+
+[blog](/blogxxxxx) and auto <https://google.com> email: <mail@jonashietala.se> [blog][wtf] [blog][]
+
+[blog]: #
+[wtf]: /ref
+
+With footnote[^foo]
+
+[^foo]: Foo here
+
+# Inline styles
+
+{=highlighted=}
+
+{+insert+}
+
+{-delete-}
+
+:symbol:
+
+^superscript^
+
+~subscript~
+
+$`^n + y^n = z^n`
+
+`<a href="#">Test</a>`{=html}
+
+Here's a [span]{.wtf #wtf wtf="val" anotther=2}
+
+# Some other blocks
+
+{.bar #id key="value"}
+Paragraph
+
+{% comment wtf %}
+Text
+
+``` =html
+<p>txt</p>
+```
+
+# Footnotes
+
+With a footnote.[^wtf]
+
+[^a]: b
+
+   c
+
+x
+
+[^wtf]: My footnote wtf
+
+       another row
+
+[^wtf]: My footnote wtf
+
+       another row
 
 # Lists
 
@@ -98,6 +160,12 @@ Tasks:
 - [ ] Not completed
 - [x] Completed
 
+Definition:
+
+: term
+
+  Def
+
 # Quotes and attributes
 
 ::: epigraph
@@ -106,8 +174,10 @@ Tasks:
 
 Text
 
-> Just a normal quote. Where some dude says something smart.\
+> Just a normal quote. Where some dude says something smart.
 > And the next line.
+>
+> Trailing
 
 Nesting:
 
@@ -134,35 +204,41 @@ Text
 Table:
 
 | Left aligned |  Centered  | Right aligned |
-| :----------- | :--------: | ------------: |
+|:-------------|:----------:|--------------:|
 | First row    |    Data    |          Data |
 | Second row   | **Cell** 1 |          1111 |
 | Third row    | **Cell** 2 |          3333 |
 | Fourth row   | **Cell** 3 |          6789 |
+^ With table caption
 
 Easy table So cool
 
+{.movie-table}
 | Movie | Rank this year | Rank last year | change |
-| :----- | :------------- | :------------- | :----- |
+|:------|:---------------|:---------------|:-------|
 | Avengers: Endgame                   | 1 | - | - |
 | Guardians of the Galaxy             | 2 | 5 | +3 |
 | Avengers: Infinity War              | 3 | 4 | +1 |
 | Iron Man                            | 4 | 1 | -3 |
 | Captain America: The Winter Soldier | 5 | 3 | -2 |
-{ .movie-table }
 
+{.movie-table}
 | Movie | Rank this year | Rank last year | change |
-| :----- | :------------- | :------------- | :----- |
+|:------|:---------------|:---------------|:-------|
 | The Incredible Hulk     | 21 | 19 | -2 |
 | Thor 2: The Dark World  | 22 | 17 | -5 |
-{ .movie-table }
 
 # Code
 
 So we should do `foo` then `bar` then `quux`
 
-```C
-int i = 2;
+```
+```
+
+```rust
+let x = 2;
+
+pub fn it_works() { }
 ```
 
 ```fish
@@ -183,6 +259,82 @@ python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm
 int i = 2;
 ```
 
+````djot
+```gleam
+let x = 2;
+```
+
+# Header 1 (h2)
+## Header 2 (h3)
+### Header 3 (h4)
+#### Header 4 (h5)
+##### Header 5 (h6)
+###### Header 6 (h7)
+
+{= highlighted =}
+
+{+ insert +}
+
+{- delete -}
+
+:symbol:
+
+^superscript^
+
+~subscript~
+
+Here's a [wtf]{.wtf #wtf wtf="val" anotther=2}
+
+{.bar #id key="value"}
+Paragraph
+
+{% comment wtf %}
+Text
+
+With a footnote.[^wtf]
+
+[^a]: b
+
+- Milk
+- Bread
+
+1. Milk
+2. Bread
+
+- [ ] Not completed
+- [x] Completed
+
+: term
+
+  Def
+
+> Trailing
+
+| Left aligned |  Centered  | Right aligned |
+|:-------------|:----------:|--------------:|
+| First row    |    Data    |          Data |
+| Second row   | **Cell** 1 |          1111 |
+| Third row    | **Cell** 2 |          3333 |
+| Fourth row   | **Cell** 3 |          6789 |
+^ With table caption
+
+[blog](/blogxxxxx) and auto <https://google.com> \
+email: <mail@jonashietala.se> [blog][wtf] [blog][]
+
+With \_ ... \"
+
+   *   *   *
+
+[blog]: #
+[wtf]: /ref
+
+![](/images/configura14/octree1.png)
+
+![FTL is such an amazing game](/images/ftl_start.png)
+
+![FTL is such an amazing game][blog]
+````
+
 # Images
 
 Figure:
@@ -196,18 +348,18 @@ Set properties:
 Flex images
 
 ::: Flex
-/images/configura14/octree1.png
-/images/configura14/octree2.png
+![](/images/configura14/octree1.png)
+![](/images/configura14/octree2.png)
 :::
 
 Image gallery:
 
 ::: Gallery
-/images/inside1.jpg
-/images/case.jpg
-/images/cables.jpg
-/images/inside2.jpg
-/images/das1.jpg
+![](/images/inside1.jpg)
+![](/images/case.jpg)
+![](/images/cables.jpg)
+![](/images/inside2.jpg)
+![](/images/das1.jpg)
 :::
 
 End gallery. Ooh so pretty! :)
@@ -215,3 +367,4 @@ End gallery. Ooh so pretty! :)
 # Embed YouTube
 
 http://www.youtube.com/watch?v=eoKDyhxCVm0
+

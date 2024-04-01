@@ -97,13 +97,13 @@ $serif-font-family: century_supra_a, Georgia, serif;
 $sans-serif-font-family: concourse_4, Helvetica, sans-serif;
 $code-font-family: iosevka_tree, monospace;
 
-%sans-serif {
+@mixin sans-serif {
   text-rendering: optimizeLegibility;
   font-family: $sans-serif-font-family;
   font-feature-settings: "ss06" on, "onum" off, "kern" on;
 }
 
-%serif {
+@mixin serif {
   text-rendering: optimizeLegibility;
   font-family: $serif-font-family;
   font-feature-settings: "kern" on;

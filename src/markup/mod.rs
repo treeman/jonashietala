@@ -14,7 +14,7 @@ use tracing::{error, warn};
 use walkdir::WalkDir;
 use yaml_front_matter::{Document, YamlFrontMatter};
 
-pub use self::syntax_highlight::{dump_syntax_binary, dump_theme};
+pub use self::syntax_highlight::syntect_highlighter;
 
 use self::djot::{djot_to_html, djot_to_html_feed};
 use self::markdown::{markdown_to_html, markdown_to_html_feed};
@@ -129,8 +129,7 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
     pub fn from_content(content: String, path: AbsPath) -> Result<Self> {
         let t = MarkupType::from_file(&path)
             .ok_or_else(|| eyre!("Unsupported file format: `{}`", &path))?;
-        let Document { metadata, content } = YamlFrontMatter::parse::<Meta>(&content)
-            .map_err(|err| eyre!("Failed to parse metadata for file: {}\n{}", path, err))?;
+        let (metadata, content) = extract_metadata(t, &content, &path)?;
 
         Ok(Self {
             markup: Markup::new(content, t),
@@ -147,6 +146,28 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
             path: self.path,
             markup_meta: self.markup_meta,
         })
+    }
+}
+
+pub fn extract_metadata<Meta: DeserializeOwned>(
+    t: MarkupType,
+    content: &str,
+    path: &AbsPath,
+) -> Result<(Meta, String)> {
+    match t {
+        MarkupType::Markdown => {
+            let Document { metadata, content } =
+                YamlFrontMatter::parse::<Meta>(content).map_err(|err| {
+                    eyre!("Failed to parse yaml metadata for file: {}\n{}", path, err)
+                })?;
+            Ok((metadata, content))
+        }
+        MarkupType::Djot => {
+            let (metadata, content) = toml_frontmatter::parse::<Meta>(content).map_err(|err| {
+                eyre!("Failed to parse toml metadata for file: {}\n{}", path, err)
+            })?;
+            Ok((metadata, content.to_string()))
+        }
     }
 }
 
@@ -238,16 +259,23 @@ impl<'a> ParseContext<'a> {
             return;
         }
 
-        let msg = if let Some(path) = self.path {
-            format!("Broken reference to: `{target}` in `{}`", path)
-        } else {
-            format!("Broken reference to: `{target}` in unknown path")
-        };
+        let msg = format!("Broken reference to: `{target}` in {}", self.format_path());
 
         if self.is_draft {
             warn!("{}", msg);
         } else {
             error!("{}", msg);
+        }
+    }
+
+    pub fn log_todo_comment(self, comment: &str) {
+        warn!("{} in {}", comment, self.format_path())
+    }
+
+    fn format_path(self) -> String {
+        match self.path {
+            Some(path) => format!("`{}`", path),
+            None => format!("unknown path"),
         }
     }
 }

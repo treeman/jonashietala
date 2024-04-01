@@ -1,6 +1,6 @@
----
-title: "Blogging in Djot instead of Markdown"
-tags: ["Djot", "Webpage", "Rust"]
+---toml
+title = "Blogging in Djot instead of Markdown"
+tags = ["Djot", "Webpage", "Rust"]
 ---
 
 ::: epigraph

@@ -2,68 +2,6 @@
 @use "sass:list";
 @use "sass:map";
 
-// Fluid types implemented from:
-// https://www.aleksandrhovhannisyan.com/blog/fluid-type-scale-with-css-clamp/
-
-// // Fluid type settings
-// $type-base-min: 16px;
-// $type-base-max: 20px;
-
-// $type-scale-min: 1.25;
-// $type-scale-max: 1.333;
-
-// $type-steps: "xs", "s", "m", "l", "xl", "2xl", "3xl", "4xl", "5xl";
-// $type-base-index: list.index($type-steps, "m");
-
-// $media-breakpoints: (
-//   mobile: 400px,
-//   desktop: 1280px,
-// );
-
-// $default-min-bp: map.get($media-breakpoints, "mobile");
-// $default-max-bp: map.get($media-breakpoints, "desktop");
-
-// @function to-rems($px) {
-//   $rems: math.div($px, 16px) * 1rem;
-//   @return $rems;
-// }
-
-// @function rnd($number, $places: 0) {
-//   @return $number;
-
-//   $n: 1;
-//   @if $places > 0 {
-//     @for $i from 1 through $places {
-//       $n: $n * 10;
-//     }
-//   }
-//   @return math.div(math.round($number * $n), $n);
-// }
-
-// @function clamped(
-//   $min-px,
-//   $max-px,
-//   $min-bp: $default-min-bp,
-//   $max-bp: $default-max-bp
-// ) {
-//   $slope: math.div($max-px - $min-px, $max-bp - $min-bp);
-//   // @debug "slope" $slope;
-//   $slope-vw: rnd($slope * 100, 2);
-//   $intercept-rems: rnd(to-rems($min-px - $slope * $min-bp), 2);
-//   $min-rems: rnd(to-rems($min-px), 2);
-//   $max-rems: rnd(to-rems($max-px), 2);
-//   // @if $min-rems > $max-rems {
-//   //   $tmp: $min-rems;
-//   //   $min-rems: $max-rems;
-//   //   $max-rems: $tmp;
-//   // }
-//   @return clamp(
-//     #{$min-rems},
-//     #{$slope-vw}vw + #{$intercept-rems},
-//     #{$max-rems}
-//   );
-// }
-
 @mixin font-size($size) {
   font-size: var(--font-size-#{$size});
   // FIXME this isn't always good?

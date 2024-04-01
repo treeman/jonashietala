@@ -1,7 +1,7 @@
----
-title: "Let's build a VORON: Smaller fixes"
-tags: ["3D printing", "VORON"]
-series: voron_trident
+---toml
+title = "Let's build a VORON: Smaller fixes"
+tags = ["3D printing", "VORON"]
+series = "voron_trident"
 ---
 
 I've been busy.
@@ -179,8 +179,6 @@ I had some issues with the bowden tube getting stuck behind or under the cable c
 It was difficult to find a route that worked well. Depending on the mount position it had a tendency to cause a bend in the tube that drastically increased the friction on the filament, which I suspect was the cause for some prints failing.
 
 I also use the [Trident noodle][] that's made to prevent the tube from colliding with the roof of the printer, and this combination works very well.
-
-![](/images/trident/noodle.jpg)
 
 [Trident noodle]: https://github.com/Diyshift/3D-Printer/tree/main/Trident%20Noodle
 [bowden tube guide]: https://mods.vorondesign.com/detail/8CxQeqS1lXhlGphwkyqh7g

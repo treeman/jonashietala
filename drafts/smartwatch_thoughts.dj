@@ -1,0 +1,29 @@
+---toml
+title = "Smartwatch thoughts"
+tags = ["Tag1", "Tag2"]
+---
+
+# Requirements
+
+## Must haves:
+
+- Show time and date
+- Notifications, vibrate when called
+- Long battery life
+- Water proof (in the pool with the kids)
+
+## Wants
+
+- Flashlight
+- Answer text & make calls
+- LTE (can leave phone at home)
+- Light/small enough to sleep with
+- Not too eye-catching
+- View images/smileys in messages
+- Physical buttons
+- Track walks
+
+## Don't care
+
+- Tracking steps, stress, sleep, heart rate and similar.
+- Other activity tracking
