@@ -135,9 +135,10 @@ async fn run_neovim_connection(
         } else {
             // Maybe don't error out hard...?
             let event = serde_json::from_str::<NeovimEvent>(&s)?;
-            match handler::handle_msg(event, &site) {
+            match handler::handle_msg(event, site.clone()) {
                 Some(Response::Web(msg)) => tx.send(msg)?,
                 Some(Response::Reply(msg)) => {
+                    println!("Replying...");
                     writer
                         .write_all(serde_json::to_string(&msg)?.as_bytes())
                         .await?;

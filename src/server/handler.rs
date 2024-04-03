@@ -1,4 +1,4 @@
-use super::messages::{NeovimEvent, NeovimResponse, WebEvent};
+use super::messages::{NeovimEvent, NeovimResponse, PostInfo, WebEvent};
 use crate::site::Site;
 use camino::Utf8PathBuf;
 use std::sync::{Arc, Mutex};
@@ -9,7 +9,7 @@ pub enum Response {
     Reply(NeovimResponse),
 }
 
-pub fn handle_msg(msg: NeovimEvent, _site: &Arc<Mutex<Site>>) -> Option<Response> {
+pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Response> {
     match dbg!(msg) {
         NeovimEvent::CursorMoved {
             linenum,
@@ -28,6 +28,24 @@ pub fn handle_msg(msg: NeovimEvent, _site: &Arc<Mutex<Site>>) -> Option<Response
                 linenum,
                 linecount,
                 path: path.to_string(),
+            }))
+        }
+
+        NeovimEvent::ListPosts { message_id } => {
+            let site = site.lock().expect("To JsEvent failed");
+            Some(Response::Reply(NeovimResponse::ListPosts {
+                message_id,
+                posts: vec![], // posts: site
+                               //     .content
+                               //     .posts
+                               //     .iter()
+                               //     .map(|(_, item)| PostInfo {
+                               //         title: item.title.to_string(),
+                               //         url: item.url.href().to_string(),
+                               //         tags: item.tags.iter().map(|tag| tag.name.to_string()).collect(),
+                               //         series: item.series.as_ref().map(|x| x.id.clone()),
+                               //     })
+                               //     .collect(),
             }))
         }
         _ => None,
