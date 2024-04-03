@@ -22,6 +22,7 @@ article {
   @include flow;
   section {
     @include flow;
+    margin-block-start: 0;
   }
 
   h1,
@@ -145,7 +146,9 @@ article {
   table {
     @include serif;
     // Need tabular numbers to align properly
-    font-feature-settings: "kern" on, "tnum" on;
+    font-feature-settings:
+      "kern" on,
+      "tnum" on;
   }
   th,
   td {

@@ -30,7 +30,7 @@ use crate::item::Item;
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
 use crate::paths::RelPath;
-use crate::watch::JsEvent;
+use crate::server::WebEvent;
 use crate::{
     content::{
         load_posts, load_standalones, post_archives, tags_archives, ArchiveItem, HomepageItem,
@@ -191,7 +191,7 @@ pub struct Site {
     context: Context,
 
     // Notifier to send rebuild events to, if applicable
-    notifier: Option<Sender<JsEvent>>,
+    notifier: Option<Sender<WebEvent>>,
 }
 
 #[derive(Default, Debug)]
@@ -886,13 +886,13 @@ impl Site {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
 
-    pub fn set_notifier(&mut self, notifier: Sender<JsEvent>) {
+    pub fn set_notifier(&mut self, notifier: Sender<WebEvent>) {
         self.notifier = Some(notifier);
     }
 
     fn notify_change(&self, _items: &[&dyn Item]) -> Result<()> {
         if let Some(ref notifier) = self.notifier {
-            notifier.send(JsEvent::RefreshAll)?;
+            notifier.send(WebEvent::RefreshAll)?;
             // notifier.send(InternalEvent::RefreshPage {
             //     path: "/blog/2024/02/02/blogging_in_djot_instead_of_markdown/".to_owned(),
             // })?;

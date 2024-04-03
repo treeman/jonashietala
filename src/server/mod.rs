@@ -20,8 +20,10 @@ use tracing::{debug, error, info};
 use crate::paths::AbsPath;
 use crate::site::{Site, SiteOptions};
 
+pub use messages::WebEvent;
+
 use handler::Response;
-use messages::{JsEvent, NeovimEvent};
+use messages::NeovimEvent;
 
 pub async fn run(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
     let mut site = Site::load_content(SiteOptions {
@@ -35,20 +37,20 @@ pub async fn run(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
 
     site.render_all()?;
 
-    let (tx, rx) = flume::unbounded::<JsEvent>();
+    let (tx, rx) = flume::unbounded::<WebEvent>();
     site.set_notifier(tx.clone());
 
     let site = Arc::new(Mutex::new(site));
 
-    start_ws_server(rx).await?;
-    start_neovim_server(site.clone(), tx).await?;
+    start_web_connection(rx).await?;
+    start_neovim_connection(site.clone(), tx).await?;
     start_hotwatch(site);
-    start_watch_server(output_dir).await?;
+    start_file_watcher(output_dir).await?;
 
     Ok(())
 }
 
-async fn run_ws_server(stream: TcpStream, rx: Receiver<JsEvent>) -> Result<()> {
+async fn run_web_connection(stream: TcpStream, rx: Receiver<WebEvent>) -> Result<()> {
     let peer = stream.peer_addr()?;
     let ws_stream = accept_async(stream).await?;
     info!("ws connection from: {peer}");
@@ -89,7 +91,7 @@ async fn run_ws_server(stream: TcpStream, rx: Receiver<JsEvent>) -> Result<()> {
     Ok(())
 }
 
-async fn start_ws_server(rx: Receiver<JsEvent>) -> Result<()> {
+async fn start_web_connection(rx: Receiver<WebEvent>) -> Result<()> {
     let addr = "127.0.0.1:8081";
     let listener = TcpListener::bind(addr).await?;
 
@@ -101,7 +103,7 @@ async fn start_ws_server(rx: Receiver<JsEvent>) -> Result<()> {
                 Ok((stream, _)) => {
                     let rx = rx.clone();
                     tokio::spawn(async move {
-                        if let Err(e) = run_ws_server(stream, rx).await {
+                        if let Err(e) = run_web_connection(stream, rx).await {
                             error!("Websocket error: {e:?}");
                         }
                     });
@@ -114,10 +116,10 @@ async fn start_ws_server(rx: Receiver<JsEvent>) -> Result<()> {
     Ok(())
 }
 
-async fn run_neovim_listener(
+async fn run_neovim_connection(
     site: Arc<Mutex<Site>>,
     mut stream: TcpStream,
-    tx: Sender<JsEvent>,
+    tx: Sender<WebEvent>,
 ) -> Result<()> {
     let peer = stream.peer_addr()?;
     info!("tcp connection from: {peer}");
@@ -134,9 +136,11 @@ async fn run_neovim_listener(
             // Maybe don't error out hard...?
             let event = serde_json::from_str::<NeovimEvent>(&s)?;
             match handler::handle_msg(event, &site) {
-                Some(Response::Js(msg)) => tx.send(msg)?,
+                Some(Response::Web(msg)) => tx.send(msg)?,
                 Some(Response::Reply(msg)) => {
-                    writer.write_all(serde_json::to_string(&msg)?.as_bytes());
+                    writer
+                        .write_all(serde_json::to_string(&msg)?.as_bytes())
+                        .await?;
                 }
                 None => {}
             }
@@ -146,7 +150,7 @@ async fn run_neovim_listener(
     }
 }
 
-async fn start_neovim_server(site: Arc<Mutex<Site>>, tx: Sender<JsEvent>) -> Result<()> {
+async fn start_neovim_connection(site: Arc<Mutex<Site>>, tx: Sender<WebEvent>) -> Result<()> {
     let addr = "127.0.0.1:8082";
     let listener = TcpListener::bind(addr).await?;
 
@@ -158,7 +162,7 @@ async fn start_neovim_server(site: Arc<Mutex<Site>>, tx: Sender<JsEvent>) -> Res
                     let tx = tx.clone();
                     let site = site.clone();
                     tokio::spawn(async move {
-                        if let Err(e) = run_neovim_listener(site, stream, tx).await {
+                        if let Err(e) = run_neovim_connection(site, stream, tx).await {
                             error!("Neovim listener error: {e:?}");
                         }
                     });
@@ -191,7 +195,7 @@ fn start_hotwatch(site: Arc<Mutex<Site>>) {
     });
 }
 
-async fn start_watch_server(output_dir: &AbsPath) -> Result<()> {
+async fn start_file_watcher(output_dir: &AbsPath) -> Result<()> {
     let app: _ = Router::new()
         .fallback(get_service(ServeDir::new(&*output_dir)))
         .layer(TraceLayer::new_for_http());
