@@ -139,9 +139,10 @@ async fn run_neovim_connection(
                 Some(Response::Web(msg)) => tx.send(msg)?,
                 Some(Response::Reply(msg)) => {
                     println!("Replying...");
-                    writer
-                        .write_all(serde_json::to_string(&msg)?.as_bytes())
-                        .await?;
+                    let json = serde_json::to_string(&msg)?;
+                    writer.write_all(json.as_bytes()).await?;
+                    writer.write_all("\n".as_bytes()).await?;
+                    writer.flush().await?;
                 }
                 None => {}
             }

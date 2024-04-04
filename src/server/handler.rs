@@ -35,17 +35,19 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             let site = site.lock().expect("To JsEvent failed");
             Some(Response::Reply(NeovimResponse::ListPosts {
                 message_id,
-                posts: vec![], // posts: site
-                               //     .content
-                               //     .posts
-                               //     .iter()
-                               //     .map(|(_, item)| PostInfo {
-                               //         title: item.title.to_string(),
-                               //         url: item.url.href().to_string(),
-                               //         tags: item.tags.iter().map(|tag| tag.name.to_string()).collect(),
-                               //         series: item.series.as_ref().map(|x| x.id.clone()),
-                               //     })
-                               //     .collect(),
+                // posts: vec![],
+                posts: site
+                    .content
+                    .posts
+                    .iter()
+                    .take(2) // FIXME temp
+                    .map(|(_, item)| PostInfo {
+                        title: item.title.to_string(),
+                        url: item.url.href().to_string(),
+                        tags: item.tags.iter().map(|tag| tag.name.to_string()).collect(),
+                        series: item.series.as_ref().map(|x| x.id.clone()),
+                    })
+                    .collect(),
             }))
         }
         _ => None,
