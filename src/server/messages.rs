@@ -29,9 +29,14 @@ pub enum NeovimEvent {
     ListUrls {
         message_id: u64,
     },
-    ListPosts {
-        message_id: u64,
-    },
+}
+
+#[derive(Debug, Serialize)]
+pub struct TagInfo {
+    pub id: String,
+    pub name: String,
+    pub url: String,
+    pub posts: Vec<PostInfo>,
 }
 
 #[derive(Debug, Serialize)]
@@ -45,8 +50,5 @@ pub struct PostInfo {
 #[derive(Debug, Serialize)]
 #[serde(tag = "id")]
 pub enum NeovimResponse {
-    ListPosts {
-        message_id: u64,
-        posts: Vec<PostInfo>,
-    },
+    ListTags { message_id: u64, tags: Vec<TagInfo> },
 }
