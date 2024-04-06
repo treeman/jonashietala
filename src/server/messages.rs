@@ -51,4 +51,5 @@ pub struct PostInfo {
 #[serde(tag = "id")]
 pub enum NeovimResponse {
     ListTags { message_id: u64, tags: Vec<TagInfo> },
+    ListUrls { message_id: u64, urls: Vec<String> },
 }
