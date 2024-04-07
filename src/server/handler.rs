@@ -77,6 +77,7 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
                     title: post.title.clone(),
                 });
             }
+            // TODO
             // Site content:
             // Series, standalones, tags, projects
             // Files:
@@ -87,5 +88,6 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
                 urls,
             }))
         }
+        NeovimEvent::ListSeries { message_id } => todo!(),
     }
 }

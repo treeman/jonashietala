@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 2016 Read Books
+title: "2016 Read Books"
 tags: Read Books
 ---
 

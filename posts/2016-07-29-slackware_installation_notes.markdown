@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Slackware installation notes
+title: "Slackware installation notes"
 tags: Slackware
 ---
 
