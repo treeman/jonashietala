@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Recent experiences with Netrunner tournaments
+title: "Recent experiences with Netrunner tournaments"
 tags: Gaming, Netrunner
 ---
 
