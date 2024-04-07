@@ -118,7 +118,7 @@ A bit late, but it's time for my [yearly review][]. It's something I like doing 
 
   As I'm writing this I've had my [Steam Deck][] for around a month, and it's absolutely amazing.
 
-[yearly review]: </blog/tags/yearly_review/> "Yearly reviews"
+[yearly review]: /blog/tags/yearly_review/ "Yearly reviews"
 [whycrypto]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?"
 [blog posts]: /archive "My archive"
 [bastards]: https://www.goodreads.com/series/43531-gentleman-bastard "Gentlemen Bastards Series"

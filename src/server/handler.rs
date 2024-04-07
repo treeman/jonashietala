@@ -32,7 +32,7 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
         }
 
         NeovimEvent::ListTags { message_id } => {
-            let site = site.lock().expect("To JsEvent failed");
+            let site = site.lock().expect("site lock failed");
 
             let tags = site
                 .lookup
@@ -66,6 +66,23 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
                 tags,
             }))
         }
-        _ => None,
+        NeovimEvent::ListUrls { message_id } => {
+            let site = site.lock().expect("site lock failed");
+
+            let mut urls = Vec::new();
+
+            for post in site.content.posts.values() {
+                urls.push(post.url.href().to_string());
+            }
+            // Site content:
+            // Series, standalones, tags, projects
+            // Files:
+            // fonts, images, static
+
+            Some(Response::Reply(NeovimResponse::ListUrls {
+                message_id,
+                urls,
+            }))
+        }
     }
 }
