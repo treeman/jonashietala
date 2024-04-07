@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::content::PostItem;
+
 #[derive(Debug, Serialize)]
 #[serde(tag = "type")]
 pub enum WebEvent {
@@ -48,6 +50,17 @@ pub struct PostInfo {
     pub url: String,
     pub tags: Vec<String>,
     pub series: Option<String>,
+}
+
+impl From<&PostItem> for PostInfo {
+    fn from(post: &PostItem) -> Self {
+        PostInfo {
+            title: post.title.to_string(),
+            url: post.url.href().to_string(),
+            tags: post.tags.iter().map(|tag| tag.name.to_string()).collect(),
+            series: post.series.as_ref().map(|x| x.id.clone()),
+        }
+    }
 }
 
 #[derive(Debug, Serialize)]

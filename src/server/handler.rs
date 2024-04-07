@@ -1,7 +1,8 @@
-use super::messages::{NeovimEvent, NeovimResponse, PostInfo, TagInfo, UrlInfo, WebEvent};
+use super::messages::{NeovimEvent, NeovimResponse, SeriesInfo, TagInfo, UrlInfo, WebEvent};
 use crate::site::Site;
 use camino::Utf8PathBuf;
 use std::sync::{Arc, Mutex};
+use tracing::debug;
 
 #[derive(Debug)]
 pub enum Response {
@@ -10,7 +11,9 @@ pub enum Response {
 }
 
 pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Response> {
-    match dbg!(msg) {
+    debug!("Msg received: {:?}", msg);
+
+    match msg {
         NeovimEvent::CursorMoved {
             linenum,
             linecount,
@@ -45,17 +48,11 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
                     posts: post_refs
                         .iter()
                         .map(|post_ref| {
-                            let post = site
-                                .content
+                            site.content
                                 .posts
                                 .get(post_ref)
-                                .expect("Tag references non-existent post");
-                            PostInfo {
-                                title: post.title.to_string(),
-                                url: post.url.href().to_string(),
-                                tags: post.tags.iter().map(|tag| tag.name.to_string()).collect(),
-                                series: post.series.as_ref().map(|x| x.id.clone()),
-                            }
+                                .expect("Tag references non-existent post")
+                                .into()
                         })
                         .collect(),
                 })
@@ -88,6 +85,34 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
                 urls,
             }))
         }
-        NeovimEvent::ListSeries { message_id } => todo!(),
+        NeovimEvent::ListSeries { message_id } => {
+            let site = site.lock().expect("site lock failed");
+
+            let series = site
+                .content
+                .series
+                .values()
+                .map(|series| SeriesInfo {
+                    id: series.id.clone(),
+                    title: series.title.clone(),
+                    url: series.url.href().to_string(),
+                    posts: series
+                        .posts
+                        .iter()
+                        .map(|post_ref| {
+                            site.content
+                                .get_post(&post_ref.0)
+                                .expect("Series references non-existent post")
+                                .into()
+                        })
+                        .collect(),
+                })
+                .collect();
+
+            Some(Response::Reply(NeovimResponse::ListSeries {
+                message_id,
+                series,
+            }))
+        }
     }
 }

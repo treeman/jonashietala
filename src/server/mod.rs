@@ -138,7 +138,7 @@ async fn run_neovim_connection(
             match handler::handle_msg(event, site.clone()) {
                 Some(Response::Web(msg)) => tx.send(msg)?,
                 Some(Response::Reply(msg)) => {
-                    println!("Replying...");
+                    debug!("Reply: {:?}", msg);
                     let json = serde_json::to_string(&msg)?;
                     writer.write_all(json.as_bytes()).await?;
                     writer.write_all("\n".as_bytes()).await?;
