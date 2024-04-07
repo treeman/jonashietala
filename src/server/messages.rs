@@ -48,8 +48,14 @@ pub struct PostInfo {
 }
 
 #[derive(Debug, Serialize)]
+pub struct UrlInfo {
+    pub title: String,
+    pub url: String,
+}
+
+#[derive(Debug, Serialize)]
 #[serde(tag = "id")]
 pub enum NeovimResponse {
     ListTags { message_id: u64, tags: Vec<TagInfo> },
-    ListUrls { message_id: u64, urls: Vec<String> },
+    ListUrls { message_id: u64, urls: Vec<UrlInfo> },
 }

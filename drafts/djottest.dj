@@ -3,7 +3,6 @@ title = "Djot test"
 tags = ["Some tag"]
 ---
 
-
 # Header 1 (h2)
 
 font-size("xl")

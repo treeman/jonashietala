@@ -1,4 +1,4 @@
-use super::messages::{NeovimEvent, NeovimResponse, PostInfo, TagInfo, WebEvent};
+use super::messages::{NeovimEvent, NeovimResponse, PostInfo, TagInfo, UrlInfo, WebEvent};
 use crate::site::Site;
 use camino::Utf8PathBuf;
 use std::sync::{Arc, Mutex};
@@ -72,7 +72,10 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             let mut urls = Vec::new();
 
             for post in site.content.posts.values() {
-                urls.push(post.url.href().to_string());
+                urls.push(UrlInfo {
+                    url: post.url.href().to_string(),
+                    title: post.title.clone(),
+                });
             }
             // Site content:
             // Series, standalones, tags, projects
