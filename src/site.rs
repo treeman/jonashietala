@@ -205,8 +205,7 @@ pub struct Site {
     // Cached rendering context
     context: Context,
 
-    // Notifier to send rebuild events to, if applicable
-    notifier: Option<Sender<WebEvent>>,
+    web_notifier: Option<Sender<WebEvent>>,
 }
 
 #[derive(Default, Debug)]
@@ -411,7 +410,7 @@ impl Site {
             content,
             lookup,
             context,
-            notifier: None,
+            web_notifier: None,
         })
     }
 
@@ -904,11 +903,15 @@ impl Site {
     }
 
     pub fn set_notifier(&mut self, notifier: Sender<WebEvent>) {
-        self.notifier = Some(notifier);
+        self.web_notifier = Some(notifier);
     }
 
-    fn notify_change(&self, _items: &[&dyn Item]) -> Result<()> {
-        if let Some(ref notifier) = self.notifier {
+    fn notify_change(&self, items: &[&dyn Item]) -> Result<()> {
+        if let Some(ref notifier) = self.web_notifier {
+            for item in items {
+                dbg!(item.source_file());
+                dbg!(item.url());
+            }
             notifier.send(WebEvent::RefreshAll)?;
             // notifier.send(InternalEvent::RefreshPage {
             //     path: "/blog/2024/02/02/blogging_in_djot_instead_of_markdown/".to_owned(),

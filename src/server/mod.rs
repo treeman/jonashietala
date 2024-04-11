@@ -127,6 +127,8 @@ async fn run_neovim_connection(
     let (reader, writer) = stream.split();
     let mut reader = BufReader::new(reader);
     let mut writer = BufWriter::new(writer);
+    // FIXME need to communicate with a thread that only writes,
+    // so we can send events when a post is updated.
     loop {
         let mut s = String::new();
         reader.read_line(&mut s).await?;

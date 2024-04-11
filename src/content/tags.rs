@@ -2,6 +2,7 @@ use crate::{
     content::ArchiveItem,
     content::PostRef,
     item::{RenderContext, TeraItem},
+    paths::AbsPath,
     site_url::SiteUrl,
     util,
 };
@@ -126,8 +127,12 @@ impl TeraItem for TagListItem<'_> {
         "tags.html"
     }
 
-    fn url(&self) -> &SiteUrl {
+    fn tera_url(&self) -> &SiteUrl {
         &self.url
+    }
+
+    fn tera_source_file(&self) -> Option<&AbsPath> {
+        None
     }
 }
 

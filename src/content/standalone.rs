@@ -73,8 +73,12 @@ impl TeraItem for StandaloneItem {
         "static.html"
     }
 
-    fn url(&self) -> &SiteUrl {
+    fn tera_url(&self) -> &SiteUrl {
         &self.url
+    }
+
+    fn tera_source_file(&self) -> Option<&AbsPath> {
+        Some(&self.path)
     }
 }
 
