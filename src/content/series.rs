@@ -101,6 +101,7 @@ impl SeriesItem {
             Some(note) => Some(
                 Markup::new(note, markup.markup.t())
                     .parse(ParseContext::default().with_path(&markup.path))?
+                    .html
                     .strip_one_paragraph(),
             ),
             None => None,

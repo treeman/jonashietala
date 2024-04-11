@@ -1,0 +1,23 @@
+---toml
+title = "Feb post 1"
+tags = ["One"]
+series = "myseries"
+---
+
+Series post 1
+
+[full ref link][tag]
+
+[tag][]
+
+[tag]: /blog/2022/02/02/feb_post2
+
+[inline link](/blog/2022/02/02/feb_post2)
+
+# heading with text
+
+[heading with text][]
+
+[my text](#heading-with-text)
+
+[x]: #heading-with-text

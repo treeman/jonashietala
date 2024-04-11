@@ -67,5 +67,6 @@ tree-sitter-djot = { git = "https://github.com/treeman/tree-sitter-djot.git" }
 tree-sitter-fishshell = { git = "https://github.com/treeman/tree-sitter-fishshell.git" }
 tree-sitter-fish = { git = "https://github.com/ram02z/tree-sitter-fish.git", rev = "f9176908c" }
 tree-sitter-gleam = { git = "https://github.com/gleam-lang/tree-sitter-gleam.git", rev = "2012f29" }
+btree-range-map = "0.7.2"
 # Would be nice to use, but depends on 0.22
 # tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter-query.git" }

@@ -53,6 +53,7 @@ pub struct SiteOptions {
     pub include_drafts: bool,
     pub generate_feed: bool,
     pub include_js: bool,
+    pub generate_markup_lookup: bool,
 }
 
 pub struct SiteContent {
@@ -77,7 +78,7 @@ impl SiteContent {
         .map(|x| opts.input_dir.join(x))
         .collect::<Vec<_>>();
 
-        let mut posts = load_posts(&post_dirs)?;
+        let mut posts = load_posts(&post_dirs, opts.generate_markup_lookup)?;
         let series = load_series(opts.input_dir.join("series"), &mut posts)?;
         let standalones = load_standalones(opts.input_dir.join("static"))?;
 
@@ -119,18 +120,32 @@ impl SiteContent {
         })
     }
 
-    pub fn find_post<'a>(&'a self, file_name: &str) -> Option<&'a PostItem> {
-        self.posts
-            .values()
-            .find(|post| post.path.file_name() == Some(file_name))
+    // Find post
+    pub fn find_post<'a, P>(&'a self, predicate: P) -> Option<&'a PostItem>
+    where
+        P: FnMut(&&PostItem) -> bool,
+    {
+        self.posts.values().find(predicate)
     }
 
-    pub fn find_series<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
+    // Find post by file name
+    pub fn find_post_by_file_name<'a>(&'a self, file_name: &str) -> Option<&'a PostItem> {
+        self.find_post(|post| post.path.file_name() == Some(file_name))
+    }
+
+    // Find post by url
+    pub fn find_post_by_url<'a>(&'a self, url: &str) -> Option<&'a PostItem> {
+        self.find_post(|post| post.url.href() == url)
+    }
+
+    // Find series by file name
+    pub fn find_series_by_file_name<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
         self.series
             .values()
             .find(|series| series.path.file_name() == Some(file_name))
     }
 
+    // Find series by series id
     pub fn find_series_by_id<'a>(&'a self, id: &str) -> Option<&'a SeriesItem> {
         self.series.values().find(|series| series.id == id)
     }
@@ -603,7 +618,9 @@ impl Site {
             PathEvent::Homepage => self.rebuild_homepage()?,
             PathEvent::Project => self.rebuild_projects(path.abs_path())?,
             PathEvent::Post => {
-                let existing = self.content.find_post(path.rel_path.0.file_name().unwrap());
+                let existing = self
+                    .content
+                    .find_post_by_file_name(path.rel_path.0.file_name().unwrap());
                 if existing.is_none() {
                     self.rebuild_all()?
                 } else {
@@ -613,7 +630,7 @@ impl Site {
             PathEvent::Series => {
                 let existing = self
                     .content
-                    .find_series(path.rel_path.0.file_name().unwrap());
+                    .find_series_by_file_name(path.rel_path.0.file_name().unwrap());
                 if existing.is_none() {
                     self.rebuild_all()?
                 } else {
@@ -683,7 +700,7 @@ impl Site {
 
     fn rebuild_post(&mut self, path: AbsPath) -> Result<()> {
         info!("Post changed: {path}");
-        let mut updated = PostItem::from_file(path.clone())?;
+        let mut updated = PostItem::from_file(path.clone(), self.opts.generate_markup_lookup)?;
 
         if let Some(series) = updated
             .series_id
@@ -980,6 +997,7 @@ mod tests {
             include_drafts: true,
             generate_feed: true,
             include_js: false,
+            generate_markup_lookup: false,
         })?;
         site.render_all()?;
 
@@ -1047,6 +1065,7 @@ mod tests {
     fn test_hide_drafts() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
+            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1058,7 +1077,7 @@ mod tests {
             .contains("Drafts"));
 
         assert!(!test_site
-            .find_post("2022-01-31-test_post.markdown")
+            .find_post("2022-01-31-test_post.dj")
             .unwrap()
             .markup
             .content()
@@ -1071,6 +1090,7 @@ mod tests {
     fn test_site_file_create() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
+            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1140,6 +1160,7 @@ My created static
     fn test_post_removed() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: false,
+            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1147,7 +1168,8 @@ My created static
             .output_content("blog/2022/01/31/test_post/index.html")
             .is_ok());
 
-        test_site.remove_file("posts/2022-01-31-test_post.markdown")?;
+        // FIXME this may cause other tests to break
+        test_site.remove_file("posts/2022-01-31-test_post.dj")?;
 
         assert!(test_site
             .output_content("blog/2022/01/31/test_post/index.html")
@@ -1160,6 +1182,7 @@ My created static
     fn test_draft_promoted() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
+            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1167,6 +1190,7 @@ My created static
             .output_content("drafts/a_draft/index.html")?
             .contains("My draft text"));
 
+        // FIXME this may cause other tests to break
         test_site.rename_file(
             "drafts/a_draft.markdown",
             "posts/2023-01-31-now_post.markdown",
@@ -1187,6 +1211,7 @@ My created static
     fn test_post_demoted() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
+            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1194,6 +1219,7 @@ My created static
             .output_content("blog/2022/01/31/test_post/index.html")?
             .contains("☃︎"));
 
+        // FIXME this may cause other tests to break
         test_site.rename_file(
             "posts/2022-01-31-test_post.markdown",
             "drafts/new_draft.markdown",
@@ -1214,20 +1240,21 @@ My created static
     fn test_post_content_change() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: false,
+            generate_markup_lookup: false,
         }
         .build()?;
 
         assert!(test_site
-            .find_post("2022-01-31-test_post.markdown")
+            .find_post("2022-01-31-test_post.dj")
             .unwrap()
             .markup
             .content()
             .contains("☃︎"));
 
-        test_site.change_file("posts/2022-01-31-test_post.markdown", "☃︎", "💩")?;
+        test_site.change_file("posts/2022-01-31-test_post.dj", "☃︎", "💩")?;
 
         assert!(test_site
-            .find_post("2022-01-31-test_post.markdown")
+            .find_post("2022-01-31-test_post.dj")
             .unwrap()
             .markup
             .content()
@@ -1240,6 +1267,7 @@ My created static
     fn test_draft_content_change() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
+            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1260,6 +1288,7 @@ My created static
     fn test_post_title_change() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: false,
+            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1270,7 +1299,7 @@ My created static
         assert!(myseries_content.contains("Feb post 2"));
 
         test_site.change_file(
-            "posts/2022-02-01-feb_post.markdown",
+            "posts/2022-02-01-feb_post.dj",
             "Feb post 1",
             "First series post",
         )?;
@@ -1291,6 +1320,7 @@ My created static
     fn test_series_title_change() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
+            generate_markup_lookup: false,
         }
         .build()?;
 

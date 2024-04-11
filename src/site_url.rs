@@ -69,7 +69,9 @@ impl SiteUrl {
             .url
             .as_str()
             .strip_prefix(BASE_SITE_URL.as_str())
-            .unwrap();
+            .unwrap()
+            .trim_end_matches('/');
+
         if stripped.starts_with('#') {
             Cow::Borrowed(stripped)
         } else {

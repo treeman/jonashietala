@@ -22,14 +22,17 @@ use transform_headers::TransformHeaders;
 
 use crate::util;
 
-use crate::markup;
+use crate::markup::{FeedHtml, Html, HtmlParseRes};
 
-pub fn markdown_to_html(markdown: &str) -> markup::Html {
-    markup::Html(parse_markdown(&preprocess(markdown)))
+pub fn markdown_to_html(markdown: &str) -> HtmlParseRes {
+    HtmlParseRes {
+        html: Html(parse_markdown(&preprocess(markdown))),
+        lookup: None,
+    }
 }
 
-pub fn markdown_to_html_feed(markdown: &str) -> markup::FeedHtml {
-    markup::FeedHtml(parse_markdown_to_feed(&preprocess(markdown)))
+pub fn markdown_to_html_feed(markdown: &str) -> FeedHtml {
+    FeedHtml(parse_markdown_to_feed(&preprocess(markdown)))
 }
 
 fn preprocess(s: &str) -> Cow<str> {

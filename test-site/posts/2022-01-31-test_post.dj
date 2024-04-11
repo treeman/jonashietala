@@ -1,7 +1,7 @@
----
-title: "Post & Title"
-tags: Tag1, <Tag> 2
-time: 07:07
+---toml
+title = "Post & Title"
+tags = ["Tag1", "<Tag> 2"]
+time = "07:07"
 ---
 
 # Header 1

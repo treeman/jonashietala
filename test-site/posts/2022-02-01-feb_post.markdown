@@ -1,7 +1,0 @@
----
-title: "Feb post 1"
-tags: [One]
-series: myseries
----
-
-Series post 1

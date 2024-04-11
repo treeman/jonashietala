@@ -33,6 +33,7 @@ pub async fn run(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
         include_drafts: true,
         generate_feed: false,
         include_js: true,
+        generate_markup_lookup: true,
     })?;
 
     site.render_all()?;
@@ -122,7 +123,7 @@ async fn run_neovim_connection(
     tx: Sender<WebEvent>,
 ) -> Result<()> {
     let peer = stream.peer_addr()?;
-    info!("tcp connection from: {peer}");
+    info!("Tcp connection from: {peer}");
     let (reader, writer) = stream.split();
     let mut reader = BufReader::new(reader);
     let mut writer = BufWriter::new(writer);
@@ -130,7 +131,7 @@ async fn run_neovim_connection(
         let mut s = String::new();
         reader.read_line(&mut s).await?;
         if s.is_empty() {
-            debug!("Tcp connection closed");
+            info!("Tcp connection closed");
             return Ok(());
         } else {
             // Maybe don't error out hard...?
@@ -138,7 +139,7 @@ async fn run_neovim_connection(
             match handler::handle_msg(event, site.clone()) {
                 Some(Response::Web(msg)) => tx.send(msg)?,
                 Some(Response::Reply(msg)) => {
-                    println!("Replying...");
+                    debug!("Reply: {:?}", msg);
                     let json = serde_json::to_string(&msg)?;
                     writer.write_all(json.as_bytes()).await?;
                     writer.write_all("\n".as_bytes()).await?;
