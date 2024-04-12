@@ -5,11 +5,13 @@ use axum::{routing::get_service, Router};
 use axum_server::Server;
 // use camino::Utf8PathBuf;
 use eyre::Result;
-use flume::{Receiver, Sender};
+use flume::{Receiver, RecvError, Sender};
 use futures_util::{SinkExt, StreamExt};
 use hotwatch::Hotwatch;
 use std::sync::{Arc, Mutex};
 use std::{net::SocketAddr, thread, time::Duration};
+use tokio::net::tcp::ReadHalf;
+use tokio::net::tcp::WriteHalf;
 // use tokio::io::AsyncReadExt;
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader, BufWriter};
 use tokio::net::{TcpListener, TcpStream};
@@ -18,6 +20,7 @@ use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::{debug, error, info};
 
 use crate::paths::AbsPath;
+use crate::server::messages::NeovimResponse;
 use crate::site::{Site, SiteOptions};
 
 pub use messages::WebEvent;
@@ -117,40 +120,80 @@ async fn start_web_connection(rx: Receiver<WebEvent>) -> Result<()> {
     Ok(())
 }
 
+async fn read_line(reader: &mut BufReader<ReadHalf<'_>>) -> Result<String> {
+    let mut s = String::new();
+    reader.read_line(&mut s).await?;
+    Ok(s)
+}
+
+async fn handle_nvim_reply<'a>(
+    msg: Result<NeovimResponse, RecvError>,
+    writer: &mut BufWriter<WriteHalf<'a>>,
+) -> Result<()> {
+    let msg = msg?;
+    let json = serde_json::to_string(&msg)?;
+    writer.write_all(json.as_bytes()).await?;
+    writer.write_all("\n".as_bytes()).await?;
+    writer.flush().await?;
+    Ok(())
+}
+
+async fn handle_nvim_msg(
+    msg: Result<String>,
+    site: &Arc<Mutex<Site>>,
+    web_tx: &Sender<WebEvent>,
+    nvim_tx: &Sender<NeovimResponse>,
+) -> Result<bool> {
+    let msg = msg?;
+
+    if msg.is_empty() {
+        info!("Tcp connection closed");
+        Ok(true)
+    } else {
+        let event = serde_json::from_str::<NeovimEvent>(&msg)?;
+        match handler::handle_msg(event, site.clone()) {
+            Some(Response::Web(msg)) => web_tx.send(msg)?,
+            Some(Response::Reply(msg)) => {
+                debug!("Reply: {:?}", msg);
+                nvim_tx.send(msg)?;
+            }
+            None => {}
+        }
+        Ok(false)
+    }
+}
+
 async fn run_neovim_connection(
     site: Arc<Mutex<Site>>,
     mut stream: TcpStream,
-    tx: Sender<WebEvent>,
+    web_tx: Sender<WebEvent>,
+    // neovim_tx: Sender<NeovimEvent>,
 ) -> Result<()> {
     let peer = stream.peer_addr()?;
     info!("Tcp connection from: {peer}");
     let (reader, writer) = stream.split();
     let mut reader = BufReader::new(reader);
     let mut writer = BufWriter::new(writer);
-    // FIXME need to communicate with a thread that only writes,
-    // so we can send events when a post is updated.
+
+    let (nvim_tx, nvim_rx) = flume::unbounded::<NeovimResponse>();
+
     loop {
-        let mut s = String::new();
-        reader.read_line(&mut s).await?;
-        if s.is_empty() {
-            info!("Tcp connection closed");
-            return Ok(());
-        } else {
-            // Maybe don't error out hard...?
-            let event = serde_json::from_str::<NeovimEvent>(&s)?;
-            match handler::handle_msg(event, site.clone()) {
-                Some(Response::Web(msg)) => tx.send(msg)?,
-                Some(Response::Reply(msg)) => {
-                    debug!("Reply: {:?}", msg);
-                    let json = serde_json::to_string(&msg)?;
-                    writer.write_all(json.as_bytes()).await?;
-                    writer.write_all("\n".as_bytes()).await?;
-                    writer.flush().await?;
+        tokio::select! {
+            msg = nvim_rx.recv_async() => {
+                if let Err(err) = handle_nvim_reply(msg, &mut writer).await {
+                    error!("Nvim reply error: {err:?}");
                 }
-                None => {}
             }
-            // writer.write_all("hello!".as_bytes());
-            // tx.send(event.to_js_event(site.clone())?)?;
+            msg = read_line(&mut reader) => {
+                match handle_nvim_msg(msg, &site, &web_tx, &nvim_tx).await {
+                    Ok(exit) => if exit {
+                        return Ok(());
+                    }
+                    Err(err) => {
+                        error!("Nvim msg error: {err:?}");
+                    }
+                }
+            }
         }
     }
 }
