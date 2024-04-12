@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 use crate::content::PostItem;
 use crate::markup::markup_lookup::{Heading, LinkDef};
@@ -6,10 +7,7 @@ use crate::markup::markup_lookup::{Heading, LinkDef};
 #[derive(Debug, Serialize)]
 #[serde(tag = "type")]
 pub enum WebEvent {
-    RefreshAll,
-    RefreshPage {
-        path: String,
-    },
+    Refresh,
     PositionPage {
         path: String,
         linenum: u32,
@@ -123,6 +121,15 @@ impl From<&Heading> for HeadingInfo {
 }
 
 #[derive(Debug, Serialize)]
+pub struct Diagnostic {
+    pub linenum: usize,
+    pub end_linenum: usize,
+    pub column: usize,
+    pub end_column: usize,
+    pub message: String,
+}
+
+#[derive(Debug, Serialize)]
 #[serde(tag = "id")]
 pub enum NeovimResponse {
     ListTags {
@@ -150,5 +157,8 @@ pub enum NeovimResponse {
         linenum: Option<usize>,
         column: Option<usize>,
         path: Option<String>,
+    },
+    Diagnostics {
+        diagnostics: HashMap<String, Vec<Diagnostic>>,
     },
 }

@@ -122,7 +122,7 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
         }
         NeovimEvent::ListLinkDefs { message_id, path } => {
             // FIXME should reply with an error if path not found
-            let lookup = get_post_lookup(&site, &path)?;
+            let lookup = site.content.find_post_lookup(&path)?;
             let defs = lookup.link_defs.values().map(Into::into).collect();
 
             Some(Response::Reply(NeovimResponse::ListLinkDefs {
@@ -132,7 +132,7 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
         }
         NeovimEvent::ListHeadings { message_id, path } => {
             // FIXME should reply with an error if path not found
-            let lookup = get_post_lookup(&site, &path)?;
+            let lookup = site.content.find_post_lookup(&path)?;
             let headings = lookup.headings.values().map(Into::into).collect();
 
             Some(Response::Reply(NeovimResponse::ListHeadings {
@@ -172,14 +172,6 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
     }
 }
 
-fn get_post_lookup<'a>(site: &'a Site, path: &str) -> Option<&'a MarkupLookup> {
-    let path = Utf8PathBuf::from(path);
-
-    site.content
-        .find_post_by_file_name(path.file_name()?)
-        .and_then(|post| post.markup_lookup.as_ref())
-}
-
 #[derive(Debug, PartialEq, Eq, Clone)]
 enum GotoDefRes {
     OtherFile { path: AbsPath },
@@ -187,7 +179,7 @@ enum GotoDefRes {
 }
 
 fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Option<GotoDefRes> {
-    let lookup = get_post_lookup(&site, &path)?;
+    let lookup = site.content.find_post_lookup(&path)?;
 
     match lookup.element_at(linenum, column)? {
         ElementInfo::Link(Link {

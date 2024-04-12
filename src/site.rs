@@ -1,3 +1,4 @@
+use camino::Utf8PathBuf;
 use eyre::eyre;
 use eyre::Result;
 use flume::Sender;
@@ -27,10 +28,11 @@ use crate::content::SeriesItem;
 use crate::content::SeriesRef;
 use crate::feed::SiteFeed;
 use crate::item::Item;
+use crate::markup::markup_lookup::{LinkRef, MarkupLookup};
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
 use crate::paths::RelPath;
-use crate::server::WebEvent;
+use crate::server::messages::{Diagnostic, NeovimResponse, WebEvent};
 use crate::{
     content::{
         load_posts, load_standalones, post_archives, tags_archives, ArchiveItem, HomepageItem,
@@ -138,6 +140,13 @@ impl SiteContent {
         self.find_post(|post| post.url.href() == url)
     }
 
+    pub fn find_post_lookup<'a>(&'a self, path: &str) -> Option<&'a MarkupLookup> {
+        let path = Utf8PathBuf::from(path);
+
+        self.find_post_by_file_name(path.file_name()?)
+            .and_then(|post| post.markup_lookup.as_ref())
+    }
+
     // Find series by file name
     pub fn find_series_by_file_name<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
         self.series
@@ -206,6 +215,7 @@ pub struct Site {
     context: Context,
 
     web_notifier: Option<Sender<WebEvent>>,
+    nvim_notifier: Option<Sender<NeovimResponse>>,
 }
 
 #[derive(Default, Debug)]
@@ -411,6 +421,7 @@ impl Site {
             lookup,
             context,
             web_notifier: None,
+            nvim_notifier: None,
         })
     }
 
@@ -528,7 +539,6 @@ impl Site {
 
         debug!("Render completed");
 
-        // FIXME doesn't register if images are changed?
         self.notify_change(&items)?;
 
         Ok(())
@@ -902,22 +912,67 @@ impl Site {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
 
-    pub fn set_notifier(&mut self, notifier: Sender<WebEvent>) {
-        self.web_notifier = Some(notifier);
+    pub fn set_notifiers(
+        &mut self,
+        web_notifier: Sender<WebEvent>,
+        nvim_notifier: Sender<NeovimResponse>,
+    ) {
+        self.web_notifier = Some(web_notifier);
+        self.nvim_notifier = Some(nvim_notifier);
     }
 
     fn notify_change(&self, items: &[&dyn Item]) -> Result<()> {
-        if let Some(ref notifier) = self.web_notifier {
-            for item in items {
-                dbg!(item.source_file());
-                dbg!(item.url());
+        if let Some(ref tx) = self.nvim_notifier {
+            let diagnostics = self.collect_diagnostics(items);
+            if !diagnostics.is_empty() {
+                tx.send(NeovimResponse::Diagnostics { diagnostics })?;
             }
-            notifier.send(WebEvent::RefreshAll)?;
-            // notifier.send(InternalEvent::RefreshPage {
-            //     path: "/blog/2024/02/02/blogging_in_djot_instead_of_markdown/".to_owned(),
-            // })?;
         }
+
+        if let Some(ref tx) = self.web_notifier {
+            tx.send(WebEvent::Refresh)?;
+        }
+
         Ok(())
+    }
+
+    fn collect_diagnostics(&self, items: &[&dyn Item]) -> HashMap<String, Vec<Diagnostic>> {
+        let mut diagnostics = HashMap::new();
+        for item in items {
+            if let Some(path) = item.source_file() {
+                if let Some(path_diagnostics) = self.collect_post_diagnostics(path) {
+                    if !path_diagnostics.is_empty() {
+                        diagnostics.insert(path.to_string(), path_diagnostics);
+                    }
+                }
+            }
+        }
+        diagnostics
+    }
+
+    fn collect_post_diagnostics(&self, path: &AbsPath) -> Option<Vec<Diagnostic>> {
+        let lookup = self.content.find_post_lookup(path.as_str())?;
+
+        Some(
+            lookup
+                .broken_links
+                .iter()
+                .map(|link| match link.link_ref {
+                    LinkRef::Unresolved(ref tag) => {
+                        let start = lookup.char_pos_to_row_col(link.range.start);
+                        let end = lookup.char_pos_to_row_col(link.range.end);
+                        Diagnostic {
+                            linenum: start.0,
+                            column: start.1,
+                            end_linenum: end.0,
+                            end_column: end.1,
+                            message: format!("Link to non-existent link definition `{tag}`"),
+                        }
+                    }
+                    _ => panic!("unexpected link_ref {:?}", link.link_ref),
+                })
+                .collect(),
+        )
     }
 }
 

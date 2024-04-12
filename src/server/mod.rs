@@ -1,5 +1,5 @@
 mod handler;
-mod messages;
+pub mod messages;
 
 use axum::{routing::get_service, Router};
 use axum_server::Server;
@@ -23,10 +23,8 @@ use crate::paths::AbsPath;
 use crate::server::messages::NeovimResponse;
 use crate::site::{Site, SiteOptions};
 
-pub use messages::WebEvent;
-
 use handler::Response;
-use messages::NeovimEvent;
+use messages::{NeovimEvent, WebEvent};
 
 pub async fn run(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
     let mut site = Site::load_content(SiteOptions {
@@ -41,13 +39,14 @@ pub async fn run(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
 
     site.render_all()?;
 
-    let (tx, rx) = flume::unbounded::<WebEvent>();
-    site.set_notifier(tx.clone());
+    let (web_tx, web_rx) = flume::unbounded::<WebEvent>();
+    let (nvim_tx, nvim_rx) = flume::unbounded::<NeovimResponse>();
+    site.set_notifiers(web_tx.clone(), nvim_tx.clone());
 
     let site = Arc::new(Mutex::new(site));
 
-    start_web_connection(rx).await?;
-    start_neovim_connection(site.clone(), tx).await?;
+    start_web_connection(web_rx).await?;
+    start_neovim_connection(site.clone(), web_tx, nvim_tx, nvim_rx).await?;
     start_hotwatch(site);
     start_file_watcher(output_dir).await?;
 
@@ -131,6 +130,7 @@ async fn handle_nvim_reply<'a>(
     writer: &mut BufWriter<WriteHalf<'a>>,
 ) -> Result<()> {
     let msg = msg?;
+    debug!("Sending: {msg:?}");
     let json = serde_json::to_string(&msg)?;
     writer.write_all(json.as_bytes()).await?;
     writer.write_all("\n".as_bytes()).await?;
@@ -153,10 +153,7 @@ async fn handle_nvim_msg(
         let event = serde_json::from_str::<NeovimEvent>(&msg)?;
         match handler::handle_msg(event, site.clone()) {
             Some(Response::Web(msg)) => web_tx.send(msg)?,
-            Some(Response::Reply(msg)) => {
-                debug!("Reply: {:?}", msg);
-                nvim_tx.send(msg)?;
-            }
+            Some(Response::Reply(msg)) => nvim_tx.send(msg)?,
             None => {}
         }
         Ok(false)
@@ -167,7 +164,8 @@ async fn run_neovim_connection(
     site: Arc<Mutex<Site>>,
     mut stream: TcpStream,
     web_tx: Sender<WebEvent>,
-    // neovim_tx: Sender<NeovimEvent>,
+    nvim_tx: Sender<NeovimResponse>,
+    nvim_rx: Receiver<NeovimResponse>,
 ) -> Result<()> {
     let peer = stream.peer_addr()?;
     info!("Tcp connection from: {peer}");
@@ -175,16 +173,16 @@ async fn run_neovim_connection(
     let mut reader = BufReader::new(reader);
     let mut writer = BufWriter::new(writer);
 
-    let (nvim_tx, nvim_rx) = flume::unbounded::<NeovimResponse>();
-
     loop {
         tokio::select! {
             msg = nvim_rx.recv_async() => {
+                dbg!(&msg);
                 if let Err(err) = handle_nvim_reply(msg, &mut writer).await {
                     error!("Nvim reply error: {err:?}");
                 }
             }
             msg = read_line(&mut reader) => {
+                dbg!(&msg);
                 match handle_nvim_msg(msg, &site, &web_tx, &nvim_tx).await {
                     Ok(exit) => if exit {
                         return Ok(());
@@ -198,7 +196,12 @@ async fn run_neovim_connection(
     }
 }
 
-async fn start_neovim_connection(site: Arc<Mutex<Site>>, tx: Sender<WebEvent>) -> Result<()> {
+async fn start_neovim_connection(
+    site: Arc<Mutex<Site>>,
+    web_tx: Sender<WebEvent>,
+    nvim_tx: Sender<NeovimResponse>,
+    nvim_rx: Receiver<NeovimResponse>,
+) -> Result<()> {
     let addr = "127.0.0.1:8082";
     let listener = TcpListener::bind(addr).await?;
 
@@ -207,10 +210,14 @@ async fn start_neovim_connection(site: Arc<Mutex<Site>>, tx: Sender<WebEvent>) -
         loop {
             match listener.accept().await {
                 Ok((stream, _)) => {
-                    let tx = tx.clone();
+                    let web_tx = web_tx.clone();
+                    let nvim_tx = nvim_tx.clone();
+                    let nvim_rx = nvim_rx.clone();
                     let site = site.clone();
                     tokio::spawn(async move {
-                        if let Err(e) = run_neovim_connection(site, stream, tx).await {
+                        if let Err(e) =
+                            run_neovim_connection(site, stream, web_tx, nvim_tx, nvim_rx).await
+                        {
                             error!("Neovim listener error: {e:?}");
                         }
                     });
