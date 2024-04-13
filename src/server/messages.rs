@@ -10,8 +10,8 @@ pub enum WebEvent {
     Refresh,
     PositionPage {
         path: String,
-        linenum: u32,
-        linecount: u32,
+        linenum: usize,
+        linecount: usize,
     },
 }
 
@@ -19,9 +19,9 @@ pub enum WebEvent {
 #[serde(tag = "id")]
 pub enum NeovimEvent {
     CursorMoved {
-        linenum: u32,
-        linecount: u32,
-        column: u32,
+        linenum: usize,
+        linecount: usize,
+        column: usize,
         path: String,
     },
     ListTags {

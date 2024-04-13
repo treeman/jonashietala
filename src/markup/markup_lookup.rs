@@ -67,7 +67,8 @@ impl MarkupLookup {
         for line in source.lines() {
             // Include the newline.
             // I don't know how to handle carriage returns nor do I care.
-            let count = line.chars().count() + 1;
+            // Neovim counts columns using bytes, not character!
+            let count = line.bytes().count() + 1;
             line_size.push(count);
             line_size_sum.push(sum);
             sum += count;
@@ -245,5 +246,11 @@ mod tests {
         assert_eq!(lookup.row_col_to_char_pos(5, 5), Some(4));
         assert_eq!(lookup.row_col_to_char_pos(5, 6), Some(5));
         assert_eq!(lookup.row_col_to_char_pos(5, 7), Some(6));
+    }
+
+    #[test]
+    fn test_lookup_lines_counts_bytes() {
+        let lookup = MarkupLookup::new("’", 5);
+        assert_eq!(lookup.line_size, vec![4]); // 3 for ’ + newline
     }
 }

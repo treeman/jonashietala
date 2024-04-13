@@ -176,13 +176,11 @@ async fn run_neovim_connection(
     loop {
         tokio::select! {
             msg = nvim_rx.recv_async() => {
-                dbg!(&msg);
                 if let Err(err) = handle_nvim_reply(msg, &mut writer).await {
                     error!("Nvim reply error: {err:?}");
                 }
             }
             msg = read_line(&mut reader) => {
-                dbg!(&msg);
                 match handle_nvim_msg(msg, &site, &web_tx, &nvim_tx).await {
                     Ok(exit) => if exit {
                         return Ok(());
