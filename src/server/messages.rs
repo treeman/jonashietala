@@ -47,6 +47,9 @@ pub enum NeovimEvent {
         column: usize,
         path: String,
     },
+    RefreshDiagnostics {
+        path: String,
+    },
 }
 
 #[derive(Debug, Serialize)]

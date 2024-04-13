@@ -169,6 +169,10 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
                 path: None,
             })),
         },
+        NeovimEvent::RefreshDiagnostics { path } => {
+            let diagnostics = site.collect_paths_diagnostics([&path.as_str().into()].into_iter());
+            Some(Response::Reply(NeovimResponse::Diagnostics { diagnostics }))
+        }
     }
 }
 

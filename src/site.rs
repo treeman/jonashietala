@@ -937,20 +937,22 @@ impl Site {
     }
 
     fn collect_diagnostics(&self, items: &[&dyn Item]) -> HashMap<String, Vec<Diagnostic>> {
-        let mut diagnostics = HashMap::new();
-        for item in items {
-            if let Some(path) = item.source_file() {
-                if let Some(path_diagnostics) = self.collect_post_diagnostics(path) {
-                    if !path_diagnostics.is_empty() {
-                        diagnostics.insert(path.to_string(), path_diagnostics);
-                    }
-                }
-            }
-        }
-        diagnostics
+        self.collect_paths_diagnostics(items.into_iter().filter_map(|item| item.source_file()))
     }
 
-    fn collect_post_diagnostics(&self, path: &AbsPath) -> Option<Vec<Diagnostic>> {
+    pub fn collect_paths_diagnostics<'a, I: Iterator<Item = &'a AbsPath>>(
+        &self,
+        paths: I,
+    ) -> HashMap<String, Vec<Diagnostic>> {
+        paths
+            .filter_map(|path| {
+                self.collect_path_diagnostics(path)
+                    .map(|diagnostics| (path.to_string(), diagnostics))
+            })
+            .collect()
+    }
+
+    fn collect_path_diagnostics(&self, path: &AbsPath) -> Option<Vec<Diagnostic>> {
         let lookup = self.content.find_post_lookup(path.as_str())?;
 
         Some(
