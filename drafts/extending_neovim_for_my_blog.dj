@@ -1,0 +1,121 @@
+---toml
+title = "Extending Neovim for my blog"
+tags = ["Lua",  "Rust",  "Webpage"]
+---
+
+I've been using Neovim since it forked from Vim almost 8 years ago, and I used Vim many years before that.
+I feel quite comfortable with Neovim, and I've gone down the [configuration rabbit hole][] too many times I'd like to admit, but I never dived deeper by writing something truly custom like a plugin.
+
+That changed when I got inspired by the excellent [Developing a Neovim Docker Plugin from Scratch][] where the creator goes through how to extend [telescope.nvim][] in a very pedagogical manner.
+
+I ended up extending Neovim and my blog backend with some sorely needed features such as:
+
+1. Browse posts using [telescope.nvim][].
+1. Autocomplete post urls, link definitions, and more using [nvim-cmp][].
+1. Goto definition.
+1. Diagnostics.
+1. Browser preview with auto refresh and scroll.
+
+This post will go through how I implemented the above features.
+The focus will be on Neovim and Lua side of things, but I'll call out some backend Rust details too.
+
+# Initial setup
+
+While I could develop this as a normal plugin, because it's so coupled to my setup I decided to organize it under `nvim/lua/blog` and simply include it in my init script:
+
+```lua
+require("blog")
+```
+
+This calls `nvim/lua/blog/init.lua` that in turn requires other initialization files:
+
+```lua
+require("blog.autocmd")
+require("blog.cmp")
+require("blog.commands")
+```
+
+Another quirk of my [Neovim config][] is that I've tried to collect all keymaps in one file, where I added some new keymaps for the blog:
+
+```lua
+local map = vim.keymap.set
+
+M.init = function()
+  map("n", "gd", require("blog.telescope").find_draft, { desc = "Find blog draft" })
+  map("n", "gp", require("blog.telescope").find_post, { desc = "Find blog post" })
+  -- Lots of other things...
+end
+
+M.buf_blog = function(buffer)
+  map("n", "<localleader>t", require("blog.telescope").find_tags, { buffer = buffer, desc = "List tags" })
+  map("i", "<C-t>", require("blog.telescope").find_tags, { buffer = buffer, desc = "List tags" })
+  map("n", "<localleader>d", require("blog.interaction").goto_def, { buffer = buffer, desc = "Goto definition" })
+end
+```
+
+Where `buf_blog` is called by an autocommand when editing a blog post.
+
+That's it for hooking up the code into my Neovim setup, now let's look at what the code does.
+
+# Creating and moving posts
+
+Let's start by moving some functionality from the blog generation backend to Neovim:
+
+- Creating a draft with a small template.
+- Promote a draft to a blog post and demote a post back to a draft.
+
+I don't really know why I had these implemented as commands line arguments to the backend---they fit much better in Neovim.
+
+They're implemented as user commands:
+
+```lua
+local cmd = require("util").create_cmd
+local files = require("blog.files")
+
+-- Create a new draft, promote it to a post, or revert it back to a draft.
+cmd("BlogNewDraft", files.new_draft)
+cmd("BlogPromoteDraft", files.promote_curr_draft)
+cmd("BlogDemotePost", files.demote_curr_post)
+```
+
+Where `create_cmd` is a small helper snippet I stole from somewhere:
+
+```lua
+M.create_cmd = function(command, f, opts)
+  opts = opts or {}
+  vim.api.nvim_create_user_command(command, f, opts)
+end
+```
+
+# Browse posts with [telescope.nvim][]
+
+
+# Communicating with the backend
+
+## Channels
+
+## TCP from Rust
+
+
+# Autocompletion with [nvim-cmp][]
+
+# Goto definition
+
+# Diagnostics
+
+# Connction status with lualine
+
+# Browser preview
+
+## Websocket communication
+
+- flume multiple producer and consumer
+
+## Scrolling
+
+
+[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
+[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
+[configuration rabbit hole]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
+[Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4
+[Neovim config]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua

@@ -7,6 +7,7 @@ use super::posts::{PostRef, PostRefContext};
 use crate::{
     content::PostItem,
     item::{RenderContext, TeraItem},
+    paths::AbsPath,
     site_url::SiteUrl,
 };
 
@@ -87,8 +88,12 @@ impl TeraItem for ArchiveItem {
         "archive.html"
     }
 
-    fn url(&self) -> &SiteUrl {
+    fn tera_url(&self) -> &SiteUrl {
         &self.url
+    }
+
+    fn tera_source_file(&self) -> Option<&AbsPath> {
+        None
     }
 }
 

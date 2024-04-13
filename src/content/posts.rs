@@ -16,14 +16,16 @@ use crate::content::series::SeriesRef;
 use crate::content::tags::{Tag, TagPostContext, TagsMeta};
 use crate::item::Item;
 use crate::item::RenderContext;
-use crate::markup::{self, Html, Markup, ParseContext, RawMarkupFile};
+use crate::markup::{self, Html, Markup, MarkupLookup, ParseContext, RawMarkupFile};
 use crate::paths::AbsPath;
 use crate::{content::SeriesItem, item::TeraItem, site_url::SiteUrl, util};
 
-pub fn load_posts(dirs: &[AbsPath]) -> Result<BTreeMap<PostRef, PostItem>> {
+pub fn load_posts(dirs: &[AbsPath], create_lookup: bool) -> Result<BTreeMap<PostRef, PostItem>> {
     let mut posts = markup::find_markup_files(dirs)
         .par_iter()
-        .map(|path| PostItem::from_file(path.abs_path()).map(|post| (post.post_ref(), post)))
+        .map(|path| {
+            PostItem::from_file(path.abs_path(), create_lookup).map(|post| (post.post_ref(), post))
+        })
         .collect::<Result<BTreeMap<PostRef, PostItem>>>()?;
 
     set_post_prev_next(&mut posts);
@@ -63,25 +65,32 @@ pub struct PostItem {
     pub recommended: bool,
     pub content: Html,
     pub markup: Markup,
+    pub markup_lookup: Option<MarkupLookup>,
     pub series_id: Option<String>,
     pub series: Option<SeriesRef>,
     pub is_draft: bool,
 }
 
 impl PostItem {
-    pub fn from_file(path: AbsPath) -> Result<Self> {
+    pub fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
         let modified = util::last_modified(&path)?;
         let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup, modified)
+        Self::from_markup(markup, modified, create_lookup)
     }
 
     pub fn from_markup(
         markup: RawMarkupFile<PostMetadata>,
         modified: NaiveDateTime,
+        create_lookup: bool,
     ) -> Result<Self> {
         let post_dir = PostDirMetadata::from_path(&markup.path, &modified)?;
 
-        let markup = markup.parse(ParseContext::new_with_draft(post_dir.is_draft))?;
+        let meta_line_count = markup.meta_line_count;
+        let markup = markup.parse(ParseContext::new_post_context(
+            post_dir.is_draft,
+            create_lookup,
+            meta_line_count,
+        ))?;
 
         let time = match &markup.markup_meta.time {
             Some(time_str) => parse_time(&time_str)?,
@@ -102,6 +111,7 @@ impl PostItem {
             next: None,
             content: markup.html,
             markup: markup.markup,
+            markup_lookup: markup.markup_lookup,
             series_id: markup.markup_meta.series,
             series: None,
             recommended: markup.markup_meta.recommended.unwrap_or(false),
@@ -148,8 +158,12 @@ impl TeraItem for PostItem {
         "post.html"
     }
 
-    fn url(&self) -> &SiteUrl {
+    fn tera_url(&self) -> &SiteUrl {
         &self.url
+    }
+
+    fn tera_source_file(&self) -> Option<&AbsPath> {
+        Some(&self.path)
     }
 }
 
@@ -319,7 +333,7 @@ mod tests {
 
     #[test]
     fn test_post_from_string() -> Result<()> {
-        let path = "posts/2022-01-31-test_post.markdown";
+        let path = "posts/2022-01-31-test_post.dj";
         let content = fs::read_to_string(PathBuf::from("test-site").join(path))?;
         // let (path, content) = tests::raw_post1();
         let post = PostItem::from_markup(
@@ -328,6 +342,7 @@ mod tests {
                 NaiveDate::from_ymd_opt(2022, 4, 30).unwrap(),
                 NaiveTime::from_hms_opt(1, 2, 3).unwrap(),
             ),
+            false,
         )?;
 
         assert_eq!(post.title, "Post & Title");
@@ -335,15 +350,15 @@ mod tests {
             post.tags,
             vec![
                 Tag {
+                    id: "<Tag> 2".to_string(),
+                    name: "&lt;Tag&gt; 2".to_string(),
+                    url: SiteUrl::parse("/blog/tags/tag_2").unwrap(),
+                },
+                Tag {
                     id: "Tag1".to_string(),
                     name: "Tag1".to_string(),
                     url: SiteUrl::parse("/blog/tags/tag1").unwrap(),
                 },
-                Tag {
-                    id: "<Tag> 2".to_string(),
-                    name: "&lt;Tag&gt; 2".to_string(),
-                    url: SiteUrl::parse("/blog/tags/tag_2").unwrap(),
-                }
             ]
         );
         assert_eq!(
@@ -355,7 +370,7 @@ mod tests {
         );
         assert!(post.markup.content().contains("# Header 1"));
         assert_eq!(post.url.path(), "/blog/2022/01/31/test_post/");
-        assert_eq!(post.url.href(), "/blog/2022/01/31/test_post/");
+        assert_eq!(post.url.href(), "/blog/2022/01/31/test_post");
         assert_eq!(
             post.output_file(".output".into()),
             ".output/blog/2022/01/31/test_post/index.html"
@@ -383,20 +398,19 @@ mod tests {
     }
 
     #[test]
-    fn postref() -> Result<()> {
+    fn test_postref() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
+            generate_markup_lookup: false,
         }
         .build()?;
 
-        let post = test_site
-            .find_post("2022-01-31-test_post.markdown")
-            .unwrap();
+        let post = test_site.find_post("2022-01-31-test_post.dj").unwrap();
 
         assert_eq!(
             post.post_ref(),
             PostRef {
-                id: "/blog/2022/01/31/test_post/".to_string(),
+                id: "/blog/2022/01/31/test_post".to_string(),
                 created: NaiveDate::from_ymd_opt(2022, 1, 31)
                     .unwrap()
                     .and_hms_opt(7, 7, 0)
@@ -410,12 +424,11 @@ mod tests {
     fn test_render_post() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
+            generate_markup_lookup: false,
         }
         .build()?;
 
-        let post = test_site
-            .find_post("2022-01-31-test_post.markdown")
-            .unwrap();
+        let post = test_site.find_post("2022-01-31-test_post.dj").unwrap();
 
         let rendered = post.render_to_string(&RenderContext {
             parent_context: &Context::from_serialize(SiteContext::new(false, false)).unwrap(),
@@ -432,22 +445,22 @@ mod tests {
             select_element(&document, r#"meta[name="keywords"]"#)
                 .unwrap()
                 .attr("content"),
-            Some("Tag1, <Tag> 2")
+            Some("<Tag> 2, Tag1")
         );
         assert_eq!(
             select_inner_html(&document, "title").unwrap(),
             "Jonas Hietala: Post &amp; Title"
         );
         assert!(rendered
-            .contains(r#"<h1><a href="/blog/2022/01/31/test_post/">Post &amp; Title</a></h1>"#));
+            .contains(r#"<h1><a href="/blog/2022/01/31/test_post">Post &amp; Title</a></h1>"#));
         assert!(rendered.contains(r#"<time datetime="2022-01-31T07:07:00Z""#));
-        assert!(rendered.contains(
-            r##"<h2 id="header-1"><a class="heading-ref" href="#header-1">Header 1</a></h2>"##
-        ));
+        assert!(
+            rendered.contains(r##"<h2><a href="#Header-1" class="heading-ref">Header 1</a></h2>"##)
+        );
         assert!(rendered.contains(r#"<iframe src="//www.youtube.com/embed/eoKDyhxCVm0""#));
         assert!(rendered.contains("☃︎"));
-        assert!(rendered.contains("—and–some…"));
-        assert!(rendered.contains("“Auto quote” ‘A’"));
+        assert!(rendered.contains("&mdash;and&ndash;some"));
+        assert!(rendered.contains("&ldquo;Auto quote&rdquo; &lsquo;A&rsquo;"));
         // Yeah maybe it wold be easier to check these another way
         assert!(rendered.contains(r#"href="/blog/tags/tag1""#));
         assert!(rendered.contains(r#"href="/blog/tags/tag_2""#));

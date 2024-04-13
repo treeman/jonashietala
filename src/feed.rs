@@ -7,7 +7,6 @@ use chrono::DateTime;
 use chrono::FixedOffset;
 use chrono::NaiveDateTime;
 use eyre::Result;
-use std::borrow::Cow;
 use std::fs::File;
 use tracing::debug;
 
@@ -15,8 +14,14 @@ use crate::content::PostItem;
 use crate::item::Item;
 use crate::item::RenderContext;
 use crate::markup::ParseContext;
+use crate::paths::AbsPath;
 use crate::site::BASE_SITE_URL;
 use crate::site_url::SiteUrl;
+use lazy_static::lazy_static;
+
+lazy_static! {
+    static ref FEED_URL: SiteUrl = SiteUrl::parse("feed.xml").unwrap();
+}
 
 #[derive(Debug)]
 pub struct SiteFeed;
@@ -110,8 +115,12 @@ impl Item for SiteFeed {
         Ok(())
     }
 
-    fn id(&self) -> Cow<str> {
-        "feed".into()
+    fn url(&self) -> &SiteUrl {
+        &FEED_URL
+    }
+
+    fn source_file(&self) -> Option<&AbsPath> {
+        None
     }
 }
 
@@ -139,6 +148,7 @@ mod tests {
     fn test_feed() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
+            generate_markup_lookup: false,
         }
         .build()?;
 

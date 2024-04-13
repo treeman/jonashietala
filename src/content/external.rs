@@ -1,9 +1,15 @@
-use std::borrow::Cow;
-
 use crate::item::Item;
 use crate::item::RenderContext;
+use crate::paths::AbsPath;
+use crate::site_url::SiteUrl;
 use crate::util;
 use eyre::{eyre, Result};
+use lazy_static::lazy_static;
+
+lazy_static! {
+    static ref SASS_URL: SiteUrl = SiteUrl::parse("css/main.css").unwrap();
+    static ref JS_URL: SiteUrl = SiteUrl::parse("js/main.js").unwrap();
+}
 
 #[derive(Debug)]
 pub struct SassItem;
@@ -16,8 +22,12 @@ impl Item for SassItem {
         util::write_to_file(&output_file, &sass)
     }
 
-    fn id(&self) -> Cow<str> {
-        "sass".into()
+    fn url(&self) -> &SiteUrl {
+        &SASS_URL
+    }
+
+    fn source_file(&self) -> Option<&AbsPath> {
+        None
     }
 }
 
@@ -29,7 +39,11 @@ impl Item for JsItem {
         util::copy_file("js/main.js".into(), &ctx.output_dir.join("js/main.js"))
     }
 
-    fn id(&self) -> Cow<str> {
-        "js".into()
+    fn url(&self) -> &SiteUrl {
+        &SASS_URL
+    }
+
+    fn source_file(&self) -> Option<&AbsPath> {
+        None
     }
 }

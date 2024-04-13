@@ -1,5 +1,6 @@
 mod djot;
 mod markdown;
+pub mod markup_lookup;
 mod syntax_highlight;
 
 use camino::Utf8Path;
@@ -15,6 +16,7 @@ use walkdir::WalkDir;
 use yaml_front_matter::{Document, YamlFrontMatter};
 
 pub use self::syntax_highlight::syntect_highlighter;
+pub use markup_lookup::MarkupLookup;
 
 use self::djot::{djot_to_html, djot_to_html_feed};
 use self::markdown::{markdown_to_html, markdown_to_html_feed};
@@ -69,6 +71,11 @@ impl Deref for FeedHtml {
     }
 }
 
+pub struct HtmlParseRes {
+    pub html: Html,
+    pub lookup: Option<MarkupLookup>,
+}
+
 #[derive(Debug, Clone)]
 pub enum Markup {
     Markdown(String),
@@ -90,7 +97,7 @@ impl Markup {
         }
     }
 
-    pub fn parse(&self, context: ParseContext) -> Result<Html> {
+    pub fn parse(&self, context: ParseContext) -> Result<HtmlParseRes> {
         match self {
             Self::Markdown(s) => Ok(markdown_to_html(&s)),
             Self::Djot(s) => djot_to_html(&s, context.in_feed(false)),
@@ -118,6 +125,7 @@ pub struct RawMarkupFile<Meta: DeserializeOwned> {
     pub markup: Markup,
     pub path: AbsPath,
     pub markup_meta: Meta,
+    pub meta_line_count: usize,
 }
 
 impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
@@ -129,44 +137,63 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
     pub fn from_content(content: String, path: AbsPath) -> Result<Self> {
         let t = MarkupType::from_file(&path)
             .ok_or_else(|| eyre!("Unsupported file format: `{}`", &path))?;
-        let (metadata, content) = extract_metadata(t, &content, &path)?;
+        let meta = ExtractMetadataRes::extract(t, &content, &path)?;
 
         Ok(Self {
-            markup: Markup::new(content, t),
-            markup_meta: metadata,
+            markup: Markup::new(meta.content, t),
+            markup_meta: meta.metadata,
+            meta_line_count: meta.meta_line_count,
             path,
         })
     }
 
     pub fn parse(self: Self, context: ParseContext) -> Result<MarkupFile<Meta>> {
-        let html = self.markup.parse(context.with_path(&self.path))?;
+        let res = self.markup.parse(context.with_path(&self.path))?;
         Ok(MarkupFile {
             markup: self.markup,
-            html,
+            markup_lookup: res.lookup,
+            html: res.html,
             path: self.path,
             markup_meta: self.markup_meta,
         })
     }
 }
 
-pub fn extract_metadata<Meta: DeserializeOwned>(
-    t: MarkupType,
-    content: &str,
-    path: &AbsPath,
-) -> Result<(Meta, String)> {
-    match t {
-        MarkupType::Markdown => {
-            let Document { metadata, content } =
-                YamlFrontMatter::parse::<Meta>(content).map_err(|err| {
-                    eyre!("Failed to parse yaml metadata for file: {}\n{}", path, err)
-                })?;
-            Ok((metadata, content))
-        }
-        MarkupType::Djot => {
-            let (metadata, content) = toml_frontmatter::parse::<Meta>(content).map_err(|err| {
-                eyre!("Failed to parse toml metadata for file: {}\n{}", path, err)
-            })?;
-            Ok((metadata, content.to_string()))
+pub struct ExtractMetadataRes<Meta: DeserializeOwned> {
+    pub metadata: Meta,
+    pub content: String,
+    pub meta_line_count: usize,
+}
+
+impl<Meta: DeserializeOwned> ExtractMetadataRes<Meta> {
+    pub fn extract(t: MarkupType, content: &str, path: &AbsPath) -> Result<Self> {
+        match t {
+            MarkupType::Markdown => {
+                let Document { metadata, content } = YamlFrontMatter::parse::<Meta>(content)
+                    .map_err(|err| {
+                        eyre!("Failed to parse yaml metadata for file: {}\n{}", path, err)
+                    })?;
+                // NOTE Meta line count isn't used for Markdown because lookup isn't
+                // implemented for it.
+                Ok(Self {
+                    metadata,
+                    content,
+                    meta_line_count: 0,
+                })
+            }
+            MarkupType::Djot => {
+                let line_count_before = content.lines().count();
+                let (metadata, content) =
+                    toml_frontmatter::parse::<Meta>(content).map_err(|err| {
+                        eyre!("Failed to parse toml metadata for file: {}\n{}", path, err)
+                    })?;
+                let line_count_after = content.lines().count();
+                Ok(Self {
+                    metadata,
+                    content: content.to_string(),
+                    meta_line_count: line_count_before - line_count_after,
+                })
+            }
         }
     }
 }
@@ -174,6 +201,7 @@ pub fn extract_metadata<Meta: DeserializeOwned>(
 #[derive(Debug)]
 pub struct MarkupFile<Meta: DeserializeOwned> {
     pub markup: Markup,
+    pub markup_lookup: Option<MarkupLookup>,
     pub html: Html,
     pub path: AbsPath,
     pub markup_meta: Meta,
@@ -219,6 +247,8 @@ pub struct ParseContext<'a> {
     pub path: Option<&'a Utf8Path>,
     pub is_draft: bool,
     pub in_feed: bool,
+    pub create_lookup: bool,
+    pub markup_meta_line_count: usize,
 }
 
 impl<'a> Default for ParseContext<'a> {
@@ -227,14 +257,22 @@ impl<'a> Default for ParseContext<'a> {
             path: None,
             is_draft: false,
             in_feed: false,
+            create_lookup: false,
+            markup_meta_line_count: 0,
         }
     }
 }
 
 impl<'a> ParseContext<'a> {
-    pub fn new_with_draft(is_draft: bool) -> Self {
+    pub fn new_post_context(
+        is_draft: bool,
+        create_lookup: bool,
+        markup_meta_line_count: usize,
+    ) -> Self {
         Self {
             is_draft,
+            create_lookup,
+            markup_meta_line_count,
             ..Default::default()
         }
     }

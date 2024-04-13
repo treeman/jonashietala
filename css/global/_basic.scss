@@ -39,16 +39,14 @@ h2 {
 }
 h3 {
   @include font-size("l");
-  // margin-top: var(--space-xs);
 }
 h4 {
   @include font-size("m");
 }
-h5 {
-  @include font-size("s");
-}
-h6 {
-  @include font-size("xs");
+h5,
+h6,
+h7 {
+  @include font-size("m");
 }
 
 h1,
@@ -56,7 +54,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+h7 {
   @include sans-serif;
 
   a {

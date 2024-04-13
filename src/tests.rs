@@ -57,15 +57,19 @@ impl TestSite {
     }
 
     pub fn find_post<'a>(&'a self, file: &str) -> Option<&'a PostItem> {
-        self.site.content.find_post(file)
+        self.site.content.find_post_by_file_name(file)
     }
 
     pub fn find_series<'a>(&'a self, file: &str) -> Option<&'a SeriesItem> {
-        self.site.content.find_series(file)
+        self.site.content.find_series_by_file_name(file)
     }
 
     pub fn output_path(&self, file: &str) -> AbsPath {
         AbsPath::from_path_buf(self.output_dir.path().join(file))
+    }
+
+    pub fn input_path(&self, file: &str) -> AbsPath {
+        AbsPath::from_path_buf(self.input_dir.path().join(file))
     }
 
     pub fn output_content(&self, file: &str) -> Result<String> {
@@ -110,6 +114,7 @@ impl TestSite {
 
 pub struct TestSiteBuilder {
     pub include_drafts: bool,
+    pub generate_markup_lookup: bool,
 }
 
 impl TestSiteBuilder {
@@ -133,6 +138,7 @@ impl TestSiteBuilder {
             include_drafts: self.include_drafts,
             generate_feed: true,
             include_js: false,
+            generate_markup_lookup: self.generate_markup_lookup,
         })?;
         site.render_all()?;
 

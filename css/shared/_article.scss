@@ -22,7 +22,7 @@ article {
   @include flow;
   section {
     @include flow;
-    margin-block-start: 0;
+    margin-block-start: 0 !important;
   }
 
   h1,
@@ -30,7 +30,8 @@ article {
   h3,
   h4,
   h5,
-  h6 {
+  h6,
+  h7 {
     & > a:not(:first-of-type) {
       text-decoration: underline;
     }
@@ -42,7 +43,7 @@ article {
 
   // All headers are wrapped in sections in Djot,
   // so the margin on the :not(:first-child) headers will never happen.
-  section > :is(h1, h2, h3, h4, h5, h6):first-child {
+  section > :is(h1, h2, h3, h4, h5, h6, h7):first-child {
     margin-block-start: var(--space-m);
   }
 

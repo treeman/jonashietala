@@ -1,6 +1,5 @@
 mod content;
 mod feed;
-mod gen;
 mod item;
 mod markup;
 mod paths;
@@ -50,26 +49,6 @@ enum Commands {
     Watch,
     /// Generate the site
     Build,
-    /// Create a new post and open it for edit
-    Post {
-        #[clap(required = true)]
-        title: Vec<String>,
-    },
-    /// Create a new draft and open it for edit
-    Draft {
-        #[clap(required = true)]
-        title: Vec<String>,
-    },
-    /// Promote a draft to a post
-    Promote {
-        #[clap(required = true)]
-        pattern: Vec<String>,
-    },
-    /// Demote a post to a draft
-    Demote {
-        #[clap(required = true)]
-        pattern: Vec<String>,
-    },
     /// Sync all generated files found in `.output`
     Sync,
     /// Upload files from `files` which aren't handled by the site generator
@@ -112,18 +91,6 @@ async fn main() -> Result<()> {
         Commands::Watch => {
             server::run(&OUTPUT_DIR, &CURRENT_DIR).await?;
             // watch::watch(&OUTPUT_DIR, &CURRENT_DIR).await?;
-        }
-        Commands::Post { title } => {
-            gen::new_post(title.join(" "))?;
-        }
-        Commands::Draft { title } => {
-            gen::new_draft(title.join(" "))?;
-        }
-        Commands::Promote { pattern } => {
-            gen::promote(pattern.join(" "))?;
-        }
-        Commands::Demote { pattern } => {
-            gen::demote(pattern.join(" "))?;
         }
         Commands::Sync => {
             // So we don't forget...
@@ -180,6 +147,7 @@ fn build() -> Result<()> {
         include_drafts: false,
         generate_feed: true,
         include_js: false,
+        generate_markup_lookup: false,
     })?;
 
     site.render_all()?;

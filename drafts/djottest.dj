@@ -25,6 +25,7 @@ font-size("xs")
 
 ###### Header 6 (h7)
 
+
 # Just text
 
 Consider having your front door locked for example. You could consider your home secure if your door is locked and insecure if it’s open but that doesn’t say what you’re secure against. It’s missing context. It might prevent opportunistic thefts but a more determined attacker could instead break a window, pick the lock of the door or simply break down the door itself. [Maybe you live in a neighborhood](#) with lots of thefts and you might want an alarm system, a dog or iron bars over your windows.
@@ -38,6 +39,7 @@ abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
 Unicode snowman: ☃︎ and "auto quotes" enabled. It's good. --dashes--? Converts... to …
 
 Quotes are "cool". Or are they 'cool'? 1234567890
+
 
 Some \"straight\" \'quotes\'
 
@@ -366,4 +368,5 @@ End gallery. Ooh so pretty! :)
 # Embed YouTube
 
 http://www.youtube.com/watch?v=eoKDyhxCVm0
+
 

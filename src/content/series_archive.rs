@@ -1,3 +1,4 @@
+use crate::paths::AbsPath;
 use serde::Serialize;
 use std::collections::BTreeMap;
 use tera::Context;
@@ -40,8 +41,12 @@ impl TeraItem for SeriesArchiveItem {
         "series_archive.html"
     }
 
-    fn url(&self) -> &SiteUrl {
+    fn tera_url(&self) -> &SiteUrl {
         &self.url
+    }
+
+    fn tera_source_file(&self) -> Option<&AbsPath> {
+        None
     }
 }
 

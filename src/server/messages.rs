@@ -1,18 +1,16 @@
-use serde::{Deserialize, Serialize};
-
 use crate::content::PostItem;
+use crate::markup::markup_lookup::{Heading, LinkDef};
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Debug, Serialize)]
 #[serde(tag = "type")]
 pub enum WebEvent {
-    RefreshAll,
-    RefreshPage {
-        path: String,
-    },
+    Refresh,
     PositionPage {
         path: String,
-        linenum: u32,
-        linecount: u32,
+        linenum: usize,
+        linecount: usize,
     },
 }
 
@@ -20,9 +18,9 @@ pub enum WebEvent {
 #[serde(tag = "id")]
 pub enum NeovimEvent {
     CursorMoved {
-        linenum: u32,
-        linecount: u32,
-        column: u32,
+        linenum: usize,
+        linecount: usize,
+        column: usize,
         path: String,
     },
     ListTags {
@@ -33,6 +31,23 @@ pub enum NeovimEvent {
     },
     ListUrls {
         message_id: u64,
+    },
+    ListLinkDefs {
+        message_id: u64,
+        path: String,
+    },
+    ListHeadings {
+        message_id: u64,
+        path: String,
+    },
+    GotoDef {
+        message_id: u64,
+        linenum: usize,
+        column: usize,
+        path: String,
+    },
+    RefreshDiagnostics {
+        path: String,
     },
 }
 
@@ -78,6 +93,45 @@ pub struct SeriesInfo {
 }
 
 #[derive(Debug, Serialize)]
+pub struct LinkDefInfo {
+    pub label: String,
+    pub url: String,
+}
+
+impl From<&LinkDef> for LinkDefInfo {
+    fn from(def: &LinkDef) -> Self {
+        LinkDefInfo {
+            label: def.label.clone(),
+            url: def.url.clone(),
+        }
+    }
+}
+
+#[derive(Debug, Serialize)]
+pub struct HeadingInfo {
+    pub id: String,
+    pub content: String,
+}
+
+impl From<&Heading> for HeadingInfo {
+    fn from(heading: &Heading) -> Self {
+        HeadingInfo {
+            id: heading.id.clone(),
+            content: heading.content.clone(),
+        }
+    }
+}
+
+#[derive(Debug, Serialize)]
+pub struct Diagnostic {
+    pub linenum: usize,
+    pub end_linenum: usize,
+    pub column: usize,
+    pub end_column: usize,
+    pub message: String,
+}
+
+#[derive(Debug, Serialize)]
 #[serde(tag = "id")]
 pub enum NeovimResponse {
     ListTags {
@@ -91,5 +145,22 @@ pub enum NeovimResponse {
     ListUrls {
         message_id: u64,
         urls: Vec<UrlInfo>,
+    },
+    ListLinkDefs {
+        message_id: u64,
+        defs: Vec<LinkDefInfo>,
+    },
+    ListHeadings {
+        message_id: u64,
+        headings: Vec<HeadingInfo>,
+    },
+    GotoDef {
+        message_id: u64,
+        linenum: Option<usize>,
+        column: Option<usize>,
+        path: Option<String>,
+    },
+    Diagnostics {
+        diagnostics: HashMap<String, Vec<Diagnostic>>,
     },
 }

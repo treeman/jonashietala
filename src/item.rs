@@ -1,3 +1,4 @@
+use crate::paths::AbsPath;
 use crate::{content, site::SiteContent, site_url::SiteUrl};
 use camino::{Utf8Path, Utf8PathBuf};
 use eyre::Result;
@@ -12,7 +13,13 @@ use tracing::debug;
 pub trait Item: Send + Sync + Debug {
     fn render(&self, ctx: &RenderContext) -> Result<()>;
 
-    fn id(&self) -> Cow<str>;
+    fn url(&self) -> &SiteUrl;
+
+    fn source_file(&self) -> Option<&AbsPath>;
+
+    fn id(&self) -> Cow<str> {
+        self.url().href()
+    }
 }
 
 pub struct RenderContext<'a> {
@@ -27,11 +34,13 @@ pub trait TeraItem {
 
     fn template(&self) -> &str;
 
-    // Should url and output file exist for Item instead?
-    fn url(&self) -> &SiteUrl;
+    // Just here to allow us to only implement TeraItem and rely
+    // on blanket implementation for Item.
+    fn tera_url(&self) -> &SiteUrl;
+    fn tera_source_file(&self) -> Option<&AbsPath>;
 
     fn output_file(&self, output_dir: &Utf8Path) -> Utf8PathBuf {
-        self.url().output_file(output_dir)
+        self.tera_url().output_file(output_dir)
     }
 
     fn render_to_string(&self, ctx: &RenderContext) -> Result<String> {
@@ -52,7 +61,7 @@ pub trait TeraItem {
         let mut context = ctx.parent_context.clone();
         context.extend(self.context(ctx));
         if !context.contains_key("url") {
-            context.insert("url", self.url().href().to_string().as_str());
+            context.insert("url", self.tera_url().href().to_string().as_str());
         }
         content::add_nav_highlight(&mut context);
         ctx.tera.render_to(self.template(), &context, write)?;
@@ -62,11 +71,15 @@ pub trait TeraItem {
 
 impl<T: TeraItem + Send + Sync + Debug> Item for T {
     fn render(&self, ctx: &RenderContext) -> Result<()> {
-        let output_file = self.url().output_file(ctx.output_dir);
+        let output_file = self.tera_url().output_file(ctx.output_dir);
         self.render_to_file(ctx, &output_file)
     }
 
-    fn id(&self) -> Cow<str> {
-        self.url().href()
+    fn url(&self) -> &SiteUrl {
+        self.tera_url()
+    }
+
+    fn source_file(&self) -> Option<&AbsPath> {
+        self.tera_source_file()
     }
 }

@@ -8,6 +8,7 @@ use crate::content::posts::{PostItem, PostRef};
 use crate::content::{Game, GameContext};
 use crate::content::{Project, ProjectContext};
 use crate::content::{SeriesContext, SeriesItem, SeriesRef};
+use crate::paths::AbsPath;
 use crate::{item::RenderContext, item::TeraItem, site_url::SiteUrl};
 
 use super::posts::PostRefContext;
@@ -109,8 +110,12 @@ impl TeraItem for HomepageItem {
         "homepage.html"
     }
 
-    fn url(&self) -> &SiteUrl {
+    fn tera_url(&self) -> &SiteUrl {
         &self.url
+    }
+
+    fn tera_source_file(&self) -> Option<&AbsPath> {
+        None
     }
 }
 
