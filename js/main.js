@@ -9,22 +9,8 @@ function connect() {
     const msg = JSON.parse(event.data);
 
     switch (msg.type) {
-      case "RefreshAll":
-        console.log("refresh all");
+      case "Refresh":
         location.reload();
-        break;
-      case "RefreshPage":
-        if (msg.path == window.location.pathname) {
-          console.log("refresh page");
-          location.reload();
-        } else {
-          console.log(
-            "skip path: ",
-            msg.path,
-            " this path: ",
-            window.location.pathname
-          );
-        }
         break;
       case "PositionPage":
         // TODO this doesn't work when we have images.
@@ -33,7 +19,9 @@ function connect() {
         // https://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript#22292000
 
         const cursor = msg.linenum / msg.linecount;
-        const target = window.scrollMaxY * cursor - window.screen.height / 6;
+        // const target = window.scrollMaxY * cursor - window.screen.height / 6;
+        const target = window.scrollMaxY * cursor;
+        // const target = window.scrollMaxY * cursor - window.screen.height;
         window.scrollTo(0, target);
 
         // window.scrollTo(0, 0);

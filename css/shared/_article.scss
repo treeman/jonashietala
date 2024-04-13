@@ -22,7 +22,7 @@ article {
   @include flow;
   section {
     @include flow;
-    margin-block-start: 0;
+    margin-block-start: 0 !important;
   }
 
   h1,

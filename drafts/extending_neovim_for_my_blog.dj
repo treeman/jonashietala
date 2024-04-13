@@ -1,0 +1,96 @@
+---toml
+title = "Extending Neovim for my blog"
+tags = ["Lua",  "Rust",  "Webpage"]
+---
+
+I've been using Neovim since it forked from Vim almost 8 years ago, and I used Vim many years before that.
+I feel quite comfortable with Neovim, and I've gone down the [configuration rabbit hole][] too many times I'd like to admit, but I never dived deeper by writing something truly custom like a plugin.
+
+That changed when I got inspired by the excellent [Developing a Neovim Docker Plugin from Scratch][] where the creator goes through how to extend [telescope.nvim][] in a very pedagogical manner.
+
+I ended up extending Neovim and my blog backend with some sorely needed features such as:
+
+1. Browse posts using [telescope.nvim][].
+1. Autocomplete post urls, link definitions, and more using [nvim-cmp][].
+1. Goto definition.
+1. Diagnostics.
+1. Browser preview with auto refresh and scroll.
+
+This post will go through how I implemented the above features.
+The focus will be on Neovim and Lua side of things, but I'll call out some backend Rust details too.
+
+# Initial setup
+
+While I could develop this as a normal plugin, because it's so coupled to my setup I decided to organize it under `nvim/lua/blog` and simply include it in my init script:
+
+```lua
+require("blog")
+```
+
+`"blog"`lua in turn requires other files:
+
+```lua
+require("blog.path")
+require("blog.server")
+require("blog.cmp")
+require("blog.commands")
+require("blog.autocmd")
+```
+
+```lua
+local cmd = require("util").create_cmd
+local server = require("blog.server")
+local files = require("blog.files")
+
+-- Controls the backend that might be started by Neovim in a terminal.
+cmd("BlogStart", server.start)
+cmd("BlogStop", server.stop)
+cmd("BlogRestart", server.restart)
+
+-- Try to reconnect to the backend.
+cmd("BlogReconnect", server.reconnect)
+
+-- Create a new draft, promote it to a post, or revert it back to a draft.
+cmd("BlogNewDraft", files.new_draft)
+cmd("BlogPromoteDraft", files.promote_curr_draft)
+cmd("BlogDemotePost", files.demote_curr_post)
+
+-- Open the current post in a browser.
+cmd("BlogPreview", files.open_curr_post_in_browser)
+```
+
+Maybe there's a neater way to organize it, but it's just code I wanted to be initialized somewhere.
+
+# Creating and moving posts
+
+# Browse posts with [telescope.nvim][]
+
+
+# Communicating with the backend
+
+## Channels
+
+## TCP from Rust
+
+
+# Autocompletion with [nvim-cmp][]
+
+# Goto definition
+
+# Diagnostics
+
+# Connction status with lualine
+
+# Browser preview
+
+## Websocket communication
+
+- flume multiple producer and consumer
+
+## Scrolling
+
+
+[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
+[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
+[configuration rabbit hole]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
+[Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4
