@@ -87,7 +87,180 @@ M.create_cmd = function(command, f, opts)
 end
 ```
 
+## New draft
+
+Creating a draft should do two simple things:
+
+1. Create a file at `drafts/some_title.dj` under the blog directory.
+2. Open it and fill in some placeholder data.
+
+Creating a file can be done using `vim.cmd` to send the `:edit` command.
+
+Inserting text from lua was harder, I tried to search for help with `:Telescope help_tags` but came up short.
+In the end I found `vim.api.nvim_buf_set_lines` via Google that can be used to insert lines.
+
+This is the solution I came up with:
+
+```lua
+local path = require("blog.path")
+local nio = require("nio")
+
+-- A module file in lua by convention use an `M` table,
+-- allowing us to call `require("blog.files").new_draft()`.
+local M = {}
+
+M.new_draft = function()
+  nio.run(function()
+    -- Prompt for the title of the new draft.
+    local title = nio.ui.input({ prompt = "Draft title: " })
+
+    -- Create and open the draft for edit (without checking if it exists...)
+    -- `path.blog_path` expands to the path to my blog and `slugify` converts
+    -- a title to a slug by replacing spaces with underscores and removing symbols.
+    local file_path = path.blog_path .. "drafts/" .. M.slugify(title) .. ".dj"
+    vim.cmd(":e " .. file_path)
+
+    -- The text the draft will start with.
+    local template = {
+      "---toml",
+      'title = "' .. title .. '"',
+      'tags = ["Some tag"]',
+      "---",
+    }
+    -- Insert the text into the current buffer at row 0 (to 0).
+    local buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_set_lines(buf, 0, 0, true, template)
+  end)
+end
+
+return M
+```
+
+I hope it's clear what the above code is doing, but I want to call out the usage of [nvim-nio][].
+It's a great library that makes asynchronous programming simple in Neovim.
+
+To start an async task you use `nio.run`:
+
+```lua
+nio.run(function()
+  -- Code here is run async
+end)
+```
+
+For this example of creating a new draft async is overkill.
+Async is required for some other situations and it's easy to add so I use it liberally, even when not strictly needed.
+
+## Moving files
+
+In my blogging setup I store posts under `posts/` with the release date in the path, and drafts under `drafts/`.
+So promoting and demoting is accomplished by moving the file:
+
+- Promote a draft to a post by moving it from `drafts/post_title.dj` to `posts/2024-04-14-post_title.dj`.
+- Demote a post by moving it from `posts/2024-04-14-post_title.dj` to `drafts/post_title.dj`.
+
+I'm not going to include all the code here, but here are the most important implementation details:
+
+1. Extract the title from the post by shelling out to [ripgrep][].
+
+   [nvim-nio][] provides `process.run` to run a shell command:
+
+   ```lua
+   local proc = nio.process.run(args)
+   proc.stdout.read()
+   ```
+
+   That we can run [ripgrep][] to search for the title:
+
+   ```lua
+   {
+     cmd = "rg",
+     args = {
+       "-NoH",
+       "^title = (.+)",
+       path,
+     },
+   }
+   ```
+
+   ::: notice
+   Another solution would be to rely on the backend to provide the title.
+   It would be more robust since the backend properly parses the file,
+   but when I first created this function I didn't have the backend connection.
+   :::
+
+1. Create the destination path.
+
+   When promoting a draft for example:
+
+   ```lua
+   path.blog_path .. "posts/" .. os.date("%Y-%m-%d") .. "-" .. M.slugify(title) .. ".dj"
+   ```
+
+1. Move the file.
+
+   I don't know what the idiomatic way to rename a file is, or even how to do it in Neovim.
+   But I do know that with `:!` you can call an external program... Like `mv`!
+
+   So here's an ugly way to rename the current file:
+
+   ```lua
+   vim.cmd(":!mv " .. from .. " " .. to)
+   vim.cmd(":e " .. to)
+   ```
+
+   Because everything is done in an async context (inside `nio.run`) we run into a problem: we can't call the Neovim API without yielding to the Neovim scheduler.
+
+   What we need to do is call `scheduler` before we rename the file:
+
+   ```lua
+   nio.scheduler()
+   -- Call `vim.cmd`, `vim.fn`, `vim.api`, or similar.
+   ```
+
 # Browse posts with [telescope.nvim][]
+
+- Use ripgrep again
+- Minimal telescope plugin?
+
+```lua
+pickers.new(opts, {
+  finder = finders.new_table({
+    results = posts,
+    entry_maker = function(entry)
+      local date = ""
+      if entry.date then
+        date = " (" .. entry.date .. ")"
+      end
+
+      return {
+        display = entry.title .. date,
+        ordinal = entry.title .. entry.tags,
+        value = entry,
+      }
+    end,
+  }),
+  sorter = conf.file_sorter(opts),
+  previewer = previewers.new_buffer_previewer({
+    title = "Post Preview",
+    define_preview = function(self, entry)
+      conf.buffer_previewer_maker(entry.value.path, self.state.bufnr, {
+        bufname = self.state.bufname,
+        winid = self.state.winid,
+        preview = opts.preview,
+        file_encoding = opts.file_encoding,
+      })
+    end,
+  }),
+  attach_mappings = function(prompt_bufnr)
+    actions.select_default:replace(function()
+      local selection = action_state.get_selected_entry()
+      actions.close(prompt_bufnr)
+      vim.cmd(":e " .. selection.value.path)
+    end)
+    return true
+  end,
+}):find()
+```
 
 
 # Communicating with the backend
@@ -119,3 +292,5 @@ end
 [configuration rabbit hole]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
 [Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4
 [Neovim config]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
+[nvim-nio]: https://github.com/nvim-neotest/nvim-nio
+[ripgrep]: https://github.com/BurntSushi/ripgrep
