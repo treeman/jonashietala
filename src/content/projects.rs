@@ -17,8 +17,8 @@ use crate::{
 #[derive(Debug)]
 pub struct ProjectsItem {
     prematter: Html,
-    title: String,
-    url: SiteUrl,
+    pub title: String,
+    pub url: SiteUrl,
     pub projects: Vec<Project>,
     pub games: Vec<Game>,
 }

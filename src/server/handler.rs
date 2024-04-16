@@ -68,19 +68,33 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
                     url: post.url.href().to_string(),
                     title: post.title.clone(),
                 });
-
-                // if let Some(ref lookup) = post.markup_lookup {
-                //     for heading in lookup.headings.values() {
-                //         urls.push(UrlInfo {
-                //             url: format!("{}#{}", post.url.href(), heading.id),
-                //             title: post.title.clone(),
-                //         });
-                //     }
-                // }
             }
-            // TODO
-            // Site content:
-            // Series, standalones, tags, projects
+
+            for series in site.content.series.values() {
+                urls.push(UrlInfo {
+                    url: series.url.href().to_string(),
+                    title: series.title.clone(),
+                });
+            }
+
+            for standalone in site.content.standalones.iter() {
+                urls.push(UrlInfo {
+                    url: standalone.url.href().to_string(),
+                    title: standalone.title.clone(),
+                });
+            }
+
+            for tag in site.lookup.tags.keys() {
+                urls.push(UrlInfo {
+                    url: tag.url.href().to_string(),
+                    title: tag.name.clone(),
+                });
+            }
+
+            urls.push(UrlInfo {
+                url: site.content.projects.url.href().to_string(),
+                title: site.content.projects.title.clone(),
+            });
 
             Some(Response::Reply(NeovimResponse::ListUrls {
                 message_id,
