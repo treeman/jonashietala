@@ -379,7 +379,7 @@ nio.process.run({
   args = {
     "-NoHU",
     "--heading",
-    "^\\---\\w*\\n(.+\\n)+^---",
+    "\\A\\---\\w*\\n(.+\\n)+^---",
     -- subpath could be `posts/` or `drafts/`, using absolute paths
     path.blog_path .. subpath,
   },
@@ -410,7 +410,6 @@ local lines = vim.fn.split(output, "\n")
 local posts = {}
 
 local post = {}
--- You iterate over lists in lua with `ipairs`.
 for _, line in ipairs(lines) do
   -- When a newline is encountered save the post and prepare for the next entry.
   if line == "" then
@@ -421,8 +420,15 @@ for _, line in ipairs(lines) do
   -- Skip `---` markers.
   elseif not string.match(line, "%-%-%-%w*") then
     -- Try to extract all key value definitions and store them.
-    local key, value = string.match(line, '(%w+)%s*[:=]%s*"?(.+)"?')
+    local key, value = string.match(line, "(%w+)%s*[:=]%s*(.+)")
     if key then
+      -- Strip surrounding quotes.
+      -- Do this here because there's no non-greedy specifier that could be used
+      -- in the key/value regex above.
+      local stripped = string.match(value, '^"(.+)"$')
+      if stripped then
+        value = stripped
+      end
       post[key] = value
     else
       -- If no key value pair is found, then we should be at the beginning with the file path.
@@ -443,7 +449,7 @@ end
 
 Yes, I'm using regex to parse `yaml`/`toml` values.
 
-I could try to find a lua parser, but this is fine...
+I could try to find a lua parser, but eeeh...
 
 ![](/images/regex_this_is_fine.jpg)
 
@@ -465,11 +471,298 @@ I therefore have a small web server using [axum][] built into the site generator
 It's used to serve the site at `localhost:8080` and uses [hotwatch][] to automatically rebuild the site when I write.
 This is what I've been calling "the backend", even though it's only used locally.
 
-If we could open a connection and make Neovim communicate with the backend, we could do cool things like autocomplete any site url (which is very different from autocompleting file paths), or jump to link definitions (there's no LSP for Djot yet).
+If we could open a connection and make Neovim communicate with the backend, we could do cool things like autocomplete any site url (which is very different from autocompleting file paths), or jump to link definitions and relative urls.
 
-## Channels
+## Sockets in Neovim
 
-## TCP from Rust
+I had no idea on how to communicate with Neovim, but after perusing Neovim's generally great `:help` pages together with some intense Googling I found some building blocks that allowed me to cobble together a working solution:
+
+- `vim.fn.sockconnect` allows us to connect to a socket.
+
+  It comes with an `on_data` callback to receive messages.
+
+- `vim.fn.chansend` to send messages.
+
+- `vim.fn.json_encode` and `vim.fn.json_decode` to convert between json and Lua tables.
+
+- [nvim-nio][] to make the communication async and allows us to build a nice API.
+
+Let's jump right into the code.
+This code connects to a socket:
+
+```lua
+-- Use `pcall` to catch connection errors.
+-- If status is true we cnnected, otherwise `err` describes the error.
+local status, err = pcall(function()
+  -- Save the channel id in the local module, used to send messages.
+  M._blog_conn = vim.fn.sockconnect("tcp", "127.0.0.1:8082", {
+    on_data = function(_, data, _)
+      nio.run(function()
+        -- We received `data` from the socket, handle it async here.
+      end)
+    end,
+  })
+end)
+```
+
+When we try to connect to the socket it might error, wrapping it in a `pcall` stops the error from propagating.
+`sockconnect` returns a channel id that we'll need when sending a message to the socket, I save it into the module variable `M._blog_conn` so other functions can access it, but you could just av well store it in a global such as `vim.g._blog_conn`.
+
+`M._blog_conn` also allows us to see check if we're connected:
+
+```lua
+M.is_connected = function()
+  return M._blog_conn ~= nil
+end
+```
+
+But we also need to handle a disconnect, if the backend process exits for example.
+When this happens the `data` field in the `on_data` callback will be a list with a single empty string:
+
+```lua
+vim.fn.sockconnect("tcp", "127.0.0.1:8082", {
+  on_data = function(_, data, _)
+  nio.run(function()
+    if #data == 1 and data[1] == "" then
+      vim.fn.chanclose(M._blog_conn)
+      M._blog_conn = nil
+      return
+    else
+      -- Receive a message
+    end
+  end)
+})
+```
+
+Before going into details on how to receive a message, here's how to send a message:
+
+```lua
+local conn = M._blog_conn
+if conn then
+  vim.fn.chansend(conn, vim.fn.json_encode(msg))
+  -- Watcher tries to read lines so we need to terminate the message with a newline
+  vim.fn.chansend(conn, "\n")
+else
+  log.error("Trying to send a message without being connected")
+end
+```
+
+Where `log` is defined using [plenary.nvim][]:
+
+```lua
+local log = require("plenary.log").new({
+  plugin = "blog",
+  level = "error",
+})
+```
+
+Sending a message is simple, but I struggled quite a bit on how to wait for a response to the message.
+I wanted an API where I could request something, wait for it, and then do something with the reply.
+Maybe something like this, where a callback function is called whenever we receive a reply:
+
+```lua
+server.call({
+  id = "ListUrls",
+}, function(reply)
+  -- `reply` should contain a list of all the urls on the site.
+end)
+```
+
+The problem is: how to get the reply from the `on_data` callback into the `call` callback?
+I couldn't find a channel to pass internal messages [like I use in Rust](#Channels-in-Rust), so what to do?
+
+I figured I'll solve this by storing all replies (identified by a message id) and the `call` function can just wait until a message with a matching id has been received.
+
+The `call` function that allows the `"ListUrls"`lua call above to work looks like this:
+
+```lua
+M.call = function(msg, cb)
+  if not M.is_connected() then
+    return nil
+  end
+
+  nio.run(function()
+    -- Create a unique message id for the call (it's just a counter).
+    local msg_id = M._gen_message_id()
+    msg["message_id"] = msg_id
+
+    -- Send the message.
+    M._send_msg(msg)
+
+    local msg_id_s = tostring(msg_id)
+
+    -- Wait for response. 1 sec should be more than enough, otherwise we bail.
+    local attempt = 0
+    while attempt < 100 do
+      -- `M._blog_messages` is our global message storage where we'll place all incoming
+      -- messages with an id.
+      if M._blog_messages then
+        local reply = M._blog_messages[msg_id_s]
+        if reply then
+          M._blog_messages[msg_id_s] = nil
+          -- We can return from `nio.run`, which will call the second callback function,
+          -- defined lower down.
+          return reply
+        end
+      end
+
+      attempt = attempt + 1
+      nio.sleep(10)
+    end
+
+    -- Response timed out.
+    return false
+  end,
+  -- This callback is called when the above function completes.
+  -- Here we call `cb` that continues the execution with the backend reply message.
+  function(success, reply)
+    if success and reply then
+      cb(reply)
+    end
+  end)
+end
+```
+
+Waiting like this isn't the best, but so far I haven't had any problems.
+A better solution might be to use [`event`s from nvim-nio](https://github.com/nvim-neotest/nvim-nio?tab=readme-ov-file#niocontrol) but I haven't had the energy to refactor it.
+
+When receiving a message from the socket I register it to `M._blog_messages` like this:
+
+```lua
+local reply = vim.fn.json_decode(data)
+
+if reply["message_id"] then
+  local message_id = tostring(reply["message_id"])
+  local messages = M._blog_messages or {}
+  messages[message_id] = reply
+  M._blog_messages = messages
+else
+  -- Hanlde a message that's not a reply to something Neovim sent.
+end
+```
+
+I think these are the most important parts of how I manage the connection, although I left out some things and simplified others.
+Please see the [source code](https://github.com/treeman/dotfiles/blob/master/.config/nvim/lua/blog/server.lua) if you want more details.
+
+## Sockets in Rust
+
+There's probably a lot I could write on how I manage the connection and message handling on the backend,
+but I wanted to focus more on the Neovim and Lua side of things for this post.
+
+I'll list some of the more crucial parts on how I handle the connection, if you want a more complete picture please refer to the [source code](https://github.com/treeman/jonashietala/tree/master/src/server).
+
+### Tcp connection
+
+To open a socket we can use `TcpListener` from [tokio][].
+I think I found an example somewhere in the docs on how to manage multiple connections and ended up with these steps:
+
+1. Use `TcpListener` to bind against an address.
+1. `spawn` a task that accepts new connections.
+1. `spawn` another task for every new connection, which is responsible for reading and writing to that connection.
+
+These steps might look like this in code:
+
+```rust
+use tokio::net::TcpListener;
+
+let addr = "127.0.0.1:8082";
+let listener = TcpListener::bind(addr).await?;
+
+// Spawn a new thread that's responsible for accepting new connections
+// and to spawn handlers for that connection.
+tokio::spawn(async move {
+    info!("tcp socket on: {addr}");
+    loop {
+        match listener.accept().await {
+            Ok((stream, _)) => {
+                tokio::spawn(async move {
+                    // This thread manages a new connection to the socket
+                    // and should read and write to `stream`.
+                });
+            }
+            Err(e) => error!("Listener error: {e:?}"),
+        }
+    }
+});
+```
+
+We're left with a thread that's responsible for reading and writing to a `TcpStream`, but how can you read _or_ write from the same thread?
+
+You can split a `stream` into a reader and writer like so:
+
+```rust
+let (reader, writer) = stream.split();
+let mut reader = BufReader::new(reader);
+let mut writer = BufWriter::new(writer);
+```
+
+We now need a loop that can either read an incoming message, or write if we have a message to send.
+It can be done using `tokio::select!`, which can await on multiple futures and acts on the first one that returns:;
+
+```rust
+loop {
+    tokio::select! {
+        msg = read_line(&mut reader) => {
+            // Handle incoming message.
+        }
+        msg = nvim_rx.recv_async() => {
+            // Write a response into `writer`.
+        }
+    }
+}
+```
+
+This way we can accomplish our goal of both reading and writing to our socket.
+But if we have a message we want to send from somewhere else in our program, how do we get it into the `select!` clause we just created?
+
+### Channels in Rust
+
+Notice `nvim_rx` in the `select!` clause?
+
+`nvim_rx` is a `flume::Receiver<NeovimResponse>` from [flume][], a fast multi-producer, multi-consumer channel I use for passing messages around internally.
+This kind of channel is very handy because it allows you to pass messages across threads between parts of your application.
+
+You use the channel like this:
+
+```rust
+let (nvim_tx, nvim_rx) = flume::unbounded::<NeovimResponse>();
+
+// Send something through the sender from anywhere in the program.
+nvim_tx.send(NeovimResponse::Diagnostics { diagnostics })?,
+
+// Receive it somewhere else.
+let msg = nvim_rx.recv_async().await?;
+```
+
+Flume channels are very convenient because both senders and receivers are `Send` and `Clone`, so they work well across threads in any constellation (in contrast to the channel in `std::mpsc` that's single-consumer).
+
+### Writing and reading
+
+I should also mention how to do the actual reading and writing.
+
+To make it easy to use in a `select!` clause I made this read line helper:
+
+```rust
+async fn read_line(reader: &mut BufReader<ReadHalf<'_>>) -> Result<String> {
+    let mut s = String::new();
+    reader.read_line(&mut s).await?;
+    Ok(s)
+}
+```
+
+Writing can be done like this:
+
+```rust
+let json = serde_json::to_string(&msg)?;
+writer.write_all(json.as_bytes()).await?;
+// I delimit messages with newlines. A bit crappy, I know.
+writer.write_all("\n".as_bytes()).await?;
+// Make sure to flush to send the message right away.
+writer.flush().await?;
+```
+
+I estimate that these bits of knowledge takes you 80% to working with a socket in Rust.
+It's just 80% left now, which I'll leave as an exercise to the reader.
 
 # Autocompletion with [nvim-cmp][]
 
@@ -477,13 +770,11 @@ If we could open a connection and make Neovim communicate with the backend, we c
 
 # Diagnostics
 
-# Connction status with lualine
+# Connection status with lualine
 
 # Browser preview
 
 ## Websocket communication
-
-- flume multiple producer and consumer
 
 ## Scrolling
 
@@ -498,3 +789,6 @@ If we could open a connection and make Neovim communicate with the backend, we c
 [blog_code]: https://github.com/treeman/jonashietala
 [hotwatch]: https://github.com/francesca64/hotwatch
 [axum]: https://github.com/tokio-rs/axum
+[flume]: https://github.com/zesterer/flume
+[tokio]: https://tokio.rs/
+[plenary.nvim]: https://github.com/nvim-lua/plenary.nvim
