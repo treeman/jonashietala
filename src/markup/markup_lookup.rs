@@ -31,6 +31,12 @@ pub struct Link {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
+pub struct BrokenLink {
+    pub tag: String,
+    pub range: Range<usize>,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum ElementInfo {
     Link(Link),
     LinkDef(LinkDef),
@@ -46,7 +52,7 @@ pub struct MarkupLookup {
     pub pos_to_element: RangeMap<usize, ElementInfo>,
 
     // Element lookup by id or type.
-    pub broken_links: Vec<Link>,
+    pub broken_links: Vec<BrokenLink>,
     pub link_defs: HashMap<LinkLabel, LinkDef>,
     pub headings: HashMap<HeadingId, Heading>,
 
@@ -138,8 +144,11 @@ impl MarkupLookup {
     }
 
     pub fn insert_link(&mut self, link: Link) {
-        if let LinkRef::Unresolved(_) = link.link_ref {
-            self.broken_links.push(link.clone());
+        if let LinkRef::Unresolved(ref tag) = link.link_ref {
+            self.broken_links.push(BrokenLink {
+                tag: tag.clone(),
+                range: link.range.clone(),
+            });
         }
 
         self.pos_to_element

@@ -1,5 +1,5 @@
 use crate::content::PostItem;
-use crate::markup::markup_lookup::{Heading, LinkDef};
+use crate::markup::markup_lookup::{BrokenLink, Heading, LinkDef};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -33,6 +33,10 @@ pub enum NeovimEvent {
         message_id: u64,
     },
     ListLinkDefs {
+        message_id: u64,
+        path: String,
+    },
+    ListBrokenLinks {
         message_id: u64,
         path: String,
     },
@@ -108,6 +112,19 @@ impl From<&LinkDef> for LinkDefInfo {
 }
 
 #[derive(Debug, Serialize)]
+pub struct BrokenLinkInfo {
+    pub tag: String,
+}
+
+impl From<&BrokenLink> for BrokenLinkInfo {
+    fn from(link: &BrokenLink) -> Self {
+        Self {
+            tag: link.tag.clone(),
+        }
+    }
+}
+
+#[derive(Debug, Serialize)]
 pub struct HeadingInfo {
     pub id: String,
     pub content: String,
@@ -149,6 +166,10 @@ pub enum NeovimResponse {
     ListLinkDefs {
         message_id: u64,
         defs: Vec<LinkDefInfo>,
+    },
+    ListBrokenLinks {
+        message_id: u64,
+        links: Vec<BrokenLinkInfo>,
     },
     ListHeadings {
         message_id: u64,

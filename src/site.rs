@@ -28,7 +28,7 @@ use crate::content::SeriesItem;
 use crate::content::SeriesRef;
 use crate::feed::SiteFeed;
 use crate::item::Item;
-use crate::markup::markup_lookup::{LinkRef, MarkupLookup};
+use crate::markup::markup_lookup::MarkupLookup;
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
 use crate::paths::RelPath;
@@ -959,19 +959,16 @@ impl Site {
             lookup
                 .broken_links
                 .iter()
-                .map(|link| match link.link_ref {
-                    LinkRef::Unresolved(ref tag) => {
-                        let start = lookup.char_pos_to_row_col(link.range.start);
-                        let end = lookup.char_pos_to_row_col(link.range.end);
-                        Diagnostic {
-                            linenum: start.0,
-                            column: start.1,
-                            end_linenum: end.0,
-                            end_column: end.1,
-                            message: format!("Link to non-existent link definition `{tag}`"),
-                        }
+                .map(|link| {
+                    let start = lookup.char_pos_to_row_col(link.range.start);
+                    let end = lookup.char_pos_to_row_col(link.range.end);
+                    Diagnostic {
+                        linenum: start.0,
+                        column: start.1,
+                        end_linenum: end.0,
+                        end_column: end.1,
+                        message: format!("Link to non-existent link definition `{}`", link.tag),
                     }
-                    _ => panic!("unexpected link_ref {:?}", link.link_ref),
                 })
                 .collect(),
         )

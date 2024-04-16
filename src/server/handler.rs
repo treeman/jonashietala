@@ -25,13 +25,7 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             path,
             ..
         } => {
-            // let site = site.lock().expect("To JsEvent failed");
             let path = Utf8PathBuf::from(path);
-            // This works:
-            // dbg!(&site.content.find_post(&path.file_name().unwrap()));
-            // dbg!(&site
-            //     .content
-            //     .find_post(&site.file_path(path.clone().into())?.rel_path.0.as_str()));
             Some(Response::Web(WebEvent::PositionPage {
                 linenum,
                 linecount,
@@ -128,6 +122,16 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             Some(Response::Reply(NeovimResponse::ListLinkDefs {
                 message_id,
                 defs,
+            }))
+        }
+        NeovimEvent::ListBrokenLinks { message_id, path } => {
+            // FIXME should reply with an error if path not found
+            let lookup = site.content.find_post_lookup(&path)?;
+            let links = lookup.broken_links.iter().map(Into::into).collect();
+
+            Some(Response::Reply(NeovimResponse::ListBrokenLinks {
+                message_id,
+                links,
             }))
         }
         NeovimEvent::ListHeadings { message_id, path } => {
