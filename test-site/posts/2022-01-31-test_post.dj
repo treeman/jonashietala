@@ -27,3 +27,8 @@ No "spec"
 
 Inline `code` here `and`rust
 
+## Second level header
+
+Here's [a working link][tag1] and a [broken link][broken_tag].
+
+[tag1]: /uses

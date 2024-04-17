@@ -1,9 +1,7 @@
+use super::complete::CompletionItemKind;
 use crate::content::PostItem;
 use crate::markup::markup_lookup::{BrokenLink, Heading, LinkDef};
-use crate::paths::AbsPath;
-use crate::site_url::SiteUrl;
 use serde::{Deserialize, Serialize};
-use serde_repr::*;
 use std::collections::HashMap;
 
 #[derive(Debug, Serialize)]
@@ -145,112 +143,6 @@ impl From<&Heading> for HeadingInfo {
         HeadingInfo {
             id: heading.id.clone(),
             content: heading.content.clone(),
-        }
-    }
-}
-
-#[allow(dead_code)]
-#[derive(Debug, Serialize_repr, Clone, Copy, PartialEq, Eq)]
-#[repr(u8)]
-pub enum CompletionItemKind {
-    Text = 1,
-    Method = 2,
-    Function = 3,
-    Constructor = 4,
-    Field = 5,
-    Variable = 6,
-    Class = 7,
-    Interface = 8,
-    Module = 9,
-    Property = 10,
-    Unit = 11,
-    Value = 12,
-    Enum = 13,
-    Keyword = 14,
-    Snippet = 15,
-    Color = 16,
-    File = 17,
-    Reference = 18,
-    Folder = 19,
-    EnumMember = 20,
-    Constant = 21,
-    Struct = 22,
-    Event = 23,
-    Operator = 24,
-    TypeParameter = 25,
-}
-
-pub struct CompletionItemBuilder {
-    pub label: String,
-    pub kind: CompletionItemKind,
-    pub label_tag: Option<String>,
-    pub filter_text: Option<String>,
-    pub insert_text: Option<String>,
-    pub path: Option<AbsPath>,
-}
-
-impl CompletionItemBuilder {
-    pub fn from_url(label: &str, url: &SiteUrl, kind: CompletionItemKind) -> Self {
-        let href = url.href();
-        Self {
-            label: label.to_string(),
-            insert_text: Some(href.to_string()),
-            kind,
-            ..Default::default()
-        }
-        .add_filter(href.as_ref())
-        .add_filter(label)
-    }
-
-    pub fn with_label_tag(mut self, tag: &str) -> Self {
-        self.label_tag = Some(tag.into());
-        self
-    }
-
-    pub fn with_path(mut self, path: &AbsPath) -> Self {
-        self.path = Some(path.to_owned());
-        self
-    }
-
-    pub fn add_filter(mut self, txt: &str) -> Self {
-        if let Some(mut s) = self.filter_text {
-            s.push('|');
-            s.push_str(txt);
-            self.filter_text = Some(s);
-        } else {
-            self.filter_text = Some(txt.to_string());
-        }
-        self
-    }
-}
-
-impl Default for CompletionItemBuilder {
-    fn default() -> Self {
-        CompletionItemBuilder {
-            label: "".into(),
-            kind: CompletionItemKind::Text,
-            label_tag: None,
-            filter_text: None,
-            insert_text: None,
-            path: None,
-        }
-    }
-}
-
-impl Into<CompletionItem> for CompletionItemBuilder {
-    fn into(self) -> CompletionItem {
-        let label = if let Some(tag) = self.label_tag {
-            format!("{}: {}", tag, self.label)
-        } else {
-            self.label
-        };
-
-        CompletionItem {
-            label,
-            insert_text: self.insert_text,
-            filter_text: self.filter_text,
-            kind: self.kind,
-            path: self.path.map(|path| path.to_string()),
         }
     }
 }
