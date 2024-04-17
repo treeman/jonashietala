@@ -1,3 +1,5 @@
+mod complete;
+mod goto_def;
 mod handler;
 pub mod messages;
 

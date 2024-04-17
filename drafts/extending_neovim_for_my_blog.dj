@@ -766,6 +766,126 @@ It's just 80% left now, which I'll leave as an exercise to the reader.
 
 # Autocompletion with [nvim-cmp][]
 
+Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
+
+This is the basics of a source that completes a blog post path for an inline link:
+
+```lua
+local source = {}
+
+-- The `complete` function is required.
+function source:complete(params, callback)
+  -- There's also the `cursor_after_line`, `cursor_line`, and a `cursor` fields on `context`.
+  local cursor_before_line = params.context.cursor_before_line
+
+  -- Regex matches `](/` to autocomplete a path in an inline link like `[link text](/path/to/post)`.
+  -- The `[^%)]*$` ensures that we continue completion even
+  -- after we've typed some characters and not only once after the first `/`.
+  if string.match(cursor_before_line, "%]%(/[^%)]*$") then
+    local items = {
+      {
+        -- Text to be displayed in the completion menu.
+        label = "Rewriting my Neovim config in Lua",
+        -- Text to insert.
+        insertText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/",
+        -- Text to filter against, works like `ordinal` for telescope.
+        filterText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/|Rewriting my Neovim config in Lua",
+      },
+    }
+    callback(items)
+  else
+    -- `callback` should always be called.
+    callback({})
+  end
+end
+
+-- Trigger completion on these characters.
+-- We could also trigger it manually.
+function source:get_trigger_characters()
+  return { "/" }
+end
+
+-- We must register our source to `cmp` like this:
+require("cmp").register_source("blog", source)
+```
+
+It's also a good idea to implement the `is_available` function, to only trigger completion in the right context:
+
+```lua
+function source:is_available()
+  return require("blog.server").is_connected()
+end
+```
+
+TODO
+
+```lua
+content.list_urls(function(reply)
+  local res = {}
+  for _, info in ipairs(reply.urls) do
+    table.insert(res, {
+      label = info.title,
+      insertText = info.url,
+      filterText = info.url .. info.title,
+      detail = info.url,
+      kind = 17,
+    })
+  end
+  callback(res)
+end)
+```
+
+The completion part of the integration is the section I've had to tweak the most and it has slowly grown more complex.
+I've been using regex on `cursor_before_line` to select what to complete.
+Here are some Lua regexes I use:
+
+```lua
+-- Expand images separately because I only ever use it in a -- `![](/url)`
+-- context and not mixing with other urls gives a more pleasant experience.
+string.match(cursor_before_line, "!%[%]%([^%)]*$")
+
+-- Expand inline links, e.g. `[txt](/`
+string.match(cursor_before_line, "%]%(/[^%)]*$")
+
+-- Expanding headings in inline links, e.g. `[txt](#`
+string.match(cursor_before_line, "%]%(#[^%)]*$")
+
+-- Expand links in link ref definitions, e.g. `[label]: `
+string.match(cursor_before_line, "^%[.+%]:%s+")
+
+-- Expanding links in ref defs, e.g. `[label]: #`
+string.match(cursor_before_line, "^%[.+%]:%s+#")
+
+-- Expand url definition tags in `[text][tag]`
+if string.match(cursor_before_line, "%[[^%]]+%]%[[^%]]*$")
+
+-- Expand url definition tags in `[tag][]`, simplified to after a `[`
+-- If at the beginning of the line, we should complete broken link tags to..
+if string.match(cursor_before_line, "%[[^%]]*$")
+
+-- Expand tags in frontmatter if line starts with `tags = `
+if string.match(cursor_line, "^tags = ")
+
+-- Expand series in frontmatter if line starts with `series = `
+if string.match(cursor_line, "^series = ")
+```
+
+::: notice
+As the completion logic grew more complex, I moved it out from Neovim to the backend and rely on a single `"Complete"` request to the backend:
+
+```lua
+function source:complete(params, callback)
+  server.call({
+    id = "Complete",
+    path = vim.fn.expand("%:p"),
+  }, function(reply)
+    callback(reply.completion_items)
+  end)
+```
+
+Either way works, I'll keep the description in Lua for illustrative purposes.
+:::
+
 # Goto definition
 
 # Diagnostics

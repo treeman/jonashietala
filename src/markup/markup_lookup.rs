@@ -91,6 +91,10 @@ impl MarkupLookup {
         }
     }
 
+    pub fn in_frontmatter(&self, row: usize) -> bool {
+        row < self.line_calc_offset
+    }
+
     pub fn element_at(&self, row: usize, col: usize) -> Option<&ElementInfo> {
         self.pos_to_element.get(self.row_col_to_char_pos(row, col)?)
     }

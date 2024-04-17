@@ -128,6 +128,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::markup::markup_lookup::BrokenLink;
     use jotdown::Parser;
 
     fn gen(s: &str) -> MarkupLookup {
@@ -171,12 +172,23 @@ text");
     fn test_unresolved_link_lookup() {
         let lookup = gen("before [text here][tag] after");
 
-        let link = Link {
-            link_ref: LinkRef::Unresolved("tag".into()),
-            range: 7..23,
-        };
-        assert_eq!(lookup.broken_links, vec![link.clone()]);
-        assert_eq!(lookup.at_pos(7), Some(&ElementInfo::Link(link)));
+        let tag = "tag";
+        let range = 7..23;
+
+        assert_eq!(
+            lookup.broken_links,
+            vec![BrokenLink {
+                tag: tag.into(),
+                range: range.clone()
+            }]
+        );
+        assert_eq!(
+            lookup.at_pos(7),
+            Some(&ElementInfo::Link(Link {
+                link_ref: LinkRef::Unresolved(tag.into()),
+                range: range.clone(),
+            }))
+        );
     }
 
     #[test]
