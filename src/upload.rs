@@ -14,8 +14,8 @@ use std::collections::HashSet;
 use std::fs;
 use std::os::unix::fs::MetadataExt;
 use tracing::{debug, error, info};
-use walkdir::WalkDir;
 
+use crate::paths;
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
 
@@ -53,16 +53,7 @@ pub async fn sync(opts: SyncOpts<'_>) -> Result<()> {
 }
 
 async fn calculate_sync(dir: &AbsPath, bucket: &Bucket) -> Result<SyncPlan> {
-    // FIXME this should be a standard function
-    let local: Vec<FilePath> = WalkDir::new(dir.as_std_path())
-        .into_iter()
-        .filter_map(|e| e.ok())
-        .filter(|e| match e.metadata() {
-            Ok(e) => !e.is_dir(),
-            _ => false,
-        })
-        .filter_map(|e| FilePath::from_std_path(dir, e.into_path()).ok())
-        .collect();
+    let local = paths::list_files(dir);
 
     let remote: HashMap<String, Object> = bucket
         .list("".to_string(), None)

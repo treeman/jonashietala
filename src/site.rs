@@ -130,20 +130,23 @@ impl SiteContent {
         self.posts.values().find(predicate)
     }
 
-    // Find post by file name
     pub fn find_post_by_file_name<'a>(&'a self, file_name: &str) -> Option<&'a PostItem> {
         self.find_post(|post| post.path.file_name() == Some(file_name))
     }
 
-    // Find post by url
     pub fn find_post_by_url<'a>(&'a self, url: &str) -> Option<&'a PostItem> {
         self.find_post(|post| post.url.href() == url)
     }
 
-    pub fn find_post_lookup<'a>(&'a self, path: &str) -> Option<&'a MarkupLookup> {
+    pub fn find_post_lookup_by_file_name<'a>(&'a self, path: &str) -> Option<&'a MarkupLookup> {
         let path = Utf8PathBuf::from(path);
 
         self.find_post_by_file_name(path.file_name()?)
+            .and_then(|post| post.markup_lookup.as_ref())
+    }
+
+    pub fn find_post_lookup_by_url<'a>(&'a self, url: &str) -> Option<&'a MarkupLookup> {
+        self.find_post_by_url(url)
             .and_then(|post| post.markup_lookup.as_ref())
     }
 
@@ -953,7 +956,7 @@ impl Site {
     }
 
     fn collect_path_diagnostics(&self, path: &AbsPath) -> Option<Vec<Diagnostic>> {
-        let lookup = self.content.find_post_lookup(path.as_str())?;
+        let lookup = self.content.find_post_lookup_by_file_name(path.as_str())?;
 
         Some(
             lookup

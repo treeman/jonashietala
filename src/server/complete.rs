@@ -2,8 +2,10 @@ use super::messages::CompletionItem;
 use crate::paths::AbsPath;
 use crate::site::Site;
 use crate::site_url::SiteUrl;
+use crate::{markup::MarkupLookup, paths};
+use camino::Utf8PathBuf;
 use lazy_static::lazy_static;
-use regex::Regex;
+use regex::{Captures, Regex};
 use serde_repr::*;
 
 pub fn complete(
@@ -13,65 +15,72 @@ pub fn complete(
     path: &str,
     site: &Site,
 ) -> Vec<CompletionItem> {
-    let lookup = match site.content.find_post_lookup(&path) {
+    let lookup = match site.content.find_post_lookup_by_file_name(&path) {
         Some(x) => x,
         None => return vec![],
     };
 
     if lookup.in_frontmatter(row) {
-        // -- Expand tags in frontmatter if line starts with `tags = `
+        // Expand tags in frontmatter if line starts with `tags = `
         // if string.match(cursor_line, "^tags = ")
         if FRONTMATTER_TAG.is_match(cursor_before_line) {
             return tags_completions(site);
         }
 
-        // -- Expand series in frontmatter if line starts with `series = `
+        // Expand series in frontmatter if line starts with `series = `
         // if string.match(cursor_line, "^series = ")
         if FRONTMATTER_SERIES.is_match(cursor_before_line) {
             return series_completions(site);
         }
     } else {
-        // -- Expand images separately because I only ever use it in a -- `![](/url)`
-        // -- context and not mixing with other urls gives a more pleasant experience.
+        // Expand images separately because I only ever use it in a -- `![](/url)`
+        // context and not mixing with other urls gives a more pleasant experience.
         // string.match(cursor_before_line, "!%[%]%([^%)]*$")
-        // if IMG_LINK.is_match(cursor_before_line) {}
+        if IMG_LINK.is_match(cursor_before_line) {
+            return img_completions(site);
+        }
 
-        // -- Expand inline links, e.g. `[txt](/`
-        if INLINE_REL_LINK.is_match(cursor_before_line) {
-            // FIXME should match a heading in the referenced post
+        // Expand inline links, e.g. `[txt](/`
+        // if INLINE_REL_LINK.is_match(cursor_before_line) {
+        if let Some(caps) = INLINE_REL_LINK.captures(cursor_before_line) {
+            if let Some(res) = split_heading_completions(caps, site) {
+                return res;
+            }
             return url_completions(site);
         }
 
-        // -- Expanding headings in inline links, e.g. `[txt](#`
+        // Expanding headings in inline links, e.g. `[txt](#`
         if INLINE_HEADER_REF.is_match(cursor_before_line) {
-            return heading_completions(path, site);
+            return heading_completions(lookup);
         }
 
-        // -- Expand links in link ref definitions, e.g. `[label]: /`
-        if LINK_DEF_REL_LINK.is_match(cursor_before_line) {
-            // FIXME should match a heading in the referenced post
+        // Expand links in link ref definitions, e.g. `[label]: /`
+        if let Some(caps) = LINK_DEF_REL_LINK.captures(cursor_before_line) {
+            if let Some(res) = split_heading_completions(caps, site) {
+                return res;
+            }
             return url_completions(site);
         }
 
-        // -- Expanding headings in ref defs, e.g. `[label]: #`
+        // Expanding headings in ref defs, e.g. `[label]: #`
         if LINK_DEF_HEADER_REF.is_match(cursor_before_line) {
-            return heading_completions(path, site);
+            return heading_completions(lookup);
         }
 
-        // -- Expand url definition tags in `[text][tag]`
+        // Expand url definition tags in `[text][tag]`
         // if string.match(cursor_before_line, "%[[^%]]+%]%[[^%]]*$")
         if FULL_LINK_TAG.is_match(cursor_before_line) {
-            return link_tag_completions(path, site);
+            return link_tag_completions(lookup);
         }
 
         // Expand url definition tags in `[tag][]`, simplified to after a `[`
         // If first thing in a line, it could be a link def `[tag]: `
         // where we should complete broken link tags as well.
         if let Some(open_bracket) = OPEN_BRACKET.find(cursor_before_line) {
-            let mut res = link_tag_completions(path, site);
+            let mut res = link_tag_completions(lookup);
 
             if open_bracket.start() == 0 {
-                append_broken_link_completions(path, site, &mut res);
+                append_broken_link_completions(lookup, &mut res);
             }
 
             return res;
@@ -82,16 +91,35 @@ pub fn complete(
 }
 
 lazy_static! {
-    static ref IMG_LINK: Regex = Regex::new(r"!\[\]\([^\)]*$").unwrap();
-    static ref INLINE_REL_LINK: Regex = Regex::new(r"]\(/[^)]*$").unwrap();
+    static ref IMG_LINK: Regex = Regex::new(r"!\[\]\([^)]*$").unwrap();
+    static ref INLINE_REL_LINK: Regex = Regex::new(r"]\((/[^)]*)$").unwrap();
     static ref INLINE_HEADER_REF: Regex = Regex::new(r"]\(#[^)]*$").unwrap();
-    static ref LINK_DEF_REL_LINK: Regex = Regex::new(r"^\[.+\]:\s+/").unwrap();
+    static ref LINK_DEF_REL_LINK: Regex = Regex::new(r"^\[.+\]:\s+(/.*)$").unwrap();
     static ref LINK_DEF_HEADER_REF: Regex = Regex::new(r"^\[.+\]:\s+#").unwrap();
     static ref FULL_LINK_TAG: Regex = Regex::new(r"\[[^\]]+\]\[[^\]]*$").unwrap();
     static ref FRONTMATTER_TAG: Regex = Regex::new(r"^tags(:| =) ").unwrap();
     static ref FRONTMATTER_SERIES: Regex = Regex::new(r"^series(:| =) ").unwrap();
     static ref OPEN_BRACKET: Regex = Regex::new(r"\[[^\]]*$").unwrap();
     static ref OPEN_BRACKET_FIRST: Regex = Regex::new(r"^\[[^\]]*$").unwrap();
+}
+
+fn img_completions(site: &Site) -> Vec<CompletionItem> {
+    paths::list_files(&site.opts.input_dir.join("images"))
+        .into_iter()
+        .map(|img| {
+            let img = Utf8PathBuf::from("/images/").join(img.rel_path.0);
+            CompletionItemBuilder {
+                // FIXME not sure why this isn't ok for Neovim to just have the label.
+                // Maybe because None is converted to vim.NIL or something silly?
+                label: img.to_string(),
+                filter_text: Some(img.to_string()),
+                insert_text: Some(img.to_string()),
+                kind: CompletionItemKind::File,
+                ..Default::default()
+            }
+            .into()
+        })
+        .collect()
 }
 
 fn url_completions(site: &Site) -> Vec<CompletionItem> {
@@ -128,19 +156,13 @@ fn url_completions(site: &Site) -> Vec<CompletionItem> {
     res
 }
 
-fn heading_completions(path: &str, site: &Site) -> Vec<CompletionItem> {
-    let lookup = match site.content.find_post_lookup(path) {
-        Some(x) => x,
-        None => return vec![],
-    };
-
+fn heading_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
     lookup
         .headings
         .values()
         .map(|heading| {
             CompletionItemBuilder {
-                // FIXME should display number of `#`?
-                label: heading.content.clone(),
+                label: format!("{} {}", "#".repeat(heading.level.into()), heading.content),
                 insert_text: Some(heading.id.clone()),
                 filter_text: Some(heading.content.clone()),
                 kind: CompletionItemKind::Class,
@@ -151,12 +173,16 @@ fn heading_completions(path: &str, site: &Site) -> Vec<CompletionItem> {
         .collect()
 }
 
-fn link_tag_completions(path: &str, site: &Site) -> Vec<CompletionItem> {
-    let lookup = match site.content.find_post_lookup(path) {
-        Some(x) => x,
-        None => return vec![],
-    };
+fn split_heading_completions(caps: Captures<'_>, site: &Site) -> Option<Vec<CompletionItem>> {
+    if let Some((url, _head)) = caps[1].split_once('#') {
+        if let Some(lookup) = site.content.find_post_lookup_by_url(url) {
+            return Some(heading_completions(lookup));
+        }
+    }
+    None
+}
 
+fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
     lookup
         .link_defs
         .values()
@@ -174,12 +200,7 @@ fn link_tag_completions(path: &str, site: &Site) -> Vec<CompletionItem> {
         .collect()
 }
 
-fn append_broken_link_completions(path: &str, site: &Site, res: &mut Vec<CompletionItem>) {
-    let lookup = match site.content.find_post_lookup(path) {
-        Some(x) => x,
-        None => return,
-    };
-
+fn append_broken_link_completions(lookup: &MarkupLookup, res: &mut Vec<CompletionItem>) {
     for link in lookup.broken_links.iter() {
         res.push(
             CompletionItemBuilder {
@@ -427,6 +448,36 @@ mod tests {
         );
         assert_eq!(items, def_items);
 
+        let heading_items = complete(
+            "](/blog/2022/02/01/feb_post#",
+            0,
+            6,
+            "posts/2022-01-31-test_post.dj",
+            &test_site.site,
+        );
+
+        assert_eq!(heading_items.iter().count(), 1);
+
+        assert_eq!(
+            find_insert_text("heading-with-text", &heading_items),
+            Some(&CompletionItem {
+                label: "# heading with text".into(),
+                insert_text: Some("heading-with-text".into()),
+                filter_text: Some("heading with text".into()),
+                kind: CompletionItemKind::Class,
+                path: None
+            })
+        );
+
+        let def_heading_items = complete(
+            "[tag]: /blog/2022/02/01/feb_post#",
+            0,
+            6,
+            "posts/2022-01-31-test_post.dj",
+            &test_site.site,
+        );
+        assert_eq!(heading_items, def_heading_items);
+
         Ok(())
     }
 
@@ -451,7 +502,7 @@ mod tests {
         assert_eq!(
             find_insert_text("Second-level-header", &items),
             Some(&CompletionItem {
-                label: "Second level header".into(),
+                label: "## Second level header".into(),
                 insert_text: Some("Second-level-header".into()),
                 filter_text: Some("Second level header".into()),
                 kind: CompletionItemKind::Class,
@@ -553,7 +604,7 @@ mod tests {
     }
 
     #[test]
-    fn test_frontmatter_completions() -> Result<()> {
+    fn test_frontmatter_completion() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
             generate_markup_lookup: true,

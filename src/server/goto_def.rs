@@ -11,7 +11,7 @@ pub enum GotoDefRes {
 }
 
 pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Option<GotoDefRes> {
-    let lookup = site.content.find_post_lookup(&path)?;
+    let lookup = site.content.find_post_lookup_by_file_name(&path)?;
 
     match lookup.element_at(linenum, column)? {
         ElementInfo::Link(Link {
@@ -45,6 +45,7 @@ lazy_static! {
 }
 
 fn goto_url(url: &str, lookup: &MarkupLookup, site: &Site) -> Option<GotoDefRes> {
+    // FIXME doesn't work...?
     let hash_ref = HASH_REF.captures(url.trim());
     if let Some(hash_match) = hash_ref {
         if let Some(heading) = lookup.headings.get(&hash_match[1]) {

@@ -33,9 +33,10 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
         };
 
         match &next {
-            (Event::Start(Container::Heading { id, .. }, _), range) => {
+            (Event::Start(Container::Heading { id, level, .. }, _), range) => {
                 self.event_stack.push(ElementInfo::Heading(Heading {
                     range: range.clone(),
+                    level: *level,
                     id: id.to_string(),
                     content: "".into(),
                 }))
@@ -146,6 +147,7 @@ mod tests {
 text");
         let heading = Heading {
             id: "h1-x".into(),
+            level: 1,
             content: "h1 (x)".into(),
             range: 0..9,
         };

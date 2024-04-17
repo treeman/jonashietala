@@ -1,6 +1,6 @@
 use super::complete;
 use super::goto_def::{self, GotoDefRes};
-use super::messages::{CompletionItem, NeovimEvent, NeovimResponse, TagInfo, WebEvent};
+use super::messages::{NeovimEvent, NeovimResponse, TagInfo, WebEvent};
 use crate::site::Site;
 use camino::Utf8PathBuf;
 use std::sync::{Arc, Mutex};

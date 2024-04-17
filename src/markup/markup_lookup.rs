@@ -4,6 +4,7 @@ use std::{collections::HashMap, ops::Range};
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Heading {
     pub id: String,
+    pub level: u16,
     pub content: String,
     pub range: Range<usize>,
 }
