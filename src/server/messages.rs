@@ -1,6 +1,10 @@
 use super::complete::CompletionItemKind;
-use crate::content::PostItem;
+use crate::content::SeriesItem;
+use crate::content::StandaloneItem;
+use crate::content::Tag;
+use crate::content::{PostItem, PostRef};
 use crate::markup::markup_lookup::{BrokenLink, Heading, LinkDef};
+use crate::Site;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -63,7 +67,7 @@ pub enum NeovimEvent {
     },
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub struct TagInfo {
     pub id: String,
     pub name: String,
@@ -71,9 +75,36 @@ pub struct TagInfo {
     pub posts: Vec<PostInfo>,
 }
 
-#[derive(Debug, Serialize)]
+impl TagInfo {
+    pub fn from_tag(tag: &Tag, posts: &[PostRef], site: &Site) -> Self {
+        Self {
+            id: tag.id.clone(),
+            name: tag.name.to_string(),
+            url: tag.url.href().to_string(),
+            posts: posts
+                .iter()
+                .map(|post_ref| {
+                    site.content
+                        .posts
+                        .get(post_ref)
+                        .expect("Tag references non-existent post")
+                        .into()
+                })
+                .collect(),
+        }
+    }
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct ImgInfo {
+    pub url: String,
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub struct PostInfo {
     pub title: String,
+    pub path: String,
+    pub created: String,
     pub url: String,
     pub tags: Vec<String>,
     pub series: Option<String>,
@@ -83,9 +114,28 @@ impl From<&PostItem> for PostInfo {
     fn from(post: &PostItem) -> Self {
         PostInfo {
             title: post.title.to_string(),
+            path: post.path.to_string(),
             url: post.url.href().to_string(),
+            created: post.created.format("%F").to_string(),
             tags: post.tags.iter().map(|tag| tag.name.to_string()).collect(),
             series: post.series.as_ref().map(|x| x.id.clone()),
+        }
+    }
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct StandaloneInfo {
+    pub title: String,
+    pub url: String,
+    pub path: String,
+}
+
+impl From<&StandaloneItem> for StandaloneInfo {
+    fn from(item: &StandaloneItem) -> Self {
+        StandaloneInfo {
+            title: item.title.to_string(),
+            url: item.url.href().to_string(),
+            path: item.path.to_string(),
         }
     }
 }
@@ -96,15 +146,38 @@ pub struct UrlInfo {
     pub url: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub struct SeriesInfo {
     pub id: String,
     pub title: String,
     pub url: String,
+    pub path: String,
     pub posts: Vec<PostInfo>,
 }
 
-#[derive(Debug, Serialize)]
+impl SeriesInfo {
+    pub fn from(item: &SeriesItem, site: &Site) -> Self {
+        Self {
+            id: item.id.clone(),
+            title: item.title.to_string(),
+            url: item.url.href().to_string(),
+            path: item.path.to_string(),
+            posts: item
+                .posts
+                .iter()
+                .map(|post_ref| {
+                    site.content
+                        .posts
+                        .get(&post_ref.0)
+                        .expect("Series references non-existent post")
+                        .into()
+                })
+                .collect(),
+        }
+    }
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub struct LinkDefInfo {
     pub label: String,
     pub url: String,
@@ -119,7 +192,7 @@ impl From<&LinkDef> for LinkDefInfo {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub struct BrokenLinkInfo {
     pub tag: String,
 }
@@ -132,10 +205,11 @@ impl From<&BrokenLink> for BrokenLinkInfo {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub struct HeadingInfo {
     pub id: String,
     pub content: String,
+    pub level: u16,
 }
 
 impl From<&Heading> for HeadingInfo {
@@ -143,18 +217,37 @@ impl From<&Heading> for HeadingInfo {
         HeadingInfo {
             id: heading.id.clone(),
             content: heading.content.clone(),
+            level: heading.level,
         }
     }
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
+pub enum ExtraCompletionInfo {
+    Post(PostInfo),
+    Standalone(StandaloneInfo),
+    Series(SeriesInfo),
+    Tag(TagInfo),
+    Img(ImgInfo),
+    Heading(HeadingInfo),
+    LinkDef(LinkDefInfo),
+    BrokenLink(BrokenLinkInfo),
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct CompletionItem {
+    // These are used by cmp.
     pub label: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub insert_text: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub filter_text: Option<String>,
     pub kind: CompletionItemKind,
-    pub path: Option<String>,
+
+    // Metadata used to construct documentation.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub info: Option<ExtraCompletionInfo>,
 }
 
 #[derive(Debug, Serialize)]

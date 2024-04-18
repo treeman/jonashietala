@@ -1,7 +1,14 @@
-use super::messages::CompletionItem;
-use crate::paths::AbsPath;
+use super::messages::{
+    BrokenLinkInfo, CompletionItem, ImgInfo, LinkDefInfo, PostInfo, SeriesInfo, StandaloneInfo,
+    TagInfo,
+};
+use super::messages::{ExtraCompletionInfo, HeadingInfo};
+use crate::content::SeriesItem;
+use crate::content::StandaloneItem;
+use crate::content::Tag;
+use crate::content::{PostItem, PostRef};
+use crate::paths::RelPath;
 use crate::site::Site;
-use crate::site_url::SiteUrl;
 use crate::{markup::MarkupLookup, paths};
 use camino::Utf8PathBuf;
 use lazy_static::lazy_static;
@@ -51,7 +58,7 @@ pub fn complete(
 
         // Expanding headings in inline links, e.g. `[txt](#`
         if INLINE_HEADER_REF.is_match(cursor_before_line) {
-            return heading_completions(lookup);
+            return heading_completions(lookup, HeadingSource::SameFile);
         }
 
         // Expand links in link ref definitions, e.g. `[label]: /`
@@ -64,7 +71,7 @@ pub fn complete(
 
         // Expanding headings in ref defs, e.g. `[label]: #`
         if LINK_DEF_HEADER_REF.is_match(cursor_before_line) {
-            return heading_completions(lookup);
+            return heading_completions(lookup, HeadingSource::SameFile);
         }
 
         // Expand url definition tags in `[text][tag]`
@@ -106,19 +113,7 @@ lazy_static! {
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
     paths::list_files(&site.opts.input_dir.join("images"))
         .into_iter()
-        .map(|img| {
-            let img = Utf8PathBuf::from("/images/").join(img.rel_path.0);
-            CompletionItemBuilder {
-                // FIXME not sure why this isn't ok for Neovim to just have the label.
-                // Maybe because None is converted to vim.NIL or something silly?
-                label: img.to_string(),
-                filter_text: Some(img.to_string()),
-                insert_text: Some(img.to_string()),
-                kind: CompletionItemKind::File,
-                ..Default::default()
-            }
-            .into()
-        })
+        .map(|img| CompletionItemBuilder::new_img(img.rel_path).into())
         .collect()
 }
 
@@ -126,57 +121,47 @@ fn url_completions(site: &Site) -> Vec<CompletionItem> {
     let mut res = Vec::new();
 
     for item in site.content.posts.values() {
-        res.push(
-            CompletionItemBuilder::from_url(&item.title, &item.url, CompletionItemKind::File)
-                .with_path(&item.path)
-                .into(),
-        );
+        if !item.is_draft {
+            res.push(CompletionItemBuilder::new_post(item).into());
+        }
     }
 
     for item in site.content.standalones.iter() {
-        res.push(
-            CompletionItemBuilder::from_url(&item.title, &item.url, CompletionItemKind::File)
-                .with_path(&item.path)
-                .into(),
-        );
+        res.push(CompletionItemBuilder::new_standalone(item).into());
     }
 
     append_series(site, &mut res);
     append_tags(site, &mut res);
 
-    res.push(
-        CompletionItemBuilder::from_url(
-            &site.content.projects.title,
-            &site.content.projects.url,
-            CompletionItemKind::Constant,
-        )
-        .into(),
-    );
+    // res.push(
+    //     CompletionItemBuilder::from_url(
+    //         &site.content.projects.title,
+    //         &site.content.projects.url,
+    //         CompletionItemKind::Constant,
+    //     )
+    //     .into(),
+    // );
 
     res
 }
 
-fn heading_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
+enum HeadingSource<'a> {
+    Path(&'a str),
+    SameFile,
+}
+
+fn heading_completions(lookup: &MarkupLookup, _source: HeadingSource<'_>) -> Vec<CompletionItem> {
     lookup
         .headings
         .values()
-        .map(|heading| {
-            CompletionItemBuilder {
-                label: format!("{} {}", "#".repeat(heading.level.into()), heading.content),
-                insert_text: Some(heading.id.clone()),
-                filter_text: Some(heading.content.clone()),
-                kind: CompletionItemKind::Class,
-                ..Default::default()
-            }
-            .into()
-        })
+        .map(|heading| CompletionItemBuilder::Heading(heading.into()).into())
         .collect()
 }
 
 fn split_heading_completions(caps: Captures<'_>, site: &Site) -> Option<Vec<CompletionItem>> {
     if let Some((url, _head)) = caps[1].split_once('#') {
         if let Some(lookup) = site.content.find_post_lookup_by_url(url) {
-            return Some(heading_completions(lookup));
+            return Some(heading_completions(lookup, HeadingSource::Path(url)));
         }
     }
     None
@@ -186,30 +171,13 @@ fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
     lookup
         .link_defs
         .values()
-        .map(|link| {
-            CompletionItemBuilder {
-                label: link.label.clone(),
-                insert_text: Some(link.label.clone()),
-                kind: CompletionItemKind::Reference,
-                ..Default::default()
-            }
-            .add_filter(&link.url)
-            .add_filter(&link.label)
-            .into()
-        })
+        .map(|link| CompletionItemBuilder::LinkDefInfo(link.into()).into())
         .collect()
 }
 
 fn append_broken_link_completions(lookup: &MarkupLookup, res: &mut Vec<CompletionItem>) {
     for link in lookup.broken_links.iter() {
-        res.push(
-            CompletionItemBuilder {
-                label: link.tag.clone(),
-                kind: CompletionItemKind::Field,
-                ..Default::default()
-            }
-            .into(),
-        );
+        res.push(CompletionItemBuilder::BrokenLink(link.into()).into());
     }
 }
 
@@ -220,12 +188,8 @@ fn tags_completions(site: &Site) -> Vec<CompletionItem> {
 }
 
 fn append_tags(site: &Site, res: &mut Vec<CompletionItem>) {
-    for item in site.lookup.tags.keys() {
-        res.push(
-            CompletionItemBuilder::from_url(&item.name, &item.url, CompletionItemKind::Folder)
-                .with_label_tag("Tag")
-                .into(),
-        );
+    for (tag, posts) in site.lookup.tags.iter() {
+        res.push(CompletionItemBuilder::new_tag(tag, posts, site).into());
     }
 }
 
@@ -237,12 +201,7 @@ fn series_completions(site: &Site) -> Vec<CompletionItem> {
 
 fn append_series(site: &Site, res: &mut Vec<CompletionItem>) {
     for item in site.content.series.values() {
-        res.push(
-            CompletionItemBuilder::from_url(&item.title, &item.url, CompletionItemKind::Module)
-                .with_path(&item.path)
-                .with_label_tag("Series")
-                .into(),
-        );
+        res.push(CompletionItemBuilder::new_series(item, site).into());
     }
 }
 
@@ -277,77 +236,112 @@ pub enum CompletionItemKind {
     TypeParameter = 25,
 }
 
-pub struct CompletionItemBuilder {
-    pub label: String,
-    pub kind: CompletionItemKind,
-    pub label_tag: Option<String>,
-    pub filter_text: Option<String>,
-    pub insert_text: Option<String>,
-    pub path: Option<AbsPath>,
+impl Default for CompletionItemKind {
+    fn default() -> Self {
+        Self::Text
+    }
+}
+
+// FIXME
+// 3. Rows context
+pub enum CompletionItemBuilder {
+    Post(PostInfo),
+    Standalone(StandaloneInfo),
+    Img(ImgInfo),
+    Series(SeriesInfo),
+    Tag(TagInfo),
+    BrokenLink(BrokenLinkInfo),
+    Heading(HeadingInfo),
+    LinkDefInfo(LinkDefInfo),
 }
 
 impl CompletionItemBuilder {
-    pub fn from_url(label: &str, url: &SiteUrl, kind: CompletionItemKind) -> Self {
-        let href = url.href();
-        Self {
-            label: label.to_string(),
-            insert_text: Some(href.to_string()),
-            kind,
-            ..Default::default()
-        }
-        .add_filter(href.as_ref())
-        .add_filter(label)
+    pub fn new_img(path: RelPath) -> Self {
+        Self::Img(ImgInfo {
+            url: Utf8PathBuf::from("/images/").join(path.0).to_string(),
+        })
     }
 
-    pub fn with_label_tag(mut self, tag: &str) -> Self {
-        self.label_tag = Some(tag.into());
-        self
+    pub fn new_post(item: &PostItem) -> Self {
+        Self::Post(item.into())
     }
 
-    pub fn with_path(mut self, path: &AbsPath) -> Self {
-        self.path = Some(path.to_owned());
-        self
+    pub fn new_standalone(item: &StandaloneItem) -> Self {
+        Self::Standalone(item.into())
     }
 
-    pub fn add_filter(mut self, txt: &str) -> Self {
-        if let Some(mut s) = self.filter_text {
-            s.push('|');
-            s.push_str(txt);
-            self.filter_text = Some(s);
-        } else {
-            self.filter_text = Some(txt.to_string());
-        }
-        self
+    pub fn new_series(item: &SeriesItem, site: &Site) -> Self {
+        Self::Series(SeriesInfo::from(item, site))
     }
-}
 
-impl Default for CompletionItemBuilder {
-    fn default() -> Self {
-        CompletionItemBuilder {
-            label: "".into(),
-            kind: CompletionItemKind::Text,
-            label_tag: None,
-            filter_text: None,
-            insert_text: None,
-            path: None,
-        }
+    pub fn new_tag(tag: &Tag, posts: &[PostRef], site: &Site) -> Self {
+        Self::Tag(TagInfo::from_tag(tag, posts, site))
     }
 }
 
 impl Into<CompletionItem> for CompletionItemBuilder {
     fn into(self) -> CompletionItem {
-        let label = if let Some(tag) = self.label_tag {
-            format!("{}: {}", tag, self.label)
-        } else {
-            self.label
-        };
-
-        CompletionItem {
-            label,
-            insert_text: self.insert_text,
-            filter_text: self.filter_text,
-            kind: self.kind,
-            path: self.path.map(|path| path.to_string()),
+        match self {
+            CompletionItemBuilder::Img(info) => CompletionItem {
+                label: info.url.clone(),
+                kind: CompletionItemKind::File,
+                info: Some(ExtraCompletionInfo::Img(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::Post(info) => CompletionItem {
+                filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
+                label: info.title.clone(),
+                insert_text: Some(info.url.clone()),
+                kind: CompletionItemKind::File,
+                info: Some(ExtraCompletionInfo::Post(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::Standalone(info) => CompletionItem {
+                filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
+                label: info.title.clone(),
+                insert_text: Some(info.url.clone()),
+                kind: CompletionItemKind::File,
+                info: Some(ExtraCompletionInfo::Standalone(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::Series(info) => CompletionItem {
+                filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
+                label: format!("Series: {}", info.title),
+                insert_text: Some(info.url.clone()),
+                kind: CompletionItemKind::Module,
+                info: Some(ExtraCompletionInfo::Series(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::Tag(info) => CompletionItem {
+                filter_text: Some([info.url.as_str(), info.name.as_str()].join("|")),
+                label: format!("Tagged: {}", info.name),
+                insert_text: Some(info.url.clone()),
+                kind: CompletionItemKind::Folder,
+                info: Some(ExtraCompletionInfo::Tag(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::Heading(info) => CompletionItem {
+                label: format!("{} {}", "#".repeat(info.level.into()), info.content),
+                filter_text: Some(info.content.clone()),
+                insert_text: Some(info.id.clone()),
+                kind: CompletionItemKind::Class,
+                info: Some(ExtraCompletionInfo::Heading(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::LinkDefInfo(info) => CompletionItem {
+                filter_text: Some([info.url.as_str(), info.label.as_str()].join("|")),
+                label: info.label.clone(),
+                insert_text: Some(info.label.clone()),
+                kind: CompletionItemKind::Reference,
+                info: Some(ExtraCompletionInfo::LinkDef(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::BrokenLink(info) => CompletionItem {
+                label: info.tag.clone(),
+                kind: CompletionItemKind::Field,
+                info: Some(ExtraCompletionInfo::BrokenLink(info)),
+                ..Default::default()
+            },
         }
     }
 }
