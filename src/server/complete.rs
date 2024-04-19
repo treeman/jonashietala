@@ -113,7 +113,7 @@ lazy_static! {
 }
 
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
-    paths::list_files(&site.opts.input_dir.join("images"))
+    site.list_imgs()
         .into_iter()
         .map(|img| CompletionItemBuilder::new_img(img.rel_path).into())
         .collect()

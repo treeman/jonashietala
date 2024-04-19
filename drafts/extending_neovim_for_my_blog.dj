@@ -899,6 +899,10 @@ Check out the [Rust source code][] for more details.
 
 # Connection status with lualine
 
+# Terminal process
+
+![](/images/blog_term.png)
+
 # Browser preview
 
 ## Websocket communication

@@ -29,10 +29,12 @@ use crate::content::SeriesRef;
 use crate::feed::SiteFeed;
 use crate::item::Item;
 use crate::markup::markup_lookup::MarkupLookup;
+use crate::paths;
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
 use crate::paths::RelPath;
-use crate::server::messages::{Diagnostic, NeovimResponse, WebEvent};
+use crate::server::diagnostics;
+use crate::server::messages::{NeovimResponse, WebEvent};
 use crate::{
     content::{
         load_posts, load_standalones, post_archives, tags_archives, ArchiveItem, HomepageItem,
@@ -910,6 +912,10 @@ impl Site {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
 
+    pub fn list_imgs(&self) -> Vec<FilePath> {
+        paths::list_files(&self.opts.input_dir.join("images"))
+    }
+
     pub fn set_notifiers(
         &mut self,
         web_notifier: Sender<WebEvent>,
@@ -921,7 +927,7 @@ impl Site {
 
     fn notify_change(&self, items: &[&dyn Item]) -> Result<()> {
         if let Some(ref tx) = self.nvim_notifier {
-            let diagnostics = self.collect_diagnostics(items);
+            let diagnostics = diagnostics::generate_diagnostics(items, self);
             if !diagnostics.is_empty() {
                 tx.send(NeovimResponse::Diagnostics { diagnostics })?;
             }
@@ -932,44 +938,6 @@ impl Site {
         }
 
         Ok(())
-    }
-
-    fn collect_diagnostics(&self, items: &[&dyn Item]) -> HashMap<String, Vec<Diagnostic>> {
-        self.collect_paths_diagnostics(items.into_iter().filter_map(|item| item.source_file()))
-    }
-
-    pub fn collect_paths_diagnostics<'a, I: Iterator<Item = &'a AbsPath>>(
-        &self,
-        paths: I,
-    ) -> HashMap<String, Vec<Diagnostic>> {
-        paths
-            .filter_map(|path| {
-                self.collect_path_diagnostics(path)
-                    .map(|diagnostics| (path.to_string(), diagnostics))
-            })
-            .collect()
-    }
-
-    fn collect_path_diagnostics(&self, path: &AbsPath) -> Option<Vec<Diagnostic>> {
-        let lookup = self.content.find_post_lookup_by_file_name(path.as_str())?;
-
-        Some(
-            lookup
-                .broken_links
-                .iter()
-                .map(|link| {
-                    let start = lookup.char_pos_to_row_col(link.range.start);
-                    let end = lookup.char_pos_to_row_col(link.range.end);
-                    Diagnostic {
-                        linenum: start.0,
-                        column: start.1,
-                        end_linenum: end.0,
-                        end_column: end.1,
-                        message: format!("Link to non-existent link definition `{}`", link.tag),
-                    }
-                })
-                .collect(),
-        )
     }
 }
 

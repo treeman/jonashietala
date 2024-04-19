@@ -1,4 +1,5 @@
 mod complete;
+pub mod diagnostics;
 mod goto_def;
 mod handler;
 pub mod messages;

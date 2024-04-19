@@ -1,6 +1,7 @@
 use super::complete;
 use super::goto_def::{self, GotoDefRes};
 use super::messages::{NeovimEvent, NeovimResponse, TagInfo, WebEvent};
+use crate::server::diagnostics;
 use crate::site::Site;
 use camino::Utf8PathBuf;
 use std::sync::{Arc, Mutex};
@@ -84,8 +85,13 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             })),
         },
         NeovimEvent::RefreshDiagnostics { path } => {
-            let diagnostics = site.collect_paths_diagnostics([&path.as_str().into()].into_iter());
-            Some(Response::Reply(NeovimResponse::Diagnostics { diagnostics }))
+            diagnostics::generate_file_diagnostics(&path.as_str().into(), &site).and_then(
+                |path_diagnostics| {
+                    Some(Response::Reply(NeovimResponse::Diagnostics {
+                        diagnostics: [(path, path_diagnostics)].into(),
+                    }))
+                },
+            )
         }
     }
 }

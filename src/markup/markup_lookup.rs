@@ -56,6 +56,7 @@ pub struct MarkupLookup {
     pub broken_links: Vec<BrokenLink>,
     pub link_defs: HashMap<LinkLabel, LinkDef>,
     pub headings: HashMap<HeadingId, Heading>,
+    // FIXME links
 
     // Position translations.
     line_size: Vec<usize>,

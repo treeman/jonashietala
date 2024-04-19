@@ -1,4 +1,5 @@
 use super::complete::CompletionItemKind;
+use super::diagnostics::Diagnostic;
 use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
@@ -31,24 +32,6 @@ pub enum NeovimEvent {
     ListTags {
         message_id: u64,
     },
-    // ListSeries {
-    //     message_id: u64,
-    // },
-    // ListUrls {
-    //     message_id: u64,
-    // },
-    // ListLinkDefs {
-    //     message_id: u64,
-    //     path: String,
-    // },
-    // ListBrokenLinks {
-    //     message_id: u64,
-    //     path: String,
-    // },
-    // ListHeadings {
-    //     message_id: u64,
-    //     path: String,
-    // },
     Complete {
         message_id: u64,
         path: String,
@@ -283,41 +266,12 @@ pub struct CompletionItem {
 }
 
 #[derive(Debug, Serialize)]
-pub struct Diagnostic {
-    pub linenum: usize,
-    pub end_linenum: usize,
-    pub column: usize,
-    pub end_column: usize,
-    pub message: String,
-}
-
-#[derive(Debug, Serialize)]
 #[serde(tag = "id")]
 pub enum NeovimResponse {
     ListTags {
         message_id: u64,
         tags: Vec<TagInfo>,
     },
-    // ListSeries {
-    //     message_id: u64,
-    //     series: Vec<SeriesInfo>,
-    // },
-    // ListUrls {
-    //     message_id: u64,
-    //     urls: Vec<UrlInfo>,
-    // },
-    // ListLinkDefs {
-    //     message_id: u64,
-    //     defs: Vec<LinkDefInfo>,
-    // },
-    // ListBrokenLinks {
-    //     message_id: u64,
-    //     links: Vec<BrokenLinkInfo>,
-    // },
-    // ListHeadings {
-    //     message_id: u64,
-    //     headings: Vec<HeadingInfo>,
-    // },
     Complete {
         message_id: u64,
         completion_items: Vec<CompletionItem>,
