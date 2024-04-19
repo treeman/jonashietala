@@ -817,8 +817,6 @@ function source:is_available()
 end
 ```
 
-TODO
-
 ```lua
 content.list_urls(function(reply)
   local res = {}
@@ -836,8 +834,11 @@ end)
 ```
 
 The completion part of the integration is the section I've had to tweak the most and it has slowly grown more complex.
-I've been using regex on `cursor_before_line` to select what to complete.
-Here are some Lua regexes I use:
+
+It's actually pretty hard to make a complete autocomplete system.
+You'd have to have a parser that's capable of parsing incomplete statements.
+Maybe something like [a Tree-sitter grammar][], although the [one I created for Djot][djot-tree-sitter] doesn't mark broken things so it's useless for this purpose.
+I've therefore been relying on regexes on `cursor_before_line` to select what to complete:
 
 ```lua
 -- Expand images separately because I only ever use it in a -- `![](/url)`
@@ -871,7 +872,8 @@ if string.match(cursor_line, "^series = ")
 ```
 
 ::: notice
-As the completion logic grew more complex, I moved it out from Neovim to the backend and rely on a single `"Complete"` request to the backend:
+As the completion logic grew more complex, I moved it out from Neovim to the backend.
+It was easier to setup completion details for individual items that way, and now I only rely on a single `"Complete"`lua message that I pipe directly back to `cmp`:
 
 ```lua
 function source:complete(params, callback)
@@ -884,7 +886,12 @@ function source:complete(params, callback)
 ```
 
 Either way works, I'll keep the description in Lua for illustrative purposes.
+Check out the [Rust source code][] for more details.
 :::
+
+![Complete tags in the frontmatter.](/images/complete_tags.png)
+
+![Complete header references for a url. (The documentation preview jumped to the left).](/images/complete_header_ref_post.png)
 
 # Goto definition
 
@@ -911,3 +918,5 @@ Either way works, I'll keep the description in Lua for illustrative purposes.
 [flume]: https://github.com/zesterer/flume
 [tokio]: https://tokio.rs/
 [plenary.nvim]: https://github.com/nvim-lua/plenary.nvim
+[djot-tree-sitter]: https://github.com/treeman/tree-sitter-djot
+[a Tree-sitter grammar]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
