@@ -50,6 +50,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                     lookup.insert_heading(heading);
                 }
             }
+            // TODO log image links (Container::Image(url, SpanLinkType::Inline)
             (Event::Start(Container::Link(tag, link_type), _), range) => match link_type {
                 LinkType::Span(SpanLinkType::Inline) => {
                     self.event_stack.push(ElementInfo::Link(Link {

@@ -32,12 +32,6 @@ pub struct Link {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
-pub struct BrokenLink {
-    pub tag: String,
-    pub range: Range<usize>,
-}
-
-#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum ElementInfo {
     Link(Link),
     LinkDef(LinkDef),
@@ -53,10 +47,11 @@ pub struct MarkupLookup {
     pub pos_to_element: RangeMap<usize, ElementInfo>,
 
     // Element lookup by id or type.
-    pub broken_links: Vec<BrokenLink>,
+    pub links: Vec<Link>,
     pub link_defs: HashMap<LinkLabel, LinkDef>,
     pub headings: HashMap<HeadingId, Heading>,
-    // FIXME links
+    // FIXME image links
+    // FIXME, how to log duplicate heading ids? Duplicate link defs?
 
     // Position translations.
     line_size: Vec<usize>,
@@ -84,7 +79,7 @@ impl MarkupLookup {
 
         Self {
             pos_to_element: RangeMap::new(),
-            broken_links: Vec::new(),
+            links: Vec::new(),
             link_defs: HashMap::new(),
             headings: HashMap::new(),
             line_size,
@@ -150,12 +145,7 @@ impl MarkupLookup {
     }
 
     pub fn insert_link(&mut self, link: Link) {
-        if let LinkRef::Unresolved(ref tag) = link.link_ref {
-            self.broken_links.push(BrokenLink {
-                tag: tag.clone(),
-                range: link.range.clone(),
-            });
-        }
+        self.links.push(link.clone());
 
         self.pos_to_element
             .insert(link.range.clone(), ElementInfo::Link(link));

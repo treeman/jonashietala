@@ -7,11 +7,12 @@ use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
 use crate::content::{PostItem, PostRef};
+use crate::markup::markup_lookup::LinkRef;
+use crate::markup::MarkupLookup;
 use crate::paths::AbsPath;
 use crate::paths::RelPath;
 use crate::site::Site;
 use crate::site_url::SiteUrl;
-use crate::{markup::MarkupLookup, paths};
 use camino::Utf8PathBuf;
 use lazy_static::lazy_static;
 use regex::{Captures, Regex};
@@ -204,9 +205,13 @@ fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
 }
 
 fn append_broken_link_completions(lookup: &MarkupLookup, res: &mut Vec<CompletionItem>) {
-    for link in lookup.broken_links.iter() {
-        let (row, _) = lookup.char_pos_to_row_col(link.range.start);
-        res.push(CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(link, row)).into());
+    for link in lookup.links.iter() {
+        if let LinkRef::Unresolved(ref tag) = link.link_ref {
+            let (row, _) = lookup.char_pos_to_row_col(link.range.start);
+            res.push(
+                CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(&tag, row)).into(),
+            );
+        }
     }
 }
 

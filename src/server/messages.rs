@@ -4,7 +4,7 @@ use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
 use crate::content::{PostItem, PostRef};
-use crate::markup::markup_lookup::{BrokenLink, Heading, LinkDef};
+use crate::markup::markup_lookup::{Heading, LinkDef};
 use crate::Site;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -227,9 +227,9 @@ pub struct BrokenLinkInfo {
 }
 
 impl BrokenLinkInfo {
-    pub fn from_link(link: &BrokenLink, row: usize) -> Self {
+    pub fn from_link(tag: &str, row: usize) -> Self {
         Self {
-            tag: link.tag.clone(),
+            tag: tag.to_string(),
             row,
         }
     }
