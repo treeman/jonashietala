@@ -1,14 +1,16 @@
 use super::messages::{
-    BrokenLinkInfo, CompletionItem, ImgInfo, LinkDefInfo, PostInfo, SeriesInfo, StandaloneInfo,
-    TagInfo,
+    BrokenLinkInfo, CompletionItem, ConstantInfo, HeadingContext, ImgInfo, LinkDefInfo, PostInfo,
+    SeriesInfo, StandaloneInfo, TagInfo,
 };
 use super::messages::{ExtraCompletionInfo, HeadingInfo};
 use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
 use crate::content::{PostItem, PostRef};
+use crate::paths::AbsPath;
 use crate::paths::RelPath;
 use crate::site::Site;
+use crate::site_url::SiteUrl;
 use crate::{markup::MarkupLookup, paths};
 use camino::Utf8PathBuf;
 use lazy_static::lazy_static;
@@ -130,38 +132,59 @@ fn url_completions(site: &Site) -> Vec<CompletionItem> {
         res.push(CompletionItemBuilder::new_standalone(item).into());
     }
 
-    append_series(site, &mut res);
-    append_tags(site, &mut res);
+    append_series(CompletionType::Url, site, &mut res);
+    append_tags(CompletionType::Url, site, &mut res);
 
-    // res.push(
-    //     CompletionItemBuilder::from_url(
-    //         &site.content.projects.title,
-    //         &site.content.projects.url,
-    //         CompletionItemKind::Constant,
-    //     )
-    //     .into(),
-    // );
+    res.push(
+        CompletionItemBuilder::new_constant(
+            &site.content.projects.title,
+            &site.content.projects.url,
+        )
+        .into(),
+    );
 
     res
 }
 
 enum HeadingSource<'a> {
-    Path(&'a str),
     SameFile,
+    OtherFile { url: &'a str, path: &'a AbsPath },
 }
 
-fn heading_completions(lookup: &MarkupLookup, _source: HeadingSource<'_>) -> Vec<CompletionItem> {
+fn heading_completions(lookup: &MarkupLookup, source: HeadingSource) -> Vec<CompletionItem> {
     lookup
         .headings
         .values()
-        .map(|heading| CompletionItemBuilder::Heading(heading.into()).into())
+        .map(|heading| {
+            let (start_row, _) = lookup.char_pos_to_row_col(heading.range.start);
+            let (end_row, _) = lookup.char_pos_to_row_col(heading.range.end);
+
+            let context = match source {
+                HeadingSource::SameFile => HeadingContext::SameFile { start_row, end_row },
+                HeadingSource::OtherFile { path, url } => HeadingContext::OtherFile {
+                    path: path.to_string(),
+                    url: url.to_string(),
+                    start_row,
+                    end_row,
+                },
+            };
+            CompletionItemBuilder::Heading(HeadingInfo::from_heading(heading, context)).into()
+        })
         .collect()
 }
 
 fn split_heading_completions(caps: Captures<'_>, site: &Site) -> Option<Vec<CompletionItem>> {
     if let Some((url, _head)) = caps[1].split_once('#') {
-        if let Some(lookup) = site.content.find_post_lookup_by_url(url) {
-            return Some(heading_completions(lookup, HeadingSource::Path(url)));
+        if let Some(post) = site.content.find_post_by_url(url) {
+            if let Some(ref lookup) = post.markup_lookup {
+                return Some(heading_completions(
+                    lookup,
+                    HeadingSource::OtherFile {
+                        path: &post.path,
+                        url,
+                    },
+                ));
+            }
         }
     }
     None
@@ -171,37 +194,49 @@ fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
     lookup
         .link_defs
         .values()
-        .map(|link| CompletionItemBuilder::LinkDefInfo(link.into()).into())
+        .map(|def| {
+            let (start_row, _) = lookup.char_pos_to_row_col(def.range.start);
+            let (end_row, _) = lookup.char_pos_to_row_col(def.range.end);
+            CompletionItemBuilder::LinkDefInfo(LinkDefInfo::from_link_def(def, start_row, end_row))
+                .into()
+        })
         .collect()
 }
 
 fn append_broken_link_completions(lookup: &MarkupLookup, res: &mut Vec<CompletionItem>) {
     for link in lookup.broken_links.iter() {
-        res.push(CompletionItemBuilder::BrokenLink(link.into()).into());
+        let (row, _) = lookup.char_pos_to_row_col(link.range.start);
+        res.push(CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(link, row)).into());
     }
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum CompletionType {
+    Url,
+    Id,
 }
 
 fn tags_completions(site: &Site) -> Vec<CompletionItem> {
     let mut res = Vec::new();
-    append_tags(site, &mut res);
+    append_tags(CompletionType::Id, site, &mut res);
     res
 }
 
-fn append_tags(site: &Site, res: &mut Vec<CompletionItem>) {
+fn append_tags(t: CompletionType, site: &Site, res: &mut Vec<CompletionItem>) {
     for (tag, posts) in site.lookup.tags.iter() {
-        res.push(CompletionItemBuilder::new_tag(tag, posts, site).into());
+        res.push(CompletionItemBuilder::new_tag(t, tag, posts, site).into());
     }
 }
 
 fn series_completions(site: &Site) -> Vec<CompletionItem> {
     let mut res = Vec::new();
-    append_series(site, &mut res);
+    append_series(CompletionType::Id, site, &mut res);
     res
 }
 
-fn append_series(site: &Site, res: &mut Vec<CompletionItem>) {
+fn append_series(t: CompletionType, site: &Site, res: &mut Vec<CompletionItem>) {
     for item in site.content.series.values() {
-        res.push(CompletionItemBuilder::new_series(item, site).into());
+        res.push(CompletionItemBuilder::new_series(t, item, site).into());
     }
 }
 
@@ -242,14 +277,13 @@ impl Default for CompletionItemKind {
     }
 }
 
-// FIXME
-// 3. Rows context
 pub enum CompletionItemBuilder {
     Post(PostInfo),
     Standalone(StandaloneInfo),
+    Constant(ConstantInfo),
     Img(ImgInfo),
-    Series(SeriesInfo),
-    Tag(TagInfo),
+    Series(CompletionType, SeriesInfo),
+    Tag(CompletionType, TagInfo),
     BrokenLink(BrokenLinkInfo),
     Heading(HeadingInfo),
     LinkDefInfo(LinkDefInfo),
@@ -270,12 +304,19 @@ impl CompletionItemBuilder {
         Self::Standalone(item.into())
     }
 
-    pub fn new_series(item: &SeriesItem, site: &Site) -> Self {
-        Self::Series(SeriesInfo::from(item, site))
+    pub fn new_constant(title: &str, url: &SiteUrl) -> Self {
+        Self::Constant(ConstantInfo {
+            title: title.to_string(),
+            url: url.href().to_string(),
+        })
     }
 
-    pub fn new_tag(tag: &Tag, posts: &[PostRef], site: &Site) -> Self {
-        Self::Tag(TagInfo::from_tag(tag, posts, site))
+    pub fn new_series(t: CompletionType, item: &SeriesItem, site: &Site) -> Self {
+        Self::Series(t, SeriesInfo::from(item, site))
+    }
+
+    pub fn new_tag(t: CompletionType, tag: &Tag, posts: &[PostRef], site: &Site) -> Self {
+        Self::Tag(t, TagInfo::from_tag(tag, posts, site))
     }
 }
 
@@ -304,18 +345,32 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 info: Some(ExtraCompletionInfo::Standalone(info)),
                 ..Default::default()
             },
-            CompletionItemBuilder::Series(info) => CompletionItem {
+            CompletionItemBuilder::Constant(info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
-                label: format!("Series: {}", info.title),
+                label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
+                kind: CompletionItemKind::Constant,
+                info: Some(ExtraCompletionInfo::Constant(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::Series(t, info) => CompletionItem {
+                filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
+                label: info.title.clone(),
+                insert_text: match t {
+                    CompletionType::Url => Some(info.url.clone()),
+                    CompletionType::Id => Some(info.id.clone()),
+                },
                 kind: CompletionItemKind::Module,
                 info: Some(ExtraCompletionInfo::Series(info)),
                 ..Default::default()
             },
-            CompletionItemBuilder::Tag(info) => CompletionItem {
+            CompletionItemBuilder::Tag(t, info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.name.as_str()].join("|")),
-                label: format!("Tagged: {}", info.name),
-                insert_text: Some(info.url.clone()),
+                label: info.name.clone(),
+                insert_text: match t {
+                    CompletionType::Url => Some(info.url.clone()),
+                    CompletionType::Id => Some(info.name.clone()),
+                },
                 kind: CompletionItemKind::Folder,
                 info: Some(ExtraCompletionInfo::Tag(info)),
                 ..Default::default()
@@ -385,33 +440,57 @@ mod tests {
                 insert_text: Some("/blog/2022/02/01/feb_post".into()),
                 filter_text: Some("/blog/2022/02/01/feb_post|Feb post 1".into()),
                 kind: CompletionItemKind::File,
-                path: Some(
-                    test_site
+                info: Some(ExtraCompletionInfo::Post(PostInfo {
+                    title: "Feb post 1".into(),
+                    path: test_site
                         .input_path("posts/2022-02-01-feb_post.dj")
-                        .to_string()
-                )
+                        .to_string(),
+                    created: "2022-02-01".to_string(),
+                    url: "/blog/2022/02/01/feb_post".to_string(),
+                    tags: vec!["One".to_string()],
+                    series: Some("myseries".to_string())
+                }))
             })
         );
+
+        let myseries =
+            find_insert_text("/series/myseries", &items).expect("Should find `myseries`");
+        assert_eq!(myseries.label, "My series");
+        assert_eq!(myseries.insert_text, Some("/series/myseries".to_string()));
         assert_eq!(
-            find_insert_text("/series/myseries", &items),
-            Some(&CompletionItem {
-                label: "Series: My series".into(),
-                insert_text: Some("/series/myseries".into()),
-                filter_text: Some("/series/myseries|My series".into()),
-                kind: CompletionItemKind::Module,
-                path: Some(test_site.input_path("series/myseries.markdown").to_string())
-            })
+            myseries.filter_text,
+            Some("/series/myseries|My series".into())
         );
+        assert_eq!(myseries.kind, CompletionItemKind::Module);
+        let series_info = if let Some(ExtraCompletionInfo::Series(ref x)) = myseries.info {
+            x
+        } else {
+            panic!("Wrong series info");
+        };
+        assert_eq!(series_info.id, "myseries");
+        assert_eq!(series_info.title, "My series");
+        assert_eq!(series_info.url, "/series/myseries");
         assert_eq!(
-            find_insert_text("/blog/tags/one", &items),
-            Some(&CompletionItem {
-                label: "Tag: One".into(),
-                insert_text: Some("/blog/tags/one".into()),
-                filter_text: Some("/blog/tags/one|One".into()),
-                kind: CompletionItemKind::Folder,
-                path: None
-            })
+            series_info.path,
+            test_site.input_path("series/myseries.markdown").as_str()
         );
+        assert_eq!(series_info.posts.len(), 2);
+
+        let one = find_insert_text("/blog/tags/one", &items).expect("Should find tag `One`");
+        assert_eq!(one.label, "One");
+        assert_eq!(one.insert_text, Some("/blog/tags/one".to_string()));
+        assert_eq!(one.filter_text, Some("/blog/tags/one|One".into()));
+        assert_eq!(one.kind, CompletionItemKind::Folder);
+        let one_info = if let Some(ExtraCompletionInfo::Tag(ref tag)) = one.info {
+            tag
+        } else {
+            panic!("Wrong tag info");
+        };
+        assert_eq!(one_info.id, "One");
+        assert_eq!(one_info.name, "One");
+        assert_eq!(one_info.url, "/blog/tags/one");
+        assert_eq!(one_info.posts.len(), 3);
+
         assert_eq!(
             find_insert_text("/404", &items),
             Some(&CompletionItem {
@@ -419,9 +498,14 @@ mod tests {
                 insert_text: Some("/404".into()),
                 filter_text: Some("/404|404".into()),
                 kind: CompletionItemKind::File,
-                path: Some(test_site.input_path("static/404.markdown").to_string())
+                info: Some(ExtraCompletionInfo::Standalone(StandaloneInfo {
+                    title: "404".into(),
+                    url: "/404".into(),
+                    path: test_site.input_path("static/404.markdown").to_string()
+                }))
             })
         );
+
         assert_eq!(
             find_insert_text("/projects", &items),
             Some(&CompletionItem {
@@ -429,7 +513,10 @@ mod tests {
                 insert_text: Some("/projects".into()),
                 filter_text: Some("/projects|Projects".into()),
                 kind: CompletionItemKind::Constant,
-                path: None
+                info: Some(ExtraCompletionInfo::Constant(ConstantInfo {
+                    title: "Projects".into(),
+                    url: "/projects".into(),
+                }))
             })
         );
 
@@ -450,7 +537,7 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(heading_items.iter().count(), 1);
+        assert_eq!(heading_items.len(), 1);
 
         assert_eq!(
             find_insert_text("heading-with-text", &heading_items),
@@ -459,7 +546,19 @@ mod tests {
                 insert_text: Some("heading-with-text".into()),
                 filter_text: Some("heading with text".into()),
                 kind: CompletionItemKind::Class,
-                path: None
+                info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
+                    id: "heading-with-text".into(),
+                    content: "heading with text".into(),
+                    level: 1,
+                    context: HeadingContext::OtherFile {
+                        path: test_site
+                            .input_path("posts/2022-02-01-feb_post.dj")
+                            .to_string(),
+                        url: "/blog/2022/02/01/feb_post".into(),
+                        start_row: 17,
+                        end_row: 18
+                    }
+                }))
             })
         );
 
@@ -491,7 +590,7 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(items.iter().count(), 2);
+        assert_eq!(items.len(), 2);
 
         assert_eq!(
             find_insert_text("Second-level-header", &items),
@@ -500,7 +599,15 @@ mod tests {
                 insert_text: Some("Second-level-header".into()),
                 filter_text: Some("Second level header".into()),
                 kind: CompletionItemKind::Class,
-                path: None
+                info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
+                    id: "Second-level-header".into(),
+                    content: "Second level header".into(),
+                    level: 2,
+                    context: HeadingContext::SameFile {
+                        start_row: 30,
+                        end_row: 31
+                    }
+                }))
             })
         );
 
@@ -517,7 +624,7 @@ mod tests {
     }
 
     #[test]
-    fn test_full_tag_completion() -> Result<()> {
+    fn test_full_link_tag_completion() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
             generate_markup_lookup: true,
@@ -532,24 +639,30 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(items.iter().count(), 1);
+        assert_eq!(items.len(), 1);
 
+        let def = items.first().unwrap();
         assert_eq!(
-            find_insert_text("tag1", &items),
-            Some(&CompletionItem {
+            def,
+            &CompletionItem {
                 label: "tag1".into(),
-                insert_text: Some("tag1".into()),
+                insert_text: Some("tag1".to_string()),
                 filter_text: Some("/uses|tag1".into()),
                 kind: CompletionItemKind::Reference,
-                path: None
-            })
+                info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
+                    label: "tag1".into(),
+                    url: "/uses".into(),
+                    start_row: 34,
+                    end_row: 34
+                }))
+            }
         );
 
         Ok(())
     }
 
     #[test]
-    fn test_short_tag_completion() -> Result<()> {
+    fn test_short_link_tag_completion() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
             generate_markup_lookup: true,
@@ -565,7 +678,7 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(items.iter().count(), 1);
+        assert_eq!(items.len(), 1);
 
         assert_eq!(
             find_insert_text("tag1", &items),
@@ -574,14 +687,19 @@ mod tests {
                 insert_text: Some("tag1".into()),
                 filter_text: Some("/uses|tag1".into()),
                 kind: CompletionItemKind::Reference,
-                path: None
+                info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
+                    label: "tag1".into(),
+                    url: "/uses".into(),
+                    start_row: 34,
+                    end_row: 34
+                }))
             })
         );
 
         // First in line, so we should complete broken link tags as well.
         let items = complete("[", 0, 6, "posts/2022-01-31-test_post.dj", &test_site.site);
 
-        assert_eq!(items.iter().count(), 2);
+        assert_eq!(items.len(), 2);
 
         assert_eq!(
             find_label("broken_tag", &items),
@@ -590,7 +708,10 @@ mod tests {
                 insert_text: None,
                 filter_text: None,
                 kind: CompletionItemKind::Field,
-                path: None
+                info: Some(ExtraCompletionInfo::BrokenLink(BrokenLinkInfo {
+                    tag: "broken_tag".into(),
+                    row: 32
+                }))
             })
         );
 
@@ -613,18 +734,22 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(tags.iter().count(), 3);
+        assert_eq!(tags.len(), 3);
 
-        assert_eq!(
-            find_insert_text("/blog/tags/one", &tags),
-            Some(&CompletionItem {
-                label: "Tag: One".into(),
-                insert_text: Some("/blog/tags/one".into()),
-                filter_text: Some("/blog/tags/one|One".into()),
-                kind: CompletionItemKind::Folder,
-                path: None
-            })
-        );
+        let one = find_insert_text("One", &tags).expect("Should find tag `One`");
+        assert_eq!(one.label, "One");
+        assert_eq!(one.insert_text, Some("One".to_string()));
+        assert_eq!(one.filter_text, Some("/blog/tags/one|One".into()));
+        assert_eq!(one.kind, CompletionItemKind::Folder);
+        let one_info = if let Some(ExtraCompletionInfo::Tag(ref tag)) = one.info {
+            tag
+        } else {
+            panic!("Wrong tag info");
+        };
+        assert_eq!(one_info.id, "One");
+        assert_eq!(one_info.name, "One");
+        assert_eq!(one_info.url, "/blog/tags/one");
+        assert_eq!(one_info.posts.len(), 3);
 
         let series = complete(
             "series = ",
@@ -634,18 +759,29 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(series.iter().count(), 1);
+        assert_eq!(series.len(), 1);
 
+        let myseries = find_insert_text("myseries", &series).expect("Should find `myseries`");
+        assert_eq!(myseries.label, "My series");
+        assert_eq!(myseries.insert_text, Some("myseries".to_string()));
         assert_eq!(
-            find_insert_text("/series/myseries", &series),
-            Some(&CompletionItem {
-                label: "Series: My series".into(),
-                insert_text: Some("/series/myseries".into()),
-                filter_text: Some("/series/myseries|My series".into()),
-                kind: CompletionItemKind::Module,
-                path: Some(test_site.input_path("series/myseries.markdown").to_string())
-            })
+            myseries.filter_text,
+            Some("/series/myseries|My series".into())
         );
+        assert_eq!(myseries.kind, CompletionItemKind::Module);
+        let series_info = if let Some(ExtraCompletionInfo::Series(ref x)) = myseries.info {
+            x
+        } else {
+            panic!("Wrong series info");
+        };
+        assert_eq!(series_info.id, "myseries");
+        assert_eq!(series_info.title, "My series");
+        assert_eq!(series_info.url, "/series/myseries");
+        assert_eq!(
+            series_info.path,
+            test_site.input_path("series/myseries.markdown").as_str()
+        );
+        assert_eq!(series_info.posts.len(), 2);
 
         Ok(())
     }

@@ -107,6 +107,7 @@ pub struct PostInfo {
     pub created: String,
     pub url: String,
     pub tags: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub series: Option<String>,
 }
 
@@ -138,6 +139,12 @@ impl From<&StandaloneItem> for StandaloneInfo {
             path: item.path.to_string(),
         }
     }
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct ConstantInfo {
+    pub title: String,
+    pub url: String,
 }
 
 #[derive(Debug, Serialize)]
@@ -178,31 +185,18 @@ impl SeriesInfo {
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
-pub struct LinkDefInfo {
-    pub label: String,
-    pub url: String,
-}
-
-impl From<&LinkDef> for LinkDefInfo {
-    fn from(def: &LinkDef) -> Self {
-        LinkDefInfo {
-            label: def.label.clone(),
-            url: def.url.clone(),
-        }
-    }
-}
-
-#[derive(Debug, Serialize, PartialEq, Eq)]
-pub struct BrokenLinkInfo {
-    pub tag: String,
-}
-
-impl From<&BrokenLink> for BrokenLinkInfo {
-    fn from(link: &BrokenLink) -> Self {
-        Self {
-            tag: link.tag.clone(),
-        }
-    }
+#[serde(untagged)]
+pub enum HeadingContext {
+    OtherFile {
+        path: String,
+        url: String,
+        start_row: usize,
+        end_row: usize,
+    },
+    SameFile {
+        start_row: usize,
+        end_row: usize,
+    },
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
@@ -210,22 +204,60 @@ pub struct HeadingInfo {
     pub id: String,
     pub content: String,
     pub level: u16,
+    pub context: HeadingContext,
 }
 
-impl From<&Heading> for HeadingInfo {
-    fn from(heading: &Heading) -> Self {
-        HeadingInfo {
+impl HeadingInfo {
+    pub fn from_heading(heading: &Heading, context: HeadingContext) -> Self {
+        Self {
             id: heading.id.clone(),
             content: heading.content.clone(),
             level: heading.level,
+            context,
         }
     }
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct LinkDefInfo {
+    pub label: String,
+    pub url: String,
+    pub start_row: usize,
+    pub end_row: usize,
+}
+
+impl LinkDefInfo {
+    pub fn from_link_def(def: &LinkDef, start_row: usize, end_row: usize) -> Self {
+        Self {
+            label: def.label.clone(),
+            url: def.url.clone(),
+            start_row,
+            end_row,
+        }
+    }
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct BrokenLinkInfo {
+    pub tag: String,
+    pub row: usize,
+}
+
+impl BrokenLinkInfo {
+    pub fn from_link(link: &BrokenLink, row: usize) -> Self {
+        Self {
+            tag: link.tag.clone(),
+            row,
+        }
+    }
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
+#[serde(tag = "type")]
 pub enum ExtraCompletionInfo {
     Post(PostInfo),
     Standalone(StandaloneInfo),
+    Constant(ConstantInfo),
     Series(SeriesInfo),
     Tag(TagInfo),
     Img(ImgInfo),

@@ -898,7 +898,6 @@ Either way works, I'll keep the description in Lua for illustrative purposes.
 
 ## Scrolling
 
-
 [nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
 [configuration rabbit hole]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua

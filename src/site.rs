@@ -145,11 +145,6 @@ impl SiteContent {
             .and_then(|post| post.markup_lookup.as_ref())
     }
 
-    pub fn find_post_lookup_by_url<'a>(&'a self, url: &str) -> Option<&'a MarkupLookup> {
-        self.find_post_by_url(url)
-            .and_then(|post| post.markup_lookup.as_ref())
-    }
-
     // Find series by file name
     pub fn find_series_by_file_name<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
         self.series
