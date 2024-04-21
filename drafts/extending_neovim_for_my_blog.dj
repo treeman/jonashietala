@@ -226,11 +226,11 @@ But it's naturally restricted to operate on only filenames and you can make tele
 
 So let's move away from using the files finder to find posts:
 
-![](/images/find_files.png)
+![](/images/extend_blog/find_files.png)
 
 To a custom posts picker that display posts in a neater way and allows us to filter using tags or other metadata:
 
-![](/images/find_posts.png)
+![](/images/extend_blog/find_posts.png)
 
 ## The simplest picker
 
@@ -451,7 +451,7 @@ Yes, I'm using regex to parse `yaml`/`toml` values.
 
 I could try to find a lua parser, but eeeh...
 
-![](/images/regex_this_is_fine.jpg)
+![](/images/extend_blog/regex_this_is_fine.jpg)
 
 It does mean we have a working [telescope.nvim][] picker!
 I may have skipped some details, so [take a look at the source code](https://github.com/treeman/dotfiles/blob/master/.config/nvim/lua/blog/telescope.lua) if you're interested.
@@ -889,9 +889,9 @@ Either way works, I'll keep the description in Lua for illustrative purposes.
 Check out the [Rust source code][] for more details.
 :::
 
-![Complete tags in the frontmatter.](/images/complete_tags.png)
+![Complete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
 
-![Complete header references for a url. (The documentation preview jumped to the left).](/images/complete_header_ref_post.png)
+![Complete header references for a url. (The documentation preview jumped to the left).](/images/extend_blog/complete_header_ref_post.png)
 
 # Goto definition
 
@@ -901,7 +901,7 @@ Check out the [Rust source code][] for more details.
 
 # Terminal process
 
-![](/images/blog_term.png)
+![](/images/extend_blog/blog_term.png)
 
 # Browser preview
 

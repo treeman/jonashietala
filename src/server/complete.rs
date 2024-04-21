@@ -32,26 +32,22 @@ pub fn complete(
 
     if lookup.in_frontmatter(row) {
         // Expand tags in frontmatter if line starts with `tags = `
-        // if string.match(cursor_line, "^tags = ")
         if FRONTMATTER_TAG.is_match(cursor_before_line) {
             return tags_completions(site);
         }
 
         // Expand series in frontmatter if line starts with `series = `
-        // if string.match(cursor_line, "^series = ")
         if FRONTMATTER_SERIES.is_match(cursor_before_line) {
             return series_completions(site);
         }
     } else {
         // Expand images separately because I only ever use it in a -- `![](/url)`
         // context and not mixing with other urls gives a more pleasant experience.
-        // string.match(cursor_before_line, "!%[%]%([^%)]*$")
         if IMG_LINK.is_match(cursor_before_line) {
             return img_completions(site);
         }
 
         // Expand inline links, e.g. `[txt](/`
-        // if INLINE_REL_LINK.is_match(cursor_before_line) {
         if let Some(caps) = INLINE_REL_LINK.captures(cursor_before_line) {
             if let Some(res) = split_heading_completions(caps, site) {
                 return res;
@@ -78,7 +74,6 @@ pub fn complete(
         }
 
         // Expand url definition tags in `[text][tag]`
-        // if string.match(cursor_before_line, "%[[^%]]+%]%[[^%]]*$")
         if FULL_LINK_TAG.is_match(cursor_before_line) {
             return link_tag_completions(lookup);
         }
@@ -101,7 +96,7 @@ pub fn complete(
 }
 
 lazy_static! {
-    static ref IMG_LINK: Regex = Regex::new(r"!\[\]\([^)]*$").unwrap();
+    static ref IMG_LINK: Regex = Regex::new(r"!\[[^]]*\]\([^)]*$").unwrap();
     static ref INLINE_REL_LINK: Regex = Regex::new(r"]\((/[^)]*)$").unwrap();
     static ref INLINE_HEADER_REF: Regex = Regex::new(r"]\(#[^)]*$").unwrap();
     static ref LINK_DEF_REL_LINK: Regex = Regex::new(r"^\[.+\]:\s+(/.*)$").unwrap();
