@@ -1,4 +1,4 @@
-use crate::markup::markup_lookup::{ElementInfo, Heading, Link, LinkDef, LinkRef};
+use crate::markup::markup_lookup::{ElementInfo, Heading, Img, ImgRef, Link, LinkDef, LinkRef};
 use crate::markup::MarkupLookup;
 use jotdown::{Container, Event, LinkType, SpanLinkType};
 use std::ops::Range;
@@ -50,7 +50,48 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                     lookup.insert_heading(heading);
                 }
             }
-            // TODO log image links (Container::Image(url, SpanLinkType::Inline)
+            (Event::Start(Container::Image(tag, link_type), _), range) => match link_type {
+                SpanLinkType::Inline => {
+                    self.event_stack.push(ElementInfo::Img(Img {
+                        link_ref: ImgRef::Inline(tag.to_string()),
+                        range: range.clone(),
+                    }));
+                }
+                SpanLinkType::Reference => {
+                    self.event_stack.push(ElementInfo::Img(Img {
+                        // NOTE that "tag" here references the expanded url,
+                        // not the actual label...
+                        link_ref: ImgRef::Reference {
+                            label: "".to_string(),
+                            url: tag.to_string(),
+                        },
+                        range: range.clone(),
+                    }));
+                }
+                SpanLinkType::Unresolved => {
+                    self.event_stack.push(ElementInfo::Img(Img {
+                        link_ref: ImgRef::Unresolved(tag.to_string()),
+                        range: range.clone(),
+                    }));
+                }
+            },
+            (Event::End(Container::Image(_, _)), range) => {
+                if let Some(ElementInfo::Img(mut img)) = self.event_stack.pop() {
+                    // Workaround for reference not containing the label
+                    if let ImgRef::Reference { url, .. } = img.link_ref {
+                        let mut label = self.src[range.start + 2..range.end - 1].to_owned();
+                        if label.is_empty() {
+                            // If it's empty then we have a compact link reference like [tag][].
+                            // The tag is exists between the start and end tags.
+                            label = self.src[img.range.end..range.start].to_owned();
+                        }
+                        img.link_ref = ImgRef::Reference { label, url };
+                    }
+
+                    img.range.end = range.end;
+                    lookup.insert_img(img);
+                }
+            }
             (Event::Start(Container::Link(tag, link_type), _), range) => match link_type {
                 LinkType::Span(SpanLinkType::Inline) => {
                     self.event_stack.push(ElementInfo::Link(Link {
@@ -130,7 +171,6 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::markup::markup_lookup::BrokenLink;
     use jotdown::Parser;
 
     fn gen(s: &str) -> MarkupLookup {
@@ -153,7 +193,7 @@ text");
             range: 0..9,
         };
 
-        assert_eq!(lookup.headings.get("h1-x"), Some(&heading.clone()));
+        assert_eq!(lookup.headings.get("h1-x"), Some(&vec![heading.clone()]));
         assert_eq!(lookup.at_pos(1), Some(&ElementInfo::Heading(heading)));
     }
 
@@ -175,21 +215,11 @@ text");
     fn test_unresolved_link_lookup() {
         let lookup = gen("before [text here][tag] after");
 
-        let tag = "tag";
-        let range = 7..23;
-
-        assert_eq!(
-            lookup.broken_links,
-            vec![BrokenLink {
-                tag: tag.into(),
-                range: range.clone()
-            }]
-        );
         assert_eq!(
             lookup.at_pos(7),
             Some(&ElementInfo::Link(Link {
-                link_ref: LinkRef::Unresolved(tag.into()),
-                range: range.clone(),
+                link_ref: LinkRef::Unresolved("tag".into()),
+                range: 7..23,
             }))
         );
     }
@@ -220,7 +250,7 @@ text");
             lookup.at_pos(20),
             Some(&ElementInfo::LinkDef(link_def.clone())),
         );
-        assert_eq!(lookup.link_defs.get("tag"), Some(&link_def));
+        assert_eq!(lookup.link_defs.get("tag"), Some(&vec![link_def]));
     }
 
     #[test]
@@ -249,6 +279,48 @@ text");
             lookup.at_pos(9),
             Some(&ElementInfo::LinkDef(link_def.clone())),
         );
-        assert_eq!(lookup.link_defs.get("tag"), Some(&link_def));
+        assert_eq!(lookup.link_defs.get("tag"), Some(&vec![link_def]));
+    }
+
+    #[test]
+    fn test_inline_img_lookup() {
+        let lookup = gen("![img text](/img.png)");
+
+        let element = ElementInfo::Img(Img {
+            link_ref: ImgRef::Inline("/img.png".into()),
+            range: 0..21,
+        });
+        assert_eq!(lookup.at_pos(0), Some(&element));
+    }
+
+    #[test]
+    fn test_unresolved_img_lookup() {
+        let lookup = gen("![text here][tag]");
+
+        assert_eq!(
+            lookup.at_pos(0),
+            Some(&ElementInfo::Img(Img {
+                link_ref: ImgRef::Unresolved("tag".into()),
+                range: 0..17,
+            }))
+        );
+    }
+
+    #[test]
+    fn test_explicit_ref_img_lookup() {
+        let lookup = gen("![text here][tag]
+
+[tag]: /img.png");
+
+        assert_eq!(
+            lookup.at_pos(7),
+            Some(&ElementInfo::Img(Img {
+                link_ref: ImgRef::Reference {
+                    label: "tag".into(),
+                    url: "/img.png".into(),
+                },
+                range: 0..17,
+            }))
+        );
     }
 }

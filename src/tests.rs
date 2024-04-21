@@ -5,6 +5,7 @@ use crate::content::SeriesItem;
 use crate::paths::AbsPath;
 use crate::site::{Site, SiteOptions};
 use crate::site_url::{HrefUrl, ImgUrl};
+use crate::util;
 use crate::util::{load_templates, ParsedFile, ParsedFiles};
 use camino::Utf8Path;
 use camino::Utf8PathBuf;
@@ -31,15 +32,28 @@ pub struct TestSite {
 impl TestSite {
     pub fn create_file(&mut self, file: &str, content: &str) -> Result<()> {
         let path = self.input_dir.path().join(file);
-        fs::write(&path, content)?;
+        util::write_to_file(&path, content)?;
         self.site
             .file_changed(Event::new(EventKind::Create(CreateKind::Any)).add_path(path))
+    }
+
+    pub fn create_test_file(&mut self, path: &str) -> Result<()> {
+        self.create_file(
+            path,
+            r#"---toml
+title = "New post title"
+tags = ["Tag1"]
+---
+
+My created post
+"#,
+        )
     }
 
     pub fn change_file(&mut self, file: &str, from: &str, to: &str) -> Result<()> {
         let path = self.input_dir.path().join(file);
         let content = fs::read_to_string(&path)?.replace(from, to);
-        fs::write(&path, content)?;
+        util::write_to_file(&path, &content)?;
         self.site.file_changed(
             Event::new(EventKind::Modify(ModifyKind::Data(DataChange::Any))).add_path(path),
         )
@@ -48,7 +62,7 @@ impl TestSite {
     pub fn rename_file(&mut self, from: &str, to: &str) -> Result<()> {
         let from = self.input_dir.path().join(from);
         let to = self.input_dir.path().join(to);
-        fs::rename(&from, &to)?;
+        util::rename_file(&from, &to)?;
         self.site.file_changed(
             Event::new(EventKind::Modify(ModifyKind::Name(RenameMode::Both)))
                 .add_path(from)

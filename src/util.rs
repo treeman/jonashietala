@@ -8,13 +8,18 @@ use regex::Regex;
 use scraper::{Html, Selector};
 use std::collections::HashMap;
 use std::collections::HashSet;
-use std::{fs, time::UNIX_EPOCH};
+use std::fs::{self, File};
+use std::path::Path;
+use std::time::UNIX_EPOCH;
 use tera::Tera;
 use tracing::debug;
 
 use crate::site_url::{HrefUrl, ImgUrl};
 
-pub fn last_modified(path: &Utf8Path) -> Result<NaiveDateTime> {
+pub fn last_modified<P>(path: P) -> Result<NaiveDateTime>
+where
+    P: AsRef<Path>,
+{
     let modified = fs::metadata(path)?.modified()?;
     Ok(DateTime::from_timestamp(
         modified.duration_since(UNIX_EPOCH)?.as_secs().try_into()?,
@@ -24,19 +29,46 @@ pub fn last_modified(path: &Utf8Path) -> Result<NaiveDateTime> {
     .naive_local())
 }
 
-pub fn write_to_file(file: &Utf8Path, content: &str) -> Result<()> {
-    let dir = file.parent().expect("Should have a parent dir");
-    debug!("Writing {file}");
+pub fn create_file<P>(path: P) -> Result<File>
+where
+    P: AsRef<Path>,
+{
+    let dir = path.as_ref().parent().expect("Should have a parent dir");
+    fs::create_dir_all(dir)?;
+    let file = File::create(path)?;
+    Ok(file)
+}
+
+pub fn write_to_file<P>(file: P, content: &str) -> Result<()>
+where
+    P: AsRef<Path>,
+{
+    debug!("Writing {:?}", file.as_ref());
+    let dir = file.as_ref().parent().expect("Should have a parent dir");
     fs::create_dir_all(dir)?;
     fs::write(file, content)?;
     Ok(())
 }
 
-pub fn copy_file(from: &Utf8Path, to: &Utf8Path) -> Result<()> {
-    if let Some(parent) = to.parent() {
-        fs::create_dir_all(parent)?;
-    }
-    debug!("Copied {from} {to}");
+#[cfg(test)]
+pub fn rename_file<P>(from: P, to: P) -> Result<()>
+where
+    P: AsRef<Path>,
+{
+    debug!("Renaming {:?} {:?}", from.as_ref(), to.as_ref());
+    let dir = to.as_ref().parent().expect("Should have a parent dir");
+    fs::create_dir_all(dir)?;
+    fs::rename(&from, &to)?;
+    Ok(())
+}
+
+pub fn copy_file<P>(from: P, to: P) -> Result<()>
+where
+    P: AsRef<Path>,
+{
+    debug!("Copying {:?} {:?}", from.as_ref(), to.as_ref());
+    let dir = to.as_ref().parent().expect("Should have a parent dir");
+    fs::create_dir_all(dir)?;
     fs::copy(from, to)?;
     Ok(())
 }

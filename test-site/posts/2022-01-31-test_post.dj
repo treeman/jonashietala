@@ -27,8 +27,31 @@ No "spec"
 
 Inline `code` here `and`rust
 
+{ #duplicate-heading }
 ## Second level header
 
 Here's [a working link][tag1] and a [broken link][broken_tag].
 
-[tag1]: /uses
+[tag1]: /404
+
+Duplicate link def:
+
+[tag1]: /
+
+Duplicate heading id:
+
+{ #duplicate-heading }
+## Second level header
+
+Bad [link](/blog/xxx) and bad [heading ref](#xxx)
+
+Bad link def:
+
+[bad]: /xxx
+
+Non-existing image:
+
+![](/xxx.png)
+
+## Regular heading
+

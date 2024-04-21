@@ -1,4 +1,4 @@
-use crate::markup::markup_lookup::{ElementInfo, Link, LinkDef, LinkRef};
+use crate::markup::markup_lookup::{ElementInfo, Img, ImgRef, Link, LinkDef, LinkRef};
 use crate::paths::AbsPath;
 use crate::{markup::MarkupLookup, site::Site};
 use lazy_static::lazy_static;
@@ -22,7 +22,8 @@ pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Optio
             link_ref: LinkRef::Reference { label, url },
             ..
         }) => {
-            if let Some(def) = lookup.link_defs.get(label) {
+            if let Some(defs) = lookup.link_defs.get(label) {
+                let def = &defs[0];
                 let (row, col) = lookup.char_pos_to_row_col(def.range.start);
                 Some(GotoDefRes::SameFile { row, col })
             } else {
@@ -35,6 +36,19 @@ pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Optio
             ..
         }) => goto_url(url, lookup, site),
         ElementInfo::Link(_) => None,
+        ElementInfo::Img(Img {
+            link_ref: ImgRef::Reference { label, .. },
+            ..
+        }) => {
+            if let Some(defs) = lookup.link_defs.get(label) {
+                let def = &defs[0];
+                let (row, col) = lookup.char_pos_to_row_col(def.range.start);
+                Some(GotoDefRes::SameFile { row, col })
+            } else {
+                None
+            }
+        }
+        ElementInfo::Img(_) => None,
         ElementInfo::LinkDef(LinkDef { url, .. }) => goto_url(url, lookup, site),
         ElementInfo::Heading(_) => None,
     }
@@ -45,10 +59,10 @@ lazy_static! {
 }
 
 fn goto_url(url: &str, lookup: &MarkupLookup, site: &Site) -> Option<GotoDefRes> {
-    // FIXME doesn't work...?
     let hash_ref = HASH_REF.captures(url.trim());
     if let Some(hash_match) = hash_ref {
-        if let Some(heading) = lookup.headings.get(&hash_match[1]) {
+        if let Some(hs) = lookup.headings.get(&hash_match[1]) {
+            let heading = &hs[0];
             let (row, col) = lookup.char_pos_to_row_col(heading.range.start);
             return Some(GotoDefRes::SameFile { row, col });
         }
@@ -60,10 +74,12 @@ fn goto_url(url: &str, lookup: &MarkupLookup, site: &Site) -> Option<GotoDefRes>
         });
     }
 
-    for heading in lookup.headings.values() {
-        if heading.content == url {
-            let (row, col) = lookup.char_pos_to_row_col(heading.range.start);
-            return Some(GotoDefRes::SameFile { row, col });
+    for hs in lookup.headings.values() {
+        for heading in hs.iter() {
+            if heading.content == url {
+                let (row, col) = lookup.char_pos_to_row_col(heading.range.start);
+                return Some(GotoDefRes::SameFile { row, col });
+            }
         }
     }
 

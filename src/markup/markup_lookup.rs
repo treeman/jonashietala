@@ -32,10 +32,24 @@ pub struct Link {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
+pub enum ImgRef {
+    Inline(String),
+    Reference { label: String, url: String },
+    Unresolved(String),
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Img {
+    pub link_ref: ImgRef,
+    pub range: Range<usize>,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum ElementInfo {
     Link(Link),
     LinkDef(LinkDef),
     Heading(Heading),
+    Img(Img),
 }
 
 type LinkLabel = String;
@@ -47,11 +61,8 @@ pub struct MarkupLookup {
     pub pos_to_element: RangeMap<usize, ElementInfo>,
 
     // Element lookup by id or type.
-    pub links: Vec<Link>,
-    pub link_defs: HashMap<LinkLabel, LinkDef>,
-    pub headings: HashMap<HeadingId, Heading>,
-    // FIXME image links
-    // FIXME, how to log duplicate heading ids? Duplicate link defs?
+    pub link_defs: HashMap<LinkLabel, Vec<LinkDef>>,
+    pub headings: HashMap<HeadingId, Vec<Heading>>,
 
     // Position translations.
     line_size: Vec<usize>,
@@ -79,7 +90,6 @@ impl MarkupLookup {
 
         Self {
             pos_to_element: RangeMap::new(),
-            links: Vec::new(),
             link_defs: HashMap::new(),
             headings: HashMap::new(),
             line_size,
@@ -139,21 +149,31 @@ impl MarkupLookup {
     }
 
     pub fn insert_heading(&mut self, heading: Heading) {
-        self.headings.insert(heading.id.clone(), heading.clone());
+        self.headings
+            .entry(heading.id.clone())
+            .and_modify(|hs| hs.push(heading.clone()))
+            .or_insert_with(|| vec![heading.clone()]);
+
         self.pos_to_element
             .insert(heading.range.clone(), ElementInfo::Heading(heading));
     }
 
-    pub fn insert_link(&mut self, link: Link) {
-        self.links.push(link.clone());
+    pub fn insert_img(&mut self, img: Img) {
+        self.pos_to_element
+            .insert(img.range.clone(), ElementInfo::Img(img));
+    }
 
+    pub fn insert_link(&mut self, link: Link) {
         self.pos_to_element
             .insert(link.range.clone(), ElementInfo::Link(link));
     }
 
     pub fn insert_link_def(&mut self, link_def: LinkDef) {
         self.link_defs
-            .insert(link_def.label.clone(), link_def.clone());
+            .entry(link_def.label.clone())
+            .and_modify(|hs| hs.push(link_def.clone()))
+            .or_insert_with(|| vec![link_def.clone()]);
+
         self.pos_to_element
             .insert(link_def.range.clone(), ElementInfo::LinkDef(link_def));
     }

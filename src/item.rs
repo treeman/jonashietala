@@ -1,11 +1,10 @@
 use crate::paths::AbsPath;
+use crate::util;
 use crate::{content, site::SiteContent, site_url::SiteUrl};
 use camino::{Utf8Path, Utf8PathBuf};
 use eyre::Result;
 use std::borrow::Cow;
 use std::fmt::Debug;
-use std::fs;
-use std::fs::File;
 use std::io::Write;
 use tera::{Context, Tera};
 use tracing::debug;
@@ -51,10 +50,7 @@ pub trait TeraItem {
 
     fn render_to_file(&self, ctx: &RenderContext, file: &Utf8Path) -> Result<()> {
         debug!("Rendering {file}");
-        let dir = file.parent().expect("Should have a parent dir");
-        fs::create_dir_all(dir)?;
-        let file = File::create(file)?;
-        self.render_to(ctx, file)
+        self.render_to(ctx, util::create_file(file)?)
     }
 
     fn render_to(&self, ctx: &RenderContext, write: impl Write) -> Result<()> {

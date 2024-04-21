@@ -7,7 +7,7 @@ use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
 use crate::content::{PostItem, PostRef};
-use crate::markup::markup_lookup::LinkRef;
+use crate::markup::markup_lookup::{ElementInfo, Img, ImgRef, Link, LinkRef};
 use crate::markup::MarkupLookup;
 use crate::paths::AbsPath;
 use crate::paths::RelPath;
@@ -156,7 +156,8 @@ fn heading_completions(lookup: &MarkupLookup, source: HeadingSource) -> Vec<Comp
     lookup
         .headings
         .values()
-        .map(|heading| {
+        .map(|hs| {
+            let heading = &hs[0];
             let (start_row, _) = lookup.char_pos_to_row_col(heading.range.start);
             let (end_row, _) = lookup.char_pos_to_row_col(heading.range.end);
 
@@ -195,7 +196,8 @@ fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
     lookup
         .link_defs
         .values()
-        .map(|def| {
+        .map(|defs| {
+            let def = &defs[0];
             let (start_row, _) = lookup.char_pos_to_row_col(def.range.start);
             let (end_row, _) = lookup.char_pos_to_row_col(def.range.end);
             CompletionItemBuilder::LinkDefInfo(LinkDefInfo::from_link_def(def, start_row, end_row))
@@ -205,12 +207,22 @@ fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
 }
 
 fn append_broken_link_completions(lookup: &MarkupLookup, res: &mut Vec<CompletionItem>) {
-    for link in lookup.links.iter() {
-        if let LinkRef::Unresolved(ref tag) = link.link_ref {
-            let (row, _) = lookup.char_pos_to_row_col(link.range.start);
-            res.push(
-                CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(&tag, row)).into(),
-            );
+    for (_, e) in lookup.pos_to_element.iter() {
+        match e {
+            ElementInfo::Link(Link {
+                link_ref: LinkRef::Unresolved(tag),
+                range,
+            })
+            | ElementInfo::Img(Img {
+                link_ref: ImgRef::Unresolved(tag),
+                range,
+            }) => {
+                let (row, _) = lookup.char_pos_to_row_col(range.start);
+                res.push(
+                    CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(&tag, row)).into(),
+                );
+            }
+            _ => {}
         }
     }
 }
@@ -595,22 +607,22 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(items.len(), 2);
+        assert_eq!(items.len(), 3);
 
         assert_eq!(
-            find_insert_text("Second-level-header", &items),
+            find_insert_text("Regular-heading", &items),
             Some(&CompletionItem {
-                label: "## Second level header".into(),
-                insert_text: Some("Second-level-header".into()),
-                filter_text: Some("Second level header".into()),
+                label: "## Regular heading".into(),
+                insert_text: Some("Regular-heading".into()),
+                filter_text: Some("Regular heading".into()),
                 kind: CompletionItemKind::Class,
                 info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
-                    id: "Second-level-header".into(),
-                    content: "Second level header".into(),
+                    id: "Regular-heading".into(),
+                    content: "Regular heading".into(),
                     level: 2,
                     context: HeadingContext::SameFile {
-                        start_row: 30,
-                        end_row: 31
+                        start_row: 56,
+                        end_row: 57
                     }
                 }))
             })
@@ -644,23 +656,22 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(items.len(), 1);
+        assert_eq!(items.len(), 2);
 
-        let def = items.first().unwrap();
         assert_eq!(
-            def,
-            &CompletionItem {
+            find_insert_text("tag1", &items),
+            Some(&CompletionItem {
                 label: "tag1".into(),
                 insert_text: Some("tag1".to_string()),
-                filter_text: Some("/uses|tag1".into()),
+                filter_text: Some("/404|tag1".into()),
                 kind: CompletionItemKind::Reference,
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
-                    url: "/uses".into(),
-                    start_row: 34,
-                    end_row: 34
+                    url: "/404".into(),
+                    start_row: 35,
+                    end_row: 36
                 }))
-            }
+            })
         );
 
         Ok(())
@@ -683,20 +694,20 @@ mod tests {
             &test_site.site,
         );
 
-        assert_eq!(items.len(), 1);
+        assert_eq!(items.len(), 2);
 
         assert_eq!(
             find_insert_text("tag1", &items),
             Some(&CompletionItem {
                 label: "tag1".into(),
                 insert_text: Some("tag1".into()),
-                filter_text: Some("/uses|tag1".into()),
+                filter_text: Some("/404|tag1".into()),
                 kind: CompletionItemKind::Reference,
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
-                    url: "/uses".into(),
-                    start_row: 34,
-                    end_row: 34
+                    url: "/404".into(),
+                    start_row: 35,
+                    end_row: 36
                 }))
             })
         );
@@ -704,7 +715,7 @@ mod tests {
         // First in line, so we should complete broken link tags as well.
         let items = complete("[", 0, 6, "posts/2022-01-31-test_post.dj", &test_site.site);
 
-        assert_eq!(items.len(), 2);
+        assert_eq!(items.len(), 3);
 
         assert_eq!(
             find_label("broken_tag", &items),
@@ -715,7 +726,7 @@ mod tests {
                 kind: CompletionItemKind::Field,
                 info: Some(ExtraCompletionInfo::BrokenLink(BrokenLinkInfo {
                     tag: "broken_tag".into(),
-                    row: 32
+                    row: 33
                 }))
             })
         );

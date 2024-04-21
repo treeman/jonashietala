@@ -1187,16 +1187,24 @@ My created static
         }
         .build()?;
 
-        assert!(test_site
-            .output_content("blog/2022/01/31/test_post/index.html")
-            .is_ok());
+        let path = "posts/2024-01-31-new_post.dj";
+        let output_path = "blog/2024/01/31/new_post/index.html";
 
-        // FIXME this may cause other tests to break
-        test_site.remove_file("posts/2022-01-31-test_post.dj")?;
-
+        test_site.create_test_file(path)?;
+        assert!(test_site.output_content(output_path).is_ok());
         assert!(test_site
-            .output_content("blog/2022/01/31/test_post/index.html")
-            .is_err());
+            .site
+            .content
+            .find_post_by_file_name("2024-01-31-new_post.dj")
+            .is_some());
+
+        test_site.remove_file(path)?;
+        assert!(test_site.output_content(output_path).is_err());
+        assert!(test_site
+            .site
+            .content
+            .find_post_by_file_name("2024-01-31-new_post.dj")
+            .is_none());
 
         Ok(())
     }
@@ -1209,23 +1217,17 @@ My created static
         }
         .build()?;
 
-        assert!(test_site
-            .output_content("drafts/a_draft/index.html")?
-            .contains("My draft text"));
+        test_site.create_test_file("drafts/new_draft.dj")?;
 
-        // FIXME this may cause other tests to break
-        test_site.rename_file(
-            "drafts/a_draft.markdown",
-            "posts/2023-01-31-now_post.markdown",
-        )?;
+        test_site.rename_file("drafts/new_draft.dj", "posts/2023-01-31-now_post.dj")?;
 
         assert!(test_site
-            .output_content("drafts/a_draft/index.html")
+            .output_content("drafts/new_draft/index.html")
             .is_err());
 
         assert!(test_site
-            .output_content("blog/2023/01/31/now_post/index.html")?
-            .contains("My draft text"));
+            .output_content("blog/2023/01/31/now_post/index.html")
+            .is_ok());
 
         Ok(())
     }
@@ -1238,23 +1240,21 @@ My created static
         }
         .build()?;
 
-        assert!(test_site
-            .output_content("blog/2022/01/31/test_post/index.html")?
-            .contains("☃︎"));
-
-        // FIXME this may cause other tests to break
-        test_site.rename_file(
-            "posts/2022-01-31-test_post.markdown",
-            "drafts/new_draft.markdown",
-        )?;
+        test_site.create_test_file("posts/2022-01-31-post_to_demote.dj")?;
 
         assert!(test_site
-            .output_content("blog/2022/01/31/test_post/index.html")
+            .output_content("blog/2022/01/31/post_to_demote/index.html")
+            .is_ok());
+
+        test_site.rename_file("posts/2022-01-31-post_to_demote.dj", "drafts/demoted.dj")?;
+
+        assert!(test_site
+            .output_content("blog/2022/01/31/post_to_demote/index.html")
             .is_err());
 
         assert!(test_site
-            .output_content("drafts/new_draft/index.html")?
-            .contains("☃︎"));
+            .output_content("drafts/demoted/index.html")
+            .is_ok());
 
         Ok(())
     }

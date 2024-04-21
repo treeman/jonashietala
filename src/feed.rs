@@ -7,7 +7,6 @@ use chrono::DateTime;
 use chrono::FixedOffset;
 use chrono::NaiveDateTime;
 use eyre::Result;
-use std::fs::File;
 use tracing::debug;
 
 use crate::content::PostItem;
@@ -17,6 +16,7 @@ use crate::markup::ParseContext;
 use crate::paths::AbsPath;
 use crate::site::BASE_SITE_URL;
 use crate::site_url::SiteUrl;
+use crate::util;
 use lazy_static::lazy_static;
 
 lazy_static! {
@@ -76,7 +76,7 @@ impl Item for SiteFeed {
         let output_file = ctx.output_dir.join("feed.xml");
         debug!("Writing {output_file}");
 
-        let file = File::create(output_file)?;
+        let file = util::create_file(&output_file)?;
 
         let feed = Feed {
             title: "Jonas Hietala".into(),

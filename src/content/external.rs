@@ -36,7 +36,7 @@ pub struct JsItem;
 
 impl Item for JsItem {
     fn render(&self, ctx: &RenderContext) -> Result<()> {
-        util::copy_file("js/main.js".into(), &ctx.output_dir.join("js/main.js"))
+        util::copy_file("js/main.js", ctx.output_dir.join("js/main.js").as_str())
     }
 
     fn url(&self) -> &SiteUrl {
