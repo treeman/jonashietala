@@ -109,9 +109,9 @@ lazy_static! {
 }
 
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
+    // TODO
     site.list_imgs()
-        .into_iter()
-        .map(|img| CompletionItemBuilder::new_img(img.rel_path).into())
+        .map(|e| CompletionItemBuilder::new_img(e.into_path().rel_path).into())
         .collect()
 }
 

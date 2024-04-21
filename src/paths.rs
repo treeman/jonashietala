@@ -8,16 +8,23 @@ use std::ops::Deref;
 use std::path::Path;
 use std::path::PathBuf;
 use tempfile::TempDir;
-use walkdir::WalkDir;
+use walkdir::{DirEntry, WalkDir};
 
-pub fn list_files(dir: &AbsPath) -> Vec<FilePath> {
+pub fn walk_dir(dir: &AbsPath) -> impl Iterator<Item = DirEntry> {
     WalkDir::new(dir.as_std_path())
         .into_iter()
         .filter_map(|e| e.ok())
-        .filter(|e| match e.metadata() {
-            Ok(e) => !e.is_dir(),
-            _ => false,
-        })
+}
+
+pub fn file_iter(dir: &AbsPath) -> impl Iterator<Item = DirEntry> {
+    walk_dir(dir).filter(|e| match e.metadata() {
+        Ok(e) => !e.is_dir(),
+        _ => false,
+    })
+}
+
+pub fn list_files(dir: &AbsPath) -> Vec<FilePath> {
+    file_iter(dir)
         .filter_map(|e| FilePath::from_std_path(dir, e.into_path()).ok())
         .collect()
 }

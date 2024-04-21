@@ -19,6 +19,7 @@ use std::path::PathBuf;
 use tera::{Context, Tera};
 use tracing::{debug, error, info, warn};
 use url::Url;
+use walkdir::DirEntry;
 
 use crate::content::load_series;
 use crate::content::set_post_prev_next;
@@ -912,8 +913,8 @@ impl Site {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
 
-    pub fn list_imgs(&self) -> Vec<FilePath> {
-        paths::list_files(&self.opts.input_dir.join("images"))
+    pub fn list_imgs(&self) -> impl Iterator<Item = DirEntry> {
+        paths::file_iter(&self.opts.input_dir.join("images"))
     }
 
     pub fn set_notifiers(
