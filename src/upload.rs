@@ -53,7 +53,7 @@ pub async fn sync(opts: SyncOpts<'_>) -> Result<()> {
 }
 
 async fn calculate_sync(dir: &AbsPath, bucket: &Bucket) -> Result<SyncPlan> {
-    let local = paths::list_files(dir);
+    let local = paths::list_files(dir.clone());
 
     let remote: HashMap<String, Object> = bucket
         .list("".to_string(), None)

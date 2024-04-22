@@ -81,7 +81,7 @@ impl TagInfo {
 #[derive(Debug, Serialize, PartialEq, Eq)]
 pub struct ImgInfo {
     pub url: String,
-    pub modified: i64,
+    pub modified: u64,
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]

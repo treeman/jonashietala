@@ -19,7 +19,6 @@ use std::path::PathBuf;
 use tera::{Context, Tera};
 use tracing::{debug, error, info, warn};
 use url::Url;
-use walkdir::DirEntry;
 
 use crate::content::load_series;
 use crate::content::set_post_prev_next;
@@ -34,6 +33,7 @@ use crate::paths;
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
 use crate::paths::RelPath;
+use crate::paths::WalkDirRes;
 use crate::server::diagnostics;
 use crate::server::messages::{NeovimResponse, WebEvent};
 use crate::{
@@ -913,8 +913,8 @@ impl Site {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
 
-    pub fn list_imgs(&self) -> impl Iterator<Item = DirEntry> {
-        paths::file_iter(&self.opts.input_dir.join("images"))
+    pub fn list_imgs<'a>(&'a self) -> impl Iterator<Item = WalkDirRes> + 'a {
+        paths::file_iter(self.opts.input_dir.join("images"))
     }
 
     pub fn set_notifiers(

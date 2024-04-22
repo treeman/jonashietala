@@ -4,29 +4,36 @@ use eyre::eyre;
 use eyre::Result;
 use std::env;
 use std::fmt::Display;
+use std::fs::Metadata;
 use std::ops::Deref;
 use std::path::Path;
 use std::path::PathBuf;
 use tempfile::TempDir;
-use walkdir::{DirEntry, WalkDir};
+use walkdir::WalkDir;
 
-pub fn walk_dir(dir: &AbsPath) -> impl Iterator<Item = DirEntry> {
+pub struct WalkDirRes {
+    pub meta: Metadata,
+    pub path: FilePath,
+}
+
+pub fn walk_dir(dir: AbsPath) -> impl Iterator<Item = WalkDirRes> + 'static {
     WalkDir::new(dir.as_std_path())
         .into_iter()
         .filter_map(|e| e.ok())
+        .filter_map(move |e| match e.metadata() {
+            Ok(meta) => FilePath::from_std_path(&dir, e.into_path())
+                .ok()
+                .and_then(|path| Some(WalkDirRes { meta, path })),
+            Err(_) => None,
+        })
 }
 
-pub fn file_iter(dir: &AbsPath) -> impl Iterator<Item = DirEntry> {
-    walk_dir(dir).filter(|e| match e.metadata() {
-        Ok(e) => !e.is_dir(),
-        _ => false,
-    })
+pub fn file_iter(dir: AbsPath) -> impl Iterator<Item = WalkDirRes> + 'static {
+    walk_dir(dir).filter(|e| !e.meta.is_dir())
 }
 
-pub fn list_files(dir: &AbsPath) -> Vec<FilePath> {
-    file_iter(dir)
-        .filter_map(|e| FilePath::from_std_path(dir, e.into_path()).ok())
-        .collect()
+pub fn list_files(dir: AbsPath) -> Vec<FilePath> {
+    file_iter(dir).map(|e| e.path).collect()
 }
 
 #[derive(Debug, Eq, PartialEq, Clone)]

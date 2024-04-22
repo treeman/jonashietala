@@ -14,9 +14,11 @@ use crate::paths::RelPath;
 use crate::site::Site;
 use crate::site_url::SiteUrl;
 use camino::Utf8PathBuf;
+use eyre::Result;
 use lazy_static::lazy_static;
 use regex::{Captures, Regex};
 use serde_repr::*;
+use std::time::SystemTime;
 
 pub fn complete(
     cursor_before_line: &str,
@@ -109,9 +111,15 @@ lazy_static! {
 }
 
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
-    // TODO
     site.list_imgs()
-        .map(|e| CompletionItemBuilder::new_img(e.into_path().rel_path).into())
+        .map(|e| {
+            CompletionItemBuilder::new_img(
+                e.path.rel_path,
+                e.meta.modified().expect("Modified should be available"),
+            )
+            .expect("Completion builder failed")
+            .into()
+        })
         .collect()
 }
 
@@ -302,10 +310,11 @@ pub enum CompletionItemBuilder {
 }
 
 impl CompletionItemBuilder {
-    pub fn new_img(path: RelPath) -> Self {
-        Self::Img(ImgInfo {
+    pub fn new_img(path: RelPath, t: SystemTime) -> Result<Self> {
+        Ok(Self::Img(ImgInfo {
             url: Utf8PathBuf::from("/images/").join(path.0).to_string(),
-        })
+            modified: t.duration_since(SystemTime::UNIX_EPOCH)?.as_secs(),
+        }))
     }
 
     pub fn new_post(item: &PostItem) -> Self {
