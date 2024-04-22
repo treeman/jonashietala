@@ -22,7 +22,6 @@ article {
   @include flow;
   section {
     @include flow;
-    margin-block-start: 0 !important;
   }
 
   h1,
@@ -42,9 +41,11 @@ article {
   }
 
   // All headers are wrapped in sections in Djot,
-  // so the margin on the :not(:first-child) headers will never happen.
+  // so the margin on the `:not(:first-child)` headers will never happen.
+  // Remove `--flow-space` because it will be introduced from `@include flow`
+  // in wrapping articles and other sections.
   section > :is(h1, h2, h3, h4, h5, h6, h7):first-child {
-    margin-block-start: var(--space-m);
+    margin-block-start: calc(var(--space-m) - var(--flow-space));
   }
 
   .post-info,
