@@ -1,18 +1,17 @@
 use crate::item::Item;
-use crate::markup::markup_lookup::{ElementInfo, ImgRef, LinkRef, MarkupLookup};
+use crate::markup::markup_lookup::{ElementInfo, ImgRef, LinkRef, NeovimRange};
 use crate::paths::AbsPath;
 use crate::site_url::SiteUrl;
 use crate::Site;
 use serde::Serialize;
 use std::collections::HashMap;
-use std::ops::Range;
 
 #[derive(Debug, Serialize)]
 pub struct Diagnostic {
-    pub linenum: usize,
-    pub end_linenum: usize,
-    pub column: usize,
-    pub end_column: usize,
+    pub lnum: usize,
+    pub end_lnum: usize,
+    pub col: usize,
+    pub end_col: usize,
     pub message: String,
 }
 
@@ -31,11 +30,11 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
 
     let mut res = Vec::new();
 
-    for (_, e) in lookup.pos_to_element.iter() {
+    for (_, e) in lookup.char_pos_to_element.iter() {
         match e {
             ElementInfo::Link(link) => match &link.link_ref {
                 LinkRef::Inline(url) | LinkRef::AutoLink(url) => {
-                    check_url(&link.range, url, lookup, site, &mut res);
+                    check_url(&link.range, url, site, &mut res);
                 }
                 LinkRef::Reference { .. } => {}
                 LinkRef::Email(_) => {}
@@ -43,21 +42,19 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                     push_diagnostic(
                         &link.range,
                         format!("Link to non-existent link definition: `{}`", tag),
-                        lookup,
                         &mut res,
                     );
                 }
             },
             ElementInfo::Img(img) => match &img.link_ref {
                 ImgRef::Inline(url) => {
-                    check_url(&img.range, url, lookup, site, &mut res);
+                    check_url(&img.range, url, site, &mut res);
                 }
                 ImgRef::Reference { .. } => {}
                 ImgRef::Unresolved(tag) => {
                     push_diagnostic(
                         &img.range,
                         format!("Link to non-existent link definition: `{}`", tag),
-                        lookup,
                         &mut res,
                     );
                 }
@@ -71,13 +68,12 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
         let duplicate = defs.len() > 1;
 
         for def in defs.iter() {
-            check_url(&def.range, &def.url, lookup, site, &mut res);
+            check_url(&def.range, &def.url, site, &mut res);
 
             if duplicate {
                 push_diagnostic(
                     &def.range,
                     format!("Duplicate link definition: `{}`", def.label),
-                    lookup,
                     &mut res,
                 );
             }
@@ -92,7 +88,6 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                 push_diagnostic(
                     &heading.range,
                     format!("Duplicate heading id: `{}`", heading.id),
-                    lookup,
                     &mut res,
                 );
             }
@@ -102,13 +97,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
     Some(res)
 }
 
-fn check_url(
-    range: &Range<usize>,
-    url: &str,
-    lookup: &MarkupLookup,
-    site: &Site,
-    res: &mut Vec<Diagnostic>,
-) {
+fn check_url(range: &NeovimRange, url: &str, site: &Site, res: &mut Vec<Diagnostic>) {
     if !url.starts_with('/') {
         return;
     }
@@ -117,38 +106,27 @@ fn check_url(
         Ok(site_url) => {
             let path = site_url.output_file(&site.opts.output_dir);
             if !path.exists() {
-                push_diagnostic(
-                    range,
-                    format!("Link to non-existent url: `{}`", url),
-                    lookup,
-                    res,
-                );
+                push_diagnostic(range, format!("Link to non-existent url: `{}`", url), res);
             }
         }
         Err(err) => {
             push_diagnostic(
                 range,
                 format!("Unable to parse url `{}`: {}", url, err),
-                lookup,
                 res,
             );
         }
     }
 }
 
-fn push_diagnostic(
-    range: &Range<usize>,
-    message: String,
-    lookup: &MarkupLookup,
-    res: &mut Vec<Diagnostic>,
-) {
-    let start = lookup.char_pos_to_row_col(range.start);
-    let end = lookup.char_pos_to_row_col(range.end);
+fn push_diagnostic(range: &NeovimRange, message: String, res: &mut Vec<Diagnostic>) {
+    // let start = lookup.char_pos_to_row_col(range.start);
+    // let end = lookup.char_pos_to_row_col(range.end);
     res.push(Diagnostic {
-        linenum: start.0,
-        column: start.1,
-        end_linenum: end.0,
-        end_column: end.1,
+        lnum: range.start.row,
+        col: range.start.col,
+        end_lnum: range.end.row,
+        end_col: range.end.col,
         message,
     });
 }

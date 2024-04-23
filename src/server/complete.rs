@@ -161,8 +161,8 @@ fn heading_completions(lookup: &MarkupLookup, source: HeadingSource) -> Vec<Comp
         .values()
         .map(|hs| {
             let heading = &hs[0];
-            let (start_row, _) = lookup.char_pos_to_row_col(heading.range.start);
-            let (end_row, _) = lookup.char_pos_to_row_col(heading.range.end);
+            let start_row = heading.range.start.row;
+            let end_row = heading.range.end.row;
 
             let context = match source {
                 HeadingSource::SameFile => HeadingContext::SameFile { start_row, end_row },
@@ -201,8 +201,8 @@ fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
         .values()
         .map(|defs| {
             let def = &defs[0];
-            let (start_row, _) = lookup.char_pos_to_row_col(def.range.start);
-            let (end_row, _) = lookup.char_pos_to_row_col(def.range.end);
+            let start_row = def.range.start.row;
+            let end_row = def.range.end.row;
             CompletionItemBuilder::LinkDefInfo(LinkDefInfo::from_link_def(def, start_row, end_row))
                 .into()
         })
@@ -210,19 +210,24 @@ fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
 }
 
 fn append_broken_link_completions(lookup: &MarkupLookup, res: &mut Vec<CompletionItem>) {
-    for (_, e) in lookup.pos_to_element.iter() {
+    for (_, e) in lookup.char_pos_to_element.iter() {
         match e {
             ElementInfo::Link(Link {
                 link_ref: LinkRef::Unresolved(tag),
                 range,
+                ..
             })
             | ElementInfo::Img(Img {
                 link_ref: ImgRef::Unresolved(tag),
                 range,
+                ..
             }) => {
-                let (row, _) = lookup.char_pos_to_row_col(range.start);
                 res.push(
-                    CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(&tag, row)).into(),
+                    CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(
+                        &tag,
+                        range.start.row,
+                    ))
+                    .into(),
                 );
             }
             _ => {}
@@ -577,7 +582,7 @@ mod tests {
                             .to_string(),
                         url: "/blog/2022/02/01/feb_post".into(),
                         start_row: 17,
-                        end_row: 18
+                        end_row: 17
                     }
                 }))
             })
@@ -626,7 +631,7 @@ mod tests {
                     level: 2,
                     context: HeadingContext::SameFile {
                         start_row: 56,
-                        end_row: 57
+                        end_row: 56
                     }
                 }))
             })
@@ -673,7 +678,7 @@ mod tests {
                     label: "tag1".into(),
                     url: "/404".into(),
                     start_row: 35,
-                    end_row: 36
+                    end_row: 35
                 }))
             })
         );
@@ -711,7 +716,7 @@ mod tests {
                     label: "tag1".into(),
                     url: "/404".into(),
                     start_row: 35,
-                    end_row: 36
+                    end_row: 35
                 }))
             })
         );

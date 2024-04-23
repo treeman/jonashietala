@@ -1,19 +1,58 @@
 use btree_range_map::RangeMap;
 use std::{collections::HashMap, ops::Range};
 
+// Neovim uses (1,0)-indexing.
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+pub struct NeovimPos {
+    pub row: usize,
+    pub col: usize,
+}
+
+impl NeovimPos {
+    pub fn new(row: usize, col: usize) -> NeovimPos {
+        assert!(row > 0, "Can't use 0 for a Neovim row pos");
+        Self { row, col }
+    }
+}
+
+impl PartialEq<(usize, usize)> for NeovimPos {
+    fn eq(&self, other: &(usize, usize)) -> bool {
+        self.row == other.0 && self.col == other.1
+    }
+}
+
+// A range used to send to Neovim.
+// Note that it's range inclusive!
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+pub struct NeovimRange {
+    pub start: NeovimPos,
+    pub end: NeovimPos,
+}
+
+impl NeovimRange {
+    pub fn new(start: (usize, usize), end: (usize, usize)) -> Self {
+        Self {
+            start: NeovimPos::new(start.0, start.1),
+            end: NeovimPos::new(end.0, end.1),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Heading {
     pub id: String,
     pub level: u16,
     pub content: String,
-    pub range: Range<usize>,
+    pub range: NeovimRange,
+    pub char_range: Range<usize>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct LinkDef {
     pub label: String,
     pub url: String,
-    pub range: Range<usize>,
+    pub range: NeovimRange,
+    pub char_range: Range<usize>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -28,7 +67,8 @@ pub enum LinkRef {
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Link {
     pub link_ref: LinkRef,
-    pub range: Range<usize>,
+    pub range: NeovimRange,
+    pub char_range: Range<usize>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -41,7 +81,8 @@ pub enum ImgRef {
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Img {
     pub link_ref: ImgRef,
-    pub range: Range<usize>,
+    pub range: NeovimRange,
+    pub char_range: Range<usize>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -58,14 +99,13 @@ type HeadingId = String;
 #[derive(Debug)]
 pub struct MarkupLookup {
     // Element lookup by character position.
-    pub pos_to_element: RangeMap<usize, ElementInfo>,
+    pub char_pos_to_element: RangeMap<usize, ElementInfo>,
 
     // Element lookup by id or type.
     pub link_defs: HashMap<LinkLabel, Vec<LinkDef>>,
     pub headings: HashMap<HeadingId, Vec<Heading>>,
 
     // Position translations.
-    line_size: Vec<usize>,
     prev_line_size_sum: Vec<usize>,
     // Line calculation offset, to handle frontmatter that isn't
     // included in markup registration.
@@ -74,7 +114,6 @@ pub struct MarkupLookup {
 
 impl MarkupLookup {
     pub fn new(source: &str, line_calc_offset: usize) -> Self {
-        let mut line_size = Vec::new();
         let mut line_size_sum = Vec::new();
 
         let mut sum = 0;
@@ -83,16 +122,15 @@ impl MarkupLookup {
             // I don't know how to handle carriage returns nor do I care.
             // Neovim counts columns using bytes, not character!
             let count = line.bytes().count() + 1;
-            line_size.push(count);
             line_size_sum.push(sum);
             sum += count;
         }
+        line_size_sum.push(sum);
 
         Self {
-            pos_to_element: RangeMap::new(),
+            char_pos_to_element: RangeMap::new(),
             link_defs: HashMap::new(),
             headings: HashMap::new(),
-            line_size,
             prev_line_size_sum: line_size_sum,
             line_calc_offset,
         }
@@ -103,49 +141,45 @@ impl MarkupLookup {
     }
 
     pub fn element_at(&self, row: usize, col: usize) -> Option<&ElementInfo> {
-        self.pos_to_element.get(self.row_col_to_char_pos(row, col)?)
+        self.char_pos_to_element
+            .get(self.row_col_to_char_pos(row, col)?)
     }
 
-    pub fn char_pos_to_row_col(&self, pos: usize) -> (usize, usize) {
+    pub fn neovim_range(&self, range: &Range<usize>) -> NeovimRange {
+        NeovimRange {
+            start: self.char_pos_to_row_col(range.start),
+            // A Range excludes `end`, but NeovimRange is inclusive.
+            end: self.char_pos_to_row_col(range.end - 1),
+        }
+    }
+
+    fn char_pos_to_row_col(&self, pos: usize) -> NeovimPos {
         match self.prev_line_size_sum.binary_search(&pos) {
             // Found an exact match
-            Ok(row) => {
-                if self.line_size[row] == 1 {
-                    // Special case for lines with only a newline,
-                    // Neovim treats those as column 0 when in normal mode.
-                    (row + 1 + self.line_calc_offset, 0)
-                } else {
-                    (row + 1 + self.line_calc_offset, 1)
-                }
-            }
+            Ok(row) => NeovimPos::new(row + 1 + self.line_calc_offset, 0),
             // An error means we could insert it here sorted,
             // but we'll use it to calculate the remaining chars.
-            Err(row) => (
+            Err(row) => NeovimPos::new(
                 row + self.line_calc_offset,
-                pos - self.prev_line_size_sum[row - 1] + 1,
+                pos - self.prev_line_size_sum[row - 1],
             ),
         }
     }
 
-    pub fn row_col_to_char_pos(&self, row: usize, col: usize) -> Option<usize> {
+    fn row_col_to_char_pos(&self, row: usize, col: usize) -> Option<usize> {
         if row == 0 || self.line_calc_offset > row - 1 {
             return None;
         }
         let row_check = row - 1 - self.line_calc_offset;
-        if row_check >= self.line_size.len() {
+        if row_check + 1 >= self.prev_line_size_sum.len() {
             return None;
         }
 
-        if self.line_size[row_check] == 1 {
-            // Special case for blankline.
-            Some(self.prev_line_size_sum[row_check] + col)
-        } else {
-            Some(self.prev_line_size_sum[row_check] + col - 1)
-        }
+        Some(self.prev_line_size_sum[row_check] + col)
     }
 
     pub fn at_pos(&self, pos: usize) -> Option<&ElementInfo> {
-        self.pos_to_element.get(pos)
+        self.char_pos_to_element.get(pos)
     }
 
     pub fn insert_heading(&mut self, heading: Heading) {
@@ -154,18 +188,18 @@ impl MarkupLookup {
             .and_modify(|hs| hs.push(heading.clone()))
             .or_insert_with(|| vec![heading.clone()]);
 
-        self.pos_to_element
-            .insert(heading.range.clone(), ElementInfo::Heading(heading));
+        self.char_pos_to_element
+            .insert(heading.char_range.clone(), ElementInfo::Heading(heading));
     }
 
     pub fn insert_img(&mut self, img: Img) {
-        self.pos_to_element
-            .insert(img.range.clone(), ElementInfo::Img(img));
+        self.char_pos_to_element
+            .insert(img.char_range.clone(), ElementInfo::Img(img));
     }
 
     pub fn insert_link(&mut self, link: Link) {
-        self.pos_to_element
-            .insert(link.range.clone(), ElementInfo::Link(link));
+        self.char_pos_to_element
+            .insert(link.char_range.clone(), ElementInfo::Link(link));
     }
 
     pub fn insert_link_def(&mut self, link_def: LinkDef) {
@@ -174,8 +208,8 @@ impl MarkupLookup {
             .and_modify(|hs| hs.push(link_def.clone()))
             .or_insert_with(|| vec![link_def.clone()]);
 
-        self.pos_to_element
-            .insert(link_def.range.clone(), ElementInfo::LinkDef(link_def));
+        self.char_pos_to_element
+            .insert(link_def.char_range.clone(), ElementInfo::LinkDef(link_def));
     }
 }
 
@@ -185,97 +219,115 @@ mod tests {
 
     #[test]
     fn test_lookup_position_transforms() {
-        // 1. 6 chars, 7th newline
-        // 2. 7..8 blankline
-        // 3. 5 chars, 13..14 softbreak
-        // 4. 14..15 "0", 16th end paragraph
-        //
         let lookup = MarkupLookup::new(
             "012345
 
 01234
-0
-",
+0",
             0,
         );
 
-        // vim.api.nvim_win_get_cursor(0)
-
-        // In Neovim, a character starts at pos 1 on a column.
-        // A newline on a blankline gets pos 0.
-        // Inserting after a line gets the newline position too.
-        // Rows start at 1 as well.
-        assert_eq!(lookup.char_pos_to_row_col(0), (1, 1));
-        assert_eq!(lookup.char_pos_to_row_col(1), (1, 2));
-        assert_eq!(lookup.char_pos_to_row_col(2), (1, 3));
-        assert_eq!(lookup.char_pos_to_row_col(3), (1, 4));
-        assert_eq!(lookup.char_pos_to_row_col(4), (1, 5));
-        assert_eq!(lookup.char_pos_to_row_col(5), (1, 6));
-        assert_eq!(lookup.char_pos_to_row_col(6), (1, 7));
+        // Neovim uses (1,0)-indexing where rows start at 1
+        // and columns at 0 when we use the
+        // `nvim_win_get_cursor` and `nvim_win_set_cursor` functions.
+        assert_eq!(lookup.char_pos_to_row_col(0), (1, 0));
+        assert_eq!(lookup.char_pos_to_row_col(1), (1, 1));
+        assert_eq!(lookup.char_pos_to_row_col(2), (1, 2));
+        assert_eq!(lookup.char_pos_to_row_col(3), (1, 3));
+        assert_eq!(lookup.char_pos_to_row_col(4), (1, 4));
+        assert_eq!(lookup.char_pos_to_row_col(5), (1, 5));
+        assert_eq!(lookup.char_pos_to_row_col(6), (1, 6));
 
         assert_eq!(lookup.char_pos_to_row_col(7), (2, 0));
 
-        assert_eq!(lookup.char_pos_to_row_col(8), (3, 1));
-        assert_eq!(lookup.char_pos_to_row_col(9), (3, 2));
-        assert_eq!(lookup.char_pos_to_row_col(10), (3, 3));
-        assert_eq!(lookup.char_pos_to_row_col(11), (3, 4));
-        assert_eq!(lookup.char_pos_to_row_col(12), (3, 5));
-        assert_eq!(lookup.char_pos_to_row_col(13), (3, 6));
+        assert_eq!(lookup.char_pos_to_row_col(8), (3, 0));
+        assert_eq!(lookup.char_pos_to_row_col(9), (3, 1));
+        assert_eq!(lookup.char_pos_to_row_col(10), (3, 2));
+        assert_eq!(lookup.char_pos_to_row_col(11), (3, 3));
+        assert_eq!(lookup.char_pos_to_row_col(12), (3, 4));
+        assert_eq!(lookup.char_pos_to_row_col(13), (3, 5));
 
-        assert_eq!(lookup.char_pos_to_row_col(14), (4, 1));
-        assert_eq!(lookup.char_pos_to_row_col(15), (4, 2));
+        assert_eq!(lookup.char_pos_to_row_col(14), (4, 0));
+        assert_eq!(lookup.char_pos_to_row_col(15), (4, 1));
 
-        assert_eq!(lookup.row_col_to_char_pos(1, 1), Some(0));
-        assert_eq!(lookup.row_col_to_char_pos(1, 2), Some(1));
-        assert_eq!(lookup.row_col_to_char_pos(1, 3), Some(2));
-        assert_eq!(lookup.row_col_to_char_pos(1, 4), Some(3));
-        assert_eq!(lookup.row_col_to_char_pos(1, 5), Some(4));
-        assert_eq!(lookup.row_col_to_char_pos(1, 6), Some(5));
-        assert_eq!(lookup.row_col_to_char_pos(1, 7), Some(6));
+        assert_eq!(lookup.row_col_to_char_pos(0, 0), None);
+
+        assert_eq!(lookup.row_col_to_char_pos(1, 0), Some(0));
+        assert_eq!(lookup.row_col_to_char_pos(1, 1), Some(1));
+        assert_eq!(lookup.row_col_to_char_pos(1, 2), Some(2));
+        assert_eq!(lookup.row_col_to_char_pos(1, 3), Some(3));
+        assert_eq!(lookup.row_col_to_char_pos(1, 4), Some(4));
+        assert_eq!(lookup.row_col_to_char_pos(1, 5), Some(5));
+        assert_eq!(lookup.row_col_to_char_pos(1, 6), Some(6));
 
         assert_eq!(lookup.row_col_to_char_pos(2, 0), Some(7));
 
-        assert_eq!(lookup.row_col_to_char_pos(3, 1), Some(8));
-        assert_eq!(lookup.row_col_to_char_pos(3, 2), Some(9));
-        assert_eq!(lookup.row_col_to_char_pos(3, 3), Some(10));
-        assert_eq!(lookup.row_col_to_char_pos(3, 4), Some(11));
-        assert_eq!(lookup.row_col_to_char_pos(3, 5), Some(12));
-        assert_eq!(lookup.row_col_to_char_pos(3, 6), Some(13));
+        assert_eq!(lookup.row_col_to_char_pos(3, 0), Some(8));
+        assert_eq!(lookup.row_col_to_char_pos(3, 1), Some(9));
+        assert_eq!(lookup.row_col_to_char_pos(3, 2), Some(10));
+        assert_eq!(lookup.row_col_to_char_pos(3, 3), Some(11));
+        assert_eq!(lookup.row_col_to_char_pos(3, 4), Some(12));
+        assert_eq!(lookup.row_col_to_char_pos(3, 5), Some(13));
 
-        assert_eq!(lookup.row_col_to_char_pos(4, 1), Some(14));
-        assert_eq!(lookup.row_col_to_char_pos(4, 2), Some(15));
+        assert_eq!(lookup.row_col_to_char_pos(4, 0), Some(14));
+        assert_eq!(lookup.row_col_to_char_pos(4, 1), Some(15));
+
+        assert_eq!(lookup.row_col_to_char_pos(5, 0), None);
     }
 
     #[test]
     fn test_lookup_position_offset() {
         let lookup = MarkupLookup::new("012345", 4);
 
-        assert_eq!(lookup.char_pos_to_row_col(0), (5, 1));
-        assert_eq!(lookup.char_pos_to_row_col(1), (5, 2));
-        assert_eq!(lookup.char_pos_to_row_col(2), (5, 3));
-        assert_eq!(lookup.char_pos_to_row_col(3), (5, 4));
-        assert_eq!(lookup.char_pos_to_row_col(4), (5, 5));
-        assert_eq!(lookup.char_pos_to_row_col(5), (5, 6));
-        assert_eq!(lookup.char_pos_to_row_col(6), (5, 7));
+        assert_eq!(lookup.char_pos_to_row_col(0), (5, 0));
+        assert_eq!(lookup.char_pos_to_row_col(1), (5, 1));
+        assert_eq!(lookup.char_pos_to_row_col(2), (5, 2));
+        assert_eq!(lookup.char_pos_to_row_col(3), (5, 3));
+        assert_eq!(lookup.char_pos_to_row_col(4), (5, 4));
+        assert_eq!(lookup.char_pos_to_row_col(5), (5, 5));
+        assert_eq!(lookup.char_pos_to_row_col(6), (5, 6));
 
-        assert_eq!(lookup.row_col_to_char_pos(0, 1), None);
-        assert_eq!(lookup.row_col_to_char_pos(1, 1), None);
-        assert_eq!(lookup.row_col_to_char_pos(2, 1), None);
-        assert_eq!(lookup.row_col_to_char_pos(3, 1), None);
-        assert_eq!(lookup.row_col_to_char_pos(4, 1), None);
+        assert_eq!(lookup.row_col_to_char_pos(0, 0), None);
+        assert_eq!(lookup.row_col_to_char_pos(1, 0), None);
+        assert_eq!(lookup.row_col_to_char_pos(2, 0), None);
+        assert_eq!(lookup.row_col_to_char_pos(3, 0), None);
+        assert_eq!(lookup.row_col_to_char_pos(4, 0), None);
 
-        assert_eq!(lookup.row_col_to_char_pos(5, 1), Some(0));
-        assert_eq!(lookup.row_col_to_char_pos(5, 2), Some(1));
-        assert_eq!(lookup.row_col_to_char_pos(5, 3), Some(2));
-        assert_eq!(lookup.row_col_to_char_pos(5, 4), Some(3));
-        assert_eq!(lookup.row_col_to_char_pos(5, 5), Some(4));
-        assert_eq!(lookup.row_col_to_char_pos(5, 6), Some(5));
-        assert_eq!(lookup.row_col_to_char_pos(5, 7), Some(6));
+        assert_eq!(lookup.row_col_to_char_pos(5, 0), Some(0));
+        assert_eq!(lookup.row_col_to_char_pos(5, 1), Some(1));
+        assert_eq!(lookup.row_col_to_char_pos(5, 2), Some(2));
+        assert_eq!(lookup.row_col_to_char_pos(5, 3), Some(3));
+        assert_eq!(lookup.row_col_to_char_pos(5, 4), Some(4));
+        assert_eq!(lookup.row_col_to_char_pos(5, 5), Some(5));
+        assert_eq!(lookup.row_col_to_char_pos(5, 6), Some(6));
     }
 
     #[test]
     fn test_lookup_lines_counts_bytes() {
         let lookup = MarkupLookup::new("’", 5);
-        assert_eq!(lookup.line_size, vec![4]); // 3 for ’ + newline
+        assert_eq!(lookup.prev_line_size_sum, vec![0, 4]); // 3 for ’ + newline
+    }
+
+    #[test]
+    fn test_neovim_range() {
+        let lookup = MarkupLookup::new(
+            "first line
+second line
+third line",
+            0,
+        );
+
+        assert_eq!(
+            lookup.neovim_range(&(0..1)),
+            NeovimRange::new((1, 0), (1, 0))
+        );
+        assert_eq!(
+            lookup.neovim_range(&(0..5)),
+            NeovimRange::new((1, 0), (1, 4))
+        );
+        assert_eq!(
+            lookup.neovim_range(&(7..25)),
+            NeovimRange::new((1, 7), (3, 1))
+        );
     }
 }

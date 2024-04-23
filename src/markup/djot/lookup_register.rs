@@ -35,18 +35,22 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
         match &next {
             (Event::Start(Container::Heading { id, level, .. }, _), range) => {
                 self.event_stack.push(ElementInfo::Heading(Heading {
-                    range: range.clone(),
                     level: *level,
                     id: id.to_string(),
                     content: "".into(),
+                    range: lookup.neovim_range(range),
+                    char_range: range.clone(),
                 }))
             }
             (Event::End(Container::Heading { .. }), range) => {
                 if let Some(ElementInfo::Heading(mut heading)) = self.event_stack.pop() {
                     // Content is between start and end.
-                    heading.content = self.src[heading.range.end..range.start].trim().to_owned();
+                    heading.content = self.src[heading.char_range.end..range.start]
+                        .trim()
+                        .to_owned();
 
-                    heading.range.end = range.end;
+                    heading.char_range.end = range.end;
+                    heading.range = lookup.neovim_range(&heading.char_range);
                     lookup.insert_heading(heading);
                 }
             }
@@ -54,7 +58,8 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                 SpanLinkType::Inline => {
                     self.event_stack.push(ElementInfo::Img(Img {
                         link_ref: ImgRef::Inline(tag.to_string()),
-                        range: range.clone(),
+                        range: lookup.neovim_range(range),
+                        char_range: range.clone(),
                     }));
                 }
                 SpanLinkType::Reference => {
@@ -65,13 +70,15 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                             label: "".to_string(),
                             url: tag.to_string(),
                         },
-                        range: range.clone(),
+                        range: lookup.neovim_range(range),
+                        char_range: range.clone(),
                     }));
                 }
                 SpanLinkType::Unresolved => {
                     self.event_stack.push(ElementInfo::Img(Img {
                         link_ref: ImgRef::Unresolved(tag.to_string()),
-                        range: range.clone(),
+                        range: lookup.neovim_range(range),
+                        char_range: range.clone(),
                     }));
                 }
             },
@@ -83,12 +90,13 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                         if label.is_empty() {
                             // If it's empty then we have a compact link reference like [tag][].
                             // The tag is exists between the start and end tags.
-                            label = self.src[img.range.end..range.start].to_owned();
+                            label = self.src[img.char_range.end..range.start].to_owned();
                         }
                         img.link_ref = ImgRef::Reference { label, url };
                     }
 
-                    img.range.end = range.end;
+                    img.char_range.end = range.end;
+                    img.range = lookup.neovim_range(&img.char_range);
                     lookup.insert_img(img);
                 }
             }
@@ -96,7 +104,8 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                 LinkType::Span(SpanLinkType::Inline) => {
                     self.event_stack.push(ElementInfo::Link(Link {
                         link_ref: LinkRef::Inline(tag.to_string()),
-                        range: range.clone(),
+                        range: lookup.neovim_range(range),
+                        char_range: range.clone(),
                     }));
                 }
                 LinkType::Span(SpanLinkType::Reference) => {
@@ -107,25 +116,29 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                             label: "".to_string(),
                             url: tag.to_string(),
                         },
-                        range: range.clone(),
+                        range: lookup.neovim_range(range),
+                        char_range: range.clone(),
                     }));
                 }
                 LinkType::Span(SpanLinkType::Unresolved) => {
                     self.event_stack.push(ElementInfo::Link(Link {
                         link_ref: LinkRef::Unresolved(tag.to_string()),
-                        range: range.clone(),
+                        range: lookup.neovim_range(range),
+                        char_range: range.clone(),
                     }));
                 }
                 LinkType::Email => {
                     self.event_stack.push(ElementInfo::Link(Link {
                         link_ref: LinkRef::Email(tag.to_string()),
-                        range: range.clone(),
+                        range: lookup.neovim_range(range),
+                        char_range: range.clone(),
                     }));
                 }
                 LinkType::AutoLink => {
                     self.event_stack.push(ElementInfo::Link(Link {
                         link_ref: LinkRef::AutoLink(tag.to_string()),
-                        range: range.clone(),
+                        range: lookup.neovim_range(range),
+                        char_range: range.clone(),
                     }));
                 }
             },
@@ -137,28 +150,33 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                         if label.is_empty() {
                             // If it's empty then we have a compact link reference like [tag][].
                             // The tag is exists between the start and end tags.
-                            label = self.src[link.range.end..range.start].to_owned();
+                            label = self.src[link.char_range.end..range.start].to_owned();
                         }
                         link.link_ref = LinkRef::Reference { label, url };
                     }
 
-                    link.range.end = range.end;
+                    link.char_range.end = range.end;
+                    link.range = lookup.neovim_range(&link.char_range);
                     lookup.insert_link(link);
                 }
             }
             (Event::Start(Container::LinkDefinition { label }, _), range) => {
                 self.event_stack.push(ElementInfo::LinkDef(LinkDef {
                     label: label.to_string(),
-                    range: range.clone(),
+                    range: lookup.neovim_range(range),
+                    char_range: range.clone(),
                     url: "".into(),
                 }))
             }
             (Event::End(Container::LinkDefinition { .. }), range) => {
                 if let Some(ElementInfo::LinkDef(mut link_def)) = self.event_stack.pop() {
                     // Url is between start and end.
-                    link_def.url = self.src[link_def.range.end..range.start].trim().to_owned();
+                    link_def.url = self.src[link_def.char_range.end..range.start]
+                        .trim()
+                        .to_owned();
 
-                    link_def.range.end = range.end;
+                    link_def.char_range.end = range.end;
+                    link_def.range = lookup.neovim_range(&link_def.char_range);
                     lookup.insert_link_def(link_def);
                 }
             }
@@ -171,6 +189,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::markup::markup_lookup::NeovimRange;
     use jotdown::Parser;
 
     fn gen(s: &str) -> MarkupLookup {
@@ -190,7 +209,8 @@ text");
             id: "h1-x".into(),
             level: 1,
             content: "h1 (x)".into(),
-            range: 0..9,
+            range: NeovimRange::new((1, 0), (1, 8)),
+            char_range: 0..9,
         };
 
         assert_eq!(lookup.headings.get("h1-x"), Some(&vec![heading.clone()]));
@@ -203,7 +223,8 @@ text");
 
         let element = ElementInfo::Link(Link {
             link_ref: LinkRef::Inline("/url".into()),
-            range: 7..24,
+            range: NeovimRange::new((1, 7), (1, 23)),
+            char_range: 7..24,
         });
         assert_eq!(lookup.at_pos(6), None);
         assert_eq!(lookup.at_pos(7), Some(&element));
@@ -219,7 +240,8 @@ text");
             lookup.at_pos(7),
             Some(&ElementInfo::Link(Link {
                 link_ref: LinkRef::Unresolved("tag".into()),
-                range: 7..23,
+                range: NeovimRange::new((1, 7), (1, 22)),
+                char_range: 7..23,
             }))
         );
     }
@@ -237,13 +259,15 @@ text");
                     label: "tag".into(),
                     url: "/url".into(),
                 },
-                range: 0..16,
+                range: NeovimRange::new((1, 0), (1, 15)),
+                char_range: 0..16,
             }))
         );
 
         let link_def = LinkDef {
             label: "tag".into(),
-            range: 18..29,
+            range: NeovimRange::new((3, 0), (3, 10)),
+            char_range: 18..29,
             url: "/url".into(),
         };
         assert_eq!(
@@ -266,13 +290,15 @@ text");
                     label: "tag".into(),
                     url: "/url".into(),
                 },
-                range: 0..7,
+                range: NeovimRange::new((1, 0), (1, 6)),
+                char_range: 0..7,
             }))
         );
 
         let link_def = LinkDef {
             label: "tag".into(),
-            range: 9..20,
+            range: NeovimRange::new((3, 0), (3, 10)),
+            char_range: 9..20,
             url: "/url".into(),
         };
         assert_eq!(
@@ -288,7 +314,8 @@ text");
 
         let element = ElementInfo::Img(Img {
             link_ref: ImgRef::Inline("/img.png".into()),
-            range: 0..21,
+            range: NeovimRange::new((1, 0), (1, 20)),
+            char_range: 0..21,
         });
         assert_eq!(lookup.at_pos(0), Some(&element));
     }
@@ -301,7 +328,8 @@ text");
             lookup.at_pos(0),
             Some(&ElementInfo::Img(Img {
                 link_ref: ImgRef::Unresolved("tag".into()),
-                range: 0..17,
+                range: NeovimRange::new((1, 0), (1, 16)),
+                char_range: 0..17,
             }))
         );
     }
@@ -319,7 +347,8 @@ text");
                     label: "tag".into(),
                     url: "/img.png".into(),
                 },
-                range: 0..17,
+                range: NeovimRange::new((1, 0), (1, 16)),
+                char_range: 0..17,
             }))
         );
     }
