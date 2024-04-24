@@ -14,7 +14,7 @@ use std::collections::HashMap;
 pub enum WebEvent {
     Refresh,
     PositionPage {
-        path: String,
+        url: String,
         linenum: usize,
         linecount: usize,
     },
@@ -285,8 +285,11 @@ pub enum NeovimResponse {
     },
     GotoDef {
         message_id: u64,
+        #[serde(skip_serializing_if = "Option::is_none")]
         linenum: Option<usize>,
+        #[serde(skip_serializing_if = "Option::is_none")]
         column: Option<usize>,
+        #[serde(skip_serializing_if = "Option::is_none")]
         path: Option<String>,
     },
     Diagnostics {

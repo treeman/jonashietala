@@ -7,6 +7,7 @@ function connect() {
 
   conn.onmessage = (event) => {
     const msg = JSON.parse(event.data);
+    console.log(msg);
 
     switch (msg.type) {
       case "Refresh":

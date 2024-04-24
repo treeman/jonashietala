@@ -1,0 +1,28 @@
+---toml
+title = "Extending series"
+tags = ["Some tag"]
+---
+
+# 1. 
+
+- Setup
+- Moving posts
+- New draft
+
+# Browse blog posts with telescope.nvim
+
+# Customize autocomplete with nvim-cmp
+
+# Blogging with goto definition and diagnostics
+
+- Markup lookup `rust`
+
+# Rust and Neovim communication
+
+- Communication
+- Terminal process
+- Connection status
+
+# ?
+
+## Browser preview

@@ -895,8 +895,9 @@ function source:complete(params, callback)
     id = "Complete",
     path = vim.fn.expand("%:p"),
   }, function(reply)
-    -- Items is a list where items have `label`, `insertText`, `filterText`, and `kind`,
-    -- exactly like we manually coded before.
+    -- Items is a list where items have `label`,
+    -- `insertText`, `filterText`, and `kind`,
+    -- like we manually coded before.
     callback(reply.completion_items)
   end)
 ```
@@ -962,18 +963,128 @@ end
 
 ![Complete header references for a url. (The documentation preview jumped to the left).](/images/extend_blog/complete_header_ref_post.png)
 
-# Goto definition
-
-# Diagnostics
+# A word on indexing
 
 > Diagnostics use the same indexing as the rest of the Nvim API (i.e. 0-based
-rows and columns). |api-indexing|
+rows and columns).
 > ^ `:help diagnostic-structure`
 
 > Gets the (1,0)-indexed, buffer-relative cursor position for a given window
 > (different windows showing the same buffer have independent cursor
-> positions). |api-indexing|
+> positions).
 > ^ `:help nvim_win_get_cursor()`
+
+> Most of the API uses 0-based indices, and ranges are end-exclusive. For the
+end of a range, -1 denotes the last line/column.
+>
+> Exception: the following API functions use "mark-like" indexing (1-based
+lines, 0-based columns):
+>
+> `nvim_get_mark()`\
+> `nvim_buf_get_mark()`\
+> `nvim_buf_set_mark()`\
+> `nvim_win_get_cursor()`\
+> `nvim_win_set_cursor()`
+> ^ `:help api-indexing`
+
+# Goto definition
+
+```lua
+local pos = vim.api.nvim_win_get_cursor(0)
+
+server.call({
+  id = "GotoDef",
+  linenum = pos[1] - 1, -- Remember, (1,0)-indexing
+  column = pos[2],
+  path = vim.fn.expand("%:p"),
+}, function(reply)
+  vim.api.nvim_win_set_cursor(0, { reply.linenum + 1, reply.column })
+end)
+```
+
+Can also jump to points
+
+```lua
+if reply.path then
+  vim.cmd(":e" .. reply.path)
+end
+
+if reply.linenum then
+  vim.api.nvim_win_set_cursor(0, { reply.linenum, reply.column })
+end
+```
+
+But these doesn't register the cursor with the jumplist (`:help jumplist`), so you can't jump backwards/forwards with `<C-o>`/`<C-i>`.
+We can fix that by marking the `'` register first:
+
+```lua
+if reply.path or reply.linenum then
+  vim.cmd(":normal m'")
+end
+```
+
+# Diagnostics
+
+```lua
+M.list_buffers = function()
+  return vim.tbl_filter(function(buf)
+    return vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_option(buf, "buflisted")
+  end, vim.api.nvim_list_bufs())
+end
+```
+
+> 1. Create a namespace `nvim_create_namespace()`. Note that the namespace must
+>    have a name. Anonymous namespaces WILL NOT WORK.
+> 2. (Optional) Configure options for the diagnostic namespace\
+>    `vim.diagnostic.config()`.
+> 3. Generate diagnostics.
+> 4. Set the diagnostics for the buffer `vim.diagnostic.set()`.
+> 5. Repeat from step 3.
+> ^ `:help diagnostic-quickstart`
+
+```lua
+local buf = 0 -- Current buffer
+local diagnostics = {
+  {
+    col = 2,
+    end_col = 17,
+    lnum = 30,
+    end_lnum = 30,
+    message = "Link to non-existent link definition: `tag`",
+    severity = vim.diagnostic.severity.WARN,
+  },
+}
+
+vim.diagnostic.set(vim.api.nvim_create_namespace("blog"), buf, diagnostics)
+```
+
+```lua
+{
+  ["/path/to/file.dj"] = {
+    {
+      col = 2,
+      end_col = 17,
+      lnum = 30,
+      end_lnum = 30,
+      message = "Link to non-existent link definition: `tag`",
+      severity = vim.diagnostic.severity.WARN,
+    },
+  },
+}
+```
+
+```lua
+M.add_diagnostics = function(msg)
+  for _, buf in ipairs(util.list_buffers()) do
+    local buf_name = vim.api.nvim_buf_get_name(0)
+    local buf_diagnostics = msg[buf_name]
+
+    if buf_diagnostics then
+      vim.diagnostic.set(vim.api.nvim_create_namespace("blog"), buf, buf_diagnostics)
+    end
+  end
+end
+```
 
 # Connection status with lualine
 

@@ -24,11 +24,12 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             path,
             ..
         } => {
-            let path = Utf8PathBuf::from(path);
+            // let path = Utf8PathBuf::from(path);
             Some(Response::Web(WebEvent::PositionPage {
                 linenum,
                 linecount,
-                path: path.to_string(),
+                // FIXME need to convert to url
+                url: path.to_string(),
             }))
         }
 
