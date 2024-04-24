@@ -237,6 +237,11 @@ impl BrokenLinkInfo {
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct DivClassInfo {
+    pub name: &'static str,
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub enum ExtraCompletionInfo {
     Post(PostInfo),
@@ -248,6 +253,7 @@ pub enum ExtraCompletionInfo {
     Heading(HeadingInfo),
     LinkDef(LinkDefInfo),
     BrokenLink(BrokenLinkInfo),
+    DivClass(DivClassInfo),
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq, Default)]

@@ -1,6 +1,6 @@
 use super::messages::{
-    BrokenLinkInfo, CompletionItem, ConstantInfo, HeadingContext, ImgInfo, LinkDefInfo, PostInfo,
-    SeriesInfo, StandaloneInfo, TagInfo,
+    BrokenLinkInfo, CompletionItem, ConstantInfo, DivClassInfo, HeadingContext, ImgInfo,
+    LinkDefInfo, PostInfo, SeriesInfo, StandaloneInfo, TagInfo,
 };
 use super::messages::{ExtraCompletionInfo, HeadingInfo};
 use crate::content::SeriesItem;
@@ -17,7 +17,9 @@ use camino::Utf8PathBuf;
 use eyre::Result;
 use lazy_static::lazy_static;
 use regex::{Captures, Regex};
+use serde::Serialize;
 use serde_repr::*;
+use std::fmt::Display;
 use std::time::SystemTime;
 
 pub fn complete(
@@ -92,6 +94,11 @@ pub fn complete(
 
             return res;
         }
+
+        // Expand div classes
+        if AFTER_DIV_MARKER.is_match(cursor_before_line) {
+            return div_class_completions();
+        }
     }
 
     vec![]
@@ -108,6 +115,7 @@ lazy_static! {
     static ref FRONTMATTER_SERIES: Regex = Regex::new(r"^series(:| =) ").unwrap();
     static ref OPEN_BRACKET: Regex = Regex::new(r"\[[^\]]*$").unwrap();
     static ref OPEN_BRACKET_FIRST: Regex = Regex::new(r"^\[[^\]]*$").unwrap();
+    static ref AFTER_DIV_MARKER: Regex = Regex::new(r"^:{3,}\s+\w+$").unwrap();
 }
 
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
@@ -265,6 +273,58 @@ fn append_series(t: CompletionType, site: &Site, res: &mut Vec<CompletionItem>) 
     }
 }
 
+#[derive(Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum DivClass {
+    Flex,
+    Gallery,
+    Epigraph,
+    Notice,
+    Greek,
+}
+
+impl DivClass {
+    pub fn new(s: &str) -> Option<Self> {
+        match s.to_lowercase().as_str() {
+            "flex" => Some(Self::Flex),
+            "gallery" => Some(Self::Gallery),
+            "epigraph" => Some(Self::Epigraph),
+            "notice" => Some(Self::Notice),
+            "greek" => Some(Self::Greek),
+            _ => None,
+        }
+    }
+
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Flex => "flex",
+            Self::Gallery => "gallery",
+            Self::Epigraph => "epigraph",
+            Self::Notice => "notice",
+            Self::Greek => "greek",
+        }
+    }
+}
+
+impl Display for DivClass {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.as_str().fmt(f)
+    }
+}
+
+fn div_class_completions() -> Vec<CompletionItem> {
+    [
+        DivClass::Flex,
+        DivClass::Gallery,
+        DivClass::Epigraph,
+        DivClass::Notice,
+        DivClass::Greek,
+    ]
+    .into_iter()
+    .map(|e| CompletionItemBuilder::DivClass(e).into())
+    .collect()
+}
+
 #[allow(dead_code)]
 #[derive(Debug, Serialize_repr, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
@@ -312,6 +372,7 @@ pub enum CompletionItemBuilder {
     BrokenLink(BrokenLinkInfo),
     Heading(HeadingInfo),
     LinkDefInfo(LinkDefInfo),
+    DivClass(DivClass),
 }
 
 impl CompletionItemBuilder {
@@ -421,6 +482,14 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 label: info.tag.clone(),
                 kind: CompletionItemKind::Field,
                 info: Some(ExtraCompletionInfo::BrokenLink(info)),
+                ..Default::default()
+            },
+            CompletionItemBuilder::DivClass(class) => CompletionItem {
+                label: class.to_string(),
+                kind: CompletionItemKind::Keyword,
+                info: Some(ExtraCompletionInfo::DivClass(DivClassInfo {
+                    name: class.as_str(),
+                })),
                 ..Default::default()
             },
         }

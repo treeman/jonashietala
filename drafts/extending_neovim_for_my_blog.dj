@@ -3,6 +3,11 @@ title = "Extending Neovim for my blog"
 tags = ["Lua",  "Rust",  "Webpage"]
 ---
 
+::: epigraph
+> Scripting is configuration. Configuration is scripting.
+> ^ TJ DeVries [A different take on editing code](https://www.youtube.com/watch?v=QMVIJhC9Veg)
+:::
+
 I've been using Neovim since it forked from Vim almost 8 years ago, and I used Vim many years before that.
 I feel quite comfortable with Neovim, and I've gone down the [configuration rabbit hole][] too many times I'd like to admit, but I never dived deeper by writing something truly custom like a plugin.
 
