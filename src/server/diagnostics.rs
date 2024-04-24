@@ -1,5 +1,5 @@
 use crate::item::Item;
-use crate::markup::markup_lookup::{Element, ImgRef, LinkRef, PosRange};
+use crate::markup::markup_lookup::{Element, ImgRef, LinkRef, PosRange, Todo};
 use crate::paths::AbsPath;
 use crate::site_url::SiteUrl;
 use crate::Site;
@@ -73,6 +73,30 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                     );
                 }
             },
+            Element::Todo(Todo::Todo) => {
+                push_diagnostic(
+                    &e.range,
+                    format!("TODO"),
+                    DiagnosticSeverity::WARN,
+                    &mut res,
+                );
+            }
+            Element::Todo(Todo::Note) => {
+                push_diagnostic(
+                    &e.range,
+                    format!("NOTE"),
+                    DiagnosticSeverity::INFO,
+                    &mut res,
+                );
+            }
+            Element::Todo(Todo::Fixme) => {
+                push_diagnostic(
+                    &e.range,
+                    format!("FIXME"),
+                    DiagnosticSeverity::WARN,
+                    &mut res,
+                );
+            }
             _ => {}
         }
     }

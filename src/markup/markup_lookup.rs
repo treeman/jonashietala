@@ -76,7 +76,7 @@ pub struct Img {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
-pub enum TodoType {
+pub enum Todo {
     Todo,
     Fixme,
     Note,
@@ -86,7 +86,7 @@ lazy_static! {
     static ref SPLIT: Regex = Regex::new(r"^(\w+)\s+").unwrap();
 }
 
-impl TodoType {
+impl Todo {
     pub fn from_beginning_of_line(s: &str) -> Option<(Self, usize)> {
         if let Some(caps) = SPLIT.captures(s) {
             match &caps[1] {
@@ -103,15 +103,10 @@ impl TodoType {
     pub fn class(&self) -> &'static str {
         match self {
             Self::Todo => "todo",
-            Self::Fixme => "fixme",
             Self::Note => "note",
+            Self::Fixme => "fixme",
         }
     }
-}
-
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub struct Todoish {
-    pub t: TodoType,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -120,7 +115,7 @@ pub enum Element {
     LinkDef(LinkDef),
     Heading(Heading),
     Img(Img),
-    Todoish(Todoish),
+    Todo(Todo),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]

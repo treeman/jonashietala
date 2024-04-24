@@ -56,7 +56,7 @@ pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Optio
         Element::Img(_) => None,
         Element::LinkDef(LinkDef { url, .. }) => goto_url(&url, lookup, site),
         Element::Heading(_) => None,
-        Element::Todoish(_) => None,
+        Element::Todo(_) => None,
     }
 }
 
