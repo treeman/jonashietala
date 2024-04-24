@@ -113,7 +113,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for TransformTo
 mod tests {
     use super::super::drop_offset::DropOffset;
     use super::*;
-    use crate::markup::markup_lookup::{Element, ElementLookup, PosRange, Todo, Todo};
+    use crate::markup::markup_lookup::{Element, ElementLookup, PosRange, Todo};
     use eyre::Result;
     use jotdown::{html, Parser, Render};
 
@@ -167,7 +167,7 @@ FIXME fixme
         assert_eq!(
             lookup.element_at(0, 0),
             Some(&ElementLookup {
-                element: Element::Todo(Todo { t: Todo::Todo }),
+                element: Element::Todo(Todo::Todo),
                 range: PosRange::new((0, 0), (0, 4)),
                 char_range: 0..4,
             }),
@@ -175,7 +175,7 @@ FIXME fixme
         assert_eq!(
             lookup.element_at(2, 0),
             Some(&ElementLookup {
-                element: Element::Todo(Todo { t: Todo::Todo }),
+                element: Element::Todo(Todo::Todo),
                 range: PosRange::new((2, 0), (2, 3)),
                 char_range: 11..14,
             }),
@@ -183,7 +183,7 @@ FIXME fixme
         assert_eq!(
             lookup.element_at(4, 0),
             Some(&ElementLookup {
-                element: Element::Todo(Todo { t: Todo::Note }),
+                element: Element::Todo(Todo::Note),
                 range: PosRange::new((4, 0), (4, 4)),
                 char_range: 30..34,
             }),
@@ -191,7 +191,7 @@ FIXME fixme
         assert_eq!(
             lookup.element_at(6, 0),
             Some(&ElementLookup {
-                element: Element::Todo(Todo { t: Todo::Note }),
+                element: Element::Todo(Todo::Note),
                 range: PosRange::new((6, 0), (6, 4)),
                 char_range: 41..45,
             }),
@@ -199,7 +199,7 @@ FIXME fixme
         assert_eq!(
             lookup.element_at(8, 0),
             Some(&ElementLookup {
-                element: Element::Todo(Todo { t: Todo::Note }),
+                element: Element::Todo(Todo::Note),
                 range: PosRange::new((8, 0), (8, 3)),
                 char_range: 52..55,
             }),
@@ -207,7 +207,7 @@ FIXME fixme
         assert_eq!(
             lookup.element_at(10, 0),
             Some(&ElementLookup {
-                element: Element::Todo(Todo { t: Todo::Fixme }),
+                element: Element::Todo(Todo::Fixme),
                 range: PosRange::new((10, 0), (10, 5)),
                 char_range: 61..66,
             }),

@@ -1,5 +1,4 @@
 mod auto_figures;
-mod broken_link;
 mod code;
 mod div_transforms;
 mod drop_offset;
@@ -10,7 +9,6 @@ mod todos;
 mod transform_headers;
 
 use self::auto_figures::AutoFigures;
-use self::broken_link::BrokenLink;
 use self::code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 use self::div_transforms::DivTransforms;
 use self::drop_offset::DropOffset;
@@ -37,7 +35,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
 
     let transformed = Parser::new(djot).into_offset_iter();
 
-    let transformed = LookupRegister::new(transformed, djot, lookup.clone());
+    let transformed = LookupRegister::new(transformed, djot, lookup.clone(), context);
     let transformed = TransformTodoComments::new(transformed, context, lookup.clone());
     let transformed = DropOffset::new(transformed);
 
@@ -48,7 +46,6 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = DivTransforms::new(transformed);
     let transformed = QuoteTransforms::new(transformed);
-    let transformed = BrokenLink::new(transformed, context);
 
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;
@@ -72,7 +69,6 @@ pub fn djot_to_html_feed(djot: &str, context: ParseContext) -> Result<markup::Fe
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = DivTransforms::new(transformed);
-    let transformed = BrokenLink::new(transformed, context);
 
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;

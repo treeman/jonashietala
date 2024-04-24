@@ -2,6 +2,7 @@ use crate::markup::markup_lookup::{
     Element, Heading, Img, ImgRef, Link, LinkDef, LinkRef, RawElementLookup,
 };
 use crate::markup::MarkupLookup;
+use crate::markup::ParseContext;
 use jotdown::{Container, Event, LinkType, SpanLinkType};
 use std::cell::RefCell;
 use std::ops::Range;
@@ -10,15 +11,22 @@ use std::rc::Rc;
 pub struct LookupRegister<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> {
     parent: I,
     lookup: Option<Rc<RefCell<MarkupLookup>>>,
+    context: ParseContext<'a>,
     event_stack: Vec<RawElementLookup>,
     src: &'a str,
 }
 
 impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> LookupRegister<'a, I> {
-    pub fn new(parent: I, src: &'a str, lookup: Option<Rc<RefCell<MarkupLookup>>>) -> Self {
+    pub fn new(
+        parent: I,
+        src: &'a str,
+        lookup: Option<Rc<RefCell<MarkupLookup>>>,
+        context: ParseContext<'a>,
+    ) -> Self {
         Self {
             parent,
             lookup,
+            context,
             event_stack: Vec::new(),
             src,
         }
@@ -83,6 +91,8 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                     });
                 }
                 SpanLinkType::Unresolved => {
+                    self.context.log_broken_link(&tag);
+
                     self.event_stack.push(RawElementLookup {
                         element: Element::Img(Img {
                             link_ref: ImgRef::Unresolved(tag.to_string()),
@@ -135,6 +145,8 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                     });
                 }
                 LinkType::Span(SpanLinkType::Unresolved) => {
+                    self.context.log_broken_link(&tag);
+
                     self.event_stack.push(RawElementLookup {
                         element: Element::Link(Link {
                             link_ref: LinkRef::Unresolved(tag.to_string()),
@@ -217,7 +229,8 @@ mod tests {
     fn gen(s: &str) -> MarkupLookup {
         let lookup = Rc::new(RefCell::new(MarkupLookup::new(s, 0)));
         let parser = Parser::new(s).into_offset_iter();
-        let transformed = LookupRegister::new(parser, s, Some(lookup.clone()));
+        let transformed =
+            LookupRegister::new(parser, s, Some(lookup.clone()), ParseContext::default());
         for _ in transformed {}
         Rc::try_unwrap(lookup).unwrap().into_inner()
     }
