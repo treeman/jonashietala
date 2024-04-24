@@ -104,10 +104,10 @@ impl Markup {
         }
     }
 
-    pub fn parse_feed(&self, context: ParseContext) -> Result<FeedHtml> {
+    pub fn parse_feed(&self, _context: ParseContext) -> Result<FeedHtml> {
         match self {
             Self::Markdown(s) => Ok(markdown_to_html_feed(&s)),
-            Self::Djot(s) => djot_to_html_feed(&s, context.in_feed(true)),
+            Self::Djot(s) => djot_to_html_feed(&s),
         }
     }
 

@@ -62,7 +62,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
     })
 }
 
-pub fn djot_to_html_feed(djot: &str, context: ParseContext) -> Result<markup::FeedHtml> {
+pub fn djot_to_html_feed(djot: &str) -> Result<markup::FeedHtml> {
     let transformed = Parser::new(djot);
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);

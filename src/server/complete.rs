@@ -284,6 +284,7 @@ pub enum DivClass {
 }
 
 impl DivClass {
+    #[allow(dead_code)]
     pub fn new(s: &str) -> Option<Self> {
         match s.to_lowercase().as_str() {
             "flex" => Some(Self::Flex),

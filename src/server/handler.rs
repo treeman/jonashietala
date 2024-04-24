@@ -5,7 +5,7 @@ use crate::server::diagnostics;
 use crate::site::Site;
 use camino::Utf8PathBuf;
 use std::sync::{Arc, Mutex};
-use tracing::debug;
+use tracing::{debug, warn};
 
 #[derive(Debug)]
 pub enum Response {
@@ -24,13 +24,17 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             path,
             ..
         } => {
-            // let path = Utf8PathBuf::from(path);
-            Some(Response::Web(WebEvent::PositionPage {
-                linenum,
-                linecount,
-                // FIXME need to convert to url
-                url: path.to_string(),
-            }))
+            let path = Utf8PathBuf::from(path);
+            if let Some(post) = site.content.find_post_by_file_name(path.file_name()?) {
+                Some(Response::Web(WebEvent::PositionPage {
+                    linenum,
+                    linecount,
+                    url: post.url.href().to_string(),
+                }))
+            } else {
+                warn!("Unknown path for cursor moved: {}", path);
+                None
+            }
         }
 
         NeovimEvent::ListTags { message_id } => {

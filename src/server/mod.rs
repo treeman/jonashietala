@@ -254,7 +254,7 @@ async fn start_file_watcher(output_dir: &AbsPath) -> Result<()> {
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
 
-    info!("serving site on {addr}");
+    info!("serving site on: {addr}");
     Server::bind(addr).serve(app.into_make_service()).await?;
 
     Ok(())
