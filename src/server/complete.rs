@@ -7,7 +7,7 @@ use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
 use crate::content::{PostItem, PostRef};
-use crate::markup::markup_lookup::{ElementInfo, Img, ImgRef, Link, LinkRef};
+use crate::markup::markup_lookup::{Element, Img, ImgRef, Link, LinkRef};
 use crate::markup::MarkupLookup;
 use crate::paths::AbsPath;
 use crate::paths::RelPath;
@@ -160,9 +160,9 @@ fn heading_completions(lookup: &MarkupLookup, source: HeadingSource) -> Vec<Comp
         .headings
         .values()
         .map(|hs| {
-            let heading = &hs[0];
-            let start_row = heading.range.start.row;
-            let end_row = heading.range.end.row;
+            let h = &hs[0];
+            let start_row = h.range.start.row;
+            let end_row = h.range.end.row;
 
             let context = match source {
                 HeadingSource::SameFile => HeadingContext::SameFile { start_row, end_row },
@@ -173,7 +173,7 @@ fn heading_completions(lookup: &MarkupLookup, source: HeadingSource) -> Vec<Comp
                     end_row,
                 },
             };
-            CompletionItemBuilder::Heading(HeadingInfo::from_heading(heading, context)).into()
+            CompletionItemBuilder::Heading(HeadingInfo::from_heading(&h.heading, context)).into()
         })
         .collect()
 }
@@ -203,29 +203,29 @@ fn link_tag_completions(lookup: &MarkupLookup) -> Vec<CompletionItem> {
             let def = &defs[0];
             let start_row = def.range.start.row;
             let end_row = def.range.end.row;
-            CompletionItemBuilder::LinkDefInfo(LinkDefInfo::from_link_def(def, start_row, end_row))
-                .into()
+            CompletionItemBuilder::LinkDefInfo(LinkDefInfo::from_link_def(
+                &def.link_def,
+                start_row,
+                end_row,
+            ))
+            .into()
         })
         .collect()
 }
 
 fn append_broken_link_completions(lookup: &MarkupLookup, res: &mut Vec<CompletionItem>) {
     for (_, e) in lookup.char_pos_to_element.iter() {
-        match e {
-            ElementInfo::Link(Link {
+        match &e.element {
+            Element::Link(Link {
                 link_ref: LinkRef::Unresolved(tag),
-                range,
-                ..
             })
-            | ElementInfo::Img(Img {
+            | Element::Img(Img {
                 link_ref: ImgRef::Unresolved(tag),
-                range,
-                ..
             }) => {
                 res.push(
                     CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(
                         &tag,
-                        range.start.row,
+                        e.range.start.row,
                     ))
                     .into(),
                 );
@@ -581,7 +581,7 @@ mod tests {
                             .input_path("posts/2022-02-01-feb_post.dj")
                             .to_string(),
                         url: "/blog/2022/02/01/feb_post".into(),
-                        start_row: 17,
+                        start_row: 16,
                         end_row: 17
                     }
                 }))
@@ -630,7 +630,7 @@ mod tests {
                     content: "Regular heading".into(),
                     level: 2,
                     context: HeadingContext::SameFile {
-                        start_row: 56,
+                        start_row: 55,
                         end_row: 56
                     }
                 }))
@@ -677,7 +677,7 @@ mod tests {
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
-                    start_row: 35,
+                    start_row: 34,
                     end_row: 35
                 }))
             })
@@ -715,7 +715,7 @@ mod tests {
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
-                    start_row: 35,
+                    start_row: 34,
                     end_row: 35
                 }))
             })
@@ -735,7 +735,7 @@ mod tests {
                 kind: CompletionItemKind::Field,
                 info: Some(ExtraCompletionInfo::BrokenLink(BrokenLinkInfo {
                     tag: "broken_tag".into(),
-                    row: 33
+                    row: 32
                 }))
             })
         );

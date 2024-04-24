@@ -768,6 +768,8 @@ It's just 80% left now, which I'll leave as an exercise to the reader.
 
 Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
 
+## A basic completion source
+
 This is the basics of a source that completes a blog post path for an inline link:
 
 ```lua
@@ -790,7 +792,10 @@ function source:complete(params, callback)
         insertText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/",
         -- Text to filter against, works like `ordinal` for telescope.
         filterText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/|Rewriting my Neovim config in Lua",
+        -- What `kind` the completion item is.
+        kind = require("cmp.types.lsp").CompletionItemKind.File,
       },
+      -- More items here...
     }
     callback(items)
   else
@@ -818,20 +823,24 @@ end
 ```
 
 ```lua
-content.list_urls(function(reply)
-  local res = {}
-  for _, info in ipairs(reply.urls) do
-    table.insert(res, {
-      label = info.title,
-      insertText = info.url,
-      filterText = info.url .. info.title,
-      detail = info.url,
-      kind = 17,
-    })
-  end
-  callback(res)
-end)
+cmp.setup({
+  sources = {
+    {
+      name = "blog",
+      group_index = 1,
+    },
+  },
+  formatting = {
+    format = lspkind.cmp_format({
+      menu = {
+        blog = "[BLOG]",
+      },
+    }),
+  },
+})
 ```
+
+## What to complete where?
 
 The completion part of the integration is the section I've had to tweak the most and it has slowly grown more complex.
 
@@ -881,6 +890,8 @@ function source:complete(params, callback)
     id = "Complete",
     path = vim.fn.expand("%:p"),
   }, function(reply)
+    -- Items is a list where items have `label`, `insertText`, `filterText`, and `kind`,
+    -- exactly like we manually coded before.
     callback(reply.completion_items)
   end)
 ```
@@ -889,6 +900,59 @@ Either way works, I'll keep the description in Lua for illustrative purposes.
 Check out the [Rust source code][] for more details.
 :::
 
+## Custom sorting
+
+```lua
+local function blog_compare(entry1, entry2)
+  -- TODO
+end
+
+cmp.setup({
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      -- With cmp you chain comparators.
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.locality,
+      -- I added my comparator here.
+      blog_compare,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
+  },
+})
+```
+
+```lua
+local function blog_compare(entry1, entry2)
+  -- Only sort blog entries.
+  if entry1.source.name ~= "blog" or entry2.source.name ~= "blog" then
+    return nil
+  end
+
+  local info1 = entry1.completion_item.info
+  local info2 = entry2.completion_item.info
+
+  if info1.type == "Img" then
+    -- Sort images by modification time.
+    if info1.modified > info2.modified then
+      return true
+    else
+      return false
+    end
+  end
+
+  return nil
+end
+```
+
+## The result
+
 ![Complete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
 
 ![Complete header references for a url. (The documentation preview jumped to the left).](/images/extend_blog/complete_header_ref_post.png)
@@ -896,6 +960,15 @@ Check out the [Rust source code][] for more details.
 # Goto definition
 
 # Diagnostics
+
+> Diagnostics use the same indexing as the rest of the Nvim API (i.e. 0-based
+rows and columns). |api-indexing|
+> ^ `:help diagnostic-structure`
+
+> Gets the (1,0)-indexed, buffer-relative cursor position for a given window
+> (different windows showing the same buffer have independent cursor
+> positions). |api-indexing|
+> ^ `:help nvim_win_get_cursor()`
 
 # Connection status with lualine
 

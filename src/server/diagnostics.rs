@@ -1,10 +1,21 @@
 use crate::item::Item;
-use crate::markup::markup_lookup::{ElementInfo, ImgRef, LinkRef, NeovimRange};
+use crate::markup::markup_lookup::{Element, ImgRef, LinkRef, PosRange};
 use crate::paths::AbsPath;
 use crate::site_url::SiteUrl;
 use crate::Site;
 use serde::Serialize;
+use serde_repr::*;
 use std::collections::HashMap;
+
+#[allow(dead_code)]
+#[derive(Debug, Serialize_repr, Clone, Copy, PartialEq, Eq)]
+#[repr(u8)]
+pub enum DiagnosticSeverity {
+    ERROR = 1,
+    WARN = 2,
+    INFO = 3,
+    HINT = 4,
+}
 
 #[derive(Debug, Serialize)]
 pub struct Diagnostic {
@@ -13,6 +24,7 @@ pub struct Diagnostic {
     pub col: usize,
     pub end_col: usize,
     pub message: String,
+    pub severity: DiagnosticSeverity,
 }
 
 pub fn generate_diagnostics(items: &[&dyn Item], site: &Site) -> HashMap<String, Vec<Diagnostic>> {
@@ -31,30 +43,32 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
     let mut res = Vec::new();
 
     for (_, e) in lookup.char_pos_to_element.iter() {
-        match e {
-            ElementInfo::Link(link) => match &link.link_ref {
+        match &e.element {
+            Element::Link(link) => match &link.link_ref {
                 LinkRef::Inline(url) | LinkRef::AutoLink(url) => {
-                    check_url(&link.range, url, site, &mut res);
+                    check_url(&e.range, url, site, &mut res);
                 }
                 LinkRef::Reference { .. } => {}
                 LinkRef::Email(_) => {}
                 LinkRef::Unresolved(tag) => {
                     push_diagnostic(
-                        &link.range,
+                        &e.range,
                         format!("Link to non-existent link definition: `{}`", tag),
+                        DiagnosticSeverity::ERROR,
                         &mut res,
                     );
                 }
             },
-            ElementInfo::Img(img) => match &img.link_ref {
+            Element::Img(img) => match &img.link_ref {
                 ImgRef::Inline(url) => {
-                    check_url(&img.range, url, site, &mut res);
+                    check_url(&e.range, url, site, &mut res);
                 }
                 ImgRef::Reference { .. } => {}
                 ImgRef::Unresolved(tag) => {
                     push_diagnostic(
-                        &img.range,
+                        &e.range,
                         format!("Link to non-existent link definition: `{}`", tag),
+                        DiagnosticSeverity::ERROR,
                         &mut res,
                     );
                 }
@@ -68,12 +82,13 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
         let duplicate = defs.len() > 1;
 
         for def in defs.iter() {
-            check_url(&def.range, &def.url, site, &mut res);
+            check_url(&def.range, &def.link_def.url, site, &mut res);
 
             if duplicate {
                 push_diagnostic(
                     &def.range,
-                    format!("Duplicate link definition: `{}`", def.label),
+                    format!("Duplicate link definition: `{}`", def.link_def.label),
+                    DiagnosticSeverity::WARN,
                     &mut res,
                 );
             }
@@ -84,10 +99,11 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
         // Duplicate headings if there are multiple with the same id.
         // Normally the Djot parser should manage this, but we may override it to cause collisions.
         if headers.len() > 1 {
-            for heading in headers.iter() {
+            for h in headers.iter() {
                 push_diagnostic(
-                    &heading.range,
-                    format!("Duplicate heading id: `{}`", heading.id),
+                    &h.range,
+                    format!("Duplicate heading id: `{}`", h.heading.id),
+                    DiagnosticSeverity::WARN,
                     &mut res,
                 );
             }
@@ -97,7 +113,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
     Some(res)
 }
 
-fn check_url(range: &NeovimRange, url: &str, site: &Site, res: &mut Vec<Diagnostic>) {
+fn check_url(range: &PosRange, url: &str, site: &Site, res: &mut Vec<Diagnostic>) {
     if !url.starts_with('/') {
         return;
     }
@@ -106,20 +122,31 @@ fn check_url(range: &NeovimRange, url: &str, site: &Site, res: &mut Vec<Diagnost
         Ok(site_url) => {
             let path = site_url.output_file(&site.opts.output_dir);
             if !path.exists() {
-                push_diagnostic(range, format!("Link to non-existent url: `{}`", url), res);
+                push_diagnostic(
+                    range,
+                    format!("Link to non-existent url: `{}`", url),
+                    DiagnosticSeverity::ERROR,
+                    res,
+                );
             }
         }
         Err(err) => {
             push_diagnostic(
                 range,
                 format!("Unable to parse url `{}`: {}", url, err),
+                DiagnosticSeverity::ERROR,
                 res,
             );
         }
     }
 }
 
-fn push_diagnostic(range: &NeovimRange, message: String, res: &mut Vec<Diagnostic>) {
+fn push_diagnostic(
+    range: &PosRange,
+    message: String,
+    severity: DiagnosticSeverity,
+    res: &mut Vec<Diagnostic>,
+) {
     // let start = lookup.char_pos_to_row_col(range.start);
     // let end = lookup.char_pos_to_row_col(range.end);
     res.push(Diagnostic {
@@ -128,6 +155,7 @@ fn push_diagnostic(range: &NeovimRange, message: String, res: &mut Vec<Diagnosti
         end_lnum: range.end.row,
         end_col: range.end.col,
         message,
+        severity,
     });
 }
 

@@ -13,6 +13,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> BrokenLink<'a, I> {
     }
 }
 
+// FIXME move to lookup register?
 impl<'a, I: Iterator<Item = Event<'a>>> Iterator for BrokenLink<'a, I> {
     type Item = Event<'a>;
 

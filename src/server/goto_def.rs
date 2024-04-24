@@ -1,4 +1,4 @@
-use crate::markup::markup_lookup::{ElementInfo, Img, ImgRef, Link, LinkDef, LinkRef, NeovimRange};
+use crate::markup::markup_lookup::{Element, Img, ImgRef, Link, LinkDef, LinkRef, PosRange};
 use crate::paths::AbsPath;
 use crate::{markup::MarkupLookup, site::Site};
 use lazy_static::lazy_static;
@@ -10,8 +10,8 @@ pub enum GotoDefRes {
     SameFile { row: usize, col: usize },
 }
 
-impl From<NeovimRange> for GotoDefRes {
-    fn from(r: NeovimRange) -> Self {
+impl From<PosRange> for GotoDefRes {
+    fn from(r: PosRange) -> Self {
         GotoDefRes::SameFile {
             row: r.start.row,
             col: r.start.col,
@@ -22,29 +22,27 @@ impl From<NeovimRange> for GotoDefRes {
 pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Option<GotoDefRes> {
     let lookup = site.content.find_post_lookup_by_file_name(&path)?;
 
-    match lookup.element_at(linenum, column)? {
-        ElementInfo::Link(Link {
+    match &lookup.element_at(linenum, column)?.element {
+        Element::Link(Link {
             link_ref: LinkRef::Inline(url),
-            ..
-        }) => goto_url(url, lookup, site),
-        ElementInfo::Link(Link {
+        }) => goto_url(&url, lookup, site),
+        Element::Link(Link {
             link_ref: LinkRef::Reference { label, url },
-            ..
         }) => {
             if let Some(defs) = lookup.link_defs.get(label) {
                 let def = &defs[0];
                 Some(def.range.into())
             } else {
                 // May happen for short heading links
-                goto_url(url, lookup, site)
+                goto_url(&url, lookup, site)
             }
         }
-        ElementInfo::Link(Link {
+        Element::Link(Link {
             link_ref: LinkRef::AutoLink(url),
             ..
-        }) => goto_url(url, lookup, site),
-        ElementInfo::Link(_) => None,
-        ElementInfo::Img(Img {
+        }) => goto_url(&url, lookup, site),
+        Element::Link(_) => None,
+        Element::Img(Img {
             link_ref: ImgRef::Reference { label, .. },
             ..
         }) => {
@@ -55,9 +53,10 @@ pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Optio
                 None
             }
         }
-        ElementInfo::Img(_) => None,
-        ElementInfo::LinkDef(LinkDef { url, .. }) => goto_url(url, lookup, site),
-        ElementInfo::Heading(_) => None,
+        Element::Img(_) => None,
+        Element::LinkDef(LinkDef { url, .. }) => goto_url(&url, lookup, site),
+        Element::Heading(_) => None,
+        Element::Todoish(_) => None,
     }
 }
 
@@ -81,9 +80,9 @@ fn goto_url(url: &str, lookup: &MarkupLookup, site: &Site) -> Option<GotoDefRes>
     }
 
     for hs in lookup.headings.values() {
-        for heading in hs.iter() {
-            if heading.content == url {
-                return Some(heading.range.into());
+        for h in hs.iter() {
+            if h.heading.content == url {
+                return Some(h.range.into());
             }
         }
     }
@@ -112,25 +111,25 @@ mod tests {
 
         // Goto link def from full reference link
         assert_eq!(
-            goto_def(9, 16, feb_post, &test_site.site),
-            Some(GotoDefRes::SameFile { row: 13, col: 0 })
+            goto_def(8, 16, feb_post, &test_site.site),
+            Some(GotoDefRes::SameFile { row: 12, col: 0 })
         );
 
         // Goto link def from collapsed reference
         assert_eq!(
-            goto_def(11, 2, feb_post, &test_site.site),
-            Some(GotoDefRes::SameFile { row: 13, col: 0 })
+            goto_def(10, 2, feb_post, &test_site.site),
+            Some(GotoDefRes::SameFile { row: 12, col: 0 })
         );
 
         // Goto link def from collapsed reference
         assert_eq!(
-            goto_def(11, 2, feb_post, &test_site.site),
-            Some(GotoDefRes::SameFile { row: 13, col: 0 })
+            goto_def(10, 2, feb_post, &test_site.site),
+            Some(GotoDefRes::SameFile { row: 12, col: 0 })
         );
 
         // Goto other post from link def
         assert_eq!(
-            goto_def(13, 8, feb_post, &test_site.site),
+            goto_def(12, 8, feb_post, &test_site.site),
             Some(GotoDefRes::OtherFile {
                 path: abs_feb_post2.clone()
             })
@@ -138,7 +137,7 @@ mod tests {
 
         // Goto other post from inline link
         assert_eq!(
-            goto_def(15, 5, feb_post, &test_site.site),
+            goto_def(14, 5, feb_post, &test_site.site),
             Some(GotoDefRes::OtherFile {
                 path: abs_feb_post2.clone()
             })
@@ -146,20 +145,20 @@ mod tests {
 
         // Goto explicit heading from inline link
         assert_eq!(
-            goto_def(21, 16, feb_post, &test_site.site),
-            Some(GotoDefRes::SameFile { row: 17, col: 0 })
+            goto_def(20, 16, feb_post, &test_site.site),
+            Some(GotoDefRes::SameFile { row: 16, col: 0 })
         );
 
         // Goto heading from link def
         assert_eq!(
-            goto_def(23, 7, feb_post, &test_site.site),
-            Some(GotoDefRes::SameFile { row: 17, col: 0 })
+            goto_def(22, 7, feb_post, &test_site.site),
+            Some(GotoDefRes::SameFile { row: 16, col: 0 })
         );
 
         // Goto short heading
         assert_eq!(
-            goto_def(19, 3, feb_post, &test_site.site),
-            Some(GotoDefRes::SameFile { row: 17, col: 0 })
+            goto_def(18, 3, feb_post, &test_site.site),
+            Some(GotoDefRes::SameFile { row: 16, col: 0 })
         );
 
         // Above markup, inside frontmatter
