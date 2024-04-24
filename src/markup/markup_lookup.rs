@@ -83,16 +83,16 @@ pub enum TodoType {
 }
 
 lazy_static! {
-    static ref SPLIT: Regex = Regex::new(r"^(\w+)(\s+.*)$").unwrap();
+    static ref SPLIT: Regex = Regex::new(r"^(\w+)\s+").unwrap();
 }
 
 impl TodoType {
-    pub fn from_beginning_of_line(s: &str) -> Option<(Self, String)> {
+    pub fn from_beginning_of_line(s: &str) -> Option<(Self, usize)> {
         if let Some(caps) = SPLIT.captures(s) {
             match &caps[1] {
-                "TODO" | "WIP" => Some((Self::Todo, (&caps[2]).to_string())),
-                "NOTE" | "INFO" | "XXX" => Some((Self::Note, (&caps[2]).to_string())),
-                "FIXME" => Some((Self::Fixme, (&caps[2]).to_string())),
+                "TODO" | "WIP" => Some((Self::Todo, (&caps[1]).len())),
+                "NOTE" | "INFO" | "XXX" => Some((Self::Note, (&caps[1]).len())),
+                "FIXME" => Some((Self::Fixme, (&caps[1]).len())),
                 _ => None,
             }
         } else {
