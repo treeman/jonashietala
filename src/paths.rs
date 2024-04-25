@@ -64,6 +64,7 @@ impl FilePath {
         AbsPath(self.base.join(&self.rel_path.0))
     }
 
+    #[allow(dead_code)]
     pub fn file_name(&self) -> &str {
         self.rel_path.0.file_name().expect(&format!(
             "FilePath without a file_name: `{}`",

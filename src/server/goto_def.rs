@@ -20,8 +20,7 @@ impl From<PosRange> for GotoDefRes {
 }
 
 pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Option<GotoDefRes> {
-    let path = site.file_path_from_str(path).ok()?;
-    let lookup = site.find_lookup_by_path(&path)?;
+    let lookup = site.find_lookup_by_path(&path.into())?;
 
     match &lookup.element_at(linenum, column)?.element {
         Element::Link(Link {

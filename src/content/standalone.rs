@@ -3,13 +3,13 @@ use serde::{Deserialize, Serialize};
 use std::{borrow::Cow, collections::HashSet};
 use tera::Context;
 
-use crate::markup::{find_markup_files, Html, ParseContext, RawMarkupFile};
+use crate::markup::{find_markup_files, Html, MarkupLookup, ParseContext, RawMarkupFile};
 use crate::{item::Item, item::RenderContext, item::TeraItem, paths::AbsPath, site_url::SiteUrl};
 
-pub fn load_standalones(dir: AbsPath) -> Result<HashSet<StandaloneItem>> {
+pub fn load_standalones(dir: AbsPath, create_lookup: bool) -> Result<HashSet<StandaloneItem>> {
     find_markup_files(&[dir])
         .into_iter()
-        .map(|path| StandaloneItem::from_file(path.abs_path()))
+        .map(|path| StandaloneItem::from_file(path.abs_path(), create_lookup))
         .collect::<Result<HashSet<StandaloneItem>>>()
 }
 
@@ -19,6 +19,7 @@ pub struct StandaloneItem {
     pub path: AbsPath,
     pub url: SiteUrl,
     pub content: Html,
+    pub markup_lookup: Option<MarkupLookup>,
 }
 
 impl PartialEq for StandaloneItem {
@@ -36,13 +37,17 @@ impl std::hash::Hash for StandaloneItem {
 }
 
 impl StandaloneItem {
-    pub fn from_file(path: AbsPath) -> Result<Self> {
+    pub fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup)
+        Self::from_markup(markup, create_lookup)
     }
 
-    pub fn from_markup(markup: RawMarkupFile<StandaloneMetadata>) -> Result<Self> {
-        let markup = markup.parse(ParseContext::default())?;
+    pub fn from_markup(
+        markup: RawMarkupFile<StandaloneMetadata>,
+        create_lookup: bool,
+    ) -> Result<Self> {
+        let meta_line_count = markup.meta_line_count;
+        let markup = markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
         let slug = markup
             .path
             .file_stem()
@@ -56,6 +61,7 @@ impl StandaloneItem {
             path: markup.path,
             url,
             content: markup.html,
+            markup_lookup: markup.markup_lookup,
         })
     }
 }

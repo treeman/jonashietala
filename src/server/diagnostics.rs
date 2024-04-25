@@ -38,7 +38,6 @@ pub fn generate_diagnostics(items: &[&dyn Item], site: &Site) -> HashMap<String,
 }
 
 pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diagnostic>> {
-    let path = site.file_path_from_str(path.as_str()).ok()?;
     let lookup = site.find_lookup_by_path(&path)?;
 
     let mut res = Vec::new();

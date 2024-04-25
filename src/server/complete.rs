@@ -21,7 +21,6 @@ use serde::Serialize;
 use serde_repr::*;
 use std::fmt::Display;
 use std::time::SystemTime;
-use tracing::error;
 
 pub fn complete(
     cursor_before_line: &str,
@@ -30,14 +29,7 @@ pub fn complete(
     path: &str,
     site: &Site,
 ) -> Vec<CompletionItem> {
-    let path = match site.file_path_from_str(path) {
-        Ok(path) => path,
-        Err(err) => {
-            error!("Couldn't convert path `{}` to FilePath: {}", path, err);
-            return vec![];
-        }
-    };
-    let lookup = match site.find_lookup_by_path(&path) {
+    let lookup = match site.find_lookup_by_path(&path.into()) {
         Some(x) => x,
         None => return vec![],
     };

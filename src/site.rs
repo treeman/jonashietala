@@ -88,7 +88,8 @@ impl SiteContent {
             opts.generate_markup_lookup,
             &mut posts,
         )?;
-        let standalones = load_standalones(opts.input_dir.join("static"))?;
+        let standalones =
+            load_standalones(opts.input_dir.join("static"), opts.generate_markup_lookup)?;
 
         let drafts = if opts.include_drafts {
             Some(
@@ -128,38 +129,24 @@ impl SiteContent {
         })
     }
 
-    pub fn find_post<'a, P>(&'a self, predicate: P) -> Option<&'a PostItem>
-    where
-        P: FnMut(&&PostItem) -> bool,
-    {
-        self.posts.values().find(predicate)
-    }
-
-    pub fn find_post_by_file_name<'a>(&'a self, file_name: &str) -> Option<&'a PostItem> {
-        self.find_post(|post| post.path.file_name() == Some(file_name))
+    pub fn find_post_by_path<'a>(&'a self, path: &str) -> Option<&'a PostItem> {
+        self.posts.values().find(|x| x.path.as_str() == path)
     }
 
     pub fn find_post_by_url<'a>(&'a self, url: &str) -> Option<&'a PostItem> {
-        self.find_post(|post| post.url.href() == url)
+        self.posts.values().find(|x| x.url.href() == url)
     }
 
-    // pub fn find_post_lookup_by_file_name<'a>(&'a self, path: &str) -> Option<&'a MarkupLookup> {
-    //     let path = Utf8PathBuf::from(path);
-
-    //     self.find_post_by_file_name(path.file_name()?)
-    //         .and_then(|post| post.markup_lookup.as_ref())
-    // }
-
-    // Find series by file name
-    pub fn find_series_by_file_name<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
-        self.series
-            .values()
-            .find(|series| series.path.file_name() == Some(file_name))
+    pub fn find_series_by_path<'a>(&'a self, path: &str) -> Option<&'a SeriesItem> {
+        self.series.values().find(|x| x.path.as_str() == path)
     }
 
-    // Find series by series id
     pub fn find_series_by_id<'a>(&'a self, id: &str) -> Option<&'a SeriesItem> {
-        self.series.values().find(|series| series.id == id)
+        self.series.values().find(|x| x.id == id)
+    }
+
+    pub fn find_standalone_by_path<'a>(&'a self, path: &str) -> Option<&'a StandaloneItem> {
+        self.standalones.iter().find(|x| x.path.as_str() == path)
     }
 
     pub fn insert_post(&mut self, post: PostItem) -> Option<PostItem> {
@@ -630,9 +617,7 @@ impl Site {
             PathEvent::Homepage => self.rebuild_homepage()?,
             PathEvent::Project => self.rebuild_projects(path.abs_path())?,
             PathEvent::Post => {
-                let existing = self
-                    .content
-                    .find_post_by_file_name(path.rel_path.0.file_name().unwrap());
+                let existing = self.content.find_post_by_path(path.abs_path().as_str());
                 if existing.is_none() {
                     self.rebuild_all()?
                 } else {
@@ -642,7 +627,7 @@ impl Site {
             PathEvent::Series => {
                 let existing = self
                     .content
-                    .find_series_by_file_name(path.rel_path.0.file_name().unwrap());
+                    .find_series_by_path(path.rel_path.0.file_name().unwrap());
                 if existing.is_none() {
                     self.rebuild_all()?
                 } else {
@@ -737,7 +722,7 @@ impl Site {
 
     fn rebuild_standalone(&mut self, path: AbsPath) -> Result<()> {
         info!("Standalone changed: {path}");
-        let updated = StandaloneItem::from_file(path)?;
+        let updated = StandaloneItem::from_file(path, self.opts.generate_markup_lookup)?;
         self.render_item(&updated)?;
 
         self.content.standalones.insert(updated);
@@ -915,41 +900,23 @@ impl Site {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
 
-    pub fn file_path_from_str(&self, path: &str) -> Result<FilePath> {
-        FilePath::from_path(&self.opts.input_dir, path)
-    }
-
     pub fn list_imgs<'a>(&'a self) -> impl Iterator<Item = WalkDirRes> + 'a {
         paths::file_iter(self.opts.input_dir.join("images"))
     }
 
-    pub fn find_lookup_by_path<'a>(&'a self, path: &FilePath) -> Option<&'a MarkupLookup> {
-        if path.rel_path.starts_with("posts/") {
-            let lookup = self
-                .content
-                .find_post_by_file_name(path.file_name())
-                .and_then(|x| x.markup_lookup.as_ref());
-            if lookup.is_some() {
-                return lookup;
-            }
+    pub fn find_lookup_by_path<'a>(&'a self, path: &AbsPath) -> Option<&'a MarkupLookup> {
+        if let Some(x) = self.content.find_post_by_path(path.as_str()) {
+            return x.markup_lookup.as_ref();
         }
-        dbg!(&path);
-        if path.rel_path.starts_with("series/") {
-            dbg!(&self.content.series);
-            let lookup = self
-                .content
-                .find_series_by_file_name(path.file_name())
-                .and_then(|x| x.markup_lookup.as_ref());
-            if lookup.is_some() {
-                return lookup;
-            }
+        if let Some(x) = self.content.find_series_by_path(path.as_str()) {
+            return x.markup_lookup.as_ref();
+        }
+        if let Some(x) = self.content.find_standalone_by_path(path.as_str()) {
+            return x.markup_lookup.as_ref();
         }
         // TODO
         None
 
-        // Posts
-        // Series
-        // Static
         // Project
         // Game
     }
@@ -1230,19 +1197,11 @@ My created static
 
         test_site.create_test_file(path)?;
         assert!(test_site.output_content(output_path).is_ok());
-        assert!(test_site
-            .site
-            .content
-            .find_post_by_file_name("2024-01-31-new_post.dj")
-            .is_some());
+        assert!(test_site.find_post("2024-01-31-new_post.dj").is_some());
 
         test_site.remove_file(path)?;
         assert!(test_site.output_content(output_path).is_err());
-        assert!(test_site
-            .site
-            .content
-            .find_post_by_file_name("2024-01-31-new_post.dj")
-            .is_none());
+        assert!(test_site.find_post("2024-01-31-new_post.dj").is_none());
 
         Ok(())
     }

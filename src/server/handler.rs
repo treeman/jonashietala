@@ -3,7 +3,6 @@ use super::goto_def::{self, GotoDefRes};
 use super::messages::{NeovimEvent, NeovimResponse, TagInfo, WebEvent};
 use crate::server::diagnostics;
 use crate::site::Site;
-use camino::Utf8PathBuf;
 use std::sync::{Arc, Mutex};
 use tracing::{debug, warn};
 
@@ -24,8 +23,7 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             path,
             ..
         } => {
-            let path = Utf8PathBuf::from(path);
-            if let Some(post) = site.content.find_post_by_file_name(path.file_name()?) {
+            if let Some(post) = site.content.find_post_by_path(path.as_str()) {
                 Some(Response::Web(WebEvent::PositionPage {
                     linenum,
                     linecount,

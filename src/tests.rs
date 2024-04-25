@@ -70,12 +70,20 @@ My created post
         )
     }
 
-    pub fn find_post<'a>(&'a self, file: &str) -> Option<&'a PostItem> {
-        self.site.content.find_post_by_file_name(file)
+    pub fn find_post<'a>(&'a self, file_name: &str) -> Option<&'a PostItem> {
+        self.site
+            .content
+            .posts
+            .values()
+            .find(|post| post.path.0.file_name() == Some(file_name))
     }
 
-    pub fn find_series<'a>(&'a self, file: &str) -> Option<&'a SeriesItem> {
-        self.site.content.find_series_by_file_name(file)
+    pub fn find_series<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
+        self.site
+            .content
+            .series
+            .values()
+            .find(|series| series.path.0.file_name() == Some(file_name))
     }
 
     pub fn output_path(&self, file: &str) -> AbsPath {
