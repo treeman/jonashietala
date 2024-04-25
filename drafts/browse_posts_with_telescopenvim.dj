@@ -1,0 +1,258 @@
+---toml
+title = "Browse posts with telescope.nvim"
+tags = ["Lua",  "Rust",  "Webpage"]
+series = "extending_neovim_for_my_blog"
+---
+
+# Browse posts with [telescope.nvim][]
+
+I've used [telescope.nvim][]\'s find files with `require("telescope.builtin").find_files`lua for quite some time.
+I use find files together with it's cousin `.oldfiles` (find recently opened files) all the time for finding source code files, blog posts, and more.
+
+But it's naturally restricted to operate on only filenames and you can make telescope richer by operating on structured data.
+
+So let's move away from using the files finder to find posts:
+
+![](/images/extend_blog/find_files.png)
+
+To a custom posts picker that display posts in a neater way and allows us to filter using tags or other metadata:
+
+![](/images/extend_blog/find_posts.png)
+
+## The simplest picker
+
+It's fairly easy to create a new picker for [telescope.nvim][].
+In it's simplest form, all you need to do is provide a list of items to `telescope.pickers`:
+
+```lua
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+
+pickers
+  .new(opts, {
+    finder = finders.new_table({
+      results = { "One", "Two", "Three" },
+    }),
+  })
+  :find()
+```
+
+::: notice
+How do I know this?
+Because I watched [Developing a Neovim Docker Plugin from Scratch][].
+It does a way better job walking you through a telescope plugin than I could ever do.
+:::
+
+## Structured content
+
+To make our simple picker handle structured content we need to:
+
+1. Convert `results` to a list of tables with the info we have.
+1. Specify an `entry_marker` function.
+
+It essentially looks like this:
+
+```lua
+finder = finders.new_table({
+  -- 1. Structured data inside `results`.
+  results = {
+    { title = "One", tags = "Tag1, Tag2", path = "posts/2024-01-01-one.dj" },
+    { title = "Two", tags = "Tag2", path = "posts/2024-02-02-two.dj" },
+  },
+  -- 2. A function that converts a result entry to an entry telescope understands.
+  entry_maker = function(entry)
+    return {
+      -- Display the post title instead of the path in the list.
+      display = entry.title,
+      -- Allow us to filter against the title and tags (typing `Tag1` finds the "One" post).
+      ordinal = entry.title .. entry.tags,
+      -- Save the whole entry for future usage.
+      value = entry,
+    }
+  end,
+}),
+```
+
+With this the finder displays the title of the post rather than the file path, and we can search for a post using the title and its tags.
+In my post picker I also display the date and allow you to filter by [series](/series) id.
+
+I tried to have the path in the ordinal as well, but because of the fuzzy matching the path cluttered the search result by including way too many posts.
+
+## File preview
+
+One of the great features of [telescope.nvim][] is the very fast preview with syntax highlighting, which we of course must configure.
+
+I searched through the telescope help, and found the functions `new_buffer_previewer` and `buffer_previewer_maker` that allows us to define a previewer for a file:
+
+```lua
+local previewers = require("telescope.previewers")
+
+finder = finders.new_table({
+  -- ...
+
+  previewer = previewers.new_buffer_previewer({
+    -- Title isn't needed.
+    title = "Post Preview",
+    define_preview = function(self, entry)
+      -- Notice `entry.value.path` that uses our catch-all entry value.
+      conf.buffer_previewer_maker(entry.value.path, self.state.bufnr, {
+        bufname = self.state.bufname,
+        winid = self.state.winid,
+        preview = opts.preview,
+        -- The file encoding is needed for proper syntax highlighting.
+        file_encoding = opts.file_encoding,
+      })
+    end,
+  }),
+})
+```
+
+I'm not sure if there's a less verbose way to define a file previewer, as the only thing I really configured here is the title and the `entry.value.path` argument to `buffer_preview_maker`.
+
+## Open the selected file
+
+We already have configured the display of our [telescope.nvim][] picker configured.
+The only question left is how do we open the file once we've found it?
+
+The answer is yet another argument to `finders.new_table` called `attach_mappings`:
+
+```lua
+local actions = require("telescope.actions")
+
+finder = finders.new_table({
+  -- ...
+  attach_mappings = function(prompt_bufnr)
+    actions.select_default:replace(function()
+      local selection = action_state.get_selected_entry()
+      actions.close(prompt_bufnr)
+      vim.cmd(":e " .. selection.value.path)
+    end)
+    return true
+  end,
+})
+```
+
+The above mapping overrides the default selection action (`<CR>` in my case) to `:edit` `value.path` of our selection, which will open the selected file.
+
+Multiselection is possible in telescope, which you need to handle in the mapping function if you want to support it.
+
+## Finding the post data to populate the picker
+
+So far I've only used placeholder data for the posts, but of course I need to search the file system for the markup files for the posts.
+
+How did I extract the post metadata, which is defined inside the posts in a frontmatter?
+This is a frontmatter that's defined at the start of every markup file:
+
+```
+---toml
+title = "Let's build a VORON: Noise"
+tags = ["3D printing", "VORON"]
+series = "voron_trident"
+---
+```
+
+With [ripgrep][] and regex of course!
+
+This time though I have a good reason for choosing an external tool rather than asking the backend server:
+I want to be able to find a post the very first thing I do when opening Neovim, and I don't want to wait on connecting to a backend service, or requiring one running at all times.
+
+The strategy is to use [ripgrep][] to match the frontmatter in all posts, extract the metadata using some hacky Lua regex, and combine them into a post struct we can feed into the [finder we developed](#Structured-content).
+
+This is one way to find all posts under a path and extract the frontmatter using [ripgrep][]\'s regex syntax:
+
+```lua
+nio.process.run({
+  cmd = "rg",
+  args = {
+    "-NoHU",
+    "--heading",
+    "\\A\\---\\w*\\n(.+\\n)+^---",
+    -- subpath could be `posts/` or `drafts/`, using absolute paths
+    path.blog_path .. subpath,
+  },
+})
+```
+
+Which will produce output formatted like this:
+
+```
+posts/2016-07-29-slackware_installation_notes.markdown
+---
+layout: post
+title: "Slackware installation notes"
+tags: Slackware
+---
+
+posts/2019-01-25-site_restyle_and_update.markdown
+---
+title: "Site restyle and update"
+tags: ["Webpage", "Web Design"]
+---
+```
+
+My code for splitting the output and extracting the metadata is a little gross, but I don't know how to make it prettier:
+
+```lua
+local lines = vim.fn.split(output, "\n")
+local posts = {}
+
+local post = {}
+for _, line in ipairs(lines) do
+  -- When a newline is encountered save the post and prepare for the next entry.
+  if line == "" then
+    if post.title then
+      table.insert(posts, post)
+    end
+    post = {}
+  -- Skip `---` markers.
+  elseif not string.match(line, "%-%-%-%w*") then
+    -- Try to extract all key value definitions and store them.
+    local key, value = string.match(line, "(%w+)%s*[:=]%s*(.+)")
+    if key then
+      -- Strip surrounding quotes.
+      -- Do this here because there's no non-greedy specifier that could be used
+      -- in the key/value regex above.
+      local stripped = string.match(value, '^"(.+)"$')
+      if stripped then
+        value = stripped
+      end
+      post[key] = value
+    else
+      -- If no key value pair is found, then we should be at the beginning with the file path.
+      post["path"] = line
+      -- Only posts have a date in the path, not drafts.
+      local date = string.match(line, "posts/(%d%d%d%d%-%d%d%-%d%d)%-")
+      if date then
+        post["date"] = date
+      end
+    end
+  end
+end
+-- If output ends we might have an unsaved post.
+if post.title then
+  table.insert(posts, post)
+end
+```
+
+Yes, I'm using regex to parse `yaml`/`toml` values.
+
+I could try to find a lua parser, but eeeh...
+
+![](/images/extend_blog/regex_this_is_fine.jpg)
+
+It does mean we have a working [telescope.nvim][] picker!
+I may have skipped some details, so [take a look at the source code](https://github.com/treeman/dotfiles/blob/master/.config/nvim/lua/blog/telescope.lua) if you're interested.
+
+[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
+[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
+[Neovim config]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
+[nvim-nio]: https://github.com/nvim-neotest/nvim-nio
+[ripgrep]: https://github.com/BurntSushi/ripgrep
+[blog_code]: https://github.com/treeman/jonashietala
+[hotwatch]: https://github.com/francesca64/hotwatch
+[axum]: https://github.com/tokio-rs/axum
+[flume]: https://github.com/zesterer/flume
+[tokio]: https://tokio.rs/
+[plenary.nvim]: https://github.com/nvim-lua/plenary.nvim
+[djot-tree-sitter]: https://github.com/treeman/tree-sitter-djot
+[a Tree-sitter grammar]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar

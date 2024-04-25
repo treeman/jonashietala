@@ -1,0 +1,6 @@
+---toml
+title = "Interactive browser preview"
+tags = ["Some tag"]
+series = "extending_neovim_for_my_blog"
+---
+

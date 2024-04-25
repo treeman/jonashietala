@@ -1,0 +1,203 @@
+---toml
+title = "Customize autocomplete with nvim-cmp"
+tags = ["Some tag"]
+series = "extending_neovim_for_my_blog"
+---
+
+# Autocompletion with [nvim-cmp][]
+
+Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
+
+## A basic completion source
+
+This is the basics of a source that completes a blog post path for an inline link:
+
+```lua
+local source = {}
+
+-- The `complete` function is required.
+function source:complete(params, callback)
+  -- There's also the `cursor_after_line`, `cursor_line`, and a `cursor` fields on `context`.
+  local cursor_before_line = params.context.cursor_before_line
+
+  -- Regex matches `](/` to autocomplete a path in an inline link like `[link text](/path/to/post)`.
+  -- The `[^%)]*$` ensures that we continue completion even
+  -- after we've typed some characters and not only once after the first `/`.
+  if string.match(cursor_before_line, "%]%(/[^%)]*$") then
+    local items = {
+      {
+        -- Text to be displayed in the completion menu.
+        label = "Rewriting my Neovim config in Lua",
+        -- Text to insert.
+        insertText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/",
+        -- Text to filter against, works like `ordinal` for telescope.
+        filterText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/|Rewriting my Neovim config in Lua",
+        -- What `kind` the completion item is.
+        kind = require("cmp.types.lsp").CompletionItemKind.File,
+      },
+      -- More items here...
+    }
+    callback(items)
+  else
+    -- `callback` should always be called.
+    callback({})
+  end
+end
+
+-- Trigger completion on these characters.
+-- We could also trigger it manually.
+function source:get_trigger_characters()
+  return { "/" }
+end
+
+-- We must register our source to `cmp` like this:
+require("cmp").register_source("blog", source)
+```
+
+It's also a good idea to implement the `is_available` function, to only trigger completion in the right context:
+
+```lua
+function source:is_available()
+  return require("blog.server").is_connected()
+end
+```
+
+```lua
+cmp.setup({
+  sources = {
+    {
+      name = "blog",
+      group_index = 1,
+    },
+  },
+  formatting = {
+    format = lspkind.cmp_format({
+      menu = {
+        blog = "[BLOG]",
+      },
+    }),
+  },
+})
+```
+
+## What to complete where?
+
+The completion part of the integration is the section I've had to tweak the most and it has slowly grown more complex.
+
+It's actually pretty hard to make a complete autocomplete system.
+You'd have to have a parser that's capable of parsing incomplete statements.
+Maybe something like [a Tree-sitter grammar][], although the [one I created for Djot][djot-tree-sitter] doesn't mark broken things so it's useless for this purpose.
+I've therefore been relying on regexes on `cursor_before_line` to select what to complete:
+
+```lua
+-- Expand images separately because I only ever use it in a -- `![](/url)`
+-- context and not mixing with other urls gives a more pleasant experience.
+string.match(cursor_before_line, "!%[%]%([^%)]*$")
+
+-- Expand inline links, e.g. `[txt](/`
+string.match(cursor_before_line, "%]%(/[^%)]*$")
+
+-- Expanding headings in inline links, e.g. `[txt](#`
+string.match(cursor_before_line, "%]%(#[^%)]*$")
+
+-- Expand links in link ref definitions, e.g. `[label]: `
+string.match(cursor_before_line, "^%[.+%]:%s+")
+
+-- Expanding links in ref defs, e.g. `[label]: #`
+string.match(cursor_before_line, "^%[.+%]:%s+#")
+
+-- Expand url definition tags in `[text][tag]`
+if string.match(cursor_before_line, "%[[^%]]+%]%[[^%]]*$")
+
+-- Expand url definition tags in `[tag][]`, simplified to after a `[`
+-- If at the beginning of the line, we should complete broken link tags to..
+if string.match(cursor_before_line, "%[[^%]]*$")
+
+-- Expand tags in frontmatter if line starts with `tags = `
+if string.match(cursor_line, "^tags = ")
+
+-- Expand series in frontmatter if line starts with `series = `
+if string.match(cursor_line, "^series = ")
+```
+
+::: notice
+As the completion logic grew more complex, I moved it out from Neovim to the backend.
+It was easier to setup completion details for individual items that way, and now I only rely on a single `"Complete"`lua message that I pipe directly back to `cmp`:
+
+```lua
+function source:complete(params, callback)
+  server.call({
+    id = "Complete",
+    path = vim.fn.expand("%:p"),
+  }, function(reply)
+    -- Items is a list where items have `label`,
+    -- `insertText`, `filterText`, and `kind`,
+    -- like we manually coded before.
+    callback(reply.completion_items)
+  end)
+```
+
+Either way works, I'll keep the description in Lua for illustrative purposes.
+Check out the [Rust source code][] for more details.
+:::
+
+## Custom sorting
+
+```lua
+local function blog_compare(entry1, entry2)
+  -- TODO
+end
+
+cmp.setup({
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      -- With cmp you chain comparators.
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.locality,
+      -- I added my comparator here.
+      blog_compare,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
+  },
+})
+```
+
+```lua
+local function blog_compare(entry1, entry2)
+  -- Only sort blog entries.
+  if entry1.source.name ~= "blog" or entry2.source.name ~= "blog" then
+    return nil
+  end
+
+  local info1 = entry1.completion_item.info
+  local info2 = entry2.completion_item.info
+
+  if info1.type == "Img" then
+    -- Sort images by modification time.
+    if info1.modified > info2.modified then
+      return true
+    else
+      return false
+    end
+  end
+
+  return nil
+end
+```
+
+## The result
+
+![Complete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
+
+![Complete header references for a url. (The documentation preview jumped to the left).](/images/extend_blog/complete_header_ref_post.png)
+
+[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
+[djot-tree-sitter]: https://github.com/treeman/tree-sitter-djot
+[a Tree-sitter grammar]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar

@@ -1,28 +1,232 @@
 ---toml
 title = "Extending series"
-tags = ["Some tag"]
+tags = ["Lua",  "Rust",  "Webpage"]
+series = "extending_neovim_for_my_blog"
 ---
 
-# 1. 
+::: epigraph
+> Scripting is configuration. Configuration is scripting.
+> ^ TJ DeVries [A different take on editing code](https://www.youtube.com/watch?v=QMVIJhC9Veg)
+:::
 
-- Setup
-- Moving posts
-- New draft
+I've been using Neovim since it forked from Vim almost 8 years ago, and I used Vim many years before that.
+I feel quite comfortable with Neovim, and I've gone down the [configuration rabbit hole][] too many times I'd like to admit, but I never dived deeper by writing something truly custom like a plugin.
 
-# Browse blog posts with telescope.nvim
+That changed when I got inspired by the excellent [Developing a Neovim Docker Plugin from Scratch][] where the creator goes through how to extend [telescope.nvim][] in a very pedagogical manner.
 
-# Customize autocomplete with nvim-cmp
+I ended up extending Neovim and my blog backend with some sorely needed features such as:
 
-# Blogging with goto definition and diagnostics
+1. Browse posts using [telescope.nvim][].
+1. Autocomplete post urls, link definitions, and more using [nvim-cmp][].
+1. Goto definition.
+1. Diagnostics.
+1. Browser preview with auto refresh and scroll.
 
-- Markup lookup `rust`
+This post will go through how I implemented the above features.
+The focus will be on Neovim and Lua side of things, but I'll call out some backend Rust details too.
 
-# Rust and Neovim communication
+# Initial setup
 
-- Communication
-- Terminal process
-- Connection status
+While I could develop this as a normal plugin, because it's so coupled to my setup I decided to organize it under `nvim/lua/blog` and simply include it in my init script:
 
-# ?
+```lua
+require("blog")
+```
 
-## Browser preview
+This calls `nvim/lua/blog/init.lua` that in turn requires other initialization files:
+
+```lua
+require("blog.autocmd")
+require("blog.cmp")
+require("blog.commands")
+```
+
+Another quirk of my [Neovim config][] is that I've tried to collect all keymaps in one file, where I added some new keymaps for the blog:
+
+```lua
+local map = vim.keymap.set
+
+M.init = function()
+  map("n", "gd", require("blog.telescope").find_draft, { desc = "Find blog draft" })
+  map("n", "gp", require("blog.telescope").find_post, { desc = "Find blog post" })
+  -- Lots of other things...
+end
+
+M.buf_blog = function(buffer)
+  map("n", "<localleader>t", require("blog.telescope").find_tags, { buffer = buffer, desc = "List tags" })
+  map("i", "<C-t>", require("blog.telescope").find_tags, { buffer = buffer, desc = "List tags" })
+  map("n", "<localleader>d", require("blog.interaction").goto_def, { buffer = buffer, desc = "Goto definition" })
+end
+```
+
+Where `buf_blog` is called by an autocommand when editing a blog post.
+
+That's it for hooking up the code into my Neovim setup, now let's look at what the code does.
+
+# Creating and moving posts
+
+Let's start by moving some functionality from the blog generation backend to Neovim:
+
+- Creating a draft with a small template.
+- Promote a draft to a blog post and demote a post back to a draft.
+
+I don't really know why I had these implemented as commands line arguments to the backend---they fit much better in Neovim.
+
+They're implemented as user commands:
+
+```lua
+local cmd = require("util").create_cmd
+local files = require("blog.files")
+
+-- Create a new draft, promote it to a post, or revert it back to a draft.
+cmd("BlogNewDraft", files.new_draft)
+cmd("BlogPromoteDraft", files.promote_curr_draft)
+cmd("BlogDemotePost", files.demote_curr_post)
+```
+
+Where `create_cmd` is a small helper snippet I stole from somewhere:
+
+```lua
+M.create_cmd = function(command, f, opts)
+  opts = opts or {}
+  vim.api.nvim_create_user_command(command, f, opts)
+end
+```
+
+## New draft
+
+Creating a draft should do two simple things:
+
+1. Create a file at `drafts/some_title.dj` under the blog directory.
+2. Open it and fill in some placeholder data.
+
+Creating a file can be done using `vim.cmd` to send the `:edit` command.
+
+Inserting text from lua was harder, I tried to search for help with `:Telescope help_tags` but came up short.
+In the end I found `vim.api.nvim_buf_set_lines` via Google that can be used to insert lines.
+
+This is the solution I came up with:
+
+```lua
+local path = require("blog.path")
+local nio = require("nio")
+
+-- A module file in lua by convention use an `M` table,
+-- allowing us to call `require("blog.files").new_draft()`.
+local M = {}
+
+M.new_draft = function()
+  nio.run(function()
+    -- Prompt for the title of the new draft.
+    local title = nio.ui.input({ prompt = "Draft title: " })
+
+    -- Create and open the draft for edit (without checking if it exists...)
+    -- `path.blog_path` expands to the path to my blog and `slugify` converts
+    -- a title to a slug by replacing spaces with underscores and removing symbols.
+    local file_path = path.blog_path .. "drafts/" .. M.slugify(title) .. ".dj"
+    vim.cmd(":e " .. file_path)
+
+    -- The text the draft will start with.
+    local template = {
+      "---toml",
+      'title = "' .. title .. '"',
+      'tags = ["Some tag"]',
+      "---",
+    }
+    -- Insert the text into the current buffer at row 0 (to 0).
+    local buf = vim.api.nvim_get_current_buf()
+    vim.api.nvim_buf_set_lines(buf, 0, 0, true, template)
+  end)
+end
+
+return M
+```
+
+I hope it's clear what the above code is doing, but I want to call out the usage of [nvim-nio][].
+It's a great library that makes asynchronous programming simple in Neovim.
+
+To start an async task you use `nio.run`:
+
+```lua
+nio.run(function()
+  -- Code here is run async
+end)
+```
+
+For this example of creating a new draft async is overkill.
+Async is required for some other situations and it's easy to add so I use it liberally, even when not strictly needed.
+
+## Moving files
+
+In my blogging setup I store posts under `posts/` with the release date in the path, and drafts under `drafts/`.
+So promoting and demoting is accomplished by moving the file:
+
+- Promote a draft to a post by moving it from `drafts/post_title.dj` to `posts/2024-04-14-post_title.dj`.
+- Demote a post by moving it from `posts/2024-04-14-post_title.dj` to `drafts/post_title.dj`.
+
+I'm not going to include all the code here, but here are the most important implementation details:
+
+1. Extract the title from the post by shelling out to [ripgrep][].
+
+   [nvim-nio][] provides `process.run` to run a shell command:
+
+   ```lua
+   local proc = nio.process.run(args)
+   proc.stdout.read()
+   ```
+
+   That we can run [ripgrep][] to search for the title:
+
+   ```lua
+   {
+     cmd = "rg",
+     args = {
+       "-NoH",
+       "^title = (.+)",
+       path,
+     },
+   }
+   ```
+
+   ::: notice
+   Another solution would be to rely on the backend to provide the title.
+   It would be more robust since the backend properly parses the file,
+   but when I first created this function I didn't have the backend connection.
+   :::
+
+1. Create the destination path.
+
+   When promoting a draft for example:
+
+   ```lua
+   path.blog_path .. "posts/" .. os.date("%Y-%m-%d") .. "-" .. M.slugify(title) .. ".dj"
+   ```
+
+1. Move the file.
+
+   I don't know what the idiomatic way to rename a file is, or even how to do it in Neovim.
+   But I do know that with `:!` you can call an external program... Like `mv`!
+
+   So here's an ugly way to rename the current file:
+
+   ```lua
+   vim.cmd(":!mv " .. from .. " " .. to)
+   vim.cmd(":e " .. to)
+   ```
+
+   Because everything is done in an async context (inside `nio.run`) we run into a problem: we can't call the Neovim API without yielding to the Neovim scheduler.
+
+   What we need to do is call `scheduler` before we rename the file:
+
+   ```lua
+   nio.scheduler()
+   -- Now we can call `vim.cmd` and `vim.fn`.
+   ```
+
+[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
+[Neovim config]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
+[nvim-nio]: https://github.com/nvim-neotest/nvim-nio
+[ripgrep]: https://github.com/BurntSushi/ripgrep
+[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
+[configuration rabbit hole]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
+[Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4

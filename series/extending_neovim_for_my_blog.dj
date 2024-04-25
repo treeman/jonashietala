@@ -1,0 +1,7 @@
+---toml
+title = "Extending Neovim for my Blog"
+completed = false
+img = "/images/extend_blog/find_posts.png"
+homepage = true
+---
+
