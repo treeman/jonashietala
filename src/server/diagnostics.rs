@@ -5,7 +5,7 @@ use crate::site_url::SiteUrl;
 use crate::Site;
 use serde::Serialize;
 use serde_repr::*;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 #[allow(dead_code)]
 #[derive(Debug, Serialize_repr, Clone, Copy, PartialEq, Eq)]
@@ -42,13 +42,17 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
 
     let mut res = Vec::new();
 
+    let mut referenced_link_defs = HashSet::new();
+
     for (_, e) in lookup.char_pos_to_element.iter() {
         match &e.element {
             Element::Link(link) => match &link.link_ref {
                 LinkRef::Inline(url) | LinkRef::AutoLink(url) => {
                     check_url(&e.range, url, site, &mut res);
                 }
-                LinkRef::Reference { .. } => {}
+                LinkRef::Reference { label, .. } => {
+                    referenced_link_defs.insert(label.as_str());
+                }
                 LinkRef::Email(_) => {}
                 LinkRef::Unresolved(tag) => {
                     push_diagnostic(
@@ -63,7 +67,9 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                 ImgRef::Inline(url) => {
                     check_url(&e.range, url, site, &mut res);
                 }
-                ImgRef::Reference { .. } => {}
+                ImgRef::Reference { label, .. } => {
+                    referenced_link_defs.insert(label.as_str());
+                }
                 ImgRef::Unresolved(tag) => {
                     push_diagnostic(
                         &e.range,
@@ -101,7 +107,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
         }
     }
 
-    for defs in lookup.link_defs.values() {
+    for (label, defs) in lookup.link_defs.iter() {
         // Duplicate link definitions if there are multiple with the same label.
         let duplicate = defs.len() > 1;
 
@@ -113,6 +119,15 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                     &def.range,
                     format!("Duplicate link definition: `{}`", def.link_def.label),
                     DiagnosticSeverity::WARN,
+                    &mut res,
+                );
+            }
+
+            if !referenced_link_defs.contains(label.as_str()) {
+                push_diagnostic(
+                    &def.range,
+                    format!("Unused link definition: `{}`", def.link_def.label),
+                    DiagnosticSeverity::HINT,
                     &mut res,
                 );
             }
