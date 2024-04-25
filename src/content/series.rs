@@ -1,5 +1,5 @@
 use crate::item::Item;
-use crate::markup::{find_markup_files, Html, Markup, ParseContext, RawMarkupFile};
+use crate::markup::{find_markup_files, Html, Markup, MarkupLookup, ParseContext, RawMarkupFile};
 use crate::paths::AbsPath;
 use crate::{
     content::PostItem,
@@ -21,6 +21,7 @@ use super::posts::{PostRef, PostRefContext};
 
 pub fn load_series(
     dir: AbsPath,
+    create_lookup: bool,
     posts: &mut BTreeMap<PostRef, PostItem>,
 ) -> Result<BTreeMap<SeriesRef, SeriesItem>> {
     let mut posts_in_series: HashMap<String, BTreeSet<Reverse<PostRef>>> = HashMap::new();
@@ -35,7 +36,10 @@ pub fn load_series(
 
     let mut series = find_markup_files(&[dir])
         .par_iter_mut()
-        .map(|path| SeriesItem::from_file(path.abs_path()).map(|serie| (serie.id.clone(), serie)))
+        .map(|path| {
+            SeriesItem::from_file(path.abs_path(), create_lookup)
+                .map(|serie| (serie.id.clone(), serie))
+        })
         .collect::<Result<HashMap<_, _>>>()?;
 
     for (id, series_posts) in posts_in_series.into_iter() {
@@ -79,19 +83,21 @@ pub struct SeriesItem {
     pub path: AbsPath,
     pub url: SiteUrl,
     pub description: Html,
+    pub markup_lookup: Option<MarkupLookup>,
     pub post_note: Option<Html>,
     pub posts: BTreeSet<Reverse<PostRef>>,
     pub homepage: bool,
 }
 
 impl SeriesItem {
-    pub fn from_file(path: AbsPath) -> Result<Self> {
+    pub fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup)
+        Self::from_markup(markup, create_lookup)
     }
 
-    pub fn from_markup(markup: RawMarkupFile<SeriesMetadata>) -> Result<Self> {
-        let markup = markup.parse(ParseContext::default())?;
+    pub fn from_markup(markup: RawMarkupFile<SeriesMetadata>, create_lookup: bool) -> Result<Self> {
+        let meta_line_count = markup.meta_line_count;
+        let markup = markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
         let SeriesDirMetadata { id } = SeriesDirMetadata::from_path(&markup.path)?;
 
         let url =
@@ -118,6 +124,7 @@ impl SeriesItem {
             path: markup.path,
             url,
             description: markup.html,
+            markup_lookup: markup.markup_lookup,
             post_note,
             posts: BTreeSet::new(),
             homepage: markup.markup_meta.homepage.unwrap_or(false),

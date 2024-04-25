@@ -106,6 +106,7 @@ pub struct Project {
     year: u32,
     path: AbsPath,
     descr: Html,
+    // pub markup_lookup: Option<MarkupLookup>,
     pub homepage: bool,
 }
 
@@ -183,6 +184,7 @@ pub struct Game {
     path: AbsPath,
     img: SiteUrl,
     published: NaiveDate,
+    // pub markup_lookup: Option<MarkupLookup>,
 }
 
 impl Game {

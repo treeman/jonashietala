@@ -1,5 +1,5 @@
 ---toml
-title = "Extending series"
+title = "Customizing Neovim"
 tags = ["Lua",  "Rust",  "Webpage"]
 series = "extending_neovim_for_my_blog"
 ---
@@ -14,7 +14,8 @@ I feel quite comfortable with Neovim, and I've gone down the [configuration rabb
 
 That changed when I got inspired by the excellent [Developing a Neovim Docker Plugin from Scratch][] where the creator goes through how to extend [telescope.nvim][] in a very pedagogical manner.
 
-I ended up extending Neovim and my blog backend with some sorely needed features such as:
+I was only planning to make a simple telescope picker...
+Yet I fell into rabbit hole _again_ and ended up implementing some cool features such as:
 
 1. Browse posts using [telescope.nvim][].
 1. Autocomplete post urls, link definitions, and more using [nvim-cmp][].
@@ -22,8 +23,8 @@ I ended up extending Neovim and my blog backend with some sorely needed features
 1. Diagnostics.
 1. Browser preview with auto refresh and scroll.
 
-This post will go through how I implemented the above features.
-The focus will be on Neovim and Lua side of things, but I'll call out some backend Rust details too.
+Because of my overambitious self, I couldn't squeeze all these topics into a single blog post, so I split the post [into a series](/series/extending_neovim_for_my_blog).
+This first post will go through how to get started configuring Neovim a basic setup and some simpler user commands, leaving the more advanced topics for later posts.
 
 # Initial setup
 

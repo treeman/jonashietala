@@ -63,6 +63,13 @@ impl FilePath {
     pub fn abs_path(&self) -> AbsPath {
         AbsPath(self.base.join(&self.rel_path.0))
     }
+
+    pub fn file_name(&self) -> &str {
+        self.rel_path.0.file_name().expect(&format!(
+            "FilePath without a file_name: `{}`",
+            self.rel_path.0
+        ))
+    }
 }
 
 impl Display for FilePath {

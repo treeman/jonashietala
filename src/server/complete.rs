@@ -21,6 +21,7 @@ use serde::Serialize;
 use serde_repr::*;
 use std::fmt::Display;
 use std::time::SystemTime;
+use tracing::error;
 
 pub fn complete(
     cursor_before_line: &str,
@@ -29,7 +30,14 @@ pub fn complete(
     path: &str,
     site: &Site,
 ) -> Vec<CompletionItem> {
-    let lookup = match site.content.find_post_lookup_by_file_name(&path) {
+    let path = match site.file_path_from_str(path) {
+        Ok(path) => path,
+        Err(err) => {
+            error!("Couldn't convert path `{}` to FilePath: {}", path, err);
+            return vec![];
+        }
+    };
+    let lookup = match site.find_lookup_by_path(&path) {
         Some(x) => x,
         None => return vec![],
     };
@@ -115,7 +123,7 @@ lazy_static! {
     static ref FRONTMATTER_SERIES: Regex = Regex::new(r"^series(:| =) ").unwrap();
     static ref OPEN_BRACKET: Regex = Regex::new(r"\[[^\]]*$").unwrap();
     static ref OPEN_BRACKET_FIRST: Regex = Regex::new(r"^\[[^\]]*$").unwrap();
-    static ref AFTER_DIV_MARKER: Regex = Regex::new(r"^:{3,}\s+\w+$").unwrap();
+    static ref AFTER_DIV_MARKER: Regex = Regex::new(r":{3,}\s+\w+$").unwrap();
 }
 
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
@@ -525,7 +533,9 @@ mod tests {
             "](/",
             0,
             6,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
 
@@ -568,7 +578,7 @@ mod tests {
         assert_eq!(series_info.url, "/series/myseries");
         assert_eq!(
             series_info.path,
-            test_site.input_path("series/myseries.markdown").as_str()
+            test_site.input_path("series/myseries.dj").as_str()
         );
         assert_eq!(series_info.posts.len(), 2);
 
@@ -620,7 +630,9 @@ mod tests {
             "[tag]: /",
             0,
             6,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
         assert_eq!(items, def_items);
@@ -629,7 +641,9 @@ mod tests {
             "](/blog/2022/02/01/feb_post#",
             0,
             6,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
 
@@ -662,7 +676,9 @@ mod tests {
             "[tag]: /blog/2022/02/01/feb_post#",
             0,
             6,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
         assert_eq!(heading_items, def_heading_items);
@@ -682,7 +698,9 @@ mod tests {
             "](#",
             0,
             6,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
 
@@ -711,7 +729,9 @@ mod tests {
             "[tag]: #",
             0,
             6,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
         assert_eq!(items, def_items);
@@ -731,7 +751,9 @@ mod tests {
             "[some text][",
             0,
             6,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
 
@@ -769,7 +791,9 @@ mod tests {
             "x [",
             0,
             6,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
 
@@ -792,7 +816,15 @@ mod tests {
         );
 
         // First in line, so we should complete broken link tags as well.
-        let items = complete("[", 0, 6, "posts/2022-01-31-test_post.dj", &test_site.site);
+        let items = complete(
+            "[",
+            0,
+            6,
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
+            &test_site.site,
+        );
 
         assert_eq!(items.len(), 3);
 
@@ -825,7 +857,9 @@ mod tests {
             "tags = ",
             0,
             0,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
 
@@ -850,7 +884,9 @@ mod tests {
             "series = ",
             0,
             0,
-            "posts/2022-01-31-test_post.dj",
+            test_site
+                .input_path("posts/2022-01-31-test_post.dj")
+                .as_str(),
             &test_site.site,
         );
 
@@ -874,7 +910,7 @@ mod tests {
         assert_eq!(series_info.url, "/series/myseries");
         assert_eq!(
             series_info.path,
-            test_site.input_path("series/myseries.markdown").as_str()
+            test_site.input_path("series/myseries.dj").as_str()
         );
         assert_eq!(series_info.posts.len(), 2);
 

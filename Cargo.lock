@@ -3374,7 +3374,7 @@ dependencies = [
 [[package]]
 name = "tree-sitter-djot"
 version = "0.0.1"
-source = "git+https://github.com/treeman/tree-sitter-djot.git#63f176e7db5fca073b55b98b7e5e95afd1587fcb"
+source = "git+https://github.com/treeman/tree-sitter-djot.git#bc94a2867f7a1040c416212207e7e28e79ef0339"
 dependencies = [
  "cc",
  "tree-sitter",

@@ -38,7 +38,8 @@ pub fn generate_diagnostics(items: &[&dyn Item], site: &Site) -> HashMap<String,
 }
 
 pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diagnostic>> {
-    let lookup = site.content.find_post_lookup_by_file_name(path.as_str())?;
+    let path = site.file_path_from_str(path.as_str()).ok()?;
+    let lookup = site.find_lookup_by_path(&path)?;
 
     let mut res = Vec::new();
 
@@ -127,7 +128,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                 push_diagnostic(
                     &def.range,
                     format!("Unused link definition: `{}`", def.link_def.label),
-                    DiagnosticSeverity::HINT,
+                    DiagnosticSeverity::INFO,
                     &mut res,
                 );
             }
@@ -215,7 +216,7 @@ mod tests {
         let post_path = test_site.input_path("posts/2022-01-31-test_post.dj");
 
         let diagnostics = generate_file_diagnostics(&post_path, &test_site.site)
-            .expect("Should finD diagnostics for test file");
+            .expect("Should find diagnostics for test file");
 
         let mut messages: Vec<_> = diagnostics.iter().map(|d| d.message.as_str()).collect();
         messages.sort();
@@ -231,6 +232,7 @@ mod tests {
                 "Link to non-existent url: `/blog/xxx`",
                 "Link to non-existent url: `/xxx.png`",
                 "Link to non-existent url: `/xxx`",
+                "Unused link definition: `bad`",
             ]
         );
 

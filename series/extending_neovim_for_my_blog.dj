@@ -1,7 +1,13 @@
 ---toml
-title = "Extending Neovim for my Blog"
+title = "Extending Neovim for blogging"
 completed = false
 img = "/images/extend_blog/find_posts.png"
 homepage = true
 ---
+
+Originally meant to be a single blog post, my quest to customize Neovim to help with my blogging spiraled out of control.
+
+This series details my journey of enhancing my blogging experience by tweaking file browsers, autocomplete, goto definition, diagnostics, and more.
+There will be coding in Lua on the Neovim side, and we'll update the Rust backend to serve the editor with content-aware interactions.
+I'll end the series with just a dash of JavaScript to provide a live preview of the site in the browser.
 

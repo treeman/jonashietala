@@ -1,0 +1,32 @@
+---toml
+title = "Tree-sitter Djot"
+year = 2024
+link = "https://github.com/treeman/tree-sitter-djot"
+homepage = true
+---
+
+The [Tree-sitter][] grammar for the [Djot][] markup language gives editors such as Neovim the ability to syntax highlight, conceal, select text semantically, jump between elements, and more.
+
+```djot
+{#example-attribute}
+# Djot is like Markdown
+
+But Djot is _easier_ to parse and has some additional
+markup elements.[^footnote]
+
+::: div_class
+i. Roman numerals for lists.
+i. Lisp-like :symbols: for postprocessing.
+i. LaTeX math: $`i^2 = -1`
+i. ~superscript~, {+insert+} and {-delete-}, and more...
+:::
+
+[^footnote]: But I admit, the difference between Djot and
+             the various Markdown flavors isn't *that* large.
+```
+
+If you're curious about [Tree-sitter][], make sure to check out the in-depth post [Let's create a Tree-sitter grammar][] that walks you through the creation of a grammar for a subset of [Djot][].
+
+[Tree-sitter]: https://tree-sitter.github.io/tree-sitter/
+[Djot]: https://djot.net/
+[Let's create a Tree-sitter grammar]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar/

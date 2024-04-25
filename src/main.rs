@@ -41,8 +41,6 @@ struct Cli {
     verbose: bool,
 }
 
-// FIXME edit/promote/demote should match against title or slug
-// case insensitively.
 #[derive(Subcommand, Debug)]
 enum Commands {
     /// Start a preview server

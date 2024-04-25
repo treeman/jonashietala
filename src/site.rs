@@ -1,4 +1,3 @@
-use camino::Utf8PathBuf;
 use eyre::eyre;
 use eyre::Result;
 use flume::Sender;
@@ -84,7 +83,11 @@ impl SiteContent {
         .collect::<Vec<_>>();
 
         let mut posts = load_posts(&post_dirs, opts.generate_markup_lookup)?;
-        let series = load_series(opts.input_dir.join("series"), &mut posts)?;
+        let series = load_series(
+            opts.input_dir.join("series"),
+            opts.generate_markup_lookup,
+            &mut posts,
+        )?;
         let standalones = load_standalones(opts.input_dir.join("static"))?;
 
         let drafts = if opts.include_drafts {
@@ -125,7 +128,6 @@ impl SiteContent {
         })
     }
 
-    // Find post
     pub fn find_post<'a, P>(&'a self, predicate: P) -> Option<&'a PostItem>
     where
         P: FnMut(&&PostItem) -> bool,
@@ -141,12 +143,12 @@ impl SiteContent {
         self.find_post(|post| post.url.href() == url)
     }
 
-    pub fn find_post_lookup_by_file_name<'a>(&'a self, path: &str) -> Option<&'a MarkupLookup> {
-        let path = Utf8PathBuf::from(path);
+    // pub fn find_post_lookup_by_file_name<'a>(&'a self, path: &str) -> Option<&'a MarkupLookup> {
+    //     let path = Utf8PathBuf::from(path);
 
-        self.find_post_by_file_name(path.file_name()?)
-            .and_then(|post| post.markup_lookup.as_ref())
-    }
+    //     self.find_post_by_file_name(path.file_name()?)
+    //         .and_then(|post| post.markup_lookup.as_ref())
+    // }
 
     // Find series by file name
     pub fn find_series_by_file_name<'a>(&'a self, file_name: &str) -> Option<&'a SeriesItem> {
@@ -594,7 +596,7 @@ impl Site {
     }
 
     fn write_event(&mut self, path: PathBuf) -> Result<()> {
-        let path = self.file_path(path)?;
+        let path = self.file_path_from_std(path)?;
 
         match PathEvent::from_path(&path) {
             PathEvent::SourceFile => error!("Source file changed `{path}`, please rebuild"),
@@ -616,7 +618,7 @@ impl Site {
     }
 
     fn create_event(&mut self, path: PathBuf) -> Result<()> {
-        let path = self.file_path(path)?;
+        let path = self.file_path_from_std(path)?;
 
         match PathEvent::from_path(&path) {
             PathEvent::SourceFile => error!("Source file changed `{path}`, please rebuild"),
@@ -656,8 +658,8 @@ impl Site {
     }
 
     fn rename_event(&mut self, from: PathBuf, to: PathBuf) -> Result<()> {
-        let from = self.file_path(from)?;
-        let to = self.file_path(to)?;
+        let from = self.file_path_from_std(from)?;
+        let to = self.file_path_from_std(to)?;
 
         // Could be made more efficient, but this is easier and good for consistency.
         // Rebuild all is still quite fast and this is uncommon, so it's fine for now...
@@ -676,7 +678,7 @@ impl Site {
     }
 
     fn remove_event(&mut self, path: PathBuf) -> Result<()> {
-        let path = self.file_path(path)?;
+        let path = self.file_path_from_std(path)?;
         match PathEvent::from_path(&path) {
             PathEvent::SourceFile => error!("Source file removed `{path}`, please rebuild"),
             PathEvent::Css => self.rebuild_css()?,
@@ -753,7 +755,7 @@ impl Site {
 
     fn rebuild_series(&mut self, path: AbsPath) -> Result<()> {
         info!("Series changed: {path}");
-        let mut updated = SeriesItem::from_file(path.clone())?;
+        let mut updated = SeriesItem::from_file(path.clone(), self.opts.generate_markup_lookup)?;
 
         // We need to loop as we can't build a SeriesRef without having the last updated field.
         let old_ref = self
@@ -909,12 +911,47 @@ impl Site {
         self.render_all()
     }
 
-    pub fn file_path(&self, path: PathBuf) -> Result<FilePath> {
+    pub fn file_path_from_std(&self, path: PathBuf) -> Result<FilePath> {
         FilePath::from_std_path(&self.opts.input_dir, path)
+    }
+
+    pub fn file_path_from_str(&self, path: &str) -> Result<FilePath> {
+        FilePath::from_path(&self.opts.input_dir, path)
     }
 
     pub fn list_imgs<'a>(&'a self) -> impl Iterator<Item = WalkDirRes> + 'a {
         paths::file_iter(self.opts.input_dir.join("images"))
+    }
+
+    pub fn find_lookup_by_path<'a>(&'a self, path: &FilePath) -> Option<&'a MarkupLookup> {
+        if path.rel_path.starts_with("posts/") {
+            let lookup = self
+                .content
+                .find_post_by_file_name(path.file_name())
+                .and_then(|x| x.markup_lookup.as_ref());
+            if lookup.is_some() {
+                return lookup;
+            }
+        }
+        dbg!(&path);
+        if path.rel_path.starts_with("series/") {
+            dbg!(&self.content.series);
+            let lookup = self
+                .content
+                .find_series_by_file_name(path.file_name())
+                .and_then(|x| x.markup_lookup.as_ref());
+            if lookup.is_some() {
+                return lookup;
+            }
+        }
+        // TODO
+        None
+
+        // Posts
+        // Series
+        // Static
+        // Project
+        // Game
     }
 
     pub fn set_notifiers(
@@ -1316,7 +1353,7 @@ My created static
         }
         .build()?;
 
-        let myseries = test_site.find_series("myseries.markdown").unwrap();
+        let myseries = test_site.find_series("myseries.dj").unwrap();
         assert_eq!(myseries.posts.len(), 2);
         let myseries_content = test_site.output_content("series/myseries/index.html")?;
         assert!(myseries_content.contains("Feb post 1"));
@@ -1358,7 +1395,7 @@ My created static
             .output_content("blog/2022/02/02/feb_post2/index.html")?
             .contains("My series"));
 
-        test_site.change_file("series/myseries.markdown", "My series", "New series title")?;
+        test_site.change_file("series/myseries.dj", "My series", "New series title")?;
 
         assert!(test_site
             .output_content("series/index.html")?
