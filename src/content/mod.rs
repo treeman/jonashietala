@@ -14,7 +14,7 @@ pub use external::{JsItem, SassItem};
 pub use homepage::HomepageItem;
 pub use nav_highlight::add_nav_highlight;
 pub use posts::{load_posts, set_post_prev_next, PostItem, PostRef};
-pub use projects::{Game, GameContext, Project, ProjectContext, ProjectsItem};
+pub use projects::{Game, GameContext, ProjectsItem};
 pub use series::{load_series, SeriesContext, SeriesItem, SeriesRef};
 pub use series_archive::SeriesArchiveItem;
 pub use standalone::{load_standalones, StandaloneItem};

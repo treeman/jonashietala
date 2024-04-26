@@ -10,10 +10,11 @@ use crate::util::{load_templates, ParsedFile, ParsedFiles};
 use camino::Utf8Path;
 use camino::Utf8PathBuf;
 use eyre::Result;
-use hotwatch::notify::event::DataChange;
+use hotwatch::notify::event::AccessKind;
+use hotwatch::notify::event::AccessMode;
+use hotwatch::notify::event::ModifyKind;
 use hotwatch::notify::event::RemoveKind;
 use hotwatch::notify::event::RenameMode;
-use hotwatch::notify::event::{CreateKind, ModifyKind};
 use hotwatch::{Event, EventKind};
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -33,8 +34,9 @@ impl TestSite {
     pub fn create_file(&mut self, file: &str, content: &str) -> Result<()> {
         let path = self.input_dir.path().join(file);
         util::write_to_file(&path, content)?;
-        self.site
-            .file_changed(Event::new(EventKind::Create(CreateKind::Any)).add_path(path))
+        self.site.file_changed(
+            Event::new(EventKind::Access(AccessKind::Close(AccessMode::Write))).add_path(path),
+        )
     }
 
     pub fn create_test_file(&mut self, path: &str) -> Result<()> {
@@ -55,7 +57,7 @@ My created post
         let content = fs::read_to_string(&path)?.replace(from, to);
         util::write_to_file(&path, &content)?;
         self.site.file_changed(
-            Event::new(EventKind::Modify(ModifyKind::Data(DataChange::Any))).add_path(path),
+            Event::new(EventKind::Access(AccessKind::Close(AccessMode::Write))).add_path(path),
         )
     }
 

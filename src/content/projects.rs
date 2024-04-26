@@ -1,74 +1,93 @@
 use chrono::NaiveDate;
 use eyre::Result;
+use itemref_derive::ItemRef;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::cmp::Ordering;
+use std::collections::BTreeMap;
 use tera::Context;
 
-use crate::{
-    item::RenderContext,
-    item::TeraItem,
-    markup::find_markup_files,
-    markup::{Html, MarkupFile, ParseContext, RawMarkupFile},
-    paths::AbsPath,
-    site_url::SiteUrl,
-};
+use crate::item::RenderContext;
+use crate::item::TeraItem;
+use crate::markup::find_markup_files;
+use crate::markup::{Html, MarkupFile, MarkupLookup, ParseContext, RawMarkupFile};
+use crate::paths::AbsPath;
+use crate::site_url::SiteUrl;
 
 #[derive(Debug)]
 pub struct ProjectsItem {
     prematter: Html,
+    markup_lookup: Option<MarkupLookup>,
+    path: AbsPath,
     pub title: String,
     pub url: SiteUrl,
-    pub projects: Vec<Project>,
-    pub games: Vec<Game>,
+    pub projects: BTreeMap<ProjectRef, Project>,
+    pub games: BTreeMap<GameRef, Game>,
 }
 
 impl ProjectsItem {
-    pub fn new(dir: &AbsPath) -> Result<Self> {
+    pub fn new(dir: &AbsPath, create_lookup: bool) -> Result<Self> {
+        let raw_markup = RawMarkupFile::from_file(dir.join("projects.dj"))?;
+
+        let meta_line_count = raw_markup.meta_line_count;
         let markup: MarkupFile<ProjectsMetadata> =
-            RawMarkupFile::from_file(dir.join("projects.markdown"))?
-                .parse(ParseContext::default())?;
+            raw_markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
 
         let url = SiteUrl::parse("/projects").expect("Should be able to create a url");
         let title = markup.markup_meta.title.clone();
 
         let project_files = find_markup_files(&[dir.join("projects")]);
 
-        let mut projects = project_files
+        let projects = project_files
             .iter()
             .filter(|path| !path.rel_path.starts_with("games/"))
-            .map(|path| Project::from_file(path.abs_path()))
-            .collect::<Result<Vec<Project>>>()?;
-        projects.sort();
+            .map(|path| {
+                Project::from_file(path.abs_path(), create_lookup).map(|p| (p.project_ref(), p))
+            })
+            .collect::<Result<BTreeMap<ProjectRef, Project>>>()?;
 
-        let mut games = project_files
+        let games = project_files
             .iter()
             .filter(|path| path.rel_path.starts_with("games/"))
-            .map(|path| Game::from_file(path.abs_path()))
-            .collect::<Result<Vec<Game>>>()?;
-        games.sort();
+            .map(|path| Game::from_file(path.abs_path(), create_lookup).map(|g| (g.game_ref(), g)))
+            .collect::<Result<BTreeMap<GameRef, Game>>>()?;
 
         Ok(Self {
             url,
             prematter: markup.html,
+            markup_lookup: markup.markup_lookup,
+            path: markup.path,
             title,
             projects,
             games,
         })
     }
+
+    pub fn find_lookup_by_path<'a>(&'a self, path: &AbsPath) -> Option<&'a MarkupLookup> {
+        if self.path == *path {
+            return self.markup_lookup.as_ref();
+        }
+        for project in self.projects.values() {
+            if project.path == *path {
+                return project.markup_lookup.as_ref();
+            }
+        }
+        for game in self.games.values() {
+            if game.path == *path {
+                return game.markup_lookup.as_ref();
+            }
+        }
+        None
+    }
 }
 
 impl TeraItem for ProjectsItem {
-    fn context(&self, ctx: &RenderContext) -> Context {
+    fn context(&self, _ctx: &RenderContext) -> Context {
         Context::from_serialize(ProjectsContext {
             title: html_escape::encode_text(&self.title),
             prematter: &self.prematter.0,
-            projects: self
-                .projects
-                .iter()
-                .map(|project| project.context(ctx))
-                .collect(),
-            games: self.games.iter().map(GameContext::from).collect(),
+            projects: self.projects.values().map(ProjectContext::from).collect(),
+            games: self.games.values().map(GameContext::from).collect(),
         })
         .unwrap()
     }
@@ -99,25 +118,37 @@ struct ProjectsContext<'a> {
     games: Vec<GameContext<'a>>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(ItemRef, Debug, Clone)]
+#[item(Project)]
+pub struct ProjectRef {
+    pub id: String,
+    #[order]
+    pub path: AbsPath,
+}
+
+#[derive(Debug)]
 pub struct Project {
     title: String,
     link: Option<String>,
     year: u32,
     path: AbsPath,
     descr: Html,
-    // pub markup_lookup: Option<MarkupLookup>,
+    markup_lookup: Option<MarkupLookup>,
     pub homepage: bool,
 }
 
 impl Project {
-    fn from_file(path: AbsPath) -> Result<Self> {
+    fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup)
+        Self::from_markup(markup, create_lookup)
     }
 
-    pub fn from_markup(markup: RawMarkupFile<ProjectMetadata>) -> Result<Self> {
-        let markup = markup.parse(ParseContext::default())?;
+    pub fn from_markup(
+        markup: RawMarkupFile<ProjectMetadata>,
+        create_lookup: bool,
+    ) -> Result<Self> {
+        let meta_line_count = markup.meta_line_count;
+        let markup = markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
 
         Ok(Self {
             title: markup.markup_meta.title,
@@ -126,15 +157,18 @@ impl Project {
             path: markup.path,
             descr: markup.html,
             homepage: markup.markup_meta.homepage.unwrap_or(false),
+            markup_lookup: markup.markup_lookup,
         })
     }
 
-    pub fn context<'a, 'cache>(&'a self, _ctx: &'cache RenderContext) -> ProjectContext<'a> {
-        ProjectContext {
-            title: html_escape::encode_text(&self.title),
-            link: self.link.as_deref(),
-            year: self.year,
-            descr: &self.descr.0,
+    pub fn id(&self) -> Cow<str> {
+        return Cow::Borrowed(self.title.as_str());
+    }
+
+    pub fn project_ref(&self) -> ProjectRef {
+        ProjectRef {
+            id: self.id().to_string(),
+            path: self.path.clone(),
         }
     }
 }
@@ -167,6 +201,28 @@ pub struct ProjectContext<'a> {
     descr: &'a str,
 }
 
+impl<'a> ProjectContext<'a> {
+    pub fn from_ref(project_ref: &ProjectRef, ctx: &'a RenderContext) -> Self {
+        ctx.content
+            .projects
+            .projects
+            .get(project_ref)
+            .expect("Should have project")
+            .into()
+    }
+}
+
+impl<'a> From<&'a Project> for ProjectContext<'a> {
+    fn from(project: &'a Project) -> Self {
+        Self {
+            title: html_escape::encode_text(&project.title),
+            link: project.link.as_deref(),
+            year: project.year,
+            descr: &project.descr.0,
+        }
+    }
+}
+
 #[derive(Deserialize, Debug)]
 pub struct ProjectMetadata {
     title: String,
@@ -175,7 +231,15 @@ pub struct ProjectMetadata {
     homepage: Option<bool>,
 }
 
-#[derive(Debug, Eq, Clone)]
+#[derive(ItemRef, Debug, Clone)]
+#[item(Game)]
+pub struct GameRef {
+    pub id: String,
+    #[order]
+    pub published: NaiveDate,
+}
+
+#[derive(Debug)]
 pub struct Game {
     title: String,
     event: String,
@@ -184,17 +248,18 @@ pub struct Game {
     path: AbsPath,
     img: SiteUrl,
     published: NaiveDate,
-    // pub markup_lookup: Option<MarkupLookup>,
+    markup_lookup: Option<MarkupLookup>,
 }
 
 impl Game {
-    fn from_file(path: AbsPath) -> Result<Self> {
+    fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup)
+        Self::from_markup(markup, create_lookup)
     }
 
-    pub fn from_markup(markup: RawMarkupFile<GameMetadata>) -> Result<Self> {
-        let markup = markup.parse(ParseContext::default())?;
+    pub fn from_markup(markup: RawMarkupFile<GameMetadata>, create_lookup: bool) -> Result<Self> {
+        let meta_line_count = markup.meta_line_count;
+        let markup = markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
 
         let published = NaiveDate::parse_from_str(&markup.markup_meta.published, "%Y-%m-%d")?;
         let url = SiteUrl::parse(&markup.markup_meta.url)?;
@@ -208,7 +273,19 @@ impl Game {
             img,
             path: markup.path,
             published,
+            markup_lookup: markup.markup_lookup,
         })
+    }
+
+    pub fn id(&self) -> Cow<str> {
+        return Cow::Borrowed(self.title.as_str());
+    }
+
+    pub fn game_ref(&self) -> GameRef {
+        GameRef {
+            id: self.id().to_string(),
+            published: self.published.clone(),
+        }
     }
 }
 
@@ -224,6 +301,8 @@ impl Ord for Game {
     }
 }
 
+impl Eq for Game {}
+
 impl PartialEq for Game {
     fn eq(&self, other: &Self) -> bool {
         self.path == other.path
@@ -238,6 +317,17 @@ pub struct GameContext<'a> {
     url: Cow<'a, str>,
     img: Cow<'a, str>,
     published: String,
+}
+
+impl<'a> GameContext<'a> {
+    pub fn from_ref(game_ref: &GameRef, ctx: &'a RenderContext) -> Self {
+        ctx.content
+            .projects
+            .games
+            .get(game_ref)
+            .expect("Should have game")
+            .into()
+    }
 }
 
 impl<'a> From<&'a Game> for GameContext<'a> {

@@ -74,7 +74,8 @@ where
 }
 
 /// Copy found files to a target dir, joining the existing directories
-pub fn copy_files_keep_dirs(pattern: &str, base: &Utf8Path, target_dir: &Utf8Path) -> Result<()> {
+pub fn copy_files_keep_dirs(pattern: &str, base: &Utf8Path, target_dir: &Utf8Path) -> Result<u32> {
+    let mut count = 0;
     for path in glob(base.join(pattern).as_str()).unwrap().flatten() {
         let path = Utf8Path::from_path(&path).expect("Non-utf8 path");
         if !path.is_file() {
@@ -82,20 +83,23 @@ pub fn copy_files_keep_dirs(pattern: &str, base: &Utf8Path, target_dir: &Utf8Pat
         }
         let rel_path = path.strip_prefix(base)?;
         copy_file(path, &target_dir.join(rel_path))?;
+        count += 1;
     }
-    Ok(())
+    Ok(count)
 }
 
 /// Copy found files to a target dir, discarding the file structure.
-pub fn copy_files_to(pattern: &str, target_dir: &Utf8Path) -> Result<()> {
+pub fn copy_files_to(pattern: &str, target_dir: &Utf8Path) -> Result<u32> {
+    let mut count = 0;
     for path in glob(pattern).unwrap().flatten() {
         let path = Utf8Path::from_path(&path).expect("Non-utf8 path");
         if !path.is_file() {
             continue;
         }
         copy_file(path, &target_dir.join(path.file_name().unwrap()))?;
+        count += 1;
     }
-    Ok(())
+    Ok(count)
 }
 
 pub fn load_templates(pattern: &str) -> Result<Tera> {

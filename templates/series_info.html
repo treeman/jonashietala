@@ -6,7 +6,8 @@
       <h2><a href="{{ serie.url }}" class="title">{{ serie.title }}</a></h2>
       <div class="series-info">
         <div class="last-update">
-          {{ macros::post_date(created=last_post.created) }}
+          {% if last_post %} {{ macros::post_date(created=last_post.created) }}
+          {% endif %}
         </div>
 
         {% if serie.completed %}
@@ -20,7 +21,9 @@
     <div class="description">{{ serie.description }}</div>
 
     <div class="read-part-1">
+      {% if first_post %}
       <a href="{{ first_post.url }}">Read part 1</a>
+      {% else %} No posts in series {% endif %}
     </div>
   </div>
   {% endfor %}

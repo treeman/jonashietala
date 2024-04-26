@@ -1,6 +1,7 @@
-use eyre::eyre;
 use eyre::Result;
 use flume::Sender;
+use hotwatch::notify::event::AccessKind;
+use hotwatch::notify::event::AccessMode;
 use hotwatch::notify::event::ModifyKind;
 use hotwatch::notify::event::RenameMode;
 use hotwatch::Event;
@@ -8,6 +9,7 @@ use hotwatch::EventKind;
 use lazy_static::lazy_static;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use serde::Serialize;
+use std::cmp::Reverse;
 use std::collections::BTreeMap;
 use std::collections::BTreeSet;
 use std::collections::HashMap;
@@ -116,7 +118,7 @@ impl SiteContent {
             drafts.as_ref().map(|x: &BTreeSet<_>| x.len()).unwrap_or(0)
         );
 
-        let projects = ProjectsItem::new(&opts.input_dir)?;
+        let projects = ProjectsItem::new(&opts.input_dir, opts.generate_markup_lookup)?;
         let homepage = HomepageItem::new(&posts, &series, &projects.projects, &projects.games)?;
 
         Ok(Self {
@@ -381,7 +383,7 @@ impl PathEvent {
             Self::Font
         } else if path.rel_path.starts_with("images/") {
             Self::Image
-        } else if path.rel_path == "projects.markdown" || path.rel_path.starts_with("projects/") {
+        } else if path.rel_path == "projects.dj" || path.rel_path.starts_with("projects/") {
             Self::Project
         } else if unknown_change_msg(&path.rel_path) {
             Self::Unknown
@@ -514,20 +516,26 @@ impl Site {
             items.push(&feed);
         }
         render_items(&items, &ctx)?;
+        debug!("Rendered {} items", items.len());
 
         if opts.post_archives {
             self.copy_archive()?;
         }
         if opts.copy_files {
-            util::copy_files_keep_dirs("fonts/*", &self.opts.input_dir, &self.opts.output_dir)?;
-            util::copy_files_keep_dirs("images/**/*", &self.opts.input_dir, &self.opts.output_dir)?;
-            util::copy_files_to(
+            let mut copied = 0;
+            copied +=
+                util::copy_files_keep_dirs("fonts/*", &self.opts.input_dir, &self.opts.output_dir)?;
+            copied += util::copy_files_keep_dirs(
+                "images/**/*",
+                &self.opts.input_dir,
+                &self.opts.output_dir,
+            )?;
+            copied += util::copy_files_to(
                 self.opts.input_dir.join("static/*.txt").as_str(),
                 &self.opts.output_dir,
             )?;
+            debug!("Copied {} files", copied);
         }
-
-        debug!("Render completed");
 
         self.notify_change(&items)?;
 
@@ -548,36 +556,25 @@ impl Site {
     }
 
     pub fn file_changed(&mut self, mut event: Event) -> Result<()> {
-        debug!("Event: {:?}", event);
         match event.kind {
-            EventKind::Create(_) => {
-                self.create_event(event.paths.pop().unwrap())?;
+            // Captures creating and modifying a file, without overlap.
+            // It doesn't seem possible to modifying and creating from a single event,
+            // then we'd have to collect a stream of events. It seems much simpler
+            // to just combine them.
+            EventKind::Access(AccessKind::Close(AccessMode::Write)) => {
+                self.write_event(event.paths.pop().unwrap())?;
             }
+            // Generated when renaming a file.
             EventKind::Modify(ModifyKind::Name(RenameMode::Both)) => {
-                // This is rename
                 let from = event.paths[0].clone();
                 let to = event.paths[1].clone();
                 self.rename_event(from, to)?;
             }
-            EventKind::Modify(ModifyKind::Name(RenameMode::To)) => {
-                self.create_event(event.paths.pop().unwrap())?;
-            }
-            EventKind::Modify(ModifyKind::Name(_)) => {
-                // Skip, generated when modifying files
-            }
-            EventKind::Modify(ModifyKind::Data(_)) => {
-                self.write_event(event.paths.pop().unwrap())?;
-            }
-            EventKind::Modify(_) => {
-                // Skip duplicate events
-            }
+            // Generated when removing a file.
             EventKind::Remove(_) => {
                 self.remove_event(event.paths.pop().unwrap())?;
             }
-            EventKind::Access(_) => {}
-            _ => {
-                debug!("Unknown event: {:?}", event);
-            }
+            _ => {}
         }
         Ok(())
     }
@@ -590,8 +587,8 @@ impl Site {
             PathEvent::Css => self.rebuild_css()?,
             PathEvent::Js => self.rebuild_js()?,
             PathEvent::Post => self.rebuild_post(path.abs_path())?,
-            PathEvent::Static => self.rebuild_standalone(path.abs_path())?,
             PathEvent::Draft => self.rebuild_draft(path.abs_path())?,
+            PathEvent::Static => self.rebuild_standalone(path.abs_path())?,
             PathEvent::Series => self.rebuild_series(path.abs_path())?,
             PathEvent::Template => self.rebuild_template(path.abs_path())?,
             PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
@@ -599,44 +596,6 @@ impl Site {
             PathEvent::Project => self.rebuild_projects(path.abs_path())?,
             PathEvent::Unknown => warn!("Unknown write: {path}"),
             PathEvent::Ignore => (),
-        }
-
-        Ok(())
-    }
-
-    fn create_event(&mut self, path: PathBuf) -> Result<()> {
-        let path = self.file_path_from_std(path)?;
-
-        match PathEvent::from_path(&path) {
-            PathEvent::SourceFile => error!("Source file changed `{path}`, please rebuild"),
-            PathEvent::Css => self.rebuild_css()?,
-            PathEvent::Js => self.rebuild_js()?,
-            PathEvent::Static => self.rebuild_standalone(path.abs_path())?,
-            PathEvent::Draft => self.rebuild_draft(path.abs_path())?,
-            PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
-            PathEvent::Homepage => self.rebuild_homepage()?,
-            PathEvent::Project => self.rebuild_projects(path.abs_path())?,
-            PathEvent::Post => {
-                let existing = self.content.find_post_by_path(path.abs_path().as_str());
-                if existing.is_none() {
-                    self.rebuild_all()?
-                } else {
-                    debug!("post `{}` already exists", path);
-                }
-            }
-            PathEvent::Series => {
-                let existing = self
-                    .content
-                    .find_series_by_path(path.rel_path.0.file_name().unwrap());
-                if existing.is_none() {
-                    self.rebuild_all()?
-                } else {
-                    debug!("series `{}` already exists", path);
-                }
-            }
-            PathEvent::Template => self.rebuild_template(path.abs_path())?,
-            PathEvent::Ignore => (),
-            PathEvent::Unknown => warn!("Unknown create: {path}"),
         }
 
         Ok(())
@@ -709,8 +668,32 @@ impl Site {
 
         let post_ref = updated.post_ref();
         let prev_post = self.content.insert_post(updated);
-
         let updated = self.content.posts.get(&post_ref).unwrap();
+
+        if let Some(prev_post) = &prev_post {
+            if prev_post.series != updated.series {
+                // Series was changed...
+                // 1. Remove post from previous series
+                if let Some(ref series_ref) = prev_post.series {
+                    if let Some(series) = self.content.series.get_mut(&series_ref) {
+                        series.posts.remove(&Reverse(prev_post.post_ref()));
+                    }
+                }
+                // 2. Add post to series
+                if let Some(series_ref) = &updated.series {
+                    if let Some(series) = self.content.series.get_mut(&series_ref) {
+                        series.posts.insert(Reverse(post_ref.clone()));
+                    }
+                }
+                // 3. Update series ref in `self` ?
+            }
+        } else if let Some(series_ref) = &updated.series {
+            // 1. Add post to series
+            if let Some(series) = self.content.series.get_mut(&series_ref) {
+                series.posts.insert(Reverse(post_ref.clone()));
+            }
+            // 2. Update series ref in `self` ?
+        }
 
         let render_opts = match prev_post {
             Some(old) => SiteRenderOpts::post_updated(&old, &updated),
@@ -748,16 +731,15 @@ impl Site {
             .series
             .iter()
             .find(|x| x.0.id == updated.id)
-            .map(|x| x.0.clone())
-            .ok_or_else(|| eyre!("Nonexistent series: {}", path))?;
+            .map(|x| x.0.clone());
 
-        let old = self
-            .content
-            .series
-            .remove(&old_ref)
-            .ok_or_else(|| eyre!("Nonexistent series: {}", path))?;
+        let old = old_ref.and_then(|series_ref| self.content.series.remove(&series_ref));
 
-        updated.posts = old.posts;
+        let mut rebuild_posts = false;
+        if let Some(old) = old {
+            updated.posts = old.posts;
+            rebuild_posts = updated.title != old.title || updated.post_note != old.post_note;
+        }
 
         // We need series here for posts to render.
         let series_ref = updated.series_ref();
@@ -765,12 +747,9 @@ impl Site {
         self.update_homepage_item()?;
         let updated = self.content.series.get(&series_ref).unwrap();
 
-        let title_changed = updated.title != old.title;
-        let note_changed = updated.post_note != old.post_note;
-
         self.render(SiteRenderOpts {
             homepage: true,
-            all_posts: title_changed || note_changed,
+            all_posts: rebuild_posts,
             series_archive: true,
             extra_render: vec![updated],
             ..Default::default()
@@ -789,7 +768,8 @@ impl Site {
     fn rebuild_projects(&mut self, path: AbsPath) -> Result<()> {
         info!("Projects changed: {path}");
 
-        self.content.projects = ProjectsItem::new(&self.opts.input_dir)?;
+        self.content.projects =
+            ProjectsItem::new(&self.opts.input_dir, self.opts.generate_markup_lookup)?;
         self.update_homepage_item()?;
 
         self.render(SiteRenderOpts {
@@ -914,11 +894,10 @@ impl Site {
         if let Some(x) = self.content.find_standalone_by_path(path.as_str()) {
             return x.markup_lookup.as_ref();
         }
-        // TODO
+        if let x @ Some(_) = self.content.projects.find_lookup_by_path(path) {
+            return x;
+        }
         None
-
-        // Project
-        // Game
     }
 
     pub fn set_notifiers(
@@ -1335,6 +1314,70 @@ My created static
 
         Ok(())
     }
+
+    #[test]
+    fn test_series_file_modifications() -> Result<()> {
+        let mut test_site = TestSiteBuilder {
+            include_drafts: true,
+            generate_markup_lookup: false,
+        }
+        .build()?;
+
+        test_site.create_file(
+            "series/new_series.dj",
+            r#"---toml
+title = "New series"
+completed = false
+img = "/images/case.jpg"
+homepage = true
+---
+
+My new series
+"#,
+        )?;
+
+        // Can render even without a post.
+        assert!(test_site
+            .output_content("series/index.html")?
+            .contains("New series"));
+        assert!(test_site
+            .output_content("series/new_series/index.html")?
+            .contains("New series"));
+        assert!(test_site
+            .output_content("index.html")?
+            .contains("New series"));
+
+        // Create a new post with series.
+        test_site.create_file(
+            "posts/2024-04-26-series_post.dj",
+            r#"---toml
+title = "New post in series"
+tags = ["None"]
+series = "new_series"
+---
+
+My new series post
+"#,
+        )?;
+
+        assert!(test_site
+            .output_content("series/new_series/index.html")?
+            .contains("New post in series"));
+        assert!(test_site
+            .output_content("blog/2024/04/26/series_post/index.html")?
+            .contains("New series"));
+        assert!(test_site
+            .output_content("series/index.html")?
+            .contains("blog/2024/04/26/series_post"));
+
+        // Remove post removes it from series.
+        //
+        // Remove series removes it from homepage and series page.
+
+        Ok(())
+    }
+
+    // TODO rebuild and create standalone
 
     #[test]
     fn test_series_title_change() -> Result<()> {

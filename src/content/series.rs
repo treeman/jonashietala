@@ -6,7 +6,7 @@ use crate::{
     item::{RenderContext, TeraItem},
     site_url::SiteUrl,
 };
-use chrono::NaiveDateTime;
+use chrono::{NaiveDate, Utc};
 use eyre::{eyre, Result};
 use itemref_derive::ItemRef;
 use rayon::iter::{IntoParallelRefMutIterator, ParallelIterator};
@@ -71,7 +71,7 @@ pub fn load_series(
 pub struct SeriesRef {
     pub id: String,
     #[order]
-    pub last_created: NaiveDateTime,
+    pub last_created: NaiveDate,
 }
 
 #[derive(Debug)]
@@ -138,9 +138,8 @@ impl SeriesItem {
                 .posts
                 .iter()
                 .last()
-                .expect("Series must have at least one post")
-                .0
-                .created,
+                .map(|post_ref| post_ref.0.created.date())
+                .unwrap_or_else(|| Utc::now().date_naive()),
         }
     }
 }

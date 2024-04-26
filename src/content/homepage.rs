@@ -5,8 +5,8 @@ use serde::Serialize;
 use tera::Context;
 
 use crate::content::posts::{PostItem, PostRef};
+use crate::content::projects::{GameRef, Project, ProjectContext, ProjectRef};
 use crate::content::{Game, GameContext};
-use crate::content::{Project, ProjectContext};
 use crate::content::{SeriesContext, SeriesItem, SeriesRef};
 use crate::paths::AbsPath;
 use crate::{item::RenderContext, item::TeraItem, site_url::SiteUrl};
@@ -19,16 +19,16 @@ pub struct HomepageItem {
     pub recent: Vec<PostRef>,
     pub recommended: Vec<PostRef>,
     pub series: Vec<SeriesRef>,
-    pub projects: Vec<Project>,
-    pub games: Vec<Game>,
+    pub projects: Vec<ProjectRef>,
+    pub games: Vec<GameRef>,
 }
 
 impl HomepageItem {
     pub fn new(
         posts: &BTreeMap<PostRef, PostItem>,
         series: &BTreeMap<SeriesRef, SeriesItem>,
-        projects: &[Project],
-        games: &[Game],
+        projects: &BTreeMap<ProjectRef, Project>,
+        games: &BTreeMap<GameRef, Game>,
     ) -> Result<Self> {
         let url = SiteUrl::parse("/").expect("Should be able to create a url");
 
@@ -38,7 +38,7 @@ impl HomepageItem {
             recommended: Self::filter_recommended(posts),
             series: Self::filter_series(series),
             projects: Self::filter_projects(projects),
-            games: games.iter().map(Clone::clone).collect(),
+            games: games.keys().map(Clone::clone).collect(),
         })
     }
 
@@ -72,11 +72,11 @@ impl HomepageItem {
             .collect()
     }
 
-    fn filter_projects(projects: &[Project]) -> Vec<Project> {
+    fn filter_projects(projects: &BTreeMap<ProjectRef, Project>) -> Vec<ProjectRef> {
         projects
             .iter()
-            .filter(|project| project.homepage)
-            .map(Clone::clone)
+            .filter(|(_, project)| project.homepage)
+            .map(|(project_ref, _)| project_ref.clone())
             .collect()
     }
 }
@@ -98,10 +98,18 @@ impl TeraItem for HomepageItem {
             series: self
                 .series
                 .iter()
-                .map(|series| SeriesContext::from_ref(series, ctx))
+                .map(|x| SeriesContext::from_ref(x, ctx))
                 .collect(),
-            projects: self.projects.iter().map(|x| x.context(ctx)).collect(),
-            games: self.games.iter().map(GameContext::from).collect(),
+            projects: self
+                .projects
+                .iter()
+                .map(|x| ProjectContext::from_ref(x, ctx))
+                .collect(),
+            games: self
+                .games
+                .iter()
+                .map(|x| GameContext::from_ref(x, ctx))
+                .collect(),
         })
         .unwrap()
     }

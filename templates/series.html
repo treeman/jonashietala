@@ -1,5 +1,5 @@
 {% import "post_info.html" as macros %} {% extends "site.html" %} {% block
-content %}
+content %} {% set part1 = posts | first %}
 <article class="series">
   <header>
     <h1><a href="{{url}}">{{title}}</a></h1>
@@ -9,13 +9,15 @@ content %}
     <img src="{{img}}" />
   </figure>
 
-  <div class="series-description">
-    {{description}} {% set part1 = posts | first %}
-  </div>
+  <div class="series-description">{{description}}</div>
   {% if post_note %}
   <div class="post_note">{{post_note}}</div>
   {% endif %}
-  <div class="read-part-1"><a href="{{ part1.url }}">Read part 1</a></div>
+  <div class="read-part-1">
+    {% if part1 %}
+    <a href="{{ part1.url }}">Read part 1</a>
+    {% else %} No posts in series {% endif %}
+  </div>
 
   {{ macros::post_items(posts=posts) }}
 

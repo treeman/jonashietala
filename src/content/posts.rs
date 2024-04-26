@@ -134,7 +134,7 @@ impl TeraItem for PostItem {
                 self,
                 ctx.content
                     .get_series(series)
-                    .expect("Could not find series {:?series}"),
+                    .expect(&format!("Could not find series {series:?}")),
                 ctx,
             )
         });
