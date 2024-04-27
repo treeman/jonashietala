@@ -1,6 +1,6 @@
 ---toml
 title = "Customizing Neovim"
-tags = ["Lua",  "Rust",  "Webpage"]
+tags = ["Lua", "Neovim"]
 series = "extending_neovim_for_my_blog"
 ---
 
@@ -10,7 +10,7 @@ series = "extending_neovim_for_my_blog"
 :::
 
 I've been using Neovim since it forked from Vim almost 8 years ago, and I used Vim many years before that.
-I feel quite comfortable with Neovim, and I've gone down the [configuration rabbit hole][] too many times I'd like to admit, but I never dived deeper by writing something truly custom like a plugin.
+I feel quite comfortable with Neovim, and I've gone down the [configuration rabbit hole][] too many times I'd like to admit, but I never dove deeper by writing something truly custom like a plugin.
 
 That changed when I got inspired by the excellent [Developing a Neovim Docker Plugin from Scratch][] where the creator goes through how to extend [telescope.nvim][] in a very pedagogical manner.
 
@@ -24,17 +24,34 @@ Yet I fell into rabbit hole _again_ and ended up implementing some cool features
 1. Browser preview with auto refresh and scroll.
 
 Because of my overambitious self, I couldn't squeeze all these topics into a single blog post, so I split the post [into a series](/series/extending_neovim_for_my_blog).
-This first post will go through how to get started configuring Neovim a basic setup and some simpler user commands, leaving the more advanced topics for later posts.
+This first post will go through how to get started configuring Neovim with a basic setup and some user commands, leaving the more advanced topics for later posts.
 
 # Initial setup
 
-While I could develop this as a normal plugin, because it's so coupled to my setup I decided to organize it under `nvim/lua/blog` and simply include it in my init script:
+While I could develop this as a normal plugin, because it's so coupled to my setup I decided to organize it under `nvim/lua/blog`:
+
+```
+lua/blog/
+├── autocmd.lua
+├── cmp.lua
+├── commands.lua
+├── content.lua
+├── diagnostics.lua
+├── files.lua
+├── goto.lua
+├── init.lua
+├── path.lua
+├── server.lua
+└── telescope.lua
+```
+
+And include the relevant code in my init script at `init.lua` (well, really `lua/config/init.lua` but a white lie to make it easier to grokk doesn't hurt):
 
 ```lua
 require("blog")
 ```
 
-This calls `nvim/lua/blog/init.lua` that in turn requires other initialization files:
+This calls `lua/blog/init.lua` that in turn requires other initialization files:
 
 ```lua
 require("blog.autocmd")
@@ -42,38 +59,89 @@ require("blog.cmp")
 require("blog.commands")
 ```
 
-Another quirk of my [Neovim config][] is that I've tried to collect all keymaps in one file, where I added some new keymaps for the blog:
+The above files handles the initial registration, the other files are required when they're needed.
+
+For example, `autocmd.lua` registers a `{ "BufRead", "BufNewFile" }`lua autocommand that establishes a connection to the backend, and registers buffer local keymaps:
+
+```lua
+-- This way we include other blog related functionality
+local path = require("blog.path")
+local server = require("blog.server")
+local diagnostics = require("blog.diagnostics")
+
+local keymaps = require("config.keymaps")
+
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+local blog_group = augroup("blog", { clear = true })
+-- Only handle Djot files inside the blog directory
+-- (at `~/code/jonashietala`).
+local autocmd_pattern = path.blog_path .. "*.dj"
+
+-- The callback function is called whenever a `.dj` file
+-- is read or created.
+autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = autocmd_pattern,
+  group = blog_group,
+  callback = function(opts)
+    -- Register buffer local keymaps.
+    keymaps.buf_blog(opts.buf)
+    -- These do some additional setup things.
+    vim.api.nvim_set_current_dir(path.blog_path)
+    server.establish_connection(true)
+    diagnostics.request_diagnostics_curr_buf()
+  end,
+})
+```
+
+One quirk of my [Neovim config][] is that I've tried to collect all keymaps in one file, where I added some new keymaps for the blog:
 
 ```lua
 local map = vim.keymap.set
 
+-- Called via `init.lua`.
 M.init = function()
   map("n", "gd", require("blog.telescope").find_draft, { desc = "Find blog draft" })
   map("n", "gp", require("blog.telescope").find_post, { desc = "Find blog post" })
-  -- Lots of other things...
+  -- Lots of other keymaps...
 end
 
+-- Used by the "BufRead", "BufNewFile" autocommand shown above.
 M.buf_blog = function(buffer)
   map("n", "<localleader>t", require("blog.telescope").find_tags, { buffer = buffer, desc = "List tags" })
   map("i", "<C-t>", require("blog.telescope").find_tags, { buffer = buffer, desc = "List tags" })
-  map("n", "<localleader>d", require("blog.interaction").goto_def, { buffer = buffer, desc = "Goto definition" })
+  map("n", "<localleader>d", require("blog.goto").goto_def, { buffer = buffer, desc = "Goto definition" })
 end
 ```
 
-Where `buf_blog` is called by an autocommand when editing a blog post.
-
-That's it for hooking up the code into my Neovim setup, now let's look at what the code does.
+Where `buf_blog` is called by the autocommand when editing a blog post.
 
 # Creating and moving posts
 
-Let's start by moving some functionality from the blog generation backend to Neovim:
+One of the basic features I want is having user commands that simplify my life a little---like creating a new post.
 
-- Creating a draft with a small template.
-- Promote a draft to a blog post and demote a post back to a draft.
+When I write a blog post I start by creating a markup file in `drafts/`, that should contain a frontmatter with some metadata like so:
 
-I don't really know why I had these implemented as commands line arguments to the backend---they fit much better in Neovim.
+```djot
+---toml
+title = "Customizing Neovim"
+tags = ["Lua", "Neovim"]
+series = "extending_neovim_for_my_blog"
+---
+```
 
-They're implemented as user commands:
+When I feel the post is done I "promote" the draft to a blog post by moving it from `drafts/` to `posts/`, while adding the release date to the path.
+So a post might start out as `drafts/placeholder_title.dj` and when I want to publish the post I'll move it to `posts/2024-04-27-final_title.dj`
+
+I didn't do this file manipulation manually---that would be _crazy_---I had it implemented as an option in the blog generation tool
+(the blog is a static site, generated by a [Rust command-line program][rewrite_rust]).
+
+Of course, it makes more sense to have this kind of manipulation inside Neovim, which is a good starting point for our customization.
+
+I think implementing them as user commands makes sense as they're not used that frequently so I'm sure I'll forget them if I create I keybinding for them. (Actually, I tried keymaps but I promptly forgot about them. User commands are way more discoverable.)
+
+I setup user commands in `blog/commands.lua`:
 
 ```lua
 local cmd = require("util").create_cmd
@@ -85,13 +153,20 @@ cmd("BlogPromoteDraft", files.promote_curr_draft)
 cmd("BlogDemotePost", files.demote_curr_post)
 ```
 
-Where `create_cmd` is a small helper snippet I stole from somewhere:
+In Neovim you can use `vim.api.nvim_create_user_command` to create a user command.
+Because it takes three arguments, with the third options argument only being empty, I use the helper `create_cmd` to make it optional:
 
 ```lua
+-- Wrap util functions in a module, so we can call
+-- functions with `require("util").create_cmd(...)`
+local M = {}
+
 M.create_cmd = function(command, f, opts)
   opts = opts or {}
   vim.api.nvim_create_user_command(command, f, opts)
 end
+
+return M
 ```
 
 ## New draft
@@ -231,3 +306,4 @@ I'm not going to include all the code here, but here are the most important impl
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
 [configuration rabbit hole]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
 [Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4
+[rewrite_rust]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/
