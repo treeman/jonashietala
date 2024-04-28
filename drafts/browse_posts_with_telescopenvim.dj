@@ -4,8 +4,6 @@ tags = ["Lua",  "Rust",  "Webpage"]
 series = "extending_neovim_for_my_blog"
 ---
 
-# Browse posts with [telescope.nvim][]
-
 I've used [telescope.nvim][]\'s find files with `require("telescope.builtin").find_files`lua for quite some time.
 I use find files together with it's cousin `.oldfiles` (find recently opened files) all the time for finding source code files, blog posts, and more.
 
@@ -43,6 +41,14 @@ Because I watched [Developing a Neovim Docker Plugin from Scratch][].
 It does a way better job walking you through a telescope plugin than I could ever do.
 :::
 
+All you then need to do is make sure to call the above code somehow, for example by wrapping it in a function and add a keymap to it:
+
+```lua
+local map = vim.keymap.set
+map("n", "gd", require("blog.telescope").find_draft, { desc = "Find blog draft" })
+map("n", "gp", require("blog.telescope").find_post, { desc = "Find blog post" })
+```
+
 ## Structured content
 
 To make our simple picker handle structured content we need to:
@@ -50,7 +56,7 @@ To make our simple picker handle structured content we need to:
 1. Convert `results` to a list of tables with the info we have.
 1. Specify an `entry_marker` function.
 
-It essentially looks like this:
+A rewrite of `finder` in our simple picker might look like this:
 
 ```lua
 finder = finders.new_table({
@@ -74,9 +80,61 @@ finder = finders.new_table({
 ```
 
 With this the finder displays the title of the post rather than the file path, and we can search for a post using the title and its tags.
-In my post picker I also display the date and allow you to filter by [series](/series) id.
 
-I tried to have the path in the ordinal as well, but because of the fuzzy matching the path cluttered the search result by including way too many posts.
+It's easy to add more metadata to `ordinal` and it'll mostly work, but the matching is crude and it can easily misfire depending on your use-case.
+
+Because the way fuzzy matching works, if I type *lua* with the hope of listing all posts tagged lua, it will also match any post that has the letters *l* *u* *a* in that order, which is currently almost 40 of them:
+
+![Prompting for `lua` matches too many posts.](/images/extend_blog/lua_match_voron.png)
+
+Clearly, there's room for improvement.
+
+## Structured filtering and sorting
+
+Turns out that `ordinal` can also be a table, and you can provide your own `sorter` that operates on the ordinal to sort and filter.
+
+This is the basic setup, where we'll later fill in `scoring_function`:
+
+```lua
+finder = finders.new_table({
+  results = {
+    -- `tags` is now a list.
+    { title = "One", tags = { "Tag1", "Tag2" }, path = "posts/2024-01-01-one.dj" },
+    { title = "Two", tags = { "Tag2" }, path = "posts/2024-02-02-two.dj" },
+  },
+  entry_maker = function(entry)
+    return {
+      display = entry.title,
+      -- `ordinal` is now a table.
+      ordinal = {
+        title = entry.title,
+        tags = entry.tags,
+      },
+      value = entry,
+    }
+  end,
+  -- We need to specify a `sorter`.
+  sorter = function(opts)
+    -- A sorter is created using `Sorter.new`.
+    return require("telescope.sorters").Sorter:new({
+      -- We want to filter, so we'll set `discard` to true.
+      discard = true,
+
+      -- This function should compare the prompt string the user inputs
+      -- against the ordinal entry created by the `entry_maker`.
+      scoring_function = function(_, prompt, ordinal)
+        return 0
+      end,
+    })
+  end,
+}),
+```
+
+There's some ceremony here that I hope is clear enough.
+The important thing here is the `scoring_function` that we'll need to implement.
+
+- `prompt` is the user input to the Telescope prompt (e.g. `"lua"`lua from the above example)
+- `ordinal` is the ordinal entry that `entry_maker` returns (e.g. `{ title = "Two", tags = { "Tag2" } }`lua)
 
 ## File preview
 
@@ -256,3 +314,4 @@ I may have skipped some details, so [take a look at the source code](https://git
 [plenary.nvim]: https://github.com/nvim-lua/plenary.nvim
 [djot-tree-sitter]: https://github.com/treeman/tree-sitter-djot
 [a Tree-sitter grammar]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
+[Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4

@@ -304,7 +304,7 @@ Instead of pasting a big chunk of code, let's go through the most important impl
    I don't know what the idiomatic way to rename a file is, or even how to do it in Neovim using Lua.
    But I do know that with `:!` you can call an external program... Like `mv`!
 
-   So here's an ugly way to rename the current file, that works for me as I only use Linux:
+   So here's one way to rename a file, that works for me as I only use Linux:
 
    ```lua
    vim.cmd(":!mv " .. from .. " " .. to)
@@ -335,7 +335,10 @@ Instead of pasting a big chunk of code, let's go through the most important impl
    -- Now we can call `vim.cmd` and `vim.fn`.
    ```
 
-# Other things
+# More functionality
+
+I have some more user commands for creating other types of files; [series](/series), [projects](/projects), and standalones (see [/uses](/uses)) but they work exactly the same as creating drafts.
+There are a few other commands that I'll bring up in future posts, which will go into more advanced functionality.
 
 [nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
 [Neovim config]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
