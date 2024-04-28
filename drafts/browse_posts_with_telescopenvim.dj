@@ -133,8 +133,111 @@ finder = finders.new_table({
 There's some ceremony here that I hope is clear enough.
 The important thing here is the `scoring_function` that we'll need to implement.
 
-- `prompt` is the user input to the Telescope prompt (e.g. `"lua"`lua from the above example)
-- `ordinal` is the ordinal entry that `entry_maker` returns (e.g. `{ title = "Two", tags = { "Tag2" } }`lua)
+First, the input arguments:
+
+1. The first argument seems to be ignored even in Telescope's own sorters, so I ignore it as well.
+
+1. `prompt` is the user input to the Telescope prompt as a string.
+
+1. `ordinal` is the ordinal entry that `entry_maker` returns.
+
+  For example:
+
+  ```lua
+  { title = "Two", tags = { "Tag2" } }
+  ```
+
+What `scoring_function` should do is return a single numeric value signifying how close `ordinal` is to `prompt`, where higher means a better match.
+Because we defined `discard = true`lua if we return a value less than `0`lua, the entry will get removed (filtered).
+
+At first I thought this was a weird way of creating a sorting function.
+I had expected a comparison function like `cmp(left, right)`lua, but after having implemented structured sorting for posts it feels pretty clever.
+
+### Sorter requirements
+
+Before jumping into implementation details, let's take a step back and figure out what behavior we want.
+You could go nuts with advanced features such as boolean operators, set comparisons, and similar.
+While cool, I don't think it's worth implementing as my requirements are fairly simple:
+
+- Fuzzy find on title, tags, and series.
+
+  I don't want to require a perfect match on tags, requiring me to fully type out for example [Experimental Gameplay Project][] would be _quite_ annoying.
+
+- Explicitly filter posts by series and tags.
+
+  It's neat if you can type some text and it filters for series _or_ post title, but in practice I never really want that.
+  If I want to filter against the post series, I want to be explicit about it and the same holds for tags.
+
+  (I tried the implicit way; it didn't feel right.)
+
+- Filter posts containing `tag1` _and_ `tag2`.
+
+  I contemplated searching for `tag1` _or_ `tag2`, but what I want is to reduce the number of matches as I add more information, not increase them.
+
+- Include published date in ordering.
+
+  At a base level I want to see newer posts before older ones.
+  This is especially true when I first open telescope without a prompt, then I want to see an ordered lists of all posts.
+
+### Prompt syntax
+
+Because I want to be explicit we need some syntax to separate text we want to match against post tags, series, and title.
+Simplicity is nice, and a simple solution is to treat `@` prefixed words as tag matches and `#` prefixed words as series matches.
+I always find that an example is worth a 1000 words, so here are some examples to shave down the precious words count:
+
+i. `@rust gleam`
+
+   Require a post tag matching `rust` and post title matching `gleam`.
+
+i. `@3d @hex`
+
+   Require a post tag matching `3d` and one matching `hex`.
+
+i. `#34`
+
+   Require a post series matching `34`.
+
+i. `build # start`
+
+   Require a post with a series and post title matching `build start`.
+
+The code that splits a prompt into parts is conceptually simple: split the prompt into words and categorize them depending starting character.
+This is what I use:
+
+```lua
+local function split_prompt(prompt)
+  local tags = {}
+  local series = {}
+  local title = {}
+  -- Iterates over all non-space substrings.
+  -- `prompt:gmatch` is syntax sugar for `string.gmatch(prompt, ..)`
+  for word in prompt:gmatch("([^%s]+)") do
+    -- `sub(1, 1)` works with empty strings too!
+    local fst = word:sub(1, 1)
+    if fst == "@" then
+      -- Don't include the `@` in tags.
+      table.insert(tags, word:sub(2))
+    elseif fst == "#" then
+      table.insert(series, word:sub(2))
+    else
+      table.insert(title, word)
+    end
+  end
+
+  return {
+    tags = tags,
+    series = series,
+    -- Combine non-tagged elements into a string.
+    -- Could've be done outside this function but it'll always be done
+    -- so I thought it would be easier to join here.
+    title = vim.fn.join(title, " "),
+  }
+end
+```
+
+I'm a bit of a Lua noob, so there may be other ways to do solve this.
+
+### Implementing `scoring_function`
 
 ## File preview
 
@@ -301,17 +404,7 @@ I could try to find a lua parser, but eeeh...
 It does mean we have a working [telescope.nvim][] picker!
 I may have skipped some details, so [take a look at the source code](https://github.com/treeman/dotfiles/blob/master/.config/nvim/lua/blog/telescope.lua) if you're interested.
 
-[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
-[Neovim config]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua
-[nvim-nio]: https://github.com/nvim-neotest/nvim-nio
 [ripgrep]: https://github.com/BurntSushi/ripgrep
-[blog_code]: https://github.com/treeman/jonashietala
-[hotwatch]: https://github.com/francesca64/hotwatch
-[axum]: https://github.com/tokio-rs/axum
-[flume]: https://github.com/zesterer/flume
-[tokio]: https://tokio.rs/
-[plenary.nvim]: https://github.com/nvim-lua/plenary.nvim
-[djot-tree-sitter]: https://github.com/treeman/tree-sitter-djot
-[a Tree-sitter grammar]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
 [Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4
+[Experimental Gameplay Project]: /blog/tags/experimental_gameplay_project
