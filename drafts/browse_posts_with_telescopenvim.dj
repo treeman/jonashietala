@@ -72,7 +72,7 @@ finder = finders.new_table({
       display = entry.title,
       -- Allow us to filter against the title and tags (typing `Tag1` finds the "One" post).
       ordinal = entry.title .. entry.tags,
-      -- Save the whole entry for future usage.
+      -- We could also save the whole entry for future usage, if we need it.
       value = entry,
     }
   end,
@@ -96,50 +96,64 @@ Turns out that `ordinal` can also be a table, and you can provide your own `sort
 This is the basic setup, where we'll later fill in `scoring_function`:
 
 ```lua
-finder = finders.new_table({
-  results = {
-    -- `tags` is now a list.
-    { title = "One", tags = { "Tag1", "Tag2" }, path = "posts/2024-01-01-one.dj" },
-    { title = "Two", tags = { "Tag2" }, path = "posts/2024-02-02-two.dj" },
-  },
-  entry_maker = function(entry)
-    return {
-      display = entry.title,
-      -- `ordinal` is now a table.
-      ordinal = {
-        title = entry.title,
-        tags = entry.tags,
-      },
-      value = entry,
-    }
-  end,
-  -- We need to specify a `sorter`.
-  sorter = function(opts)
-    -- A sorter is created using `Sorter.new`.
-    return require("telescope.sorters").Sorter:new({
-      -- We want to filter, so we'll set `discard` to true.
-      discard = true,
+pickers
+.new(opts, {
+  finder = finders.new_table({
+    results = {
+      -- `tags` is now a list.
+      { title = "One", tags = { "Tag1", "Tag2" }, path = "posts/2024-01-01-one.dj" },
+      { title = "Two", tags = { "Tag2" }, path = "posts/2024-02-02-two.dj" },
+    },
+    entry_maker = function(entry)
+      return {
+        display = entry.title,
+        -- `ordinal` is now a table.
+        ordinal = entry,
+        value = entry,
+      }
+    end,
+  }),
+  -- This is the important `sorter` function.
+  sorter = post_sorter(opts),
+})
+:find()
+```
 
-      -- This function should compare the prompt string the user inputs
-      -- against the ordinal entry created by the `entry_maker`.
-      scoring_function = function(_, prompt, ordinal)
-        return 0
-      end,
-    })
-  end,
-}),
+`post_sorter` should return a new `Sorter` that describes the sorting behavior.
+It's wrapped in a function to allow us to rely on the fuzzy sorter for multiple fields, like so:
+
+```lua
+local function post_sorter(opts)
+  opts = opts or {}
+  -- We can use `fzy_sorter` for the actual fuzzy matching.
+  local fzy_sorter = sorters.get_fzy_sorter(opts)
+
+  return sorters.Sorter:new({
+    discard = true,
+
+    scoring_function = function(_, prompt, entry)
+      -- This mimics a standard fuzzy sorting on the entry title.
+      return fzy_sorter:scoring_function(prompt, entry.title)
+    end,
+
+    -- We could also specify a highlighter. This works fine in this case,
+    -- but as we modify `scoring_function` we have to modify this too.
+    -- I admit, I currently don't use a highlighter for my posts finder.
+    highlighter = fzy_sorter.highlighter,
+  })
+end
 ```
 
 There's some ceremony here that I hope is clear enough.
-The important thing here is the `scoring_function` that we'll need to implement.
+The important thing here is the `scoring_function` that we'll need to adjust.
 
-First, the input arguments:
+First, the input arguments to `scoring_function`:
 
-1. The first argument seems to be ignored even in Telescope's own sorters, so I ignore it as well.
+1. The first argument seems to be ignored even in Telescope's own standard sorters, so I ignore it as well.
 
 1. `prompt` is the user input to the Telescope prompt as a string.
 
-1. `ordinal` is the ordinal entry that `entry_maker` returns.
+1. `entry` is the ordinal entry that `entry_maker` returns.
 
   For example:
 
@@ -239,6 +253,112 @@ I'm a bit of a Lua noob, so there may be other ways to do solve this.
 
 ### Implementing `scoring_function`
 
+With a plan in place, let's go back to try to realize it in `scoring_function`.
+The basic idea is to match against series, tags, and title separately and add their scores at the end:
+
+```lua
+scoring_function = function(_, prompt, entry)
+  prompt = split_prompt(prompt)
+
+  local series_score = score_element(prompt.series, entry.series, fzy_sorter)
+  if series_score < 0 then
+    return -1
+  end
+
+  local tags_score = score_element(prompt.tags, entry.tags, fzy_sorter)
+  if tags_score < 0 then
+    return -1
+  end
+
+  local title_score = fzy_sorter:scoring_function(prompt.title, entry.title)
+  if title_score < 0 then
+    return -1
+  end
+
+  return series_score + tags_score + title_score
+end,
+```
+
+Remember that a return value of `< 0`lua filters the entry, so we make sure to check that for each part.
+This is already how `fzy_sorter:scoring_function` works and it will either return `< 0`lua for entries we should remove and a value in `0..1`lua otherwise.
+Because the matching of tags and series is so similar, I introduced the `score_element` helper function:
+
+
+```lua
+-- Match the list `prompt_elements` against `entry_element`, either a list or a string.
+local function score_element(prompt_elements, entry_element, sorter)
+  -- We didn't prompt for this type, ignore it.
+  -- This is a "is list empty?" check in Lua.
+  if next(prompt_elements) == nil then
+    return 0
+  end
+
+  -- We prompted for this type, but entry didn't have it, so remove the entry.
+  -- For example if we prompt for a series, this removes all posts
+  -- without a series.
+  if not entry_element then
+    return -1
+  end
+
+  -- Convert multiple entry values to a string like `tag1:tag2`.
+  local entry
+  -- We can use `type` to dynamically check the type of a variable
+  -- and act occordingly.
+  if type(entry_element) == "string" then
+    entry = entry_element
+  elseif type(entry_element) == "table" then
+    entry = vim.fn.join(entry_element, ":")
+  end
+
+  local total = 0
+  -- For each prompt element (`tag1`, `tag2`, ...), match against the entry string (`tag1:tag2`).
+  for _, prompt_element in ipairs(prompt_elements) do
+    local score = sorter:scoring_function(prompt_element, entry)
+    -- Require a match for every element.
+    if score < 0 then
+      return -1
+    end
+    total = total + score
+  end
+
+  -- Clamp score to 0..1. Not strictly needed but it makes the scoring for parts neater.
+  return total / #prompt_elements
+end
+```
+
+With this in place we have a working sorter.
+If we type regular text, then `series_score` and `tags_score` will be `0`lua, basically ignoring them in the scoring function.
+A `#series_filter` will cause `series_score == -1`lua unless the post has a matching series, removing the entry.
+And typing `@tag1 @tag2` will require a match for every tag, otherwise `tags_score == -1`lua that again removes the entry.
+
+The only requirement left is to order posts by date, carefully not to override the sort order we get from the fuzzy matching.
+
+One way to do this is to sort all posts and add a post counter to each entity (so the first post would get `1`lua and the last `272`lua) and then add it to the final score somehow.
+This felt a little bit annoying to me and I wanted to see if I could implement the scoring function without having to sort the entries first.
+After all, we already have the date of each post...
+
+This is possible by placing the post on a timescale between the date of the very first post and today, and then clamping the range to `0..1`lua.
+Something like this:
+
+```lua
+-- Date of my first blog post as a number.
+local beginning_of_time = 20090621
+-- Today's date as a number.
+local today = os.date("%Y%m%d")
+-- The entry date looks like `2023-01-31`, if we remove `-` it's like a number.
+local entry_date = string.gsub(entry.date, "-", "")
+-- Place the entry date on a 0..1 scale, where 1 is today
+-- (`1 -` reverses, otherwise 1 would be the beginning of time).
+local date_score = 1 - (entry_date - beginning_of_time) / (today - beginning_of_time)
+
+-- Date sorting is only worth 1/10 of the fuzzy scores.
+-- Why? I dunno, it felt like 1 was too much and 1/10 felt good.
+return series_score + tags_score + title_score + date_score / 10
+```
+
+Okay, I admit it's not the prettiest solution;
+but it's a fun one that fulfills my needs.
+
 ## File preview
 
 One of the great features of [telescope.nvim][] is the very fast preview with syntax highlighting, which we of course must configure.
@@ -272,8 +392,9 @@ I'm not sure if there's a less verbose way to define a file previewer, as the on
 
 ## Open the selected file
 
-We already have configured the display of our [telescope.nvim][] picker configured.
-The only question left is how do we open the file once we've found it?
+We have configured the display of our [telescope.nvim][] picker configured.
+Now how do we open the file once we've found it?
+By default there's no way of interacting with an entry, we can only look at it.
 
 The answer is yet another argument to `finders.new_table` called `attach_mappings`:
 
@@ -295,16 +416,15 @@ finder = finders.new_table({
 
 The above mapping overrides the default selection action (`<CR>` in my case) to `:edit` `value.path` of our selection, which will open the selected file.
 
-Multiselection is possible in telescope, which you need to handle in the mapping function if you want to support it.
+Multiselection is possible in telescope, which you need to handle in the mapping function if you want to support it---I'll skip it.
 
 ## Finding the post data to populate the picker
 
-So far I've only used placeholder data for the posts, but of course I need to search the file system for the markup files for the posts.
+So far I've only used placeholder data for the posts, but we need to search the file system for the markup files for the posts.
 
-How did I extract the post metadata, which is defined inside the posts in a frontmatter?
-This is a frontmatter that's defined at the start of every markup file:
+It's not as simple as listing files in a directory, we also need to extract post metadata that's defined in a frontmatter at the beginning of every markup file:
 
-```
+```djot
 ---toml
 title = "Let's build a VORON: Noise"
 tags = ["3D printing", "VORON"]
@@ -312,23 +432,34 @@ series = "voron_trident"
 ---
 ```
 
+How can we do this?
+
 With [ripgrep][] and regex of course!
+
+![[xkcd 208](https://xkcd.com/208/)](/images/regular_expressions.png)
 
 This time though I have a good reason for choosing an external tool rather than asking the backend server:
 I want to be able to find a post the very first thing I do when opening Neovim, and I don't want to wait on connecting to a backend service, or requiring one running at all times.
 
+::: notice
+I guess this is mostly an excuse to try to do as much as I can in Lua, as I could've reused the parser on the backend and treat it as a command-line program---like ripgrep.
+:::
+
 The strategy is to use [ripgrep][] to match the frontmatter in all posts, extract the metadata using some hacky Lua regex, and combine them into a post struct we can feed into the [finder we developed](#Structured-content).
 
-This is one way to find all posts under a path and extract the frontmatter using [ripgrep][]\'s regex syntax:
+Here's one way that uses [nvim-nio][] and [ripgrep][] to find all posts under a path and extract the frontmatter:
 
 ```lua
+local nio = require("nio")
+local path = require("blog.path")
+
 nio.process.run({
   cmd = "rg",
   args = {
     "-NoHU",
     "--heading",
     "\\A\\---\\w*\\n(.+\\n)+^---",
-    -- subpath could be `posts/` or `drafts/`, using absolute paths
+    -- Subpath could be `posts/` or `drafts/`, converted to an absolute path.
     path.blog_path .. subpath,
   },
 })
@@ -349,9 +480,16 @@ posts/2019-01-25-site_restyle_and_update.markdown
 title: "Site restyle and update"
 tags: ["Webpage", "Web Design"]
 ---
+
+posts/2024-02-27-lets_build_a_voron_more_mods.dj
+---toml
+title = "Let's build a VORON: More mods"
+tags = ["3D printing", "VORON"]
+series = "voron_trident"
+---
 ```
 
-My code for splitting the output and extracting the metadata is a little gross, but I don't know how to make it prettier:
+My code for splitting the output and extracting the metadata is really gross:
 
 ```lua
 local lines = vim.fn.split(output, "\n")
@@ -365,7 +503,7 @@ for _, line in ipairs(lines) do
       table.insert(posts, post)
     end
     post = {}
-  -- Skip `---` markers.
+    -- Skip `---` markers.
   elseif not string.match(line, "%-%-%-%w*") then
     -- Try to extract all key value definitions and store them.
     local key, value = string.match(line, "(%w+)%s*[:=]%s*(.+)")
@@ -373,9 +511,15 @@ for _, line in ipairs(lines) do
       -- Strip surrounding quotes.
       -- Do this here because there's no non-greedy specifier that could be used
       -- in the key/value regex above.
-      local stripped = string.match(value, '^"(.+)"$')
-      if stripped then
-        value = stripped
+      value = trim_quotes(value)
+      -- Split a sequence.
+      local seq = string.match(value, "^%[(.+)%]$")
+      if seq then
+        local parts = {}
+        for part in string.gmatch(seq, "%s*([^,]+)") do
+          table.insert(parts, trim_quotes(part))
+        end
+        value = parts
       end
       post[key] = value
     else
@@ -385,6 +529,9 @@ for _, line in ipairs(lines) do
       local date = string.match(line, "posts/(%d%d%d%d%-%d%d%-%d%d)%-")
       if date then
         post["date"] = date
+      else
+        -- Use the modified timestamp for drafts.
+        post["date"] = os.date("%Y-%m-%d", util.file_modified(line))
       end
     end
   end
@@ -395,16 +542,30 @@ if post.title then
 end
 ```
 
+```lua
+local function trim_quotes(s)
+  local stripped = string.match(s, '^"(.+)"$')
+  if stripped then
+    return stripped
+  else
+    return s
+  end
+end
+```
+
 Yes, I'm using regex to parse `yaml`/`toml` values.
 
 I could try to find a lua parser, but eeeh...
 
 ![](/images/extend_blog/regex_this_is_fine.jpg)
 
-It does mean we have a working [telescope.nvim][] picker!
+(I know, I should've used a parser.)
+
+Stupid decisions aside, with all this we have a working [telescope.nvim][] picker!
 I may have skipped some details, so [take a look at the source code](https://github.com/treeman/dotfiles/blob/master/.config/nvim/lua/blog/telescope.lua) if you're interested.
 
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
 [ripgrep]: https://github.com/BurntSushi/ripgrep
 [Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4
 [Experimental Gameplay Project]: /blog/tags/experimental_gameplay_project
+[nvim-nio]: https://github.com/nvim-neotest/nvim-nio
