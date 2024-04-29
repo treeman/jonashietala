@@ -4,9 +4,11 @@ tags = ["Lua", "Neovim"]
 series = "extending_neovim_for_my_blog"
 ---
 
-Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
+Autocompletion is an absurdly powerful feature that I---and I must assume most programmers---use all the time.
+It's not as crucial for writing blog posts as when you're coding, but it's still easy to come up with examples of how autocomplete would help me creating blog posts.
+For example:
 
-- Frontmatter metadata
+- Complete frontmatter metadata
 
   ```toml
   tags = ["Lua", "Neovim"]
@@ -15,15 +17,32 @@ Creating a custom source for [nvim-cmp][] was described well in `:help cmp-devel
 
   It's pretty hard to remember all the tags I have on the blog, having them show up in an autocomplete would be great.
 
-- Image links
-
 - Links to posts
 
-- Links to headers
+  You know, typing out [`/blog/2024/02/17/how_i_did_the_layout_for_my_self-published_book`](/blog/2024/02/17/how_i_did_the_layout_for_my_self-published_book) correctly from memory is pretty much impossible.
+  I started opening the post in the browser, copy the url, remove the host prefix, and then paste it, but that's {=slow and annoying=}.
 
-- Link definition labels
+- Image links
+
+  I often copy an image to the site's image folder and then I want to link to it...
+  But by then I've forgotten the name.
+
+- Reference link definitions
+
+  In Djot (and Markdown) I prefer reference link definitions for my links:
+
+  ```djot
+  Here's [a link][uses]
+
+  [uses]: /uses
+  ```
+
+  It would be pretty nice to autocomplete the `[uses]` tag, like some Markdown LSP servers do.
+  Or maybe the reverse, if I've written `[a link][uses]` already but haven't created the reference link definition for it, we could autocomplete that.
 
 ## A basic completion source
+
+Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
 
 This is the basics of a source that completes a blog post path for an inline link:
 
