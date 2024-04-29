@@ -1,12 +1,27 @@
 ---toml
-title = "Customize autocomplete with nvim-cmp"
-tags = ["Some tag"]
+title = "Autocomplete with nvim-cmp"
+tags = ["Lua", "Neovim"]
 series = "extending_neovim_for_my_blog"
 ---
 
-# Autocompletion with [nvim-cmp][]
-
 Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
+
+- Frontmatter metadata
+
+  ```toml
+  tags = ["Lua", "Neovim"]
+  series = "extending_neovim_for_my_blog"
+  ```
+
+  It's pretty hard to remember all the tags I have on the blog, having them show up in an autocomplete would be great.
+
+- Image links
+
+- Links to posts
+
+- Links to headers
+
+- Link definition labels
 
 ## A basic completion source
 

@@ -1,6 +1,6 @@
 ---toml
 title = "Browse posts with telescope.nvim"
-tags = ["Lua",  "Rust",  "Webpage"]
+tags = ["Lua", "Neovim"]
 series = "extending_neovim_for_my_blog"
 ---
 
