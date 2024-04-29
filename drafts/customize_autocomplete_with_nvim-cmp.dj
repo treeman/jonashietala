@@ -40,6 +40,9 @@ For example:
   It would be pretty nice to autocomplete the `[uses]` tag, like some Markdown LSP servers do.
   Or maybe the reverse, if I've written `[a link][uses]` already but haven't created the reference link definition for it, we could autocomplete that.
 
+[nvim-cmp][] is my plugin of choice for autocompletion that supports different sources such as LSP, snippets, spell corrections, math calculations, and more.
+Let's see how to make our own source for [nvim-cmp][].
+
 ## A basic completion source
 
 Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
