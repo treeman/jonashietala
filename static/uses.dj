@@ -1,5 +1,5 @@
----
-title: Uses
+---toml
+title = "Uses"
 ---
 
 This page lists the tools I use as a software developer, both in a professional and personal context.
@@ -54,15 +54,14 @@ I do all my development, writing and note taking inside [Neovim][].
 I've been using Vim (and later Neovim when I wanted async code) since more than 15 years ago, and I don't see myself ever switching away.
 I have quite a few plugins and tweaks, here's a list of my favorite ones:
 
-- [lazy.nvim] as the plugin manager.
-- [telescope.nvim] for fuzzy finding all the things.
-- [nvim-cmp] as a completion engine.
-- [conform.nvim] to format files on save.
-- [nvim-treesitter] for better syntax highlighting and [nvim-treesitter-textobjects][] for jumping between parts of the code.
-- [neogit] and [gitsigns.nvim] general git handling.
-- [neorg] to organize my personal knowledge base.
-- [flash.nvim] for more predictable and faster jumping/searching.
-- Basic LSP setup with [nvim-lspconfig], [mason.nvim] and [mason-lspconfig.nvim].
+- [lazy.nvim][] as the plugin manager.
+- [telescope.nvim][] for fuzzy finding all the things.
+- [nvim-cmp][] as a completion engine.
+- [conform.nvim][] to format files on save.
+- [nvim-treesitter][] for better syntax highlighting and [nvim-treesitter-textobjects][] for jumping between parts of the code.
+- [neogit][], [vim-fugitive][], and [gitsigns.nvim][] general git handling.
+- [flash.nvim][] for more predictable and faster jumping/searching.
+- Basic LSP setup with [nvim-lspconfig][], [mason.nvim][] and [mason-lspconfig.nvim][].
 
 See [my config files][neovim-config] for more.
 
@@ -83,7 +82,7 @@ As for the OS, I run [Void Linux][] on all my machines at home ([Arch Linux][] o
 
 # Computer hardware
 
-![This is where I work most of the time.  
+![This is where I work most of the time.\
 I may have cleaned it up a bit before taking this picture.](/images/uses/workstation.jpg)
 
 One thing that never ceases to amaze me is the amount of software developers that always work on a laptop.
@@ -96,7 +95,7 @@ That's why I've invested in a really good desktop as my main workhorse.
 ## Desktop
 
 The heart of the computer is the Ryzen 9 7950X, a beast of a CPU that's cooled by open loop liquid cooling.
-Most of the other things aren't *that* noteworthy. 
+Most of the other things aren't *that* noteworthy.
 There's a big-ass case and a matching PSU, some fast SSDs and an old GPU that I don't have any need to replace.
 
 The next thing I'd like to upgrade are probably my old monitors.
@@ -152,7 +151,7 @@ Maybe if this one dies on me.
 # Other tools
 
 - I use [Fastmail][] for emails and my calendar.
-- I try to use [Todoist][] to track my tasks and todos, but sometimes I keep them in my [neorg][] personal wiki folder instead.
+- I try to use [Todoist][] to track my tasks and todos, but sometimes I keep them in my personal wiki folder instead.
 - For note taking I use [reMarkable 2][].
   I don't use it for anything fancy, it's just nice to sometimes write notes or plan things "on paper". The writing experience really does feel good on it.
 - My phone is the [Fairphone 4][].
@@ -176,7 +175,6 @@ Maybe if this one dies on me.
 [Steam Deck]: https://www.steamdeck.com/en/
 [WHOOP]: https://join.whoop.com/EBB986
 [boxer]: https://shop.whoop.com/en-eu/products/any-wear-boxer/?sku=927-A2-00-0-0
-[neorg]: https://github.com/nvim-neorg/neorg
 [Fastmail]: https://www.fastmail.com/
 [Todoist]: https://todoist.com
 [Fairphone 4]: https://www.fairphone.com/en/
@@ -193,3 +191,4 @@ Maybe if this one dies on me.
 [nvim-lspconfig]: https://github.com/neovim/nvim-lspconfig
 [mason.nvim]: https://github.com/williamboman/mason.nvim
 [mason-lspconfig.nvim]: https://github.com/williamboman/mason-lspconfig.nvim
+[vim-fugitive]: https://github.com/tpope/vim-fugitive
