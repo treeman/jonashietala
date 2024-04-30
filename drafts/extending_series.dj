@@ -123,7 +123,7 @@ One of the basic features I want is having user commands that simplify my life a
 
 When I write a blog post I start by creating a markup file in `drafts/`, that should contain a frontmatter with some metadata like so:
 
-```toml
+```djot
 ---toml
 title = "Customizing Neovim"
 tags = ["Lua", "Neovim"]

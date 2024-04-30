@@ -1,6 +1,6 @@
 use eyre::Result;
-use itertools::Itertools;
 use lazy_static::lazy_static;
+use regex::Regex;
 use std::collections::HashMap;
 use tracing::warn;
 use tree_sitter_highlight::{HighlightConfiguration, Highlighter, HtmlRenderer};
@@ -32,8 +32,16 @@ impl<'a> TreesitterHighlighter<'a> {
         renderer.render(highlights, code.as_bytes(), &|attr| {
             CLASSES[attr.0].as_bytes()
         })?;
-        let res = renderer.lines().join("");
-        Ok(res)
+
+        let mut res: Vec<_> = renderer.lines().collect();
+
+        if let Some(last) = res.last() {
+            if EMPTY_RAW_MARKUP_SPAN.is_match(last) {
+                res.pop();
+            }
+        }
+
+        Ok(res.join(""))
     }
 }
 
@@ -156,6 +164,8 @@ lazy_static! {
         .map(|name| format!(r#"class="{}""#, name.replace(".", " ")))
         .collect();
     static ref CONFIGS: HashMap<String, HighlightConfiguration> = init_configurations();
+    static ref EMPTY_RAW_MARKUP_SPAN: Regex =
+        Regex::new(r#"^<span class="markup raw"></span>\n?$"#).unwrap();
 }
 
 fn init_configurations() -> HashMap<String, HighlightConfiguration> {
@@ -235,7 +245,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_treesitter_highlight() {
+    fn test_treesitter_highlight_gleam() {
         let highlighter = TreesitterHighlighter::find("gleam").unwrap();
         assert_eq!(
             highlighter.highlight("let x = 2;").unwrap(),
@@ -256,6 +266,25 @@ let x = 2;
 <span class=\"markup raw\"><span class=\"keyword\">let</span> <span class=\"variable\">x</span> <span class=\"punctuation delimiter\">=</span> <span class=\"number\">2</span>;</span>
 <span class=\"markup raw\"><span class=\"punctuation delimiter\">```</span></span>
 "
+        );
+    }
+
+    #[test]
+    fn test_treesitter_highlight_djot() {
+        let highlighter = TreesitterHighlighter::find("djot").unwrap();
+        assert_eq!(
+            highlighter
+                .highlight(
+                    r#"---toml
+title = "Title"
+---
+"#
+                )
+                .unwrap(),
+            r#"<span class="markup raw"><span class="punctuation delimiter">---</span><span class="attribute">toml</span></span>
+<span class="markup raw">title = &quot;Title&quot;</span>
+<span class="markup raw"><span class="punctuation delimiter">---</span></span>
+"#
         );
     }
 }
