@@ -45,7 +45,7 @@ pub fn complete(
             return series_completions(site);
         }
     } else {
-        // Expand images separately because I only ever use it in a -- `![](/url)`
+        // Expand images separately because I only ever use it in a `![](/url)`
         // context and not mixing with other urls gives a more pleasant experience.
         if IMG_LINK.is_match(cursor_before_line) {
             return img_completions(site);

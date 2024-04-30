@@ -38,77 +38,77 @@ For example:
   ```
 
   It would be pretty nice to autocomplete the `[uses]` tag, like some Markdown LSP servers do.
-  Or maybe the reverse, if I've written `[a link][uses]` already but haven't created the reference link definition for it, we could autocomplete that.
+  Or maybe the reverse; if I've written `[a link][uses]` already but haven't created the reference link definition for it, we could autocomplete that.
 
 [nvim-cmp][] is my plugin of choice for autocompletion that supports different sources such as LSP, snippets, spell corrections, math calculations, and more.
 Let's see how to make our own source for [nvim-cmp][].
 
-## A basic completion source
+# A basic completion source
 
 Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
-
-This is the basics of a source that completes a blog post path for an inline link:
+This is a minimal source that allows you to complete path-like items:
 
 ```lua
 local source = {}
 
--- The `complete` function is required.
 function source:complete(params, callback)
+  local items = {}
+
   -- There's also the `cursor_after_line`, `cursor_line`, and a `cursor` fields on `context`.
   local cursor_before_line = params.context.cursor_before_line
 
-  -- Regex matches `](/` to autocomplete a path in an inline link like `[link text](/path/to/post)`.
-  -- The `[^%)]*$` ensures that we continue completion even
-  -- after we've typed some characters and not only once after the first `/`.
-  if string.match(cursor_before_line, "%]%(/[^%)]*$") then
-    local items = {
-      {
-        -- Text to be displayed in the completion menu.
-        label = "Rewriting my Neovim config in Lua",
-        -- Text to insert.
-        insertText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/",
-        -- Text to filter against, works like `ordinal` for telescope.
-        filterText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/|Rewriting my Neovim config in Lua",
-        -- What `kind` the completion item is.
-        kind = require("cmp.types.lsp").CompletionItemKind.File,
-      },
-      -- More items here...
+  -- Only complete if there's a `/` anywhere before the cursor.
+  if cursor_before_line:sub(1, 1) == "/" then
+    items = {
+      { label = "/one" },
+      { label = "/two" },
     }
-    callback(items)
-  else
-    -- `callback` should always be called.
-    callback({})
   end
+
+  -- `callback` should always be called.
+  callback(items)
 end
 
--- Trigger completion on these characters.
--- We could also trigger it manually.
+-- Trigger completion (i.e. open up cmp) on these characters.
+-- Otherwise we can call it manually with, see `:help cmp.mapping.complete`.
 function source:get_trigger_characters()
   return { "/" }
 end
 
--- We must register our source to `cmp` like this:
+-- Don't forget to register your new source to cmp.
 require("cmp").register_source("blog", source)
 ```
 
-It's also a good idea to implement the `is_available` function, to only trigger completion in the right context:
+You also need to register the source when you setup cmp:
 
 ```lua
-function source:is_available()
-  return require("blog.server").is_connected()
-end
-```
-
-```lua
-cmp.setup({
+require("cmp").setup({
   sources = {
     {
       name = "blog",
+      -- `group_index` groups several sources,
+      -- and if any completion item for that index is found
+      -- all sources with a lower index will be ignored.
       group_index = 1,
     },
-  },
+  }
+}
+```
+
+Assuming you've got [nvim-cmp][] setup correctly, our completion should show up:
+
+![](/images/extend_blog/one_two_cmp.png)
+
+::: notice
+I used [lspkind.nvim][] to display the `[BLOG]` label and type information.
+
+You configure it like so:
+
+```lua
+require("cmp").setup({
   formatting = {
-    format = lspkind.cmp_format({
+    format = require("lspkind").cmp_format({
+      mode = "symbol_text",
       menu = {
         blog = "[BLOG]",
       },
@@ -116,46 +116,197 @@ cmp.setup({
   },
 })
 ```
+:::
 
-## What to complete where?
+# Completion item kinds
+
+Something that pops up in [nvim-cmp][]'s source code and help is an "item kind".
+
+A "kind" simply describes what type a completion item is.
+[nvim-cmp][] follows the LSP specification that includes kinds such as `Class`, `Constant`, and the default `Text`.
+
+Here's how to specify a kind other than `Text` for an item:
+
+```lua
+items = {
+  {
+    label = "Item label",
+    kind = require("cmp.types.lsp").CompletionItemKind.File,
+  },
+}
+```
+
+Kinds aren't anything revolutionary but I think it helps separate different completion types from each other in certain circumstances.
+
+![Displaying different kinds with [lspkind.nvim][].](/images/extend_blog/cmp_kind_completion.png)
+
+It's a shame that you can't define your own kinds.
+I would've liked to have kinds such as `Post`, `Draft`, and `Standalone` to separate different types of urls.
+For now I've settled on using different kinds for different completion types; I use `Class` to denote heading references for instance.
+
+(Maybe I should override [lspkind.nvim][] and display the kinds differently one day.)
+
+Here's a list of the supported kinds:
+
+```lua
+lsp.CompletionItemKind = {
+  Text = 1,
+  Method = 2,
+  Function = 3,
+  Constructor = 4,
+  Field = 5,
+  Variable = 6,
+  Class = 7,
+  Interface = 8,
+  Module = 9,
+  Property = 10,
+  Unit = 11,
+  Value = 12,
+  Enum = 13,
+  Keyword = 14,
+  Snippet = 15,
+  Color = 16,
+  File = 17,
+  Reference = 18,
+  Folder = 19,
+  EnumMember = 20,
+  Constant = 21,
+  Struct = 22,
+  Event = 23,
+  Operator = 24,
+  TypeParameter = 25,
+}
+```
+
+Or, if you prefer, you can find them in the [LSP specification][].
+
+# Complete hidden text
+
+One cool thing with [telescope.nvim][] was the ability to filter on hidden text.
+In the [post finder][structured_content] we developed we could search for post tags, but only display the post title.
+We can do the same with [nvim-cmp][], where we'll display one thing, filter against something else, and insert a third piece of text.
+
+All we need to do is add some extra fields to the completion items:
+
+```lua
+items = {
+  {
+    -- Text to be displayed in the completion menu.
+    label = "Rewriting my Neovim config in Lua",
+    -- Text to insert.
+    insertText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/",
+    -- Text to filter against, works like `ordinal` for telescope.
+    filterText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/"
+      .. "|Rewriting my Neovim config in Lua",
+  },
+}
+```
+
+In this example we display the post title, insert the url to the post, and filters against both the title and the path.
+
+It's not as powerful as [telescope.nvim][] where we could treat its equivalence to `filterText` as [structured data][structured_content].
+I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, and a mini-language [like we created for telescope][] doesn't make much sense here.
+
+The most advanced `filterText` I use is exactly this example: a combination of the url and the title.
+Otherwise I don't use `insertText` or `filterText`.
+
+# What to complete where?
+
+With `source:complete` we already have the tools we need to autocomplete whatever we want.
 
 The completion part of the integration is the section I've had to tweak the most and it has slowly grown more complex.
 
 It's actually pretty hard to make a complete autocomplete system.
 You'd have to have a parser that's capable of parsing incomplete statements.
 Maybe something like [a Tree-sitter grammar][], although the [one I created for Djot][djot-tree-sitter] doesn't mark broken things so it's useless for this purpose.
-I've therefore been relying on regexes on `cursor_before_line` to select what to complete:
+I've therefore been relying on regexes on `cursor_before_line` to select what to complete.
+You could probably design a more powerful solution but this simple approach has served me well so far.
+
+In essence, `source:complete` looks something like this:
 
 ```lua
 -- Expand images separately because I only ever use it in a -- `![](/url)`
 -- context and not mixing with other urls gives a more pleasant experience.
-string.match(cursor_before_line, "!%[%]%([^%)]*$")
+if string.match(cursor_before_line, "!%[%]%([^%)]*$") then
+  -- items = ...
+end
 
 -- Expand inline links, e.g. `[txt](/`
-string.match(cursor_before_line, "%]%(/[^%)]*$")
+if string.match(cursor_before_line, "%]%(/[^%)]*$") then
+  -- items = ...
+end
 
 -- Expanding headings in inline links, e.g. `[txt](#`
-string.match(cursor_before_line, "%]%(#[^%)]*$")
+if string.match(cursor_before_line, "%]%(#[^%)]*$") then
+  -- items = ...
+end
 
 -- Expand links in link ref definitions, e.g. `[label]: `
-string.match(cursor_before_line, "^%[.+%]:%s+")
+if string.match(cursor_before_line, "^%[.+%]:%s+") then
+  -- items = ...
+end
 
 -- Expanding links in ref defs, e.g. `[label]: #`
-string.match(cursor_before_line, "^%[.+%]:%s+#")
+if string.match(cursor_before_line, "^%[.+%]:%s+#") then
+  -- items = ...
+end
 
 -- Expand url definition tags in `[text][tag]`
-if string.match(cursor_before_line, "%[[^%]]+%]%[[^%]]*$")
+if string.match(cursor_before_line, "%[[^%]]+%]%[[^%]]*$") then
+  -- items = ...
+end
 
 -- Expand url definition tags in `[tag][]`, simplified to after a `[`
 -- If at the beginning of the line, we should complete broken link tags to..
-if string.match(cursor_before_line, "%[[^%]]*$")
+if string.match(cursor_before_line, "%[[^%]]*$") then
+  -- items = ...
+end
 
--- Expand tags in frontmatter if line starts with `tags = `
-if string.match(cursor_line, "^tags = ")
-
--- Expand series in frontmatter if line starts with `series = `
-if string.match(cursor_line, "^series = ")
+-- More cases here...
 ```
+
+Don't be too scared of the regexes.
+They're hard to read if you're unfamiliar, but not _too_ bad once you use them a bit.
+
+For example, here's how the regex matches an image url with the text `![](/path`:
+
+```
+!           !
+%[          [   `%` escapes special characters
+%]          ]
+%(          (
+[           all characters
+  ^           not equal to
+  %)          )
+]*            0 or more times
+$"          end of string
+```
+
+It's important to include the end of string, so that we're not autocompleting images after the image has ended:
+
+```
+![](/img) Trailing path /
+                        ^
+                        Don't autocomplete image here
+```
+
+The `[^%)]*` part allows the completion to match further into the path:
+
+```
+![](/im
+      ^
+      We're not done yet
+```
+
+::: notice
+Astute regex practitioners might notice that the image regex only matches `![](/path)`, and not `![img text](/path)`.
+To fix it maybe we could use a regex like `!%[[^%]]*%]%([^%)]*$`.
+
+But we're still not handling newlines in the image text!
+
+Yes, the correct solution is more complex than regex matching against `cursor_before_line`.
+That's an exercise for the concerned reader to implement.
+:::
 
 ::: notice
 As the completion logic grew more complex, I moved it out from Neovim to the backend.
@@ -174,15 +325,137 @@ function source:complete(params, callback)
   end)
 ```
 
-Either way works, I'll keep the description in Lua for illustrative purposes.
-Check out the [Rust source code][] for more details.
+I still rely on the regex based approach though.
+
+I'll revisit how the backend communication works in a future post.
 :::
 
-## Custom sorting
+# Item documentation
+
+```lua
+function source:resolve(item, callback)
+  -- We should generate `lines` depending on the item.
+  local lines = {
+    "`Rewriting my Neovim config in Lua`",
+    "2023-10-01",
+    "*Neovim*, *Lua*",
+    "---",
+    -- Post content here
+  }
+
+  if lines and #lines > 0 then
+    item.documentation = {
+      kind = "markdown",
+      value = vim.fn.join(lines, "\n") .. "\n",
+    }
+  end
+
+  callback(item)
+end
+```
+
+```lua
+items = {
+  {
+    label = "Rewriting my Neovim config in Lua",
+    -- All fields are passed through as-is to `source:resolve`.
+    -- I collect all metadata under the `info` field (don't ask why).
+    info = {
+      type = "Post",
+      url = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/",
+      path = "/home/tree/code/jonashietala/posts/2023-10-01-rewriting_my_neovim_config_in_lua.markdown",
+      tags = {
+        tags = { "Lua", "Neovim" }
+      },
+      created = "2023-10-01",
+    }
+  },
+}
+```
+
+```lua
+function source:resolve(item, callback)
+  if item.info then
+    local lines
+
+    -- Or 10 other types, I just include `Post` in this example.
+    if item.info.type == "Post" then
+      lines = _post_docs(item.info)
+    end
+
+    if lines and #lines > 0 then
+      item.documentation = {
+        kind = "markdown",
+        value = vim.fn.join(lines, "\n") .. "\n",
+      }
+    end
+  end
+
+  callback(item)
+end
+```
+
+```lua
+local function _post_docs(post)
+  -- I add more things such as tags and series
+  -- but I shortened the code for this example.
+  local res = {
+    "`" .. post.title .. "`",
+  }
+
+  table.insert(res, "---")
+  read_post_body(post.path, 20, res)
+
+  return res
+end
+```
+
+```lua
+local function read_post_body(file, limit, res)
+  local count = 1
+  local frontmatter_delimiters = 0
+  for line in io.lines(file) do
+    if frontmatter_delimiters == 2 then
+      table.insert(res, line)
+      count = count + 1
+      if count > limit then
+        break
+      end
+    elseif string.match(line, "^%-%-%-") then
+      frontmatter_delimiters = frontmatter_delimiters + 1
+    end
+  end
+end
+```
+
+```lua
+local function read_lines(file, start_row, end_row, res)
+  local linenum = 1
+  for line in io.lines(file) do
+    if linenum >= start_row and linenum <= end_row then
+      table.insert(res, line)
+    end
+    linenum = linenum + 1
+    if linenum > end_row then
+      break
+    end
+  end
+end
+```
+
+```lua
+read_lines(heading.context.path, heading.context.start_row, heading.context.end_row + 10, res)
+```
+
+![Complete header references for a url. (The documentation preview jumped to the left).](/images/extend_blog/complete_header_ref_post.png)
+
+
+# Comparing autocomplete items
 
 ```lua
 local function blog_compare(entry1, entry2)
   -- TODO
+  return nil
 end
 
 cmp.setup({
@@ -218,23 +491,34 @@ local function blog_compare(entry1, entry2)
 
   if info1.type == "Img" then
     -- Sort images by modification time.
-    if info1.modified > info2.modified then
-      return true
-    else
-      return false
-    end
+    return info1.modified > info2.modified
   end
 
   return nil
 end
 ```
 
+# Availability
+
+Depending on the type of completion it might be a good idea to implement the `is_available` function.
+As we depend on a server to communicate with, we really want to block autocompletion when we're not in the right context:
+
+```lua
+function source:is_available()
+  -- TODO
+end
+```
+
+---
+
+
+
 ## The result
 
 ![Complete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
 
-![Complete header references for a url. (The documentation preview jumped to the left).](/images/extend_blog/complete_header_ref_post.png)
-
 [nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
 [djot-tree-sitter]: https://github.com/treeman/tree-sitter-djot
 [a Tree-sitter grammar]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
+[lspkind.nvim]: https://github.com/onsails/lspkind.nvim
+[LSP specification]: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/
