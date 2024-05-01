@@ -246,6 +246,11 @@ pub fn it_works() { }
 python3 -m pygments -l pollen.py:PollenLexer -x -f html pollen.html.pm
 ```
 
+```fish-shell
+$ some-cli --help "go"
+Badum Badum
+```
+
 ```css
 @font-face {
   font-family: "Source Code";
@@ -261,6 +266,12 @@ int i = 2;
 ```
 
 ````djot
+---toml
+title = "Customizing Neovim"
+tags = ["Lua", "Neovim"]
+series = "extending_neovim_for_my_blog"
+---
+
 ```gleam
 let x = 2;
 ```
@@ -272,11 +283,11 @@ let x = 2;
 ##### Header 5 (h6)
 ###### Header 6 (h7)
 
-{= highlighted =}
+{=highlighted=}
 
-{+ insert +}
+{+insert +}
 
-{- delete -}
+{-delete-}
 
 :symbol:
 

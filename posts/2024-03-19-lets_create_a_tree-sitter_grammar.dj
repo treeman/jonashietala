@@ -993,7 +993,7 @@ It's common to have it placed in the `src` directory in the same repository as t
 
 Here's an example `src/highlights.scm` file that highlights the different elements of our markup:
 
-```scm
+```query
 (div_marker) @punctuation.delimiter
 (code_block_marker) @punctuation.delimiter
 
@@ -1033,7 +1033,7 @@ With the initial grammar, the code block parses into:
 
 Which we'll use in `src/injections.scm` to specify that we want to parse `(code)` using the grammar specified in `(language)`:
 
-```scm
+```query
 (code_block
   (language) @injection.language
   (code) @injection.content)
@@ -1104,7 +1104,7 @@ I mentioned [nvim-treesitter-textobjects][] as a good example of why Tree-sitter
 To make use of our grammar we can add some capture groups to `src/textobjects.scm`.
 For example we can register our code blocks as "functions":
 
-```scm
+```query
 (code_block (code) @function.inner) @function.outer
 ```
 

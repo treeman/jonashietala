@@ -185,6 +185,7 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             "sdjot",
             HighlightConfiguration::new(
                 tree_sitter_sdjot::language(),
+                "sdjot",
                 tree_sitter_sdjot::HIGHLIGHTS_QUERY,
                 tree_sitter_sdjot::INJECTIONS_QUERY,
                 "",
@@ -195,6 +196,7 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             "djot",
             HighlightConfiguration::new(
                 tree_sitter_djot::language(),
+                "djot",
                 tree_sitter_djot::HIGHLIGHTS_QUERY,
                 tree_sitter_djot::INJECTIONS_QUERY,
                 "",
@@ -205,6 +207,7 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             "gleam",
             HighlightConfiguration::new(
                 tree_sitter_gleam::language(),
+                "gleam",
                 tree_sitter_gleam::HIGHLIGHTS_QUERY,
                 "",
                 tree_sitter_gleam::LOCALS_QUERY,
@@ -215,6 +218,7 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             "fish",
             HighlightConfiguration::new(
                 tree_sitter_fish::language(),
+                "fish",
                 tree_sitter_fish::HIGHLIGHTS_QUERY,
                 "",
                 "",
@@ -225,10 +229,46 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             "fish-shell",
             HighlightConfiguration::new(
                 tree_sitter_fishshell::language(),
+                "fish-shell",
                 tree_sitter_fishshell::HIGHLIGHTS_QUERY,
                 tree_sitter_fishshell::INJECTIONS_QUERY,
                 "",
             )
+            .unwrap(),
+        ),
+        (
+            "toml",
+            HighlightConfiguration::new(
+                tree_sitter_toml::language(),
+                "toml",
+                tree_sitter_toml::HIGHLIGHTS_QUERY,
+                "",
+                "",
+            )
+            .unwrap(),
+        ),
+        (
+            "query",
+            HighlightConfiguration::new(
+                tree_sitter_query::language(),
+                "query",
+                tree_sitter_query::HIGHLIGHTS_QUERY,
+                "",
+                "",
+            )
+            .map_err(|err| dbg!(err))
+            .unwrap(),
+        ),
+        (
+            "lua",
+            HighlightConfiguration::new(
+                tree_sitter_lua::language(),
+                "lua",
+                tree_sitter_lua::HIGHLIGHTS_QUERY,
+                tree_sitter_lua::INJECTIONS_QUERY,
+                tree_sitter_lua::LOCALS_QUERY,
+            )
+            .map_err(|err| dbg!(err))
             .unwrap(),
         ),
     ]
@@ -278,6 +318,10 @@ let x = 2;
                     r#"---toml
 title = "Title"
 ---
+
+```gleam
+let x = 2;
+```
 "#
                 )
                 .unwrap(),
@@ -286,5 +330,6 @@ title = "Title"
 <span class="markup raw"><span class="punctuation delimiter">---</span></span>
 "#
         );
+        assert!(false);
     }
 }

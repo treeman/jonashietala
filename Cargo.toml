@@ -58,16 +58,24 @@ tokio-tungstenite = "0.21.0"
 pulldown-cmark-escape = "0.10.0"
 axum-server = "0.6.0"
 toml-frontmatter = "0.1.0"
-# Mismatched with some grammars
-# tree-sitter = "0.22.1"
-tree-sitter-highlight = "^0.20.0"
+# Note that all tree-sitter grammars needs to depend on the same tree-sitter version!
+# Really annoying...
+tree-sitter-highlight = "^0.22.5"
+# Syntect has better Rust highlighting
 # tree-sitter-rust = "0.20.4"
 tree-sitter-sdjot = { git = "https://github.com/treeman/tree-sitter-sdjot.git" }
 tree-sitter-djot = { git = "https://github.com/treeman/tree-sitter-djot.git" }
 tree-sitter-fishshell = { git = "https://github.com/treeman/tree-sitter-fishshell.git" }
-tree-sitter-fish = { git = "https://github.com/ram02z/tree-sitter-fish.git", rev = "f9176908c" }
-tree-sitter-gleam = { git = "https://github.com/gleam-lang/tree-sitter-gleam.git", rev = "2012f29" }
+tree-sitter-fish = { git = "https://github.com/treeman/tree-sitter-fish" }
+# tree-sitter-fish = { git = "https://github.com/ram02z/tree-sitter-fish.git", rev = "f9176908c" }
+# tree-sitter-fish = { path = "../tree-sitter-fish" }
+tree-sitter-gleam = { git = "https://github.com/treeman/tree-sitter-gleam" }
+
+# tree-sitter-gleam = { git = "https://github.com/gleam-lang/tree-sitter-gleam.git", rev = "2012f29" }
+# tree-sitter-gleam = { path = "../tree-sitter-gleam" }
+# tree-sitter-toml = { path = "../tree-sitter-toml" }
+tree-sitter-toml = { git = "https://github.com/treeman/tree-sitter-toml" }
+tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter-query.git" }
+tree-sitter-lua = { git = "https://github.com/tree-sitter-grammars/tree-sitter-lua" }
 btree-range-map = "0.7.2"
 serde_repr = "0.1.19"
-# Would be nice to use, but depends on 0.22
-# tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter-query.git" }
