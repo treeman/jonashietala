@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::markup::markdown::attrs::{parse_attrs, Attrs};
 use itertools::{Itertools, MultiPeek};
-use pulldown_cmark::{html::push_html, Event, Tag};
+use pulldown_cmark::{html::push_html, Event, Tag, TagEnd};
 
 pub struct QuoteAttrs<'a, I: Iterator<Item = Event<'a>>> {
     parent: MultiPeek<I>,
@@ -44,7 +44,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for QuoteAttrs<'a, I> {
         let mut events = Vec::new();
         loop {
             match self.parent.next()? {
-                Event::End(Tag::BlockQuote) => break,
+                Event::End(TagEnd::BlockQuote) => break,
                 event => events.push(event),
             }
         }
@@ -85,7 +85,7 @@ fn gen_blockquote(events: Vec<Event>, key_value: Option<HashMap<String, String>>
 fn split_attrs(mut events: Vec<Event>) -> (Vec<Event>, Option<Attrs>) {
     let mut it = events.iter().rev();
 
-    if it.next() != Some(&Event::End(Tag::Paragraph)) {
+    if it.next() != Some(&Event::End(TagEnd::Paragraph)) {
         return (events, None);
     }
 
@@ -106,7 +106,7 @@ fn split_attrs(mut events: Vec<Event>) -> (Vec<Event>, Option<Attrs>) {
     events.pop();
     // Replace the softbreak with an ending parapgrah
     events.pop();
-    events.push(Event::End(Tag::Paragraph));
+    events.push(Event::End(TagEnd::Paragraph));
 
     (events, Some(attrs))
 }

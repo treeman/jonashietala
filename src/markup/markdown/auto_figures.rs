@@ -1,5 +1,5 @@
 use itertools::{Itertools, MultiPeek};
-use pulldown_cmark::{html::push_html, Event, Tag};
+use pulldown_cmark::{html::push_html, Event, Tag, TagEnd};
 use tracing::warn;
 
 use crate::markup::markdown::attrs::{parse_attrs, Attrs};
@@ -27,12 +27,12 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
         };
 
         match self.parent.peek()? {
-            Event::Start(Tag::Image(_, _, _)) => {}
+            Event::Start(Tag::Image { .. }) => {}
             _ => return Some(start),
         };
 
         loop {
-            if let Event::End(Tag::Image(_, _, _)) = self.parent.peek()? {
+            if let Event::End(TagEnd::Image) = self.parent.peek()? {
                 break;
             }
         }
@@ -42,7 +42,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
         // We should only transform if we end at a paragraph,
         // using multipeek next() will reset to after the paragraph start.
         match self.parent.peek()? {
-            Event::End(Tag::Paragraph) => {}
+            Event::End(TagEnd::Paragraph) => {}
             // Capture an optional { width=600px } tag
             Event::Text(ref text) => {
                 if let Some(parsed_attrs) =
@@ -50,7 +50,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
                 {
                     attrs = parsed_attrs;
                     let next = self.parent.peek()?;
-                    if *next != Event::End(Tag::Paragraph) {
+                    if *next != Event::End(TagEnd::Paragraph) {
                         warn!("Unknown event after attrs: {next:?}");
                         return Some(start);
                     }
@@ -66,23 +66,25 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
         }
 
         // Now we can eat it all up.
-        let (dest, title) =
-            if let Event::Start(Tag::Image(_type, dest, title)) = self.parent.next()? {
-                (dest.to_string(), title.to_string())
-            } else {
-                panic!("Should have next img tag");
-            };
+        let (dest, title) = if let Event::Start(Tag::Image {
+            dest_url, title, ..
+        }) = self.parent.next()?
+        {
+            (dest_url.to_string(), title.to_string())
+        } else {
+            panic!("Should have next img tag");
+        };
         // Caption comes before image tag end.
         let mut events = Vec::new();
         loop {
             match self.parent.next()? {
-                Event::End(Tag::Image(_, _, _)) => break,
+                Event::End(TagEnd::Image) => break,
                 event => events.push(event),
             }
         }
         // Eat until the ending paragraph
         loop {
-            if let Event::End(Tag::Paragraph) = self.parent.next()? {
+            if let Event::End(TagEnd::Paragraph) = self.parent.next()? {
                 break;
             }
         }

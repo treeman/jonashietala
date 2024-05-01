@@ -1,5 +1,5 @@
 use crate::markup::{markdown_to_html, strip_one_paragraph};
-use pulldown_cmark::escape;
+use pulldown_cmark_escape::escape_href;
 use std::collections::BTreeMap;
 
 pub struct Figure<'a> {
@@ -103,6 +103,6 @@ where
 
 pub fn to_escape_href(s: &str) -> String {
     let mut res = String::new();
-    escape::escape_href(&mut res, s).unwrap();
+    escape_href(&mut res, s).unwrap();
     res
 }

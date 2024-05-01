@@ -12,8 +12,7 @@ chrono = "0.4.34"
 eyre = "0.6.12"
 glob = "0.3.0"
 lazy_static = "1.4.0"
-# 0.10 breaks some things I don't care to fix, as markdown isn't used for new posts anymore.
-pulldown-cmark = { version = "= 0.9.6", default-features = false, features = ["simd"] }
+pulldown-cmark = { version = "0.10.3", default-features = false, features = ["simd", "html"] }
 regex = "1"
 serde = "1.0"
 serde_yaml = "0.9"
@@ -49,7 +48,7 @@ new_mime_guess = "4.0.1"
 xml-rs = "0.8.19"
 sxd-xpath = "0.4.2"
 sxd-document = "0.3.2"
-jotdown = "0.3.2"
+jotdown = "0.4.0"
 tokio-websockets = { version = "0.7.0", features = ["server", "openssl"] }
 futures-util = "0.3.30"
 flume = "0.11.0"
@@ -70,7 +69,6 @@ tree-sitter-fish = { git = "https://github.com/treeman/tree-sitter-fish" }
 # tree-sitter-fish = { git = "https://github.com/ram02z/tree-sitter-fish.git", rev = "f9176908c" }
 # tree-sitter-fish = { path = "../tree-sitter-fish" }
 tree-sitter-gleam = { git = "https://github.com/treeman/tree-sitter-gleam" }
-
 # tree-sitter-gleam = { git = "https://github.com/gleam-lang/tree-sitter-gleam.git", rev = "2012f29" }
 # tree-sitter-gleam = { path = "../tree-sitter-gleam" }
 # tree-sitter-toml = { path = "../tree-sitter-toml" }

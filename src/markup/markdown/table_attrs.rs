@@ -2,7 +2,7 @@ use crate::markup::markdown::attrs::{parse_attrs, Attrs};
 use crate::markup::markdown::html::push_open_tag;
 use crate::markup::markdown::pd_html::HtmlWriter;
 use itertools::{Itertools, MultiPeek};
-use pulldown_cmark::{Event, Tag};
+use pulldown_cmark::{Event, Tag, TagEnd};
 
 pub struct TableAttrs<'a, I: Iterator<Item = Event<'a>>> {
     parent: MultiPeek<I>,
@@ -55,7 +55,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for TableAttrs<'a, I> {
         let mut events = Vec::new();
         loop {
             match self.parent.next()? {
-                end @ Event::End(Tag::Table(_)) => {
+                end @ Event::End(TagEnd::Table) => {
                     events.push(end);
                     break;
                 }
@@ -83,10 +83,10 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for TableAttrs<'a, I> {
 fn split_attrs(mut events: Vec<Event>) -> (Vec<Event>, Option<Attrs>) {
     let mut it = events.iter().rev();
 
-    if !matches!(it.next(), Some(Event::End(Tag::Table(_)))) {
+    if !matches!(it.next(), Some(Event::End(TagEnd::Table))) {
         return (events, None);
     }
-    if !matches!(it.next(), Some(Event::End(Tag::TableRow))) {
+    if !matches!(it.next(), Some(Event::End(TagEnd::TableRow))) {
         return (events, None);
     }
 
@@ -97,7 +97,7 @@ fn split_attrs(mut events: Vec<Event>) -> (Vec<Event>, Option<Attrs>) {
                 Some(attrs) => break attrs,
                 None => return (events, None),
             },
-            Some(Event::Start(Tag::TableCell) | Event::End(Tag::TableCell)) => {}
+            Some(Event::Start(Tag::TableCell) | Event::End(TagEnd::TableCell)) => {}
             _ => return (events, None),
         }
     };

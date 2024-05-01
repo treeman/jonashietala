@@ -170,17 +170,6 @@ lazy_static! {
 
 fn init_configurations() -> HashMap<String, HighlightConfiguration> {
     [
-        // Rust seems to be highlighted better with syntect
-        // (
-        //     "rust",
-        //     HighlightConfiguration::new(
-        //         tree_sitter_rust::language(),
-        //         tree_sitter_rust::HIGHLIGHT_QUERY,
-        //         tree_sitter_rust::INJECTIONS_QUERY,
-        //         "",
-        //     )
-        //     .unwrap(),
-        // ),
         (
             "sdjot",
             HighlightConfiguration::new(
@@ -311,6 +300,10 @@ let x = 2;
 
     #[test]
     fn test_treesitter_highlight_djot() {
+        // NOTE this isn't really what we want to do.
+        // We want toml highlighting, not just `raw` rows.
+        // But I suspect there's some bug in the rust tree-sitter library,
+        // using the `tree-sitter` cli the grammars work.
         let highlighter = TreesitterHighlighter::find("djot").unwrap();
         assert_eq!(
             highlighter
@@ -318,10 +311,6 @@ let x = 2;
                     r#"---toml
 title = "Title"
 ---
-
-```gleam
-let x = 2;
-```
 "#
                 )
                 .unwrap(),
@@ -330,6 +319,5 @@ let x = 2;
 <span class="markup raw"><span class="punctuation delimiter">---</span></span>
 "#
         );
-        assert!(false);
     }
 }

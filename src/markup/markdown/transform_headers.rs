@@ -1,5 +1,5 @@
 use crate::util;
-use pulldown_cmark::{html::push_html, Event, HeadingLevel, Tag};
+use pulldown_cmark::{html::push_html, Event, HeadingLevel, Tag, TagEnd};
 use std::fmt::Write;
 
 pub struct TransformHeaders<'a, I: Iterator<Item = Event<'a>>> {
@@ -17,14 +17,16 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for TransformHeaders<'a, I> {
 
     fn next(&mut self) -> Option<Self::Item> {
         let (level, id, classes) = match self.parent.next()? {
-            Event::Start(Tag::Heading(level, id, classes)) => (level, id, classes),
+            Event::Start(Tag::Heading {
+                level, id, classes, ..
+            }) => (level, id, classes),
             other => return Some(other),
         };
 
         let mut events = Vec::new();
         loop {
             match self.parent.next()? {
-                Event::End(Tag::Heading(_, _, _)) => break,
+                Event::End(TagEnd::Heading(_)) => break,
                 event => events.push(event),
             }
         }

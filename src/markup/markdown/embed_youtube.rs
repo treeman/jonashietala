@@ -1,5 +1,5 @@
 use lazy_static::lazy_static;
-use pulldown_cmark::{Event, Tag};
+use pulldown_cmark::{Event, Tag, TagEnd};
 use regex::Regex;
 use std::iter::Peekable;
 
@@ -51,7 +51,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedYoutube<'a, I> {
 
         // Consume the text and ending paragraph, which we should replace with the embedded video.
         self.parent.next(); // Skip the Text
-        if self.parent.next() != Some(Event::End(Tag::Paragraph)) {
+        if self.parent.next() != Some(Event::End(TagEnd::Paragraph)) {
             panic!("Bare Youtube link not ending with a paragraph");
         }
 
