@@ -459,8 +459,8 @@ mod tests {
         );
         assert!(rendered.contains(r#"<iframe src="//www.youtube.com/embed/eoKDyhxCVm0""#));
         assert!(rendered.contains("☃︎"));
-        assert!(rendered.contains("&mdash;and&ndash;some"));
-        assert!(rendered.contains("&ldquo;Auto quote&rdquo; &lsquo;A&rsquo;"));
+        assert!(rendered.contains("Dashes—and–some…"));
+        assert!(rendered.contains("“Auto quote” ‘A’"));
         // Yeah maybe it wold be easier to check these another way
         assert!(rendered.contains(r#"href="/blog/tags/tag1""#));
         assert!(rendered.contains(r#"href="/blog/tags/tag_2""#));
