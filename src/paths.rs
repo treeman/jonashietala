@@ -104,7 +104,7 @@ impl RelPath {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Clone)]
+#[derive(Debug, Eq, PartialEq, Clone, PartialOrd, Ord)]
 pub struct AbsPath(pub Utf8PathBuf);
 
 impl AbsPath {

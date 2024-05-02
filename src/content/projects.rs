@@ -3,7 +3,7 @@ use eyre::Result;
 use itemref_derive::ItemRef;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
-use std::cmp::Ordering;
+use std::cmp::{Ordering, Reverse};
 use std::collections::BTreeMap;
 use tera::Context;
 
@@ -123,7 +123,7 @@ struct ProjectsContext<'a> {
 pub struct ProjectRef {
     pub id: String,
     #[order]
-    pub path: AbsPath,
+    pub path: Reverse<AbsPath>,
 }
 
 #[derive(Debug)]
@@ -168,7 +168,7 @@ impl Project {
     pub fn project_ref(&self) -> ProjectRef {
         ProjectRef {
             id: self.id().to_string(),
-            path: self.path.clone(),
+            path: Reverse(self.path.clone()),
         }
     }
 }
