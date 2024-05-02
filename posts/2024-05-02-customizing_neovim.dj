@@ -267,12 +267,20 @@ Instead of pasting a big chunk of code, let's go through the most important impl
    {
      cmd = "rg",
      args = {
-       "-NoH",
-       "^title = (.+)",
+        "-INo",
+        "^title = (.+)$",
        path,
      },
    }
    ```
+
+   Because we might get multiple matches (such as in this post), we can extract it using Lua:
+
+   ```lua
+   return output:match('title = "([^%"]+)"')
+   ```
+
+   Not the prettiest solution I've come up with.
 
    ::: notice
    Another solution would be to rely on the Rust blog generation tool to provide the title;
