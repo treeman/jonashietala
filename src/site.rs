@@ -565,11 +565,21 @@ impl Site {
             EventKind::Access(AccessKind::Close(AccessMode::Write)) => {
                 self.write_event(event.paths.pop().unwrap())?;
             }
-            // Generated when renaming a file.
+            // Generated when renaming a file inside the blog folder.
             EventKind::Modify(ModifyKind::Name(RenameMode::Both)) => {
                 let from = event.paths[0].clone();
                 let to = event.paths[1].clone();
                 self.rename_event(from, to)?;
+            }
+            // Happens when moving a file from outside the blog
+            // folder to inside the blog folder.
+            EventKind::Modify(ModifyKind::Name(RenameMode::To)) => {
+                self.move_create_event(event.paths.pop().unwrap())?;
+            }
+            // Happens when moving a file from inside the blog
+            // folder to outside the blog folder.
+            EventKind::Modify(ModifyKind::Name(RenameMode::From)) => {
+                self.remove_event(event.paths.pop().unwrap())?;
             }
             // Generated when removing a file.
             EventKind::Remove(_) => {
@@ -577,6 +587,17 @@ impl Site {
             }
             _ => {}
         }
+        Ok(())
+    }
+
+    fn move_create_event(&mut self, path: PathBuf) -> Result<()> {
+        let path = self.file_path_from_std(path)?;
+
+        match PathEvent::from_path(&path) {
+            PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
+            _ => {}
+        }
+
         Ok(())
     }
 
