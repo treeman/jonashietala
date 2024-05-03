@@ -928,6 +928,7 @@ impl Site {
                 return Some(Cow::Owned(ProjectsItem::url()));
             }
         }
+        // TODO should support images, fonts, css, js
         None
     }
 

@@ -1,0 +1,19 @@
+---toml
+title = "Migrating to rocks.nvim"
+tags = ["Neovim"]
+---
+
+# Why [rocks.nvim][]?
+
+Benefits over [lazy.nvim][].
+
+a. Pin versions
+a. Let plugins handle their dependencies
+a. Import [luarocks][] dependencies
+
+[yaml]: https://luarocks.org/modules/gaspard/yaml
+[toml]: https://luarocks.org/modules/LebJe/toml
+[luarocks]: https://luarocks.org/
+[rocks.nvim]: https://github.com/nvim-neorocks/rocks.nvim
+[lazy.nvim]: https://github.com/folke/lazy.nvim
+
