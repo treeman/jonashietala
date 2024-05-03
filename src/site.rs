@@ -551,8 +551,9 @@ impl Site {
         }
     }
 
-    fn render_item<T: Item + ?Sized>(&self, item: &T) -> Result<()> {
-        item.render(&self.render_ctx())
+    fn render_item(&self, item: &dyn Item) -> Result<()> {
+        item.render(&self.render_ctx())?;
+        self.notify_change(&[item])
     }
 
     pub fn file_changed(&mut self, mut event: Event) -> Result<()> {
@@ -858,7 +859,7 @@ impl Site {
     fn remove_output(&mut self, path: FilePath) -> Result<()> {
         info!("File removed: {path}");
         std::fs::remove_file(&self.opts.output_dir.join(&path.rel_path.0))?;
-        Ok(())
+        self.notify_refresh()
     }
 
     fn rebuild_copy(&mut self, path: FilePath) -> Result<()> {
@@ -866,7 +867,8 @@ impl Site {
         util::copy_file(
             &path.abs_path(),
             &self.opts.output_dir.join(&path.rel_path.0),
-        )
+        )?;
+        self.notify_refresh()
     }
 
     fn rebuild_all(&mut self) -> Result<()> {
@@ -917,10 +919,13 @@ impl Site {
             }
         }
 
+        self.notify_refresh()
+    }
+
+    fn notify_refresh(&self) -> Result<()> {
         if let Some(ref tx) = self.web_notifier {
             tx.send(WebEvent::Refresh)?;
         }
-
         Ok(())
     }
 }
