@@ -1,3 +1,4 @@
+use camino::Utf8Path;
 use eyre::Result;
 use flume::Sender;
 use hotwatch::notify::event::AccessKind;
@@ -9,6 +10,7 @@ use hotwatch::EventKind;
 use lazy_static::lazy_static;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use serde::Serialize;
+use std::borrow::Cow;
 use std::cmp::Reverse;
 use std::collections::BTreeMap;
 use std::collections::BTreeSet;
@@ -903,8 +905,30 @@ impl Site {
         FilePath::from_std_path(&self.opts.input_dir, path)
     }
 
+    pub fn file_path(&self, path: impl AsRef<Utf8Path>) -> Result<FilePath> {
+        FilePath::from_path(&self.opts.input_dir, path)
+    }
+
     pub fn list_imgs<'a>(&'a self) -> impl Iterator<Item = WalkDirRes> + 'a {
         paths::file_iter(self.opts.input_dir.join("images"))
+    }
+
+    pub fn path_to_url<'a>(&'a self, path: &str) -> Option<Cow<'a, SiteUrl>> {
+        if let Some(x) = self.content.find_post_by_path(path) {
+            return Some(Cow::Borrowed(x.url()));
+        }
+        if let Some(x) = self.content.find_series_by_path(path) {
+            return Some(Cow::Borrowed(x.url()));
+        }
+        if let Some(x) = self.content.find_standalone_by_path(path) {
+            return Some(Cow::Borrowed(x.url()));
+        }
+        if let Ok(file_path) = self.file_path(path) {
+            if file_path.rel_path.0.starts_with("projects") {
+                return Some(Cow::Owned(ProjectsItem::url()));
+            }
+        }
+        None
     }
 
     pub fn find_lookup_by_path<'a>(&'a self, path: &AbsPath) -> Option<&'a MarkupLookup> {

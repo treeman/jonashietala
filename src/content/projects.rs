@@ -33,7 +33,6 @@ impl ProjectsItem {
         let markup: MarkupFile<ProjectsMetadata> =
             raw_markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
 
-        let url = SiteUrl::parse("/projects").expect("Should be able to create a url");
         let title = markup.markup_meta.title.clone();
 
         let project_files = find_markup_files(&[dir.join("projects")]);
@@ -53,7 +52,7 @@ impl ProjectsItem {
             .collect::<Result<BTreeMap<GameRef, Game>>>()?;
 
         Ok(Self {
-            url,
+            url: Self::url(),
             prematter: markup.html,
             markup_lookup: markup.markup_lookup,
             path: markup.path,
@@ -61,6 +60,10 @@ impl ProjectsItem {
             projects,
             games,
         })
+    }
+
+    pub fn url() -> SiteUrl {
+        SiteUrl::parse("/projects").expect("Should be able to create a url")
     }
 
     pub fn find_lookup_by_path<'a>(&'a self, path: &AbsPath) -> Option<&'a MarkupLookup> {

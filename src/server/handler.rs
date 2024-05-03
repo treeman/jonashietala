@@ -23,11 +23,11 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             path,
             ..
         } => {
-            if let Some(post) = site.content.find_post_by_path(path.as_str()) {
+            if let Some(url) = site.path_to_url(path.as_str()) {
                 Some(Response::Web(WebEvent::PositionPage {
                     linenum,
                     linecount,
-                    url: post.url.href().to_string(),
+                    url: url.href().to_string(),
                 }))
             } else {
                 warn!("Unknown path for cursor moved: {}", path);
