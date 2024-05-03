@@ -1,0 +1,18 @@
+---toml
+title = "Yubikey"
+tags = ["Some tag"]
+---
+
+Things I want to do:
+
+- Sign GPG key for commits
+- Encode/decode GPG messages. Sign?
+- Multiple TOTP
+- U2F / FIDO2 / WebAuthn
+- ssh
+- static password on touch?
+  Root login for home computers?
+- 2nd factor for full disk encryption
+- OpenVPN with Yubikey?
+
+[yubikey-cheatsheet]: https://debugging.works/blog/yubikey-cheatsheet/
