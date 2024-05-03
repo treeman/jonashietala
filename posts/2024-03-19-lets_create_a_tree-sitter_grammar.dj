@@ -508,7 +508,7 @@ void tree_sitter_sdjot_external_scanner_deserialize(void *payload, char *buffer,
 
 And that's the (initial) state management taken care of!
 
-::: notice
+::: tip
 C is scary.
 Try [valgrind][].
 :::

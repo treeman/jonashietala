@@ -279,7 +279,9 @@ pub enum DivClass {
     Flex,
     Gallery,
     Epigraph,
-    Notice,
+    Note,
+    Tip,
+    Warn,
     Greek,
 }
 
@@ -290,7 +292,9 @@ impl DivClass {
             "flex" => Some(Self::Flex),
             "gallery" => Some(Self::Gallery),
             "epigraph" => Some(Self::Epigraph),
-            "notice" => Some(Self::Notice),
+            "note" => Some(Self::Note),
+            "tip" => Some(Self::Tip),
+            "warn" => Some(Self::Warn),
             "greek" => Some(Self::Greek),
             _ => None,
         }
@@ -301,7 +305,9 @@ impl DivClass {
             Self::Flex => "flex",
             Self::Gallery => "gallery",
             Self::Epigraph => "epigraph",
-            Self::Notice => "notice",
+            Self::Note => "note",
+            Self::Tip => "tip",
+            Self::Warn => "warn",
             Self::Greek => "greek",
         }
     }
@@ -318,7 +324,9 @@ fn div_class_completions() -> Vec<CompletionItem> {
         DivClass::Flex,
         DivClass::Gallery,
         DivClass::Epigraph,
-        DivClass::Notice,
+        DivClass::Note,
+        DivClass::Tip,
+        DivClass::Warn,
         DivClass::Greek,
     ]
     .into_iter()

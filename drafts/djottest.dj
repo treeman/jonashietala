@@ -191,8 +191,16 @@ Nesting:
 
 Text
 
-::: notice
-This is [a notice](#)
+::: note
+This is [a note](#)
+:::
+
+::: tip
+This is [a tip](#)
+:::
+
+::: warn
+This is [a warning](#)
 :::
 
 Text

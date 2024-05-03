@@ -151,7 +151,7 @@ So I replaced them with [alternative secret tiles][] that never blocks a ball pa
 
 I also used the [inverted secret lid][] to make the lid (much) easier to print well.
 
-::: notice
+::: warn
 If you want to use the standard secret tiles, please note that the holes for the lids are too shallow for a few of them.
 See [this link][fix-secret] and [this link][fix-flipper] for fixes.
 :::

@@ -35,7 +35,7 @@ pickers
   :find()
 ```
 
-::: notice
+::: tip
 How do I know this?
 Because I watched [Developing a Neovim Docker Plugin from Scratch][].
 It does a way better job walking you through a telescope plugin than I could ever do.
@@ -441,7 +441,7 @@ With [ripgrep][] and regex of course!
 This time though I have a good reason for choosing an external tool rather than asking the backend server:
 I want to be able to find a post the very first thing I do when opening Neovim, and I don't want to wait on connecting to a backend service, or requiring one running at all times.
 
-::: notice
+::: note
 I guess this is mostly an excuse to try to do as much as I can in Lua, as I could've reused the parser on the backend and treat it as a command-line program---like ripgrep.
 :::
 

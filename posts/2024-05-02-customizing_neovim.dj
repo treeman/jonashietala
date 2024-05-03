@@ -282,7 +282,7 @@ Instead of pasting a big chunk of code, let's go through the most important impl
 
    Not the prettiest solution I've come up with.
 
-   ::: notice
+   ::: note
    Another solution would be to rely on the Rust blog generation tool to provide the title;
    it would be more robust since the backend properly parses the file.
    I started with this route as one of my goals with customizing Neovim was to familiarize myself more with Lua.

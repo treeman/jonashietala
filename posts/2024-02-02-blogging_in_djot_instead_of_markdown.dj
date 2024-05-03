@@ -184,12 +184,12 @@ There isn't a native way to do this (other than inserting raw html, _ew_).
 For my own transformations the `div` system works well as a starting point, so I can use this kind of input:
 
 ```djot
-::: notice
-This is a notice
+::: note
+This is a note
 :::
 ```
 
-And then match on the `notice` class to transform the `div` into `aside`, and we're done.
+And then match on the `note` class to transform the `div` into `aside`, and we're done.
 
 In [Jotdown][], like with [pulldown-cmark][], transformations are made by transforming iterators over events.
 Here I'm looking for `Event::Start(Container::Div, attrs)` and `Event::End(Container::Div)` (I ignore nesting).
@@ -276,7 +276,7 @@ So this example:
 
 ```djot
 > With author attribution
-> ^ [John Doe](#) ^31/1^
+> ^ [John Doe](#) ~31/1~
 ```
 
 Would produce:
@@ -285,7 +285,7 @@ Would produce:
 <blockquote>
   <p>With author attribution</p>
   <footer>
-    <span class="author"><a href="#">John Doe</a> <sup>31/1</sup></span>
+    <span class="author"><a href="#">John Doe</a> <sub>31/1</sub></span>
   </footer>
 </blockquote>
 ```

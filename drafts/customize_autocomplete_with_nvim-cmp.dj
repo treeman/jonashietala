@@ -99,7 +99,7 @@ Assuming you've got [nvim-cmp][] setup correctly, our completion should show up:
 
 ![](/images/extend_blog/one_two_cmp.png)
 
-::: notice
+::: tip
 I used [lspkind.nvim][] to display the `[BLOG]` label and type information.
 
 You configure it like so:
@@ -298,7 +298,7 @@ The `[^%)]*` part allows the completion to match further into the path:
       We're not done yet
 ```
 
-::: notice
+::: warn
 Astute regex practitioners might notice that the image regex only matches `![](/path)`, and not `![img text](/path)`.
 To fix it maybe we could use a regex like `!%[[^%]]*%]%([^%)]*$`.
 
@@ -308,7 +308,7 @@ Yes, the correct solution is more complex than regex matching against `cursor_be
 That's an exercise for the concerned reader to implement.
 :::
 
-::: notice
+::: note
 As the completion logic grew more complex, I moved it out from Neovim to the backend.
 It was easier to setup completion details for individual items that way, and now I only rely on a single `"Complete"`lua message that I pipe directly back to `cmp`:
 

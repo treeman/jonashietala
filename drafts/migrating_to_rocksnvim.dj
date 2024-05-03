@@ -7,7 +7,7 @@ tags = ["Neovim"]
 
 Benefits over [lazy.nvim][].
 
-a. Pin versions
+a. Pin versions (not a feature yet...)
 a. Let plugins handle their dependencies
 a. Import [luarocks][] dependencies
 

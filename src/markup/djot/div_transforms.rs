@@ -47,7 +47,9 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for DivTransforms<'a, I> {
 
 #[derive(Debug)]
 enum TransformType {
-    Notice,
+    Note,
+    Tip,
+    Warn,
     Flex,
     Figure,
     Gallery,
@@ -56,7 +58,9 @@ enum TransformType {
 impl TransformType {
     fn parse(id: &str) -> Option<Self> {
         match id.to_lowercase().as_str() {
-            "notice" => Some(Self::Notice),
+            "note" => Some(Self::Note),
+            "tip" => Some(Self::Tip),
+            "warn" => Some(Self::Warn),
             "flex" => Some(Self::Flex),
             "figure" => Some(Self::Figure),
             "gallery" => Some(Self::Gallery),
@@ -66,7 +70,9 @@ impl TransformType {
 
     fn transform<'a>(self, content: Vec<Event<'a>>) -> Vec<Event<'a>> {
         match self {
-            Self::Notice => wrap_content(content.into_iter(), "aside", None),
+            Self::Note => wrap_content(content.into_iter(), "aside", Some("note")),
+            Self::Tip => wrap_content(content.into_iter(), "aside", Some("tip")),
+            Self::Warn => wrap_content(content.into_iter(), "aside", Some("warn")),
             Self::Flex => parse_flex(content.into_iter()),
             Self::Figure => wrap_images(content.into_iter(), "figure", None, false),
             Self::Gallery => wrap_images(content.into_iter(), "figure", Some("gallery"), true),

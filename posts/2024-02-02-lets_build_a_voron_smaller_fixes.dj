@@ -91,8 +91,8 @@ But also an unused bag with "Teflon Tubing, 4x2mm", which surely shouldn't be co
 Turns out you're supposed to use a tube with an inner diameter of 2mm between the extruder and hotend, but I had used the regular PTFE tube that had an inner diameter of 3mm.
 This isn't ideal and requires more retraction (which I didn't compensate for), and it can cause stringing issues (which I had).
 
-::: notice
-Note to self: Don't use a tube with an inner diameter of 2mm between the extruder and spool, the filament will get stuck due to friction.
+::: tip
+Don't use a tube with an inner diameter of 2mm between the extruder and spool, the filament will get stuck due to friction.
 :::
 
 
@@ -116,7 +116,7 @@ The first layer started to look garbage as well:
 
 The worst part is, I didn't think I had changed anything.
 
-::: notice
+::: note
 In hindsight me fixing the [bed mesh offset][Bed mesh offset in one corner] might have been the cause my sudden problems.
 :::
 

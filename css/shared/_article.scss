@@ -321,9 +321,44 @@ article {
     @include extra-space-s;
     @include flow;
     font-size: 95%;
-    background-color: var(--melange_a_float);
-    padding: var(--space-xs);
-    border: 1px dashed var(--melange_c_red);
+
+    padding-inline-start: var(--space-m);
+    padding-block-start: var(--space-3xs);
+    padding-block-end: var(--space-2xs);
+    display: flex;
+    flex-direction: column;
+    border-width: 0;
+    border-left-width: 3px;
+    border-style: solid;
+
+    &::before {
+      @include sans-serif;
+      margin-block-end: var(--space-2xs);
+    }
+  }
+  aside.note {
+    border-color: var(--melange_b_blue);
+
+    &::before {
+      content: "Note";
+      color: var(--melange_b_blue);
+    }
+  }
+  aside.tip {
+    border-color: var(--melange_b_green);
+
+    &::before {
+      content: "Tip";
+      color: var(--melange_b_green);
+    }
+  }
+  aside.warn {
+    border-color: var(--melange_b_yellow);
+
+    &::before {
+      content: "Warning";
+      color: var(--melange_b_yellow);
+    }
   }
 
   aside {
@@ -336,19 +371,19 @@ article {
   /*
    * todo comments
    */
-  .todo,
-  .fixme,
-  .note {
+  span.todo,
+  span.fixme,
+  span.note {
     color: var(--melange_a_bg);
     padding: var(--space-3xs);
   }
-  .todo {
+  span.todo {
     background-color: var(--melange_c_blue);
   }
-  .fixme {
+  span.fixme {
     background-color: var(--melange_c_red);
   }
-  .note {
+  span.note {
     background-color: var(--melange_c_cyan);
   }
 

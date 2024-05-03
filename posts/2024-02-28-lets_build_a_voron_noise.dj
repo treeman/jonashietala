@@ -38,8 +38,8 @@ I also took the opportunity to cleanup the wiring and place the fans on the othe
 
 ![The wiring looks pretty neat. I hope I don't have to mess with it in a long time.](/images/trident/clean_wiring.jpg)
 
-::: notice
-Note from the future: I've been writing these posts out of order, and I've had to mess with the wiring a bit.
+::: note
+Message from the future: I've been writing these posts out of order, and I've had to mess with the wiring a bit.
 :::
 
 You could do something smart with the fan management, but I no longer hear the fans so I just leave them on all the time.
