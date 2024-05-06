@@ -20,7 +20,7 @@ To a custom posts picker that display posts in a neater way and allows us to fil
 ## The simplest picker
 
 It's fairly easy to create a new picker for [telescope.nvim][].
-In it's simplest form, all you need to do is provide a list of items to `telescope.pickers`:
+In it's simplest form, all you need to do is provide a list of items:
 
 ```lua
 local pickers = require("telescope.pickers")
@@ -41,7 +41,7 @@ Because I watched [Developing a Neovim Docker Plugin from Scratch][].
 It does a way better job walking you through a telescope plugin than I could ever do.
 :::
 
-All you then need to do is make sure to call the above code somehow, for example by wrapping it in a function and add a keymap to it:
+Then we need to call the above code somehow, for example by wrapping it in a function and add a keymap to it:
 
 ```lua
 local map = vim.keymap.set
@@ -93,7 +93,7 @@ Clearly, there's room for improvement.
 
 Turns out that `ordinal` can also be a table, and you can provide your own `sorter` that operates on the ordinal to sort and filter.
 
-This is the basic setup, where we'll later fill in `scoring_function`:
+This is the basic setup:
 
 ```lua
 pickers
@@ -107,9 +107,8 @@ pickers
     entry_maker = function(entry)
       return {
         display = entry.title,
-        -- `ordinal` is now a table.
+        -- `ordinal` is now a table containing all the entry info specified in `results`.
         ordinal = entry,
-        value = entry,
       }
     end,
   }),
@@ -119,8 +118,7 @@ pickers
 :find()
 ```
 
-`post_sorter` should return a new `Sorter` that describes the sorting behavior.
-It's wrapped in a function to allow us to rely on the fuzzy sorter for multiple fields, like so:
+`post_sorter` should return a new `Sorter` that describes the sorting behavior:
 
 ```lua
 local function post_sorter(opts)
@@ -129,6 +127,7 @@ local function post_sorter(opts)
   local fzy_sorter = sorters.get_fzy_sorter(opts)
 
   return sorters.Sorter:new({
+    -- Allow us to filter entries as well as sorting them.
     discard = true,
 
     scoring_function = function(_, prompt, entry)
@@ -136,8 +135,8 @@ local function post_sorter(opts)
       return fzy_sorter:scoring_function(prompt, entry.title)
     end,
 
-    -- We could also specify a highlighter. This works fine in this case,
-    -- but as we modify `scoring_function` we have to modify this too.
+    -- We could also specify a highlighter. The highlighter works fine in this case,
+    -- but if we modify `scoring_function` we have to modify this too.
     -- I admit, I currently don't use a highlighter for my posts finder.
     highlighter = fzy_sorter.highlighter,
   })
@@ -155,17 +154,17 @@ First, the input arguments to `scoring_function`:
 
 1. `entry` is the ordinal entry that `entry_maker` returns.
 
-  For example:
+  For instance, in our example `entry` could be this:
 
   ```lua
-  { title = "Two", tags = { "Tag2" } }
+  { title = "Two", tags = { "Tag2" }, path = "posts/2024-02-02-two.dj" }
   ```
 
 What `scoring_function` should do is return a single numeric value signifying how close `ordinal` is to `prompt`, where higher means a better match.
 Because we defined `discard = true`lua if we return a value less than `0`lua, the entry will get removed (filtered).
 
 At first I thought this was a weird way of creating a sorting function.
-I had expected a comparison function like `cmp(left, right)`lua, but after having implemented structured sorting for posts it feels pretty clever.
+I had expected a comparison function like `cmp(left, right)`lua but after having played with it a little it seems pretty clever.
 
 ### Sorter requirements
 
