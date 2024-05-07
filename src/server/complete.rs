@@ -597,6 +597,8 @@ mod tests {
         assert_eq!(one_info.url, "/blog/tags/one");
         assert_eq!(one_info.posts.len(), 3);
 
+        // dbg!(&items);
+
         assert_eq!(
             find_insert_text("/404", &items),
             Some(&CompletionItem {
@@ -607,7 +609,7 @@ mod tests {
                 info: Some(ExtraCompletionInfo::Standalone(StandaloneInfo {
                     title: "404".into(),
                     url: "/404".into(),
-                    path: test_site.input_path("static/404.markdown").to_string()
+                    path: test_site.input_path("standalone/404.markdown").to_string()
                 }))
             })
         );

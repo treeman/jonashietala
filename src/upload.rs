@@ -331,7 +331,7 @@ mod tests {
         let local = [
             "test-site/about.markdown",
             "test-site/projects.markdown",
-            "test-site/static/404.markdown",
+            "test-site/standalone/404.markdown",
         ]
         .into_iter()
         .map(|x| FilePath {
@@ -397,7 +397,7 @@ mod tests {
                 UploadData {
                     file_path: FilePath {
                         base,
-                        rel_path: RelPath("test-site/static/404.markdown".into()),
+                        rel_path: RelPath("test-site/standalone/404.markdown".into()),
                     },
                     content: None,
                 },

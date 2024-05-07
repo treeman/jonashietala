@@ -93,7 +93,7 @@ impl SiteContent {
             &mut posts,
         )?;
         let standalones = load_standalones(
-            opts.input_dir.join("static"),
+            opts.input_dir.join("standalone"),
             opts.generate_markup_lookup,
             opts.include_drafts,
         )?;
@@ -353,7 +353,7 @@ enum PathEvent {
     Css,
     Js,
     Post,
-    Static,
+    Standalone,
     Draft,
     Series,
     Template,
@@ -376,8 +376,8 @@ impl PathEvent {
             Self::Js
         } else if path.rel_path.starts_with("posts/") {
             Self::Post
-        } else if path.rel_path.starts_with("static/") {
-            Self::Static
+        } else if path.rel_path.starts_with("standalone/") {
+            Self::Standalone
         } else if path.rel_path.starts_with("drafts/") {
             Self::Draft
         } else if path.rel_path.starts_with("series/") {
@@ -536,7 +536,7 @@ impl Site {
                 &self.opts.output_dir,
             )?;
             copied += util::copy_files_to(
-                self.opts.input_dir.join("static/*.txt").as_str(),
+                self.opts.input_dir.join("standalone/*.txt").as_str(),
                 &self.opts.output_dir,
             )?;
             debug!("Copied {} files", copied);
@@ -615,7 +615,7 @@ impl Site {
             PathEvent::Js => self.rebuild_js()?,
             PathEvent::Post => self.rebuild_post(path.abs_path())?,
             PathEvent::Draft => self.rebuild_draft(path.abs_path())?,
-            PathEvent::Static => self.rebuild_standalone(path.abs_path())?,
+            PathEvent::Standalone => self.rebuild_standalone(path.abs_path())?,
             PathEvent::Series => self.rebuild_series(path.abs_path())?,
             PathEvent::Template => self.rebuild_template(path.abs_path())?,
             PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
@@ -1100,8 +1100,11 @@ mod tests {
         for (path, errors) in file_errors {
             // Drafts shouldn't generate hard errors, but output warnings if we run
             // the test with -- --nocapture or if the test fails for other reasons.
-            let is_draft = path.as_str().contains("/drafts/");
-            if !is_draft {
+            let path_str = path.as_str();
+            let is_draft = path_str.contains("/drafts/");
+            let ignored_file = path_str.ends_with("/djottest/index.html")
+                || path_str.ends_with("/mdtest/index.html");
+            if !is_draft && !ignored_file {
                 file_error_count += errors.len();
             }
 
@@ -1202,7 +1205,7 @@ My created draft
             .contains("My created draft"));
 
         test_site.create_file(
-            "static/my_static.markdown",
+            "standalone/my_static.markdown",
             r#"
 ---
 title: "Some static page"

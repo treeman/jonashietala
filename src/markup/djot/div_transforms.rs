@@ -229,16 +229,48 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_notice() -> Result<()> {
-        let s = "::: notice
+    fn test_parse_note() -> Result<()> {
+        let s = "::: note
 Text here
 :::";
         assert_eq!(
             convert(s)?,
-            r"<aside>
+            r#"<aside class="note">
 <p>Text here</p>
 </aside>
-"
+"#
+        );
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_parse_tip() -> Result<()> {
+        let s = "::: tip
+Text here
+:::";
+        assert_eq!(
+            convert(s)?,
+            r#"<aside class="tip">
+<p>Text here</p>
+</aside>
+"#
+        );
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_parse_warn() -> Result<()> {
+        let s = "::: warn
+Text here
+:::";
+        assert_eq!(
+            convert(s)?,
+            r#"<aside class="warn">
+<p>Text here</p>
+</aside>
+"#
         );
 
         Ok(())

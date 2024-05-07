@@ -245,7 +245,6 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
                 "",
                 "",
             )
-            .map_err(|err| dbg!(err))
             .unwrap(),
         ),
         (
@@ -257,7 +256,6 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
                 tree_sitter_lua::INJECTIONS_QUERY,
                 tree_sitter_lua::LOCALS_QUERY,
             )
-            .map_err(|err| dbg!(err))
             .unwrap(),
         ),
     ]
