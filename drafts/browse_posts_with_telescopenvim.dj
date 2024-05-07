@@ -183,7 +183,7 @@ I had expected a comparison function like `cmp(left, right)`lua but after having
 
 ### Sorter requirements
 
-Before jumping into implementation details, let's take a step back and figure out what behavior we want.
+Before implementing `scoring_function`, let's take a step back and figure out what behavior we want.
 You could go nuts with advanced features such as boolean operators, set comparisons, and similar.
 While cool, I don't think it's worth implementing as my requirements are fairly simple:
 
@@ -196,8 +196,6 @@ While cool, I don't think it's worth implementing as my requirements are fairly 
   It's neat if you can type some text and it filters for series _or_ post title, but in practice I never really want that.
   If I want to filter against the post series, I want to be explicit about it and the same holds for tags.
 
-  (I tried the implicit way; it didn't feel right.)
-
 - Filter posts containing `tag1` _and_ `tag2`.
 
   I contemplated searching for `tag1` _or_ `tag2`, but what I want is to reduce the number of matches as I add more information, not increase them.
@@ -205,12 +203,12 @@ While cool, I don't think it's worth implementing as my requirements are fairly 
 - Include published date in ordering.
 
   At a base level I want to see newer posts before older ones.
-  This is especially true when I first open telescope without a prompt, then I want to see an ordered lists of all posts.
+  This is especially true when I first open telescope without prompting anything, then I want to see an ordered lists of all posts.
 
 ### Prompt syntax
 
 Because I want to be explicit we need some syntax to separate text we want to match against post tags, series, and title.
-Simplicity is nice, and a simple solution is to treat `@` prefixed words as tag matches and `#` prefixed words as series matches.
+Simplicity is nice, and a simple solution is to prefix tags with `@` and prefix series with `#`, separated by spaces.
 I always find that an example is worth a 1000 words, so here are some examples to shave down the precious words count:
 
 i. `@rust gleam`
@@ -229,7 +227,7 @@ i. `build # start`
 
    Require a post with a series and post title matching `build start`.
 
-The code that splits a prompt into parts is conceptually simple: split the prompt into words and categorize them depending starting character.
+The code that converts a prompt into parts is conceptually simple: split the prompt into words and categorize them depending starting character.
 This is what I use:
 
 ```lua
@@ -240,7 +238,8 @@ local function split_prompt(prompt)
   -- Iterates over all non-space substrings.
   -- `prompt:gmatch` is syntax sugar for `string.gmatch(prompt, ..)`
   for word in prompt:gmatch("([^%s]+)") do
-    -- `sub(1, 1)` works with empty strings too!
+    -- Use `sub(1, 1)` to get the first character.
+    -- It works with empty strings too!
     local fst = word:sub(1, 1)
     if fst == "@" then
       -- Don't include the `@` in tags.
@@ -263,11 +262,11 @@ local function split_prompt(prompt)
 end
 ```
 
-I'm a bit of a Lua noob, so there may be other ways to do solve this.
+I'm a bit of a Lua noob, so there may be better solutions.
 
 ### Implementing `scoring_function`
 
-With a plan in place, let's go back to try to realize it in `scoring_function`.
+With a plan in place, let's go back to try to realize it.
 The basic idea is to match against series, tags, and title separately and add their scores at the end:
 
 ```lua
@@ -316,7 +315,7 @@ local function score_element(prompt_elements, entry_element, sorter)
 
   -- Convert multiple entry values to a string like `tag1:tag2`.
   local entry
-  -- We can use `type` to dynamically check the type of a variable
+  -- We can use `type()` to dynamically check the type of a variable
   -- and act occordingly.
   if type(entry_element) == "string" then
     entry = entry_element
@@ -335,23 +334,27 @@ local function score_element(prompt_elements, entry_element, sorter)
     total = total + score
   end
 
-  -- Clamp score to 0..1. Not strictly needed but it makes the scoring for parts neater.
+  -- Clamp score to 0..1.
+  -- Not strictly needed but it feels neater.
   return total / #prompt_elements
 end
 ```
 
 With this in place we have a working sorter.
-If we type regular text, then `series_score` and `tags_score` will be `0`lua, basically ignoring them in the scoring function.
-A `#series_filter` will cause `series_score == -1`lua unless the post has a matching series, removing the entry.
-And typing `@tag1 @tag2` will require a match for every tag, otherwise `tags_score == -1`lua that again removes the entry.
 
-The only requirement left is to order posts by date, carefully not to override the sort order we get from the fuzzy matching.
+- If we type regular text, then `series_score` and `tags_score` will be `0`lua, practically ignoring them.
+- A `#series_filter` will set `series_score == -1`lua unless the post has a matching series, removing the entry.
+- And typing `@tag1 @tag2` will require a match for every tag, otherwise `tags_score == -1`lua that again removes the entry.
+- Adding the fuzzy scores together gives us a pretty good fuzzy matching behavior I feel.
+
+The only requirement left is to order posts by date.
+It must be done carefully not to override the sort order we get from the fuzzy matching.
 
 One way to do this is to sort all posts and add a post counter to each entity (so the first post would get `1`lua and the last `272`lua) and then add it to the final score somehow.
-This felt a little bit annoying to me and I wanted to see if I could implement the scoring function without having to sort the entries first.
+This felt a little cumbersome and I wanted to see if I could implement the scoring function without having to sort the entries first.
 After all, we already have the date of each post...
 
-This is possible by placing the post on a timescale between the date of the very first post and today, and then clamping the range to `0..1`lua.
+This is possible by placing the post on a timeline between the date of the very first post and today, and then clamping the range to `0..1`lua.
 Something like this:
 
 ```lua
@@ -359,19 +362,21 @@ Something like this:
 local beginning_of_time = 20090621
 -- Today's date as a number.
 local today = os.date("%Y%m%d")
--- The entry date looks like `2023-01-31`, if we remove `-` it's like a number.
+-- The entry date looks like `2023-01-31`, if we remove `-` it's formatted like the above.
 local entry_date = string.gsub(entry.date, "-", "")
--- Place the entry date on a 0..1 scale, where 1 is today
+-- Place the entry date on a 0..1 scale, where 1 is today.
 -- (`1 -` reverses, otherwise 1 would be the beginning of time).
 local date_score = 1 - (entry_date - beginning_of_time) / (today - beginning_of_time)
 
 -- Date sorting is only worth 1/10 of the fuzzy scores.
--- Why? I dunno, it felt like 1 was too much and 1/10 felt good.
+-- Why? I dunno, 1 was too much and 1/10 felt good.
 return series_score + tags_score + title_score + date_score / 10
 ```
 
-Okay, I admit it's not the prettiest solution;
+Okay, I admit it's a little hacky;
 but it's a fun one that fulfills my needs.
+
+## Formatting entries
 
 ## File preview
 
@@ -406,11 +411,23 @@ I'm not sure if there's a less verbose way to define a file previewer, as the on
 
 ## Open the selected file
 
-We have configured the display of our [telescope.nvim][] picker configured.
+We have the display of our [telescope.nvim][] picker configured.
 Now how do we open the file once we've found it?
 By default there's no way of interacting with an entry, we can only look at it.
 
-The answer is yet another argument to `finders.new_table` called `attach_mappings`:
+Turns out all you need to do is add `filename` to `entry_maker`:
+
+```lua
+entry_maker = function(entry)
+  return {
+    -- Make standard action open `entry.path`.
+    filename = entry.path,
+  }
+end
+```
+
+::: note
+At first I implemented opening manually using `attach_mappings`:
 
 ```lua
 local actions = require("telescope.actions")
@@ -428,9 +445,8 @@ finder = finders.new_table({
 })
 ```
 
-The above mapping overrides the default selection action (`<CR>` in my case) to `:edit` `value.path` of our selection, which will open the selected file.
-
-Multiselection is possible in telescope, which you need to handle in the mapping function if you want to support it---I'll skip it.
+The above mapping overrides the default selection action (`<CR>`) to `:edit` `value.path` of our selection, which will open the selected file.
+:::
 
 ## Finding the post data to populate the picker
 
