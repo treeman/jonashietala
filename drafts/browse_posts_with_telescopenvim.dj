@@ -378,6 +378,102 @@ but it's a fun one that fulfills my needs.
 
 ## Formatting entries
 
+![](/images/extend_blog/telescope_display_format.png)
+
+It's possible to customize how [telescope.nvim][] displays an entry in the results list,
+see `:help telescope.pickers.entry_display`.
+
+You'll use `entry_display.create()` to create a formatting function that divides the display into columns, then you pass in the columns to produce the line to be displayed.
+
+This is a basic example that divides the line into two parts; an icon and a title, together with a highlight group to colorize the parts:
+
+```lua
+entry_maker = function(entry)
+  return {
+    display = function(entry)
+      local displayer = entry_display.create({
+        separator = " ",
+        items = {
+          { width = 1 },
+          { remaining = true },
+        },
+      })
+
+      return displayer({
+        { "󰇷", "TelescopeResultsComment" },
+        { entry.value.title, "TelescopeResultsNumber" },
+      })
+    end
+    -- ..
+  }
+end
+```
+
+::: tip
+I took the icon from [Nerd Fonts][], and picked it using [nerdy.nvim][]
+:::
+
+The display I use to display filetype icon, title, date, tags, and series is a little more complex but the display logic is similar:
+
+```lua
+local devicons = require("nvim-web-devicons")
+local telescope_utils = require("telescope.utils")
+
+local make_display = function(entry)
+  -- Djot doesn't have an icon, I just picked something that looked neat.
+  local ext = telescope_utils.file_extension(entry.value.path)
+  if ext == "dj" then
+    ext = "tcl"
+  end
+  local icon, _ = devicons.get_icon_by_filetype(ext)
+
+  -- Tags may be a string or a table, convert it for display purposes.
+  local tags
+  if type(entry.value.tags) == "string" then
+    tags = entry.value.tags
+  elseif type(entry.value.tags) == "table" then
+    tags = vim.fn.join(entry.value.tags, ", ")
+  end
+
+  local series = entry.value.series or ""
+
+  local displayer = entry_display.create({
+    separator = " ",
+    items = {
+      { width = 1 },
+      { width = string.len(entry.value.title) },
+      { width = string.len(entry.value.date) },
+      { width = string.len(tags) },
+      { remaining = true },
+    },
+  })
+
+  return displayer({
+    { icon, "TelescopeResultsComment" },
+    -- We can skip highlight groups if we want.
+    entry.value.title,
+    { entry.value.date, "TelescopeResultsComment" },
+    { tags, "TelescopeResultsConstant" },
+    { series, "TelescopeResultsOperator" },
+  })
+end
+```
+
+Since I grouped the display in a function, we need to set that to `display` in `entry_maker`:
+
+```lua
+entry_maker = function(entry)
+  return {
+    display = make_display,
+    -- ..
+  }
+end
+```
+
+I use [nvim-web-devicons][] to map a [Nerd Nerd Font icon][Nerd Fonts] to a filetype (also used by [telescope.nvim][] for the standard file pickers if available).
+
+[nvim-web-devicons]: https://github.com/nvim-tree/nvim-web-devicons
+
 ## File preview
 
 One of the great features of [telescope.nvim][] is the very fast preview with syntax highlighting, which we of course must configure.
@@ -599,3 +695,5 @@ I may have skipped some details, so [take a look at the source code](https://git
 [Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4
 [Experimental Gameplay Project]: /blog/tags/experimental_gameplay_project
 [nvim-nio]: https://github.com/nvim-neotest/nvim-nio
+[Nerd Fonts]: https://www.nerdfonts.com/
+[nerdy.nvim]: https://github.com/2KAbhishek/nerdy.nvim
