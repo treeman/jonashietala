@@ -1,6 +1,6 @@
 ---toml
 title = "Djot test"
-tags = ["Some tag"]
+is_draft = true
 ---
 
 # Header 1 (h2)

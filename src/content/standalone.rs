@@ -6,11 +6,19 @@ use tera::Context;
 use crate::markup::{find_markup_files, Html, MarkupLookup, ParseContext, RawMarkupFile};
 use crate::{item::Item, item::RenderContext, item::TeraItem, paths::AbsPath, site_url::SiteUrl};
 
-pub fn load_standalones(dir: AbsPath, create_lookup: bool) -> Result<HashSet<StandaloneItem>> {
-    find_markup_files(&[dir])
-        .into_iter()
-        .map(|path| StandaloneItem::from_file(path.abs_path(), create_lookup))
-        .collect::<Result<HashSet<StandaloneItem>>>()
+pub fn load_standalones(
+    dir: AbsPath,
+    create_lookup: bool,
+    include_drafts: bool,
+) -> Result<HashSet<StandaloneItem>> {
+    let mut res = HashSet::new();
+    for path in find_markup_files(&[dir]).into_iter() {
+        let item = StandaloneItem::from_file(path.abs_path(), create_lookup)?;
+        if !item.is_draft || include_drafts {
+            res.insert(item);
+        }
+    }
+    Ok(res)
 }
 
 #[derive(Debug)]
@@ -19,6 +27,7 @@ pub struct StandaloneItem {
     pub path: AbsPath,
     pub url: SiteUrl,
     pub content: Html,
+    pub is_draft: bool,
     pub markup_lookup: Option<MarkupLookup>,
 }
 
@@ -61,6 +70,7 @@ impl StandaloneItem {
             path: markup.path,
             url,
             content: markup.html,
+            is_draft: markup.markup_meta.is_draft,
             markup_lookup: markup.markup_lookup,
         })
     }
@@ -97,4 +107,6 @@ struct StandaloneContext<'a> {
 #[derive(Deserialize, Debug)]
 pub struct StandaloneMetadata {
     title: String,
+    #[serde(default = "Default::default")]
+    is_draft: bool,
 }

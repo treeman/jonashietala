@@ -1,7 +1,6 @@
 ---
-layout: post
 title: "md_test (h1)"
-tags: Gaming, Ludum Dare
+is_draft: true
 ---
 
 `x->y`c

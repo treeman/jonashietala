@@ -92,8 +92,11 @@ impl SiteContent {
             opts.generate_markup_lookup,
             &mut posts,
         )?;
-        let standalones =
-            load_standalones(opts.input_dir.join("static"), opts.generate_markup_lookup)?;
+        let standalones = load_standalones(
+            opts.input_dir.join("static"),
+            opts.generate_markup_lookup,
+            opts.include_drafts,
+        )?;
 
         let drafts = if opts.include_drafts {
             Some(
@@ -1129,6 +1132,7 @@ mod tests {
 
         assert!(!test_site.output_path("drafts/index.html").exists());
         assert!(!test_site.output_path("drafts/a_draft/index.html").exists());
+        assert!(!test_site.output_path("hidden/index.html").exists());
 
         assert!(!test_site
             .read_file_to_string("index.html")?
