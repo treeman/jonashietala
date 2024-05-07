@@ -16,13 +16,6 @@ pre {
   color: var(--melange_a_fg);
 }
 
-aside {
-  code,
-  pre {
-    background-color: var(--melange_b_float);
-  }
-}
-
 .code-wrapper .lang {
   display: flex;
   justify-content: right;

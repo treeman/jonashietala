@@ -17,6 +17,21 @@ To a custom posts picker that display posts in a neater way and allows us to fil
 
 ![](/images/extend_blog/find_posts.png)
 
+::: tip
+
+I use the `filename_first` option to display filenames before the directory in [telescope.nvim][] files finders:
+
+```lua
+require("telescope").setup({
+  defaults = {
+    path_display = {
+      "filename_first",
+    },
+  }
+}
+```
+:::
+
 ## The simplest picker
 
 It's fairly easy to create a new picker for [telescope.nvim][].
