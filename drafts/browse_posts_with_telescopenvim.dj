@@ -100,7 +100,8 @@ It's easy to add more metadata to `ordinal` and it'll mostly work, but the match
 
 Because the way fuzzy matching works, if I type *lua* with the hope of listing all posts tagged lua, it will also match any post that has the letters *l* *u* *a* in that order, which is currently almost 40 of them:
 
-![Prompting for `lua` matches too many posts.](/images/extend_blog/lua_match_voron.png)
+![Prompting for `lua` matches too many posts.\
+Here I've also added the post date to `display`.](/images/extend_blog/lua_match_voron.png)
 
 Clearly, there's room for improvement.
 
@@ -209,7 +210,7 @@ While cool, I don't think it's worth implementing as my requirements are fairly 
 
 Because I want to be explicit we need some syntax to separate text we want to match against post tags, series, and title.
 Simplicity is nice, and a simple solution is to prefix tags with `@` and prefix series with `#`, separated by spaces.
-I always find that an example is worth a 1000 words, so here are some examples to shave down the precious words count:
+I usually find that an example is worth a 1000 words, so here are some examples to shave down the precious words count:
 
 i. `@rust gleam`
 
@@ -242,7 +243,7 @@ local function split_prompt(prompt)
     -- It works with empty strings too!
     local fst = word:sub(1, 1)
     if fst == "@" then
-      -- Don't include the `@` in tags.
+      -- Use `sub(2)` to skip the `@`.
       table.insert(tags, word:sub(2))
     elseif fst == "#" then
       table.insert(series, word:sub(2))
@@ -388,6 +389,8 @@ You'll use `entry_display.create()` to create a formatting function that divides
 This is a basic example that divides the line into two parts; an icon and a title, together with a highlight group to colorize the parts:
 
 ```lua
+local entry_display = require("telescope.pickers.entry_display")
+
 entry_maker = function(entry)
   return {
     display = function(entry)
@@ -410,7 +413,7 @@ end
 ```
 
 ::: tip
-I took the icon from [Nerd Fonts][], and picked it using [nerdy.nvim][]
+I took the icon from [Nerd Fonts][], selected using [nerdy.nvim][].
 :::
 
 The display I use to display filetype icon, title, date, tags, and series is a little more complex but the display logic is similar:
@@ -465,7 +468,7 @@ Since I grouped the display in a function, we need to set that to `display` in `
 entry_maker = function(entry)
   return {
     display = make_display,
-    -- ..
+    -- ...
   }
 end
 ```
@@ -476,7 +479,7 @@ I use [nvim-web-devicons][] to map a [Nerd Nerd Font icon][Nerd Fonts] to a file
 
 ## File preview
 
-One of the great features of [telescope.nvim][] is the very fast preview with syntax highlighting, which we of course must configure.
+One of the great features of [telescope.nvim][] is the very fast preview with syntax highlighting, which we naturally must configure.
 
 I searched through the telescope help, and found the functions `new_buffer_previewer` and `buffer_previewer_maker` that allows us to define a previewer for a file:
 
@@ -503,7 +506,7 @@ finder = finders.new_table({
 })
 ```
 
-I'm not sure if there's a less verbose way to define a file previewer, as the only thing I really configured here is the title and the `entry.value.path` argument to `buffer_preview_maker`.
+I'm not sure if there's a less verbose way to define a file previewer, as the only things I configured here are the title and the `entry.value.path` argument to `buffer_preview_maker`.
 
 ## Open the selected file
 
@@ -550,7 +553,7 @@ So far I've only used placeholder data for the posts, but we need to search the 
 
 It's not as simple as listing files in a directory, we also need to extract post metadata that's defined in a frontmatter at the beginning of every markup file:
 
-```djot
+```toml
 ---toml
 title = "Let's build a VORON: Noise"
 tags = ["3D printing", "VORON"]
@@ -568,7 +571,7 @@ This time though I have a good reason for choosing an external tool rather than 
 I want to be able to find a post the very first thing I do when opening Neovim, and I don't want to wait on connecting to a backend service, or requiring one running at all times.
 
 ::: note
-I guess this is mostly an excuse to try to do as much as I can in Lua, as I could've reused the parser on the backend and treat it as a command-line program---like ripgrep.
+I guess this is mostly an excuse to try to do as much as I can in Lua, as I could've reused the parser on the backend and treat it as a command-line program like we'll do with ripgrep.
 :::
 
 The strategy is to use [ripgrep][] to match the frontmatter in all posts, extract the metadata using some hacky Lua regex, and combine them into a post struct we can feed into the [finder we developed](#Structured-content).
@@ -685,11 +688,14 @@ I could try to find a lua parser, but eeeh...
 
 ![](/images/extend_blog/regex_this_is_fine.jpg)
 
-(I know, I should've used a parser.)
+::: note
+I'll probably move the content extraction to Rust so I can reuse the frontmatter parser one day.
+:::
 
 Stupid decisions aside, with all this we have a working [telescope.nvim][] picker!
-I may have skipped some details, so [take a look at the source code](https://github.com/treeman/dotfiles/blob/master/.config/nvim/lua/blog/telescope.lua) if you're interested.
+I may have skipped some details, so [take a look at the source code][src] if you're interested.
 
+[src]: https://github.com/treeman/dotfiles/blob/master/.config/nvim/lua/blog/telescope.lua
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
 [ripgrep]: https://github.com/BurntSushi/ripgrep
 [Developing a Neovim Docker Plugin from Scratch]: https://www.youtube.com/watch?v=HXABdG3xJW4

@@ -26,6 +26,11 @@ Yet I fell into rabbit hole _again_ and ended up implementing some cool features
 Because of my overambitious self, I couldn't squeeze all these topics into a single blog post, so I split the post [into a series](/series/extending_neovim_for_my_blog).
 This first post will go through how to get started configuring Neovim with a basic setup and some user commands, leaving the more advanced topics for later posts.
 
+See the source for the [Neovim blog integration][src] and the [site source][blog_src] on GitHub.
+
+[src]: https://github.com/treeman/dotfiles/tree/master/.config/nvim/lua/blog
+[blog_src]: https://github.com/treeman/jonashietala
+
 # Initial setup
 
 While I could develop this as a normal plugin, because it's for my personalized blogging setup I decided to organize it under `nvim/lua/blog`:

@@ -115,7 +115,7 @@ lazy_static! {
     static ref FRONTMATTER_SERIES: Regex = Regex::new(r"^series(:| =) ").unwrap();
     static ref OPEN_BRACKET: Regex = Regex::new(r"\[[^\]]*$").unwrap();
     static ref OPEN_BRACKET_FIRST: Regex = Regex::new(r"^\[[^\]]*$").unwrap();
-    static ref AFTER_DIV_MARKER: Regex = Regex::new(r":{3,}\s+\w+$").unwrap();
+    static ref AFTER_DIV_MARKER: Regex = Regex::new(r":{3,}\s+\w*$").unwrap();
 }
 
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
