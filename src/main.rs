@@ -1,6 +1,7 @@
 mod content;
 mod feed;
 mod item;
+mod json_api;
 mod markup;
 mod paths;
 mod server;
@@ -39,6 +40,9 @@ struct Cli {
     /// Verbose output
     #[clap(short, long)]
     verbose: bool,
+    /// Silence output
+    #[clap(short, long)]
+    quiet: bool,
 }
 
 #[derive(Subcommand, Debug)]
@@ -51,6 +55,12 @@ enum Commands {
     Sync,
     /// Upload files from `files` which aren't handled by the site generator
     UploadFiles,
+    /// List all posts
+    ListPosts,
+    /// List all drafts
+    ListDrafts,
+    /// List all markup content
+    // ListMarkupContent,
     /// Dump a syntax binary, used to speedup SyntaxSet initialization
     DumpSyntaxBinary,
     /// Dump the CSS of a theme
@@ -73,14 +83,22 @@ static REGION: Region = Region::EuWest1;
 async fn main() -> Result<()> {
     let cli = Cli::parse();
 
-    let log_level = if cli.verbose { "debug" } else { "info" };
+    let log_level = if cli.quiet {
+        None
+    } else if cli.verbose {
+        Some("debug")
+    } else {
+        Some("info")
+    };
 
-    tracing_subscriber::registry()
-        .with(tracing_subscriber::EnvFilter::new(format!(
-            "jonashietala_se={log_level},tower_http={log_level},jonashietala_se::watch=DEBUG"
-        )))
-        .with(tracing_subscriber::fmt::layer())
-        .init();
+    if let Some(log_level) = log_level {
+        tracing_subscriber::registry()
+            .with(tracing_subscriber::EnvFilter::new(format!(
+                "jonashietala_se={log_level},tower_http=DEBUG,jonashietala_se::watch=DEBUG"
+            )))
+            .with(tracing_subscriber::fmt::layer())
+            .init();
+    }
 
     match &cli.command {
         Commands::Build => {
@@ -110,6 +128,12 @@ async fn main() -> Result<()> {
                 print_urls: true,
             })
             .await?;
+        }
+        Commands::ListPosts => {
+            json_api::list_posts(&CURRENT_DIR).await?;
+        }
+        Commands::ListDrafts => {
+            json_api::list_drafts(&CURRENT_DIR).await?;
         }
         Commands::DumpSyntaxBinary => {
             markup::syntect_highlighter::dump_syntax_binary()?;

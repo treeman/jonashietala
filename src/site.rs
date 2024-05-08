@@ -115,7 +115,7 @@ impl SiteContent {
             None
         };
 
-        println!(
+        info!(
             "posts: {} series: {} standalones: {} drafts: {}",
             posts.len(),
             series.len(),
