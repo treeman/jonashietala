@@ -33,6 +33,17 @@ pub fn load_posts(dirs: &[AbsPath], create_lookup: bool) -> Result<BTreeMap<Post
     Ok(posts)
 }
 
+pub fn load_partial_posts(dir: &AbsPath) -> Result<Vec<PartialPostItem>> {
+    let mut posts = markup::find_markup_files(&[dir])
+        .par_iter()
+        .map(|path| PartialPostItem::from_file(path.abs_path()))
+        .collect::<Result<Vec<_>>>()?;
+
+    posts.sort();
+
+    Ok(posts)
+}
+
 pub fn set_post_prev_next(posts: &mut BTreeMap<PostRef, PostItem>) {
     let mut next: Option<(&PostRef, &mut PostItem)> = None;
     for curr in posts.iter_mut().peekable() {
@@ -83,39 +94,32 @@ impl PostItem {
         modified: NaiveDateTime,
         create_lookup: bool,
     ) -> Result<Self> {
-        let post_dir = PostDirMetadata::from_path(&markup.path, &modified)?;
+        let partial =
+            PartialPostItem::from_markup(markup.path.clone(), &markup.markup_meta, modified)?;
 
         let meta_line_count = markup.meta_line_count;
         let markup = markup.parse(ParseContext::new_post_context(
-            post_dir.is_draft,
+            partial.is_draft,
             create_lookup,
             meta_line_count,
         ))?;
 
-        let time = match &markup.markup_meta.time {
-            Some(time_str) => parse_time(&time_str)?,
-            None => NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
-        };
-
-        let created = NaiveDateTime::new(post_dir.date, time);
-        let url = post_dir.to_url().expect("Should be able to create a url");
-
         Ok(Self {
-            title: markup.markup_meta.title,
-            tags: markup.markup_meta.tags.into(),
-            created,
-            updated: modified,
-            path: markup.path,
-            url,
+            title: partial.title,
+            tags: partial.tags,
+            created: partial.created,
+            updated: partial.updated,
+            path: partial.path,
+            url: partial.url,
             prev: None,
             next: None,
             content: markup.html,
             markup: markup.markup,
             markup_lookup: markup.markup_lookup,
-            series_id: markup.markup_meta.series,
+            series_id: partial.series_id,
             series: None,
-            recommended: markup.markup_meta.recommended.unwrap_or(false),
-            is_draft: post_dir.is_draft,
+            recommended: partial.recommended,
+            is_draft: partial.is_draft,
         })
     }
 
@@ -164,6 +168,76 @@ impl TeraItem for PostItem {
 
     fn tera_source_file(&self) -> Option<&AbsPath> {
         Some(&self.path)
+    }
+}
+
+/// A post item with frontmatter data but without markup.
+#[derive(Debug)]
+pub struct PartialPostItem {
+    pub title: String,
+    pub tags: Vec<Tag>,
+    pub created: NaiveDateTime,
+    pub updated: NaiveDateTime,
+    pub path: AbsPath,
+    pub url: SiteUrl,
+    pub recommended: bool,
+    pub series_id: Option<String>,
+    pub is_draft: bool,
+}
+
+impl PartialPostItem {
+    pub fn from_file(path: AbsPath) -> Result<Self> {
+        let modified = util::last_modified(&path)?;
+        let markup = RawMarkupFile::from_file(path)?;
+        Self::from_markup(markup.path, &markup.markup_meta, modified)
+    }
+
+    pub fn from_markup(
+        path: AbsPath,
+        meta: &PostMetadata,
+        modified: NaiveDateTime,
+    ) -> Result<Self> {
+        let post_dir = PostDirMetadata::from_path(&path, &modified)?;
+
+        let time = match &meta.time {
+            Some(time_str) => parse_time(&time_str)?,
+            None => NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
+        };
+
+        let created = NaiveDateTime::new(post_dir.date, time);
+        let url = post_dir.to_url().expect("Should be able to create a url");
+
+        Ok(Self {
+            title: meta.title.clone(),
+            tags: meta.tags.clone().into(),
+            created,
+            updated: modified,
+            path,
+            url,
+            series_id: meta.series.clone(),
+            recommended: meta.recommended.unwrap_or(false),
+            is_draft: post_dir.is_draft,
+        })
+    }
+}
+
+impl Eq for PartialPostItem {}
+
+impl PartialEq for PartialPostItem {
+    fn eq(&self, other: &Self) -> bool {
+        self.path.eq(&other.path)
+    }
+}
+
+impl Ord for PartialPostItem {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.created.cmp(&other.created)
+    }
+}
+
+impl PartialOrd for PartialPostItem {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
     }
 }
 

@@ -94,7 +94,7 @@ async fn main() -> Result<()> {
     if let Some(log_level) = log_level {
         tracing_subscriber::registry()
             .with(tracing_subscriber::EnvFilter::new(format!(
-                "jonashietala_se={log_level},tower_http=DEBUG,jonashietala_se::watch=DEBUG"
+                "jonashietala_se={log_level},tower_http=WARN,jonashietala_se::watch=WARN"
             )))
             .with(tracing_subscriber::fmt::layer())
             .init();

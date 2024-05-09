@@ -1,5 +1,6 @@
 use super::complete::CompletionItemKind;
 use super::diagnostics::Diagnostic;
+use crate::content::PartialPostItem;
 use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
@@ -104,6 +105,19 @@ impl From<&PostItem> for PostInfo {
             created: post.created.format("%F").to_string(),
             tags: post.tags.iter().map(|tag| tag.name.to_string()).collect(),
             series: post.series.as_ref().map(|x| x.id.clone()),
+        }
+    }
+}
+
+impl From<PartialPostItem> for PostInfo {
+    fn from(post: PartialPostItem) -> Self {
+        PostInfo {
+            title: post.title,
+            path: post.path.to_string(),
+            url: post.url.href().to_string(),
+            created: post.created.format("%F").to_string(),
+            tags: post.tags.iter().map(|tag| tag.name.to_string()).collect(),
+            series: post.series_id,
         }
     }
 }
