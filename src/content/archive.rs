@@ -28,12 +28,12 @@ pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {
 
     for post in posts.iter() {
         by_year
-            .entry(post.created.year())
+            .entry(post.order.created.year())
             .or_insert_with(Vec::new)
             .push(post.clone());
 
         by_year_month
-            .entry((post.created.year(), post.created.month()))
+            .entry((post.order.created.year(), post.order.created.month()))
             .or_insert_with(Vec::new)
             .push(post.clone());
     }

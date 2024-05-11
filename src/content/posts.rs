@@ -60,7 +60,30 @@ pub fn set_post_prev_next(posts: &mut BTreeMap<PostRef, PostItem>) {
 pub struct PostRef {
     pub id: String,
     #[order]
+    pub order: PostRefOrder,
+}
+
+#[derive(Debug, Clone, Eq, PartialEq, PartialOrd)]
+pub struct PostRefOrder {
+    pub is_draft: bool,
     pub created: NaiveDateTime,
+    pub updated: NaiveDateTime,
+}
+
+impl PostRefOrder {
+    pub fn date(&self) -> &NaiveDateTime {
+        if self.is_draft {
+            &self.updated
+        } else {
+            &self.created
+        }
+    }
+}
+
+impl Ord for PostRefOrder {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        (self.is_draft, self.date()).cmp(&(other.is_draft, other.date()))
+    }
 }
 
 #[derive(Debug)]
@@ -126,7 +149,11 @@ impl PostItem {
     pub fn post_ref(&self) -> PostRef {
         PostRef {
             id: self.id().to_string(),
-            created: self.created.clone(),
+            order: PostRefOrder {
+                is_draft: self.is_draft,
+                created: self.created.clone(),
+                updated: self.updated.clone(),
+            },
         }
     }
 }

@@ -348,6 +348,7 @@ impl<'a> SiteRenderExtra<'a> {
     }
 }
 
+#[derive(Debug, PartialEq, Eq)]
 enum PathEvent {
     SourceFile,
     Css,

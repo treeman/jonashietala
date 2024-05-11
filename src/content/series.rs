@@ -138,7 +138,7 @@ impl SeriesItem {
                 .posts
                 .iter()
                 .last()
-                .map(|post_ref| post_ref.0.created.date())
+                .map(|post_ref| post_ref.0.order.created.date())
                 .unwrap_or_else(|| Utc::now().date_naive()),
         }
     }
