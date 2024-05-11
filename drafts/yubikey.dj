@@ -103,16 +103,30 @@ I've used [YubiKey][] for years and have a good experience with them so I'll con
 
 - 
 
-
-
 # Recovery plan
+
+## Veronica's email
+
+1. Password stored in her Bitwarden vault
+1. Secured by multiple YubiKeys (hers + several of mine)
+1. Recovery code stored in her Bitwarden
+
+## Veronica's Bitwarden vault
+
+1. Her password stored in my Bitwarden vault
+1. Secured by multiple YubiKeys (hers + several of mine)
+1. Recovery code written down and stored in my Bitwarden vault
+1. I'm her emergency contact and can gain access to her vault in 7 days
+
+## My Bitwarden vault
+
+1. Secured by multiple YubiKeys
+1. Recovery code written down
 
 # Advanced YubiKey usage for myself
 
 - Sign GPG key for commits
 - Encode/decode GPG messages. Sign?
-- Multiple TOTP
-- U2F / FIDO2 / WebAuthn
 - ssh
 - static password on touch?
   Root login for home computers?
