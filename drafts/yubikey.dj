@@ -1,9 +1,95 @@
 ---toml
-title = "Yubikey"
-tags = ["Some tag"]
+title = "Securing my partner's digital life"
+tags = ["YubiKey", "Security"]
 ---
 
-Things I want to do:
+I've been with Veronica for over a decade now and I think I'm starting to know her fairly well.
+Yet she still manages to surprise me.
+For instance, a couple of weeks ago she came and asked me about email security:
+
+> I worry that my email password is too weak.
+> Can you help me change email address and make it secure?
+
+It was completely unexpected---but I'm all for it.
+
+![](/images/it_superhero.jpg)
+
+# The action plan
+
+All heroic journeys needs a plan; here's mine:
+
+1. Buy her a domain name (her `.com` surname was available).
+2. Migrate to [Fastmail][].
+3. Setup [Bitwarden][] as a password manager.
+4. Use a [YubiKey][] to secure the important services.
+
+## Why a domain?
+
+It's very nice to have your own domain for your email if you ever want to change email providers.
+In our example Veronica has a `hotmail.com` address but she can't bring that with her if she moves to [Fastmail][].
+
+Worse, what if she gets locked out of her Outlook account for some reason?
+It might happen if you forget your password, someone breaks into your account, or even by accident.
+
+::: warn
+For example, [Apple users recently got locked out of their Apple IDs][apple] without any apparent reason and Gmail [has][gmail4] been [notorious][gmail1] about [locking out][gmail2] users [for no reason][gmail3].
+Some providers may be better but this is a systemic problem that can happen at any service.
+:::
+
+In almost all cases, your email is your key to the rest of your digital life.
+The email address is your username and to reset your password you use your email.
+*If you lose access to your email you lose everything*.
+
+When you control your domain, you can point the domain to a new email provider and continue with your life.
+
+## Why pay for email?
+
+One of the first things Veronica told me when I proposed that she'd change providers was that she didn't want to pay.
+It's a common sentiment online that email must be cheap (or even free).
+
+I don't think that email is the area where cost should be the most significant factor.
+As I argued for in [why you should own your email's domain](#Why-a-domain), your email is your most important digital asset.
+If email is so important, why try to be cheap about it?
+You should spend your money on the important things and shouldn't spend money on the unimportant things.
+
+Paying for email gives you a couple of nice things:
+
+- Human support.
+
+  It's all too easy to get shafted by algorithms where you might get banned because you triggered some edge case (such as resetting your password outside your usual IP address).
+
+- Ability to use your own domain.
+
+  Having a custom domain is a paid feature at most email providers.
+
+- A long-term viable business.
+
+  How do you run an email company if you don't earn money?\
+  _(You sell out your users or you close your business.)_
+
+## Why a password manager?
+
+The best thing you can do security wise is to adopt a password manager.
+Then you don't have to try to remember dozens of passwords (leading to easy-to-remember and duplicate passwords) and can focus on remembering a single (stronger) password, confident that the password manager will remember all the rest.
+
+"Putting all your passwords in one basket" is a concern of course but I think the pros outweigh the cons.
+
+## Why a [YubiKey][]?
+
+To take digital security to the next level you should use [two-factor authentication (2FA)][2FA].
+2FA is an extra "thing" in addition to your password you need to be able to login.
+It could be a code sent to your phone over SMS (insecure), to your email (slightly better), a code from a 2FA app on your phone such as [Aegis Authenticator][] (good), or from a hardware token (most secure).
+
+It's easy to think that I went with a [YubiKey][] because it's the most secure option; but the reason is that a [YubiKey][] is  more convenient than a 2FA app.
+
+With a 2FA app you have to whip out your phone, open the 2FA app, locate the correct site, and then copy the TOTP code into the website (quickly, before the code changes).
+It's honestly not that convenient, even for someone like me who has used this setup for years.
+
+With a [YubiKey][] you plug it into a USB port and press it when it flashes.
+Or on the phone you can use NFC.
+NFC is slightly more annoying compared to plugging it in as you need to move/hold it in a specific spot, yet it's still preferable to having to jump between apps on the phone.
+
+# Advanced YubiKey usage for myself
 
 - Sign GPG key for commits
 - Encode/decode GPG messages. Sign?
@@ -16,3 +102,13 @@ Things I want to do:
 - OpenVPN with Yubikey?
 
 [yubikey-cheatsheet]: https://debugging.works/blog/yubikey-cheatsheet/
+[Fastmail]: https://www.fastmail.com/
+[Bitwarden]: https://bitwarden.com/
+[YubiKey]: https://www.yubico.com/products/yubikey-5-overview/
+[apple]: https://9to5mac.com/2024/04/26/signed-out-of-apple-id-account-problem-password/
+[gmail1]: https://mailchi.mp/shwood/bamboozlers-514882?e=4be3990d97
+[gmail2]: https://news.ycombinator.com/item?id=34116361
+[gmail3]: https://news.ycombinator.com/item?id=25176151
+[gmail4]: https://news.ycombinator.com/item?id=32862713
+[Aegis Authenticator]: https://github.com/beemdevelopment/Aegis
+[2FA]: https://www.microsoft.com/en-us/security/business/security-101/what-is-two-factor-authentication-2fa
