@@ -89,6 +89,24 @@ With a [YubiKey][] you plug it into a USB port and press it when it flashes.
 Or on the phone you can use NFC.
 NFC is slightly more annoying compared to plugging it in as you need to move/hold it in a specific spot, yet it's still preferable to having to jump between apps on the phone.
 
+There are hardware keys other than [YubiKey][] of course.
+I've used [YubiKey][] for years and have a good experience with them so I'll continue with them.
+
+# The setup
+
+## Bitwarden
+
+1. Phone app
+2. Browser plugin on her computer
+
+## Fastmail
+
+- 
+
+
+
+# Recovery plan
+
 # Advanced YubiKey usage for myself
 
 - Sign GPG key for commits

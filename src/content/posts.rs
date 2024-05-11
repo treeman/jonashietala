@@ -63,26 +63,22 @@ pub struct PostRef {
     pub order: PostRefOrder,
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Eq, PartialOrd)]
 pub struct PostRefOrder {
+    pub id: String,
     pub is_draft: bool,
     pub created: NaiveDateTime,
-    pub updated: NaiveDateTime,
-}
-
-impl PostRefOrder {
-    pub fn date(&self) -> &NaiveDateTime {
-        if self.is_draft {
-            &self.updated
-        } else {
-            &self.created
-        }
-    }
 }
 
 impl Ord for PostRefOrder {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        (self.is_draft, self.date()).cmp(&(other.is_draft, other.date()))
+        (self.is_draft, self.created).cmp(&(other.is_draft, other.created))
+    }
+}
+
+impl PartialEq for PostRefOrder {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
     }
 }
 
@@ -150,9 +146,9 @@ impl PostItem {
         PostRef {
             id: self.id().to_string(),
             order: PostRefOrder {
+                id: self.id().to_string(),
                 is_draft: self.is_draft,
                 created: self.created.clone(),
-                updated: self.updated.clone(),
             },
         }
     }
@@ -199,7 +195,7 @@ impl TeraItem for PostItem {
 }
 
 /// A post item with frontmatter data but without markup.
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialOrd)]
 pub struct PartialPostItem {
     pub title: String,
     pub tags: Vec<Tag>,
@@ -248,8 +244,6 @@ impl PartialPostItem {
     }
 }
 
-impl Eq for PartialPostItem {}
-
 impl PartialEq for PartialPostItem {
     fn eq(&self, other: &Self) -> bool {
         self.path.eq(&other.path)
@@ -259,12 +253,6 @@ impl PartialEq for PartialPostItem {
 impl Ord for PartialPostItem {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.created.cmp(&other.created)
-    }
-}
-
-impl PartialOrd for PartialPostItem {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        Some(self.cmp(other))
     }
 }
 
