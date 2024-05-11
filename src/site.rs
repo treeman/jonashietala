@@ -650,7 +650,15 @@ impl Site {
     }
 
     fn remove_event(&mut self, path: PathBuf) -> Result<()> {
+        // Prevent unwanted events from triggering a rebuild.
+        // May sometimes happen when editing a draft for instance,
+        // even when the draft exists,
+        // which would trigger a complete rebuild.
+        if path.exists() {
+            return Ok(());
+        }
         let path = self.file_path_from_std(path)?;
+
         match PathEvent::from_path(&path) {
             PathEvent::SourceFile => error!("Source file removed `{path}`, please rebuild"),
             PathEvent::Css => self.rebuild_css()?,
