@@ -262,17 +262,18 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
-        (
-            "lua",
-            HighlightConfiguration::new(
-                tree_sitter_lua::language(),
-                "lua",
-                tree_sitter_lua::HIGHLIGHTS_QUERY,
-                tree_sitter_lua::INJECTIONS_QUERY,
-                tree_sitter_lua::LOCALS_QUERY,
-            )
-            .unwrap(),
-        ),
+        // Not as good as syntect atm.
+        // (
+        //     "lua",
+        //     HighlightConfiguration::new(
+        //         tree_sitter_lua::language(),
+        //         "lua",
+        //         tree_sitter_lua::HIGHLIGHTS_QUERY,
+        //         tree_sitter_lua::INJECTIONS_QUERY,
+        //         tree_sitter_lua::LOCALS_QUERY,
+        //     )
+        //     .unwrap(),
+        // ),
     ]
     .into_iter()
     .map(|(name, mut config)| {

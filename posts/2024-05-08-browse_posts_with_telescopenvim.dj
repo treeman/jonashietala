@@ -32,7 +32,7 @@ require("telescope").setup({
 ```
 :::
 
-## The simplest picker
+# The simplest picker
 
 It's fairly easy to create a new picker for [telescope.nvim][].
 In it's simplest form, all you need to do is provide a list of items:
@@ -64,7 +64,7 @@ map("n", "gd", require("blog.telescope").find_draft, { desc = "Find blog draft" 
 map("n", "gp", require("blog.telescope").find_post, { desc = "Find blog post" })
 ```
 
-## Structured content
+# Structured content
 
 To make our simple picker handle structured content we need to:
 
@@ -105,7 +105,7 @@ Here I've also added the post date to `display`.](/images/extend_blog/lua_match_
 
 Clearly, there's room for improvement.
 
-## Structured filtering and sorting
+# Structured filtering and sorting
 
 Turns out that `ordinal` can also be a table, and you can provide your own `sorter` that operates on the ordinal to sort and filter.
 
@@ -182,7 +182,7 @@ Because we defined `discard = true`lua if we return a value less than `0`lua, th
 At first I thought this was a weird way of creating a sorting function.
 I had expected a comparison function like `cmp(left, right)`lua but after having played with it a little it seems pretty clever.
 
-### Sorter requirements
+## Sorter requirements
 
 Before implementing `scoring_function`, let's take a step back and figure out what behavior we want.
 You could go nuts with advanced features such as boolean operators, set comparisons, and similar.
@@ -206,7 +206,7 @@ While cool, I don't think it's worth implementing as my requirements are fairly 
   At a base level I want to see newer posts before older ones.
   This is especially true when I first open telescope without prompting anything, then I want to see an ordered lists of all posts.
 
-### Prompt syntax
+## Prompt syntax
 
 Because I want to be explicit we need some syntax to separate text we want to match against post tags, series, and title.
 Simplicity is nice, and a simple solution is to prefix tags with `@` and prefix series with `#`, separated by spaces.
@@ -265,7 +265,7 @@ end
 
 I'm a bit of a Lua noob, so there may be better solutions.
 
-### Implementing `scoring_function`
+## Implementing `scoring_function`
 
 With a plan in place, let's go back to try to realize it.
 The basic idea is to match against series, tags, and title separately and add their scores at the end:
@@ -377,7 +377,7 @@ return series_score + tags_score + title_score + date_score / 10
 Okay, I admit it's a little hacky;
 but it's a fun one that fulfills my needs.
 
-## Formatting entries
+# Formatting entries
 
 ![](/images/extend_blog/telescope_display_format.png)
 
@@ -477,7 +477,7 @@ I use [nvim-web-devicons][] to map a [Nerd Nerd Font icon][Nerd Fonts] to a file
 
 [nvim-web-devicons]: https://github.com/nvim-tree/nvim-web-devicons
 
-## File preview
+# File preview
 
 One of the great features of [telescope.nvim][] is the very fast preview with syntax highlighting, which we naturally must configure.
 
@@ -508,7 +508,7 @@ finder = finders.new_table({
 
 I'm not sure if there's a less verbose way to define a file previewer, as the only things I configured here are the title and the `entry.value.path` argument to `buffer_preview_maker`.
 
-## Open the selected file
+# Open the selected file
 
 We have the display of our [telescope.nvim][] picker configured.
 Now how do we open the file once we've found it?
@@ -547,7 +547,7 @@ finder = finders.new_table({
 The above mapping overrides the default selection action (`<CR>`) to `:edit` `value.path` of our selection, which will open the selected file.
 :::
 
-## Finding the post data to populate the picker
+# Finding the post data to populate the picker
 
 So far I've only used placeholder data for the posts, but we need to search the file system for the markup files for the posts.
 

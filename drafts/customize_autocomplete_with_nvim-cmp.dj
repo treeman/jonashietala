@@ -5,7 +5,7 @@ series = "extending_neovim_for_my_blog"
 ---
 
 Autocompletion is an absurdly powerful feature that I---and I must assume most programmers---use all the time.
-It's not as crucial for writing blog posts as when you're coding, but it's still easy to come up with examples of how autocomplete would help me creating blog posts.
+It's not as crucial for writing blog posts as when you're coding but it's still easy to come up with examples of how autocomplete would help me creating blog posts.
 For example:
 
 - Complete frontmatter metadata
@@ -15,12 +15,13 @@ For example:
   series = "extending_neovim_for_my_blog"
   ```
 
-  It's pretty hard to remember all the tags I have on the blog, having them show up in an autocomplete would be great.
+  It's pretty hard to remember [all the tags][tags] I have on the blog.
 
 - Links to posts
 
   You know, typing out [`/blog/2024/02/17/how_i_did_the_layout_for_my_self-published_book`](/blog/2024/02/17/how_i_did_the_layout_for_my_self-published_book) correctly from memory is pretty much impossible.
-  I started opening the post in the browser, copy the url, remove the host prefix, and then paste it, but that's {=slow and annoying=}.
+  Instead I opened the post in the browser, copied the url, removed the host prefix, and then pasted it...
+  Which is incredibly {=slow and annoying=}.
 
 - Image links
 
@@ -29,7 +30,7 @@ For example:
 
 - Reference link definitions
 
-  In Djot (and Markdown) I prefer reference link definitions for my links:
+  In [Djot][] (and Markdown) I prefer reference link definitions for my links:
 
   ```djot
   Here's [a link][uses]
@@ -37,7 +38,7 @@ For example:
   [uses]: /uses
   ```
 
-  It would be pretty nice to autocomplete the `[uses]` tag, like some Markdown LSP servers do.
+  It would be pretty nice to autocomplete the `[uses]` reference, like some Markdown LSP servers do.
   Or maybe the reverse; if I've written `[a link][uses]` already but haven't created the reference link definition for it, we could autocomplete that.
 
 [nvim-cmp][] is my plugin of choice for autocompletion that supports different sources such as LSP, snippets, spell corrections, math calculations, and more.
@@ -118,12 +119,17 @@ require("cmp").setup({
 ```
 :::
 
-# Completion item kinds
+# Formatting entries
+
+While [nvim-cmp][] doesn't seem to give as much control over how to display entries as [telescope does][telescope_format] it's possible to customize it a little.
+In particular I'd like to display the entry's type and mark that it comes from my blog integration.
+
+## Completion item kinds
 
 Something that pops up in [nvim-cmp][]'s source code and help is an "item kind".
 
 A "kind" simply describes what type a completion item is.
-[nvim-cmp][] follows the LSP specification that includes kinds such as `Class`, `Constant`, and the default `Text`.
+[nvim-cmp][] follows the [LSP specification][] that includes kinds such as `Class`, `Constant`, and the default `Text`.
 
 Here's how to specify a kind other than `Text` for an item:
 
@@ -140,45 +146,27 @@ Kinds aren't anything revolutionary but I think it helps separate different comp
 
 ![Displaying different kinds with [lspkind.nvim][].](/images/extend_blog/cmp_kind_completion.png)
 
-It's a shame that you can't define your own kinds.
-I would've liked to have kinds such as `Post`, `Draft`, and `Standalone` to separate different types of urls.
-For now I've settled on using different kinds for different completion types; I use `Class` to denote heading references for instance.
+The problem is that LSP kinds are focused on code and it doesn't support the kinds I'd like---such as `Post`, `Draft`, and `Standalone`.
+To display our own custom types we need to do a little more work.
 
-(Maybe I should override [lspkind.nvim][] and display the kinds differently one day.)
 
-Here's a list of the supported kinds:
+## Custom format
+
+Instead of relying on [lspkind.nvim][] let's use our own format function:
 
 ```lua
-lsp.CompletionItemKind = {
-  Text = 1,
-  Method = 2,
-  Function = 3,
-  Constructor = 4,
-  Field = 5,
-  Variable = 6,
-  Class = 7,
-  Interface = 8,
-  Module = 9,
-  Property = 10,
-  Unit = 11,
-  Value = 12,
-  Enum = 13,
-  Keyword = 14,
-  Snippet = 15,
-  Color = 16,
-  File = 17,
-  Reference = 18,
-  Folder = 19,
-  EnumMember = 20,
-  Constant = 21,
-  Struct = 22,
-  Event = 23,
-  Operator = 24,
-  TypeParameter = 25,
-}
+cmp.setup({
+  formatting = {
+    format = function(entry, vim_item)
+      -- TODO customize `vim_item` before returning it
+      return vim_item
+    end
+  },
 ```
 
-Or, if you prefer, you can find them in the [LSP specification][].
+I like 
+
+![](/images/extend_blog/complete_types.png)
 
 # Complete hidden text
 
@@ -205,7 +193,7 @@ items = {
 In this example we display the post title, insert the url to the post, and filters against both the title and the path.
 
 It's not as powerful as [telescope.nvim][] where we could treat its equivalence to `filterText` as [structured data][structured_content].
-I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, and a mini-language [like we created for telescope][] doesn't make much sense here.
+I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, and a mini-language [like we created for telescope][telescope_prompt_syntax] doesn't make much sense here.
 
 The most advanced `filterText` I use is exactly this example: a combination of the url and the title.
 Otherwise I don't use `insertText` or `filterText`.
@@ -522,3 +510,10 @@ end
 [a Tree-sitter grammar]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
 [lspkind.nvim]: https://github.com/onsails/lspkind.nvim
 [LSP specification]: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/
+[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
+[structured_content]: /blog/2024/05/08/browse_posts_with_telescopenvim#Structured-content
+[telescope_prompt_syntax]: /blog/2024/05/08/browse_posts_with_telescopenvim#Prompt-syntax
+[tags]: /blog/tags
+[Djot]: https://djot.net/
+[telescope_format]: /blog/2024/05/08/browse_posts_with_telescopenvim#Formatting-entries
+
