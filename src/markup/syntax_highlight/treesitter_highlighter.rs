@@ -1,6 +1,7 @@
 use eyre::Result;
 use lazy_static::lazy_static;
 use regex::Regex;
+use std::borrow::Cow;
 use std::collections::HashMap;
 use tracing::warn;
 use tree_sitter_highlight::{HighlightConfiguration, Highlighter, HtmlRenderer};
@@ -33,15 +34,26 @@ impl<'a> TreesitterHighlighter<'a> {
             CLASSES[attr.0].as_bytes()
         })?;
 
-        let mut res: Vec<_> = renderer.lines().collect();
-
-        if let Some(last) = res.last() {
-            if EMPTY_RAW_MARKUP_SPAN.is_match(last) {
-                res.pop();
-            }
+        let mut res: Vec<Cow<str>> = renderer.lines().map(Into::into).collect();
+        if self.config.language_name == "djot" {
+            strip_empty_end_djot(&mut res);
         }
 
         Ok(res.join(""))
+    }
+}
+
+fn strip_empty_end_djot(res: &mut Vec<Cow<str>>) {
+    if let Some(last) = res.last() {
+        let replaced = EMPTY_SPAN.replace_all(last, "");
+        if replaced.as_ref() != last.as_ref() {
+            let skip = replaced.is_empty() || replaced == "\n";
+            let x = replaced.into_owned();
+            res.pop();
+            if !skip {
+                res.push(Cow::Owned(x));
+            }
+        }
     }
 }
 
@@ -165,7 +177,10 @@ lazy_static! {
         .collect();
     static ref CONFIGS: HashMap<String, HighlightConfiguration> = init_configurations();
     static ref EMPTY_RAW_MARKUP_SPAN: Regex =
-        Regex::new(r#"^<span class="markup raw"></span>\n?$"#).unwrap();
+        Regex::new(r#"^<span class="markup [^"]*">(<span class="[^"]+"></span>)*</span>\n?$"#)
+            .unwrap();
+    static ref EMPTY_SPAN: Regex =
+        Regex::new(r#"<span class="[^"]*">(<span class="[^"]+"></span>)*</span>"#).unwrap();
 }
 
 fn init_configurations() -> HashMap<String, HighlightConfiguration> {
@@ -315,6 +330,44 @@ title = "Title"
             r#"<span class="markup raw"><span class="punctuation delimiter">---</span><span class="attribute">toml</span></span>
 <span class="markup raw">title = &quot;Title&quot;</span>
 <span class="markup raw"><span class="punctuation delimiter">---</span></span>
+"#
+        );
+    }
+
+    #[test]
+    fn test_treesitter_highlight_strip_last_empty_djot() {
+        let highlighter = TreesitterHighlighter::find("djot").unwrap();
+        assert_eq!(
+            highlighter
+                .highlight(
+                    r#"> Inside
+"#
+                )
+                .unwrap(),
+            r#"<span class="markup quote"><span class="punctuation special">&gt; </span><span class="spell">Inside</span></span>
+"#
+        );
+    }
+
+    #[test]
+    fn test_treesitter_highlight_strip_last_empty_list_djot() {
+        let highlighter = TreesitterHighlighter::find("djot").unwrap();
+        assert_eq!(
+            highlighter
+                .highlight(
+                    r#"```djot
+- List
+
+  - This is fine in both Djot an Markdown
+```
+"#
+                )
+                .unwrap(),
+            r#"<span class="markup raw"><span class="punctuation delimiter">```</span><span class="attribute">djot</span></span>
+<span class="markup raw"><span class="markup list">- </span><span class="spell">List</span></span>
+<span class="markup raw"><span class="spell"></span></span>
+<span class="markup raw"><span class="markup list">  - </span><span class="spell">This is fine in both Djot an Markdown</span></span>
+<span class="markup raw"><span class="punctuation delimiter">```</span></span>
 "#
         );
     }

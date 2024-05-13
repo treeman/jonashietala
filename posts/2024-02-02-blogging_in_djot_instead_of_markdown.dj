@@ -363,15 +363,10 @@ Another complaint I've seen is that Djot doesn't represent enough of an improvem
 This is a fair take---but I don't care if it ever dethrones Markdown/CommonMark/whatever.
 It's useful for me, and that's all that really matters.
 
-
 [Native blockquote attributions]: https://github.com/jgm/djot/issues/198
 [Auto block-level figures]: https://github.com/jgm/djot/issues/87
 [Captions for figures/tables]: https://github.com/jgm/djot/issues/31
 [Custom tags support]: https://github.com/jgm/djot/issues/240
-
-
-
-
 [CommonMark]: https://commonmark.org/
 [Pandoc]: https://pandoc.org/
 [Beyond Markdown]: https://johnmacfarlane.net/beyond-markdown.html
@@ -380,7 +375,7 @@ It's useful for me, and that's all that really matters.
 [Jotdown]: https://github.com/hellux/jotdown
 [markup transformations]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#markdown-transformations
 [extending-pulldown_cmark]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#extending-pulldown_cmark
-[Hacker News]:https://news.ycombinator.com/item?id=33867636 
+[Hacker News]: https://news.ycombinator.com/item?id=33867636
 [src]: https://github.com/treeman/jonashietala
 [djotblock]: https://github.com/jgm/djot/issues/198
 [ongoing discussions]: https://github.com/jgm/djot/issues

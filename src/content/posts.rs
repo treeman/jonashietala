@@ -496,14 +496,19 @@ mod tests {
 
         let post = test_site.find_post("2022-01-31-test_post.dj").unwrap();
 
+        let id = "/blog/2022/01/31/test_post".to_string();
         assert_eq!(
             post.post_ref(),
             PostRef {
-                id: "/blog/2022/01/31/test_post".to_string(),
-                created: NaiveDate::from_ymd_opt(2022, 1, 31)
-                    .unwrap()
-                    .and_hms_opt(7, 7, 0)
-                    .unwrap(),
+                id: id.clone(),
+                order: PostRefOrder {
+                    id,
+                    is_draft: false,
+                    created: NaiveDate::from_ymd_opt(2022, 1, 31)
+                        .unwrap()
+                        .and_hms_opt(7, 7, 0)
+                        .unwrap(),
+                }
             }
         );
         Ok(())
