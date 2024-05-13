@@ -690,6 +690,9 @@ I could try to find a lua parser, but eeeh...
 
 ::: note
 I'll probably move the content extraction to Rust so I can reuse the frontmatter parser one day.
+
+*Update*: I started the rewrite less than a day after publishing this post.
+See the source for the [json API][jsonapi] on the backend and the [`list_posts` command][content_src] in Neovim.
 :::
 
 Stupid decisions aside, with all this we have a working [telescope.nvim][] picker!
@@ -702,4 +705,7 @@ I may have skipped some details, so [take a look at the source code][src] if you
 [Experimental Gameplay Project]: /blog/tags/experimental_gameplay_project
 [nvim-nio]: https://github.com/nvim-neotest/nvim-nio
 [Nerd Fonts]: https://www.nerdfonts.com/
+[jsonapi]: https://github.com/treeman/jonashietala/blob/master/src/json_api.rs
 [nerdy.nvim]: https://github.com/2KAbhishek/nerdy.nvim
+[content_src]: https://github.com/treeman/dotfiles/blob/master/.config/nvim/lua/blog/content.lua
+

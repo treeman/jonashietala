@@ -4,6 +4,8 @@ tags = ["Lua", "Neovim"]
 series = "extending_neovim_for_my_blog"
 ---
 
+![Complete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
+
 Autocompletion is an absurdly powerful feature that I---and I must assume most programmers---use all the time.
 It's not as crucial for writing blog posts as when you're coding but it's still easy to come up with examples of how autocomplete would help me creating blog posts.
 For example:
@@ -136,7 +138,7 @@ Here's how to specify a kind other than `Text` for an item:
 ```lua
 items = {
   {
-    label = "Item label",
+    label = "/one",
     kind = require("cmp.types.lsp").CompletionItemKind.File,
   },
 }
@@ -164,9 +166,75 @@ cmp.setup({
   },
 ```
 
-I like 
+I like [lspkind.nvim][] and I want to use it for everything other than the blog, let's make it the default:
 
-![](/images/extend_blog/complete_types.png)
+```lua
+local function make_format()
+  local lspkind_format = require("lspkind").cmp_format({
+    mode = "symbol_text",
+    ellipsis_char = "…",
+    menu = {
+      spell = "[SPELL]",
+      async_path = "[PATH]",
+      -- Other sources here...
+    },
+  })
+
+  return function(entry, vim_item)
+    if entry.source.name == "blog" then
+      return blog_format(entry, vim_item)
+    else
+      -- Use `lspkind` formatting as a fallback.
+      return lspkind_format(entry, vim_item)
+    end
+  end
+end
+
+-- Remember to update `cmp.setup`:
+format = make_format()
+```
+
+For the actual formatting `vim_item` supports two extra fields that we can customize:
+
+- `kind` holds the type information (the 2nd yellow column).
+- `menu` holds the source information (the 3rd white column).
+
+`blog_format` might look like this to add type and source information:
+
+```lua
+-- The symols are from Nerd Fonts but won't show up
+-- in the blog properly.
+local blog_types = {
+  Post = { symbol = "󱚌" },
+  Tag = { symbol = "󰓹" },
+  Series = { symbol = "" },
+  -- etc
+}
+
+local blog_format = function(entry, vim_item)
+  local type = entry.completion_item.type
+  vim_item.kind = blog_types[type].symbol .. " " .. type
+  vim_item.menu = "[BLOG]"
+  return vim_item
+end
+```
+
+We also need to add the `type` field to our completion items:
+
+```lua
+items = {
+  { label = "/one", type = "Post" },
+}
+```
+
+With this we can display our custom types in the same way as [lspkind.nvim][] does it:
+
+![Displaying our own custom types.](/images/extend_blog/complete_types.png)
+
+::: tip
+I arrived here by examining the source code of [lspkind.nvim][].
+With a Lua LSP server that's only a quick `goto definition` away.
+:::
 
 # Complete hidden text
 
@@ -185,7 +253,8 @@ items = {
     insertText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/",
     -- Text to filter against, works like `ordinal` for telescope.
     filterText = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/"
-      .. "|Rewriting my Neovim config in Lua",
+      .. "|"
+      .. "Rewriting my Neovim config in Lua",
   },
 }
 ```
@@ -204,15 +273,20 @@ With `source:complete` we already have the tools we need to autocomplete whateve
 
 The completion part of the integration is the section I've had to tweak the most and it has slowly grown more complex.
 
-It's actually pretty hard to make a complete autocomplete system.
+It's actually pretty hard to make an exhaustive autocomplete system.
 You'd have to have a parser that's capable of parsing incomplete statements.
-Maybe something like [a Tree-sitter grammar][], although the [one I created for Djot][djot-tree-sitter] doesn't mark broken things so it's useless for this purpose.
+Maybe something like [a Tree-sitter grammar][], although the [one I created for Djot][djot-tree-sitter] doesn't mark broken things so it's useless for this purpose (it marks a paragraph with a single `_` as text instead of broken emphasis for example).
+
 I've therefore been relying on regexes on `cursor_before_line` to select what to complete.
 You could probably design a more powerful solution but this simple approach has served me well so far.
 
-In essence, `source:complete` looks something like this:
+## Completion logic
+
+Here's one of first versions of `source:complete`:
 
 ```lua
+local items = {}
+
 -- Expand images separately because I only ever use it in a -- `![](/url)`
 -- context and not mixing with other urls gives a more pleasant experience.
 if string.match(cursor_before_line, "!%[%]%([^%)]*$") then
@@ -251,7 +325,33 @@ if string.match(cursor_before_line, "%[[^%]]*$") then
 end
 
 -- More cases here...
+
+callback(items)
 ```
+
+::: note
+As the completion logic grew more complex, I moved it out from Neovim to the backend.
+It was easier to setup completion details for individual items that way, and now I only rely on a single `"Complete"`lua message that I pipe directly back to `cmp`:
+
+```lua
+function source:complete(params, callback)
+  server.call({
+    id = "Complete",
+    path = vim.fn.expand("%:p"),
+  }, function(reply)
+    -- Items is a list where items have `label`,
+    -- `insertText`, and `filterText`
+    -- like we manually coded before.
+    callback(reply.completion_items)
+  end)
+```
+
+[I still rely][complete_src] on the regex based approach though.
+
+I'll revisit how the backend communication works in a future post.
+:::
+
+## Anatomy of a regex
 
 Don't be too scared of the regexes.
 They're hard to read if you're unfamiliar, but not _too_ bad once you use them a bit.
@@ -270,7 +370,7 @@ For example, here's how the regex matches an image url with the text `![](/path`
 $"          end of string
 ```
 
-It's important to include the end of string, so that we're not autocompleting images after the image has ended:
+It's important to include the end of string, so that we don't autocomplete images after the image has ended:
 
 ```
 ![](/img) Trailing path /
@@ -294,28 +394,6 @@ But we're still not handling newlines in the image text!
 
 Yes, the correct solution is more complex than regex matching against `cursor_before_line`.
 That's an exercise for the concerned reader to implement.
-:::
-
-::: note
-As the completion logic grew more complex, I moved it out from Neovim to the backend.
-It was easier to setup completion details for individual items that way, and now I only rely on a single `"Complete"`lua message that I pipe directly back to `cmp`:
-
-```lua
-function source:complete(params, callback)
-  server.call({
-    id = "Complete",
-    path = vim.fn.expand("%:p"),
-  }, function(reply)
-    -- Items is a list where items have `label`,
-    -- `insertText`, `filterText`, and `kind`,
-    -- like we manually coded before.
-    callback(reply.completion_items)
-  end)
-```
-
-I still rely on the regex based approach though.
-
-I'll revisit how the backend communication works in a future post.
 :::
 
 # Item documentation
@@ -499,11 +577,9 @@ end
 
 ---
 
-
-
 ## The result
 
-![Complete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
+TODO should we have a small gallery here?
 
 [nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
 [djot-tree-sitter]: https://github.com/treeman/tree-sitter-djot
@@ -516,4 +592,5 @@ end
 [tags]: /blog/tags
 [Djot]: https://djot.net/
 [telescope_format]: /blog/2024/05/08/browse_posts_with_telescopenvim#Formatting-entries
+[complete_src]: https://github.com/treeman/jonashietala/blob/master/src/server/complete.rs
 
