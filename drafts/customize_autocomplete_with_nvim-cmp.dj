@@ -262,7 +262,7 @@ items = {
 In this example we display the post title, insert the url to the post, and filters against both the title and the path.
 
 It's not as powerful as [telescope.nvim][] where we could treat its equivalence to `filterText` as [structured data][structured_content].
-I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, and a mini-language [like we created for telescope][telescope_prompt_syntax] doesn't make much sense here.
+I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, so a mini-language [like we created for telescope][telescope_prompt_syntax] doesn't make much sense here.
 
 The most advanced `filterText` I use is exactly this example: a combination of the url and the title.
 Otherwise I don't use `insertText` or `filterText`.
@@ -398,6 +398,8 @@ That's an exercise for the concerned reader to implement.
 
 # Item documentation
 
+![Completion of a heading references for a url, together with a hover window with the heading context.](/images/extend_blog/complete_header_ref_post.png)
+
 ```lua
 function source:resolve(item, callback)
   -- We should generate `lines` depending on the item.
@@ -512,8 +514,6 @@ end
 ```lua
 read_lines(heading.context.path, heading.context.start_row, heading.context.end_row + 10, res)
 ```
-
-![Complete header references for a url. (The documentation preview jumped to the left).](/images/extend_blog/complete_header_ref_post.png)
 
 
 # Comparing autocomplete items
