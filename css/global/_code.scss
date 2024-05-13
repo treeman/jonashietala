@@ -31,7 +31,7 @@ pre {
     font-family: $code-font-family;
     color: var(--melange_a_ui);
     background-color: var(--melange_a_float);
-    padding: var(--space-3xs) var(--space-xs);
+    padding: calc(var(--space-3xs) - 2px) var(--space-xs);
     position: relative;
     top: 1.2rem;
     left: -2rem;
