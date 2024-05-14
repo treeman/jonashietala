@@ -400,6 +400,9 @@ That's an exercise for the concerned reader to implement.
 
 ![Completion of a heading references for a url, together with a hover window with the heading context.](/images/extend_blog/complete_header_ref_post.png)
 
+Another feature is the "documentation window" which is an extra window with information about the entry you're currently selecting.
+To set it up all we need to do is implement `source:resolve` and set `item.documentation`, for example like this:
+
 ```lua
 function source:resolve(item, callback)
   -- We should generate `lines` depending on the item.
@@ -422,63 +425,70 @@ function source:resolve(item, callback)
 end
 ```
 
-```lua
-items = {
-  {
-    label = "Rewriting my Neovim config in Lua",
-    -- All fields are passed through as-is to `source:resolve`.
-    -- I collect all metadata under the `info` field (don't ask why).
-    info = {
-      type = "Post",
-      url = "/blog/2023/10/01/rewriting_my_neovim_config_in_lua/",
-      path = "/home/tree/code/jonashietala/posts/2023-10-01-rewriting_my_neovim_config_in_lua.markdown",
-      tags = {
-        tags = { "Lua", "Neovim" }
-      },
-      created = "2023-10-01",
-    }
-  },
-}
-```
+We could've set `item.description` immediately but `source:resolve` is preferable as it's only called when we select the item, making it the better choice if we want to do some heavier operations (such as reading from a file).
+
+Speaking of reading from a file, here's a function that lets you read a range of lines from a file:
 
 ```lua
-function source:resolve(item, callback)
-  if item.info then
-    local lines
-
-    -- Or 10 other types, I just include `Post` in this example.
-    if item.info.type == "Post" then
-      lines = _post_docs(item.info)
+-- Collect the lines into `res` instead of returning it,
+-- to make it easier to insert lines before the file content.
+local function read_lines(file, start_row, end_row, res)
+  local linenum = 1
+  for line in io.lines(file) do
+    if linenum >= start_row and linenum <= end_row then
+      table.insert(res, line)
     end
-
-    if lines and #lines > 0 then
-      item.documentation = {
-        kind = "markdown",
-        value = vim.fn.join(lines, "\n") .. "\n",
-      }
+    linenum = linenum + 1
+    if linenum > end_row then
+      break
     end
   end
-
-  callback(item)
 end
 ```
 
+It's used like this to produce a documentation for a heading item:
+
 ```lua
-local function _post_docs(post)
-  -- I add more things such as tags and series
-  -- but I shortened the code for this example.
-  local res = {
-    "`" .. post.title .. "`",
-  }
-
-  table.insert(res, "---")
-  read_post_body(post.path, 20, res)
-
-  return res
+local function _heading_docs(heading)
+  -- If there's a heading path, then the item is pointing to a heading in another file.
+  if heading.context.path then
+    -- Uses markdown to make the url bold and adds a separator before the heading context.
+    local res = {
+      "*" .. heading.context.url .. "*",
+      "---",
+    }
+    -- Read the heading and the 10 following lines.
+    read_lines(heading.context.path, heading.context.start_row, heading.context.end_row + 10, res)
+    return res
+  else
+    -- If we don't have a heading then heading points to the same file.
+    -- We can use the buffer `0` to read lines from the current buffer.
+    return vim.api.nvim_buf_get_lines(
+      0,
+      heading.context.start_row,
+      heading.context.end_row + 10,
+      false
+    )
+  end
 end
 ```
 
+To display post bodies we also need to skip the frontmatter.
+The frontmatter for my posts are delimited by `---` like so:
+
+```djot
+---toml
+title = "My post title"
+tags = ["Lua", "Neovim"]
+---
+
+Post body here...
+```
+
+We can do this by counting how many `---` we see, and only collecting lines after we've seen two of them:
+
 ```lua
+-- Collect `limit` lines from `file` into `res`, skipping the post frontmatter.
 local function read_post_body(file, limit, res)
   local count = 1
   local frontmatter_delimiters = 0
@@ -494,27 +504,26 @@ local function read_post_body(file, limit, res)
     end
   end
 end
-```
 
-```lua
-local function read_lines(file, start_row, end_row, res)
-  local linenum = 1
-  for line in io.lines(file) do
-    if linenum >= start_row and linenum <= end_row then
-      table.insert(res, line)
-    end
-    linenum = linenum + 1
-    if linenum > end_row then
-      break
-    end
-  end
+local function _post_docs(post)
+  -- I add more things such as tags and series
+  -- but I shortened the code for this example.
+  local res = {
+    "`" .. post.title .. "`",
+    "---"
+  }
+
+  read_post_body(post.path, 20, res)
+
+  return res
 end
 ```
 
-```lua
-read_lines(heading.context.path, heading.context.start_row, heading.context.end_row + 10, res)
-```
-
+::: note
+The documentation window only supports `markdown` and `text` types.
+It's unfortunate but [Djot][] is similar enough to Markdown that I can live with treating it as Markdown.
+I tried to wrap the markup in code blocks, but for some reason that removed the syntax highlight.
+:::
 
 # Comparing autocomplete items
 
