@@ -6,8 +6,10 @@ series = "extending_neovim_for_my_blog"
 
 ![Complete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
 
+TODO remake image
+
 Autocompletion is an absurdly powerful feature that I---and I must assume most programmers---use all the time.
-It's not as crucial for writing blog posts as when you're coding but it's still easy to come up with examples of how autocomplete would help me creating blog posts.
+It's not as crucial for writing blog posts as when you're coding but it's still easy to come up with examples of how autocomplete would help.
 For example:
 
 - Complete frontmatter metadata
@@ -27,8 +29,7 @@ For example:
 
 - Image links
 
-  I often copy an image to the site's image folder and then I want to link to it...
-  But by then I've forgotten the name.
+  I often copy an image to the site's image folder and when I want to insert a link to the image I've forgotten the file name.
 
 - Reference link definitions
 
@@ -73,7 +74,7 @@ function source:complete(params, callback)
 end
 
 -- Trigger completion (i.e. open up cmp) on these characters.
--- Otherwise we can call it manually with, see `:help cmp.mapping.complete`.
+-- We can also trigger it manually, see `:help cmp.mapping.complete`.
 function source:get_trigger_characters()
   return { "/" }
 end
@@ -121,10 +122,35 @@ require("cmp").setup({
 ```
 :::
 
+## Availability
+
+It might be a good idea to implement the `is_available` function that only activates autocompletion in certain context:
+
+```lua
+function source:is_available()
+  -- Only returns `true` if the buffer is a markup file inside my blog directory.
+  return vim.b[0].blog_file
+end
+```
+
+`vim.b[0].blog_file` is set by Buf autocommand [from the initial setup][initial_setup]:
+
+```lua
+autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = autocmd_pattern,
+  group = blog_group,
+  callback = function(opts)
+    -- Mark the buffer as a "blog file" buffer
+    vim.b[0].blog_file = true
+    -- ...
+  end,
+})
+```
+
 # Formatting entries
 
 While [nvim-cmp][] doesn't seem to give as much control over how to display entries as [telescope does][telescope_format] it's possible to customize it a little.
-In particular I'd like to display the entry's type and mark that it comes from my blog integration.
+In particular I'd like to display the entry's type and mark that it comes from my blog integration (see the image above).
 
 ## Completion item kinds
 
@@ -148,7 +174,7 @@ Kinds aren't anything revolutionary but I think it helps separate different comp
 
 ![Displaying different kinds with [lspkind.nvim][].](/images/extend_blog/cmp_kind_completion.png)
 
-The problem is that LSP kinds are focused on code and it doesn't support the kinds I'd like---such as `Post`, `Draft`, and `Standalone`.
+The problem is that LSP kinds are focused on code and doesn't support the kinds I'd like---such as `Post`, `Draft`, and `Standalone`.
 To display our own custom types we need to do a little more work.
 
 
@@ -196,8 +222,8 @@ format = make_format()
 
 For the actual formatting `vim_item` supports two extra fields that we can customize:
 
-- `kind` holds the type information (the 2nd yellow column).
-- `menu` holds the source information (the 3rd white column).
+- `kind` holds the type information (the 2nd column).
+- `menu` holds the source information (the 3rd column).
 
 `blog_format` might look like this to add type and source information:
 
@@ -262,14 +288,14 @@ items = {
 In this example we display the post title, insert the url to the post, and filters against both the title and the path.
 
 It's not as powerful as [telescope.nvim][] where we could treat its equivalence to `filterText` as [structured data][structured_content].
-I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, so a mini-language [like we created for telescope][telescope_prompt_syntax] doesn't make much sense here.
+I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, so a mini-language [like we created for telescope][telescope_prompt_syntax] isn't as practical.
 
 The most advanced `filterText` I use is exactly this example: a combination of the url and the title.
 Otherwise I don't use `insertText` or `filterText`.
 
 # What to complete where?
 
-With `source:complete` we already have the tools we need to autocomplete whatever we want.
+With `source:complete` [we already have the tools](#A-basic-completion-source) we need to autocomplete whatever we want.
 
 The completion part of the integration is the section I've had to tweak the most and it has slowly grown more complex.
 
@@ -282,7 +308,7 @@ You could probably design a more powerful solution but this simple approach has 
 
 ## Completion logic
 
-Here's one of first versions of `source:complete`:
+Here's one of first versions of `source:complete` to give you an idea on how you might choose what to complete:
 
 ```lua
 local items = {}
@@ -367,7 +393,7 @@ For example, here's how the regex matches an image url with the text `![](/path`
   ^           not equal to
   %)          )
 ]*            0 or more times
-$"          end of string
+$           end of string
 ```
 
 It's important to include the end of string, so that we don't autocomplete images after the image has ended:
@@ -398,7 +424,9 @@ That's an exercise for the concerned reader to implement.
 
 # Item documentation
 
-![Completion of a heading references for a url, together with a hover window with the heading context.](/images/extend_blog/complete_header_ref_post.png)
+![Completion of a heading references for a url, showing the heading context.](/images/extend_blog/complete_header_ref_post.png)
+
+TODO remake image
 
 Another feature is the "documentation window" which is an extra window with information about the entry you're currently selecting.
 To set it up all we need to do is implement `source:resolve` and set `item.documentation`, for example like this:
@@ -446,7 +474,7 @@ local function read_lines(file, start_row, end_row, res)
 end
 ```
 
-It's used like this to produce a documentation for a heading item:
+It's used like this to produce a documentation for a heading item from another file (preferring `nvim_buf_get_lines` for headings in the current buffer):
 
 ```lua
 local function _heading_docs(heading)
@@ -528,7 +556,7 @@ I tried to wrap the markup in code blocks, but for some reason that removed the 
 # Sorting
 
 With [nvim-cmp][] you get full control over the sorting of items.
-Sorting is done with standard comparison functions (e.g. `entry1.modified > entry2.modified`) that you chain.
+Sorting is done with standard comparison functions (e.g. `entry1.modified > entry2.modified`) that you can chain.
 We can add our own comparator to `cmp.setup` like so:
 
 ```lua
@@ -557,18 +585,13 @@ local function blog_compare(entry1, entry2)
 end
 ```
 
+The first thing I'd like to do is sort different completion types, similar to `cmp.config.compare.kind` but for the custom blog types:
+
 ```lua
 local blog_types = {
   BrokenLink = { rank = 0, symbol = "󰌺" },
   LinkDef = { rank = 1, symbol = "󰌹" },
-  Heading = { rank = 2, symbol = "" },
-  Post = { rank = 3, symbol = "󱚌" },
-  Tag = { rank = 4, symbol = "󰓹" },
-  Series = { rank = 5, symbol = "" },
-  Standalone = { rank = 6, symbol = "󰂺" },
-  Constant = { rank = 7, symbol = "" },
-  Img = { rank = 8, symbol = "" },
-  DivClass = { rank = 9, symbol = "" },
+  -- etc
 }
 
 local function blog_compare(entry1, entry2)
@@ -580,23 +603,30 @@ local function blog_compare(entry1, entry2)
   local item1 = entry1.completion_item
   local item2 = entry2.completion_item
 
-  if item1.type == "Img" then
-    -- Sort images by modification time.
-    return item1.modified > item2.modified
+  local rank1 = blog_types[item1.type].rank
+  local rank2 = blog_types[item2.type].rank
+  if rank1 < rank2 then
+    return true
+  elseif rank1 > rank2 then
+    return false
   end
 
+  -- The types are the same, `nil` doesn't imply a sort order between them.
   return nil
 end
 ```
 
-# Availability
-
-Depending on the type of completion it might be a good idea to implement the `is_available` function.
-As we depend on a server to communicate with, we really want to block autocompletion when we're not in the right context:
+At the end of `blog_compare` we can add our type specific comparisons.
+For example, we can sort images by the modified timestamp so that the newest image comes first, making it easy to insert new images:
 
 ```lua
-function source:is_available()
-  -- TODO
+if item1.type == "Img" then
+  -- Sort images by modification time.
+  return item1.modified > item2.modified
+elseif ... then
+  -- More type specific sorting cases here
+else
+  return nil
 end
 ```
 
@@ -618,4 +648,5 @@ TODO should we have a small gallery here?
 [Djot]: https://djot.net/
 [telescope_format]: /blog/2024/05/08/browse_posts_with_telescopenvim#Formatting-entries
 [complete_src]: https://github.com/treeman/jonashietala/blob/master/src/server/complete.rs
+[initial_setup]: /blog/2024/05/02/customizing_neovim#Initial-setup
 
