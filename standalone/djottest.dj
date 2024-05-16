@@ -203,6 +203,10 @@ This is [a tip](#)
 This is [a warning](#)
 :::
 
+::: important
+This is [important](#)
+:::
+
 Text
 
 > With author attribution
@@ -215,9 +219,9 @@ Table:
 | Left aligned |  Centered  | Right aligned |
 |:-------------|:----------:|--------------:|
 | First row    |    Data    |          Data |
-| Second row   | **Cell** 1 |          1111 |
-| Third row    | **Cell** 2 |          3333 |
-| Fourth row   | **Cell** 3 |          6789 |
+| Second row   | *Cell* 1 |          1111 |
+| Third row    | *Cell* 2 |          3333 |
+| Fourth row   | *Cell* 3 |          6789 |
 ^ With table caption
 
 Easy table So cool

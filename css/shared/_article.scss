@@ -360,6 +360,14 @@ article {
       color: var(--melange_b_yellow);
     }
   }
+  aside.important {
+    border-color: var(--melange_b_magenta);
+
+    &::before {
+      content: "Important";
+      color: var(--melange_b_magenta);
+    }
+  }
 
   /*
    * todo comments

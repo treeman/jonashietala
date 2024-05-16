@@ -18,7 +18,6 @@ use eyre::Result;
 use lazy_static::lazy_static;
 use regex::{Captures, Regex};
 use serde::Serialize;
-use serde_repr::*;
 use std::fmt::Display;
 use std::time::SystemTime;
 
@@ -282,6 +281,7 @@ pub enum DivClass {
     Note,
     Tip,
     Warn,
+    Important,
     Greek,
 }
 
@@ -294,7 +294,8 @@ impl DivClass {
             "epigraph" => Some(Self::Epigraph),
             "note" => Some(Self::Note),
             "tip" => Some(Self::Tip),
-            "warn" => Some(Self::Warn),
+            "warn" | "warning" => Some(Self::Warn),
+            "important" => Some(Self::Important),
             "greek" => Some(Self::Greek),
             _ => None,
         }
@@ -308,6 +309,7 @@ impl DivClass {
             Self::Note => "note",
             Self::Tip => "tip",
             Self::Warn => "warn",
+            Self::Important => "important",
             Self::Greek => "greek",
         }
     }
@@ -332,43 +334,6 @@ fn div_class_completions() -> Vec<CompletionItem> {
     .into_iter()
     .map(|e| CompletionItemBuilder::DivClass(e).into())
     .collect()
-}
-
-#[allow(dead_code)]
-#[derive(Debug, Serialize_repr, Clone, Copy, PartialEq, Eq)]
-#[repr(u8)]
-pub enum CompletionItemKind {
-    Text = 1,
-    Method = 2,
-    Function = 3,
-    Constructor = 4,
-    Field = 5,
-    Variable = 6,
-    Class = 7,
-    Interface = 8,
-    Module = 9,
-    Property = 10,
-    Unit = 11,
-    Value = 12,
-    Enum = 13,
-    Keyword = 14,
-    Snippet = 15,
-    Color = 16,
-    File = 17,
-    Reference = 18,
-    Folder = 19,
-    EnumMember = 20,
-    Constant = 21,
-    Struct = 22,
-    Event = 23,
-    Operator = 24,
-    TypeParameter = 25,
-}
-
-impl Default for CompletionItemKind {
-    fn default() -> Self {
-        Self::Text
-    }
 }
 
 pub enum CompletionItemBuilder {
@@ -421,7 +386,6 @@ impl Into<CompletionItem> for CompletionItemBuilder {
         match self {
             CompletionItemBuilder::Img(info) => CompletionItem {
                 label: info.url.clone(),
-                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Img(info)),
                 ..Default::default()
             },
@@ -429,7 +393,6 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
-                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Post(info)),
                 ..Default::default()
             },
@@ -437,7 +400,6 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
-                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Standalone(info)),
                 ..Default::default()
             },
@@ -445,7 +407,6 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
-                kind: CompletionItemKind::Constant,
                 info: Some(ExtraCompletionInfo::Constant(info)),
                 ..Default::default()
             },
@@ -456,7 +417,6 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                     CompletionType::Url => Some(info.url.clone()),
                     CompletionType::Id => Some(info.id.clone()),
                 },
-                kind: CompletionItemKind::Module,
                 info: Some(ExtraCompletionInfo::Series(info)),
                 ..Default::default()
             },
@@ -467,7 +427,6 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                     CompletionType::Url => Some(info.url.clone()),
                     CompletionType::Id => Some(info.name.clone()),
                 },
-                kind: CompletionItemKind::Folder,
                 info: Some(ExtraCompletionInfo::Tag(info)),
                 ..Default::default()
             },
@@ -475,7 +434,6 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 label: format!("{} {}", "#".repeat(info.level.into()), info.content),
                 filter_text: Some(info.content.clone()),
                 insert_text: Some(info.id.clone()),
-                kind: CompletionItemKind::Class,
                 info: Some(ExtraCompletionInfo::Heading(info)),
                 ..Default::default()
             },
@@ -483,19 +441,16 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 filter_text: Some([info.url.as_str(), info.label.as_str()].join("|")),
                 label: info.label.clone(),
                 insert_text: Some(info.label.clone()),
-                kind: CompletionItemKind::Reference,
                 info: Some(ExtraCompletionInfo::LinkDef(info)),
                 ..Default::default()
             },
             CompletionItemBuilder::BrokenLink(info) => CompletionItem {
                 label: info.tag.clone(),
-                kind: CompletionItemKind::Field,
                 info: Some(ExtraCompletionInfo::BrokenLink(info)),
                 ..Default::default()
             },
             CompletionItemBuilder::DivClass(class) => CompletionItem {
                 label: class.to_string(),
-                kind: CompletionItemKind::Keyword,
                 info: Some(ExtraCompletionInfo::DivClass(DivClassInfo {
                     name: class.as_str(),
                 })),
@@ -545,7 +500,6 @@ mod tests {
                 label: "Feb post 1".into(),
                 insert_text: Some("/blog/2022/02/01/feb_post".into()),
                 filter_text: Some("/blog/2022/02/01/feb_post|Feb post 1".into()),
-                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Post(PostInfo {
                     title: "Feb post 1".into(),
                     path: test_site
@@ -567,7 +521,6 @@ mod tests {
             myseries.filter_text,
             Some("/series/myseries|My series".into())
         );
-        assert_eq!(myseries.kind, CompletionItemKind::Module);
         let series_info = if let Some(ExtraCompletionInfo::Series(ref x)) = myseries.info {
             x
         } else {
@@ -605,7 +558,6 @@ mod tests {
                 label: "404".into(),
                 insert_text: Some("/404".into()),
                 filter_text: Some("/404|404".into()),
-                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Standalone(StandaloneInfo {
                     title: "404".into(),
                     url: "/404".into(),
@@ -620,7 +572,6 @@ mod tests {
                 label: "Projects".into(),
                 insert_text: Some("/projects".into()),
                 filter_text: Some("/projects|Projects".into()),
-                kind: CompletionItemKind::Constant,
                 info: Some(ExtraCompletionInfo::Constant(ConstantInfo {
                     title: "Projects".into(),
                     url: "/projects".into(),
@@ -657,7 +608,6 @@ mod tests {
                 label: "# heading with text".into(),
                 insert_text: Some("heading-with-text".into()),
                 filter_text: Some("heading with text".into()),
-                kind: CompletionItemKind::Class,
                 info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
                     id: "heading-with-text".into(),
                     content: "heading with text".into(),
@@ -714,7 +664,6 @@ mod tests {
                 label: "## Regular heading".into(),
                 insert_text: Some("Regular-heading".into()),
                 filter_text: Some("Regular heading".into()),
-                kind: CompletionItemKind::Class,
                 info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
                     id: "Regular-heading".into(),
                     content: "Regular heading".into(),
@@ -767,7 +716,6 @@ mod tests {
                 label: "tag1".into(),
                 insert_text: Some("tag1".to_string()),
                 filter_text: Some("/404|tag1".into()),
-                kind: CompletionItemKind::Reference,
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
@@ -807,7 +755,6 @@ mod tests {
                 label: "tag1".into(),
                 insert_text: Some("tag1".into()),
                 filter_text: Some("/404|tag1".into()),
-                kind: CompletionItemKind::Reference,
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
@@ -836,7 +783,6 @@ mod tests {
                 label: "broken_tag".into(),
                 insert_text: None,
                 filter_text: None,
-                kind: CompletionItemKind::Field,
                 info: Some(ExtraCompletionInfo::BrokenLink(BrokenLinkInfo {
                     tag: "broken_tag".into(),
                     row: 32
