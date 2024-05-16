@@ -539,7 +539,6 @@ mod tests {
         assert_eq!(one.label, "One");
         assert_eq!(one.insert_text, Some("/blog/tags/one".to_string()));
         assert_eq!(one.filter_text, Some("/blog/tags/one|One".into()));
-        assert_eq!(one.kind, CompletionItemKind::Folder);
         let one_info = if let Some(ExtraCompletionInfo::Tag(ref tag)) = one.info {
             tag
         } else {
@@ -817,7 +816,6 @@ mod tests {
         assert_eq!(one.label, "One");
         assert_eq!(one.insert_text, Some("One".to_string()));
         assert_eq!(one.filter_text, Some("/blog/tags/one|One".into()));
-        assert_eq!(one.kind, CompletionItemKind::Folder);
         let one_info = if let Some(ExtraCompletionInfo::Tag(ref tag)) = one.info {
             tag
         } else {
@@ -847,7 +845,6 @@ mod tests {
             myseries.filter_text,
             Some("/series/myseries|My series".into())
         );
-        assert_eq!(myseries.kind, CompletionItemKind::Module);
         let series_info = if let Some(ExtraCompletionInfo::Series(ref x)) = myseries.info {
             x
         } else {

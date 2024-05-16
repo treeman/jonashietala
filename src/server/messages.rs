@@ -1,4 +1,3 @@
-use super::complete::CompletionItemKind;
 use super::diagnostics::Diagnostic;
 use crate::content::PartialPostItem;
 use crate::content::SeriesItem;
@@ -279,10 +278,10 @@ pub struct CompletionItem {
     pub insert_text: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub filter_text: Option<String>,
-    pub kind: CompletionItemKind,
 
-    // Metadata used to construct documentation.
+    // Blog specific metadata
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(flatten)]
     pub info: Option<ExtraCompletionInfo>,
 }
 
