@@ -525,17 +525,15 @@ It's unfortunate but [Djot][] is similar enough to Markdown that I can live with
 I tried to wrap the markup in code blocks, but for some reason that removed the syntax highlight.
 :::
 
-# Comparing autocomplete items
+# Sorting
+
+With [nvim-cmp][] you get full control over the sorting of items.
+Sorting is done with standard comparison functions (e.g. `entry1.modified > entry2.modified`) that you chain.
+We can add our own comparator to `cmp.setup` like so:
 
 ```lua
-local function blog_compare(entry1, entry2)
-  -- TODO
-  return nil
-end
-
 cmp.setup({
   sorting = {
-    priority_weight = 2,
     comparators = {
       -- With cmp you chain comparators.
       cmp.config.compare.offset,
@@ -552,21 +550,39 @@ cmp.setup({
     },
   },
 })
+
+local function blog_compare(entry1, entry2)
+  -- TODO
+  return nil
+end
 ```
 
 ```lua
+local blog_types = {
+  BrokenLink = { rank = 0, symbol = "󰌺" },
+  LinkDef = { rank = 1, symbol = "󰌹" },
+  Heading = { rank = 2, symbol = "" },
+  Post = { rank = 3, symbol = "󱚌" },
+  Tag = { rank = 4, symbol = "󰓹" },
+  Series = { rank = 5, symbol = "" },
+  Standalone = { rank = 6, symbol = "󰂺" },
+  Constant = { rank = 7, symbol = "" },
+  Img = { rank = 8, symbol = "" },
+  DivClass = { rank = 9, symbol = "" },
+}
+
 local function blog_compare(entry1, entry2)
   -- Only sort blog entries.
   if entry1.source.name ~= "blog" or entry2.source.name ~= "blog" then
     return nil
   end
 
-  local info1 = entry1.completion_item.info
-  local info2 = entry2.completion_item.info
+  local item1 = entry1.completion_item
+  local item2 = entry2.completion_item
 
-  if info1.type == "Img" then
+  if item1.type == "Img" then
     -- Sort images by modification time.
-    return info1.modified > info2.modified
+    return item1.modified > item2.modified
   end
 
   return nil
