@@ -11,6 +11,7 @@ use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use tera::Context;
+use tracing::error;
 
 use crate::content::series::SeriesRef;
 use crate::content::tags::{Tag, TagPostContext, TagsMeta};
@@ -156,14 +157,13 @@ impl PostItem {
 
 impl TeraItem for PostItem {
     fn context(&self, ctx: &RenderContext) -> Context {
-        let series = self.series.as_ref().map(|series| {
-            PostSeriesContext::new(
-                self,
-                ctx.content
-                    .get_series(series)
-                    .expect(&format!("Could not find series {series:?}")),
-                ctx,
-            )
+        let series = self.series.as_ref().and_then(|series_ref| {
+            if let Some(series) = ctx.content.get_series(series_ref) {
+                Some(PostSeriesContext::new(self, series, ctx))
+            } else {
+                error!("Couldn't find series: {series_ref:#?}");
+                None
+            }
         });
 
         Context::from_serialize(PostContext {
