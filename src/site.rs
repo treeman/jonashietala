@@ -159,9 +159,9 @@ impl SiteContent {
     pub fn insert_post(&mut self, post: PostItem) -> Option<PostItem> {
         let post_ref = post.post_ref();
         if post.is_draft {
-            self.drafts.as_mut().map(|drafts| {
+            if let Some(drafts) = self.drafts.as_mut() {
                 drafts.insert(post_ref.clone());
-            });
+            }
         }
         let prev_post = self.posts.insert(post_ref.clone(), post);
         set_post_prev_next(&mut self.posts);
@@ -191,9 +191,7 @@ impl SiteLookup {
         let mut tags: HashMap<Tag, Vec<PostRef>> = HashMap::new();
         for (post_ref, post) in &content.posts {
             for tag in &post.tags {
-                tags.entry(tag.clone())
-                    .or_insert_with(Vec::new)
-                    .push(post_ref.clone());
+                tags.entry(tag.clone()).or_default().push(post_ref.clone());
             }
         }
         Self { tags }
@@ -256,7 +254,7 @@ impl SiteRenderOpts<'_> {
         }
     }
 
-    fn post_created<'a>(post: &'a PostItem) -> SiteRenderOpts<'a> {
+    fn post_created(post: &PostItem) -> SiteRenderOpts<'_> {
         let has_series = post.series.is_some();
         let has_tags = !post.tags.is_empty();
 
@@ -711,13 +709,13 @@ impl Site {
                 // Series was changed...
                 // 1. Remove post from previous series
                 if let Some(ref series_ref) = prev_post.series {
-                    if let Some(series) = self.content.series.get_mut(&series_ref) {
+                    if let Some(series) = self.content.series.get_mut(series_ref) {
                         series.posts.remove(&Reverse(prev_post.post_ref()));
                     }
                 }
                 // 2. Add post to series
                 if let Some(series_ref) = &updated.series {
-                    if let Some(series) = self.content.series.get_mut(&series_ref) {
+                    if let Some(series) = self.content.series.get_mut(series_ref) {
                         series.posts.insert(Reverse(post_ref.clone()));
                     }
                 }
@@ -725,15 +723,15 @@ impl Site {
             }
         } else if let Some(series_ref) = &updated.series {
             // 1. Add post to series
-            if let Some(series) = self.content.series.get_mut(&series_ref) {
+            if let Some(series) = self.content.series.get_mut(series_ref) {
                 series.posts.insert(Reverse(post_ref.clone()));
             }
             // 2. Update series ref in `self` ?
         }
 
         let render_opts = match prev_post {
-            Some(old) => SiteRenderOpts::post_updated(&old, &updated),
-            None => SiteRenderOpts::post_created(&updated),
+            Some(old) => SiteRenderOpts::post_updated(&old, updated),
+            None => SiteRenderOpts::post_created(updated),
         };
 
         self.render(render_opts)
