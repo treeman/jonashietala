@@ -2,7 +2,7 @@ use super::messages::{
     BrokenLinkInfo, CompletionItem, ConstantInfo, DivClassInfo, HeadingContext, ImgInfo,
     LinkDefInfo, PostInfo, SeriesInfo, StandaloneInfo, TagInfo,
 };
-use super::messages::{ExtraCompletionInfo, HeadingInfo};
+use super::messages::{CompletionItemKind, ExtraCompletionInfo, HeadingInfo};
 use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
@@ -231,7 +231,7 @@ fn append_broken_link_completions(lookup: &MarkupLookup, res: &mut Vec<Completio
             }) => {
                 res.push(
                     CompletionItemBuilder::BrokenLink(BrokenLinkInfo::from_link(
-                        &tag,
+                        tag,
                         e.range.start.row,
                     ))
                     .into(),
@@ -381,11 +381,12 @@ impl CompletionItemBuilder {
     }
 }
 
-impl Into<CompletionItem> for CompletionItemBuilder {
-    fn into(self) -> CompletionItem {
-        match self {
+impl From<CompletionItemBuilder> for CompletionItem {
+    fn from(value: CompletionItemBuilder) -> CompletionItem {
+        match value {
             CompletionItemBuilder::Img(info) => CompletionItem {
                 label: info.url.clone(),
+                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Img(info)),
                 ..Default::default()
             },
@@ -393,22 +394,22 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
+                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Post(info)),
-                ..Default::default()
             },
             CompletionItemBuilder::Standalone(info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
+                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Standalone(info)),
-                ..Default::default()
             },
             CompletionItemBuilder::Constant(info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
+                kind: CompletionItemKind::Constant,
                 info: Some(ExtraCompletionInfo::Constant(info)),
-                ..Default::default()
             },
             CompletionItemBuilder::Series(t, info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
@@ -417,8 +418,8 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                     CompletionType::Url => Some(info.url.clone()),
                     CompletionType::Id => Some(info.id.clone()),
                 },
+                kind: CompletionItemKind::Module,
                 info: Some(ExtraCompletionInfo::Series(info)),
-                ..Default::default()
             },
             CompletionItemBuilder::Tag(t, info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.name.as_str()].join("|")),
@@ -427,26 +428,27 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                     CompletionType::Url => Some(info.url.clone()),
                     CompletionType::Id => Some(info.name.clone()),
                 },
+                kind: CompletionItemKind::Folder,
                 info: Some(ExtraCompletionInfo::Tag(info)),
-                ..Default::default()
             },
             CompletionItemBuilder::Heading(info) => CompletionItem {
                 label: format!("{} {}", "#".repeat(info.level.into()), info.content),
                 filter_text: Some(info.content.clone()),
                 insert_text: Some(info.id.clone()),
+                kind: CompletionItemKind::Class,
                 info: Some(ExtraCompletionInfo::Heading(info)),
-                ..Default::default()
             },
             CompletionItemBuilder::LinkDefInfo(info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.label.as_str()].join("|")),
                 label: info.label.clone(),
                 insert_text: Some(info.label.clone()),
                 info: Some(ExtraCompletionInfo::LinkDef(info)),
-                ..Default::default()
+                kind: CompletionItemKind::Reference,
             },
             CompletionItemBuilder::BrokenLink(info) => CompletionItem {
                 label: info.tag.clone(),
                 info: Some(ExtraCompletionInfo::BrokenLink(info)),
+                kind: CompletionItemKind::Field,
                 ..Default::default()
             },
             CompletionItemBuilder::DivClass(class) => CompletionItem {
@@ -454,6 +456,7 @@ impl Into<CompletionItem> for CompletionItemBuilder {
                 info: Some(ExtraCompletionInfo::DivClass(DivClassInfo {
                     name: class.as_str(),
                 })),
+                kind: CompletionItemKind::Keyword,
                 ..Default::default()
             },
         }
@@ -500,6 +503,7 @@ mod tests {
                 label: "Feb post 1".into(),
                 insert_text: Some("/blog/2022/02/01/feb_post".into()),
                 filter_text: Some("/blog/2022/02/01/feb_post|Feb post 1".into()),
+                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Post(PostInfo {
                     title: "Feb post 1".into(),
                     path: test_site
@@ -557,6 +561,7 @@ mod tests {
                 label: "404".into(),
                 insert_text: Some("/404".into()),
                 filter_text: Some("/404|404".into()),
+                kind: CompletionItemKind::File,
                 info: Some(ExtraCompletionInfo::Standalone(StandaloneInfo {
                     title: "404".into(),
                     url: "/404".into(),
@@ -571,6 +576,7 @@ mod tests {
                 label: "Projects".into(),
                 insert_text: Some("/projects".into()),
                 filter_text: Some("/projects|Projects".into()),
+                kind: CompletionItemKind::Constant,
                 info: Some(ExtraCompletionInfo::Constant(ConstantInfo {
                     title: "Projects".into(),
                     url: "/projects".into(),
@@ -607,6 +613,7 @@ mod tests {
                 label: "# heading with text".into(),
                 insert_text: Some("heading-with-text".into()),
                 filter_text: Some("heading with text".into()),
+                kind: CompletionItemKind::Class,
                 info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
                     id: "heading-with-text".into(),
                     content: "heading with text".into(),
@@ -663,6 +670,7 @@ mod tests {
                 label: "## Regular heading".into(),
                 insert_text: Some("Regular-heading".into()),
                 filter_text: Some("Regular heading".into()),
+                kind: CompletionItemKind::Class,
                 info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
                     id: "Regular-heading".into(),
                     content: "Regular heading".into(),
@@ -715,6 +723,7 @@ mod tests {
                 label: "tag1".into(),
                 insert_text: Some("tag1".to_string()),
                 filter_text: Some("/404|tag1".into()),
+                kind: CompletionItemKind::Reference,
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
@@ -754,6 +763,7 @@ mod tests {
                 label: "tag1".into(),
                 insert_text: Some("tag1".into()),
                 filter_text: Some("/404|tag1".into()),
+                kind: CompletionItemKind::Reference,
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
@@ -782,6 +792,7 @@ mod tests {
                 label: "broken_tag".into(),
                 insert_text: None,
                 filter_text: None,
+                kind: CompletionItemKind::Field,
                 info: Some(ExtraCompletionInfo::BrokenLink(BrokenLinkInfo {
                     tag: "broken_tag".into(),
                     row: 32

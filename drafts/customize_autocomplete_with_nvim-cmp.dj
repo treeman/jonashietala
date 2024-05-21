@@ -4,9 +4,7 @@ tags = ["Lua", "Neovim"]
 series = "extending_neovim_for_my_blog"
 ---
 
-![Complete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
-
-TODO remake image
+![Autocomplete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
 
 Autocompletion is an absurdly powerful feature that I---and I must assume most programmers---use all the time.
 It's not as crucial for writing blog posts as when you're coding but it's still easy to come up with examples of how autocomplete would help.
@@ -429,8 +427,6 @@ That's an exercise for the concerned reader to implement.
 
 ![Completion of a heading references for a url, showing the heading context.](/images/extend_blog/complete_header_ref_post.png)
 
-TODO remake image
-
 Another feature is the "documentation window" which is an extra window with information about the entry you're currently selecting.
 To set it up all we need to do is implement `source:resolve` and set `item.documentation`, for example like this:
 
@@ -636,6 +632,15 @@ end
 ---
 
 ## The result
+
+- Complete images
+- Complete post links
+- Complete standalone
+- Complete link def (info?)
+- Complete div class
+
+::: gallery
+:::
 
 TODO should we have a small gallery here?
 

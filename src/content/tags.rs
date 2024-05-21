@@ -24,11 +24,17 @@ pub fn tags_archives(tags: &HashMap<Tag, Vec<PostRef>>) -> Vec<ArchiveItem> {
         .collect()
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, PartialOrd, Hash)]
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct Tag {
     pub id: String,
     pub name: String,
     pub url: SiteUrl,
+}
+
+impl PartialOrd for Tag {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Ord for Tag {

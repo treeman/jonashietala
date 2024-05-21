@@ -64,11 +64,17 @@ pub struct PostRef {
     pub order: PostRefOrder,
 }
 
-#[derive(Debug, Clone, Eq, PartialOrd)]
+#[derive(Debug, Clone, Eq)]
 pub struct PostRefOrder {
     pub id: String,
     pub is_draft: bool,
     pub created: NaiveDateTime,
+}
+
+impl PartialOrd for PostRefOrder {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Ord for PostRefOrder {
@@ -195,7 +201,7 @@ impl TeraItem for PostItem {
 }
 
 /// A post item with frontmatter data but without markup.
-#[derive(Debug, Eq, PartialOrd)]
+#[derive(Debug, Eq)]
 pub struct PartialPostItem {
     pub title: String,
     pub tags: Vec<Tag>,
@@ -247,6 +253,12 @@ impl PartialPostItem {
 impl PartialEq for PartialPostItem {
     fn eq(&self, other: &Self) -> bool {
         self.path.eq(&other.path)
+    }
+}
+
+impl PartialOrd for PartialPostItem {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
     }
 }
 

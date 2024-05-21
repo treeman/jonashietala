@@ -7,6 +7,7 @@ use crate::content::{PostItem, PostRef};
 use crate::markup::markup_lookup::{Heading, LinkDef};
 use crate::Site;
 use serde::{Deserialize, Serialize};
+use serde_repr::Serialize_repr;
 use std::collections::HashMap;
 
 #[derive(Debug, Serialize)]
@@ -269,6 +270,43 @@ pub enum ExtraCompletionInfo {
     DivClass(DivClassInfo),
 }
 
+#[allow(dead_code)]
+#[derive(Debug, Serialize_repr, Clone, Copy, PartialEq, Eq)]
+#[repr(u8)]
+pub enum CompletionItemKind {
+    Text = 1,
+    Method = 2,
+    Function = 3,
+    Constructor = 4,
+    Field = 5,
+    Variable = 6,
+    Class = 7,
+    Interface = 8,
+    Module = 9,
+    Property = 10,
+    Unit = 11,
+    Value = 12,
+    Enum = 13,
+    Keyword = 14,
+    Snippet = 15,
+    Color = 16,
+    File = 17,
+    Reference = 18,
+    Folder = 19,
+    EnumMember = 20,
+    Constant = 21,
+    Struct = 22,
+    Event = 23,
+    Operator = 24,
+    TypeParameter = 25,
+}
+
+impl Default for CompletionItemKind {
+    fn default() -> Self {
+        Self::Text
+    }
+}
+
 #[derive(Debug, Serialize, PartialEq, Eq, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct CompletionItem {
@@ -278,6 +316,7 @@ pub struct CompletionItem {
     pub insert_text: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub filter_text: Option<String>,
+    pub kind: CompletionItemKind,
 
     // Blog specific metadata
     #[serde(skip_serializing_if = "Option::is_none")]
