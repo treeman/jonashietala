@@ -47,6 +47,9 @@ For example:
 [nvim-cmp][] is my plugin of choice for autocompletion that supports different sources such as LSP, snippets, spell corrections, math calculations, and more.
 Let's see how to make our own source for [nvim-cmp][].
 
+I've probably made some mistakes in this post or forgotten something.
+Check [my Neovim config][nvim-src] if you see something fishy.
+
 # A basic completion source
 
 Creating a custom source for [nvim-cmp][] was described well in `:help cmp-develop`.
@@ -133,7 +136,7 @@ function source:is_available()
 end
 ```
 
-`vim.b[0].blog_file` is set by Buf autocommand [from the initial setup][initial_setup]:
+`vim.b[0].blog_file` is set by Buf autocommand [from the initial setup][initial-setup]:
 
 ```lua
 autocmd({ "BufRead", "BufNewFile" }, {
@@ -265,7 +268,7 @@ With a Lua LSP server that's only a quick `goto definition` away.
 # Complete hidden text
 
 One cool thing with [telescope.nvim][] was the ability to filter on hidden text.
-In the [post finder][structured_content] we developed we could search for post tags, but only display the post title.
+In the [post finder][structured-content] we developed we could search for post tags, but only display the post title.
 We can do the same with [nvim-cmp][], where we'll display one thing, filter against something else, and insert a third piece of text.
 
 All we need to do is add some extra fields to the completion items:
@@ -287,8 +290,8 @@ items = {
 
 In this example we display the post title, insert the url to the post, and filters against both the title and the path.
 
-It's not as powerful as [telescope.nvim][] where we could treat its equivalence to `filterText` as [structured data][structured_content].
-I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, so a mini-language [like we created for telescope][telescope_prompt_syntax] isn't as practical.
+It's not as powerful as [telescope.nvim][] where we could treat its equivalence to `filterText` as [structured data][structured-content].
+I don't think it's a big deal because with autocomplete you're more likely to want `insertText` to match what you're typing, so a mini-language [like we created for telescope][telescope-prompt-syntax] isn't as practical.
 
 The most advanced `filterText` I use is exactly this example: a combination of the url and the title.
 Otherwise I don't use `insertText` or `filterText`.
@@ -372,7 +375,7 @@ function source:complete(params, callback)
   end)
 ```
 
-[I still rely][complete_src] on the regex based approach though.
+[I still rely][complete-src] on the regex based approach though.
 
 I'll revisit how the backend communication works in a future post.
 :::
@@ -642,11 +645,11 @@ TODO should we have a small gallery here?
 [lspkind.nvim]: https://github.com/onsails/lspkind.nvim
 [LSP specification]: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
-[structured_content]: /blog/2024/05/08/browse_posts_with_telescopenvim#Structured-content
-[telescope_prompt_syntax]: /blog/2024/05/08/browse_posts_with_telescopenvim#Prompt-syntax
+[structured-content]: /blog/2024/05/08/browse_posts_with_telescopenvim#Structured-content
+[telescope-prompt-syntax]: /blog/2024/05/08/browse_posts_with_telescopenvim#Prompt-syntax
 [tags]: /blog/tags
 [Djot]: https://djot.net/
 [telescope_format]: /blog/2024/05/08/browse_posts_with_telescopenvim#Formatting-entries
-[complete_src]: https://github.com/treeman/jonashietala/blob/master/src/server/complete.rs
-[initial_setup]: /blog/2024/05/02/customizing_neovim#Initial-setup
-
+[complete-src]: https://github.com/treeman/jonashietala/blob/master/src/server/complete.rs
+[initial-setup]: /blog/2024/05/02/customizing_neovim#Initial-setup
+[nvim-src]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
