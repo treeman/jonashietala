@@ -147,7 +147,7 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
         })
     }
 
-    pub fn parse(self: Self, context: ParseContext) -> Result<MarkupFile<Meta>> {
+    pub fn parse(self, context: ParseContext) -> Result<MarkupFile<Meta>> {
         let res = self.markup.parse(context.with_path(&self.path))?;
         Ok(MarkupFile {
             markup: self.markup,
@@ -209,7 +209,7 @@ pub struct MarkupFile<Meta: DeserializeOwned> {
 
 pub fn find_markup_files<'a, P: 'a + AsRef<Utf8Path>>(dirs: &[P]) -> Vec<FilePath> {
     dirs.iter()
-        .map(|dir| {
+        .flat_map(|dir| {
             let dir = dir.as_ref();
             WalkDir::new(dir.as_std_path())
                 .into_iter()
@@ -221,7 +221,6 @@ pub fn find_markup_files<'a, P: 'a + AsRef<Utf8Path>>(dirs: &[P]) -> Vec<FilePat
                 .filter_map(move |e| FilePath::from_std_path(dir, e.into_path()).ok())
                 .filter(|e| MarkupType::from_file(&e.rel_path.0).is_some())
         })
-        .flatten()
         .collect()
 }
 
