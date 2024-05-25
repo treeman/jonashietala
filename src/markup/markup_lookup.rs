@@ -1,6 +1,7 @@
 use btree_range_map::RangeMap;
 use lazy_static::lazy_static;
 use regex::Regex;
+use serde::Serialize;
 use std::{collections::HashMap, ops::Range};
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
@@ -36,47 +37,50 @@ impl PosRange {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize)]
 pub struct Heading {
     pub id: String,
     pub level: u16,
     pub content: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize)]
 pub struct LinkDef {
     pub label: String,
     pub url: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize)]
+#[serde(tag = "type")]
 pub enum LinkRef {
-    Inline(String),
+    Inline { url: String },
     Reference { label: String, url: String },
-    Email(String),
-    AutoLink(String),
-    Unresolved(String),
+    Email { url: String },
+    AutoLink { url: String },
+    Unresolved { tag: String },
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize)]
 pub struct Link {
     pub link_ref: LinkRef,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize)]
+#[serde(tag = "type")]
 pub enum ImgRef {
-    Inline(String),
+    Inline { url: String },
     Reference { label: String, url: String },
-    Unresolved(String),
+    Unresolved { tag: String },
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize)]
 pub struct Img {
     pub link_ref: ImgRef,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub enum Todo {
+#[derive(Debug, PartialEq, Eq, Clone, Serialize)]
+#[serde(tag = "type")]
+pub enum TodoTag {
     Todo,
     Fixme,
     Note,
@@ -86,13 +90,13 @@ lazy_static! {
     static ref SPLIT: Regex = Regex::new(r"^(\w+)\s+").unwrap();
 }
 
-impl Todo {
+impl TodoTag {
     pub fn from_beginning_of_line(s: &str) -> Option<(Self, usize)> {
         if let Some(caps) = SPLIT.captures(s) {
             match &caps[1] {
-                "TODO" | "WIP" => Some((Self::Todo, (&caps[1]).len())),
-                "NOTE" | "INFO" | "XXX" => Some((Self::Note, (&caps[1]).len())),
-                "FIXME" => Some((Self::Fixme, (&caps[1]).len())),
+                "TODO" | "WIP" => Some((Self::Todo, (caps[1]).len())),
+                "NOTE" | "INFO" | "XXX" => Some((Self::Note, (caps[1]).len())),
+                "FIXME" => Some((Self::Fixme, (caps[1]).len())),
                 _ => None,
             }
         } else {
@@ -109,13 +113,14 @@ impl Todo {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Serialize)]
+#[serde(tag = "type")]
 pub enum Element {
     Link(Link),
     LinkDef(LinkDef),
     Heading(Heading),
     Img(Img),
-    Todo(Todo),
+    Todo(TodoTag),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -173,7 +178,7 @@ impl MarkupLookup {
             // Include the newline.
             // I don't know how to handle carriage returns nor do I care.
             // Neovim counts columns using bytes, not character!
-            let count = line.bytes().count() + 1;
+            let count = line.len() + 1;
             line_size_sum.push(sum);
             sum += count;
         }
@@ -239,7 +244,7 @@ impl MarkupLookup {
             Element::Heading(ref heading) => {
                 let heading_lookup = HeadingLookup {
                     heading: heading.clone(),
-                    range: range.clone(),
+                    range,
                     char_range: char_range.clone(),
                 };
                 self.headings
@@ -250,7 +255,7 @@ impl MarkupLookup {
             Element::LinkDef(ref link_def) => {
                 let link_def_lookup = LinkDefLookup {
                     link_def: link_def.clone(),
-                    range: range.clone(),
+                    range,
                     char_range: char_range.clone(),
                 };
                 self.link_defs

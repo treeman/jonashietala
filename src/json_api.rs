@@ -1,6 +1,6 @@
 use crate::content::load_partial_posts;
 use crate::paths::AbsPath;
-use crate::server::messages::PostInfo;
+use crate::server::complete::PostInfo;
 use eyre::Result;
 
 pub async fn list_posts(dir: &AbsPath) -> Result<()> {

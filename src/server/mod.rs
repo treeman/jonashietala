@@ -1,7 +1,8 @@
-mod complete;
+pub mod complete;
 pub mod diagnostics;
 mod goto_def;
 mod handler;
+mod info;
 pub mod messages;
 
 use crate::paths::AbsPath;

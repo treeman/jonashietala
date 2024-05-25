@@ -72,7 +72,9 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                 SpanLinkType::Inline => {
                     self.event_stack.push(RawElementLookup {
                         element: Element::Img(Img {
-                            link_ref: ImgRef::Inline(tag.to_string()),
+                            link_ref: ImgRef::Inline {
+                                url: tag.to_string(),
+                            },
                         }),
                         char_range: range.clone(),
                     });
@@ -95,7 +97,9 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
 
                     self.event_stack.push(RawElementLookup {
                         element: Element::Img(Img {
-                            link_ref: ImgRef::Unresolved(tag.to_string()),
+                            link_ref: ImgRef::Unresolved {
+                                tag: tag.to_string(),
+                            },
                         }),
                         char_range: range.clone(),
                     });
@@ -126,7 +130,9 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                 LinkType::Span(SpanLinkType::Inline) => {
                     self.event_stack.push(RawElementLookup {
                         element: Element::Link(Link {
-                            link_ref: LinkRef::Inline(tag.to_string()),
+                            link_ref: LinkRef::Inline {
+                                url: tag.to_string(),
+                            },
                         }),
                         char_range: range.clone(),
                     });
@@ -149,7 +155,9 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
 
                     self.event_stack.push(RawElementLookup {
                         element: Element::Link(Link {
-                            link_ref: LinkRef::Unresolved(tag.to_string()),
+                            link_ref: LinkRef::Unresolved {
+                                tag: tag.to_string(),
+                            },
                         }),
                         char_range: range.clone(),
                     });
@@ -157,7 +165,9 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                 LinkType::Email => {
                     self.event_stack.push(RawElementLookup {
                         element: Element::Link(Link {
-                            link_ref: LinkRef::Email(tag.to_string()),
+                            link_ref: LinkRef::Email {
+                                url: tag.to_string(),
+                            },
                         }),
                         char_range: range.clone(),
                     });
@@ -165,7 +175,9 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                 LinkType::AutoLink => {
                     self.event_stack.push(RawElementLookup {
                         element: Element::Link(Link {
-                            link_ref: LinkRef::AutoLink(tag.to_string()),
+                            link_ref: LinkRef::AutoLink {
+                                url: tag.to_string(),
+                            },
                         }),
                         char_range: range.clone(),
                     });
@@ -272,7 +284,7 @@ text");
 
         let element = ElementLookup {
             element: Element::Link(Link {
-                link_ref: LinkRef::Inline("/url".into()),
+                link_ref: LinkRef::Inline { url: "/url".into() },
             }),
             range: PosRange::new((0, 7), (0, 24)),
             char_range: 7..24,
@@ -291,7 +303,7 @@ text");
             lookup.at_pos(7),
             Some(&ElementLookup {
                 element: Element::Link(Link {
-                    link_ref: LinkRef::Unresolved("tag".into()),
+                    link_ref: LinkRef::Unresolved { tag: "tag".into() },
                 }),
                 range: PosRange::new((0, 7), (0, 23)),
                 char_range: 7..23,
@@ -395,7 +407,9 @@ text");
             lookup.at_pos(0),
             Some(&ElementLookup {
                 element: Element::Img(Img {
-                    link_ref: ImgRef::Inline("/img.png".into()),
+                    link_ref: ImgRef::Inline {
+                        url: "/img.png".into()
+                    },
                 }),
                 range: PosRange::new((0, 0), (0, 21)),
                 char_range: 0..21,
@@ -411,7 +425,7 @@ text");
             lookup.at_pos(0),
             Some(&ElementLookup {
                 element: Element::Img(Img {
-                    link_ref: ImgRef::Unresolved("tag".into()),
+                    link_ref: ImgRef::Unresolved { tag: "tag".into() },
                 }),
                 range: PosRange::new((0, 0), (0, 17)),
                 char_range: 0..17,

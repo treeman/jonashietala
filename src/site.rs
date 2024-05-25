@@ -891,7 +891,7 @@ impl Site {
 
     fn remove_output(&mut self, path: FilePath) -> Result<()> {
         info!("File removed: {path}");
-        std::fs::remove_file(&self.opts.output_dir.join(&path.rel_path.0))?;
+        std::fs::remove_file(self.opts.output_dir.join(&path.rel_path.0))?;
         self.notify_refresh()
     }
 

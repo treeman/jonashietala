@@ -1,7 +1,8 @@
 use super::complete;
+use super::complete::TagInfo;
 use super::goto_def::{self, GotoDefRes};
-use super::messages::{NeovimEvent, NeovimResponse, TagInfo, WebEvent};
-use crate::server::diagnostics;
+use super::messages::{NeovimEvent, NeovimResponse, WebEvent};
+use crate::server::{diagnostics, info};
 use crate::site::Site;
 use std::sync::{Arc, Mutex};
 use tracing::{debug, warn};
@@ -87,6 +88,15 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
                 path: None,
             })),
         },
+        NeovimEvent::CursorInfo {
+            message_id,
+            linenum,
+            column,
+            path,
+        } => Some(Response::Reply(NeovimResponse::CursorInfo {
+            message_id,
+            element: info::item_info(linenum, column, &path, &site),
+        })),
         NeovimEvent::RefreshDiagnostics { path } => {
             diagnostics::generate_file_diagnostics(&path.as_str().into(), &site).and_then(
                 |path_diagnostics| {

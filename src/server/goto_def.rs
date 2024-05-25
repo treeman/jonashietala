@@ -24,8 +24,8 @@ pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Optio
 
     match &lookup.element_at(linenum, column)?.element {
         Element::Link(Link {
-            link_ref: LinkRef::Inline(url),
-        }) => goto_url(&url, lookup, site),
+            link_ref: LinkRef::Inline { url },
+        }) => goto_url(url, lookup, site),
         Element::Link(Link {
             link_ref: LinkRef::Reference { label, url },
         }) => {
@@ -34,13 +34,13 @@ pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Optio
                 Some(def.range.into())
             } else {
                 // May happen for short heading links
-                goto_url(&url, lookup, site)
+                goto_url(url, lookup, site)
             }
         }
         Element::Link(Link {
-            link_ref: LinkRef::AutoLink(url),
+            link_ref: LinkRef::AutoLink { url },
             ..
-        }) => goto_url(&url, lookup, site),
+        }) => goto_url(url, lookup, site),
         Element::Link(_) => None,
         Element::Img(Img {
             link_ref: ImgRef::Reference { label, .. },
@@ -54,7 +54,7 @@ pub fn goto_def(linenum: usize, column: usize, path: &str, site: &Site) -> Optio
             }
         }
         Element::Img(_) => None,
-        Element::LinkDef(LinkDef { url, .. }) => goto_url(&url, lookup, site),
+        Element::LinkDef(LinkDef { url, .. }) => goto_url(url, lookup, site),
         Element::Heading(_) => None,
         Element::Todo(_) => None,
     }
@@ -75,7 +75,7 @@ fn goto_url(url: &str, lookup: &MarkupLookup, site: &Site) -> Option<GotoDefRes>
 
     if let Some(post) = site.content.find_post_by_url(url) {
         return Some(GotoDefRes::OtherFile {
-            path: post.path.clone().into(),
+            path: post.path.clone(),
         });
     }
 

@@ -111,7 +111,6 @@ impl Markup {
         }
     }
 
-    #[cfg(test)]
     pub fn content(&self) -> &str {
         match self {
             Self::Markdown(s) => s.as_str(),

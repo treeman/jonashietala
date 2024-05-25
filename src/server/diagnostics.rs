@@ -1,5 +1,5 @@
 use crate::item::Item;
-use crate::markup::markup_lookup::{Element, ImgRef, LinkRef, PosRange, Todo};
+use crate::markup::markup_lookup::{Element, ImgRef, LinkRef, PosRange, TodoTag};
 use crate::paths::AbsPath;
 use crate::site_url::SiteUrl;
 use crate::Site;
@@ -47,14 +47,14 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
     for (_, e) in lookup.char_pos_to_element.iter() {
         match &e.element {
             Element::Link(link) => match &link.link_ref {
-                LinkRef::Inline(url) | LinkRef::AutoLink(url) => {
+                LinkRef::Inline { url } | LinkRef::AutoLink { url } => {
                     check_url(&e.range, url, site, &mut res);
                 }
                 LinkRef::Reference { label, .. } => {
                     referenced_link_defs.insert(label.as_str());
                 }
-                LinkRef::Email(_) => {}
-                LinkRef::Unresolved(tag) => {
+                LinkRef::Email { .. } => {}
+                LinkRef::Unresolved { tag } => {
                     push_diagnostic(
                         &e.range,
                         format!("Link to non-existent link definition: `{}`", tag),
@@ -64,13 +64,13 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                 }
             },
             Element::Img(img) => match &img.link_ref {
-                ImgRef::Inline(url) => {
+                ImgRef::Inline { url } => {
                     check_url(&e.range, url, site, &mut res);
                 }
                 ImgRef::Reference { label, .. } => {
                     referenced_link_defs.insert(label.as_str());
                 }
-                ImgRef::Unresolved(tag) => {
+                ImgRef::Unresolved { tag } => {
                     push_diagnostic(
                         &e.range,
                         format!("Link to non-existent link definition: `{}`", tag),
@@ -79,7 +79,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                     );
                 }
             },
-            Element::Todo(Todo::Todo) => {
+            Element::Todo(TodoTag::Todo) => {
                 push_diagnostic(
                     &e.range,
                     format!("TODO"),
@@ -87,7 +87,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                     &mut res,
                 );
             }
-            Element::Todo(Todo::Note) => {
+            Element::Todo(TodoTag::Note) => {
                 push_diagnostic(
                     &e.range,
                     format!("NOTE"),
@@ -95,7 +95,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
                     &mut res,
                 );
             }
-            Element::Todo(Todo::Fixme) => {
+            Element::Todo(TodoTag::Fixme) => {
                 push_diagnostic(
                     &e.range,
                     format!("FIXME"),
