@@ -229,7 +229,7 @@ impl PartialPostItem {
         let post_dir = PostDirMetadata::from_path(&path, &modified)?;
 
         let time = match &meta.time {
-            Some(time_str) => parse_time(&time_str)?,
+            Some(time_str) => parse_time(time_str)?,
             None => NaiveTime::from_hms_opt(0, 0, 0).unwrap(),
         };
 

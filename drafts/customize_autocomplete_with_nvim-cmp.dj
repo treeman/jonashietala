@@ -631,18 +631,15 @@ end
 
 ---
 
-## The result
+# Wrap-up
 
-- Complete images
-- Complete post links
-- Complete standalone
-- Complete link def (info?)
-- Complete div class
+With this we've created our own completion source for [nvim-cmp][].
+We've [tweaked the display](#Formatting-entries), separated the [insert and filter text](#Complete-hidden-text), added [item documentation](#Item-documentation), and [customized the sorting](#Sorting).
+The completion has been extremely helpful for me and I'll end this post with a gallery of the completion in action:
 
 ::: gallery
+![](/images/extend_blog/complete_gallery.png)
 :::
-
-TODO should we have a small gallery here?
 
 [nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
 [djot-tree-sitter]: https://github.com/treeman/tree-sitter-djot
@@ -658,3 +655,11 @@ TODO should we have a small gallery here?
 [complete-src]: https://github.com/treeman/jonashietala/blob/master/src/server/complete.rs
 [initial-setup]: /blog/2024/05/02/customizing_neovim#Initial-setup
 [nvim-src]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
+
+- Complete images
+- Complete post links
+- Complete standalone
+- Complete link def (info?)
+- Complete div class
+
+TODO should we have a small gallery here?
