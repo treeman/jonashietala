@@ -3,17 +3,158 @@ title = "Migrating to rocks.nvim"
 tags = ["Neovim"]
 ---
 
+My relationship with my [Neovim config][] is best described as a [On-again, off-again relationship][].
+At times I'm deeply in love and spend all my time caressing the config---like how in September I [did a complete rewrite in Lua][]---while other times I'm busy with other love interests and the config is left alone, sometimes for months or even years.
+
+While not as intense as the September affair, I recently got back together with my config to migrate her from the "old and boring" [lazy.nvim][] package manager to the new and exciting [rocks.nvim][].
+It wasn't all smooth sailing but with some patience---and a drink or two---our threesome with [rocks.nvim][] was quite enjoyable.
+
+::: note
+There's nothing wrong with [lazy.nvim][]---it's great.\
+Sometimes I just want to try out new things.
+:::
+
 # Why [rocks.nvim][]?
 
-Benefits over [lazy.nvim][].
+## Benefits over [lazy.nvim][].
 
-a. Pin versions (not a feature yet...)
-a. Let plugins handle their dependencies
-a. Import [luarocks][] dependencies
+A. Avoids manual dependency management.
+
+   With other package managers you as a user have of a plugin have to describe the dependencies for the plugin.
+   Using [lazy.nvim][] it might look like this:
+
+   ```lua
+   return {
+     "NeogitOrg/neogit",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope.nvim",
+        "sindrets/diffview.nvim",
+      },
+      opts = opts,
+   }
+   ```
+
+   There are several issues with this:
+
+   1. It's annoying.
+   1. You need to babysit the config if the plugin adds or removes a dependency.
+   1. The plugin might break if there's a breaking change in a dependency.
+   1. What if you have several plugins that depend on a different version of a dependency?
+
+   [rocks.nvim][] moves the dependency management to the plugin, so we can just specify the plugin itself:
+
+   ```toml
+   "neo-tree.nvim" = "3.26"
+   ```
+
+A. Import [luarocks][] dependencies.
+
+## Drawbacks compared to [lazy.nvim][]
+
+a. Installation feels slower
+a. Must manage lazy loading manually
+a. [rocks.nvim][] is much newer, meaning more bugs and rough edges 
+
+# Separate config file per plugin
+
+# Lazy load?
+
+# Order dependencies
+
+## Telescope extensions
+
+# Treesitter issues
+
+Couldn't use o
+
+```lua
+require("nvim-treesitter.configs").setup({
+  auto_install = true,
+  highlight = {
+    enable = true,
+  },
+  matchup = {
+    enable = true,
+  },
+  autotag = {
+    enable = true,
+  },
+  endwise = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
+  textobjects = {
+    move = {
+      enable = true,
+      set_jumps = true,
+      goto_next_start = keymaps.ts_goto_next_start,
+      goto_next_end = keymaps.ts_goto_next_end,
+      goto_previous_start = keymaps.ts_goto_previous_start,
+      goto_previous_end = keymaps.ts_goto_previous_end,
+    },
+    swap = {
+      enable = true,
+      swap_next = keymaps.ts_swap_next,
+      swap_previous = keymaps.ts_swap_previous,
+    },
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = keymaps.ts_select,
+    },
+  },
+})
+```
+
+1. [Invalid node type][invalid-node-type]
+
+2. Many parsers failed to compile
+
+```
+nvim-treesitter[bass]: Failed to execute the following command:
+{
+  cmd = "mv",
+  opts = {
+    args = { "-f", "tree-sitter-bass-tmp/tree-sitter-bass-master", "tree-sitter-bass" },
+    cwd = "/home/tree/.local/share/nvim",
+    stdio = {
+      [2] = <userdata 1>,
+      [3] = <userdata 2>
+    }
+  }
+}
+mv: cannot stat 'tree-sitter-bass-tmp/tree-sitter-bass-master': No such file or directory
+```
+
+```toml
+nvim-treesitter = { git = "nvim-treesitter/nvim-treesitter", rev = "1eabe69" }
+nvim-treesitter-endwise = { git = "RRethy/nvim-treesitter-endwise", rev = "8b34305" }
+nvim-ts-context-commentstring = { git = "JoosepAlviste/nvim-ts-context-commentstring", rev = "0bdccb9" }
+nvim-treesitter-context = { git = "nvim-treesitter/nvim-treesitter-context", rev = "55e2908" }
+nvim-ts-autotag = { git = "windwp/nvim-ts-autotag", rev = "aeb7090" }
+nvim-treesitter-textobjects = { git = "nvim-treesitter/nvim-treesitter-textobjects", rev = "5f9bf4b" }
+```
+
+# Random issues
+
+`~/.local/share/nvim/` `~/.cache/nvim/`
+
+- dial/gitsigns gave weird errors, use git works well.
+- rocks help doesn't exist (it does now...)
+- neo-tree steals oil prio (disable netrw takeover in neo-tree)
+- How to add telescope-fzf-native?
+- Didn't respect git branch during checkout
 
 [yaml]: https://luarocks.org/modules/gaspard/yaml
 [toml]: https://luarocks.org/modules/LebJe/toml
 [luarocks]: https://luarocks.org/
 [rocks.nvim]: https://github.com/nvim-neorocks/rocks.nvim
 [lazy.nvim]: https://github.com/folke/lazy.nvim
+[invalid-node-type]: https://github.com/nvim-treesitter/nvim-treesitter/issues/6419
+[On-again, off-again relationship]: https://en.wikipedia.org/wiki/On-again,_off-again_relationship
+[did a complete rewrite in Lua]: http://localhost:8080/blog/2023/10/01/rewriting_my_neovim_config_in_lua/
+
 
