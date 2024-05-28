@@ -16,11 +16,16 @@ Sometimes I just want to try out new things.
 
 # Why [rocks.nvim][]?
 
-## Benefits over [lazy.nvim][].
+To be honest, the biggest reason I started looking into [rocks.nvim][] was that my brain---for some weird reason---tends to _get stuck_ thinking of things.
+Rewriting my config wasn't something I wanted to do but it's not easy to escape when the brain has locked onto something.
+
+Luckily, this time my brain locked onto something a little productive as [rocks.nvim][] has some nice and ambitious features.
+
+## Benefits over other package managers
 
 A. Avoids manual dependency management.
 
-   With other package managers you as a user have of a plugin have to describe the dependencies for the plugin.
+   With other package managers you as a user have to specify the dependencies for the plugin.
    Using [lazy.nvim][] it might look like this:
 
    ```lua
@@ -41,6 +46,7 @@ A. Avoids manual dependency management.
    1. You need to babysit the config if the plugin adds or removes a dependency.
    1. The plugin might break if there's a breaking change in a dependency.
    1. What if you have several plugins that depend on a different version of a dependency?
+      (You're going to have a bad time.)
 
    [rocks.nvim][] moves the dependency management to the plugin, so we can just specify the plugin itself:
 
@@ -48,15 +54,115 @@ A. Avoids manual dependency management.
    "neo-tree.nvim" = "3.26"
    ```
 
-A. Import [luarocks][] dependencies.
+   This makes plugin management much easier and together with [SemVer][] versioning should reduce the risk of plugins breaking after updating them.
+
+A. [rocks.nvim][] supports loading Lua packages from [luarocks][].
+
+   Lua is a neat little language but it's very bare-bones and doesn't include a large standard library.
+   Neovim has been incorporating more and more utility functions---such as `vim.split` and `vim.fs.joinpath()`---but there are still plenty of functionality that we need to import.
+   That's why utility plugins such as [plenary.nvim][] exists and is a dependency to a lot of different plugins.
+
+   With [luarocks][] you get access to many more libraries; for example a [yaml][] and a [toml][] library that would've saved my [from parsing them with a regex][toml-regex].
+
+In short, [rocks.nvim][] behaves like you'd expect a package manager to behave if you come from an ecosystem blessed with modern package management (such as Cargo for Rust or Mix for Elixir).
 
 ## Drawbacks compared to [lazy.nvim][]
 
-a. Installation feels slower
-a. Must manage lazy loading manually
-a. [rocks.nvim][] is much newer, meaning more bugs and rough edges 
+Naturally, it's not all fun and games and there are drawbacks to [rocks.nvim][] compared to [lazy.nvim][]:
 
-# Separate config file per plugin
+a. Most plugins don't have a rockspec that defines the plugin's dependencies, meaning you still need to manage the dependencies yourself, forgoing the biggest benefit of [rocks.nvim][].
+
+a. Installing and updating packages feels slower.
+
+a. You must manage lazy loading manually. I've seen rumors of lazy loading support for [rocks.nvim][] but as I'm writing this post there's nothing released yet.
+
+a. [rocks.nvim][] is newer than [lazy.nvim][]; meaning less fancy features, more bugs, and more rough edges.
+
+While I think that [rocks.nvim][] is taking a necessary and difficult step forward for Neovim package managers, there are valid reasons to still stick with [lazy.nvim][].
+
+# Installation
+
+```lua
+do
+  -- Specifies where to install/use rocks.nvim
+  local install_location = vim.fs.joinpath(vim.fn.stdpath("data"), "rocks")
+
+  -- Set up configuration options related to rocks.nvim (recommended to leave as default)
+  local rocks_config = {
+    rocks_path = vim.fs.normalize(install_location),
+    luarocks_binary = vim.fs.joinpath(install_location, "bin", "luarocks"),
+  }
+
+  vim.g.rocks_nvim = rocks_config
+
+  -- Configure the package path (so that plugin code can be found)
+  local luarocks_path = {
+    vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
+    vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
+  }
+  package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
+
+  -- Configure the C path (so that e.g. tree-sitter parsers can be found)
+  local luarocks_cpath = {
+    vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
+    vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
+  }
+  package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
+
+  -- Load all installed plugins, including rocks.nvim itself
+  vim.opt.runtimepath:append(
+    vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*")
+  )
+end
+
+-- If rocks.nvim is not installed then install it!
+if not pcall(require, "rocks") then
+  local rocks_location = vim.fs.joinpath(vim.fn.stdpath("cache"), "rocks.nvim")
+
+  if not vim.uv.fs_stat(rocks_location) then
+    -- Pull down rocks.nvim
+    vim.fn.system({
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "https://github.com/nvim-neorocks/rocks.nvim",
+      rocks_location,
+    })
+  end
+
+  -- If the clone was successful then source the bootstrapping script
+  assert(
+    vim.v.shell_error == 0,
+    "rocks.nvim installation failed. Try exiting and re-entering Neovim!"
+  )
+
+  vim.cmd.source(vim.fs.joinpath(rocks_location, "bootstrap.lua"))
+
+  vim.fn.delete(rocks_location, "rf")
+end
+
+```
+
+# Basic setup
+
+```toml
+[plugins]
+"rocks.nvim" = "2.29.0"
+```
+
+## Separate config file per plugin
+
+```toml
+[plugins]
+"rocks-config.nvim" = "scm"
+```
+
+## Git dependencies
+
+```toml
+[plugins]
+"rocks-git.nvim" = "scm"
+```
 
 # Lazy load?
 
@@ -156,5 +262,7 @@ nvim-treesitter-textobjects = { git = "nvim-treesitter/nvim-treesitter-textobjec
 [invalid-node-type]: https://github.com/nvim-treesitter/nvim-treesitter/issues/6419
 [On-again, off-again relationship]: https://en.wikipedia.org/wiki/On-again,_off-again_relationship
 [did a complete rewrite in Lua]: http://localhost:8080/blog/2023/10/01/rewriting_my_neovim_config_in_lua/
+[toml-regex]: /blog/2024/05/08/browse_posts_with_telescopenvim#Finding-the-post-data-to-populate-the-picker
+[plenary.nvim]: https://github.com/nvim-lua/plenary.nvim
 
 
