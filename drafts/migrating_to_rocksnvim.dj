@@ -54,7 +54,7 @@ A. Avoids manual dependency management.
    "neo-tree.nvim" = "3.26"
    ```
 
-   This makes plugin management much easier and together with [SemVer][] versioning should reduce the risk of plugins breaking after updating them.
+   This makes plugin management easier and together with [SemVer][] versioning should reduce the risk of plugins breaking after updating them.
 
 A. [rocks.nvim][] supports loading Lua packages from [luarocks][].
 
@@ -70,7 +70,7 @@ In short, [rocks.nvim][] behaves like you'd expect a package manager to behave i
 
 Naturally, it's not all fun and games and there are drawbacks to [rocks.nvim][] compared to [lazy.nvim][]:
 
-a. Most plugins don't have a rockspec that defines the plugin's dependencies, meaning you still need to manage the dependencies yourself, forgoing the biggest benefit of [rocks.nvim][].
+a. Most plugins don't have a rockspec that define their dependencies, meaning you still need to manage the dependencies yourself, forgoing the biggest benefit of [rocks.nvim][].
 
 a. Installing and updating packages feels slower.
 
@@ -166,11 +166,80 @@ end
 
 # Lazy load?
 
+{path="lua/config/lazy.lua"}
+```lua
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+autocmd({ "BufReadPre", "BufNewFile" }, {
+  pattern = "*",
+  group = augroup("lazy_plugins.lspconfig", { clear = true }),
+  callback = function(opts)
+    require("lazy_plugins.lspconfig")
+  end,
+})
+```
+
+{path="lua/lazy_plugins/lspconfig.lua"}
+```lua
+require("elixir").setup({
+  credo = {
+    enable = true,
+    capabilities = capabilities,
+    on_attach = on_attach
+  },
+  elixirls = {
+    enable = true,
+    settings = require("elixir.elixirls").settings({
+      dialyzerEnabled = true,
+      enableTestLenses = true,
+      suggestSpecs = true,
+      fetchDeps = true,
+    }),
+    capabilities = capabilities,
+    on_attach = on_attach,
+  },
+})
+
+-- And other lsp related setup in the file.
+```
+
 # Order dependencies
 
-## Telescope extensions
+```lua
+require("telescope").load_extension("fzf")
+```
 
-# Treesitter issues
+Move it to `after/plugin/telescope-fzf-native.lua`
+
+# How to build a plugin with make?
+
+{path="after/plugin/telescope-fzf-native.lua"}
+```lua
+require("nio").run(function()
+  -- Maybe there's a better way to find the package location?
+  local package_path =
+    vim.fs.joinpath(
+      vim.fn.stdpath("data"),
+      "site/pack/rocks/start",
+      "telescope-fzf-native.nvim/"
+    )
+
+  -- Before loading the extension we need to build it with `make`.
+  require("nio").process.run({
+    cmd = "make",
+    args = {},
+    cwd = package_path,
+  })
+  require("telescope").load_extension("fzf")
+end)
+```
+
+Also, how to run make?
+
+# Issues
+
+## Treesitter issues
 
 Couldn't use o
 
@@ -244,7 +313,7 @@ nvim-ts-autotag = { git = "windwp/nvim-ts-autotag", rev = "aeb7090" }
 nvim-treesitter-textobjects = { git = "nvim-treesitter/nvim-treesitter-textobjects", rev = "5f9bf4b" }
 ```
 
-# Random issues
+## Random issues
 
 `~/.local/share/nvim/` `~/.cache/nvim/`
 
