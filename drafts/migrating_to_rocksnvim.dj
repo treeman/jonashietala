@@ -50,11 +50,15 @@ A. Avoids manual dependency management.
 
    [rocks.nvim][] moves the dependency management to the plugin, so we can just specify the plugin itself:
 
+   {path="rocks.toml"}
    ```toml
    "neo-tree.nvim" = "3.26"
    ```
 
    This makes plugin management easier and together with [SemVer][] versioning should reduce the risk of plugins breaking after updating them.
+
+[Neovim config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
+[SemVer]: https://semver.org/
 
 A. [rocks.nvim][] supports loading Lua packages from [luarocks][].
 
@@ -80,91 +84,218 @@ a. [rocks.nvim][] is newer than [lazy.nvim][]; meaning less fancy features, more
 
 While I think that [rocks.nvim][] is taking a necessary and difficult step forward for Neovim package managers, there are valid reasons to still stick with [lazy.nvim][].
 
-# Installation
-
-```lua
-do
-  -- Specifies where to install/use rocks.nvim
-  local install_location = vim.fs.joinpath(vim.fn.stdpath("data"), "rocks")
-
-  -- Set up configuration options related to rocks.nvim (recommended to leave as default)
-  local rocks_config = {
-    rocks_path = vim.fs.normalize(install_location),
-    luarocks_binary = vim.fs.joinpath(install_location, "bin", "luarocks"),
-  }
-
-  vim.g.rocks_nvim = rocks_config
-
-  -- Configure the package path (so that plugin code can be found)
-  local luarocks_path = {
-    vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
-    vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
-  }
-  package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
-
-  -- Configure the C path (so that e.g. tree-sitter parsers can be found)
-  local luarocks_cpath = {
-    vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
-    vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
-  }
-  package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
-
-  -- Load all installed plugins, including rocks.nvim itself
-  vim.opt.runtimepath:append(
-    vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*")
-  )
-end
-
--- If rocks.nvim is not installed then install it!
-if not pcall(require, "rocks") then
-  local rocks_location = vim.fs.joinpath(vim.fn.stdpath("cache"), "rocks.nvim")
-
-  if not vim.uv.fs_stat(rocks_location) then
-    -- Pull down rocks.nvim
-    vim.fn.system({
-      "git",
-      "clone",
-      "--filter=blob:none",
-      "https://github.com/nvim-neorocks/rocks.nvim",
-      rocks_location,
-    })
-  end
-
-  -- If the clone was successful then source the bootstrapping script
-  assert(
-    vim.v.shell_error == 0,
-    "rocks.nvim installation failed. Try exiting and re-entering Neovim!"
-  )
-
-  vim.cmd.source(vim.fs.joinpath(rocks_location, "bootstrap.lua"))
-
-  vim.fn.delete(rocks_location, "rf")
-end
-
-```
-
 # Basic setup
 
-```toml
-[plugins]
-"rocks.nvim" = "2.29.0"
-```
+You can install [rocks.nvim][] by manually sourcing an installer script but I wanted [rocks.nvim][] to install itself automatically.
+It's possible by dropping [the bootstrap script][] into your `init.lua` file.
+
+Then you're good to go with managing plugins with the `:Rocks` commands:
+
+- `:Rocks install {rock}` to install a package.
+- `:Rocks sync` to sync packages with `rocks.toml`.
+- `:Rocks update` to update packages _and_ their versions in `rocks.toml`.
+- `:Rocks prune {rock}` to uninstall a package.
+
+I was a bit surprised that you can't update or sync an individual package but otherwise the commands feel intuitive.
 
 ## Separate config file per plugin
 
-```toml
-[plugins]
-"rocks-config.nvim" = "scm"
-```
+One feature I _really_ like about [lazy.nvim][] is the ability to separate plugin configuration into separate files.
+This is easy to setup in [rocks.nvim][] using [rocks-config.nvim][].
+
+1. Run `:Rocks install rocks-config.nvim` or edit `rocks.toml` manually:
+
+   {path="rocks.toml"}
+   ```toml
+   [plugins]
+   "rocks-config.nvim" = "1.6.0"
+   ```
+
+2. Create a plugin-specific file at `lua/plugins/<plugin-name>.lua` with the plugin setup and configuration code.
+
+   For example, we can install [conform.nvim][] with `:Rocks install conform.nvim` and configure it in `lua/plugins/conform.lua`:
+
+   {path="lua/plugins/conform.lua"}
+   ```lua
+   require("conform").setup({
+     formatters_by_ft = {
+       lua = { "stylua" }
+     }
+   })
+   ```
+
+   ::: note
+   There are [some rules][config-rules] on what to name the config file:
+
+   * The plugin's name (as long as it is a valid module name).
+   * The plugin's name with the `.[n]vim` suffix removed.
+   * The plugin's name with the `[n]vim-` prefix removed.
+   * The plugin's name with `-` substituted for `.`.
+
+   For [conform.nvim][] we could name the config file `conform-nvim.lua` or simply `conform.lua`.
+   :::
+
+Something to keep in mind when migrating to a setup with a config file per plugin is a potential ordering issue.
+I for example use [mason-lspconfig.nvim][] for my LSP setup and it's important to call the setup in the right order:
+
+1. Setup [mason.nvim][].
+2. Setup [mason-lspconfig.nvim][].
+3. Setup [lspconfig][].
+
+If the plugins have their own config file then we can't guarantee this order.
+We can instead setup them all in one of the config files---although I'm not a fan of commingling setup of different plugins in a single file in `lua/plugins`, I prefer them to have a 1-to-1 relationship with a plugin.
+I think it's cleaner to place such a file in a runtimepath such as `plugin/lspconfig.lua`.
+ 
 
 ## Git dependencies
 
+Another crucial feature is the ability to install plugins from git repositories.
+This requires the [rocks-git.nvim][] module that's installed with `:Rocks install rocks-git.nvim`:
+
+
+{path="rocks.toml"}
 ```toml
 [plugins]
-"rocks-git.nvim" = "scm"
+"rocks-git.nvim" = "1.5.1"
 ```
 
-# Lazy load?
+You can then add git dependencies using `:Rocks install <git-path>` or add them to `rocks.toml` manually:
+
+{path="rocks.toml"}
+```toml
+[plugins]
+"vim-fugitive" = { git = "tpope/vim-fugitive" }
+"trouble.nvim" = { git = "folke/trouble.nvim", branch = "dev" }
+"nvim-ts-autotag" = { git = "windwp/nvim-ts-autotag", rev = "aeb7090" }
+```
+
+As I'm writing this almost exactly half of my plugins in `rocks.toml` depends on a git repository instead of [luarocks][].
+Mostly because they don't exist on [luarocks][] but I also have some Vimscript plugins that never will be.
+
+# How to build a plugin?
+
+There are some plugins that needs to be built before we can use them in Neovim.
+[telescope-fzf-native][] is such an example where we need to run `make` after we clone the repository.
+If this plugin was on [luarocks][] this would be managed seamlessly by [rocks.nvim][] but since the dependency is a git repository we need to build it ourselves.
+
+I spent some time wondering how I should solve this but turns out it's as simple as adding a `build` option to the plugin:
+
+{path="rocks.toml"}
+```toml
+"telescope-fzf-native.nvim" = { git = "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
+```
+
+::: note
+Before I discovered the `build` option I called `make` the hard way:
+
+{path="after/plugin/telescope-fzf-native.lua"}
+```lua
+require("nio").run(function()
+  local package_path =
+    vim.fs.joinpath(
+      vim.fn.stdpath("data"),
+      "site/pack/rocks/start",
+      "telescope-fzf-native.nvim/"
+    )
+
+  -- Before loading the extension we need to build it with `make`.
+  require("nio").process.run({
+    cmd = "make",
+    args = {},
+    cwd = package_path,
+  })
+  -- Now we can load the extension.
+  require("telescope").load_extension("fzf")
+end)
+```
+
+That's what you get if you skip the manual.
+:::
+
+# Lazy loading
+
+One big feature that [lazy.nvim][] promotes is lazy loading (it's even in the name!).
+Unfortunately [rocks.nvim][] doesn't provide first-class support for lazy loading so we have to manage it ourselves.
+
+## The problem with lazy loading
+
+Before looking at how to implement lazy loading, I'd like to bring up a few problems with us lazy loading plugins.
+
+a. It's easy to half-ass it.
+
+   For example, with [lazy.nvim][] you can add commands and events that you want to lazy load on:
+
+   ```lua
+   {
+     "nvim-treesitter/nvim-treesitter",
+     cmd = { "TSInstall", "TSUpdate" },
+     event = { "BufReadPre", "BufNewFile" },
+     config = config,
+     build = ":TSUpdate",
+   }
+   ```
+
+   But how do you know that you used the correct events and listed the right commands?
+   And how do you keep up to date when a plugin adds or removes commands?
+
+   I managed to get *really* agitated when I thought I'd messed up the treesitter installation when I couldn't call `:TSInstallInfo`, until I remembered that I hadn't registered that command to load [nvim-treesitter][]...
+
+   ![[nvim-treesitter][] defines a lot of commands that we ideally should list when we setup lazy loading.](/images/extend_blog/treesitter_cmds.png)
+
+a. Extra complexity.
+
+   Earlier in this post I complained about having to [manage the dependencies for the plugins](#Benefits-over-other-package-managers) you install.
+   When you lazy load a plugin you also need to specify commands and events you want to use for lazy load.
+
+   And if you _really_ want to commit to lazy loading as many plugins as possible (I did!) you might end up with some pretty horrendous code, like how you'd lazy load [oil.nvim][]:
+
+   ```lua
+   {
+     "stevearc/oil.nvim",
+     dependencies = { "nvim-tree/nvim-web-devicons" },
+     opts = opts,
+     command = "Oil",
+     -- This is how to lazy load oil according to:
+     -- https://github.com/folke/lazy.nvim/issues/533
+     init = function()
+       if vim.fn.argc() == 1 then
+         local stat = vim.loop.fs_stat(vim.fn.argv(0))
+         if stat and stat.type == "directory" then
+           require("lazy").load({ plugins = { "oil.nvim" } })
+         end
+       end
+       if not require("lazy.core.config").plugins["oil.nvim"]._.loaded then
+         vim.api.nvim_create_autocmd("BufNew", {
+           callback = function()
+             if vim.fn.isdirectory(vim.fn.expand("<afile>")) == 1 then
+               require("lazy").load({ plugins = { "oil.nvim" } })
+               -- Once oil is loaded, we can delete this autocmd
+               return true
+             end
+           end,
+         })
+       end
+     end,
+   }
+   ```
+
+In general I think properly lazy loading should be the responsibility of the plugin, not us as users.
+
+With that said, being able to lazy load plugins is a great feature when you need it.
+
+## Packadd
+
+{path="rocks.toml"}
+```toml
+[plugins]
+neorg = { version = "1.0.0", opt = true }
+```
+
+```lua
+vim.cmd("packadd neorg")
+```
+
+## Lazy setup
 
 {path="lua/config/lazy.lua"}
 ```lua
@@ -203,39 +334,6 @@ require("elixir").setup({
 
 -- And other lsp related setup in the file.
 ```
-
-# Order dependencies
-
-```lua
-require("telescope").load_extension("fzf")
-```
-
-Move it to `after/plugin/telescope-fzf-native.lua`
-
-# How to build a plugin with make?
-
-{path="after/plugin/telescope-fzf-native.lua"}
-```lua
-require("nio").run(function()
-  -- Maybe there's a better way to find the package location?
-  local package_path =
-    vim.fs.joinpath(
-      vim.fn.stdpath("data"),
-      "site/pack/rocks/start",
-      "telescope-fzf-native.nvim/"
-    )
-
-  -- Before loading the extension we need to build it with `make`.
-  require("nio").process.run({
-    cmd = "make",
-    args = {},
-    cwd = package_path,
-  })
-  require("telescope").load_extension("fzf")
-end)
-```
-
-Also, how to run make?
 
 # Issues
 
@@ -333,5 +431,16 @@ nvim-treesitter-textobjects = { git = "nvim-treesitter/nvim-treesitter-textobjec
 [did a complete rewrite in Lua]: http://localhost:8080/blog/2023/10/01/rewriting_my_neovim_config_in_lua/
 [toml-regex]: /blog/2024/05/08/browse_posts_with_telescopenvim#Finding-the-post-data-to-populate-the-picker
 [plenary.nvim]: https://github.com/nvim-lua/plenary.nvim
+[the bootstrap script]: https://github.com/nvim-neorocks/rocks.nvim?tab=readme-ov-file#rocket-bootstrapping-script
+[rocks-config.nvim]: https://github.com/nvim-neorocks/rocks-config.nvim
+[conform.nvim]: https://github.com/stevearc/conform.nvim
+[rocks-git.nvim]: https://github.com/nvim-neorocks/rocks-git.nvim
+[config-rules]: https://github.com/nvim-neorocks/rocks-config.nvim?tab=readme-ov-file#options
+[telescope-fzf-native]: https://github.com/nvim-telescope/telescope-fzf-native.nvim
+[mason.nvim]: https://github.com/williamboman/mason.nvim
+[mason-lspconfig.nvim]: https://github.com/williamboman/mason-lspconfig.nvim
+[lspconfig]: https://github.com/neovim/nvim-lspconfig
+[nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
+[oil.nvim]: https://github.com/stevearc/oil.nvim
 
 
