@@ -9,24 +9,38 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use tracing::warn;
 
-pub fn push_code_block<S: AsRef<str>>(s: &mut String, lang: Option<S>, code: &str) {
-    match lang {
-        Some(lang) => match Highlighter::create(lang.as_ref()) {
-            Some(highlighter) => match highlighter.highlight(code) {
-                Ok(highlighted) => {
-                    push_code_block_highlight(s, &highlighter.lang_id, code, &highlighted);
-                }
-                Err(err) => {
-                    panic!("Syntax highlight error: {}", err);
+pub struct CodeBlock<'a> {
+    pub code: &'a str,
+    pub lang: Option<&'a str>,
+    pub path: Option<&'a str>,
+}
+
+impl<'a> CodeBlock<'a> {
+    pub fn push(self, s: &mut String) {
+        match self.lang {
+            Some(lang) => match Highlighter::create(lang) {
+                Some(highlighter) => match highlighter.highlight(self.code) {
+                    Ok(highlighted) => {
+                        push_code_block_highlight(
+                            s,
+                            &highlighter.lang_id,
+                            self.path,
+                            self.code,
+                            &highlighted,
+                        );
+                    }
+                    Err(err) => {
+                        panic!("Syntax highlight error: {}", err);
+                    }
+                },
+                None => {
+                    warn!("No highlighter found for: {}", lang);
+                    push_code_block_no_highlight(s, self.code, self.path);
                 }
             },
             None => {
-                warn!("No highlighter found for: {}", lang.as_ref());
-                push_code_block_no_highlight(s, code);
+                push_code_block_no_highlight(s, self.code, self.path);
             }
-        },
-        None => {
-            push_code_block_no_highlight(s, code);
         }
     }
 }
@@ -51,6 +65,7 @@ pub fn push_code_inline(s: &mut String, lang: &str, code: &str) {
 fn push_code_block_highlight(
     s: &mut String,
     lang_id: &str,
+    path: Option<&str>,
     original_code: &str,
     highlighted_code: &str,
 ) {
@@ -66,14 +81,22 @@ fn push_code_block_highlight(
         r#"<div class="lang {}" data-lang="{}"></div>"#,
         html_id, display_name
     ));
+    push_path_div(s, path);
     s.push_str("<pre>");
     push_code_highlight(s, &html_id, highlighted_code);
     s.push_str(r#"</pre>"#);
     s.push_str(r#"</div>"#);
 }
 
-fn push_code_block_no_highlight(s: &mut String, code: &str) {
+fn push_path_div(s: &mut String, path: Option<&str>) {
+    if let Some(path) = path {
+        s.push_str(&format!(r#"<div class="path" data-path="{}"></div>"#, path));
+    }
+}
+
+fn push_code_block_no_highlight(s: &mut String, code: &str, path: Option<&str>) {
     push_code_wrapper_start(s, code);
+    push_path_div(s, path);
     s.push_str("<pre>");
     push_code_no_highlight(s, code);
     s.push_str(r#"</pre>"#);
@@ -129,7 +152,7 @@ impl<'a> HighlighterType<'a> {
         if let Some(x) = SyntectHighlighter::find(lang_id) {
             return Some(Self::Syntect(x));
         }
-        return None;
+        None
     }
 }
 

@@ -26,12 +26,13 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
             return Some(event);
         }
 
-        let (lang, _attrs) = match self.parent.next()? {
+        let (lang, attrs) = match self.parent.next()? {
             Event::Start(Container::CodeBlock { language }, attrs) => (language, attrs),
             other => return Some(other),
         };
 
-        let lang = parse_code_spec(&lang);
+        let lang = parse_code_spec(lang);
+        let path = attrs.get("path").map(|x| x.to_string());
 
         let mut code = String::new();
         // Next should eat the End event as well.
@@ -41,7 +42,12 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
 
         let mut res = String::new();
 
-        push_code_block(&mut res, lang, &code);
+        CodeBlock {
+            code: code.as_str(),
+            lang: lang.as_deref(),
+            path: path.as_deref(),
+        }
+        .push(&mut res);
 
         let html = Container::RawBlock { format: "html" };
         self.event_queue.push(Event::End(html.clone()));
@@ -235,6 +241,38 @@ x->y
         let s = r"Inline `xxx` no lang";
         let res = convert(s)?;
         assert_eq!(res, "<p>Inline <code>xxx</code> no lang</p>");
+        Ok(())
+    }
+
+    #[test]
+    fn test_code_path_attr() -> Result<()> {
+        let s = r#"
+{path="file.rs"}
+```rust
+let x = 2;
+```"#;
+        let res = convert(s)?;
+        assert_eq!(
+            res,
+            r#"<div class="code-wrapper"><div class="lang rust" data-lang="rust"></div><div class="path" data-path="file.rs"></div><pre><code class="highlight rust"><span class="source rust"><span class="storage type rust">let</span> x <span class="keyword operator rust">=</span> <span class="constant numeric integer decimal rust">2</span><span class="punctuation terminator rust">;</span>
+</span></code></pre></div>"#
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn test_code_path_attr_no_lang() -> Result<()> {
+        let s = r#"
+{path="file"}
+```
+Text
+```"#;
+        let res = convert(s)?;
+        assert_eq!(
+            res,
+            r#"<div class="code-wrapper"><div class="path" data-path="file"></div><pre><code>Text
+</code></pre></div>"#
+        );
         Ok(())
     }
 }

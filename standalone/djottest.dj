@@ -248,6 +248,7 @@ So we should do `foo` then `bar` then `quux`
 ```
 ```
 
+{path="file.rs"}
 ```rust
 let x = 2;
 

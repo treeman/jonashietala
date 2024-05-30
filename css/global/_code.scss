@@ -16,27 +16,49 @@ pre {
   color: var(--melange_a_fg);
 }
 
-.code-wrapper .lang {
-  display: flex;
-  justify-content: right;
-  align-items: flex-start;
-  // Insert language text in the ::before pseudo-class to not include the text
-  // in screen readers, RSS readers or in reader view.
-  // Yeah it's a bit messy but meh, the result is what counts, right?
-  &::before {
-    // This ugly looking things tries to remove the height of the child element,
-    // so we get consistent spacing around the code block.
-    margin-block-start: calc(var(--flow-space) - (2ch + 2 * var(--space-xs)));
-    @include font-size("s");
-    font-family: $code-font-family;
-    color: var(--melange_a_ui);
-    background-color: var(--melange_a_float);
-    padding: calc(var(--space-3xs) - 2px) var(--space-xs);
-    position: relative;
-    top: 1.2rem;
-    left: -2rem;
-    border-radius: var(--space-3xs) var(--space-3xs) 0 0;
-    content: attr(data-lang);
+// Give extra space for path and language boxes that will
+// overflow the code block.
+.code-wrapper:has(.path, .lang) {
+  padding-top: 1rem;
+}
+
+.code-wrapper {
+  --pad: 1.2rem;
+
+  :is(.lang, .path) {
+    display: flex;
+    align-items: flex-start;
+    // Insert text in the ::before pseudo-class to not include the text
+    // in screen readers, RSS readers or in reader view.
+    // Yeah it's a bit messy but meh, the result is what counts, right?
+    &::before {
+      // This ugly looking things tries to remove the height of the child element,
+      // so we get consistent spacing around the code block.
+      margin-block-start: calc(var(--flow-space) - (2ch + 2 * var(--space-xs)));
+      @include font-size("s");
+      font-family: $code-font-family;
+      color: var(--melange_a_ui);
+      background-color: var(--melange_a_float);
+      padding: calc(var(--space-3xs) - 2px) var(--space-xs);
+      position: relative;
+      top: var(--pad);
+      border-radius: var(--space-3xs) var(--space-3xs) 0 0;
+    }
+  }
+
+  .lang {
+    justify-content: right;
+    &::before {
+      content: attr(data-lang);
+      left: calc(-1 * var(--pad));
+    }
+  }
+  .path {
+    justify-content: left;
+    &::before {
+      content: attr(data-path);
+      left: var(--pad);
+    }
   }
 }
 

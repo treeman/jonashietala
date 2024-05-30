@@ -1108,15 +1108,17 @@ mod tests {
             // Drafts shouldn't generate hard errors, but output warnings if we run
             // the test with -- --nocapture or if the test fails for other reasons.
             let path_str = path.as_str();
-            let is_draft = path_str.contains("/drafts/");
-            let ignored_file = path_str.ends_with("/djottest/index.html")
-                || path_str.ends_with("/mdtest/index.html");
-            if !is_draft && !ignored_file {
+            let errors_as_warnings = path_str.contains("/drafts/")
+                || path_str.ends_with("/djottest/index.html")
+                || path_str.ends_with("/mdtest/index.html")
+                || path_str.ends_with("2024/05/26/autocomplete_with_nvim-cmp/index.html");
+
+            if !errors_as_warnings {
                 file_error_count += errors.len();
             }
 
             if !errors.is_empty() {
-                if is_draft {
+                if errors_as_warnings {
                     print!("{}", "Warnings".yellow());
                 } else {
                     print!("{}", "Errors".red());

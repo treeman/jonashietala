@@ -32,7 +32,12 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
 
         let mut res = String::new();
 
-        push_code_block(&mut res, lang, &code);
+        CodeBlock {
+            code: code.as_str(),
+            lang: lang.as_deref(),
+            path: None,
+        }
+        .push(&mut res);
 
         Some(Event::Html(res.into()))
     }
