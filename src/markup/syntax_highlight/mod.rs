@@ -77,26 +77,25 @@ fn push_code_block_highlight(
     // Set the language as a class and insert text using ::before to
     // not interfere with readers of different types.
     push_code_wrapper_start(s, original_code);
-    s.push_str(&format!(
-        r#"<div class="lang {}" data-lang="{}"></div>"#,
-        html_id, display_name
-    ));
-    push_path_div(s, path);
+    push_descr(s, Some(display_name.as_ref()), path);
     s.push_str("<pre>");
     push_code_highlight(s, &html_id, highlighted_code);
     s.push_str(r#"</pre>"#);
     s.push_str(r#"</div>"#);
 }
 
-fn push_path_div(s: &mut String, path: Option<&str>) {
-    if let Some(path) = path {
-        s.push_str(&format!(r#"<div class="path" data-path="{}"></div>"#, path));
+fn push_descr(s: &mut String, lang: Option<&str>, path: Option<&str>) {
+    if let Some(descr) = path.or(lang) {
+        s.push_str(&format!(
+            r#"<div class="descr" data-descr="{}"></div>"#,
+            descr
+        ));
     }
 }
 
 fn push_code_block_no_highlight(s: &mut String, code: &str, path: Option<&str>) {
     push_code_wrapper_start(s, code);
-    push_path_div(s, path);
+    push_descr(s, None, path);
     s.push_str("<pre>");
     push_code_no_highlight(s, code);
     s.push_str(r#"</pre>"#);
