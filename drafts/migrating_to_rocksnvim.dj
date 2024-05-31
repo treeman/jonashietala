@@ -283,7 +283,7 @@ In general I think properly lazy loading should be the responsibility of the plu
 
 With that said, being able to lazy load plugins is a great feature when you need it.
 
-## Packadd
+## Lazy setup with packadd and setup
 
 On a basic level you can accomplish lazy loading by following these three steps:
 
@@ -318,7 +318,18 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 })
 ```
 
-## Lazy setup
+Although `packadd` is neat, according to [rocks.nvim][] it's only relevant for the plugin's `ftdetect` and `plugin` scripts.
+I haven't seen the need to go quite this far to get a snappy experience and right now I don't use `packadd` at all.
+
+## Lazy LSP setup
+
+There's one instance where I've made the plugin setup lazy: the LSP config.
+
+It's important to me that Neovim starts quickly as I have a weird workflow where I start Neovim dozens of times a day.
+But after migrating my config I noticed that Neovim was feeling slow.
+I tracked it down to the LSP setup (and in particular setting up [elixir-tools.nvim][]).
+
+My solution was to create an autocommand that sources the LSP config when reading a file:
 
 {path="lua/config/lazy.lua"}
 ```lua
@@ -333,27 +344,48 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 
 {path="lua/lazy_plugins/lspconfig.lua"}
 ```lua
-require("elixir").setup({
-  credo = {
-    enable = true,
-    capabilities = capabilities,
-    on_attach = on_attach
-  },
-  elixirls = {
-    enable = true,
-    settings = require("elixir.elixirls").settings({
-      dialyzerEnabled = true,
-      enableTestLenses = true,
-      suggestSpecs = true,
-      fetchDeps = true,
-    }),
-    capabilities = capabilities,
-    on_attach = on_attach,
-  },
+local mason_lspconfig = require("mason-lspconfig")
+
+mason_lspconfig.setup({
+  -- ...
 })
 
--- And other lsp related setup in the file.
+require("elixir").setup({
+  -- ...
+})
+
+mason_lspconfig.setup_handlers({
+  -- ...
+})
+
+-- And a bunch of other LSP related setup.
 ```
+
+I could of course make it more granular and make more plugins lazy but I haven't bothered since Neovim now starts under 150 ms, which my brain interprets as instant.
+
+::: tip
+You can get info about Neovim's startup time by passing the `--startuptime` argument:
+
+```fish
+nvim --startuptime log.txt
+```
+
+Here's a shortened output of `log.txt` where you can see the overall startup time but also how long loading packages take:
+
+{path="log.txt"}
+```
+000.000  000.000: --- NVIM STARTING ---
+...
+028.386  000.119  000.119: require('fzy_native')
+028.388  000.201  000.082: require('fzy')
+...
+130.398  000.255: before starting main loop
+131.047  000.649: first screen update
+131.049  000.001: --- NVIM STARTED ---
+
+```
+
+:::
 
 # Issues
 
@@ -462,5 +494,6 @@ nvim-treesitter-textobjects = { git = "nvim-treesitter/nvim-treesitter-textobjec
 [lspconfig]: https://github.com/neovim/nvim-lspconfig
 [nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
 [oil.nvim]: https://github.com/stevearc/oil.nvim
+[elixir-tools.nvim]: https://github.com/elixir-tools/elixir-tools.nvim
 
 
