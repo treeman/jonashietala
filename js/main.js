@@ -12,32 +12,32 @@ function connect() {
       case "Refresh":
         location.reload();
         break;
-      case "PositionPage":
-        // TODO this doesn't work when we have images.
-        // I guess we need to do some searching to find the best match...
-
-        // https://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript#22292000
-        //
-        // Search for inner text!
-        // https://stackoverflow.com/questions/3813294/how-to-get-element-by-innertext
-
-        const curr_url = window.location.href
-          .replace(window.location.origin, "")
-          .replace(/\/$/, "");
-
-        if (msg.url == curr_url) {
-          const cursor = msg.linenum / msg.linecount;
-          // const target = window.scrollMaxY * cursor - window.screen.height / 6;
-          const target = window.scrollMaxY * cursor;
-          // const target = window.scrollMaxY * cursor - window.screen.height;
-          window.scrollTo(0, target);
-
-          // window.scrollTo(0, 0);
-          // window.scrollByLines(msg.linenum);
-          break;
-        }
-      default:
-        console.log("Unknown message: ", msg);
+      //case "PositionPage":
+      //  // TODO this doesn't work when we have images.
+      //  // I guess we need to do some searching to find the best match...
+      //
+      //  // https://stackoverflow.com/questions/5007530/how-do-i-scroll-to-an-element-using-javascript#22292000
+      //  //
+      //  // Search for inner text!
+      //  // https://stackoverflow.com/questions/3813294/how-to-get-element-by-innertext
+      //
+      //  const curr_url = window.location.href
+      //    .replace(window.location.origin, "")
+      //    .replace(/\/$/, "");
+      //
+      //  if (msg.url == curr_url) {
+      //    const cursor = msg.linenum / msg.linecount;
+      //    // const target = window.scrollMaxY * cursor - window.screen.height / 6;
+      //    const target = window.scrollMaxY * cursor;
+      //    // const target = window.scrollMaxY * cursor - window.screen.height;
+      //    window.scrollTo(0, target);
+      //
+      //    // window.scrollTo(0, 0);
+      //    // window.scrollByLines(msg.linenum);
+      //    break;
+      //  }
+      //default:
+      //  console.log("Unknown message: ", msg);
     }
 
     return false;

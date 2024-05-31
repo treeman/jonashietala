@@ -9,7 +9,7 @@ At times I'm deeply in love and spend all my time caressing the config---like ho
 While not as intense as the September affair, I recently got back together with my config to migrate her from the "old and boring" [lazy.nvim][] package manager to the new and exciting [rocks.nvim][].
 It wasn't all smooth sailing but with some patience---and a drink or two---our threesome with [rocks.nvim][] was quite enjoyable.
 
-::: note
+::: important
 There's nothing wrong with [lazy.nvim][]---it's great.\
 Sometimes I just want to try out new things.
 :::
@@ -285,28 +285,48 @@ With that said, being able to lazy load plugins is a great feature when you need
 
 ## Packadd
 
-{path="rocks.toml"}
-```toml
-[plugins]
-neorg = { version = "1.0.0", opt = true }
-```
+On a basic level you can accomplish lazy loading by following these three steps:
+
+1. Mark the plugin with `opt = true`lua.
+
+   {path="rocks.toml"}
+   ```toml
+   [plugins]
+   neorg = { version = "1.0.0", opt = true }
+  ```
+
+   This will prevent [rocks.nvim][] from sourcing the plugin at startup.
+
+2. Add the plugin with `packadd`.
+
+   ```lua
+   vim.cmd("packadd neorg")
+   ```
+
+3. Setup and configure the plugin as needed.
+
+Steps 2 and 3 should be done on-demand, for example via an autocommand:
 
 ```lua
-vim.cmd("packadd neorg")
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+  pattern = "*.norg",
+  callback = function()
+    vim.cmd("packadd neorg")
+    require("neorg").setup()
+    return true
+  end,
+})
 ```
 
 ## Lazy setup
 
 {path="lua/config/lazy.lua"}
 ```lua
-local autocmd = vim.api.nvim_create_autocmd
-local augroup = vim.api.nvim_create_augroup
-
-autocmd({ "BufReadPre", "BufNewFile" }, {
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
   pattern = "*",
-  group = augroup("lazy_plugins.lspconfig", { clear = true }),
-  callback = function(opts)
+  callback = function()
     require("lazy_plugins.lspconfig")
+    return true
   end,
 })
 ```

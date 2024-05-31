@@ -327,6 +327,7 @@ fn div_class_completions() -> Vec<CompletionItem> {
         DivClass::Note,
         DivClass::Tip,
         DivClass::Warn,
+        DivClass::Important,
         DivClass::Greek,
     ]
     .into_iter()
