@@ -510,7 +510,6 @@ While migrating I ran into some other minor issues that I managed to resolve:
 I had issues while migrating my config over to [rocks.nvim][], with rough edges and missing features.
 For instance, I miss the install speed of [lazy.nvim][] and [lazy.nvim][]'s excellent dashboard.
 
-
 Despite the issues I had while migrating my config over, I've been happy with [rocks.nvim][].
 Features are a little lacking compared to [lazy.nvim][], I would for example like to see a dashboard for [rocks.nvim][] 
 

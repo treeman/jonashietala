@@ -79,26 +79,20 @@ impl TransformType {
             Self::Warn => wrap_content(content.into_iter(), "aside", Some("warn")),
             Self::Important => wrap_content(content.into_iter(), "aside", Some("important")),
             Self::Update => {
-                let content = if let Some(date) = attrs.get("date") {
-                    let mut res = Vec::new();
-                    let html = Container::RawBlock { format: "html" };
-                    res.push(Event::Start(html.clone(), Attributes::new()));
-                    res.push(Event::Str(
-                        format!(
-                            r#"<div class="info">Update <span class="date">{date}</span></div>"#
-                        )
-                        .into(),
-                    ));
-                    res.push(Event::End(html.clone()));
-                    for x in content {
-                        res.push(x);
-                    }
-                    res
-                } else {
-                    content
+                let date = match attrs.get("date") {
+                    Some(date) => format!(r#" <span class="date">{date}</span>"#),
+                    None => "".into(),
                 };
 
-                wrap_content(content.into_iter(), "aside", Some("update"))
+                let mut info = Vec::new();
+                let html = Container::RawBlock { format: "html" };
+                info.push(Event::Start(html.clone(), Attributes::new()));
+                info.push(Event::Str(
+                    format!(r#"<div class="info">Update{date}</div>"#).into(),
+                ));
+                info.push(Event::End(html.clone()));
+
+                wrap_content(info.into_iter().chain(content), "aside", Some("update"))
             }
             Self::Flex => parse_flex(content.into_iter()),
             Self::Figure => wrap_images(content.into_iter(), "figure", None, false),
@@ -321,6 +315,25 @@ Text here
 
     #[test]
     fn test_parse_update() -> Result<()> {
+        let s = r#"
+::: update
+Text here
+:::"#;
+        assert_eq!(
+            convert(s)?,
+            r#"
+<aside class="update">
+<div class="info">Update</div>
+<p>Text here</p>
+</aside>
+"#
+        );
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_parse_update_date() -> Result<()> {
         let s = r#"
 {date="2024-06-01"}
 ::: update
