@@ -511,7 +511,9 @@ I had issues while migrating my config over to [rocks.nvim][], with rough edges 
 For instance, I miss the install speed of [lazy.nvim][] and [lazy.nvim][]'s excellent dashboard.
 
 Yet I'll stay with [rocks.nvim][] as it deserves huge props for tackling the huge task of cleaning up dependency management in Neovim and for giving us access to the broader Lua landscape with [luarocks][].
-More people---both Neovim users and plugin authors---should take note of [rocks.nvim][] and work together to make package management a little bit more sane.
+
+It may be too bleeding edge for some people; but I think more Neovim users and plugin authors should take note of [rocks.nvim][] and give it a try.
+I'd like it if a more sane approach to package management become more popular in the Neovim community.
 
 [yaml]: https://luarocks.org/modules/gaspard/yaml
 [toml]: https://luarocks.org/modules/LebJe/toml
