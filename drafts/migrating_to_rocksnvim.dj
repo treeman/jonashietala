@@ -510,8 +510,8 @@ While migrating I ran into some other minor issues that I managed to resolve:
 I had issues while migrating my config over to [rocks.nvim][], with rough edges and missing features.
 For instance, I miss the install speed of [lazy.nvim][] and [lazy.nvim][]'s excellent dashboard.
 
-Despite the issues I had while migrating my config over, I've been happy with [rocks.nvim][].
-Features are a little lacking compared to [lazy.nvim][], I would for example like to see a dashboard for [rocks.nvim][] 
+Yet I'll stay with [rocks.nvim][] as it deserves huge props for tackling the huge task of cleaning up dependency management in Neovim and for giving us access to the broader Lua landscape with [luarocks][].
+More people---both Neovim users and plugin authors---should take note of [rocks.nvim][] and work together to make package management a little bit more sane.
 
 [yaml]: https://luarocks.org/modules/gaspard/yaml
 [toml]: https://luarocks.org/modules/LebJe/toml
@@ -537,5 +537,4 @@ Features are a little lacking compared to [lazy.nvim][], I would for example lik
 [elixir-tools.nvim]: https://github.com/elixir-tools/elixir-tools.nvim
 [rocks-treesitter.nvim]: https://github.com/nvim-neorocks/rocks-treesitter.nvimhttps://github.com/nvim-neorocks/rocks-treesitter.nvim
 [luarocks nvim-treesitter]: https://luarocks.org/modules/neovim/nvim-treesitter
-
 
