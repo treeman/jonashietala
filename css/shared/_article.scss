@@ -368,6 +368,19 @@ article {
       color: var(--melange_b_magenta);
     }
   }
+  aside.update {
+    border-color: var(--melange_c_cyan);
+
+    .info {
+      color: var(--melange_b_cyan);
+      .date {
+        margin-left: var(--space-3xs);
+        @include sans-serif;
+        font-size: 90%;
+        color: var(--melange_c_cyan);
+      }
+    }
+  }
 
   /*
    * todo comments

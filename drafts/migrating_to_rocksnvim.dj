@@ -3,7 +3,9 @@ title = "Migrating to rocks.nvim"
 tags = ["Neovim"]
 ---
 
-My relationship with my [Neovim config][] is best described as a [On-again, off-again relationship][].
+![](/images/rocks_nvim_files.png)
+
+My relationship with my [Neovim config][] is best described as an [On-again, off-again relationship][].
 At times I'm deeply in love and spend all my time caressing the config---like how in September I [did a complete rewrite in Lua][]---while other times I'm busy with other love interests and the config is left alone, sometimes for months or even years.
 
 While not as intense as the September affair, I recently got back together with my config to migrate her from the "old and boring" [lazy.nvim][] package manager to the new and exciting [rocks.nvim][].
@@ -11,7 +13,7 @@ It wasn't all smooth sailing but with some patience---and a drink or two---our t
 
 ::: important
 There's nothing wrong with [lazy.nvim][]---it's great.\
-Sometimes I just want to try out new things.
+Sometimes I just want a new experience.
 :::
 
 # Why [rocks.nvim][]?
@@ -387,91 +389,130 @@ Here's a shortened output of `log.txt` where you can see the overall startup tim
 
 :::
 
-# Issues
+# Treesitter
 
-## Treesitter issues
+Another feature [rocks.nvim][] promotes is a "just works" [tree-sitter setup][rocks-treesitter.nvim].
+Unfortunately, I couldn't get it to work and I instead rely on the [nvim-treesitter][] git repository.
 
-Couldn't use o
+It's likely I made some configuration error somewhere but after spending many hours reworking the entire configuration from scratch (on multiple machines) I gave up when I had a working setup.
 
-```lua
-require("nvim-treesitter.configs").setup({
-  auto_install = true,
-  highlight = {
-    enable = true,
-  },
-  matchup = {
-    enable = true,
-  },
-  autotag = {
-    enable = true,
-  },
-  endwise = {
-    enable = true,
-  },
-  indent = {
-    enable = true,
-  },
-  textobjects = {
-    move = {
-      enable = true,
-      set_jumps = true,
-      goto_next_start = keymaps.ts_goto_next_start,
-      goto_next_end = keymaps.ts_goto_next_end,
-      goto_previous_start = keymaps.ts_goto_previous_start,
-      goto_previous_end = keymaps.ts_goto_previous_end,
-    },
-    swap = {
-      enable = true,
-      swap_next = keymaps.ts_swap_next,
-      swap_previous = keymaps.ts_swap_previous,
-    },
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = keymaps.ts_select,
-    },
-  },
-})
-```
+i. At first I tried [rocks-treesitter.nvim][] without [nvim-treesitter][].
 
-1. [Invalid node type][invalid-node-type]
+   Installing grammars using [rocks-treesitter.nvim][] was straightforward and worked well.
+   However, I use a bunch of extra features found in [nvim-treesitter][] and related packages that I need.
+   This [nvim-treesitter][] config activates the features:
 
-2. Many parsers failed to compile
+   ```lua
+   require("nvim-treesitter.configs").setup({
+     highlight = {
+       enable = true,
+     },
+     matchup = {
+       enable = true,
+     },
+     autotag = {
+       enable = true,
+     },
+     endwise = {
+       enable = true,
+     },
+     indent = {
+       enable = true,
+     },
+     textobjects = {
+       move = {
+         enable = true,
+       },
+       swap = {
+         enable = true,
+       },
+       select = {
+         enable = true,
+       },
+     },
+   })
+   ```
 
-```
-nvim-treesitter[bass]: Failed to execute the following command:
-{
-  cmd = "mv",
-  opts = {
-    args = { "-f", "tree-sitter-bass-tmp/tree-sitter-bass-master", "tree-sitter-bass" },
-    cwd = "/home/tree/.local/share/nvim",
-    stdio = {
-      [2] = <userdata 1>,
-      [3] = <userdata 2>
-    }
-  }
-}
-mv: cannot stat 'tree-sitter-bass-tmp/tree-sitter-bass-master': No such file or directory
-```
+   But I couldn't figure out how to make these feature work using [rocks-treesitter.nvim][].
 
-```toml
-nvim-treesitter = { git = "nvim-treesitter/nvim-treesitter", rev = "1eabe69" }
-nvim-treesitter-endwise = { git = "RRethy/nvim-treesitter-endwise", rev = "8b34305" }
-nvim-ts-context-commentstring = { git = "JoosepAlviste/nvim-ts-context-commentstring", rev = "0bdccb9" }
-nvim-treesitter-context = { git = "nvim-treesitter/nvim-treesitter-context", rev = "55e2908" }
-nvim-ts-autotag = { git = "windwp/nvim-ts-autotag", rev = "aeb7090" }
-nvim-treesitter-textobjects = { git = "nvim-treesitter/nvim-treesitter-textobjects", rev = "5f9bf4b" }
-```
+i. I tried to have both [rocks-treesitter.nvim][] and [nvim-treesitter][] installed.
 
-## Random issues
+   That only lead to the dreaded [invalid node type][invalid-node-type] error (meaning there's a mismatch between the grammar and the query files).
+   Which kind-of makes sense as [nvim-treesitter][] provides query files for all grammars but there's no guarantee that [rocks-treesitter.nvim][] installs the correct grammar for those query files.
 
-`~/.local/share/nvim/` `~/.cache/nvim/`
+i. I tried to use the [luarocks nvim-treesitter][] without [rocks-treesitter.nvim][].
 
-- dial/gitsigns gave weird errors, use git works well.
-- rocks help doesn't exist (it does now...)
-- neo-tree steals oil prio (disable netrw takeover in neo-tree)
-- How to add telescope-fzf-native?
-- Didn't respect git branch during checkout
+   Yet once again the Rust tree-sitter grammar hit the [invalid node type][invalid-node-type] error.
+   I also couldn't install all the grammars as a lot of them failed during installation:
+
+   ```
+   nvim-treesitter[bass]: Failed to execute the following command:
+   {
+     cmd = "mv",
+     opts = {
+       args = { "-f", "tree-sitter-bass-tmp/tree-sitter-bass-master", "tree-sitter-bass" },
+       cwd = "/home/tree/.local/share/nvim",
+       stdio = {
+         [2] = <userdata 1>,
+         [3] = <userdata 2>
+       }
+     }
+   }
+   mv: cannot stat 'tree-sitter-bass-tmp/tree-sitter-bass-master': No such file or directory
+   ```
+
+   Weird.
+
+i. Fallback to the git repository for [nvim-treesitter][] and friends.
+
+   This works:
+
+   {path="rocks.toml"}
+   ```toml
+   nvim-treesitter = { git = "nvim-treesitter/nvim-treesitter", rev = "1eabe69" }
+   nvim-treesitter-endwise = { git = "RRethy/nvim-treesitter-endwise", rev = "8b34305" }
+   nvim-ts-context-commentstring = { git = "JoosepAlviste/nvim-ts-context-commentstring", rev = "0bdccb9" }
+   nvim-treesitter-context = { git = "nvim-treesitter/nvim-treesitter-context", rev = "55e2908" }
+   nvim-ts-autotag = { git = "windwp/nvim-ts-autotag", rev = "aeb7090" }
+   nvim-treesitter-textobjects = { git = "nvim-treesitter/nvim-treesitter-textobjects", rev = "5f9bf4b" }
+   ```
+
+   I pin them to a revision because I got tired of things breaking.
+
+While I can now install all grammars that [nvim-treesitter][] provides and use all treesitter features I used before, I'm annoyed that I couldn't make it work using [rocks-treesitter.nvim][].
+I'm sure there's something obvious I'm missing but I don't have the energy to retrace the steps again right now.
+I'll instead document my failings publicly on the blog...
+
+# Other resolved issues
+
+While migrating I ran into some other minor issues that I managed to resolve:
+
+- Some plugins in [luarocks][] are outdated.
+
+  For example, the last update to the [luarocks gitsigns.nvim ][gitsigns-luarock] was made 2 years ago, while the [gitsigns.nvim on GitHub][gitsigns-github] was updated this week.
+
+- Got some weird errors I couldn't debug.
+
+  For example, help for [rocks.nvim][] wasn't available.
+  A clean reinstall by removing the folders `~/.local/share/nvim/` and `~/.cache/nvim/` seems to have resolved the help installation and some other weird errors.
+
+- `:Rocks sync` didn't respect the provided git branch.
+
+  There was a PR [that resolved this issue][branch-issue] while I was migrating.
+  It does sound suspiciously similar to the issue with the tree-sitter grammars failing to install but I haven't explored that further.
+
+[branch-issue]: https://github.com/nvim-neorocks/rocks-git.nvim/pull/29
+[gitsigns-github]: https://luarocks.org/modules/teto/gitsigns.nvim
+[gitsigns-luarock]: https://github.com/lewis6991/gitsigns.nvim
+
+# Should you use [rocks.nvim][]?
+
+I had issues while migrating my config over to [rocks.nvim][], with rough edges and missing features.
+For instance, I miss the install speed of [lazy.nvim][] and [lazy.nvim][]'s excellent dashboard.
+
+
+Despite the issues I had while migrating my config over, I've been happy with [rocks.nvim][].
+Features are a little lacking compared to [lazy.nvim][], I would for example like to see a dashboard for [rocks.nvim][] 
 
 [yaml]: https://luarocks.org/modules/gaspard/yaml
 [toml]: https://luarocks.org/modules/LebJe/toml
@@ -495,5 +536,7 @@ nvim-treesitter-textobjects = { git = "nvim-treesitter/nvim-treesitter-textobjec
 [nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
 [oil.nvim]: https://github.com/stevearc/oil.nvim
 [elixir-tools.nvim]: https://github.com/elixir-tools/elixir-tools.nvim
+[rocks-treesitter.nvim]: https://github.com/nvim-neorocks/rocks-treesitter.nvimhttps://github.com/nvim-neorocks/rocks-treesitter.nvim
+[luarocks nvim-treesitter]: https://luarocks.org/modules/neovim/nvim-treesitter
 
 

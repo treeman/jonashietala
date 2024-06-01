@@ -280,6 +280,7 @@ pub enum DivClass {
     Tip,
     Warn,
     Important,
+    Update,
     Greek,
 }
 
@@ -294,6 +295,7 @@ impl DivClass {
             "tip" => Some(Self::Tip),
             "warn" | "warning" => Some(Self::Warn),
             "important" => Some(Self::Important),
+            "update" => Some(Self::Update),
             "greek" => Some(Self::Greek),
             _ => None,
         }
@@ -308,6 +310,7 @@ impl DivClass {
             Self::Tip => "tip",
             Self::Warn => "warn",
             Self::Important => "important",
+            Self::Update => "update",
             Self::Greek => "greek",
         }
     }
@@ -328,6 +331,7 @@ fn div_class_completions() -> Vec<CompletionItem> {
         DivClass::Tip,
         DivClass::Warn,
         DivClass::Important,
+        DivClass::Update,
         DivClass::Greek,
     ]
     .into_iter()

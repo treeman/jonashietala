@@ -207,6 +207,11 @@ This is [a warning](#)
 This is [important](#)
 :::
 
+{date="2024-06-01"}
+::: update
+This is an update
+:::
+
 Text
 
 > With author attribution

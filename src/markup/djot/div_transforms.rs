@@ -22,9 +22,9 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for DivTransforms<'a, I> {
             return Some(event);
         }
 
-        let (transformer, class) = match self.parent.next()? {
+        let (transformer, class, attrs) = match self.parent.next()? {
             Event::Start(Container::Div { class }, attrs) => match TransformType::parse(class) {
-                Some(h) => (h, class),
+                Some(h) => (h, class, attrs),
                 _ => return Some(Event::Start(Container::Div { class }, attrs)),
             },
             other => return Some(other),
@@ -38,7 +38,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for DivTransforms<'a, I> {
             }
         }
 
-        for x in transformer.transform(events).into_iter().rev() {
+        for x in transformer.transform(events, &attrs).into_iter().rev() {
             self.event_queue.push(x);
         }
         self.event_queue.pop()
@@ -51,6 +51,7 @@ enum TransformType {
     Tip,
     Warn,
     Important,
+    Update,
     Flex,
     Figure,
     Gallery,
@@ -63,6 +64,7 @@ impl TransformType {
             "tip" => Some(Self::Tip),
             "warn" | "warning" => Some(Self::Warn),
             "important" => Some(Self::Important),
+            "update" => Some(Self::Update),
             "flex" => Some(Self::Flex),
             "figure" => Some(Self::Figure),
             "gallery" => Some(Self::Gallery),
@@ -70,12 +72,34 @@ impl TransformType {
         }
     }
 
-    fn transform<'a>(self, content: Vec<Event<'a>>) -> Vec<Event<'a>> {
+    fn transform<'a>(self, content: Vec<Event<'a>>, attrs: &Attributes) -> Vec<Event<'a>> {
         match self {
             Self::Note => wrap_content(content.into_iter(), "aside", Some("note")),
             Self::Tip => wrap_content(content.into_iter(), "aside", Some("tip")),
             Self::Warn => wrap_content(content.into_iter(), "aside", Some("warn")),
             Self::Important => wrap_content(content.into_iter(), "aside", Some("important")),
+            Self::Update => {
+                let content = if let Some(date) = attrs.get("date") {
+                    let mut res = Vec::new();
+                    let html = Container::RawBlock { format: "html" };
+                    res.push(Event::Start(html.clone(), Attributes::new()));
+                    res.push(Event::Str(
+                        format!(
+                            r#"<div class="info">Update <span class="date">{date}</span></div>"#
+                        )
+                        .into(),
+                    ));
+                    res.push(Event::End(html.clone()));
+                    for x in content {
+                        res.push(x);
+                    }
+                    res
+                } else {
+                    content
+                };
+
+                wrap_content(content.into_iter(), "aside", Some("update"))
+            }
             Self::Flex => parse_flex(content.into_iter()),
             Self::Figure => wrap_images(content.into_iter(), "figure", None, false),
             Self::Gallery => wrap_images(content.into_iter(), "figure", Some("gallery"), true),
@@ -166,7 +190,7 @@ where
 {
     let mut img_count = 0;
     let mut imgs = Vec::new();
-    while let Some(e) = content.next() {
+    for e in content.by_ref() {
         match e {
             Event::Str(href) => {
                 img_count += 1;
@@ -174,17 +198,17 @@ where
 
                 if insert_links {
                     imgs.push(Event::Start(
-                        Container::Link(href.to_owned(), LinkType::Span(SpanLinkType::Inline)),
+                        Container::Link(href.clone(), LinkType::Span(SpanLinkType::Inline)),
                         Attributes::new(),
                     ));
                 }
-                let img = Container::Image(href.to_owned(), SpanLinkType::Inline);
+                let img = Container::Image(href.clone(), SpanLinkType::Inline);
                 imgs.push(Event::Start(img.clone(), Attributes::new()));
                 imgs.push(Event::End(img.clone()));
 
                 if insert_links {
                     imgs.push(Event::End(Container::Link(
-                        href.to_owned(),
+                        href.clone(),
                         LinkType::Span(SpanLinkType::Inline),
                     )));
                 }
@@ -194,7 +218,7 @@ where
                 imgs.push(Event::Softbreak);
                 if insert_links {
                     imgs.push(Event::Start(
-                        Container::Link(href.to_owned(), LinkType::Span(SpanLinkType::Inline)),
+                        Container::Link(href.clone(), LinkType::Span(SpanLinkType::Inline)),
                         Attributes::new(),
                     ));
                 }
@@ -204,7 +228,7 @@ where
                 imgs.push(end.clone());
                 if insert_links {
                     imgs.push(Event::End(Container::Link(
-                        href.to_owned(),
+                        href.clone(),
                         LinkType::Span(SpanLinkType::Inline),
                     )));
                 }
@@ -271,6 +295,42 @@ Text here
         assert_eq!(
             convert(s)?,
             r#"<aside class="warn">
+<p>Text here</p>
+</aside>
+"#
+        );
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_parse_important() -> Result<()> {
+        let s = "::: important
+Text here
+:::";
+        assert_eq!(
+            convert(s)?,
+            r#"<aside class="important">
+<p>Text here</p>
+</aside>
+"#
+        );
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_parse_update() -> Result<()> {
+        let s = r#"
+{date="2024-06-01"}
+::: update
+Text here
+:::"#;
+        assert_eq!(
+            convert(s)?,
+            r#"
+<aside class="update">
+<div class="info">Update <span class="date">2024-06-01</span></div>
 <p>Text here</p>
 </aside>
 "#
