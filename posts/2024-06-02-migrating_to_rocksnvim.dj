@@ -19,13 +19,13 @@ Sometimes I just want a new experience.
 # Why [rocks.nvim][]?
 
 To be honest, the biggest reason I started looking into [rocks.nvim][] was that my brain---for some weird reason---tends to _get stuck_ thinking of things.
-Rewriting my config wasn't something I wanted to do but it's not easy to escape when the brain has locked onto something.
+Rewriting my config wasn't something I wanted to do but it's not easy to escape the brain lock.
 
-Luckily, this time my brain locked onto something a little productive as [rocks.nvim][] has some nice and ambitious features.
+Luckily, this time my brain locked onto something a worthwhile as [rocks.nvim][] has some nice and ambitious features.
 
 ## Benefits over other package managers
 
-A. Avoids manual dependency management.
+A. [rocks.nvim][] makes dependency management the responsibility of the plugin.
 
    With other package managers you as a user have to specify the dependencies for the plugin.
    Using [lazy.nvim][] it might look like this:
@@ -57,10 +57,7 @@ A. Avoids manual dependency management.
    "neo-tree.nvim" = "3.26"
    ```
 
-   This makes plugin management easier and together with [SemVer][] versioning should reduce the risk of plugins breaking after updating them.
-
-[Neovim config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
-[SemVer]: https://semver.org/
+   This makes plugin management easier and should reduce the risk of plugins breaking.
 
 A. [rocks.nvim][] supports loading Lua packages from [luarocks][].
 
@@ -68,9 +65,7 @@ A. [rocks.nvim][] supports loading Lua packages from [luarocks][].
    Neovim has been incorporating more and more utility functions---such as `vim.split` and `vim.fs.joinpath()`---but there are still plenty of functionality that we need to import.
    That's why utility plugins such as [plenary.nvim][] exists and is a dependency to a lot of different plugins.
 
-   With [luarocks][] you get access to many more libraries; for example a [yaml][] and a [toml][] library that would've saved my [from parsing them with a regex][toml-regex].
-
-In short, [rocks.nvim][] behaves like you'd expect a package manager to behave if you come from an ecosystem blessed with modern package management (such as Cargo for Rust or Mix for Elixir).
+   With [luarocks][] you get access to many more libraries; for example a [yaml][] and a [toml][] library that would've saved me [from parsing them with regex][toml-regex].
 
 ## Drawbacks compared to [lazy.nvim][]
 
@@ -78,13 +73,13 @@ Naturally, it's not all fun and games and there are drawbacks to [rocks.nvim][] 
 
 a. Most plugins don't have a rockspec that define their dependencies, meaning you still need to manage the dependencies yourself, forgoing the biggest benefit of [rocks.nvim][].
 
-a. Installing and updating packages feels slower.
+a. Installing and updating all packages feels a lot slower.
 
 a. You must manage lazy loading manually. I've seen rumors of lazy loading support for [rocks.nvim][] but as I'm writing this post there's nothing released yet.
 
 a. [rocks.nvim][] is newer than [lazy.nvim][]; meaning less fancy features, more bugs, and more rough edges.
 
-While I think that [rocks.nvim][] is taking a necessary and difficult step forward for Neovim package managers, there are valid reasons to still stick with [lazy.nvim][].
+While I think that [rocks.nvim][] is taking a necessary and difficult step forward for Neovim package managers, there are valid reasons to stick with [lazy.nvim][].
 
 # Basic setup
 
@@ -103,7 +98,7 @@ I was a bit surprised that you can't update or sync an individual package but ot
 ## Separate config file per plugin
 
 One feature I _really_ like about [lazy.nvim][] is the ability to separate plugin configuration into separate files.
-This is easy to setup in [rocks.nvim][] using [rocks-config.nvim][].
+This is easy to setup in [rocks.nvim][] using [rocks-config.nvim][]:
 
 1. Run `:Rocks install rocks-config.nvim` or edit `rocks.toml` manually:
 
@@ -174,6 +169,8 @@ You can then add git dependencies using `:Rocks install <git-path>` or add them 
 As I'm writing this almost exactly half of my plugins in `rocks.toml` depends on a git repository instead of [luarocks][].
 Mostly because they don't exist on [luarocks][] but I also have some Vimscript plugins that never will be.
 
+One feature I'm missing is a command to automatically update `rev` to the latest available value or removing it, now I did it manually.
+
 # How to build a plugin?
 
 There are some plugins that needs to be built before we can use them in Neovim.
@@ -216,12 +213,12 @@ That's what you get if you skip the manual.
 
 # Lazy loading
 
-One big feature that [lazy.nvim][] promotes is lazy loading (it's even in the name!).
+One big feature that [lazy.nvim][] promotes is lazy loading---it's even in the name!
 Unfortunately [rocks.nvim][] doesn't provide first-class support for lazy loading so we have to manage it ourselves.
 
 ## The problem with lazy loading
 
-Before looking at how to implement lazy loading, I'd like to bring up a few problems with us lazy loading plugins.
+Before looking at how to implement lazy loading, I'd like to bring up a few problems with lazy loading plugins.
 
 a. It's easy to half-ass it.
 
@@ -322,6 +319,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 
 Although `packadd` is neat, according to [rocks.nvim][] it's only relevant for the plugin's `ftdetect` and `plugin` scripts.
 I haven't seen the need to go quite this far to get a snappy experience and right now I don't use `packadd` at all.
+I don't even have 100 plugins yet, I'm practically running stock Neovim!
 
 ## Lazy LSP setup
 
@@ -440,7 +438,7 @@ i. I tried to have both [rocks-treesitter.nvim][] and [nvim-treesitter][] instal
    That only lead to the dreaded [invalid node type][invalid-node-type] error (meaning there's a mismatch between the grammar and the query files).
    Which kind-of makes sense as [nvim-treesitter][] provides query files for all grammars but there's no guarantee that [rocks-treesitter.nvim][] installs the correct grammar for those query files.
 
-i. I tried to use the [luarocks nvim-treesitter][] without [rocks-treesitter.nvim][].
+i. I tried to use the [nvim-treesitter from luarocks][] without [rocks-treesitter.nvim][].
 
    Yet once again the Rust tree-sitter grammar hit the [invalid node type][invalid-node-type] error.
    I also couldn't install all the grammars as a lot of them failed during installation:
@@ -465,7 +463,7 @@ i. I tried to use the [luarocks nvim-treesitter][] without [rocks-treesitter.nvi
 
 i. Fallback to the git repository for [nvim-treesitter][] and friends.
 
-   This works:
+   It's surprising, because I'd assume the luarocks dev version would be the same as the GitHub source, yet this worked for me:
 
    {path="rocks.toml"}
    ```toml
@@ -481,7 +479,7 @@ i. Fallback to the git repository for [nvim-treesitter][] and friends.
 
 While I can now install all grammars that [nvim-treesitter][] provides and use all treesitter features I used before, I'm annoyed that I couldn't make it work using [rocks-treesitter.nvim][].
 I'm sure there's something obvious I'm missing but I don't have the energy to retrace the steps again right now.
-I'll instead document my failings publicly on the blog...
+I'll instead document my failings publicly on the blog and move on with my life.
 
 # Other resolved issues
 
@@ -510,7 +508,7 @@ While migrating I ran into some other minor issues that I managed to resolve:
 I had issues while migrating my config over to [rocks.nvim][], with rough edges and missing features.
 For instance, I miss the install speed of [lazy.nvim][] and [lazy.nvim][]'s excellent dashboard.
 
-Yet I'll stay with [rocks.nvim][] as it deserves huge props for tackling the huge task of cleaning up dependency management in Neovim and for giving us access to the broader Lua landscape with [luarocks][].
+Yet I'll stay with [rocks.nvim][] as it deserves props for tackling the huge task of cleaning up dependency management in Neovim and for giving us access to the broader Lua landscape with [luarocks][].
 
 It may be too bleeding edge for some people; but I think more Neovim users and plugin authors should take note of [rocks.nvim][] and give it a try.
 I'd like it if a more sane approach to package management become more popular in the Neovim community.
@@ -538,5 +536,7 @@ I'd like it if a more sane approach to package management become more popular in
 [oil.nvim]: https://github.com/stevearc/oil.nvim
 [elixir-tools.nvim]: https://github.com/elixir-tools/elixir-tools.nvim
 [rocks-treesitter.nvim]: https://github.com/nvim-neorocks/rocks-treesitter.nvimhttps://github.com/nvim-neorocks/rocks-treesitter.nvim
-[luarocks nvim-treesitter]: https://luarocks.org/modules/neovim/nvim-treesitter
+[nvim-treesitter from luarocks]: https://luarocks.org/modules/neovim/nvim-treesitter
+[Neovim config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
+
 
