@@ -1,6 +1,6 @@
 ---toml
 title = "Migrating to rocks.nvim"
-tags = ["Neovim"]
+tags = ["Neovim", "Lua"]
 ---
 
 ![](/images/rocks_nvim_files.png)
