@@ -7,4 +7,78 @@ tags = ["Some tag"]
 - Try out a curved keyboard
 - Integrated trackball
 
+
+# Prototypes
+
+When you're trying to design something like a custom keyboard I think you need to go through a bunch of trial-and-error until you find something that fits.
+I went through several iterations where I made small tweaks and tried new things.
+
+## First print
+
+{% v2 %}
+
+For my first print I mostly wanted to print it out and test how a keyboard with a standard curvature felt.
+I also wanted to try to place a trackball somewhere.
+
+I ended up removing a regular thumb key (I've used two thumb keys with my [keyboard layout](/series/t-34)) to make it fit and I added a "mouse thumb key" that I plan to use as a `left mouse button` when I'm operating the trackball.
+
+Another tweak I made was to reduce the spacing between the keys to be closer to the Choc spacing.
+Choc spacing seems to be 18.6 mm x 17.6 mm, but I used a 19 mm x 18 mm spacing; the attraction to round numbers is real.
+
+![This is the very first prototype I printed.
+Please ignore the bad print quality; the filament was wet and the temperature was too high---it's just a prototype so it really doesn't matter.](/images/cosmos/v2_proto.jpg)
+
+The left half of the keyboard won't have a trackball and I might instead add some extra keys to it.
+
+![The planned left half of the keyboard.
+It has an extra row with two keys instead of a trackball (a default Dactyl Manuform config).](/images/cosmos/v2_left.png)
+
+But because the [Cosmos][] configurator currently doesn't manage different layouts for the left and right halves I plan to first tweak the right side and then convert that into the left side.
+
+[Right reference][v2-ball], [left reference][v2-left].
+
+## Pressing the top right key with the ring finger
+
+{% v3 %}
+
+Most of the keys on the keyboard felt fine but I had one major annoyance: 
+I have a habit of using the ring finger to press the top right key instead of the pinky but with the curvature on the keyboard this just wasn't possible anymore.
+
+You might wonder, why don't I just create a new habit and use the pinky _as you're supposed to_?
+The simple answer is that I *hate* it.
+To my fingers that feels beyond terrible and I'd rather remove the key and only have two keys in the outermost column.
+As it happens, pressing the key with my ring finger (on a flat keyboard) feels good so I'd rather adjust the key than remove it.
+
+That's the beauty of designing a custom keyboard for yourself---you can do weird shit that only makes sense to you.
+
+![](/images/cosmos/v3_proto.jpg)
+
+![](/images/cosmos/v3_p_ring_finger.png)
+
+- Extra thumb key
+- Lowered pinky row
+
+[Reference][v3]
+
+## v5
+
+{% v4 + v5 %}
+
+![](/images/cosmos/v5_config.png)
+
+- Moved mouse thumb keys (they were in the way)
+- Added an extra mouse pinky key
+- Bought PRO so I could try the wrist rest
+
+## v6
+
+{% v6 %}
+
+![](/images/cosmos/v6_config.png)
+
+- Increased tenting from 10 to 20 degrees.
+
+[v2-ball]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgBWkwKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFchIXCNqD2LawigEQyaPAzeD7h+QBGKIDICgSDgipynEQm4mEnuDckOQBUhowgE4IABCAyL0CGICGisAHIICAnAEo0MbBAkJTCAPgAQF4A9gBARABSABIAEgASABIAEgASABgAGgAcAEYACAAKACYAfQDqAHoB6AByAGwAQCQAYQHuAEAgAEAMAA4KFgBiAEBwAEAyAHYBNABhAdiAggB
+[v2-left]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgAWiMKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFclIaMIBOCAAQgMi9AhiAhorAByCAgJwBKNDGwQJCUwgD4AEBeAPYAQEQAEgASABIAEgASABIAEgAYABoAHABGAAgACgAmAH0A6gB6AegAcgBsAEAkAGEB7gBAIABADAAOChYAYgBAcABAMgB2ATQAYQH
+[v3]: https://ryanis.cool/cosmos/beta#expert:eJzlWt9v2zYQfvdfQeRlaSHRli0njoe+JNuAYMgyNOlT4AdaomIusiSQVBw38P++O9KW9cOeHSBtBExoVel4PN199x1FnxqkidIkzbSAizG5tRfkC3ntELJgcXw/E8FTwhUM+s5adjeTaR6K5HFMekbGpyW1jehGJIX0DxboVMIYHeHoE19eMiVA+SSYpcEJylQg+eI6CUXAQf7geg7Z/XdSaN8vMw4mzDURieJSb03die84eDPYiq7SPNFcKpE8jYmWOccRCCUJeTgmryu8DdIk4dbZEy2lOqkI0ei3u0sYY89cskdeHQb3+csY/QTpXAQyhSEt0zjmaC+TqRG6uZq6NuqIKc2Tm7rqxjl4iBYBi69iziRLAo4QGusBSu4wKrVVVzMexxAJ0RaZKYAMzyGxyKwSWXVWnW6X/HV7//uY2OmkS/SMb4MgC6FnqJTwR6bFMwdoTVYIk5xkMQt4SFiu0zkzvsVLitrXiTFjHtll4TN6GxLNpg7KFSfPLM7ByIJLPsYJtYR7Hh06pN8zZ3Py8ewN8XxuBCCe4Mw63oM+9TqdwFA5yOUz0zl4ajlc3N9GV2mcz5MxmHSqA1/TxZgYocpYALw2InDKG1WE1gDKL1DOZADpAEA73c+fO+Qz+aZ4lMckAgwV1xrmEEZCEUUQclJyDXVRCfHKgIxLLAhFQdxdR2GkV7VQKKWFCWdfaCV37mcmXQknucJUpCRLlcACN0/Os4zL4snkWv+ioBg006A7XRoVoKaNIgnJix2E2agNo2AFKKni8oTvJI0iiN3EQtbBmAf9Cc/52zjzBYi1IPdSRaefMCr7zFOv75CHnkPwz8ReevYyYrHiFdWqpldcbjUL107XisUgokN+45FIhF3rNpko4bFNBKg9wooxJuD/wwR8fwDrmAyyqbFiATPLWsCg0uw4IVDvkYhrSrjiAN36m7sYmGJWh+WJkazsAFMZUBwyam+DOFdWbe3R2tomo+MqqHhQU6q3yQ3TUrycbpxq8sgewZpCLhZfITW+ut76flXYruDrQup61SEAdX65PK2mHlVMeO8B4KAB4Ky1APZaiJ/fwC9pLX5t5F+zgPOW4Oe9uYB7H1m/s3SOGgLf5ScNUP9pLagHivojMG3W9Ly18LWQks2SFi2Br/fmkob9sut/dE3PRRjGvFnUT62F9UBRfwiqzap2WotfG1nZLOu0Hfi9varNZuejq1oCLM2ajtuK6eH39M+HtFnStK3wtZGRzYrOfiJ81eZME8O3779dz2tDYZvAmpX9a6uxPfTb2jt3SAte2d1Wg3iQn28BsTM5tgWpZ/l8Wmo/htiWA71c2d5pwpmcmu5oMc8puo+204idRwX0JWyO3f1yE9VYv5XiUST7mo79ER2dlY/z3a3FaqOSDobl42x347I8x/XPaX9UOi4ac3DapNa7dAfgjzsYwGlUHQLka5TYQ4hdy71N+eau/ButUyLBgTRXHB3Rc9za2X/M77Zy9L2jgvXBwNDQzLRokTrbZn4abQmzKRdaS3W9X17v8JsPUzua5kbebPL3q3L7RaBv+v2lhx7ZGt5b8NbIEfW+G8syQctq7mA/Kct6Z03yFrmp5dj1BhRyhEsBbPy9natBqeQ+1VbNxnppaTiE9WLXwgtWg6cpi+P3BtDtD4+DEMIdVA7/OEj9IfUq845G2OtRWBf8PkWIfbp7P9CEWJkvna9EslDkhqNoRomQm5s9AP8IcrpnR7JzeByUF029vezsU9xDDfHs0d3vqvdj548Az/Oofxx8I/ofr5wKzqMh7fvlYx+eO8h4ZgAd4LP89wYUtwh2EV1IofRXrvSeF/X/5I3HX7JUatwAsTzWm8+96/+XgX7XcEIRfqockwfQW+8aHZxjaTdxOqt/AWrGK+I=>
 [Cosmos]: https://ryanis.cool/cosmos/
