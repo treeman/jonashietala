@@ -1,22 +1,117 @@
 ---toml
 title = "Building the ultimate keyboard"
-tags = ["Some tag"]
+tags = ["Computer", "Keyboards"]
 ---
 
-- Customized for my own fingers
-- Try out a curved keyboard
-- Integrated trackball
+When you see the description "the ultimate keyboard", what do you think about?
 
+There are _many_ keyboards in this world; here are some that I could come up with that might fit the "ultimate" moniker:
 
-
-- [Happy Hacking Keyboard][hhkb]
-- [Ultimate Hacking Keyboard][uhk]
 - [Das Keyboard 4 Ultimate mechanical keyboard][das-ultimate]
-- [Model M Keyboard][model-m]
-- [Glove80][g80]
+- [DataHand][]
 - [Ergodox EZ][ergo-ez]
+- [Glove80][g80]
+- [Happy Hacking Keyboard][hhkb]
+- [Model M Keyboard][model-m]
+- [Stenotype][] keyboards.
+- [Ultimate Hacking Keyboard][uhk]
+- [CharaChorder][]
 
-Hell, some even have "Ultimate" in their name.
+Some even have "ultimate" in their name, although I'll assert that they're far from ultimate.
+
+> Being powerful is like being a lady. If you have to tell people you are, you aren’t.
+> ^ Margaret Thatcher
+
+I'll go one step further to say that no keyboard is universally the ultimate because it's impossible to agree on how to rank different keyboards.
+For example, while I personally prefer a split keyboard, you might not;
+some people have very long fingers and some have very short fingers making some layouts more comfortable than others.
+Others may not even have 10 fingers (or both hands), requiring more drastic modifications.
+
+If an ultimate keyboard exists, it differs from person to person.
+
+# My wishlist
+
+To me, the ultimate keyboard should have these features:
+
+a. Should be split to support a more natural typing position.
+
+   Really the biggest ergonomical leap in my opinion.
+
+a. Customized for my own fingers and typing eccentricities.
+
+   Column stagger, curvatures and tenting are features I think I want but they need to be tuned, probably by trial-and-error.
+   The position of the thumb keys is another sticking point that the other keyboards I've tried have failed to get right.
+
+a. Have an integrated trackball or trackpad.
+
+   This way I don't have to move my hand so far and I can free up some valuable desk space.
+   It also must not be operated by the thumb due to my RSI.
+
+a. Contain the keys I need but no more.
+
+   I like smaller keyboards and I've been very happy and with [my custom keyboard layout][t34] that only has 34 keys.
+   Some modifications are fine of course.
+
+With these requirements I need to be able to customize all parts of the keyboard and I really don't want to learn CAD and create one from scratch; I wonder what alternatives I have?
+
+# [Cosmos][] keyboard configurator
+
+Having looked around, I probably want something similar to a [Dactyl][] / [Dactyl Manuform][] (many variants exists).
+They're keyboards you generate from parameters (such as number of rows and columns and the amount of curvature).
+I've always wanted to try one---now when I [have a 3D printer](/series/voron_trident) I can.
+
+When looking for a generator I stumbled upon the [Cosmos keyboard configurator][Cosmos] and I want to gush about it a little because {=it's excellent=}.
+
+![A relatively standard Dactyl Manuform with an encoder and trackpad.](/images/cosmos/cosmos_config.png)
+
+It's excellent because it allows a clueless sod like me to configure a keyboard the way I want to.
+Not to mention an impressive feature list:
+
+1. Easily generate keyboards of any size.
+1. Customize XY-spacing, row- and colomn curvature, and more.
+1. Several pre-made thumb clusters.
+1. UI to move around all thumb keys.
+1. Supports different switches (I so need my Choc switches).
+1. An `Expert` mode that allows you to customize anything that doesn't have UI support. For example to add or move individual keys.
+1. Can generate a wrist rest.
+1. Supports encoders, trackpads, OLED displays, and trackballs.
+1. Exports `.stl` for easy printing or `.step` you can import to CAD.
+
+In the `Expert` mode you lose the nice UI but you can instead customize the keyboard using Javascript.
+Here's a small snippet from the tool:
+
+```javascript
+const curvature = {
+  curvatureOfColumn: 15,
+  curvatureOfRow: 5,
+  spacingOfRows: 18, // 18x19 Choc spacing
+  spacingOfColumns: 19,
+  arc: 0,
+};
+
+/**
+ * Useful for setting a different curvature
+ * for the pinky keys.
+ */
+const pinkyCurvature = {
+  ...curvature,
+  curvatureOfColumn: 15,
+};
+
+/**
+ * The plane used to position the upper keys.
+ * It's rotated by the tenting and x rotation
+ * then translated by the z offset.
+ */
+const upperKeysPlane = new Trsf()
+   // `20` specifies the tenting angle.
+  .rotate(20, [0, 0, 0], [0, 1, 0], false)
+  .rotate(1, [0, 0, 0], [1, 0, 0], false)
+  .translate(0, 0, 0, false);
+```
+
+The entire state of the keyboard is also stored in the url, so I can easily share my config by [including a link][v3].
+(Barring any breaking changes in the tool of course...)
 
 # Prototypes
 
@@ -31,21 +126,22 @@ For my first print I mostly wanted to print it out and test how a keyboard with 
 I also wanted to try to place a trackball somewhere.
 
 I ended up removing a regular thumb key (I've used two thumb keys with my [keyboard layout](/series/t-34)) to make it fit and I added a "mouse thumb key" that I plan to use as a `left mouse button` when I'm operating the trackball.
+It was tricky to place the trackball as I wanted to operate it with my index + middle finger, not my thumb.
 
 Another tweak I made was to reduce the spacing between the keys to be closer to the Choc spacing.
-Choc spacing seems to be 18.6 mm x 17.6 mm, but I used a 19 mm x 18 mm spacing; the attraction to round numbers is real.
+Choc spacing seems to be 18.6 x 17.6 mm, but I used 19 x 18 mm spacing---the attraction to round numbers is real.
 
 ![This is the very first prototype I printed.
-Please ignore the bad print quality; the filament was wet and the temperature was too high---it's just a prototype so it really doesn't matter.](/images/cosmos/v2_proto.jpg)
+Please ignore the bad print quality; the filament was wet and the temperature was too high. It's just a prototype so it really doesn't matter.](/images/cosmos/v2_proto.jpg)
 
-The left half of the keyboard won't have a trackball and I might instead add some extra keys to it.
+The left half of the keyboard won't have a trackball and I might instead add some extra keys to it, below the middle and ring finger:
 
 ![The planned left half of the keyboard.
 It has an extra row with two keys instead of a trackball (a default Dactyl Manuform config).](/images/cosmos/v2_left.png)
 
-But because the [Cosmos][] configurator currently doesn't manage different layouts for the left and right halves I plan to first tweak the right side and then convert that into the left side.
+Because the [Cosmos][] configurator currently doesn't handle different layouts for the left and right halves I plan to first tweak the right side and then convert that into the left side.
 
-[Right reference][v2-ball], [left reference][v2-left].
+[Left reference][v2-left] and [right reference][v2-ball],
 
 ## Pressing the top right key with the ring finger
 
@@ -59,38 +155,50 @@ The simple answer is that I *hate* it.
 To my fingers that feels beyond terrible and I'd rather remove the key and only have two keys in the outermost column.
 As it happens, pressing the key with my ring finger (on a flat keyboard) feels good so I'd rather adjust the key than remove it.
 
+::: important
 That's the beauty of designing a custom keyboard for yourself---you can do weird shit that only makes sense to you.
+:::
 
-![](/images/cosmos/v3_proto.jpg)
+![The second printed prototype, with some keys installed for testing.
+The printer clogged before the print was finished but it did its job as a prototype.](/images/cosmos/v3_proto.jpg)
 
-![](/images/cosmos/v3_p_ring_finger.png)
+![Here's an angle from the configurator showing the offset of the `p` key compared the other keys in the column.](/images/cosmos/v3_p_ring_finger.png)
 
-- Extra thumb key
-- Lowered pinky row
+I also added an extra mouse thumb key and lowered the pinky column a bit.
 
 [Reference][v3]
 
-## v5
+## Adjust mouse keys
 
 {% v4 + v5 %}
 
-![](/images/cosmos/v5_config.png)
+![Moved the mouse keys to the side to not interfere with pressing the regular thumb key and added a cheeky extra pinky key for when I'm operating the mouse.](/images/cosmos/v5_config.png)
 
-- Moved mouse thumb keys (they were in the way)
-- Added an extra mouse pinky key
-- Bought PRO so I could try the wrist rest
+Pressing `p` with my ring finger feels great.
+Pressing the thumb normal thumb key feels awful because the mouse thumb keys are in the way when I relax my hand.
 
-## v6
+Adjustments made:
+
+- Moved mouse thumb keys to the side.
+- Added an extra mouse pinky key.
+- Bought PRO so I could try the wrist rest.
+
+I didn't print a prototype for all the revisions, and this is an example of that.
+
+## More tenting
 
 {% v6 %}
 
-![](/images/cosmos/v6_config.png)
+![20 degrees of tenting.](/images/cosmos/v6_config.png)
 
-- Increased tenting from 10 to 20 degrees.
+The default tenting of 10 degrees was less than the tenting I use with my [Ferris][] keyboard so I tried to increase it to 20 degrees to see how a more aggressive tenting felt like.
+
+[Reference][v6]
 
 [v2-ball]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgBWkwKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFchIXCNqD2LawigEQyaPAzeD7h+QBGKIDICgSDgipynEQm4mEnuDckOQBUhowgE4IABCAyL0CGICGisAHIICAnAEo0MbBAkJTCAPgAQF4A9gBARABSABIAEgASABIAEgASABgAGgAcAEYACAAKACYAfQDqAHoB6AByAGwAQCQAYQHuAEAgAEAMAA4KFgBiAEBwAEAyAHYBNABhAdiAggB
 [v2-left]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgAWiMKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFclIaMIBOCAAQgMi9AhiAhorAByCAgJwBKNDGwQJCUwgD4AEBeAPYAQEQAEgASABIAEgASABIAEgAYABoAHABGAAgACgAmAH0A6gB6AegAcgBsAEAkAGEB7gBAIABADAAOChYAYgBAcABAMgB2ATQAYQH
 [v3]: https://ryanis.cool/cosmos/beta#expert:eJzlWt9v2zYQfvdfQeRlaSHRli0njoe+JNuAYMgyNOlT4AdaomIusiSQVBw38P++O9KW9cOeHSBtBExoVel4PN199x1FnxqkidIkzbSAizG5tRfkC3ntELJgcXw/E8FTwhUM+s5adjeTaR6K5HFMekbGpyW1jehGJIX0DxboVMIYHeHoE19eMiVA+SSYpcEJylQg+eI6CUXAQf7geg7Z/XdSaN8vMw4mzDURieJSb03die84eDPYiq7SPNFcKpE8jYmWOccRCCUJeTgmryu8DdIk4dbZEy2lOqkI0ei3u0sYY89cskdeHQb3+csY/QTpXAQyhSEt0zjmaC+TqRG6uZq6NuqIKc2Tm7rqxjl4iBYBi69iziRLAo4QGusBSu4wKrVVVzMexxAJ0RaZKYAMzyGxyKwSWXVWnW6X/HV7//uY2OmkS/SMb4MgC6FnqJTwR6bFMwdoTVYIk5xkMQt4SFiu0zkzvsVLitrXiTFjHtll4TN6GxLNpg7KFSfPLM7ByIJLPsYJtYR7Hh06pN8zZ3Py8ewN8XxuBCCe4Mw63oM+9TqdwFA5yOUz0zl4ajlc3N9GV2mcz5MxmHSqA1/TxZgYocpYALw2InDKG1WE1gDKL1DOZADpAEA73c+fO+Qz+aZ4lMckAgwV1xrmEEZCEUUQclJyDXVRCfHKgIxLLAhFQdxdR2GkV7VQKKWFCWdfaCV37mcmXQknucJUpCRLlcACN0/Os4zL4snkWv+ioBg006A7XRoVoKaNIgnJix2E2agNo2AFKKni8oTvJI0iiN3EQtbBmAf9Cc/52zjzBYi1IPdSRaefMCr7zFOv75CHnkPwz8ReevYyYrHiFdWqpldcbjUL107XisUgokN+45FIhF3rNpko4bFNBKg9wooxJuD/wwR8fwDrmAyyqbFiATPLWsCg0uw4IVDvkYhrSrjiAN36m7sYmGJWh+WJkazsAFMZUBwyam+DOFdWbe3R2tomo+MqqHhQU6q3yQ3TUrycbpxq8sgewZpCLhZfITW+ut76flXYruDrQup61SEAdX65PK2mHlVMeO8B4KAB4Ky1APZaiJ/fwC9pLX5t5F+zgPOW4Oe9uYB7H1m/s3SOGgLf5ScNUP9pLagHivojMG3W9Ly18LWQks2SFi2Br/fmkob9sut/dE3PRRjGvFnUT62F9UBRfwiqzap2WotfG1nZLOu0Hfi9varNZuejq1oCLM2ajtuK6eH39M+HtFnStK3wtZGRzYrOfiJ81eZME8O3779dz2tDYZvAmpX9a6uxPfTb2jt3SAte2d1Wg3iQn28BsTM5tgWpZ/l8Wmo/htiWA71c2d5pwpmcmu5oMc8puo+204idRwX0JWyO3f1yE9VYv5XiUST7mo79ER2dlY/z3a3FaqOSDobl42x347I8x/XPaX9UOi4ac3DapNa7dAfgjzsYwGlUHQLka5TYQ4hdy71N+eau/ButUyLBgTRXHB3Rc9za2X/M77Zy9L2jgvXBwNDQzLRokTrbZn4abQmzKRdaS3W9X17v8JsPUzua5kbebPL3q3L7RaBv+v2lhx7ZGt5b8NbIEfW+G8syQctq7mA/Kct6Z03yFrmp5dj1BhRyhEsBbPy9natBqeQ+1VbNxnppaTiE9WLXwgtWg6cpi+P3BtDtD4+DEMIdVA7/OEj9IfUq845G2OtRWBf8PkWIfbp7P9CEWJkvna9EslDkhqNoRomQm5s9AP8IcrpnR7JzeByUF029vezsU9xDDfHs0d3vqvdj548Az/Oofxx8I/ofr5wKzqMh7fvlYx+eO8h4ZgAd4LP89wYUtwh2EV1IofRXrvSeF/X/5I3HX7JUatwAsTzWm8+96/+XgX7XcEIRfqockwfQW+8aHZxjaTdxOqt/AWrGK+I=>
+[v6]: https://ryanis.cool/cosmos/beta#expert:eJzlWlFv2zYQfs+vIPKytLBoy7Jjx0Vfmm1AMWQZmhR7CPxAS5TNRZYEkkrsFvnvuyMlWbLsRenaRcCIWJGOR+r43Xcn+Wg/iZUmSaoFnMzItT0h78nXE0IeWRTdroR/H3MFnaNeLrtZySQLRLyckYGR8UVFrRBdibiU/sp8nUjoo1PsvefbD0wJUD71V4l/ijLlS/74MQ6Ez0F+57g9cvgzL7VvtymHKcw5EbHiUu+muhFfsPPK24kukyzWXCoR38+IlhnHHlhKHPBgRr4+4aWfxDG3xp5qKdVpTYiTfr75AH3sgUu25PVuMJ9vZmgnQiCF0p+40jMDJiERj5d6NSNjgxAha7b5UwQocQe5aHMdhorrHERCvhTXztAKWLyMOA6wl5rH2vhhaARmBWvhywRM0jKJIo7rSGVihE6mFo5FO2QKxl7tqxagwOK08Fl0GXEmWexzdJ1ZlY+SG0RT7dTVikcRLJNo65EFOBfuQyKRWiW07OndSb9Pfr++/WVG7ASkT/SK7+Ajj0KvUCnmS6bFAwenGj4QJjlJI+bzgLBMJ2tmrIu2FLU/xmYac9M+Cx7Q3oBotuihXHHywKIMJnnkks9wwB7V3AEd94h7gcehOXhGMMbjuRG4dDzHkfue9lzqnpz4Joj8TD4wnYGlNnrK6+vwMomydQxuG/fqHZ+SR+CDgTBlPnjSiMAod1oT2glQfoFyJn1DEYD0pP/27Ql5Sz4rHmYRCQFFIAySgjASiDCERccV41AXlRCxFAJhi8GoKIj7+TqM9HJvMZTScore8cVVDLpdGZfFnGQK3ZGQNFEC04u5d5amXJb3Jh/1TwpCUTMNuoutUcnJDZwPyMZ2wmjUhl6YBYipouqALyQx4VJdjbnPb3CbP4wt74Fbj+RWqvDsDS7L3vIMwofcwQf/5vbUtachixSvqrp1Tbc83WmWlp3likWnRYf8zEMRC5tpC19U8NgZD2pLyFczAgu4m4PxdzC9TSZ5pJXp0yRVn6VFsiEEoj4U0Z4S5jug3LC4ioArJkdsc4WnPM+oFHgOTrWXfpQpq5eblGsXLp3VYcVGTbxex1dMS7E5K6xqUsk2P2eRgxFYSo2xjlsInsrJaxBDciSDehfAuv6wPat7/02ZI78Hhl4Dw1V3MRx0EsJRA8K4uxB2k4XNSM66AqH78kgevGogr5I1agh8tp82cP2ru7g+F92vAmszuNfdRbCTxGzGtugKgoOXxza8RzujVw/utQiCiDej+767yD4X3a8DbDO8e92FsJvcbMZ30hEIvyG8zRvQq4e3BGCawR11FtYWT+5XQLUZ27SzCHaTl83QTv9LBOs1nCaM3/Bq7rhuJyLcLK0Z4u+6De+z37/dSY904SHe7zaOz7O0Izhuuo3js3w8h8Mu2PPa5+Bw7fMFcM9bF4j1KlsvKsXhAIumoJcpW9uOOZMLU70ux/XK2rCtA2NdWEHWIGyNOz/VsrCZ/VqKpYiP1oSndHpebZPjqy+Lw0Pqjavt/HBduTrGGU3ocFppF40xOGy+V1p2PLDH8Tw4TOtdAL5xyL995tYD7vDX56c2vm8ybEon+Mpt/w0MOaqQNKvxhxAYwQxjjPa8rI6E2m3CJOGORkW80T0C7O9y7O/MmCg5sNVh5M3NmWFdbndyhvk+TeW2LQv6R3OGnaRFymgZtgURveNkreqdN0ldumfPz47rUXATJmX4VuYeJEslFN/sZd5GzrWcHNus2szeMK1/v2BR9L0RdIbjdhjCer1aG7XDdDSmbm1ca4jdAYWEMRpSxHhED7+gNTFWZnv8K5EsEJmhKU6jRMDNxTGEfwQ9Hci0nlttLfk6uqDTdvC6gxF9AWvNzq8zMZB6dPKjaftDQHUv6HBUa+1R9SaV1hriIXX/edxRCruYJBzgH3y9++5gz8vkW/4i48iD/3/9BOWbNJEaX7NYFuli0z//ZRBOv4ceinC7ekbuQC9/je3hGEvVuXns/Q3iGMSf
 [Cosmos]: https://ryanis.cool/cosmos/
 [hhkb]: https://hhkeyboard.us/
 [uhk]: https://ultimatehackingkeyboard.com/
@@ -98,3 +206,10 @@ That's the beauty of designing a custom keyboard for yourself---you can do weird
 [model-m]: https://en.wikipedia.org/wiki/Model_M_keyboard
 [g80]: https://www.moergo.com/
 [ergo-ez]: https://ergodox-ez.com/
+[DataHand]: https://en.wikipedia.org/wiki/DataHand
+[Stenotype]: https://en.wikipedia.org/wiki/Stenotype
+[CharaChorder]: https://www.charachorder.com/
+[t34]: /series/t-34
+[Dactyl]: https://github.com/adereth/dactyl-keyboard
+[Dactyl Manuform]: https://github.com/carbonfet/dactyl-manuform
+[Ferris]: https://github.com/pierrechevalier83/ferris

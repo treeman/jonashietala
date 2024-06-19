@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Building the GH60"
-tags: Keyboard, Computer, Goals
+tags: Keyboards, Computer, Goals
 ---
 
 I've finally completed my first custom made keyboard. I'm still missing stabilizers and some smaller screws to hold it all together but I've been using it the last days and I thought I'd share.

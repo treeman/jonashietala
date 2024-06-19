@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Geekhack Toxic"
-tags: Computer, Keyboard, New Stuff
+tags: Computer, Keyboards, New Stuff
 ---
 
 I came back to Linköping yesterday and I had a package waiting for me to pick it up. What could it be?
