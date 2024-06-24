@@ -1,0 +1,125 @@
+---toml
+title = "The Archetype toolhead"
+tags = ["3D printing", "VORON"]
+---
+
+TODO image comparing the old / new
+
+I've had my [VORON Trident][trident] for almost a year and I've run it for almost 1500 hours.
+Overall I'm very happy with the printer but I've been itching to replace the Stealthburner toolhead with something else.
+
+The mods I installed were:
+
+1. Replaced Stealthburner with [Archetype][] using the [Mjölnir][] ducts.
+1. Installed the [Sharketype][] extruder.
+1. Migrated from Tap to the [Beacon][] probe.
+1. Used the new [Nitehawk36][] toolhead board for a _single_ cable umbilical setup.
+
+Okay, I admit; the biggest reason for the change is that it's fun to build and tinker...
+To my defense I also wanted to improve the cooling of the toolhead and
+I've been struggling with annoying clogging issues lately.
+While clogging is definitely not an inherent problem with the Stealthburner, I wanted to see if another toolhead gives easier access to the filament path.
+
+The popular alternative toolheads seems to be [XOL][] and [Dragon Burner][].
+I had already decided to use [Dragon Burner][] on the VORON 0 that I'm building, leaving [XOL][] for the Trident, when I stumbled upon the [Archetype Beta Release Stream][] and I knew that I wasn't going to build the [XOL][] anymore.
+
+# What is [Archetype][]?
+
+In short, [Archetype][] is a modular toolhead system.
+The big unique feature with Archetype is that the modularity extends even to the fan setup.
+So you can combine features to match your needs: 
+
+i. Hotend (Rapido, Dragon, ...)
+i. Extruder (Orbiter 2, Sherpa Micro, ...)
+i. Probe (Klicky, Beacon, ...)
+i. Ducts (Remote cooling, 2x3515, 2x4010, ...)
+
+There are some limitations where not all hotends can be used with all ducts but it's still a very flexible system.
+
+For example, [Breakneck][] is a _remote cooling_ solution and [Blackbird][] is from what I can tell brings the XOL cooling system to Archetype.
+[Mjölnir][]---the cooling system I went with---is a "middle level crazy" solution that should give you a good bump in cooling capabilities over [XOL][] and it also looks cool as hell.
+
+There are general purpose extruder mounts you can use and the people behind Archetype have also adapted existing extruders so they mount natively on Archetype:
+[Sharketype][] (an adaptation of the [Sharkfin Extruder][])  and [Escapement][] (an adaptation of the [Galileo 2][galileo-2]).
+
+What I like about [Archetype][] over [XOL][] is that it's easier to get access to the filament path (or so I'm told, I've never used [XOL][]) and that you can get _even more cooling_.
+It also looks a lot cooler.
+
+The drawback is that the project is still in beta and the mods and resources compared to a more mature project like [XOL][] is lacking.
+There's no support for a filament sensor or filament cutter that I want for the (eventual) [Enraged Rabbit MMU][ERCF] for instance.
+
+# Modifications made
+
+While I've [installed some mods][mods] I've been running the Stealthburner toolhead stock.
+I did replace Clockwork 2 (CW2) with [Galileo 2][] but went back to CW2 when it broke.
+
+Unfortunately, it's not as simple as just replacing the toolhead; I had to do a few other things to make [Archetype][] work:
+
+1. Removed the XY-endstop PCB.
+1. Flipped the gantry.
+1. Removed the drag chains and went umbilical with [Nitehawk36][].
+1. Replaced Tap with the [Beacon][] probe.
+1. Installed [Archetype][] with the [Mjölnir][] ducts and the [Sharketype][] extruder.
+
+Let's dig into the steps in a bit more detail:
+
+## Removed the XY-endstop
+
+The LDO Trident kit I bought came with an XY-endstop PCB mounted on the XY rail.
+It works well but I need to [flip the gantry](#flip) and I don't think I can leave the PCB in place if i do that.
+Besides, the XY-endstop requires a drag chain that I definitely don't know how to remount.
+
+I've wanted to remove the XY drag chains when I move to an umbilical setup anyway, so removing the XY-endstop it is.
+
+1. Y-endstop mods.
+1. X-endstop on the toolhead later.
+
+TODO image of the moved Y-endstop
+
+{ #flip }
+## Flipped the gantry
+
+Because [Mjölnir][] extends to the sides of the toolhead quite a bit, if the gantry is mounted stock they will collide with the XY joints.
+
+TODO image of them colliding
+
+Flipping the gantry is as simple as removing the gantry, moving the Y-axis rails from on bottom of the extrusions to the top, and remounting the gantry.
+
+TODO image of flipped carriage
+
+## Umbilical
+
+I've always wanted to ditch the drag chains and since Archetype doesn't have a drag chain mount it was now a necessity.
+
+- [Nitehawk36][]
+
+## Remove Tap
+
+# Installing [Archetype][]
+
+## The core
+
+## Mjölnir
+
+## Sharketype
+
+## Beacon
+
+[Nitehawk36]: https://lab4450.com/product/ldo-nitehawk36-toolhead/
+[Beacon]: https://lab4450.com/product/original-beacon-3d-surface-scanner/
+[beacon-2-nitehawk]: https://lab4450.com/product/beacon-to-nitehawk36-cable-kit/
+[Archetype]: https://docs.armchairheavyindustries.com/
+[Sharketype]: https://github.com/Armchair-Heavy-Industries/Sharketype
+[Escapement]: https://github.com/Armchair-Heavy-Industries/Escapement/tree/main
+[Mjölnir]: https://docs.armchairheavyindustries.com/docs/archetype/components/ducts/mjolnir
+[mods]: /blog/2024/02/27/lets_build_a_voron_more_mods
+[Galileo 2]: /blog/2024/02/27/lets_build_a_voron_more_mods#Galileo-2
+[galileo-2]: https://github.com/JaredC01/Galileo2
+[trident]: /series/voron_trident
+[XOL]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/tree/main
+[Dragon Burner]: https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner
+[Archetype Beta Release Stream]: https://www.youtube.com/watch?v=wc67sXDRiaM
+[Sharkfin Extruder]: https://github.com/KayosMaker/Sharkfin_Extruder
+[ERCF]: https://github.com/Enraged-Rabbit-Community/ERCF_v2
+[Breakneck]: https://github.com/Armchair-Heavy-Industries/Archetype/tree/main/Archetype%20-%20Breakneck
+[Blackbird]: https://github.com/Armchair-Heavy-Industries/Archetype/tree/main/Archetype%20-%20Blackbird

@@ -189,9 +189,46 @@ I didn't print a prototype for all the revisions, and this is an example of that
 
 {% v6 %}
 
-![20 degrees of tenting.](/images/cosmos/v6_config.png)
+![It's starting to look like an actual keyboard.
+With color coded keycaps; red for mouse-only buttons and violet for the home-row keys.](/images/cosmos/v6_proto.jpg)
 
 The default tenting of 10 degrees was less than the tenting I use with my [Ferris][] keyboard so I tried to increase it to 20 degrees to see how a more aggressive tenting felt like.
+
+![20 degrees of tenting.](/images/cosmos/v6_config.png)
+
+## Wrist rests
+
+![Some of the different wrist rests I tried.
+They look a bit weird laid out like this and the weird color correction my phone has going on doesn't help.](/images/cosmos/multiple_wrist_rests.jpg)
+
+::: important
+While they're called a _wrist_ rests, I don't think you should hold your arms so that there's pressure on the wrist as that can easily lead to carpal tunnel syndrome.
+Surprisingly this is even worse with a softer support but I don't want to risk it either way.
+
+I think of them more as _palm_ rests, where I rest the lower part of the palm on the rest, making sure the wrist itself doesn't receive any pressure.
+:::
+
+## Rounded base and pinky tweak
+
+![Yet another prototype.](/images/cosmos/v8_proto.jpg)
+
+- I tried the "rounded" sides and top feature of [Cosmos][] .
+- The mouse pinky key was too low, I raised it up a bunch.
+
+## Thumb keys adjustments
+
+![](/images/cosmos/v9_proto.jpg)
+
+- Removed the "rounded" features
+- Rotated the main thumb key inwards
+- Lowered the must thumb keys a little
+- Added an area for a display
+
+## More tweaks
+
+- Removed the display
+- Move pinky keys a little upwards
+- Move all thumb keys a little further away
 
 [Reference][v6]
 
