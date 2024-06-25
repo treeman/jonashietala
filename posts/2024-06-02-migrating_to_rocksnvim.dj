@@ -323,8 +323,6 @@ I don't even have 100 plugins yet, I'm practically running stock Neovim!
 
 ## Lazy LSP setup
 
-TODO
-
 There's one instance where I've made the plugin setup lazy: the LSP config.
 
 It's important to me that Neovim starts quickly as I have a weird workflow where I start Neovim dozens of times a day.

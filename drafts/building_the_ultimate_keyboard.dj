@@ -134,14 +134,9 @@ Choc spacing seems to be 18.6 x 17.6 mm, but I used 19 x 18 mm spacing---the att
 ![This is the very first prototype I printed.
 Please ignore the bad print quality; the filament was wet and the temperature was too high. It's just a prototype so it really doesn't matter.](/images/cosmos/v2_proto.jpg)
 
-The left half of the keyboard won't have a trackball and I might instead add some extra keys to it, below the middle and ring finger:
-
-![The planned left half of the keyboard.
-It has an extra row with two keys instead of a trackball (a default Dactyl Manuform config).](/images/cosmos/v2_left.png)
-
 Because the [Cosmos][] configurator currently doesn't handle different layouts for the left and right halves I plan to first tweak the right side and then convert that into the left side.
 
-[Left reference][v2-left] and [right reference][v2-ball],
+[Cosmos reference][v2-ball],
 
 ## Pressing the top right key with the ring finger
 
@@ -166,33 +161,23 @@ The printer clogged before the print was finished but it did its job as a protot
 
 I also added an extra mouse thumb key and lowered the pinky column a bit.
 
-[Reference][v3]
+[Cosmos reference][v3]
 
-## Adjust mouse keys
+## Adjust mouse keys and increase tenting
 
-{% v4 + v5 %}
+{% v4 + v5 + v6 %}
 
-![Moved the mouse keys to the side to not interfere with pressing the regular thumb key and added a cheeky extra pinky key for when I'm operating the mouse.](/images/cosmos/v5_config.png)
+![It's starting to look like an actual keyboard.
+With color coded keycaps; red for mouse-only buttons and violet for the home-row keys.](/images/cosmos/v6_proto.jpg)
 
 Pressing `p` with my ring finger feels great.
 Pressing the thumb normal thumb key feels awful because the mouse thumb keys are in the way when I relax my hand.
 
 Adjustments made:
 
-- Moved mouse thumb keys to the side.
-- Added an extra mouse pinky key.
-- Bought PRO so I could try the wrist rest.
-
-I didn't print a prototype for all the revisions, and this is an example of that.
-
-## More tenting
-
-{% v6 %}
-
-![It's starting to look like an actual keyboard.
-With color coded keycaps; red for mouse-only buttons and violet for the home-row keys.](/images/cosmos/v6_proto.jpg)
-
-The default tenting of 10 degrees was less than the tenting I use with my [Ferris][] keyboard so I tried to increase it to 20 degrees to see how a more aggressive tenting felt like.
+- Moved mouse thumb keys to be more vertical and pressed from the side.
+- Added an extra pinky key reachable when I'm using the trackball.
+- Increased tenting to 20 degrees from 10 degrees.
 
 ![20 degrees of tenting.](/images/cosmos/v6_config.png)
 
