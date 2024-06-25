@@ -25,6 +25,10 @@ This is a short post to explain why---at this point in time---the grass wasn't g
 
    That there's no way to `update` or `sync` an individual package was just gravy.
 
+   ::: update
+   I'm told that `:Rocks install {rock}` updates an installed package.
+   :::
+
 # Lazy.nvim 11.0 supports luarocks and rockspec
 
 The _single_ reason I started looking into [rocks.nvim][] was support for [luarocks][] where plugins can specify their own dependencies so that I don't have to.
