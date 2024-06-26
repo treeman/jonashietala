@@ -2,7 +2,7 @@
 title = "Uses"
 ---
 
-This page lists the tools I use as a software developer, both in a professional and personal context.
+This page lists the tools I use as a tinkerer and software developer, both in a professional and personal context.
 
 For more lists like this, check out <https://github.com/wesbos/awesome-uses>.
 
@@ -148,17 +148,35 @@ For voice input I have a Blue Microphone Snowball iCE.
 It would be cool to have an awesome podcasting microphone, but that's just overkill.
 Maybe if this one dies on me.
 
-# Other tools
+# Other software tools
 
 - I use [Fastmail][] for emails and my calendar.
+
 - I try to use [Todoist][] to track my tasks and todos, but sometimes I keep them in my personal wiki folder instead.
+
+- A home office.
+
+  Working remotely isn't just good for skipping the commute, but for the ability to focus without disturbance.
+
+# Other hardware & Gadgets
+
 - For note taking I use [reMarkable 2][].
+
   I don't use it for anything fancy, it's just nice to sometimes write notes or plan things "on paper". The writing experience really does feel good on it.
+
 - My phone is the [Fairphone 4][].
+
   It's a great phone and I love being able to super quickly replace the battery.
   But honestly, I should use it less (don't we all?) so I've tried to remove all but the most essential apps.
-- A home office.
-  Working remotely isn't just good for skipping the commute, but for the ability to focus without disturbance.
+
+  I've installed [CalyxOS][] with [microG][] for a de-Googled experience---it works great.
+
+- A Garmin Instinct 2X Solar 
+
+- WHOOP
+
+- VORON Trident
+
 
 [Neovim]: https://neovim.io/
 [neovim-config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
@@ -182,7 +200,7 @@ Maybe if this one dies on me.
 [lazy.nvim]: https://github.com/folke/lazy.nvim
 [conform.nvim]: https://github.com/stevearc/conform.nvim
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-[nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter 
+[nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
 [nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
 [flash.nvim]: https://github.com/folke/flash.nvim
 [neogit]: https://github.com/NeogitOrg/neogit
@@ -192,3 +210,5 @@ Maybe if this one dies on me.
 [mason.nvim]: https://github.com/williamboman/mason.nvim
 [mason-lspconfig.nvim]: https://github.com/williamboman/mason-lspconfig.nvim
 [vim-fugitive]: https://github.com/tpope/vim-fugitive
+[microG]: https://calyxos.org/docs/guide/microg/
+[CalyxOS]: https://calyxos.org/
