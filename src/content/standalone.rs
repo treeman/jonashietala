@@ -3,18 +3,17 @@ use serde::{Deserialize, Serialize};
 use std::{borrow::Cow, collections::HashSet};
 use tera::Context;
 
+use crate::context::LoadContext;
 use crate::markup::{find_markup_files, Html, MarkupLookup, ParseContext, RawMarkupFile};
-use crate::{item::Item, item::RenderContext, item::TeraItem, paths::AbsPath, site_url::SiteUrl};
+use crate::{
+    context::RenderContext, item::Item, item::TeraItem, paths::AbsPath, site_url::SiteUrl,
+};
 
-pub fn load_standalones(
-    dir: AbsPath,
-    create_lookup: bool,
-    include_drafts: bool,
-) -> Result<HashSet<StandaloneItem>> {
+pub fn load_standalones(dir: AbsPath, context: &LoadContext) -> Result<HashSet<StandaloneItem>> {
     let mut res = HashSet::new();
-    for path in find_markup_files(&[dir]).into_iter() {
-        let item = StandaloneItem::from_file(path.abs_path(), create_lookup)?;
-        if !item.is_draft || include_drafts {
+    for path in find_markup_files(&context.opts.input_dir, &[dir]).into_iter() {
+        let item = StandaloneItem::from_file(path.abs_path(), context.opts.generate_markup_lookup)?;
+        if !item.is_draft || context.opts.include_drafts {
             res.insert(item);
         }
     }

@@ -10,7 +10,7 @@ content %}
     </h2>
     {% endif %}
     <h1><a href="{{url}}">{{title}}</a></h1>
-    {{ macros::post_info(created=created, tags=tags, is_draft=is_draft) }}
+    {{ macros::post_info_long(created=created, latest_commit=latest_commit, tags=tags, is_draft=is_draft) }}
   </header>
 
   {% if series %}
@@ -49,13 +49,7 @@ content %}
   {% endif %}
 
   <div class="post-footer">
-    <nav class="tag-links">
-      {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
-        href="{{ tag.href }}"
-        title="Posts tagged `{{tag.name}}`"
-        >{{ tag.name }}</a
-      >{% endfor %}
-    </nav>
+    {{ macros::post_info_long(created=created, latest_commit=latest_commit, tags=tags, is_draft=is_draft) }}
 
     <nav class="post-nav">
       <span class="prev">

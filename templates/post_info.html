@@ -1,11 +1,54 @@
-{% macro post_date(created) %} {% set human_created = created | date(format="%B
-%e, %Y") %} {% set year = created | date(format="%Y") %}
-<time datetime="{{created}}" title="{{human_created}}">
-  {{created | date(format="%B %e,")}} <a href="/blog/{{year}}">{{year}}</a>
+{% macro post_date(dt, link_year) %}
+{% set human_dt = dt | date(format="%B %e, %Y") %}
+{% set year = dt | date(format="%Y") %}
+<time datetime="{{dt}}" title="{{human_dt}}">
+  {{dt | date(format="%B %e,")}} {% if link_year %}
+  <a href="/blog/{{year}}">{{year}}</a>
+  {% else %} {{year}} {% endif %}
 </time>
-{% endmacro post_date %} {% macro post_info(created, tags, is_draft) %}
+{% endmacro post_date %}
+
+{% macro rev_link(commit) %}
+<a
+  class="commit"
+  href="https://github.com/treeman/jonashietala/commit/{{commit.id}}"
+  >{{latest_commit.short_id}}</a
+>
+{% endmacro rev_link %}
+
+{% macro post_info_long(created, latest_commit, tags, is_draft) %}
 <div class="post-info">
-  <div class="created">{{ self::post_date(created=created) }}</div>
+  {% if is_draft %}
+  <div class="draft">Draft</div>
+  {% else %}
+  <div class="created">
+    <span class="item-spec">Published:</span> {{ self::post_date(dt=created, link_year=1) }}
+    {% if latest_commit and not latest_commit.is_revision %}
+    in {{ self::rev_link(commit=latest_commit)}}
+    {% endif %}
+  </div>
+  {% endif %}
+  {% if latest_commit and latest_commit.is_revision %}
+  <div class="revised">
+    <span class="item-spec">Revised:</span>
+    {{ self::post_date(dt=latest_commit.dt, link_year=0) }} in {{ self::rev_link(commit=latest_commit) }}
+  </div>
+  {% endif %}
+
+  <nav class="tag-links">
+    <span class="item-spec">Tagged:</span>
+    {% for tag in tags %}{% if loop.index0 > 0 %}, {% endif %}<a
+      href="{{ tag.href }}"
+      title="Posts tagged `{{tag.name}}`"
+      >{{ tag.name }}</a
+    >{% endfor %}
+  </nav>
+</div>
+{% endmacro post_info_long %}
+
+{% macro post_info_short(created, tags, is_draft) %}
+<div class="post-info">
+  <div class="created">{{ self::post_date(dt=created, link_year=0) }}</div>
   {% if is_draft %}
   <div class="draft">Draft</div>
   {% endif %}
@@ -17,12 +60,12 @@
     >{% endfor %}
   </nav>
 </div>
-{% endmacro post_info %} {% macro post_items(posts) %}
+{% endmacro post_info_short %} {% macro post_items(posts) %}
 <section class="post-items">
   {% for post in posts %}
   <div class="post-item">
     <h2><a href="{{ post.url }}" class="title">{{ post.title }}</a></h2>
-    {% if post.created %} {{ self::post_info(created=post.created,
+    {% if post.created %} {{ self::post_info_short(created=post.created,
     tags=post.tags, is_draft=post.is_draft) }} {% endif %}
   </div>
   {% endfor %}

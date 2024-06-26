@@ -5,10 +5,7 @@ use tera::Context;
 
 use super::posts::{PostRef, PostRefContext};
 use crate::{
-    content::PostItem,
-    item::{RenderContext, TeraItem},
-    paths::AbsPath,
-    site_url::SiteUrl,
+    content::PostItem, context::RenderContext, item::TeraItem, paths::AbsPath, site_url::SiteUrl,
 };
 
 pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {

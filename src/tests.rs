@@ -5,8 +5,9 @@ use crate::content::SeriesItem;
 use crate::paths::AbsPath;
 use crate::site::{Site, SiteOptions};
 use crate::site_url::{HrefUrl, ImgUrl};
+use crate::tera::load_templates;
 use crate::util;
-use crate::util::{load_templates, ParsedFile, ParsedFiles};
+use crate::util::{ParsedFile, ParsedFiles};
 use camino::Utf8Path;
 use camino::Utf8PathBuf;
 use eyre::Result;
@@ -163,6 +164,7 @@ impl TestSiteBuilder {
             generate_feed: true,
             include_js: false,
             generate_markup_lookup: self.generate_markup_lookup,
+            git_path_offset: Some(Utf8Path::new("test-site/")),
         })?;
         site.render_all()?;
 

@@ -19,11 +19,6 @@ article {
     word-wrap: break-word;
   }
 
-  @include flow;
-  section {
-    @include flow;
-  }
-
   h1,
   h2,
   h3,
@@ -36,7 +31,7 @@ article {
     }
 
     &:not(:first-child) {
-      margin-block-start: var(--space-m);
+      margin-block-start: var(--space-s);
     }
   }
 
@@ -66,9 +61,12 @@ article {
     text-decoration: underline;
     margin-right: -2px;
   }
+  .post-info .item-spec {
+    color: var(--melange_a_ui);
+  }
 
   time a {
-    text-decoration: none;
+    text-decoration: underline;
     color: var(--color-text);
   }
   time a:hover {
@@ -134,7 +132,7 @@ article {
     border-left: 3px solid var(--color-blockquote-bar);
   }
   .epigraph {
-    margin-block: var(--space-l);
+    margin-block: var(--space-m);
     font-style: italic;
   }
   blockquote > footer {

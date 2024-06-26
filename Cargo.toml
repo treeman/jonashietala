@@ -77,3 +77,4 @@ tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter
 tree-sitter-lua = { git = "https://github.com/tree-sitter-grammars/tree-sitter-lua" }
 btree-range-map = "0.7.2"
 serde_repr = "0.1.19"
+git2 = "0.19.0"

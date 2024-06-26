@@ -1,10 +1,6 @@
 use crate::{
-    content::ArchiveItem,
-    content::PostRef,
-    item::{RenderContext, TeraItem},
-    paths::AbsPath,
-    site_url::SiteUrl,
-    util,
+    content::ArchiveItem, content::PostRef, context::RenderContext, item::TeraItem, paths::AbsPath,
+    site_url::SiteUrl, util,
 };
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};

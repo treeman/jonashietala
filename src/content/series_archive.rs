@@ -5,7 +5,8 @@ use tera::Context;
 
 use crate::{
     content::{SeriesContext, SeriesItem, SeriesRef},
-    item::{RenderContext, TeraItem},
+    context::RenderContext,
+    item::TeraItem,
     site_url::SiteUrl,
 };
 

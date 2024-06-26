@@ -11,7 +11,7 @@ article.projects {
 }
 
 article.project {
-  margin-block-start: var(--space-m);
+  margin-block-start: var(--space-xs);
 
   h2 {
     @include large-link-underline-highlight(var(--color-highlight-projects));
@@ -19,7 +19,7 @@ article.project {
 }
 
 .games {
-  margin-block-start: var(--space-m);
+  margin-block-start: var(--space-xs);
   @include full-bleed;
   display: grid;
   grid-template-columns: subgrid;

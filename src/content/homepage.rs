@@ -9,7 +9,7 @@ use crate::content::projects::{GameRef, Project, ProjectContext, ProjectRef};
 use crate::content::{Game, GameContext};
 use crate::content::{SeriesContext, SeriesItem, SeriesRef};
 use crate::paths::AbsPath;
-use crate::{item::RenderContext, item::TeraItem, site_url::SiteUrl};
+use crate::{context::RenderContext, item::TeraItem, site_url::SiteUrl};
 
 use super::posts::PostRefContext;
 

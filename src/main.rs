@@ -1,5 +1,7 @@
 mod content;
+mod context;
 mod feed;
+mod git;
 mod item;
 mod json_api;
 mod markup;
@@ -7,6 +9,7 @@ mod paths;
 mod server;
 mod site;
 mod site_url;
+mod tera;
 mod upload;
 mod util;
 
@@ -170,6 +173,7 @@ fn build() -> Result<()> {
         generate_feed: true,
         include_js: false,
         generate_markup_lookup: false,
+        git_path_offset: None,
     })?;
 
     site.render_all()?;

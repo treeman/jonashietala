@@ -206,9 +206,13 @@ pub struct MarkupFile<Meta: DeserializeOwned> {
     pub markup_meta: Meta,
 }
 
-pub fn find_markup_files<'a, P: 'a + AsRef<Utf8Path>>(dirs: &[P]) -> Vec<FilePath> {
+pub fn find_markup_files<'a, B: AsRef<Utf8Path>, P: 'a + AsRef<Utf8Path>>(
+    base: B,
+    dirs: &[P],
+) -> Vec<FilePath> {
     dirs.iter()
         .flat_map(|dir| {
+            let base = base.as_ref();
             let dir = dir.as_ref();
             WalkDir::new(dir.as_std_path())
                 .into_iter()
@@ -217,7 +221,7 @@ pub fn find_markup_files<'a, P: 'a + AsRef<Utf8Path>>(dirs: &[P]) -> Vec<FilePat
                     Ok(e) => !e.is_dir(),
                     _ => false,
                 })
-                .filter_map(move |e| FilePath::from_std_path(dir, e.into_path()).ok())
+                .filter_map(move |e| FilePath::from_std_path(base, e.into_path()).ok())
                 .filter(|e| MarkupType::from_file(&e.rel_path.0).is_some())
         })
         .collect()

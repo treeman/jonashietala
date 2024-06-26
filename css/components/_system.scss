@@ -11,6 +11,7 @@
     )
     1fr;
   max-inline-size: none;
+  grid-gap: var(--flow-space);
 
   & > * {
     grid-column: 3;

@@ -1,5 +1,5 @@
+use crate::context::RenderContext;
 use crate::item::Item;
-use crate::item::RenderContext;
 use crate::paths::AbsPath;
 use crate::site_url::SiteUrl;
 use crate::util;

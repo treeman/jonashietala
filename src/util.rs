@@ -11,7 +11,6 @@ use std::collections::HashSet;
 use std::fs::{self, File};
 use std::path::Path;
 use std::time::UNIX_EPOCH;
-use tera::Tera;
 use tracing::debug;
 
 use crate::site_url::{HrefUrl, ImgUrl};
@@ -100,12 +99,6 @@ pub fn copy_files_to(pattern: &str, target_dir: &Utf8Path) -> Result<u32> {
         count += 1;
     }
     Ok(count)
-}
-
-pub fn load_templates(pattern: &str) -> Result<Tera> {
-    let mut templates = Tera::new(pattern)?;
-    templates.autoescape_on(vec![]);
-    Ok(templates)
 }
 
 // Yes, this could be made faster... But meh. This should be fast enough

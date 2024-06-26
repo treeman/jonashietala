@@ -2,7 +2,7 @@
 @use "../components/system" as *;
 
 .post-items {
-  @include flow(var(--space-m));
+  --flow-space: var(--space-m);
 }
 
 .post-items .post-item {

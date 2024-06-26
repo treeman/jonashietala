@@ -7,11 +7,11 @@ use std::cmp::{Ordering, Reverse};
 use std::collections::BTreeMap;
 use tera::Context;
 
-use crate::item::RenderContext;
+use crate::context::{LoadContext, RenderContext};
 use crate::item::TeraItem;
 use crate::markup::find_markup_files;
 use crate::markup::{Html, MarkupFile, MarkupLookup, ParseContext, RawMarkupFile};
-use crate::paths::AbsPath;
+use crate::paths::{AbsPath, FilePath};
 use crate::site_url::SiteUrl;
 
 #[derive(Debug)]
@@ -26,29 +26,37 @@ pub struct ProjectsItem {
 }
 
 impl ProjectsItem {
-    pub fn new(dir: &AbsPath, create_lookup: bool) -> Result<Self> {
+    pub fn new(dir: &AbsPath, context: &LoadContext) -> Result<Self> {
         let raw_markup = RawMarkupFile::from_file(dir.join("projects.dj"))?;
 
         let meta_line_count = raw_markup.meta_line_count;
-        let markup: MarkupFile<ProjectsMetadata> =
-            raw_markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
+        let markup: MarkupFile<ProjectsMetadata> = raw_markup.parse(ParseContext::new(
+            context.opts.generate_markup_lookup,
+            meta_line_count,
+        ))?;
 
         let title = markup.markup_meta.title.clone();
 
-        let project_files = find_markup_files(&[dir.join("projects")]);
+        let project_files = find_markup_files(&context.opts.input_dir, &[dir.join("projects")]);
+
+        let is_game = |path: &FilePath| path.rel_path.starts_with("projects/games");
 
         let projects = project_files
             .iter()
-            .filter(|path| !path.rel_path.starts_with("games/"))
+            .filter(|path| !is_game(path))
             .map(|path| {
-                Project::from_file(path.abs_path(), create_lookup).map(|p| (p.project_ref(), p))
+                Project::from_file(path.abs_path(), context.opts.generate_markup_lookup)
+                    .map(|p| (p.project_ref(), p))
             })
             .collect::<Result<BTreeMap<ProjectRef, Project>>>()?;
 
         let games = project_files
             .iter()
-            .filter(|path| path.rel_path.starts_with("games/"))
-            .map(|path| Game::from_file(path.abs_path(), create_lookup).map(|g| (g.game_ref(), g)))
+            .filter(|path| is_game(path))
+            .map(|path| {
+                Game::from_file(path.abs_path(), context.opts.generate_markup_lookup)
+                    .map(|g| (g.game_ref(), g))
+            })
             .collect::<Result<BTreeMap<GameRef, Game>>>()?;
 
         Ok(Self {

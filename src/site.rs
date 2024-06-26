@@ -1,6 +1,7 @@
 use camino::Utf8Path;
 use eyre::Result;
 use flume::Sender;
+use git2::Repository;
 use hotwatch::notify::event::AccessKind;
 use hotwatch::notify::event::AccessMode;
 use hotwatch::notify::event::ModifyKind;
@@ -29,7 +30,9 @@ use crate::content::PostRef;
 use crate::content::SeriesArchiveItem;
 use crate::content::SeriesItem;
 use crate::content::SeriesRef;
+use crate::context::LoadContext;
 use crate::feed::SiteFeed;
+use crate::git::LatestCommits;
 use crate::item::Item;
 use crate::markup::markup_lookup::MarkupLookup;
 use crate::paths;
@@ -44,9 +47,10 @@ use crate::{
         load_posts, load_standalones, post_archives, tags_archives, ArchiveItem, HomepageItem,
         JsItem, PostItem, ProjectsItem, SassItem, StandaloneItem, Tag, TagListItem,
     },
-    item::RenderContext,
+    context::RenderContext,
     site_url::SiteUrl,
-    util::{self, load_templates},
+    tera::load_templates,
+    util,
 };
 
 lazy_static! {
@@ -62,6 +66,7 @@ pub struct SiteOptions {
     pub generate_feed: bool,
     pub include_js: bool,
     pub generate_markup_lookup: bool,
+    pub git_path_offset: Option<&'static Utf8Path>,
 }
 
 pub struct SiteContent {
@@ -76,29 +81,21 @@ pub struct SiteContent {
 }
 
 impl SiteContent {
-    fn load(opts: &SiteOptions) -> Result<Self> {
-        let post_dirs = if opts.include_drafts {
+    fn load(context: &LoadContext) -> Result<Self> {
+        let post_dirs = if context.opts.include_drafts {
             vec!["posts", "drafts"]
         } else {
             vec!["posts"]
         }
         .into_iter()
-        .map(|x| opts.input_dir.join(x))
+        .map(|x| context.opts.input_dir.join(x))
         .collect::<Vec<_>>();
 
-        let mut posts = load_posts(&post_dirs, opts.generate_markup_lookup)?;
-        let series = load_series(
-            opts.input_dir.join("series"),
-            opts.generate_markup_lookup,
-            &mut posts,
-        )?;
-        let standalones = load_standalones(
-            opts.input_dir.join("standalone"),
-            opts.generate_markup_lookup,
-            opts.include_drafts,
-        )?;
+        let mut posts = load_posts(&post_dirs, context)?;
+        let series = load_series(context.opts.input_dir.join("series"), context, &mut posts)?;
+        let standalones = load_standalones(context.opts.input_dir.join("standalone"), context)?;
 
-        let drafts = if opts.include_drafts {
+        let drafts = if context.opts.include_drafts {
             Some(
                 posts
                     .iter()
@@ -123,7 +120,7 @@ impl SiteContent {
             drafts.as_ref().map(|x: &BTreeSet<_>| x.len()).unwrap_or(0)
         );
 
-        let projects = ProjectsItem::new(&opts.input_dir, opts.generate_markup_lookup)?;
+        let projects = ProjectsItem::new(&context.opts.input_dir, context)?;
         let homepage = HomepageItem::new(&posts, &series, &projects.projects, &projects.games)?;
 
         Ok(Self {
@@ -196,21 +193,6 @@ impl SiteLookup {
         }
         Self { tags }
     }
-}
-
-pub struct Site {
-    pub content: SiteContent,
-    pub lookup: SiteLookup,
-
-    pub templates: Tera,
-
-    // Generation options
-    pub opts: SiteOptions,
-    // Cached rendering context
-    context: Context,
-
-    web_notifier: Option<Sender<WebEvent>>,
-    nvim_notifier: Option<Sender<NeovimResponse>>,
 }
 
 #[derive(Default, Debug)]
@@ -397,13 +379,35 @@ impl PathEvent {
     }
 }
 
+pub struct Site {
+    pub content: SiteContent,
+    pub lookup: SiteLookup,
+
+    pub templates: Tera,
+
+    // Generation options
+    pub opts: SiteOptions,
+    // Cached rendering context
+    context: Context,
+
+    // Latest commits for all markup files.
+    latest_commits: LatestCommits,
+    // The git repository.
+    repository: Repository,
+
+    web_notifier: Option<Sender<WebEvent>>,
+    nvim_notifier: Option<Sender<NeovimResponse>>,
+}
+
 impl Site {
     pub fn load_content(opts: SiteOptions) -> Result<Self> {
-        let content = SiteContent::load(&opts)?;
-        Self::with_content(content, opts)
-    }
-
-    pub fn with_content(content: SiteContent, opts: SiteOptions) -> Result<Self> {
+        let repository = Repository::open(".")?;
+        let latest_commits = LatestCommits::new(&repository, opts.git_path_offset)?;
+        let context = LoadContext {
+            opts: &opts,
+            latest_commits: &latest_commits,
+        };
+        let content = SiteContent::load(&context)?;
         let lookup = SiteLookup::from_content(&content);
         let templates = load_templates("templates/*.html")?;
         let context =
@@ -416,6 +420,8 @@ impl Site {
             content,
             lookup,
             context,
+            repository,
+            latest_commits,
             web_notifier: None,
             nvim_notifier: None,
         })
@@ -555,6 +561,13 @@ impl Site {
         }
     }
 
+    fn load_ctx(&self) -> LoadContext {
+        LoadContext {
+            opts: &self.opts,
+            latest_commits: &self.latest_commits,
+        }
+    }
+
     fn render_item(&self, item: &dyn Item) -> Result<()> {
         item.render(&self.render_ctx())?;
         self.notify_change(&[item])
@@ -690,7 +703,8 @@ impl Site {
 
     fn rebuild_post(&mut self, path: AbsPath) -> Result<()> {
         info!("Post changed: {path}");
-        let mut updated = PostItem::from_file(path.clone(), self.opts.generate_markup_lookup)?;
+        let file_path = self.file_path(path)?;
+        let mut updated = PostItem::from_file(&file_path, &self.load_ctx())?;
 
         if let Some(series) = updated
             .series_id
@@ -802,8 +816,7 @@ impl Site {
     fn rebuild_projects(&mut self, path: AbsPath) -> Result<()> {
         info!("Projects changed: {path}");
 
-        self.content.projects =
-            ProjectsItem::new(&self.opts.input_dir, self.opts.generate_markup_lookup)?;
+        self.content.projects = ProjectsItem::new(&self.opts.input_dir, &self.load_ctx())?;
         self.update_homepage_item()?;
 
         self.render(SiteRenderOpts {
@@ -906,7 +919,8 @@ impl Site {
 
     fn rebuild_all(&mut self) -> Result<()> {
         self.templates.full_reload()?;
-        self.content = SiteContent::load(&self.opts)?;
+        self.latest_commits = LatestCommits::new(&self.repository, self.opts.git_path_offset)?;
+        self.content = SiteContent::load(&self.load_ctx())?;
         self.lookup = SiteLookup::from_content(&self.content);
         self.render_all()
     }
@@ -1066,6 +1080,7 @@ mod tests {
             generate_feed: true,
             include_js: false,
             generate_markup_lookup: false,
+            git_path_offset: None,
         })?;
         site.render_all()?;
 

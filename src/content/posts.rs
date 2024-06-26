@@ -1,7 +1,3 @@
-use std::borrow::Cow;
-use std::collections::BTreeMap;
-use std::fmt::Debug;
-
 use camino::Utf8Path;
 use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 use eyre::{eyre, Result};
@@ -10,23 +6,25 @@ use lazy_static::lazy_static;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use std::borrow::Cow;
+use std::collections::BTreeMap;
+use std::fmt::Debug;
 use tera::Context;
 use tracing::error;
 
 use crate::content::series::SeriesRef;
 use crate::content::tags::{Tag, TagPostContext, TagsMeta};
+use crate::context::{LoadContext, RenderContext};
+use crate::git::{CommitContext, LatestCommitInfo};
 use crate::item::Item;
-use crate::item::RenderContext;
 use crate::markup::{self, Html, Markup, MarkupLookup, ParseContext, RawMarkupFile};
-use crate::paths::AbsPath;
+use crate::paths::{AbsPath, FilePath};
 use crate::{content::SeriesItem, item::TeraItem, site_url::SiteUrl, util};
 
-pub fn load_posts(dirs: &[AbsPath], create_lookup: bool) -> Result<BTreeMap<PostRef, PostItem>> {
-    let mut posts = markup::find_markup_files(dirs)
+pub fn load_posts(dirs: &[AbsPath], context: &LoadContext) -> Result<BTreeMap<PostRef, PostItem>> {
+    let mut posts = markup::find_markup_files(&context.opts.input_dir, dirs)
         .par_iter()
-        .map(|path| {
-            PostItem::from_file(path.abs_path(), create_lookup).map(|post| (post.post_ref(), post))
-        })
+        .map(|path| PostItem::from_file(path, context).map(|post| (post.post_ref(), post)))
         .collect::<Result<BTreeMap<PostRef, PostItem>>>()?;
 
     set_post_prev_next(&mut posts);
@@ -34,8 +32,8 @@ pub fn load_posts(dirs: &[AbsPath], create_lookup: bool) -> Result<BTreeMap<Post
     Ok(posts)
 }
 
-pub fn load_partial_posts(dir: &AbsPath) -> Result<Vec<PartialPostItem>> {
-    let mut posts = markup::find_markup_files(&[dir])
+pub fn load_partial_posts(base: &AbsPath, dir: &AbsPath) -> Result<Vec<PartialPostItem>> {
+    let mut posts = markup::find_markup_files(base, &[dir])
         .par_iter()
         .map(|path| PartialPostItem::from_file(path.abs_path()))
         .collect::<Result<Vec<_>>>()?;
@@ -94,7 +92,8 @@ pub struct PostItem {
     pub title: String,
     pub tags: Vec<Tag>,
     pub created: NaiveDateTime,
-    pub updated: NaiveDateTime,
+    pub modified: NaiveDateTime,
+    pub latest_commit: Option<LatestCommitInfo>,
     pub path: AbsPath,
     pub url: SiteUrl,
     pub prev: Option<PostRef>,
@@ -109,16 +108,19 @@ pub struct PostItem {
 }
 
 impl PostItem {
-    pub fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
-        let modified = util::last_modified(&path)?;
-        let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup, modified, create_lookup)
+    pub fn from_file(path: &FilePath, context: &LoadContext) -> Result<Self> {
+        let abs_path = path.abs_path();
+        let modified = util::last_modified(&abs_path)?;
+        let markup = RawMarkupFile::from_file(abs_path)?;
+        let latest_commit = context.get_commit(path).cloned();
+        Self::from_markup(markup, modified, latest_commit, context)
     }
 
     pub fn from_markup(
         markup: RawMarkupFile<PostMetadata>,
         modified: NaiveDateTime,
-        create_lookup: bool,
+        latest_commit: Option<LatestCommitInfo>,
+        context: &LoadContext,
     ) -> Result<Self> {
         let partial =
             PartialPostItem::from_markup(markup.path.clone(), &markup.markup_meta, modified)?;
@@ -126,7 +128,7 @@ impl PostItem {
         let meta_line_count = markup.meta_line_count;
         let markup = markup.parse(ParseContext::new_post_context(
             partial.is_draft,
-            create_lookup,
+            context.opts.generate_markup_lookup,
             meta_line_count,
         ))?;
 
@@ -134,7 +136,8 @@ impl PostItem {
             title: partial.title,
             tags: partial.tags,
             created: partial.created,
-            updated: partial.updated,
+            modified: partial.updated,
+            latest_commit,
             path: partial.path,
             url: partial.url,
             prev: None,
@@ -155,7 +158,7 @@ impl PostItem {
             order: PostRefOrder {
                 id: self.id().to_string(),
                 is_draft: self.is_draft,
-                created: self.created.clone(),
+                created: self.created,
             },
         }
     }
@@ -176,6 +179,7 @@ impl TeraItem for PostItem {
             title: html_escape::encode_text(&self.title),
             url: self.url.href(),
             created: self.created.format("%FT%T%.fZ").to_string(),
+            latest_commit: self.latest_commit.as_ref().map(Into::into),
             content: &self.content,
             tags: self.tags.iter().map(TagPostContext::from).collect(),
             meta_keywords: self.tags.iter().map(|tag| tag.name.as_str()).collect(),
@@ -273,6 +277,7 @@ struct PostContext<'a> {
     title: Cow<'a, str>,
     url: Cow<'a, str>,
     created: String,
+    latest_commit: Option<CommitContext>,
     content: &'a str,
     tags: Vec<TagPostContext<'a>>,
     meta_keywords: Vec<&'a str>,
@@ -428,8 +433,11 @@ mod tests {
     use std::path::PathBuf;
 
     use super::*;
+    use crate::git::LatestCommits;
+    use crate::site::SiteOptions;
     use crate::tests::*;
-    use crate::{item::RenderContext, site::SiteContext};
+    use crate::{context::RenderContext, site::SiteContext};
+    use git2::Oid;
     use scraper::{node::Element, Html, Selector};
 
     #[test]
@@ -437,13 +445,33 @@ mod tests {
         let path = "posts/2022-01-31-test_post.dj";
         let content = fs::read_to_string(PathBuf::from("test-site").join(path))?;
         // let (path, content) = tests::raw_post1();
+        let modified = NaiveDateTime::new(
+            NaiveDate::from_ymd_opt(2022, 4, 30).unwrap(),
+            NaiveTime::from_hms_opt(1, 2, 3).unwrap(),
+        );
+
+        let ctx = LoadContext {
+            opts: &SiteOptions {
+                input_dir: "".into(),
+                output_dir: "".into(),
+                clear_output_dir: false,
+                include_drafts: false,
+                generate_feed: false,
+                include_js: false,
+                generate_markup_lookup: false,
+                git_path_offset: None,
+            },
+            latest_commits: &LatestCommits::default(),
+        };
         let post = PostItem::from_markup(
             RawMarkupFile::from_content(content, path.into())?,
-            NaiveDateTime::new(
-                NaiveDate::from_ymd_opt(2022, 4, 30).unwrap(),
-                NaiveTime::from_hms_opt(1, 2, 3).unwrap(),
-            ),
-            false,
+            modified,
+            Some(LatestCommitInfo {
+                dt: modified,
+                id: Oid::from_str("f66a95823286a8d05fc4878fb40f7391545cdb91")?,
+                is_revision: true,
+            }),
+            &ctx,
         )?;
 
         assert_eq!(post.title, "Post & Title");
@@ -476,6 +504,7 @@ mod tests {
             post.output_file(".output".into()),
             ".output/blog/2022/01/31/test_post/index.html"
         );
+        assert!(post.latest_commit.is_some());
 
         Ok(())
     }
@@ -571,6 +600,9 @@ mod tests {
         assert!(rendered.contains(r#"href="/blog/tags/tag1""#));
         assert!(rendered.contains(r#"href="/blog/tags/tag_2""#));
         assert!(rendered.contains(r#"title="Posts tagged `&lt;Tag&gt; 2`""#));
+
+        // We should reference the full commit hash somewhere
+        assert!(rendered.contains("f66a95823286a8d05fc4878fb40f7391545cdb91"));
 
         // Just make sure that code is highlighted
         let rust_code = select_inner_html(&document, r#"pre code.rust"#).unwrap();

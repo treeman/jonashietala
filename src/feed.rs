@@ -10,8 +10,8 @@ use eyre::Result;
 use tracing::debug;
 
 use crate::content::PostItem;
+use crate::context::RenderContext;
 use crate::item::Item;
-use crate::item::RenderContext;
 use crate::markup::ParseContext;
 use crate::paths::AbsPath;
 use crate::site::BASE_SITE_URL;
@@ -31,7 +31,7 @@ impl From<&PostItem> for Entry {
         Self {
             title: post.title.clone().into(),
             id: entity_id(&post.url),
-            updated: fixed_date_time(post.updated),
+            updated: fixed_date_time(post.modified),
             published: Some(fixed_date_time(post.created)),
             links: vec![Link {
                 href: post.url.href().to_string(),
@@ -103,8 +103,8 @@ impl Item for SiteFeed {
                 .content
                 .posts
                 .values()
-                .max_by_key(|post| post.updated)
-                .map(|post| fixed_date_time(post.updated))
+                .max_by_key(|post| post.modified)
+                .map(|post| fixed_date_time(post.modified))
                 .unwrap(),
             entries: ctx.content.posts.values().map(Entry::from).collect(),
             ..Default::default()

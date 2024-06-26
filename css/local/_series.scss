@@ -31,7 +31,7 @@ article.series {
 }
 
 .series-list {
-  @include flow(var(--space-m));
+  @include flow(var(--space-xs));
 
   .series-item {
     @include flow(var(--space-xs));

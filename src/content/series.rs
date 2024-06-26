@@ -1,11 +1,8 @@
+use crate::context::LoadContext;
 use crate::item::Item;
 use crate::markup::{find_markup_files, Html, Markup, MarkupLookup, ParseContext, RawMarkupFile};
 use crate::paths::AbsPath;
-use crate::{
-    content::PostItem,
-    item::{RenderContext, TeraItem},
-    site_url::SiteUrl,
-};
+use crate::{content::PostItem, context::RenderContext, item::TeraItem, site_url::SiteUrl};
 use chrono::{NaiveDate, Utc};
 use eyre::{eyre, Result};
 use itemref_derive::ItemRef;
@@ -21,7 +18,7 @@ use super::posts::{PostRef, PostRefContext};
 
 pub fn load_series(
     dir: AbsPath,
-    create_lookup: bool,
+    context: &LoadContext,
     posts: &mut BTreeMap<PostRef, PostItem>,
 ) -> Result<BTreeMap<SeriesRef, SeriesItem>> {
     let mut posts_in_series: HashMap<String, BTreeSet<Reverse<PostRef>>> = HashMap::new();
@@ -34,10 +31,10 @@ pub fn load_series(
         }
     }
 
-    let mut series = find_markup_files(&[dir])
+    let mut series = find_markup_files(&context.opts.input_dir, &[dir])
         .par_iter_mut()
         .map(|path| {
-            SeriesItem::from_file(path.abs_path(), create_lookup)
+            SeriesItem::from_file(path.abs_path(), context.opts.generate_markup_lookup)
                 .map(|serie| (serie.id.clone(), serie))
         })
         .collect::<Result<HashMap<_, _>>>()?;

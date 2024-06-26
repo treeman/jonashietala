@@ -1,12 +1,13 @@
+use crate::context::RenderContext;
 use crate::paths::AbsPath;
 use crate::util;
-use crate::{content, site::SiteContent, site_url::SiteUrl};
+use crate::{content, site_url::SiteUrl};
 use camino::{Utf8Path, Utf8PathBuf};
 use eyre::Result;
 use std::borrow::Cow;
 use std::fmt::Debug;
 use std::io::Write;
-use tera::{Context, Tera};
+use tera::Context;
 use tracing::debug;
 
 pub trait Item: Send + Sync + Debug {
@@ -19,13 +20,6 @@ pub trait Item: Send + Sync + Debug {
     fn id(&self) -> Cow<str> {
         self.url().href()
     }
-}
-
-pub struct RenderContext<'a> {
-    pub output_dir: &'a Utf8Path,
-    pub parent_context: &'a Context,
-    pub content: &'a SiteContent,
-    pub tera: &'a Tera,
 }
 
 pub trait TeraItem {

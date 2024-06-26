@@ -9,7 +9,6 @@ article.post {
   .post-series-head {
     background-color: var(--melange_a_float);
     padding: var(--space-xs);
-    @include extra-space-s;
     @include flow(var(--space-3xs));
     border: 1px dashed var(--melange_c_red);
   }
@@ -19,9 +18,9 @@ article.post {
     border-top: 1px solid var(--color-hr);
   }
 
-  .post-footer .tag-links {
-    text-align: center;
+  .post-footer .post-info {
     margin-block-start: var(--space-2xs);
+    justify-content: center;
   }
   .post-footer .post-nav {
     @include sans-serif;
