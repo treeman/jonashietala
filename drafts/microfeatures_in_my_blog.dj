@@ -1,0 +1,44 @@
+---toml
+title = "Microfeatures in my blog"
+tags = ["Blog"]
+---
+
+<https://news.ycombinator.com/item?id=40774277>
+
+# Features I have
+
+- Published and revised date
+- A [uses](/uses) page
+- Git revision
+- Spec for code blocks
+- "Notes"
+
+   - Note, Tip, Warning, Important
+   - Update (with timestamp)
+
+- Author attribution in quotes
+- Flex and gallery for images
+- Footnotes
+- Epigraphs
+- Different list types (Djot native)
+- Syntax highlight for inline code elements
+- Embed YouTube
+- Heading links
+- Projects page
+
+  Highlighted projects on the homepage
+
+- Featured posts on the homepage
+- Series
+- "Archive" contains index of all posts
+- Also a "per year" index of all posts
+
+# Featers I may implement in the future
+
+- Table of content
+- Favorite posts
+- Per-series RSS
+- Per-tag RSS
+- Git revision for static pages
+- Search
+- Better 404 page

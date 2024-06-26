@@ -1,6 +1,6 @@
 ---
 title: "Giving the blog a facelift"
-tags: ["Webpage", "CSS"]
+tags: ["Blog", "CSS"]
 ---
 
 When I [rewrote the blog in Rust][rust] I tried not to touch any of the styling, but some things annoyed me:
