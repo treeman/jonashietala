@@ -42,3 +42,6 @@ tags = ["Blog"]
 - Git revision for static pages
 - Search
 - Better 404 page
+- Summary of a post
+- Display "related" posts below the post
+- Header link icon
