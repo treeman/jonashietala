@@ -4,15 +4,19 @@ use std::{borrow::Cow, collections::HashSet};
 use tera::Context;
 
 use crate::context::LoadContext;
+use crate::git::{CommitContext, LatestCommitInfo};
 use crate::markup::{find_markup_files, Html, MarkupLookup, ParseContext, RawMarkupFile};
 use crate::{
-    context::RenderContext, item::Item, item::TeraItem, paths::AbsPath, site_url::SiteUrl,
+    context::RenderContext,
+    item::{Item, TeraItem},
+    paths::{AbsPath, FilePath},
+    site_url::SiteUrl,
 };
 
 pub fn load_standalones(dir: AbsPath, context: &LoadContext) -> Result<HashSet<StandaloneItem>> {
     let mut res = HashSet::new();
     for path in find_markup_files(&context.opts.input_dir, &[dir]).into_iter() {
-        let item = StandaloneItem::from_file(path.abs_path(), context.opts.generate_markup_lookup)?;
+        let item = StandaloneItem::from_file(&path, context)?;
         if !item.is_draft || context.opts.include_drafts {
             res.insert(item);
         }
@@ -23,6 +27,7 @@ pub fn load_standalones(dir: AbsPath, context: &LoadContext) -> Result<HashSet<S
 #[derive(Debug)]
 pub struct StandaloneItem {
     pub title: String,
+    pub latest_commit: Option<LatestCommitInfo>,
     pub path: AbsPath,
     pub url: SiteUrl,
     pub content: Html,
@@ -45,17 +50,23 @@ impl std::hash::Hash for StandaloneItem {
 }
 
 impl StandaloneItem {
-    pub fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
-        let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup, create_lookup)
+    pub fn from_file(path: &FilePath, context: &LoadContext) -> Result<Self> {
+        let abs_path = path.abs_path();
+        let markup = RawMarkupFile::from_file(abs_path)?;
+        let latest_commit = context.get_commit(path).cloned();
+        Self::from_markup(markup, latest_commit, context)
     }
 
     pub fn from_markup(
         markup: RawMarkupFile<StandaloneMetadata>,
-        create_lookup: bool,
+        latest_commit: Option<LatestCommitInfo>,
+        context: &LoadContext,
     ) -> Result<Self> {
         let meta_line_count = markup.meta_line_count;
-        let markup = markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
+        let markup = markup.parse(ParseContext::new(
+            context.opts.generate_markup_lookup,
+            meta_line_count,
+        ))?;
         let slug = markup
             .path
             .file_stem()
@@ -66,6 +77,7 @@ impl StandaloneItem {
 
         Ok(Self {
             title: markup.markup_meta.title,
+            latest_commit,
             path: markup.path,
             url,
             content: markup.html,
@@ -79,6 +91,7 @@ impl TeraItem for StandaloneItem {
     fn context(&self, _ctx: &RenderContext) -> Context {
         Context::from_serialize(StandaloneContext {
             title: html_escape::encode_text(&self.title),
+            latest_commit: self.latest_commit.as_ref().map(Into::into),
             content: &self.content.0,
         })
         .unwrap()
@@ -100,6 +113,7 @@ impl TeraItem for StandaloneItem {
 #[derive(Debug, Clone, Serialize)]
 struct StandaloneContext<'a> {
     title: Cow<'a, str>,
+    latest_commit: Option<CommitContext>,
     content: &'a str,
 }
 

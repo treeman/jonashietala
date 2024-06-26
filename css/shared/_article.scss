@@ -260,7 +260,6 @@ article {
 
   figure {
     @include overflow-bleed;
-    @include extra-space-s;
     text-align: center;
 
     display: flex;

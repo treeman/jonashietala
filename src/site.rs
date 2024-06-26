@@ -753,7 +753,8 @@ impl Site {
 
     fn rebuild_standalone(&mut self, path: AbsPath) -> Result<()> {
         info!("Standalone changed: {path}");
-        let updated = StandaloneItem::from_file(path, self.opts.generate_markup_lookup)?;
+        let file_path = self.file_path(path)?;
+        let updated = StandaloneItem::from_file(&file_path, &self.load_ctx())?;
         self.render_item(&updated)?;
 
         self.content.standalones.insert(updated);

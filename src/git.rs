@@ -14,7 +14,7 @@ lazy_static! {
         // Rework tags
         "babfc47475c92b8566fe9cba2eaa38af2376fd09",
         // Minor corrections
-        "48a1238cba939b031d68ce9069b1f31a731017e4"
+        "48a1238cba939b031d68ce9069b1f31a731017e4",
     ]
     .into();
 }
