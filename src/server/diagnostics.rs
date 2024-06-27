@@ -7,7 +7,7 @@ use serde::Serialize;
 use serde_repr::*;
 use std::collections::{HashMap, HashSet};
 
-#[allow(dead_code)]
+#[allow(dead_code, clippy::upper_case_acronyms)]
 #[derive(Debug, Serialize_repr, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum DiagnosticSeverity {
@@ -29,16 +29,14 @@ pub struct Diagnostic {
 
 pub fn generate_diagnostics(items: &[&dyn Item], site: &Site) -> HashMap<String, Vec<Diagnostic>> {
     items
-        .into_iter()
+        .iter()
         .filter_map(|item| item.source_file())
-        .filter_map(|path| {
-            generate_file_diagnostics(path, site).and_then(|d| Some((path.to_string(), d)))
-        })
+        .filter_map(|path| generate_file_diagnostics(path, site).map(|d| (path.to_string(), d)))
         .collect()
 }
 
 pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diagnostic>> {
-    let lookup = site.find_lookup_by_path(&path)?;
+    let lookup = site.find_lookup_by_path(path)?;
 
     let mut res = Vec::new();
 
@@ -82,7 +80,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
             Element::Todo(TodoTag::Todo) => {
                 push_diagnostic(
                     &e.range,
-                    format!("TODO"),
+                    "TODO".to_string(),
                     DiagnosticSeverity::WARN,
                     &mut res,
                 );
@@ -90,7 +88,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
             Element::Todo(TodoTag::Note) => {
                 push_diagnostic(
                     &e.range,
-                    format!("NOTE"),
+                    "NOTE".to_string(),
                     DiagnosticSeverity::INFO,
                     &mut res,
                 );
@@ -98,7 +96,7 @@ pub fn generate_file_diagnostics(path: &AbsPath, site: &Site) -> Option<Vec<Diag
             Element::Todo(TodoTag::Fixme) => {
                 push_diagnostic(
                     &e.range,
-                    format!("FIXME"),
+                    "FIXME".to_string(),
                     DiagnosticSeverity::WARN,
                     &mut res,
                 );
