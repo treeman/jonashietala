@@ -9,7 +9,7 @@ tags = ["Blog"]
 
 - Published and revised date
 - A [uses](/uses) page
-- Git revision
+- Git revision for posts and standalone pages
 - Spec for code blocks
 - "Notes"
 
@@ -32,14 +32,13 @@ tags = ["Blog"]
 - Series
 - "Archive" contains index of all posts
 - Also a "per year" index of all posts
+- Favorite posts
 
 # Featers I may implement in the future
 
 - Table of content
-- Favorite posts
 - Per-series RSS
 - Per-tag RSS
-- Git revision for static pages
 - Search
 - Better 404 page
 - Summary of a post
