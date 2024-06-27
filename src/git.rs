@@ -29,6 +29,8 @@ lazy_static! {
         "de126c069c9356019c9f743998f4022ee9e89a6c",
         // Recommended posts
         "099e3ffca0246c873a37f332dda0d27e0fe9c39a",
+        // Favorite system
+        "ffcc7fb0a323bd1b4c181aaf8bc2236d0bf34529",
     ]
     .into();
 }

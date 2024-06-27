@@ -55,7 +55,7 @@
 
 {% macro post_info_short(created, tags, is_draft) %}
 <div class="post-info">
-  <div class="created">{{ self::post_date(dt=created, link_year=0) }}</div>
+  <div class="created">{{ self::post_date(dt=created, link_year=1) }}</div>
   {% if is_draft %}
   <div class="draft">Draft</div>
   {% endif %}
