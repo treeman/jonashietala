@@ -6,44 +6,6 @@ This page lists the tools I use as a tinkerer and software developer, both in a 
 
 For more lists like this, check out <https://github.com/wesbos/awesome-uses>.
 
-
-# Smart wearable
-
-While tools are important to get stuff done, something even more important is taking care of yourself.
-I've tried various fitness bands, smartwatches, Oura rings and heart rate monitors but the [WHOOP][] has been way more useful than the rest.
-
-![My WHOOP. The strap is surprisingly comfortable.](/images/uses/whoop.jpg)
-
-It helps me in a few different ways:
-
-
-1. It helps me prioritize sleep
-
-   Honestly, I believe it's the most important thing to get right if you want to perform.
-   Be it in sports or as a developer.
-
-1. It helps me find factors that correlates with a good or bad recovery.
-
-   The journal feature is low-key the best thing about the [WHOOP][].
-   It asks you to log a set of behaviors and then correlates them with your recovery.
-
-   For example it has given me a large positive recovery for using a sleep mask and a large negative for drinking alcohol.
-   Not a big surprise perhaps, but it has also given me a negative score for sauna and a positive score for viewing my phone in bed before I go to sleep.
-
-   Of course, you shouldn't blindly trust this, but I like how it can help you make changes to your routine.
-   If you know that drinking alcohol or eating late will reduce your recovery the upcoming day,
-   you may not be that willing to go through with it.
-
-1. It helps me not to overreach and other days push me to train harder.
-
-   Especially important if I've been sick or down.
-
-3. I can always wear it, so it's more accurate than any alternative for me.
-
-   I wear it when I sleep, shower, lift weights and with [WHOOP's boxers][boxer] I don't even notice it during grappling training, where you can't have anything on your wrists or your fingers.
-
-Prioritize your health and fitness rather than rewriting your [Neovim][] configuration yet again, it'll be much more worth it.
-
 # Development
 
 ![This is from my main monitor with lots of screen space.](/images/uses/neovim_wide.png)
@@ -60,7 +22,6 @@ I have quite a few plugins and tweaks, here's a list of my favorite ones:
 - [conform.nvim][] to format files on save.
 - [nvim-treesitter][] for better syntax highlighting and [nvim-treesitter-textobjects][] for jumping between parts of the code.
 - [neogit][], [vim-fugitive][], and [gitsigns.nvim][] general git handling.
-- [flash.nvim][] for more predictable and faster jumping/searching.
 - Basic LSP setup with [nvim-lspconfig][], [mason.nvim][] and [mason-lspconfig.nvim][].
 
 See [my config files][neovim-config] for more.
@@ -140,11 +101,11 @@ Controversial I know, but I don't think you need more keys (except if you're gam
 All you need is a well-designed layout and a lot of dedication to internalize it.
 See my [series about the T-34 keyboard layout](/series/t-34/) for the layout I use.
 
-I use a trackball, the Kensington SlimBlade Trackball, instead of a mouse for the same reason I use a tiny keyboard:
+I use a trackball, the [Kensington SlimBlade Trackball][], instead of a mouse for the same reason I use a tiny keyboard:
 to combat RSI.
 It's been working well, no complaints about it.
 
-For voice input I have a Blue Microphone Snowball iCE.
+For voice input I have a [Blue Microphone Snowball iCE][].
 It would be cool to have an awesome podcasting microphone, but that's just overkill.
 Maybe if this one dies on me.
 
@@ -154,13 +115,9 @@ Maybe if this one dies on me.
 
 - I try to use [Todoist][] to track my tasks and todos, but sometimes I keep them in my personal wiki folder instead.
 
-- A home office.
-
-  Working remotely isn't just good for skipping the commute, but for the ability to focus without disturbance.
-
 # Other hardware & Gadgets
 
-- For note taking I use [reMarkable 2][].
+- For note-taking I use the [reMarkable 2][].
 
   I don't use it for anything fancy, it's just nice to sometimes write notes or plan things "on paper". The writing experience really does feel good on it.
 
@@ -169,14 +126,27 @@ Maybe if this one dies on me.
   It's a great phone and I love being able to super quickly replace the battery.
   But honestly, I should use it less (don't we all?) so I've tried to remove all but the most essential apps.
 
-  I've installed [CalyxOS][] with [microG][] for a de-Googled experience---it works great.
+  I've installed [CalyxOS][] with [microG][] for a de-Googled experience.
+  I can can warmly recommend it, [CalyxOS][] is great.
 
-- A Garmin Instinct 2X Solar 
+- A [Garmin Instinct 2X Solar][] smartwatch to keep track of time and give me notifications.
 
-- WHOOP
+  I used to care more about measuring steps, heart rate, sleep etc but I've lost interest a little.
+  I still glance at them from time to time but I'd say 95% of the value is in the time and notifications, reducing the need to look at the phone.
 
-- VORON Trident
+  Why not a simpler watch then?
+  Because I get almost 30 days of battery life with this one.
+  I hate charging things all the time.
 
+- I also have a [WHOOP][] band.
+
+  The [WHOOP's boxers][boxer] is actually the killer feature of [WHOOP][] for me as it allows me to use the tracking device using BJJ practice.
+  There are a lot of other features and their app is actually quite nice but as I said I've been really toning down the obsession with metrics lately.
+
+- A [VORON Trident][] 3D printer.
+
+  For when I want to do something creative away from the computer.
+  Check out the [in-depth build log][VORON Trident] I made.
 
 [Neovim]: https://neovim.io/
 [neovim-config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
@@ -212,3 +182,9 @@ Maybe if this one dies on me.
 [vim-fugitive]: https://github.com/tpope/vim-fugitive
 [microG]: https://calyxos.org/docs/guide/microg/
 [CalyxOS]: https://calyxos.org/
+[Kensington SlimBlade Trackball]: https://www.kensington.com/p/products/ergonomic-desk-accessories/ergonomic-input-devices/slimblade-trackball/
+[Blue Microphone Snowball iCE]: https://www.logitechg.com/en-us/products/streaming-gear/snowball-ice-usb-microphone.html
+[Garmin Instinct 2X Solar]: https://www.garmin.com/sv-SE/p/884585/pn/010-02805-00
+[VORON Trident]: /series/voron_trident
+
+
