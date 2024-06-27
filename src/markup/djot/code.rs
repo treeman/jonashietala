@@ -162,7 +162,7 @@ mod tests {
 let x = 2;
 ```";
         let res = convert(s)?;
-        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="lang rust" data-lang="rust"></div><pre><code class="highlight rust">"#));
+        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="descr" data-descr="rust"></div><pre><code class="highlight rust">"#));
         assert!(res.ends_with("</code></pre></div>"));
         Ok(())
     }
@@ -173,7 +173,7 @@ let x = 2;
 ```rust
 ```";
         let res = convert(s)?;
-        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="lang rust" data-lang="rust"></div><pre><code class="highlight rust">"#));
+        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="descr" data-descr="rust"></div><pre><code class="highlight rust">"#));
         assert!(res.ends_with("</code></pre></div>"));
         Ok(())
     }
@@ -185,7 +185,7 @@ let x = 2;
 let square x = x * x
 ```";
         let res = convert(s)?;
-        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="lang ml" data-lang="ml"></div><pre><code class="highlight ml">"#));
+        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="descr" data-descr="ml"></div><pre><code class="highlight ml">"#));
         assert!(res.ends_with("</code></pre></div>"));
         Ok(())
     }
@@ -228,7 +228,7 @@ let square x = x * x
 x->y
 ```";
         let res = convert(s)?;
-        assert_eq!(res, "<div class=\"code-wrapper\"><div class=\"lang c\" data-lang=\"c\"></div><pre><code class=\"highlight c\"><span class=\"source c\">x<span class=\"punctuation accessor c\">-&gt;</span>y\n</span></code></pre></div>");
+        assert_eq!(res, "<div class=\"code-wrapper\"><div class=\"descr\" data-descr=\"c\"></div><pre><code class=\"highlight c\"><span class=\"source c\">x<span class=\"punctuation accessor c\">-&gt;</span>y\n</span></code></pre></div>");
         Ok(())
     }
 
@@ -254,7 +254,7 @@ let x = 2;
         let res = convert(s)?;
         assert_eq!(
             res,
-            r#"<div class="code-wrapper"><div class="lang rust" data-lang="rust"></div><div class="path" data-path="file.rs"></div><pre><code class="highlight rust"><span class="source rust"><span class="storage type rust">let</span> x <span class="keyword operator rust">=</span> <span class="constant numeric integer decimal rust">2</span><span class="punctuation terminator rust">;</span>
+            r#"<div class="code-wrapper"><div class="descr" data-descr="file.rs"></div><pre><code class="highlight rust"><span class="source rust"><span class="storage type rust">let</span> x <span class="keyword operator rust">=</span> <span class="constant numeric integer decimal rust">2</span><span class="punctuation terminator rust">;</span>
 </span></code></pre></div>"#
         );
         Ok(())
@@ -270,7 +270,7 @@ Text
         let res = convert(s)?;
         assert_eq!(
             res,
-            r#"<div class="code-wrapper"><div class="path" data-path="file"></div><pre><code>Text
+            r#"<div class="code-wrapper"><div class="descr" data-descr="file"></div><pre><code>Text
 </code></pre></div>"#
         );
         Ok(())

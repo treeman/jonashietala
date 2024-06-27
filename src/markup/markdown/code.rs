@@ -123,7 +123,7 @@ mod tests {
 let x = 2;
 ```";
         let res = convert(s);
-        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="lang rust" data-lang="rust"></div><pre><code class="highlight rust">"#));
+        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="descr" data-descr="rust"></div><pre><code class="highlight rust">"#));
         assert!(res.trim_end().ends_with("</code></pre></div>"));
     }
 
@@ -134,7 +134,7 @@ let x = 2;
 let square x = x * x
 ```";
         let res = convert(s);
-        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="lang ml" data-lang="ml"></div><pre><code class="highlight ml">"#));
+        assert!(res.starts_with(r#"<div class="code-wrapper"><div class="descr" data-descr="ml"></div><pre><code class="highlight ml">"#));
         assert!(res.trim_end().ends_with("</code></pre></div>"));
     }
 
