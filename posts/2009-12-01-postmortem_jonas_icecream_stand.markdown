@@ -4,6 +4,7 @@ title: "Postmortem: Jonas IceCream Stand"
 category: Postmortems
 tags: Postmortems, Experimental Gameplay Project
 time: 15:03:04
+favorite: true
 ---
 Ah my latest game [Jonas IceCream Stand](/blog/2009/11/25/jonas_icecream_stand/) is finished and up and running and I'm really proud of it! And thanks for the feedback guys, it's always welcome.
 

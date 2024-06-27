@@ -2,6 +2,7 @@
 title = "Let's build a VORON: Wrap-up"
 tags = ["3D printing", "VORON"]
 series = "voron_trident"
+favorite = true
 ---
 
 It's finally done™.

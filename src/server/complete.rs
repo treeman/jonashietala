@@ -766,7 +766,7 @@ mod tests {
         let items = complete(
             "](/",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -863,7 +863,7 @@ mod tests {
         let def_items = complete(
             "[tag]: /",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -874,7 +874,7 @@ mod tests {
         let heading_items = complete(
             "](/blog/2022/02/01/feb_post#",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -909,7 +909,7 @@ mod tests {
         let def_heading_items = complete(
             "[tag]: /blog/2022/02/01/feb_post#",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -931,7 +931,7 @@ mod tests {
         let items = complete(
             "](#",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -952,8 +952,8 @@ mod tests {
                     content: "Regular heading".into(),
                     level: 2,
                     context: HeadingContext::SameFile {
-                        start_row: 55,
-                        end_row: 56
+                        start_row: 56,
+                        end_row: 57
                     }
                 }))
             })
@@ -962,7 +962,7 @@ mod tests {
         let def_items = complete(
             "[tag]: #",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -984,7 +984,7 @@ mod tests {
         let items = complete(
             "[some text][",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -1003,8 +1003,8 @@ mod tests {
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
-                    start_row: 34,
-                    end_row: 35
+                    start_row: 35,
+                    end_row: 36
                 }))
             })
         );
@@ -1024,7 +1024,7 @@ mod tests {
             // Not the first in line, to only complete link def tags.
             "x [",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -1043,8 +1043,8 @@ mod tests {
                 info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
-                    start_row: 34,
-                    end_row: 35
+                    start_row: 35,
+                    end_row: 36
                 }))
             })
         );
@@ -1053,7 +1053,7 @@ mod tests {
         let items = complete(
             "[",
             0,
-            6,
+            7,
             test_site
                 .input_path("posts/2022-01-31-test_post.dj")
                 .as_str(),
@@ -1071,7 +1071,7 @@ mod tests {
                 kind: CompletionItemKind::Field,
                 info: Some(ExtraCompletionInfo::BrokenLink(BrokenLinkInfo {
                     tag: "broken_tag".into(),
-                    row: 32
+                    row: 33
                 }))
             })
         );

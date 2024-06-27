@@ -4,6 +4,7 @@ title: "The Experimental Games"
 category: Prototyping
 tags: Postmortems, Experimental Gameplay Project
 time: 11:26:56
+favorite: true
 ---
 
 It's been nine months since I started doing Experimental Games and I think it's time to evaluate and maybe go in a new direction.

@@ -32,13 +32,14 @@
           <span class="site-title"><a href="/">~jonashietala.se</a></span>
           <nav>
             <ul>
-              {{ highlight::a_highlight(href="/archive", name="Archive") }} {{
-              highlight::a_highlight(href="/series", name="Series") }} {{
-              highlight::a_highlight(href="/projects", name="Projects") }} {{
-              highlight::a_highlight(href= "mailto:" ~ mail, name="Contact") }}
-              {{ highlight::a_highlight(href="/about", name="About") }} {% if
-              include_drafts %} {{ highlight::a_highlight(href="/drafts",
-              name="Drafts") }} {% endif %}
+              {{ highlight::a_highlight(href="/archive", name="Archive") }}
+              {{ highlight::a_highlight(href="/series", name="Series") }}
+              {{ highlight::a_highlight(href="/projects", name="Projects") }}
+              {{ highlight::a_highlight(href= "mailto:" ~ mail, name="Contact") }}
+              {{ highlight::a_highlight(href="/about", name="About") }}
+              {% if include_drafts %}
+                {{ highlight::a_highlight(href="/drafts", name="Drafts") }}
+              {% endif %}
             </ul>
           </nav>
         </div>
@@ -55,6 +56,7 @@
             <li><a href="/archive">Archive</a></li>
             <li><a href="/series">Series</a></li>
             <li><a href="/blog/tags">Tags</a></li>
+            <li><a href="/favorite">Favorite posts</a></li>
             <li><a href="/feed.xml">RSS</a></li>
           </ul>
         </nav>

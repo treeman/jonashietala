@@ -2,6 +2,7 @@
 title: "Let's build a VORON: Build start"
 tags: ["3D printing", "VORON", "New Stuff"]
 series: voron_trident
+favorite: true
 ---
 
 ![The end goal, as rendered by Autodesk's online viewer](/images/trident/trident.png)

@@ -2,6 +2,7 @@
 layout: post
 title: "Summer job at Configura"
 tags: Programming
+favorite: true
 ---
 
 This is a wrap up of my 5 weeks at [Configura][] as a summer internship. There were 6 interns and we had two teams doing different things. I worked with two other awesome guys and it was great!

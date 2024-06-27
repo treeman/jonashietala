@@ -1,6 +1,7 @@
 ---
 title: "I beat FTL on Hard with all ships in the game"
 tags: [Gaming, FTL, "Steam Deck"]
+favorite: true
 ---
 
 For 2023 I wanted to do something different than usual---I wanted to start playing computer games again.

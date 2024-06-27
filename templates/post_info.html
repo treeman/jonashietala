@@ -8,6 +8,13 @@
 </time>
 {% endmacro post_date %}
 
+{% macro post_title(url, title, favorite) %}
+<a href="{{ url }}" class="title">{{ title }}</a>
+{% if favorite %}
+  <span class="favorite"><a href="/favorite">★</a></span>
+{% endif %}
+{% endmacro post_title %}
+
 {% macro rev_link(commit) %}
 <a
   class="commit"
@@ -60,14 +67,19 @@
     >{% endfor %}
   </nav>
 </div>
-{% endmacro post_info_short %} {% macro post_items(posts) %}
+{% endmacro post_info_short %}
+
+{% macro post_items(posts) %}
 <section class="post-items">
   {% for post in posts %}
   <div class="post-item">
-    <h2><a href="{{ post.url }}" class="title">{{ post.title }}</a></h2>
-    {% if post.created %} {{ self::post_info_short(created=post.created,
-    tags=post.tags, is_draft=post.is_draft) }} {% endif %}
+    <h2>
+      {{ self::post_title(url=post.url, title=post.title, favorite=post.favorite) }}
+    </h2>
+    {% if post.created %}
+      {{ self::post_info_short(created=post.created, tags=post.tags, is_draft=post.is_draft) }}
+    {% endif %}
   </div>
   {% endfor %}
 </section>
-{% endmacro post_info %}
+{% endmacro post_items %}

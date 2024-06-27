@@ -2,6 +2,7 @@
 title: "The T-34 keyboard layout"
 tags: Computer, Keyboards, T-34
 series: t-34
+favorite: true
 ---
 
 A couple of months ago I started looking into ergonomical keyboards; mainly split keyboards with much fewer keys, like the [36-key Gergoplex][GergoPlex] and the [44-key Kyria][Kyria]. I may write another post about the reasons why, but long story short I started getting pain in my thumbs, fingers, wrist and forearm, and I thought it was time to do something about it.

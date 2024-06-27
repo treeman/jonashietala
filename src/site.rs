@@ -260,6 +260,7 @@ impl SiteRenderOpts<'_> {
         let tags_changed = new.tags != old.tags;
         let series_changed = new.series != old.series;
         let recommended_changed = new.recommended != old.recommended;
+        let favorite_changed = new.favorite != old.favorite;
         let is_draft = old.is_draft || new.is_draft;
 
         SiteRenderOpts {
@@ -268,13 +269,17 @@ impl SiteRenderOpts<'_> {
             // It's excessive to re-render ALL tags, just affected tags should be enough.
             // It's excessive to re-render ALL series, just affected should be enough.
             all_posts: title_changed || series_changed,
-            tags_archives: title_changed || tags_changed,
-            tags_list: tags_changed,
-            post_archives: title_changed,
-            draft_archive: is_draft && title_changed,
-            series_archive: title_changed || series_changed,
+            tags_archives: title_changed || tags_changed || favorite_changed,
+            tags_list: tags_changed || favorite_changed,
+            post_archives: title_changed || favorite_changed,
+            draft_archive: is_draft && (title_changed || favorite_changed),
+            series_archive: title_changed || series_changed || favorite_changed,
             series: title_changed || series_changed,
-            homepage: title_changed || recommended_changed || tags_changed || series_changed,
+            homepage: title_changed
+                || recommended_changed
+                || tags_changed
+                || series_changed
+                || favorite_changed,
             extra_render: vec![new],
             feed: true,
             ..Default::default()
@@ -895,6 +900,15 @@ impl Site {
                 series_archive: true,
                 ..Default::default()
             },
+            "post_info.html" => SiteRenderOpts {
+                all_posts: true,
+                all_standalones: true,
+                draft_archive: true,
+                post_archives: true,
+                tags_archives: true,
+                homepage: true,
+                ..Default::default()
+            },
             _ => {
                 error!("Unknown template {template}");
                 SiteRenderOpts::all()
@@ -1106,6 +1120,7 @@ mod tests {
         assert!(rel_path("blog/tags/index.html").exists());
         assert!(rel_path("blog/tags/why_cryptocurrencies/index.html").exists());
         assert!(rel_path("archive/index.html").exists());
+        assert!(rel_path("favorite/index.html").exists());
         assert!(rel_path("series/index.html").exists());
         assert!(rel_path("series/t-34/index.html").exists());
         assert!(rel_path("css/main.css").exists());

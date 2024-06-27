@@ -4,6 +4,7 @@ title: "Postmortem: The Chronicles of Bim: The 100 Fake Afros"
 category: Postmortems
 tags: Postmortems, Experimental Gameplay Project
 time: 16:20:34
+favorite: true
 ---
 My first shooter! It's working (although a friend got a null pointer error) so I'm a little happy.
 

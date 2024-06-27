@@ -2,6 +2,7 @@
 title = "Autocomplete with nvim-cmp"
 tags = ["Lua", "Neovim"]
 series = "extending_neovim_for_my_blog"
+favorite = true
 ---
 
 ![Autocomplete tags in the frontmatter.](/images/extend_blog/complete_tags.png)

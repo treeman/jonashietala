@@ -2,6 +2,7 @@
 title = "Let's build a VORON: More mods"
 tags = ["3D printing", "VORON"]
 series = "voron_trident"
+favorite = true
 ---
 
 The printer is done, but I feel one of the best part of a VORON printer is the ability to modify and personalize it.

@@ -9,7 +9,7 @@ use crate::{
 };
 
 pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {
-    let posts: Vec<PostRef> = posts
+    let post_refs: Vec<PostRef> = posts
         .iter()
         .filter_map(|(post_ref, post)| {
             if post.is_draft {
@@ -23,24 +23,41 @@ pub fn post_archives(posts: &BTreeMap<PostRef, PostItem>) -> Vec<ArchiveItem> {
     let mut by_year: HashMap<i32, Vec<PostRef>> = HashMap::new();
     let mut by_year_month: HashMap<(i32, u32), Vec<PostRef>> = HashMap::new();
 
-    for post in posts.iter() {
+    for post in post_refs.iter() {
         by_year
             .entry(post.order.created.year())
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(post.clone());
 
         by_year_month
             .entry((post.order.created.year(), post.order.created.month()))
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(post.clone());
     }
 
-    let mut res = vec![ArchiveItem {
-        title: "All posts".to_string(),
-        url: SiteUrl::parse("/blog").unwrap(),
-        posts,
-        tag_filter: None,
-    }];
+    let favorite = post_refs
+        .iter()
+        .filter(|post_ref| {
+            let post = posts.get(post_ref).unwrap();
+            post.favorite
+        })
+        .map(Clone::clone)
+        .collect();
+
+    let mut res = vec![
+        ArchiveItem {
+            title: "All posts".to_string(),
+            url: SiteUrl::parse("/blog").unwrap(),
+            posts: post_refs,
+            tag_filter: None,
+        },
+        ArchiveItem {
+            title: "Favorite posts".to_string(),
+            url: SiteUrl::parse("/favorite").unwrap(),
+            posts: favorite,
+            tag_filter: None,
+        },
+    ];
     res.extend(by_year.into_iter().map(|(year, posts)| ArchiveItem {
         title: format!("{}", year),
         url: SiteUrl::parse(&format!("/blog/{}", year)).unwrap(),

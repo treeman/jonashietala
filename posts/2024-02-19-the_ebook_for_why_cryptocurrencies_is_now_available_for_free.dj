@@ -1,6 +1,7 @@
 ---toml
 title = "The eBook for 'Why Cryptocurrencies?' is now available for free"
 tags = ["Why Cryptocurrencies?", "Self-publishing"]
+favorite = true
 ---
 
 The eBook for my book [Why Cryptocurrencies?][] is now [available for free][dl].

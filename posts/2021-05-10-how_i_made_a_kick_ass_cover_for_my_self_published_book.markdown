@@ -2,6 +2,7 @@
 title: "How I made a kick-ass cover for my self-published book"
 tags: [Why Cryptocurrencies?, Self-publishing]
 series: making-cryptobook
+favorite: true
 ---
 
 If you want to publish a book, one of the most important things to consider is the cover---after all, we judge the book by the cover.
@@ -87,7 +88,7 @@ How to give feedback is an art in itself, here are some concrete things I focuse
 
 For example "I like the birds" isn't as good as "I like the birds because they give a nice dystopian feeling", which lead to us adding a bunch more details that strengthened the dystopian cyberpunk vibe.
 
-![So very cozy](/images/whycrypto/birds.png)
+![](/images/whycrypto/birds.png)
 
 But sometimes it's very difficult. In the first drafts, I didn't like the person in the middle. I couldn't really explain why... Maybe it didn't feel finished? But when pressed I had to settle with "I don't know".
 

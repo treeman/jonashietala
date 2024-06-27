@@ -99,6 +99,7 @@ pub struct PostItem {
     pub prev: Option<PostRef>,
     pub next: Option<PostRef>,
     pub recommended: bool,
+    pub favorite: bool,
     pub content: Html,
     pub markup: Markup,
     pub markup_lookup: Option<MarkupLookup>,
@@ -148,6 +149,7 @@ impl PostItem {
             series_id: partial.series_id,
             series: None,
             recommended: partial.recommended,
+            favorite: partial.favorite,
             is_draft: partial.is_draft,
         })
     }
@@ -184,6 +186,7 @@ impl TeraItem for PostItem {
             tags: self.tags.iter().map(TagPostContext::from).collect(),
             meta_keywords: self.tags.iter().map(|tag| tag.name.as_str()).collect(),
             series,
+            favorite: self.favorite,
             prev: self.prev.as_ref().map(|x| PostRefContext::from_ref(x, ctx)),
             next: self.next.as_ref().map(|x| PostRefContext::from_ref(x, ctx)),
             is_draft: self.is_draft,
@@ -214,6 +217,7 @@ pub struct PartialPostItem {
     pub path: AbsPath,
     pub url: SiteUrl,
     pub recommended: bool,
+    pub favorite: bool,
     pub series_id: Option<String>,
     pub is_draft: bool,
 }
@@ -249,6 +253,7 @@ impl PartialPostItem {
             url,
             series_id: meta.series.clone(),
             recommended: meta.recommended.unwrap_or(false),
+            favorite: meta.favorite.unwrap_or(false),
             is_draft: post_dir.is_draft,
         })
     }
@@ -279,6 +284,7 @@ struct PostContext<'a> {
     created: String,
     latest_commit: Option<CommitContext>,
     content: &'a str,
+    favorite: bool,
     tags: Vec<TagPostContext<'a>>,
     meta_keywords: Vec<&'a str>,
     series: Option<PostSeriesContext<'a>>,
@@ -328,6 +334,7 @@ pub struct PostRefContext<'a> {
     url: Cow<'a, str>,
     created: String,
     tags: Vec<TagPostContext<'a>>,
+    favorite: bool,
     is_draft: bool,
 }
 
@@ -338,6 +345,7 @@ impl<'a> PostRefContext<'a> {
             url: post.url.href(),
             created: post.created.format("%FT%T%.fZ").to_string(),
             tags: post.tags.iter().map(TagPostContext::from).collect(),
+            favorite: post.favorite,
             is_draft: post.is_draft,
         }
     }
@@ -355,6 +363,7 @@ pub struct PostMetadata {
     pub time: Option<String>,
     pub series: Option<String>,
     pub recommended: Option<bool>,
+    pub favorite: Option<bool>,
 }
 
 #[derive(Debug)]
@@ -586,8 +595,10 @@ mod tests {
             select_inner_html(&document, "title").unwrap(),
             "Jonas Hietala: Post &amp; Title"
         );
-        assert!(rendered
-            .contains(r#"<h1><a href="/blog/2022/01/31/test_post">Post &amp; Title</a></h1>"#));
+        assert!(rendered.contains(
+            r#"<a href="/blog/2022/01/31/test_post" class="title">Post &amp; Title</a>"#
+        ));
+        assert!(rendered.contains(r#"<span class="favorite"><a href="/favorite">★</a></span>"#));
         assert!(rendered.contains(r#"<time datetime="2022-01-31T07:07:00Z""#));
         assert!(
             rendered.contains(r##"<h2><a href="#Header-1" class="heading-ref">Header 1</a></h2>"##)

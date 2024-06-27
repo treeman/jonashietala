@@ -2,6 +2,7 @@
 layout: post
 title: "5 Years at Linköping's University"
 tags: Life, School
+favorite: true
 ---
 
 I recently finished my master's degree (civilingenjör or civil engineering) at Linköping's University. At first it felt like 5 years would be an eternity, but in hindsight it was over in a flash. my gut feeling is that I haven't learnt or done anything of note, except you know actually finishing my degree, but if I sit down and think about it I have done some things. Actually quite a lot of things.
@@ -24,7 +25,7 @@ At first we had an introductory course where we built digital clocks and counter
 
 The digital circuit labs were followed by a digital project of our own choice. We [designed a processor][MARC] which could run the [Core Wars 88 standard][corestd] and we simulated it on an FPGA.
 
-![The main block schema for the processor](https://camo.githubusercontent.com/629c93393e92277b309693a5a99228a50b2bcc98/68747470733a2f2f7261772e6769746875622e636f6d2f747265656d616e2f4469676974616c2d6b6f6e737472756b74696f6e2f6d61737465722f5265706f727425323025323625323070726573656e746174696f6e2f6875767564626c6f636b736368656d612e706e67)
+![The main block schema for the processor](/images/marc_schema.png)
 
 And here is a small video of the simulation in action:
 

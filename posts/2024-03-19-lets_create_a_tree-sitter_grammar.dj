@@ -1,6 +1,7 @@
 ---toml
 title = "Let's create a Tree-sitter grammar"
 tags = ["Djot", "Tree-sitter", "C", "Rust", "Neovim"]
+favorite = true
 ---
 
 One of my favorite features in Neovim is the Tree-sitter integration.

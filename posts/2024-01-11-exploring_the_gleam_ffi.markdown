@@ -2,6 +2,7 @@
 title: "Exploring the Gleam FFI"
 tags: [Gleam, Rust, Erlang, Elixir]
 recommended: true
+favorite: true
 ---
 
 My brain is a curious thing.

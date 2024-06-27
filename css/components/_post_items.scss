@@ -2,11 +2,22 @@
 @use "../components/system" as *;
 
 .post-items {
-  --flow-space: var(--space-m);
-}
+  --flow-space: var(--space-s);
 
-.post-items .post-item {
-  h2 {
-    @include font-size("l");
+  .post-item {
+    h2 {
+      @include font-size("l");
+    }
+
+    .favorite {
+      vertical-align: text-top;
+      &,
+      a {
+        color: var(--color-highlight-favorite);
+      }
+      a:hover {
+        color: var(--color-link-hover);
+      }
+    }
   }
 }

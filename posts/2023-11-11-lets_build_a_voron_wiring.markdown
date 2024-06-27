@@ -2,6 +2,7 @@
 title: "Let's build a VORON: Wiring"
 tags: ["3D printing", "VORON"]
 series: voron_trident
+favorite: true
 ---
 
 > Dread it. Run from it. Wiring arrives all the same.

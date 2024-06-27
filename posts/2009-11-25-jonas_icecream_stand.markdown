@@ -1,6 +1,7 @@
 ---
 title: "Jonas IceCream Stand"
 tags: Games, Experimental Gameplay Project
+favorite: true
 ---
 
 Ahoy there! This time I'll take you along for a ride with an arty Tycoon game.

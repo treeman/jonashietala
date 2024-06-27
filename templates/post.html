@@ -10,7 +10,9 @@
       >
     </h2>
     {% endif %}
-    <h1><a href="{{url}}">{{title}}</a></h1>
+    <h1>
+      {{ macros::post_title(url=url, title=title, favorite=favorite) }}
+    </h1>
     {{ macros::post_info_long(created=created, latest_commit=latest_commit, tags=tags, is_draft=is_draft) }}
   </header>
 

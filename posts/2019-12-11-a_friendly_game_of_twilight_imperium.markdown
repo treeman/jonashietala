@@ -1,6 +1,7 @@
 ---
 title: "A friendly game of Twilight Imperium"
 tags: Gaming, Twilight Imperium
+favorite: true
 ---
 
 A few weeks ago I played my first game of Twilight Imperium (Fourth Edition). It was *fantastic*.

@@ -2,6 +2,7 @@
 title: "Writing lessons learned after writing a book"
 tags: [Why Cryptocurrencies?, Writing, Self-publishing]
 series: making-cryptobook
+favorite: true
 ---
 
 > A good writer isn't born; a good writer is created

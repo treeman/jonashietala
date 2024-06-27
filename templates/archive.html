@@ -8,6 +8,13 @@ content %}
   </div>
   {% else %}
   <h1><span>{{ title }}</span></h1>
+
+  {% if url == "/blog" %}
+  <div class="favorite-descr">
+    My <a href="/favorite">favorite posts</a> are marked with a <span class="favorite">★</span>.
+  </div>
+  {% endif %}
+
   {% endif %} {{ macros::post_items(posts=posts) }}
 </article>
 {% endblock content %}

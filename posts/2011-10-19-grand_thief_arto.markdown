@@ -1,6 +1,7 @@
 ---
 title: "Grand Thief Arto"
 tags: Games
+favorite: true
 ---
 
 Here's me and Li's game for our school course. The game isn't tweaked too much but it's a game with some fairly cool ideas.

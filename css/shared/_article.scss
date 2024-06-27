@@ -35,6 +35,20 @@ article {
     }
   }
 
+  h1 .favorite {
+    display: inline-block;
+    position: relative;
+    top: -3px;
+    vertical-align: baseline;
+    &,
+    a {
+      color: var(--color-highlight-favorite);
+    }
+    a:hover {
+      color: var(--color-link-hover);
+    }
+  }
+
   // All headers are wrapped in sections in Djot,
   // so the margin on the `:not(:first-child)` headers will never happen.
   // Remove `--flow-space` because it will be introduced from `@include flow`

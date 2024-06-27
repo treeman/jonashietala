@@ -4,11 +4,13 @@ title: "Postmortem: Balls"
 category: Postmortems
 tags: Postmortems, Experimental Gameplay Project
 time: 12:33:38
+favorite: true
 ---
 
 So it's been what? Two, three years since I discovered the art of programming and I haven't made one single game?! Well now I'm not counting the visual basic nightmare *mastermind* I made a long time ago but a real game. Whatever that means. I've had these monster-projects;
 
 +   *Point and click monkey island style adventure game*  
+
     The beginning c++ adventure for me. Kinda harsh start up don't you think? I thought so too - it never got anywhere near completion or playability.
 
 +   *Another heavy game*

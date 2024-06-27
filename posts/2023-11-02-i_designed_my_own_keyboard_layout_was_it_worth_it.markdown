@@ -2,6 +2,7 @@
 title: "I designed my own keyboard layout. Was it worth it?"
 tags: [Computer, Keyboards, T-34]
 series: t-34
+favorite: true
 ---
 
 Almost two and a half years ago I embarked on the journey to change keyboard layout.

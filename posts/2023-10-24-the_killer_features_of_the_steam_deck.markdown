@@ -1,6 +1,7 @@
 ---
 title: "The killer features of the Steam Deck"
 tags: ["Gaming", "Steam Deck"]
+favorite: true
 ---
 
 In the beginning of the year I gave myself a late Christmas gift and bought a [Steam Deck][] for myself.

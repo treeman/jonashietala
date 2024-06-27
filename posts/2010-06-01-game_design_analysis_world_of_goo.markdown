@@ -4,9 +4,10 @@ title: "Game Design Analysis: World of Goo"
 category: Game Design Course
 tags: Game Design
 time: 16:00:10
+favorite: true
 ---
 
-<a id="top">Top</a>
+<a id="top"></a>
 
 1. [Introduction]
 1. [Analysis]

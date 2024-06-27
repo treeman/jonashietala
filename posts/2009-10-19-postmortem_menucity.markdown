@@ -4,6 +4,7 @@ title: "Postmortem: MenuCity"
 category: Postmortems
 tags: Postmortems, Experimental Gameplay Project
 time: 21:01:52
+favorite: true
 ---
 Good times, good times. [MenuCity](/blog/2009/10/13/menucity//) has been out a while and thanks for all the positive and constructive feedback guys, it's like my food doing this (programming is my air and the fun is the water... err). Anyway here's the postmortem of my latest, and greatest, game.
 

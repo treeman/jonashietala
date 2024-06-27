@@ -15,6 +15,20 @@ lazy_static! {
         "babfc47475c92b8566fe9cba2eaa38af2376fd09",
         // Minor corrections
         "48a1238cba939b031d68ce9069b1f31a731017e4",
+        // Recommended posts
+        "67bc27e0804bd0219599727ae50d5976a760d821",
+        // Content update after rust rewrite
+        "9208bc3505c056335695112f127ca70d0c20b79e",
+        // Better image handling
+        "80ca420bad3085c5d803df4c78e683f36f22c5c4",
+        // Reorganize tags
+        "cffe82c533d220840743301b6e2db6917646ebfb",
+        // Formatting and other small fixes
+        "fd2f5d679d52132aacb603c3aa7752feeaeb1339",
+        // Recommended posts
+        "de126c069c9356019c9f743998f4022ee9e89a6c",
+        // Recommended posts
+        "099e3ffca0246c873a37f332dda0d27e0fe9c39a",
     ]
     .into();
 }
@@ -147,11 +161,11 @@ mod tests {
             x.get_path("posts/2014-04-27-ores.markdown")
                 == Some(&LatestCommitInfo {
                     dt: NaiveDateTime::new(
-                        NaiveDate::from_ymd_opt(2023, 10, 1).unwrap(),
-                        NaiveTime::from_hms_opt(14, 18, 24).unwrap()
+                        NaiveDate::from_ymd_opt(2014, 4, 27).unwrap(),
+                        NaiveTime::from_hms_opt(17, 55, 40).unwrap()
                     ),
-                    id: Oid::from_str("fd2f5d679d52132aacb603c3aa7752feeaeb1339")?,
-                    is_revision: true
+                    id: Oid::from_str("b6f61cd4154b23b05b65e37cf9097fa3d3d9113f")?,
+                    is_revision: false
                 })
         );
 

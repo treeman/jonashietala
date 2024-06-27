@@ -1,6 +1,7 @@
 ---
 title: "My Minions"
 tags: Games, Ludum Dare
+favorite: true
 ---
 
 So I think I made it! It became a pretty different game from what I set out to create, but I'm glad with how it turned out.

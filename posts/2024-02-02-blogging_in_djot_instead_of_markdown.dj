@@ -1,6 +1,7 @@
 ---toml
 title = "Blogging in Djot instead of Markdown"
 tags = ["Djot", "Blog", "Rust"]
+favorite = true
 ---
 
 ::: epigraph

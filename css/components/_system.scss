@@ -27,6 +27,11 @@
   grid-column: 2 / 5 !important;
   max-inline-size: none;
 }
+@mixin overflow-bleed-right {
+  width: 100%;
+  grid-column: 3 / 5 !important;
+  max-inline-size: none;
+}
 
 @mixin extra-space-s {
   margin: var(--space-s) 0 calc(var(--space-s) - var(--space-xs)) 0;

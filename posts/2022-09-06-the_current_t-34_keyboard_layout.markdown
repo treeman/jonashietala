@@ -1,6 +1,7 @@
 ---
 title: "The current T-34 keyboard layout"
 tags: [Computer, Keyboards, T-34]
+favorite: true
 ---
 
 I've been documenting my own keyboard layout [in a series][t-34-series] for a while now. But as the layout is constantly changing it's been difficult to piece together how the layout currently looks like, so this post tries to show how the layout looks right now in it's entirety.

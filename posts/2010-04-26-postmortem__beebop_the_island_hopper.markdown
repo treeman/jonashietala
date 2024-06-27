@@ -1,9 +1,10 @@
 ---
 layout: post
-title: "Postmortem:  Beebop The Island Hopper"
+title: "Postmortem: Beebop The Island Hopper"
 category: Postmortems
 tags: Postmortems, Ludum Dare, Experimental Gameplay Project
 time: 18:56:59
+favorite: true
 ---
 So I participated in the [Ludum Dare][ld] for the first time and this is a postmortem of my game [Beebop The Island Hopper][beebop] for the theme *Islands*.
 
