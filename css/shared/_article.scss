@@ -252,6 +252,66 @@ article {
     content: "[ ]";
   }
 
+  .toc {
+    padding-block-start: var(--space-2xs);
+    padding-block-end: var(--space-2xs);
+    border-width: 0;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-style: solid;
+    border-color: var(--color-hr);
+
+    nav {
+      margin: var(--space-2xs) var(--space-s);
+      --flow-space: 0;
+    }
+
+    ol {
+      @include flow(var(--space-3xs));
+      margin-left: 0;
+    }
+    ol > li:before {
+      margin-left: 0;
+      content: none;
+    }
+
+    a {
+      @include sans-serif;
+    }
+
+    summary:hover {
+      cursor: pointer;
+      color: var(--color-link-hover);
+      text-decoration: underline;
+    }
+
+    a:link,
+    a:visited {
+      color: var(--color-text);
+      text-decoration: none;
+    }
+    a:hover {
+      color: var(--color-link-hover);
+      text-decoration: underline;
+    }
+    a.heading-1 {
+      font-weight: bold;
+    }
+    a.heading-2 {
+      margin-left: var(--space-xs);
+      font-size: 90%;
+    }
+  }
+
+  // Special case of removing spacing between table of content
+  // directly preceding a heading.
+  .toc:not(:first-child) ~ section > h2:first-child {
+    margin-block-start: var(--space-xs);
+  }
+  .toc:first-child ~ section > h2:first-child {
+    margin-block-start: 0;
+  }
+
   /*
    * Images
    */
