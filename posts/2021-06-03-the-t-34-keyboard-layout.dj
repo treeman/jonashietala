@@ -81,8 +81,6 @@ What should we do then? We can try a keylogger to see what symbols we're typing.
 
 One might wonder, where do the symbols appear? Are they mostly next to characters, or next to other symbols? Here's a table of where the symbols end up, and what symbol bigrams they appear (ignoring double symbols like `||`), using the Code source:
 
-***
-
 |  Char      |   Count      |    Next to letter    |     Next to symbol    |    Common bigrams |
 |------------|--------------|----------------------|-----------------------|-----------------------------------|
 |   `,`      |    220930    |     31.22%           |      12.23%           |    `),` `",` `},` `],` `_,` |
@@ -112,13 +110,11 @@ One might wonder, where do the symbols appear? Are they mostly next to character
 |   `&`      |    15068     |     28.36%           |      16.44%           |    `(&` |
 |   `@`      |    14076     |     48.70%           |      5.52%            | |
 |   `*`      |    13896     |     13.02%           |      14.72%           | |
-|   `\`      |    10236     |     35.55%           |      29.35%           | |
+|   `<code>\</code>`{=html}      |    10236     |     35.55%           |      29.35%           | |
 |   `!`      |    9812      |     34.80%           |      40.13%           |    `!(` |
 |   `$`      |    4226      |     36.63%           |      25.01%           | |
 |   `~`      |    2596      |     32.16%           |      17.41%           | |
 |   `^`      |    1436      |     24.23%           |      41.23%           | |
-
-***
 
 Note that it it tracks letters on both sides of the symbol, which is why `,` is only next to a letter 31% of the time (it's almost always next to a space).
 
