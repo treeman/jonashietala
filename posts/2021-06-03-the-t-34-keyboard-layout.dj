@@ -288,7 +288,7 @@ One last annoyance is double- or triple-tapping symbols, particularly with the p
 
 | Tap                                           | Long press |
 |:----------------------------------------------|:-------------|
-| `|` `&` `+` `*` `-` `_` `<` `>` `/` `\` `#`   |  Double symbol |
+| `|` `&` `+` `*` `-` `_` `<` `>` `/` `<code>\</code>`{=html} `#`   |  Double symbol |
 | `"` `'` `=` `` ` ``                           |  Triple symbol |
 
 
