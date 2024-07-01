@@ -188,6 +188,8 @@ mod tests {
             ]
         );
 
+        assert!(!feed.contains("table-of-content"));
+
         Ok(())
     }
 

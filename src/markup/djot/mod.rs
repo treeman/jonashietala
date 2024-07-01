@@ -17,7 +17,7 @@ use self::drop_offset::DropOffset;
 use self::embed_youtube::EmbedYoutube;
 use self::lookup_register::LookupRegister;
 use self::quote_transforms::QuoteTransforms;
-use self::strip_elements::StripElements;
+use self::strip_elements::{StripElements, StripSymbols};
 use self::table_of_content::insert_toc;
 use self::todos::TransformTodoComments;
 use self::transform_headers::TransformHeaders;
@@ -64,6 +64,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
 
 pub fn djot_to_html_feed(djot: &str) -> Result<markup::FeedHtml> {
     let transformed = Parser::new(djot);
+    let transformed = StripSymbols::new(transformed, ["table-of-content"].into());
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
