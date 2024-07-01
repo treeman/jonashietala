@@ -948,7 +948,7 @@ impl Site {
         FilePath::from_path(&self.opts.input_dir, path)
     }
 
-    pub fn list_imgs<'a>(&'a self) -> impl Iterator<Item = WalkDirRes> + 'a {
+    pub fn list_imgs(&self) -> impl Iterator<Item = WalkDirRes> + '_ {
         paths::file_iter(self.opts.input_dir.join("images"))
     }
 

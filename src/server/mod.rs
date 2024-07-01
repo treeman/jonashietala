@@ -250,8 +250,8 @@ fn start_hotwatch(site: Arc<Mutex<Site>>) {
 }
 
 async fn start_file_watcher(output_dir: &AbsPath) -> Result<()> {
-    let app: _ = Router::new()
-        .fallback(get_service(ServeDir::new(&*output_dir)))
+    let app = Router::new()
+        .fallback(get_service(ServeDir::new(output_dir)))
         .layer(TraceLayer::new_for_http());
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));

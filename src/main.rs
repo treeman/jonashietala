@@ -183,7 +183,7 @@ fn build() -> Result<()> {
 
 async fn check_external_links() -> Result<()> {
     build()?;
-    let files = parse_html_files(&*OUTPUT_DIR)?;
+    let files = parse_html_files(&OUTPUT_DIR)?;
 
     let mut links = HashSet::new();
     for file in files.values() {

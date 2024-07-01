@@ -99,15 +99,15 @@ impl Markup {
 
     pub fn parse(&self, context: ParseContext) -> Result<HtmlParseRes> {
         match self {
-            Self::Markdown(s) => Ok(markdown_to_html(&s)),
-            Self::Djot(s) => djot_to_html(&s, context.in_feed(false)),
+            Self::Markdown(s) => Ok(markdown_to_html(s)),
+            Self::Djot(s) => djot_to_html(s, context.in_feed(false)),
         }
     }
 
     pub fn parse_feed(&self, _context: ParseContext) -> Result<FeedHtml> {
         match self {
-            Self::Markdown(s) => Ok(markdown_to_html_feed(&s)),
-            Self::Djot(s) => djot_to_html_feed(&s),
+            Self::Markdown(s) => Ok(markdown_to_html_feed(s)),
+            Self::Djot(s) => djot_to_html_feed(s),
         }
     }
 
@@ -240,29 +240,17 @@ fn strip_one_paragraph(html: Cow<str>) -> Cow<str> {
 
     match paragraphs.len() {
         1 => paragraphs[0].get(1).unwrap().as_str().to_owned().into(),
-        _ => html.into(),
+        _ => html,
     }
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Default)]
 pub struct ParseContext<'a> {
     pub path: Option<&'a Utf8Path>,
     pub is_draft: bool,
     pub in_feed: bool,
     pub create_lookup: bool,
     pub markup_meta_line_count: usize,
-}
-
-impl<'a> Default for ParseContext<'a> {
-    fn default() -> Self {
-        ParseContext {
-            path: None,
-            is_draft: false,
-            in_feed: false,
-            create_lookup: false,
-            markup_meta_line_count: 0,
-        }
-    }
 }
 
 impl<'a> ParseContext<'a> {

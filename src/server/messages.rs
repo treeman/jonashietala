@@ -21,6 +21,7 @@ pub enum NeovimEvent {
     CursorMoved {
         linenum: usize,
         linecount: usize,
+        #[allow(dead_code)]
         column: usize,
         path: String,
     },

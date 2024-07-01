@@ -22,6 +22,7 @@ pub trait Item: Send + Sync + Debug {
     }
 }
 
+#[allow(dead_code)]
 pub trait TeraItem {
     fn context(&self, ctx: &RenderContext) -> Context;
 

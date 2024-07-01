@@ -20,7 +20,7 @@ impl<'a> TreesitterHighlighter<'a> {
 
         let highlights = highlighter.highlight(self.config, code.as_bytes(), None, |lang| {
             let res = CONFIGS.get(lang);
-            if !res.is_some() {
+            if res.is_none() {
                 warn!("Couldn't find treesitter grammar for `{lang}` to inject");
             }
             res
@@ -173,7 +173,7 @@ static HIGHLIGHT_NAMES: &[&str] = &[
 lazy_static! {
     static ref CLASSES: Vec<String> = HIGHLIGHT_NAMES
         .iter()
-        .map(|name| format!(r#"class="{}""#, name.replace(".", " ")))
+        .map(|name| format!(r#"class="{}""#, name.replace('.', " ")))
         .collect();
     static ref CONFIGS: HashMap<String, HighlightConfiguration> = init_configurations();
     static ref EMPTY_RAW_MARKUP_SPAN: Regex =
@@ -277,7 +277,7 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
     ]
     .into_iter()
     .map(|(name, mut config)| {
-        config.configure(&HIGHLIGHT_NAMES);
+        config.configure(HIGHLIGHT_NAMES);
         (name.to_string(), config)
     })
     .collect()

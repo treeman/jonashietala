@@ -204,7 +204,7 @@ async fn upload(bucket: &Bucket, data: UploadData) -> Result<()> {
         x
     } else {
         let path = data.file_path.abs_path();
-        fs::read(&path)?
+        fs::read(path)?
     };
 
     bucket

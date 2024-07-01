@@ -1,3 +1,4 @@
+#![allow(clippy::duplicated_attributes)]
 #![cfg(test)]
 
 use crate::content::PostItem;
@@ -99,7 +100,7 @@ My created post
 
     pub fn output_content(&self, file: &str) -> Result<String> {
         let path = self.output_path(file);
-        let content = fs::read_to_string(&path)?;
+        let content = fs::read_to_string(path)?;
         Ok(content)
     }
 
@@ -139,7 +140,6 @@ My created post
 
 pub struct TestSiteBuilder {
     pub include_drafts: bool,
-    pub generate_markup_lookup: bool,
 }
 
 impl TestSiteBuilder {
@@ -163,7 +163,6 @@ impl TestSiteBuilder {
             include_drafts: self.include_drafts,
             generate_feed: true,
             include_js: false,
-            generate_markup_lookup: self.generate_markup_lookup,
             git_path_offset: Some(Utf8Path::new("test-site/")),
         })?;
         site.render_all()?;

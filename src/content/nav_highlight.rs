@@ -36,5 +36,5 @@ fn decide_highlight(ctx: &Context) -> &'static str {
         }
     }
 
-    return "";
+    ""
 }

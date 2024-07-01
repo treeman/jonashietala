@@ -88,7 +88,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for TransformTo
         self.event_queue
             .push((Event::End(html.clone()), end_range.clone()));
         self.event_queue
-            .push((Event::Str(format!("</span>").into()), end_range.clone()));
+            .push((Event::Str("</span>".into()), end_range.clone()));
         self.event_queue
             .push((Event::Start(html.clone(), Attributes::new()), end_range));
 

@@ -13,7 +13,7 @@ pub enum Response {
     Reply(NeovimResponse),
 }
 
-pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Response> {
+pub fn handle_msg(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Response> {
     debug!("Msg received: {:?}", msg);
     let site = site.lock().expect("site lock failed");
 
@@ -98,11 +98,11 @@ pub fn handle_msg<'a>(msg: NeovimEvent, site: Arc<Mutex<Site>>) -> Option<Respon
             element: info::item_info(linenum, column, &path, &site),
         })),
         NeovimEvent::RefreshDiagnostics { path } => {
-            diagnostics::generate_file_diagnostics(&path.as_str().into(), &site).and_then(
+            diagnostics::generate_file_diagnostics(&path.as_str().into(), &site).map(
                 |path_diagnostics| {
-                    Some(Response::Reply(NeovimResponse::Diagnostics {
+                    Response::Reply(NeovimResponse::Diagnostics {
                         diagnostics: [(path, path_diagnostics)].into(),
-                    }))
+                    })
                 },
             )
         }

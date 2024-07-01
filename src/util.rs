@@ -141,6 +141,7 @@ pub fn html_text(s: &str) -> String {
         })
 }
 
+#[allow(dead_code)]
 pub struct ParsedFile {
     pub path: Utf8PathBuf,
     pub html: Html,

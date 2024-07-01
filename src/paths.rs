@@ -23,7 +23,7 @@ pub fn walk_dir(dir: AbsPath) -> impl Iterator<Item = WalkDirRes> + 'static {
         .filter_map(move |e| match e.metadata() {
             Ok(meta) => FilePath::from_std_path(&dir, e.into_path())
                 .ok()
-                .and_then(|path| Some(WalkDirRes { meta, path })),
+                .map(|path| WalkDirRes { meta, path }),
             Err(_) => None,
         })
 }
@@ -47,7 +47,7 @@ impl FilePath {
         let path =
             Utf8PathBuf::from_path_buf(path).map_err(|path| eyre!("Non-utf8 path: {:?}", path))?;
 
-        Self::from_path(base, &path)
+        Self::from_path(base, path)
     }
 
     pub fn from_path(base: impl Into<Utf8PathBuf>, path: impl AsRef<Utf8Path>) -> Result<Self> {
@@ -66,10 +66,10 @@ impl FilePath {
 
     #[allow(dead_code)]
     pub fn file_name(&self) -> &str {
-        self.rel_path.0.file_name().expect(&format!(
-            "FilePath without a file_name: `{}`",
-            self.rel_path.0
-        ))
+        self.rel_path
+            .0
+            .file_name()
+            .unwrap_or_else(|| panic!("FilePath without a file_name: `{}`", self.rel_path.0))
     }
 }
 

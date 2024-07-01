@@ -24,19 +24,14 @@ pub fn load_series(
     let mut posts_in_series: HashMap<String, BTreeSet<Reverse<PostRef>>> = HashMap::new();
     for post in posts.values() {
         if let Some(id) = &post.series_id {
-            let series_posts = posts_in_series
-                .entry(id.to_string())
-                .or_insert(BTreeSet::new());
+            let series_posts = posts_in_series.entry(id.to_string()).or_default();
             series_posts.insert(Reverse(post.post_ref()));
         }
     }
 
     let mut series = find_markup_files(&context.opts.input_dir, &[dir])
         .par_iter_mut()
-        .map(|path| {
-            SeriesItem::from_file(path.abs_path(), context.opts.generate_markup_lookup)
-                .map(|serie| (serie.id.clone(), serie))
-        })
+        .map(|path| SeriesItem::from_file(path.abs_path()).map(|serie| (serie.id.clone(), serie)))
         .collect::<Result<HashMap<_, _>>>()?;
 
     for (id, series_posts) in posts_in_series.into_iter() {
