@@ -31,7 +31,7 @@ article {
     }
 
     &:not(:first-child) {
-      margin-block-start: var(--space-s);
+      margin-block-start: var(--space-xs);
     }
   }
 
@@ -341,6 +341,10 @@ article {
     justify-content: center;
     align-items: center;
 
+    &:not(:is(.flex-50, .flex-33, .flex-25, .flex-20)) {
+      gap: var(--space-3xs);
+    }
+
     figcaption {
       font-style: italic;
       width: 100%;
@@ -389,7 +393,6 @@ article {
    * Aside/notice
    */
   aside {
-    @include extra-space-s;
     @include flow;
     font-size: 95%;
 
