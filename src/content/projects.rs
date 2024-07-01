@@ -30,10 +30,8 @@ impl ProjectsItem {
         let raw_markup = RawMarkupFile::from_file(dir.join("projects.dj"))?;
 
         let meta_line_count = raw_markup.meta_line_count;
-        let markup: MarkupFile<ProjectsMetadata> = raw_markup.parse(ParseContext::new(
-            context.opts.generate_markup_lookup,
-            meta_line_count,
-        ))?;
+        let markup: MarkupFile<ProjectsMetadata> =
+            raw_markup.parse(ParseContext::new(meta_line_count))?;
 
         let title = markup.markup_meta.title.clone();
 
@@ -44,19 +42,13 @@ impl ProjectsItem {
         let projects = project_files
             .iter()
             .filter(|path| !is_game(path))
-            .map(|path| {
-                Project::from_file(path.abs_path(), context.opts.generate_markup_lookup)
-                    .map(|p| (p.project_ref(), p))
-            })
+            .map(|path| Project::from_file(path.abs_path()).map(|p| (p.project_ref(), p)))
             .collect::<Result<BTreeMap<ProjectRef, Project>>>()?;
 
         let games = project_files
             .iter()
             .filter(|path| is_game(path))
-            .map(|path| {
-                Game::from_file(path.abs_path(), context.opts.generate_markup_lookup)
-                    .map(|g| (g.game_ref(), g))
-            })
+            .map(|path| Game::from_file(path.abs_path()).map(|g| (g.game_ref(), g)))
             .collect::<Result<BTreeMap<GameRef, Game>>>()?;
 
         Ok(Self {
@@ -149,17 +141,14 @@ pub struct Project {
 }
 
 impl Project {
-    fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
+    fn from_file(path: AbsPath) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup, create_lookup)
+        Self::from_markup(markup)
     }
 
-    pub fn from_markup(
-        markup: RawMarkupFile<ProjectMetadata>,
-        create_lookup: bool,
-    ) -> Result<Self> {
+    pub fn from_markup(markup: RawMarkupFile<ProjectMetadata>) -> Result<Self> {
         let meta_line_count = markup.meta_line_count;
-        let markup = markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
+        let markup = markup.parse(ParseContext::new(meta_line_count))?;
 
         Ok(Self {
             title: markup.markup_meta.title,
@@ -263,14 +252,14 @@ pub struct Game {
 }
 
 impl Game {
-    fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
+    fn from_file(path: AbsPath) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup, create_lookup)
+        Self::from_markup(markup)
     }
 
-    pub fn from_markup(markup: RawMarkupFile<GameMetadata>, create_lookup: bool) -> Result<Self> {
+    pub fn from_markup(markup: RawMarkupFile<GameMetadata>) -> Result<Self> {
         let meta_line_count = markup.meta_line_count;
-        let markup = markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
+        let markup = markup.parse(ParseContext::new(meta_line_count))?;
 
         let published = NaiveDate::parse_from_str(&markup.markup_meta.published, "%Y-%m-%d")?;
         let url = SiteUrl::parse(&markup.markup_meta.url)?;
@@ -295,7 +284,7 @@ impl Game {
     pub fn game_ref(&self) -> GameRef {
         GameRef {
             id: self.id().to_string(),
-            published: self.published.clone(),
+            published: self.published,
         }
     }
 }

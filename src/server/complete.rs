@@ -96,6 +96,11 @@ pub fn complete(
         if AFTER_DIV_MARKER.is_match(cursor_before_line) {
             return div_class_completions();
         }
+
+        // Expand symbols
+        if AFTER_SYMBOL.is_match(cursor_before_line) {
+            return symbol_completions();
+        }
     }
 
     vec![]
@@ -113,6 +118,7 @@ lazy_static! {
     static ref OPEN_BRACKET: Regex = Regex::new(r"\[[^\]]*$").unwrap();
     static ref OPEN_BRACKET_FIRST: Regex = Regex::new(r"^\[[^\]]*$").unwrap();
     static ref AFTER_DIV_MARKER: Regex = Regex::new(r":{3,}\s+\w*$").unwrap();
+    static ref AFTER_SYMBOL: Regex = Regex::new(r":\w*").unwrap();
 }
 
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
@@ -340,6 +346,41 @@ fn div_class_completions() -> Vec<CompletionItem> {
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum Symbol {
+    TableOfContent,
+}
+
+impl Symbol {
+    #[allow(dead_code)]
+    pub fn new(s: &str) -> Option<Self> {
+        match s.to_lowercase().as_str() {
+            "table-of-content" => Some(Self::TableOfContent),
+            _ => None,
+        }
+    }
+
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::TableOfContent => "table-of-content",
+        }
+    }
+}
+
+impl Display for Symbol {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.as_str().fmt(f)
+    }
+}
+
+fn symbol_completions() -> Vec<CompletionItem> {
+    [Symbol::TableOfContent]
+        .into_iter()
+        .map(|e| CompletionItemBuilder::Symbol(e).into())
+        .collect()
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub struct TagInfo {
     pub id: String,
     pub name: String,
@@ -544,6 +585,11 @@ pub struct DivClassInfo {
 }
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
+pub struct SymbolInfo {
+    pub sym: &'static str,
+}
+
+#[derive(Debug, Serialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub enum ExtraCompletionInfo {
     Post(PostInfo),
@@ -556,6 +602,7 @@ pub enum ExtraCompletionInfo {
     LinkDef(LinkDefInfo),
     BrokenLink(BrokenLinkInfo),
     DivClass(DivClassInfo),
+    Symbol(SymbolInfo),
 }
 
 #[allow(dead_code)]
@@ -623,6 +670,7 @@ pub enum CompletionItemBuilder {
     Heading(HeadingInfo),
     LinkDefInfo(LinkDefInfo),
     DivClass(DivClass),
+    Symbol(Symbol),
 }
 
 impl CompletionItemBuilder {
@@ -735,6 +783,14 @@ impl From<CompletionItemBuilder> for CompletionItem {
                 kind: CompletionItemKind::Keyword,
                 ..Default::default()
             },
+            CompletionItemBuilder::Symbol(sym) => CompletionItem {
+                label: sym.to_string(),
+                info: Some(ExtraCompletionInfo::Symbol(SymbolInfo {
+                    sym: sym.as_str(),
+                })),
+                kind: CompletionItemKind::Keyword,
+                ..Default::default()
+            },
         }
     }
 }
@@ -759,7 +815,6 @@ mod tests {
     fn test_rel_link_completion() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: true,
         }
         .build()?;
 
@@ -924,7 +979,6 @@ mod tests {
     fn test_header_ref_completion() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: true,
         }
         .build()?;
 
@@ -977,7 +1031,6 @@ mod tests {
     fn test_full_link_tag_completion() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: true,
         }
         .build()?;
 
@@ -1016,7 +1069,6 @@ mod tests {
     fn test_short_link_tag_completion() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: true,
         }
         .build()?;
 
@@ -1083,7 +1135,6 @@ mod tests {
     fn test_frontmatter_completion() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: true,
         }
         .build()?;
 

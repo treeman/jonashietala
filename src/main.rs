@@ -172,7 +172,6 @@ fn build() -> Result<()> {
         include_drafts: false,
         generate_feed: true,
         include_js: false,
-        generate_markup_lookup: false,
         git_path_offset: None,
     })?;
 

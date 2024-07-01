@@ -5,6 +5,8 @@ mod drop_offset;
 mod embed_youtube;
 mod lookup_register;
 mod quote_transforms;
+mod strip_elements;
+mod table_of_content;
 mod todos;
 mod transform_headers;
 
@@ -15,6 +17,8 @@ use self::drop_offset::DropOffset;
 use self::embed_youtube::EmbedYoutube;
 use self::lookup_register::LookupRegister;
 use self::quote_transforms::QuoteTransforms;
+use self::strip_elements::StripElements;
+use self::table_of_content::insert_toc;
 use self::todos::TransformTodoComments;
 use self::transform_headers::TransformHeaders;
 use crate::markup::{self, Html, HtmlParseRes, MarkupLookup, ParseContext};
@@ -24,14 +28,10 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
-    let lookup = if context.create_lookup {
-        Some(Rc::new(RefCell::new(MarkupLookup::new(
-            djot,
-            context.markup_meta_line_count,
-        ))))
-    } else {
-        None
-    };
+    let lookup = Rc::new(RefCell::new(MarkupLookup::new(
+        djot,
+        context.markup_meta_line_count,
+    )));
 
     let transformed = Parser::new(djot).into_offset_iter();
 
@@ -50,15 +50,15 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;
 
+    let lookup = Rc::try_unwrap(lookup)
+        .expect("Should be able to unwrap lookup")
+        .into_inner();
+
+    body = insert_toc(&body, &lookup).to_string();
+
     Ok(HtmlParseRes {
         html: Html(body),
-        lookup: lookup.and_then(|x| {
-            Some(
-                Rc::try_unwrap(x)
-                    .expect("Should be able to unwrap lookup")
-                    .into_inner(),
-            )
-        }),
+        lookup: Some(lookup),
     })
 }
 
@@ -73,4 +73,12 @@ pub fn djot_to_html_feed(djot: &str) -> Result<markup::FeedHtml> {
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;
     Ok(markup::FeedHtml(body))
+}
+
+pub fn djot_to_html_stripped(djot: &str) -> Result<Html> {
+    let transformed = Parser::new(djot);
+    let transformed = StripElements::new(transformed);
+    let mut body = String::new();
+    Renderer::default().push(transformed, &mut body)?;
+    Ok(Html(body))
 }

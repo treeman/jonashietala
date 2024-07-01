@@ -54,19 +54,15 @@ impl StandaloneItem {
         let abs_path = path.abs_path();
         let markup = RawMarkupFile::from_file(abs_path)?;
         let latest_commit = context.get_commit(path).cloned();
-        Self::from_markup(markup, latest_commit, context)
+        Self::from_markup(markup, latest_commit)
     }
 
     pub fn from_markup(
         markup: RawMarkupFile<StandaloneMetadata>,
         latest_commit: Option<LatestCommitInfo>,
-        context: &LoadContext,
     ) -> Result<Self> {
         let meta_line_count = markup.meta_line_count;
-        let markup = markup.parse(ParseContext::new(
-            context.opts.generate_markup_lookup,
-            meta_line_count,
-        ))?;
+        let markup = markup.parse(ParseContext::new(meta_line_count))?;
         let slug = markup
             .path
             .file_stem()

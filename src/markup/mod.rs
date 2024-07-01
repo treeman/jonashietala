@@ -254,21 +254,15 @@ pub struct ParseContext<'a> {
 }
 
 impl<'a> ParseContext<'a> {
-    pub fn new(create_lookup: bool, markup_meta_line_count: usize) -> Self {
+    pub fn new(markup_meta_line_count: usize) -> Self {
         Self {
-            create_lookup,
             markup_meta_line_count,
             ..Default::default()
         }
     }
-    pub fn new_post_context(
-        is_draft: bool,
-        create_lookup: bool,
-        markup_meta_line_count: usize,
-    ) -> Self {
+    pub fn new_post_context(is_draft: bool, markup_meta_line_count: usize) -> Self {
         Self {
             is_draft,
-            create_lookup,
             markup_meta_line_count,
             ..Default::default()
         }
@@ -310,7 +304,7 @@ impl<'a> ParseContext<'a> {
     fn format_path(self) -> String {
         match self.path {
             Some(path) => format!("`{}`", path),
-            None => format!("unknown path"),
+            None => "unknown path".into(),
         }
     }
 }

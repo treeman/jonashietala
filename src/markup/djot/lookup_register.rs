@@ -10,7 +10,7 @@ use std::rc::Rc;
 
 pub struct LookupRegister<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> {
     parent: I,
-    lookup: Option<Rc<RefCell<MarkupLookup>>>,
+    lookup: Rc<RefCell<MarkupLookup>>,
     context: ParseContext<'a>,
     event_stack: Vec<RawElementLookup>,
     src: &'a str,
@@ -20,7 +20,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> LookupRegister<'a, I> {
     pub fn new(
         parent: I,
         src: &'a str,
-        lookup: Option<Rc<RefCell<MarkupLookup>>>,
+        lookup: Rc<RefCell<MarkupLookup>>,
         context: ParseContext<'a>,
     ) -> Self {
         Self {
@@ -38,11 +38,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
 
     fn next(&mut self) -> Option<Self::Item> {
         let next = self.parent.next()?;
-
-        let mut lookup = match &self.lookup {
-            Some(lookup) => lookup.borrow_mut(),
-            None => return Some(next),
-        };
+        let mut lookup = self.lookup.borrow_mut();
 
         match &next {
             (Event::Start(Container::Heading { id, level, .. }, _), range) => {
@@ -62,7 +58,9 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                 }) = self.event_stack.pop()
                 {
                     // Content is between start and end.
-                    heading.content = self.src[char_range.end..range.start].trim().to_owned();
+                    self.src[char_range.end..range.start]
+                        .trim()
+                        .clone_into(&mut heading.content);
 
                     char_range.end = range.end;
                     lookup.insert_heading(heading, char_range);
@@ -93,7 +91,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                     });
                 }
                 SpanLinkType::Unresolved => {
-                    self.context.log_broken_link(&tag);
+                    self.context.log_broken_link(tag);
 
                     self.event_stack.push(RawElementLookup {
                         element: Element::Img(Img {
@@ -117,7 +115,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                         if label.is_empty() {
                             // If it's empty then we have a compact link reference like [tag][].
                             // The tag is exists between the start and end tags.
-                            label = self.src[char_range.end..range.start].to_owned();
+                            self.src[char_range.end..range.start].clone_into(&mut label);
                         }
                         img.link_ref = ImgRef::Reference { label, url };
                     }
@@ -151,7 +149,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                     });
                 }
                 LinkType::Span(SpanLinkType::Unresolved) => {
-                    self.context.log_broken_link(&tag);
+                    self.context.log_broken_link(tag);
 
                     self.event_stack.push(RawElementLookup {
                         element: Element::Link(Link {
@@ -195,7 +193,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                         if label.is_empty() {
                             // If it's empty then we have a compact link reference like [tag][].
                             // The tag is exists between the start and end tags.
-                            label = self.src[char_range.end..range.start].to_owned();
+                            self.src[char_range.end..range.start].clone_into(&mut label);
                         }
                         link.link_ref = LinkRef::Reference { label, url };
                     }
@@ -220,7 +218,9 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
                 }) = self.event_stack.pop()
                 {
                     // Url is between start and end.
-                    link_def.url = self.src[char_range.end..range.start].trim().to_owned();
+                    self.src[char_range.end..range.start]
+                        .trim()
+                        .clone_into(&mut link_def.url);
 
                     char_range.end = range.end;
                     lookup.insert_link_def(link_def, char_range);
@@ -228,7 +228,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for LookupRegis
             }
             _ => {}
         }
-        return Some(next);
+        Some(next)
     }
 }
 
@@ -241,8 +241,7 @@ mod tests {
     fn gen(s: &str) -> MarkupLookup {
         let lookup = Rc::new(RefCell::new(MarkupLookup::new(s, 0)));
         let parser = Parser::new(s).into_offset_iter();
-        let transformed =
-            LookupRegister::new(parser, s, Some(lookup.clone()), ParseContext::default());
+        let transformed = LookupRegister::new(parser, s, lookup.clone(), ParseContext::default());
         for _ in transformed {}
         Rc::try_unwrap(lookup).unwrap().into_inner()
     }

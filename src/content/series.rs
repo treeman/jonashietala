@@ -82,14 +82,14 @@ pub struct SeriesItem {
 }
 
 impl SeriesItem {
-    pub fn from_file(path: AbsPath, create_lookup: bool) -> Result<Self> {
+    pub fn from_file(path: AbsPath) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
-        Self::from_markup(markup, create_lookup)
+        Self::from_markup(markup)
     }
 
-    pub fn from_markup(markup: RawMarkupFile<SeriesMetadata>, create_lookup: bool) -> Result<Self> {
+    pub fn from_markup(markup: RawMarkupFile<SeriesMetadata>) -> Result<Self> {
         let meta_line_count = markup.meta_line_count;
-        let markup = markup.parse(ParseContext::new(create_lookup, meta_line_count))?;
+        let markup = markup.parse(ParseContext::new(meta_line_count))?;
         let SeriesDirMetadata { id } = SeriesDirMetadata::from_path(&markup.path)?;
 
         let url =

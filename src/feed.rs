@@ -148,7 +148,6 @@ mod tests {
     fn test_feed() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: false,
         }
         .build()?;
 

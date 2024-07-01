@@ -206,7 +206,6 @@ mod tests {
     fn test_diagnostics() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: true,
         }
         .build()?;
 

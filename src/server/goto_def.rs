@@ -100,7 +100,6 @@ mod tests {
     fn test_goto_link_def() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: true,
         }
         .build()?;
 
@@ -181,7 +180,6 @@ mod tests {
     fn test_goto_in_series() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: true,
         }
         .build()?;
 

@@ -114,14 +114,13 @@ impl PostItem {
         let modified = util::last_modified(&abs_path)?;
         let markup = RawMarkupFile::from_file(abs_path)?;
         let latest_commit = context.get_commit(path).cloned();
-        Self::from_markup(markup, modified, latest_commit, context)
+        Self::from_markup(markup, modified, latest_commit)
     }
 
     pub fn from_markup(
         markup: RawMarkupFile<PostMetadata>,
         modified: NaiveDateTime,
         latest_commit: Option<LatestCommitInfo>,
-        context: &LoadContext,
     ) -> Result<Self> {
         let partial =
             PartialPostItem::from_markup(markup.path.clone(), &markup.markup_meta, modified)?;
@@ -129,7 +128,6 @@ impl PostItem {
         let meta_line_count = markup.meta_line_count;
         let markup = markup.parse(ParseContext::new_post_context(
             partial.is_draft,
-            context.opts.generate_markup_lookup,
             meta_line_count,
         ))?;
 
@@ -442,8 +440,6 @@ mod tests {
     use std::path::PathBuf;
 
     use super::*;
-    use crate::git::LatestCommits;
-    use crate::site::SiteOptions;
     use crate::tests::*;
     use crate::{context::RenderContext, site::SiteContext};
     use git2::Oid;
@@ -459,19 +455,6 @@ mod tests {
             NaiveTime::from_hms_opt(1, 2, 3).unwrap(),
         );
 
-        let ctx = LoadContext {
-            opts: &SiteOptions {
-                input_dir: "".into(),
-                output_dir: "".into(),
-                clear_output_dir: false,
-                include_drafts: false,
-                generate_feed: false,
-                include_js: false,
-                generate_markup_lookup: false,
-                git_path_offset: None,
-            },
-            latest_commits: &LatestCommits::default(),
-        };
         let post = PostItem::from_markup(
             RawMarkupFile::from_content(content, path.into())?,
             modified,
@@ -480,7 +463,6 @@ mod tests {
                 id: Oid::from_str("f66a95823286a8d05fc4878fb40f7391545cdb91")?,
                 is_revision: true,
             }),
-            &ctx,
         )?;
 
         assert_eq!(post.title, "Post & Title");
@@ -540,7 +522,6 @@ mod tests {
     fn test_postref() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -568,7 +549,6 @@ mod tests {
     fn test_render_post() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: false,
         }
         .build()?;
 

@@ -34,7 +34,6 @@ pub async fn run(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
         include_drafts: true,
         generate_feed: false,
         include_js: true,
-        generate_markup_lookup: true,
         git_path_offset: None,
     })?;
 

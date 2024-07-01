@@ -65,7 +65,6 @@ pub struct SiteOptions {
     pub include_drafts: bool,
     pub generate_feed: bool,
     pub include_js: bool,
-    pub generate_markup_lookup: bool,
     pub git_path_offset: Option<&'static Utf8Path>,
 }
 
@@ -777,7 +776,7 @@ impl Site {
 
     fn rebuild_series(&mut self, path: AbsPath) -> Result<()> {
         info!("Series changed: {path}");
-        let mut updated = SeriesItem::from_file(path.clone(), self.opts.generate_markup_lookup)?;
+        let mut updated = SeriesItem::from_file(path.clone())?;
 
         // We need to loop as we can't build a SeriesRef without having the last updated field.
         let old_ref = self
@@ -1094,7 +1093,6 @@ mod tests {
             include_drafts: true,
             generate_feed: true,
             include_js: false,
-            generate_markup_lookup: false,
             git_path_offset: None,
         })?;
         site.render_all()?;
@@ -1169,7 +1167,6 @@ mod tests {
     fn test_hide_drafts() -> Result<()> {
         let test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1195,7 +1192,6 @@ mod tests {
     fn test_site_file_create() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1265,7 +1261,6 @@ My created static
     fn test_post_removed() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1287,7 +1282,6 @@ My created static
     fn test_draft_promoted() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1310,7 +1304,6 @@ My created static
     fn test_post_demoted() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1337,7 +1330,6 @@ My created static
     fn test_post_content_change() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1364,7 +1356,6 @@ My created static
     fn test_draft_content_change() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1385,7 +1376,6 @@ My created static
     fn test_post_title_change() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: false,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1417,7 +1407,6 @@ My created static
     fn test_series_file_modifications() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
-            generate_markup_lookup: false,
         }
         .build()?;
 
@@ -1481,7 +1470,6 @@ My new series post
     fn test_series_title_change() -> Result<()> {
         let mut test_site = TestSiteBuilder {
             include_drafts: true,
-            generate_markup_lookup: false,
         }
         .build()?;
 

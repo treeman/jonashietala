@@ -9,17 +9,13 @@ use crate::markup::ParseContext;
 
 pub struct TransformTodoComments<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> {
     parent: Peekable<I>,
-    lookup: Option<Rc<RefCell<MarkupLookup>>>,
+    lookup: Rc<RefCell<MarkupLookup>>,
     event_queue: Vec<(Event<'a>, Range<usize>)>,
     context: ParseContext<'a>,
 }
 
 impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> TransformTodoComments<'a, I> {
-    pub fn new(
-        parent: I,
-        context: ParseContext<'a>,
-        lookup: Option<Rc<RefCell<MarkupLookup>>>,
-    ) -> Self {
+    pub fn new(parent: I, context: ParseContext<'a>, lookup: Rc<RefCell<MarkupLookup>>) -> Self {
         Self {
             parent: parent.peekable(),
             lookup,
@@ -70,12 +66,10 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for TransformTo
 
         self.context.log_todo_comment(&text);
 
-        if let Some(ref lookup) = self.lookup {
-            lookup.borrow_mut().insert_element(
-                Element::Todo(todo.clone()),
-                text_range.start..text_range.start + todo_len,
-            );
-        }
+        self.lookup.borrow_mut().insert_element(
+            Element::Todo(todo.clone()),
+            text_range.start..text_range.start + todo_len,
+        );
 
         let html = Container::RawBlock { format: "html" };
 
@@ -121,7 +115,7 @@ mod tests {
         let lookup = Rc::new(RefCell::new(MarkupLookup::new(s, 0)));
         let parser = Parser::new(s).into_offset_iter();
         let transformed =
-            TransformTodoComments::new(parser, ParseContext::default(), Some(lookup.clone()));
+            TransformTodoComments::new(parser, ParseContext::default(), lookup.clone());
         let transformed = DropOffset::new(transformed);
         let mut body = String::new();
         html::Renderer::default().push(transformed, &mut body)?;
