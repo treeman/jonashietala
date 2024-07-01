@@ -1,8 +1,8 @@
----
-title: "Exploring the Gleam FFI"
-tags: [Gleam, Rust, Erlang, Elixir]
-recommended: true
-favorite: true
+---toml
+title = "Exploring the Gleam FFI"
+tags = ["Gleam", "Rust", "Erlang", "Elixir"]
+recommended = true
+favorite = true
 ---
 
 My brain is a curious thing.
@@ -23,6 +23,8 @@ which in Gleam's case means all Erlang and Elixir libraries (or JavaScript, depe
 This is accomplished via Gleam's FFI, which is quite convenient.
 
 Let's explore.
+
+:table-of-content:
 
 # Prerequisites
 
@@ -205,7 +207,9 @@ pong
 Keep in mind that:
 
 1. You can't directly call Elixir macros (they happen on compile time).
+
 2. If you include Elixir you'll also include the Elixir standard library.
+
    Erlang might be a better choice if you want something more lightweight.
 
 # Rust
@@ -383,21 +387,22 @@ pong
 
 You can inspect the output JavaScript files in `build/dev/javascript/myapp/`, which is very useful when debugging or trying to understand the code Gleam generates.
 
+::: note
 > I use the NodeJS runtime out of pure lazyness, and then you have to use the `.mjs` file extension.
-{ :notice }
+:::
 
 # Ending thoughts
 
 I hope this post gives helps you understand how to get started with Gleam's FFI system.
 I haven't looked into Gleam more than a few days, but given how easy it is to get access to my other favorite languages and their ecosystems, I don't have to worry that I'll be missing out on some crucial functionality if I'm going to create something real with Gleam.
 
-[Gleam]: https://gleam.run/ "Gleam is a friendly language for building type-safe systems that scale!"
-[Rust]: https://www.rust-lang.org/ "Rust programming language"
-[Elixir]: https://elixir-lang.org/ "Elixir programming language"
+[Gleam]: https://gleam.run/
+[Rust]: https://www.rust-lang.org/
+[Elixir]: https://elixir-lang.org/
 [rustler]: https://github.com/rusterlium/rustler
 [elixir-types]: https://nitter.net/josevalim/status/1744395345872683471
-[elixir-rustler]: https://github.com/Qqwy/elixir-rustler_elixir_fun "Calling Elixir code from Rust"
+[elixir-rustler]: https://github.com/Qqwy/elixir-rustler_elixir_fun
 [external-functions]: https://gleam.run/book/tour/external-functions.html
 [Hex]: https://hex.pm/
-[MixGleam]: https://github.com/gleam-lang/mix_gleam 
+[MixGleam]: https://github.com/gleam-lang/mix_gleam
 [truly random]: https://xkcd.com/221/

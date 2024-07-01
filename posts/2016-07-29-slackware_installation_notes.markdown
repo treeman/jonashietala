@@ -91,7 +91,7 @@ Clone <https://github.com/robm/dzen> and edit `config.mk`, choose option 7 (XPM,
 
 When started use `lxappearance` to set a prettier look for firefox and other gui.  See [previous post][fonts] about prettifying fonts.
 
-[fonts]: /blog/2014/07/05/reinstalling_slackware/#fonts "Prettify fonts"
+[fonts]: /blog/2014/07/05/reinstalling_slackware/#Fonts "Prettify fonts"
 
 # Dev
 

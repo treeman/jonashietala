@@ -36,7 +36,7 @@ So `Repeat` seems like a good idea---as long as we can find a nice place for it.
 
 ![Base layer](/images/t-34-0/base.png)
 
-The changes from the [previous version](/blog/2021/06/03/the-t-34-keyboard-layout#base-layer):
+The changes from the [previous version](/blog/2021/06/03/the-t-34-keyboard-layout#Base-layer):
 
 Introducing the `Repeat` key caused a bunch of changes to the layout:
 
@@ -66,7 +66,7 @@ Easiest would be to place it on a primary thumb---but it's not even close as fre
 
 I think I found a decent position sharing finger with `a` `)` and `.` (yes I press `.` with the ring finger). It's not perfect, as words such as `falla` (to fall) cannot be typed comfortably with `Repeat`, and I have to double tapping `l` (or worse `Repeat` then `a`, which my brain wants to do). Still, neither `a`, `.`, `u`, `i` nor `(` are commonly followed by `Repeat`, so in practice it works out decently well.
 
-There's another change I made that's unrelated to `Repeat`, that aims to fix some issues I complained about in my [previous writeup](/blog/2021/06/03/the-t-34-keyboard-layout#is-this-the-perfect-layout):
+There's another change I made that's unrelated to `Repeat`, that aims to fix some issues I complained about in my [previous writeup](/blog/2021/06/03/the-t-34-keyboard-layout#Is-this-the-perfect-layout):
 
 - Rotate `y`, `k`, `j`, `p`.
 
@@ -75,7 +75,7 @@ There's another change I made that's unrelated to `Repeat`, that aims to fix som
 
 # Combos
 
-I've added or altered some of [the combos](/blog/2021/06/03/the-t-34-keyboard-layout#combos) as well:
+I've added or altered some of [the combos](/blog/2021/06/03/the-t-34-keyboard-layout#Combos) as well:
 
 ::: Figure
 /images/t-34-0/q.png
@@ -125,7 +125,7 @@ This may sound fine and dandy, but if I'm completely honest, it's absolutely not
 
 # Symbols
 
-The changes to [the symbols](/blog/2021/06/03/the-t-34-keyboard-layout#mods-symbols) are to move `@`, `.`, `,`, `"`, `/`, `=` and `Repeat` mirroring the changes to the base layer.
+The changes to [the symbols](/blog/2021/06/03/the-t-34-keyboard-layout#Mods-symbols) are to move `@`, `.`, `,`, `"`, `/`, `=` and `Repeat` mirroring the changes to the base layer.
 
 ![Left mods & symbols](/images/t-34-0/lmod.png)
 
@@ -134,13 +134,13 @@ The changes to [the symbols](/blog/2021/06/03/the-t-34-keyboard-layout#mods-symb
 
 # Numbers
 
-The changes to [the num layer](/blog/2021/06/03/the-t-34-keyboard-layout#where-are-the-digits) are again to mirror the changes to the base layer.
+The changes to [the num layer](/blog/2021/06/03/the-t-34-keyboard-layout#Where-are-the-digits) are again to mirror the changes to the base layer.
 
 ![Num layer, gray keys turns of the NUMWORD temporary layer](/images/t-34-0/num.png)
 
 In Vim you can type `20k` or `13j` to move up 20 lines or down 13 lines. Having the number layer turn off after `k` or `j` is therefore very convenient. `x` does not turn off the layer, so you can easily type `800x600` or similar.
 
-I won't list it here, but `j` and `k` are also moved in the [workspace nav layer](/blog/2021/06/03/the-t-34-keyboard-layout#navigation).
+I won't list it here, but `j` and `k` are also moved in the [workspace nav layer](/blog/2021/06/03/the-t-34-keyboard-layout#Navigation).
 
 
 # Tap hold

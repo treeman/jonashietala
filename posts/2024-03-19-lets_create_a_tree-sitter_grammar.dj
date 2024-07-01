@@ -4,6 +4,8 @@ tags = ["Djot", "Tree-sitter", "C", "Rust", "Neovim"]
 favorite = true
 ---
 
+:table-of-content:
+
 One of my favorite features in Neovim is the Tree-sitter integration.
 It allows for fast syntax highlighting that works well even in an error state (often the case when you're editing code), and it has additional semantics (you can differentiate between function parameters and local variables).
 
@@ -27,7 +29,6 @@ The post spiraled out of control a little, and it will go through:
 1. Embed the grammar into this Blog for syntax highlighting
 
 The source code for the complete grammar we'll develop [can be found on GitHub][sdjot-GitHub].
-
 
 # Our subset
 

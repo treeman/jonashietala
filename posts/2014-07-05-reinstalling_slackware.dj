@@ -1,49 +1,15 @@
----
-layout: post
-title: "Reinstalling Slackware"
-category: Slackware
-tags: Slackware
+---toml
+title = "Reinstalling Slackware"
+tags = "Slackware"
 ---
 
 So I reinstalled slackware on my machine and decided to take some rough notes of the most important steps I made. I did not document the steps in detail, and some are very specific for my setup. But maybe it can be useful for someone, or myself.
 
-1. [Basic steps]
-    1. [Make partitions]
-    1. [Setup]
-    1. [Config]
-    1. [Install wicd, get online]
-    1. [Custom Kernel]
-    1. [Fix X]
-1. [Programs]
-    1. [Firefox]
-    1. [vim]
-    1. [Skype]
-    1. [Spotify]
-    1. [Office]
-    1. [cron]
-1. [Appearance]
-    1. [xmonad]
-    1. [Fonts]
-    1. [Terminal]
-1. [Random Installs]
-    1. [Slackbuilds]
-    1. [Perl]
-    1. [Multilib]
-    1. [Better latex]
-    1. [Groovebasin]
-    1. [Java]
-    1. [Anki]
-1. [Programming]
-    1. [Hakyll]
-    1. [SFML]
-1. [Games]
-    1. [Minecraft]
+:table-of-content:
 
-Basic steps
-===========
+# Basic steps
 
-Make slackware usb loader
--------------------------
+## Make slackware usb loader
 
 See `README_USB.TXT` in usb folder from slackware installation.
 
@@ -54,8 +20,7 @@ Create
 Be sure `/dev/sdX` is the usb, dd will wipe everything! Simple way is to `ls /dev`bash before and after plugging in device.  Boot from bios (f2 or f10).
 
 
-Make partitions
----------------
+## Make partitions
 
 Make partitions <http://slackbook.org/html/installation-partitioning.html>
 
@@ -73,8 +38,7 @@ tmpfs       4G      swap
 Make sure that swap is of type Linux Swap, change with `t`. Approx 2 times your ram?
 
 
-Setup
------
+## Setup
 
 Boot and run `setup`.
 
@@ -88,8 +52,7 @@ For example.
 Don't pick KDE or Games. Use terse installation.
 
 
-Config
-------
+## Config
 
 Add a new user with `adduser`.  Set zsh as basic shell. Set for root in `/etc/passwd` (or update user info there).
 
@@ -102,8 +65,7 @@ Add user to groups.
 Update name in `/etc/HOSTNAME`.
 
 
-Install wicd, get online
-------------------------
+## Install wicd, get online
 
 Fetch package from `/extra/wicd`.
 
@@ -114,8 +76,7 @@ chmod +x /etc/rc.d/rc.wicd
 wicd-curses
 ```
 
-Custom Kernel
--------------
+## Custom Kernel
 
 <http://alien.slackbook.org/dokuwiki/doku.php?id=linux:kernelbuilding>
 
@@ -213,8 +174,7 @@ Make sure to change image locations and drive location.
 Then run `lilo`.
 
 
-Fix X
------
+## Fix X
 
 Install NVIDIA drivers 337.25.
 
@@ -340,11 +300,9 @@ Section "Screen"
 EndSection
 ```
 
-Programs
-========
+# Programs
 
-Firefox
--------
+## Firefox
 
 Download latest
 
@@ -361,8 +319,7 @@ Get `libflashplayer.so` into `/usr/local/lib64/firefox/browser/plugins`.
 Restore bookmark backup from `.mozilla/firefox/X.default/bookmarkbackups` if you want.
 
 
-vim
----
+## vim
 
 For xterm copying and support for more plugins. Get vim source.
 
@@ -384,26 +341,22 @@ make install
 ```
 
 
-Skype
------
+## Skype
 
 Install [Multilib]. Install skype from slackbuilds, use 32bit mode.
 
 
-Spotify
--------
+## Spotify
 
 Install [Multilib]. Fetch from slackbuilds. I'm having some flickering issues, but no idea what to do.
 
 
-Office
-------
+## Office
 
 Install [Java]. Install `libreoffice` from slackbuilds.
 
 
-cron
-----
+## cron
 
 `crontab -e`
 
@@ -413,11 +366,9 @@ cron
 ```
 
 
-Appearance
-==========
+# Appearance
 
-xmonad
-------
+## xmonad
 
 1. Install ghc linked from slackbuilds
 1. Install hscolour from slackbuilds (for haskell-platform warnings)
@@ -443,8 +394,7 @@ Could not get nitrogen to build properly (I stole it from my other installation.
 
 Fix borders on firefox etc with `lxappearance`, install from slackbuilds.
 
-Fonts
------
+## Fonts
 
 Copy ttf fonts to `/usr/share/fonts/TTF`, in that dir run
 
@@ -662,8 +612,7 @@ Also use `~/.config/fontconfig/fonts.conf`:
 </fontconfig>
 ```
 
-Terminal
---------
+## Terminal
 
 Fetch `rxvt-unicode` from slackbuilds. Make `.Xresources`.
 
@@ -681,15 +630,9 @@ Fix git diff colors `git config --global core.pager "less -r"`
 Also korean signs.
 
 
-Stuff
-=====
+# Random Installs
 
-
-Random Installs
-===============
-
-Slackbuilds
-------------------
+## Slackbuilds
 
 Download from <http://slackbuilds.org/>. Install with `installpkg`. Remove with `removepkg`.
 
@@ -698,8 +641,7 @@ s3cmd, scrot, mirage, rtorrent
 ```
 
 
-Perl
-----
+## Perl
 
 Install perl libs from cpan. As root:
 
@@ -714,34 +656,29 @@ cpan install LWP
 ```
 
 
-Multilib
---------
+## Multilib
 
 <http://alien.slackbook.org/dokuwiki/doku.php?id=slackware:multilib> Also add blacklist.
 
 When installing 32bit run `. /etc/profile.d/32dev.sh`
 
 
-Better latex
-------------
+## Better latex
 
 Install `texlive` from slackbuilds. Remove `tetex` first.
 
 
-Groovebasin
------------
+## Groovebasin
 
 Need `libgroove`.  Which also needs `speex` from slackbuilds apart from the clear dependencies. Run groovebasin as user.
 
 
-Java
-----
+## Java
 
 Get `OpenAL` from slackbuilds.  Get Java JDK <http://docs.slackware.com/howtos:software:java>, not OpenJDK.
 
 
-Anki
-----
+## Anki
 
 Download anki.
 
@@ -751,12 +688,10 @@ ln -s /usr/local/lib64/anki-2.0.26/runanki /usr/local/bin
 ```
 
 
-Programming
-===========
+# Programming
 
 
-Hakyll
---------------
+## Hakyll
 
 ```bash
 cabal install hakyll
@@ -766,17 +701,14 @@ cabal install MissingH
 For upload scripts fetch `python-magic` slackbuilds.
 
 
-SFML
-----
+## SFML
 
 Get source. `cmake` and install.
 
 
-Games
-=====
+# Games
 
-Minecraft
----------
+## Minecraft
 
 Requires [Java]. Launch with:
 

@@ -157,6 +157,5 @@ While this project could grow massively in size, I will start small and expand i
 [bip-70]: https://github.com/bitcoin/bips/blob/master/bip-0070.mediawiki
 [NOWPayments]: https://nowpayments.io/
 [coinparty]: https://coinparty.org/
-[chaintip]: https://www.chaintip.org/
 [btcpayserver-altcoins]: https://docs.btcpayserver.org/Altcoins/
 [BitPay]: https://bitpay.com/

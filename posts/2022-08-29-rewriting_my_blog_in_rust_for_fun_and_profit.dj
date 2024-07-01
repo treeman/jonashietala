@@ -1,9 +1,11 @@
+---toml
+title = "Rewriting my blog in Rust for fun and profit"
+tags = ["Rust", "Webpage", "Hakyll", "Haskell"]
+recommended = true
+favorite = true
 ---
-title: "Rewriting my blog in Rust for fun and profit"
-tags: [Rust, Webpage, Hakyll, Haskell]
-recommended: true
-favorite: true
----
+
+:table-of-content:
 
 # Background
 
@@ -21,7 +23,7 @@ These are the main annoyances I wanted to solve with this rewrite:
 
 2. Several external dependencies.
 
-   While the site generator itself is written in Haskell, there were other dependencies apart from a number of Haskell libs. My blog helper script was written in Perl, I used [sassc] to convert sass, [pygments] in Python for syntax highlighting, and [s3cmd] for uploading the generated site to S3.
+   While the site generator itself is written in Haskell, there were other dependencies apart from a number of Haskell libs. My blog helper script was written in Perl, I used [sassc][] to convert sass, [pygments][] in Python for syntax highlighting, and [s3cmd][] for uploading the generated site to S3.
 
    It's annoying to install all these and to keep them up-to-date, it would be great to just have a single thing to worry about.
 
@@ -91,7 +93,7 @@ These are the main annoyances I wanted to solve with this rewrite:
 
 I wanted to write my own static site generator as a fun and interesting project. It shouldn't be *that* hard and it would give me complete control over the site, which should give me a bit more flexibility than if I used an existing site generator.
 
-(Yes I know that projects like [cobalt] allows you to make any kind of transformation, using whatever language you want, to your pages.)
+(Yes I know that projects like [cobalt][] allows you to make any kind of transformation, using whatever language you want, to your pages.)
 
 
 # Implementation details
@@ -141,19 +143,23 @@ While it would be easy if my posts were just standard markdown, over the years I
 
 I have a preprocessing step that I use to create figures with multiple images. It's a generalized processing step that takes the form:
 
-    ::: <type>
-    <content>
-    :::
+```
+::: <type>
+<content>
+:::
+```
 
 I use this for different kinds of image collections, such as `Flex`, `Figure` and `Gallery`. For example this:
 
-    ::: Flex
-    /images/img1.png
-    /images/img2.png
-    /images/img3.png
+```
+::: Flex
+/images/img1.png
+/images/img2.png
+/images/img3.png
 
-    Figcaption goes here
-    :::
+Figcaption goes here
+:::
+```
 
 Would be transformed to:
 
@@ -211,7 +217,8 @@ fn parse_block(id: &str, content: &str) -> String {
 
 (The image and figure parsing is more verbose, so let's skip that shall we?)
 
-[embed_youtube]: /blog/2014/09/01/embedding_youtube_videos_with_hakyll/ "Embedding youtube videos with Hakyll"
+{title="Embedding youtube videos with Hakyll"}
+[embed_youtube]: /blog/2014/09/01/embedding_youtube_videos_with_hakyll/
 
 ### Extending pulldown_cmark
 
@@ -364,29 +371,53 @@ In the beginning of this post I listed some issues I had with my previous setup,
 
 Overall, I'm quite pleased. It was a fun---albeit a larger than I had anticipated---project that also removed some of my annoyances with this site.
 
-[ghc-cabal-issue]: /blog/2020/05/09/ghc_cannot_find_cabal_packages/ "ghc 8.8.3 cannot find cabal 3.0.0.0 packages"
-[hakyll-syntax-issue]: https://github.com/jaspervdj/hakyll/issues/662 "GitHub: Syntax highlighting creating anchor tags? #662"
-[src]: https://github.com/treeman/jonashietala "Source code to this site"
-[series]: /series "Many blog posts makes a series"
-[Mojolicious]: https://mojolicious.org/ "Perl real-time web framework"
-[Hakyll]: https://jaspervdj.be/hakyll/ "Hakyll static site generator"
-[Kohana]: https://kohanaframework.org/ "The Switft PHP Framework"
-[Pandoc]: https://pandoc.org/MANUAL.html "Pandoc"
-[Jekyll]: https://jekyllrb.com/ "Simple, blog-aware, static sites"
-[tera]: https://tera.netlify.app/ "A powerful, easy to use template engine for Rust"
-[CommonMark]: https://commonmark.org/ "A strongly defined, highly compatible specification of Markdown"
+{title="ghc 8.8.3 cannot find cabal 3.0.0.0 packages"}
+[ghc-cabal-issue]: /blog/2020/05/09/ghc_cannot_find_cabal_packages/
+{title="GitHub: Syntax highlighting creating anchor tags? #662"}
+[hakyll-syntax-issue]: https://github.com/jaspervdj/hakyll/issues/662
+{title="Source code to this site"}
+[src]: https://github.com/treeman/jonashietala
+{title="Many blog posts makes a series"}
+[series]: /series
+{title="Perl real-time web framework"}
+[Mojolicious]: https://mojolicious.org/
+{title="Hakyll static site generator"}
+[Hakyll]: https://jaspervdj.be/hakyll/
+{title="The Switft PHP Framework"}
+[Kohana]: https://kohanaframework.org/
+{title="Pandoc"}
+[Pandoc]: https://pandoc.org/MANUAL.html
+{title="Simple, blog-aware, static sites"}
+[Jekyll]: https://jekyllrb.com/
+{title="A powerful, easy to use template engine for Rust"}
+[tera]: https://tera.netlify.app/
+{title="A strongly defined, highly compatible specification of Markdown"}
+[CommonMark]: https://commonmark.org/
 [static-site-server]: https://github.com/tokio-rs/axum/tree/main/examples/static-file-server
-[grass]: https://crates.io/crates/grass "A near-feature-complete Sass compiler written purely in Rust"
-[yaml-front-matter]: https://crates.io/crates/yaml-front-matter "YAML Front Matter (YFM) parser for Markdown files "
-[zola]: https://www.getzola.org/ "Your one-stop static site engine"
-[cobalt]: https://cobalt-org.github.io/docs/ "cobalt.rs site generator"
-[scraper]: https://crates.io/crates/scraper "HTML parsing and querying with CSS selectors"
-[rust-s3]: https://crates.io/crates/rust-s3 "Rust library for working with Amazon S3 and compatible object storage APIs"
-[hotwatch]: https://crates.io/crates/hotwatch "A Rust library for conveniently watching and handling file changes"
-[pulldown-cmark]: https://crates.io/crates/pulldown-cmark "A pull parser for CommonMark"
-[syntect]: https://crates.io/crates/syntect "library for high quality syntax highlighting and code intelligence using Sublime Text's grammars"
-[axum]: https://crates.io/crates/axum "Web framework that focuses on ergonomics and modularity"
-[sassc]: https://github.com/sass/sassc "libsass command line driver"
-[100-rust]: https://kerkour.com/rust-static-site-generator "Building a static site generator in 100 lines of Rust"
-[rayon]: https://docs.rs/rayon/latest/rayon/ "Data-parallelism library that makes it easy to convert sequential computations into parallel"
+{title="A near-feature-complete Sass compiler written purely in Rust"}
+[grass]: https://crates.io/crates/grass
+{title="YAML Front Matter (YFM) parser for Markdown files "}
+[yaml-front-matter]: https://crates.io/crates/yaml-front-matter
+{title="Your one-stop static site engine"}
+[zola]: https://www.getzola.org/
+{title="cobalt.rs site generator"}
+[cobalt]: https://cobalt-org.github.io/docs/
+{title="HTML parsing and querying with CSS selectors"}
+[scraper]: https://crates.io/crates/scraper
+{title="Rust library for working with Amazon S3 and compatible object storage APIs"}
+[rust-s3]: https://crates.io/crates/rust-s3
+{title="A Rust library for conveniently watching and handling file changes"}
+[hotwatch]: https://crates.io/crates/hotwatch
+{title="A pull parser for CommonMark"}
+[pulldown-cmark]: https://crates.io/crates/pulldown-cmark
+{title="library for high quality syntax highlighting and code intelligence using Sublime Text's grammars"}
+[syntect]: https://crates.io/crates/syntect
+{title="Web framework that focuses on ergonomics and modularity"}
+[axum]: https://crates.io/crates/axum
+{title="libsass command line driver"}
+[sassc]: https://github.com/sass/sassc
+{title="Building a static site generator in 100 lines of Rust"}
+[100-rust]: https://kerkour.com/rust-static-site-generator
+{title="Data-parallelism library that makes it easy to convert sequential computations into parallel"}
+[rayon]: https://docs.rs/rayon/latest/rayon/
 

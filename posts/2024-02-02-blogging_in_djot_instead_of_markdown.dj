@@ -15,6 +15,8 @@ I don't really have any large issues with the {-Markdown-} [CommonMark][] I use 
 The creator of [Djot][] is John MacFarlane, the same philosophy professor that also created [Pandoc][] and [CommonMark][].
 These might be two of the most influential projects in the markup space, so you'd get the feeling that maybe there's something to this [Djot][] thing.
 
+:table-of-content:
+
 # The devil is in the details
 
 I was going to give a few examples of what Djot looks like, but honestly, 95% of the Djot I write looks very similar to Markdown, with only minor differences.
@@ -374,8 +376,8 @@ It's useful for me, and that's all that really matters.
 [Djot]: https://github.com/jgm/djot
 [pulldown-cmark]: https://crates.io/crates/pulldown-cmark
 [Jotdown]: https://github.com/hellux/jotdown
-[markup transformations]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#markdown-transformations
-[extending-pulldown_cmark]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#extending-pulldown_cmark
+[markup transformations]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#Markdown-transformations
+[extending-pulldown_cmark]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit/#Extending-pulldown_cmark
 [Hacker News]: https://news.ycombinator.com/item?id=33867636
 [src]: https://github.com/treeman/jonashietala
 [djotblock]: https://github.com/jgm/djot/issues/198

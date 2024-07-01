@@ -160,9 +160,9 @@ There are some more layers, but I cut them out because the heatmaps were totally
 As usual, the [firmware QMK code][code] is on GitHub.
 
 [code]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/ferris/keymaps/treeman "Source code for T-34"
-[NUMWORD]: /blog/2021/06/03/the-t-34-keyboard-layout/#where-are-the-digits "Where are the digits?"
+[NUMWORD]: /blog/2021/06/03/the-t-34-keyboard-layout/#Where-are-the-digits "Where are the digits?"
 [leader key]: https://docs.qmk.fm/#/feature_leader_key "QMK leader key"
-[prev-sym-layers]: /blog/2021/06/03/the-t-34-keyboard-layout/#mods-symbols "T-34 mods & symbols"
+[prev-sym-layers]: /blog/2021/06/03/the-t-34-keyboard-layout/#Mods-symbols "T-34 mods & symbols"
 [userspace leader sequence]: https://github.com/andrewjrae/kyria-keymap#userspace-leader-sequences "Userspace leader sequences"
 [T-34]: /blog/tags/t-34/ "T-34 tags"
 [T-34/1]: /blog/2021/12/15/t-34-1/ "The T-34/1 keyboard layout"

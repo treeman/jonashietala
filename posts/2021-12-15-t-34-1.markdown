@@ -144,7 +144,7 @@ If you're interested, the [QMK code is on GitHub](https://github.com/treeman/qmk
 [T-34/0]: /blog/2021/09/05/t-34-0/
 [callum]: https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers "Callum Oakley keymap"
 [dotfiles]: https://github.com/treeman/dotfiles
-[navigation]: /blog/2021/06/03/the-t-34-keyboard-layout#navigation
+[navigation]: /blog/2021/06/03/the-t-34-keyboard-layout#Navigation
 [auto shift]: https://docs.qmk.fm/#/feature_auto_shift
 [leader key]: https://docs.qmk.fm/#/feature_leader_key
 [userspace leader sequence]: https://github.com/andrewjrae/kyria-keymap#userspace-leader-sequences

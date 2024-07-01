@@ -1,24 +1,13 @@
----
-layout: post
-title: "Evolution of RTS games"
-category: Game Design Course
-tags: Game Design
-time: 10:00:40
-favorite: true
+---toml
+title = "Evolution of RTS games"
+tags = "Game Design"
+time = "10:00:40"
+favorite = true
 ---
 
-<a id="top"></a>
+:table-of-content:
 
-1. [Introduction]
-1. [The Journey Begins]
-1. [The RTS Boom]
-1. [Life After the Boom]
-1. [The Modern Age]
-1. [Conclusion]
-1. [References]
-
-Introduction
-============
+# Introduction
 
 This is an essay for the course Game Design and I'm going to give you a ride through the evolution of RTS game genre. I like RTS games and I've played them for as long as I can remember, from the classic Red Alert and Age of Empires to the newer Supreme Commander and Starcraft 2 (beta).
 
@@ -28,10 +17,7 @@ I'd like to draw a loose definition for an RTS: “harvest, build and destroy”
 
 I will focus more on the beginning RTS games as they are still the main influence to all RTS games and then I will a bit more quickly go through the modern games and the modern ideas that continues to drive RTS forward.
 
-[Back to top](#top)
-
-The Journey Begins
-==================
+# The Journey Begins
 
 In the beginning there was no RTS games. Hard to imagine I know but that's the truth. When the idea of RTS was born the gaming scene looked a lot different from now. In the 1980's Nintendo had blown new life into the video game industry and it was the simple games that held us entertained, games like Pong, Tetris and Pac-Man. However the tides were shifting and more advanced games like SimCity were on the rise.
 
@@ -48,10 +34,7 @@ The game built on Dune 2 and in fact some fans nicknamed it Dune 3; the shroud a
 
 Instead of the “tank, bigger tank, biggest tank” from Dune C&C furthered the unit differences with tanks and infantry. Infantry was weak and could even be run over by the tanks with a satisfying splat sound, but they were dirt cheap and vital for early scouting. Tanks on the other hand were strong and fast but they were expensive and they had to rely on driving over infantry in order to effectively kill them. This gave the game a whole new level depth.
 
-[Back to top](#top)
-
-The RTS Boom
-============
+# The RTS Boom
 
 Warcraft II: Tides of Darkness (1995) became the first mega-successful RTS game. For some the interface was a letdown with no groups or build queues but instead it introduced the standard right click. Example with a peon: if you right click on a gold mine he will harvest and if you click on an enemy he will attack. It also allowed you to build anywhere opening for the oh so popular tower rush (build offensive defense towers). For the first time we got to have full naval battles with battleships, submarines and even a very own naval-resource. They improved the shroud and turned it into the now standard Fog of War where the fog regrows if you don't have any units there.
 
@@ -75,10 +58,7 @@ Why did this game become so popular? I don't know; it took almost a decade to ge
 
 ![Starcraft, the most successful RTS game yet](/images/rts/sc.png)
 
-[Back to top](#top)
-
-Life After the Boom
-===================
+# Life After the Boom
 
 The success of RTS as a genre sparked the creation of a lot of pretty similar, but often very good, games like one of my personal memories KKnD (1997). However it didn't take long until the next big revolution: true 3D brought to you by Homeworld (1999). Total Annihilation had used 3D terrain but Homeworld set the player in space and gave the freedom of the Z-dimension. Instead of just moving on a flat, albeit bumpy, surface you could now move freely in any direction you'd like. In addition Homeworld became known for it's atmospheric and rich story and they introduced persistence in the single player campaign. It means that you would retain all of your units and upgrades from your last mission and if you had finished it badly with only a few units the next mission would prove impossible and you had to replay it.
 
@@ -98,10 +78,7 @@ Lord of the Rings: The Battle for Middle Earth (2004) had a pretty interesting a
 
 Dawn of War: Warhammer 40,000 (2004) changed the well known resource system, instead of harvesting the player was given “map points” combined with an in-house generated resource. You also had squads, which were treated as one unit for easier control and as several when in battle.
 
-[Back to top](#top)
-
-The Modern Age
-==============
+# The Modern Age
 
 Company of Heroes (2006) is a pretty special game. It fuses the cinematic experience from an FPS with the tactical and strategical depth from an RTS. You command a lot less units and you're a lot closer to the battlefield. The environment is almost fully destructible and your units will take shelter behind anything they can find. Things like where you attack a tank became important as the armor was considerably weaker in the back and ammunition and fuel was considered a scarce resource.
 
@@ -115,36 +92,30 @@ Supreme Commander (2007) is the spiritual successor to Total Annihilation and it
 
 Today there are both big scaled games like Hearts of Iron III (2008) and small-scale like Company of Heroes. There are games that relies on the old tried-but-true formula (Starcraft 2 currently in beta) and other more novel (Darwinia 2005). If you look closely you'll notice the core the old RTS games are still here, unchanged. Starcraft 2's resource system is basically the same as in Dune II and grouping are still the same as in the original C&C. Games are still living on, and building on, the successful ideas of the past (the new C&C, AoE3 etc) and I personally think they will continue to entertain us, Dune II style, for at least a couple of decades more.
 
-[Back to top](#top)
-
-Conclusion
-==========
+# Conclusion
 
 We've been through the evolution of the RTS from the beginning with Dune II until modern games like Supreme Commander and World in Conflict. The simple one resource system has given birth to four and even six resource systems and some games have opted for “map points” or different infinite resources. The simple shroud concept has turned into the now standard Fog of War and there has been some advanced intelligence gathering going on in a few games. The Hero concept with borrowed RPG elements are now standard in many games and the tech tree has been branched into several different flavors. The scale has both been amplified and minimized and units has differentiated themselves from each other.
 
 Thanks to the online multiplayer pioneered almost 15 years ago has turned a little niche genre into a mega-industry with competitions held in several different games and countries. But where the genre is heading is anyones guess, but whichever way it's heading I'm sure it will continue to entertain and surprise you.
 
-[Back to top](#top)
-
-References
-==========
+# References
 
 Everything accessed 21 mars 2010
    
-[gamespot1](http://www.gamespot.com/gamespot/features/all/real_time/), [gamespot2](http://www.gamespot.com/gamespot/features/all/realtime_pt2/index.html)   
+[gamespot1](http://www.gamespot.com/gamespot/features/all/real_time/), [gamespot2](http://www.gamespot.com/gamespot/features/all/realtime_pt2/index.html)\
 History of RTS during the years 1989-2001. Pretty good.
 
 [Gamereplays RTS history](http://www.gamereplays.org/portals.php?show=page&name=the_history_of_real_time_strategy_pt1&st=3), a great resource written by several RTS enthusiasts.
 
 [A top 20 list](http://gamingbolt.com/2009/09/20/top-20-real-time-strategy-games-of-all-time/), take it with a grain of salt. Used for inspiration.
 
-From wikipedia various stuff (mainly dates):   
-[Dune the novel](http://en.wikipedia.org/wiki/Dune_%28novel%29)   
-[Warcraft: Orcs and Humans](http://en.wikipedia.org/wiki/Warcraft:_Orcs_%26_Humans)   
-[Darwinia](http://en.wikipedia.org/wiki/Darwinia_%28video_game%29)   
-[Age of Empires II: The Age of Kings](http://en.wikipedia.org/wiki/Age_of_Empires_II:_The_Age_of_Kings)   
-[KKnD](http://en.wikipedia.org/wiki/KKnD)   
-[Age of Mythology](http://en.wikipedia.org/wiki/Age_of_mythology)   
-[World in Conflict](http://en.wikipedia.org/wiki/World_in_Conflict)   
+From wikipedia various stuff (mainly dates):\
+[Dune the novel](http://en.wikipedia.org/wiki/Dune_%28novel%29) \
+[Warcraft: Orcs and Humans](http://en.wikipedia.org/wiki/Warcraft:_Orcs_%26_Humans) \
+[Darwinia](http://en.wikipedia.org/wiki/Darwinia_%28video_game%29)  \
+[Age of Empires II: The Age of Kings](http://en.wikipedia.org/wiki/Age_of_Empires_II:_The_Age_of_Kings) \
+[KKnD](http://en.wikipedia.org/wiki/KKnD)\
+[Age of Mythology](http://en.wikipedia.org/wiki/Age_of_mythology)\
+[World in Conflict](http://en.wikipedia.org/wiki/World_in_Conflict) \
 [Hearts of Iron 3](http://en.wikipedia.org/wiki/Hearts_of_iron_3)
 

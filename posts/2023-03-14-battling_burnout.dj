@@ -1,16 +1,19 @@
----
-title: "Battling burnout"
-tags: [Life Hacking, Life, Mental Health]
-recommended: true
-favorite: true
+---toml
+title = "Battling burnout"
+tags = ["Life Hacking", "Life", "Mental Health"]
+recommended = true
+favorite = true
 ---
 
+::: epigraph
 > Mamma Mia! Here we go again...
-{ :epigraph }
+:::
 
 Once again, I'm finding myself trying to recover from burnout, and after about a year I'm finally feeling more like myself.
 
 Even though I've been here before, it's a difficult thing to recognize and avoid, so I'm writing this to maybe help you or my future self.
+
+:table-of-content:
 
 
 # Is it burnout, depression or both?
@@ -81,8 +84,8 @@ I have all these great benefits that I've worked at a long time trying to obtain
 
 It feels like the other stories about burnout always have this obvious reason for people hitting the wall (like working 80+ hours a week), but I just can't find an easy explanation for me.
 
---- *Maybe it's just too difficult to realize it yourself when it's all happening?
-I thought I was getting over it, but maybe I'm still in it...?*
+--- _Maybe it's just too difficult to realize it yourself when it's all happening?
+I thought I was getting over it, but maybe I'm still in it...?_
 
 
 # Red flags
@@ -95,11 +98,11 @@ While it was (and is) difficult for me to see the cause, I did notice some of th
 
 - **I became more cynical**
 
-  --- *It's not worth doing this...*
+  --- _It's not worth doing this..._
 
-  --- *It makes no difference...*
+  --- _It makes no difference..._
 
-  --- *This won't help anyone...*
+  --- _This won't help anyone..._
 
 - **Lack of energy**
 
@@ -289,7 +292,7 @@ But the worst part is: will you ever truly get rid of it?
 Or is the burnout forever etched into your brain, just waiting for an opportunity to make your life miserable again?
 
 > Most people, including myself, keep repeating the same mistakes
-{ author=William Shatner }
+> ^ William Shatner
 
-[deep work]: https://www.lifehack.org/849518/deep-work-rules "What Is Deep Work and How To Practice It (Complete Guide)"
+[deep work]: https://www.lifehack.org/849518/deep-work-rules
 

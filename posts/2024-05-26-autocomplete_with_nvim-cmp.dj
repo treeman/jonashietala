@@ -7,6 +7,8 @@ favorite = true
 
 ![Autocomplete tags in the frontmatter.](/images/extend_blog/complete_tags.png)
 
+:table-of-content:
+
 Autocompletion is an absurdly powerful feature that I---and I must assume most programmers---use all the time.
 It's not as crucial for writing blog posts as when you're coding but it's still easy to come up with examples of how autocomplete would help.
 For example:

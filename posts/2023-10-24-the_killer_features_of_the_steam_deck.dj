@@ -1,8 +1,10 @@
+---toml
+title = "The killer features of the Steam Deck"
+tags = ["Gaming", "Steam Deck"]
+favorite = true
 ---
-title: "The killer features of the Steam Deck"
-tags: ["Gaming", "Steam Deck"]
-favorite: true
----
+
+:table-of-content:
 
 In the beginning of the year I gave myself a late Christmas gift and bought a [Steam Deck][] for myself.
 There were two main reasons I decided to buy it:
@@ -55,8 +57,8 @@ Just to give you a taste, here's a variety of games that are installed on my Dec
 ![LEGO City Undercover. It's GTA but for kids!](/images/steam_deck/lego_city.jpg)
 
 ::: Flex
-/images/steam_deck/star_wars.jpg
-/images/steam_deck/jurassic_park.jpg
+![](/images/steam_deck/star_wars.jpg)
+![](/images/steam_deck/jurassic_park.jpg)
 :::
 
 The LEGO games have been popular, although they're a bit too difficult at times for my kids.
@@ -278,7 +280,7 @@ There's absolutely more to like about the Deck. For instance:
 While nice, they don't quite qualify for my killer features list.
 And most importantly: I wanted to keep it simple and only select five killer features.
 
-[Steam Deck]: https://www.steamdeck.com/en/ "Steam Dcke: All-in-one portable PC gaming."
+[Steam Deck]: https://www.steamdeck.com/en/
 [burnout and depression]: /blog/2023/03/14/battling_burnout/
 [Steam]: https://store.steampowered.com/
 [ProtonDB]: https://www.protondb.com/

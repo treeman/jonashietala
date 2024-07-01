@@ -65,8 +65,6 @@ These are the items I've ordered:
 - [VORON Tap hardware kit][tap]
 - Printed parts
 
-[tap]: https://lab4450.com/product/voron-tap-probe/
-
 > I first ordered a kit from [caribou3d.com](https://caribou3d.com/en/) but after waiting months without progress I canceled it
 > and ordered from [3djake.com](https://www.3djake.com/) instead (where I bought the Rapido).
 >

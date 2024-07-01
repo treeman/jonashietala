@@ -1,17 +1,18 @@
----
-title: "Rewriting my Neovim config in Lua"
-tags: ["Neovim", "Lua"]
-recommended: true
-favorite: true
+---toml
+title = "Rewriting my Neovim config in Lua"
+tags = ["Neovim", "Lua"]
+recommended = true
+favorite = true
 ---
 
 ![This screenshot betrays just how much productive time was wasted setting this up.](/images/rewrite_neovim_lua/splash.png)
+
+:table-of-content:
 
 I've got tons of things to do; clean the bathrooms, prototype an idea for a SaaS and ponder world peace.
 So naturally the procrastination took over and I rewrote my Neovim configuration in Lua.
 
 ![](/images/rewrite_neovim_lua/cool_kids_lua.jpg)
-
 
 # But why?
 
@@ -61,6 +62,7 @@ I instead used other sources:
   Take a look at [kickstart.nvim][] and [TinyVim][] for example.
 
 - There are lots of people who have their configs on GitHub.
+
   I used [catgoose][] as the config was really clean, including lots of plugins to inspire me.
 
 - Speaking of plugins, [neovimcraft][] is a good site to find plugins.
@@ -73,8 +75,8 @@ I instead used other sources:
 [neovimcraft]: https://neovimcraft.com/
 [LazyVim]: https://github.com/LazyVim/LazyVim/tree/main
 [dotfyle]: https://dotfyle.com/
-[This week in Neovim]: https://dotfyle.com/this-week-in-neovim
-[lazy.nvim]: https://github.com/folke/lazy.nvim "lazy.nvim is a modern plugin manager for Neovim."
+[This Week in Neovim]: https://dotfyle.com/this-week-in-neovim
+[lazy.nvim]: https://github.com/folke/lazy.nvim
 [TinyVim]: https://github.com/NvChad/tinyvim
 [kickstart.nvim]: https://github.com/nvim-lua/kickstart.nvim
 
@@ -226,7 +228,7 @@ I won't create a list of my favorite plugins, as it would be boring to see yet a
 
 I've been using [vim-plug][] as my plugin manager since forever. It's been working well, but I figured I should try one of these newer managers to see if I was missing something. And boy, did I. [lazy.nvim][] has some really nice features that I now can't live without:
 
-- Split plugin specifications in separate files as I wrote about [earlier in the post](#structured-configuration).
+- Split plugin specifications in separate files as I wrote about [earlier in the post](#Structured-configuration).
 - Specify plugin dependencies.
 - Pin plugin versions.
 - Track plugin versions in `lazy-lock.json`, so you can identify what plugin version breaks your setup so you can pin it to a known good version.
@@ -280,7 +282,7 @@ I think that's very nice, but treesitter is more than that. And a great example 
 
 The beauty is that these work on treesitter nodes, so they work equally well across languages for functions like `fn myfun() { }`rust, `function myfun() ... end`lua or a `def myfun() do .. end`elixir. (Given that the treesitter implementation supports these options. Markdown doesn't have the concept of a function for instance.)
 
-## [neogit][]: Git management
+## [Neogit][]: Git management
 
 [magit][] is widely regarded as the best Git client/integration there is.
 When I used Emacs for work (oh yes, the horrors) I did use [magit][] and yes it was great (although too slow on Windows).
@@ -504,13 +506,12 @@ I've spent far too much time being productive and producing value, it was about 
 
 Just me and my config.
 
-
 [vim-plug]: https://github.com/junegunn/vim-plug
 [melange-nvim]: https://github.com/savq/melange-nvim
 [kanagawa]: https://github.com/rebelot/kanagawa.nvim
 [conform]: https://github.com/stevearc/conform.nvim
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-[neogit]: https://github.com/NeogitOrg/neogit
+[Neogit]: https://github.com/NeogitOrg/neogit
 [vim-cool]: https://github.com/romainl/vim-cool
 [alpha-nvim]: https://github.com/goolord/alpha-nvim
 [neoformat]: https://github.com/sbdchd/neoformat
@@ -524,8 +525,8 @@ Just me and my config.
 [nvim-colorizer]: https://github.com/NvChad/nvim-colorizer.lua
 [vim-hexokinase]: https://github.com/RRethy/vim-hexokinase
 [neorg]: https://github.com/nvim-neorg/neorg
-[telescope]: https://github.com/nvim-telescope/telescope.nvim 
-[plenary]: https://github.com/nvim-lua/plenary.nvim 
+[telescope]: https://github.com/nvim-telescope/telescope.nvim
+[plenary]: https://github.com/nvim-lua/plenary.nvim
 [my config files]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
 [lspconfig]: https://github.com/neovim/nvim-lspconfig
 [nvim-cmp]: https://github.com/hrsh7th/nvim-cmp

@@ -1,10 +1,12 @@
+---toml
+title = "How I wrote a book using Pollen"
+tags = ["Programming", "Pollen", "Racket", "Why Cryptocurrencies?", "CSS", "Self-publishing"]
+series = "making-cryptobook"
+recommended = true
+favorite = true
 ---
-title: "How I wrote a book using Pollen"
-tags: [Programming, Pollen, Racket, Why Cryptocurrencies?, CSS, Self-publishing]
-series: making-cryptobook
-recommended: true
-favorite: true
----
+
+:table-of-content:
 
 I wrote [an online book][main] using [Pollen][pollen], a static site generator in [Racket][racket]. [An earlier post][impressions] contains my first impressions of it, but as the book is now completed I think I can summarize some implementation details in more detail with this post.
 
@@ -466,15 +468,26 @@ There are some things that doesn't work as I want them to, but that I didn't bot
 
 And that's it I think for the large part? I'm sure I missed something, but feel free to [check out the source code][crypto-src] if you're curious about anything.
 
-[main]: https://whycryptocurrencies.com/ "Why Cryptocurrencies?"
-[pollen]: https://docs.racket-lang.org/pollen/ "Pollen: the book is a program"
-[racket]: https://racket-lang.org/ "Racket"
-[sass]: https://sass-lang.com/ "Sass: CSS with superpowers"
-[what-is-money]: https://whycryptocurrencies.com/what_is_money.html "What is money?"
-[impressions]: /blog/2019/03/03/first_impressions_of_pollen/ "First impressions of Pollen"
-[sidenotes]: /blog/2019/03/04/pollen_sidenotes/ "Tufte style sidenotes and marginnotes in Pollen"
-[sidenote-code]: https://github.com/treeman/why_cryptocurrencies/blob/master/rkt/sidenotes.rkt "Github sidenotes"
-[neovim]: https://neovim.io/ "neovim"
-[crypto-src]: https://github.com/treeman/why_cryptocurrencies "Source code to the book 'Why Cryptocurrencies?'"
-[S3]: /blog/2019/04/03/easy-setup-of-a-static-site-on-amazon-s3-with-ssl/ "Hosting a static site on Amazon S3"
+{title="Why Cryptocurrencies?"}
+[main]: https://whycryptocurrencies.com/
+{title="Pollen: the book is a program"}
+[pollen]: https://docs.racket-lang.org/pollen/
+{title="Racket"}
+[racket]: https://racket-lang.org/
+{title="Sass: CSS with superpowers"}
+[sass]: https://sass-lang.com/
+{title="What is money?"}
+[what-is-money]: https://whycryptocurrencies.com/what_is_money.html
+{title="First impressions of Pollen"}
+[impressions]: /blog/2019/03/03/first_impressions_of_pollen/
+{title="Tufte style sidenotes and marginnotes in Pollen"}
+[sidenotes]: /blog/2019/03/04/pollen_sidenotes/
+{title="Github sidenotes"}
+[sidenote-code]: https://github.com/treeman/why_cryptocurrencies/blob/master/rkt/sidenotes.rkt
+{title="neovim"}
+[neovim]: https://neovim.io/
+{title="Source code to the book 'Why Cryptocurrencies?'"}
+[crypto-src]: https://github.com/treeman/why_cryptocurrencies
+{title="Hosting a static site on Amazon S3"}
+[S3]: /blog/2019/04/03/easy-setup-of-a-static-site-on-amazon-s3-with-ssl/
 
