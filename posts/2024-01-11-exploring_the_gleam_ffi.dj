@@ -388,7 +388,7 @@ pong
 You can inspect the output JavaScript files in `build/dev/javascript/myapp/`, which is very useful when debugging or trying to understand the code Gleam generates.
 
 ::: note
-> I use the NodeJS runtime out of pure lazyness, and then you have to use the `.mjs` file extension.
+I use the NodeJS runtime out of pure lazyness, and then you have to use the `.mjs` file extension.
 :::
 
 # Ending thoughts
