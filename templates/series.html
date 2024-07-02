@@ -1,5 +1,7 @@
-{% import "post_info.html" as macros %} {% extends "site.html" %} {% block
-content %} {% set part1 = posts | first %}
+{% import "post_info.html" as macros %}
+{% extends "site.html" %}
+{% block content %}
+{% set part1 = posts | first %}
 <article class="series">
   <header>
     <h1><a href="{{url}}">{{title}}</a></h1>

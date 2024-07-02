@@ -25,7 +25,9 @@
 
     <div>{{series.post_note}}</div>
   </div>
-  {% endif %} {{content}} {% if series %}
+  {% endif %}
+  {{content}}
+  {% if series %}
   <div class="post-series post-series-footer">
     <div>
       {% if series.last_part %} This is the last part of the
@@ -33,6 +35,18 @@
       part {{series.part_number}} of the
       <a href="{{series.url}}">{{series.title}}</a> series. {% endif %}
     </div>
+
+    <nav class="posts">
+      <ol>
+      {% for post in series.posts %}
+        {% set current = url == post.url %}
+        <li {% if current %}class="current"{% endif %}>
+          <a href="{{post.url}}">{{post.title}}</a>
+          {% if current %}<span class="current-marker">←</span>{% endif %}
+        </li>
+      {% endfor %}
+      </ol>
+    </nav>
 
     {% if not series.next_url %}
     <div>

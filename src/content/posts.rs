@@ -300,6 +300,7 @@ struct PostSeriesContext<'a> {
     post_note: Option<&'a str>,
     next_url: Option<Cow<'a, str>>,
     is_draft: bool,
+    posts: Vec<PostRefContext<'a>>,
 }
 
 impl<'a> PostSeriesContext<'a> {
@@ -322,6 +323,11 @@ impl<'a> PostSeriesContext<'a> {
             next_url,
             post_note: series.post_note.as_deref(),
             is_draft: post.is_draft,
+            posts: series
+                .posts
+                .iter()
+                .map(|x| PostRefContext::from_ref(&x.0, ctx))
+                .collect(),
         }
     }
 }
@@ -553,6 +559,7 @@ mod tests {
         .build()?;
 
         let post = test_site.find_post("2022-01-31-test_post.dj").unwrap();
+        dbg!(&post.latest_commit);
 
         let rendered = post.render_to_string(&RenderContext {
             parent_context: &Context::from_serialize(SiteContext::new(false, false)).unwrap(),
