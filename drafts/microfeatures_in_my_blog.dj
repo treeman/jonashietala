@@ -3,44 +3,210 @@ title = "Microfeatures in my blog"
 tags = ["Blog"]
 ---
 
-<https://news.ycombinator.com/item?id=40774277>
+![[xkcd: Nerd sniping][snipe]](https://imgs.xkcd.com/comics/nerd_sniping.png)
 
-# Features I have
+A while I ago I encountered a blog post called [Microfeatures I Love in Blogs and Personal Websites][] and with the related [Hacker News discussion][] I naturally got [nerd sniped][snipe].
 
-- Published and revised date
-- A [uses](/uses) page
-- Git revision for posts and standalone pages
-- Spec for code blocks
-- "Notes"
+:table-of-content:
 
-   - Note, Tip, Warning, Important
-   - Update (with timestamp)
+# Microfeatures are fun
 
-- Author attribution in quotes
-- Flex and gallery for images
-- Footnotes
-- Epigraphs
-- Different list types (Djot native)
-- Syntax highlight for inline code elements
-- Embed YouTube
-- Heading links
-- Projects page
+# Microfeatures I've implemented
 
-  Highlighted projects on the homepage
+## Published and revision info
 
-- Featured posts on the homepage
-- Series
-- "Archive" contains index of all posts
+There's a trend for blog posts to not include the date the post was published---and I hate it, _especially_ for technical content.
+I don't even like to call the date of publishing a "micro" feature as it more an essential feature.
+
+Regardless, I include the published date below the post title in my blog:
+
+![The published date together with the Git commit.](/images/microfeatures/with_published_date.png)
+
+I also think it's valuable to display the date the post was updated:
+
+![The date of the last revision together with the corresponding Git commit.](/images/microfeatures/with_rev_date.png)
+
+I guess it would be more precise to manually specify when the post was updated, to avoid changes like [Enclose titles in ", now an error after Hakyll update][011cebb16131566a186b1fe7c8ba884890a688d6] where the post content isn't changed in a meaningful way.
+It's too bothersome to remember though so I rely on the Git history and have a list of commits I ignore when I fetch the dates.
+Not perfect but good enough I think.
+
+## Quote attribution
+
+> The only true wisdom is in knowing you know nothing.
+> ^ Socrates
+
+Blockquotes are standard everywhere but you often want to show where the quote originates from.
+I use a specific syntax for this:
+
+```djot
+> The only true wisdom is in knowing you know nothing.
+> ^ Socrates
+```
+
+## Different kinds of notes
+
+I'm a fan of sidenotes and [I used them][tufte] heavily [in the book I wrote][whycypto].
+They're great for a certain style of content but for the blog I noticed I used them very rarely.
+Instead I use "notes" of different kinds to highlight certain things:
+
+::: note
+This is a regular note.
+:::
+
+{date="2002-01-12"}
+::: update
+If I want to make a correction I can add a note with a timestamp.
+:::
+
+::: tip
+Did you know that you can [check out the source][src] of this site to see how the features are implemented?
+:::
+
+::: warn
+It's easy to spend a lot of time building features for the blog instead of actually writing.
+:::
+
+::: important
+Building features just for the sake of building is perfectly fine!
+:::
+
+Maybe a weird thing to prioritize in a post but I really like the additional color splash the notes can give to a post.
+
+I also have footnotes[^footnote] (mostly because [Djot][] provides them by default) but I never really use them.
+I guess I should use footnotes more now that I have them.
+
+[^footnote]: xxx
+
+## Display the language or path for code blocks
+
+For code blocks I add a small description that displays the language.
+It can be customized to for example display the path of the file:
+
+![](/images/microfeatures/code_descr.png)
+
+Displaying code is an area where I could do more, for example:
+
+- Optionally display line numbers (with offsets).
+- Highlight lines.
+- Highlight words or diff against the previous code block.
+- Links to the complete source code.
+
+## Syntax highlight for inline code elements
+
+Highlighting code blocks is standard but I wonder, why don't we also highlight inline code?
+
+It's something I added to be able to refer back to values like `"-NoHU"`lua, `0`lua, and `require("telescope.builtin").find_files()`lua when explaining what happens inside a code block.
+A sentence with color is much more pleasing than the colorless `"-NoHU"`, `0`,and `require("telescope.builtin").find_files()` don't you think?
+
+## Flex and gallery display for images
+
+## Different list types
+
+I like lists and I have several different types I can use to mix things up a bit.
+
+Here are some ordered list types:
+
+1. One
+1. Two
+
+a. Alpha 1
+a. Alpha 2
+
+i. Roman 1
+i. Roman 2
+
+::: greek
+a. Alpha
+a. Beta
+:::
+
+And here are some unordered list types:
+
+- Bullet
+
+::: list-dash
+- Dash
+:::
+
+::: list-plus
+- Plus
+:::
+
+Necessary? No.\
+Fun? I think so.
+
+## Highlight projects
+
+- Highlighted projects on the homepage
+
+## Series
+
+## Heading links
+
+## Featured posts on the homepage
+
+## "Archive" contains index of all posts
+
 - Also a "per year" index of all posts
-- Favorite posts
 
-# Featers I may implement in the future
+## Featured & favorite posts
 
-- Table of content
+Highlighting favorite posts is a good idea I got from the [Hacker News discussion][] and one I just had to implement after seeing it.
+I handle featured and favorite posts in three ways:
+
+1. I list five featured posts on the homepage:
+
+   ![Featured posts on the homepage.](/images/microfeatures/featured_posts.png)
+
+   ::: note
+   A featured post isn't the same as a favorite post, although the featured posts tend to be favorites.
+   :::
+
+1. All favorite posts are listed under [/favorite](/favorite).
+
+1. Each favorite post is accompanied by a star: `<span class="favorite"><a href="/favorite">★</a></span>`{=html}
+
+   ![A post listing from the [archives](/archive).](/images/microfeatures/archive_favs.png)
+
+   Clicking on the star takes you to [/favorite](/favorite).
+
+
+## Table of content
+
+I can optionally insert a table of contents by including a `:table-of-content:` marker in the markup.
+It uses the [<details>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) element and is collapsed by default.
+When expanded it looks like this:
+
+![Expanded table of content.](/images/microfeatures/toc.png)
+
+It's important for me that the table of content is optional as I have a mix of small and large posts.
+The table of content is generated from the first two heading levels and it works quite well for my use-case.
+
+# Microfeatures I may implement in the future
+
+## Targeted RSS feeds
+
 - Per-series RSS
 - Per-tag RSS
+
+## Search
+
 - Search
-- Better 404 page
-- Summary of a post
-- Display "related" posts below the post
-- Header link icon
+
+## A better 404 page
+
+## Summary of a post
+
+## Display "related" posts below the post
+
+## Header link icon
+
+[Microfeatures I Love in Blogs and Personal Websites]: https://danilafe.com/blog/blog_microfeatures/
+[snipe]: https://xkcd.com/356/
+[Hacker News discussion]: https://news.ycombinator.com/item?id=40774277
+[uses]: /uses
+[011cebb16131566a186b1fe7c8ba884890a688d6]: https://github.com/treeman/jonashietala/commit/011cebb16131566a186b1fe7c8ba884890a688d6
+[tufte]: /blog/2019/03/04/pollen_sidenotes
+[whycypto]: https://whycryptocurrencies.com/toc.html
+[Djot]: https://djot.net/
+[src]: https://github.com/treeman/jonashietala

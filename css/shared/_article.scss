@@ -148,6 +148,10 @@ article {
   .epigraph {
     margin-block: var(--space-m);
     font-style: italic;
+
+    > blockquote {
+      border-left: 0px;
+    }
   }
   blockquote > footer {
     font-size: 80%;
@@ -242,6 +246,12 @@ article {
   ul > li::before {
     @include sans-serif;
     content: "•";
+  }
+  .list-dash ul > li::before {
+    content: "-";
+  }
+  .list-plus ul > li::before {
+    content: "+";
   }
   ul > li.checked::before {
     @include sans-serif;
