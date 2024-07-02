@@ -559,7 +559,6 @@ mod tests {
         .build()?;
 
         let post = test_site.find_post("2022-01-31-test_post.dj").unwrap();
-        dbg!(&post.latest_commit);
 
         let rendered = post.render_to_string(&RenderContext {
             parent_context: &Context::from_serialize(SiteContext::new(false, false)).unwrap(),
@@ -600,7 +599,7 @@ mod tests {
         assert!(rendered.contains(r#"title="Posts tagged `&lt;Tag&gt; 2`""#));
 
         // We should reference the full commit hash somewhere
-        assert!(rendered.contains("f66a95823286a8d05fc4878fb40f7391545cdb91"));
+        assert!(rendered.contains("f15141519b858f5ce1ce0bd22935d579ceb74061"));
 
         // Just make sure that code is highlighted
         let rust_code = select_inner_html(&document, r#"pre code.rust"#).unwrap();
