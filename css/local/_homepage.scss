@@ -38,7 +38,7 @@
     &.featured:after {
       @include sans-serif;
       @include font-size("s");
-      color: var(--color-highlight-archive);
+      color: var(--color-hr);
       position: relative;
       top: -2ch;
       padding: 0 var(--space-3xs);
