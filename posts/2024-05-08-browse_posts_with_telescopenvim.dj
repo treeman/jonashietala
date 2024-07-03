@@ -2,6 +2,7 @@
 title = "Browse posts with telescope.nvim"
 tags = ["Lua", "Neovim"]
 series = "extending_neovim_for_my_blog"
+favorite = true
 ---
 
 I've used [telescope.nvim][]\'s find files with `require("telescope.builtin").find_files`lua for quite some time.
