@@ -110,7 +110,7 @@ One might wonder, where do the symbols appear? Are they mostly next to character
 |   `&`      |    15068     |     28.36%           |      16.44%           |    `(&` |
 |   `@`      |    14076     |     48.70%           |      5.52%            | |
 |   `*`      |    13896     |     13.02%           |      14.72%           | |
-|   `<code>\</code>`{=html}      |    10236     |     35.55%           |      29.35%           | |
+|   `\`      |    10236     |     35.55%           |      29.35%           | |
 |   `!`      |    9812      |     34.80%           |      40.13%           |    `!(` |
 |   `$`      |    4226      |     36.63%           |      25.01%           | |
 |   `~`      |    2596      |     32.16%           |      17.41%           | |
@@ -284,7 +284,7 @@ One last annoyance is double- or triple-tapping symbols, particularly with the p
 
 | Tap                                           | Long press |
 |:----------------------------------------------|:-------------|
-| `|` `&` `+` `*` `-` `_` `<` `>` `/` `<code>\</code>`{=html} `#`   |  Double symbol |
+| `|` `&` `+` `*` `-` `_` `<` `>` `/` `\` `#`   |  Double symbol |
 | `"` `'` `=` `` ` ``                           |  Triple symbol |
 
 

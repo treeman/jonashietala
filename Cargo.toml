@@ -48,7 +48,7 @@ new_mime_guess = "4.0.1"
 xml-rs = "0.8.19"
 sxd-xpath = "0.4.2"
 sxd-document = "0.3.2"
-jotdown = "0.4.0"
+jotdown = "0.4.1"
 tokio-websockets = { version = "0.8.2", features = ["server", "openssl"] }
 futures-util = "0.3.30"
 flume = "0.11.0"

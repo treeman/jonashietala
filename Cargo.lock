@@ -1612,9 +1612,9 @@ dependencies = [
 
 [[package]]
 name = "jotdown"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dc48414793f0d595fb9ae4af25145ec3f30a4eee0750537c86a6ec8f6b1ffc03"
+checksum = "b87ebc8a1c0fdfdedb65abbffb023e45ebbbfe089625f93f6f5acc56685c0abf"
 
 [[package]]
 name = "js-sys"
