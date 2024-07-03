@@ -31,6 +31,8 @@ lazy_static! {
         "099e3ffca0246c873a37f332dda0d27e0fe9c39a",
         // Favorite system
         "ffcc7fb0a323bd1b4c181aaf8bc2236d0bf34529",
+        // Add to favorite
+        "dbbd685327e956deae2b3ed7d8431d74c137a6c9"
     ]
     .into();
 }
