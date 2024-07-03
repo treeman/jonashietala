@@ -3,15 +3,29 @@ title = "Microfeatures in my blog"
 tags = ["Blog"]
 ---
 
-![[xkcd: Nerd sniping][snipe]](https://imgs.xkcd.com/comics/nerd_sniping.png)
+![[xkcd: Nerd sniping][snipe]](/images/microfeatures/nerd_sniping.png)
 
 A while I ago I encountered a blog post called [Microfeatures I Love in Blogs and Personal Websites][] and with the related [Hacker News discussion][] I naturally got [nerd sniped][snipe].
 
 :table-of-content:
 
-# Microfeatures are fun
+# Microfeatures are fun and time consuming
+
+For some people, blogging is their job.
+For me, blogging is a way to delve deeper into ideas, to document my journey to future me, to relax, or have fun.
+Microfeatures are _fun_ and so they're a perfect fit for my blog.
+
+I also really appreciate microfeatures in other blogs.
+It's nice to [discover a beautiful table of content](https://www.evalapply.org/posts/n-ways-to-fizzbuzz-in-clojure/index.html) or a [page with favorite blog posts](https://jvns.ca/categories/favorite/).
+It makes me want to stick around longer and appreciate the craft that is blogging.
+
+But realize that microfeatures take time to implement.
+One small feature won't make a big difference but dozens of microfeatures might transform your blog rewrite you thought were going to take a weekend, to a project spanning weeks or even months.
 
 # Microfeatures I've implemented
+
+Here's a list of notable microfeatures I've made for the blog.
+It's not an exhaustive list, just the ones I think are fun, interesting, or that I'd like to see in more blogs.
 
 ## Published and revision info
 
@@ -36,12 +50,11 @@ Not perfect but good enough I think.
 > ^ Socrates
 
 Blockquotes are standard everywhere but you often want to show where the quote originates from.
-I use a specific syntax for this:
 
-```djot
-> The only true wisdom is in knowing you know nothing.
-> ^ Socrates
-```
+I think it's nicer to have specific styling for attributes than to solve it manually, like this:
+
+> The only true wisdom is in knowing you know nothing.\
+> --- Socrates
 
 ## Different kinds of notes
 
@@ -75,7 +88,9 @@ Maybe a weird thing to prioritize in a post but I really like the additional col
 I also have footnotes[^footnote] (mostly because [Djot][] provides them by default) but I never really use them.
 I guess I should use footnotes more now that I have them.
 
-[^footnote]: xxx
+[^footnote]: [Djot][] has a bunch of nice benefits over markdown such as footnotes.
+
+             There are various flavors such as [Pandoc][] flavored markdown that has footnotes, among other things.
 
 ## Display the language or path for code blocks
 
@@ -98,7 +113,41 @@ Highlighting code blocks is standard but I wonder, why don't we also highlight i
 It's something I added to be able to refer back to values like `"-NoHU"`lua, `0`lua, and `require("telescope.builtin").find_files()`lua when explaining what happens inside a code block.
 A sentence with color is much more pleasing than the colorless `"-NoHU"`, `0`,and `require("telescope.builtin").find_files()` don't you think?
 
+## Table of content
+
+I can optionally insert a table of contents by including a `:table-of-content:` marker in the markup.
+It uses the [<details>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) element and is collapsed by default.
+When expanded it looks like this:
+
+![Expanded table of content for [Let's create a Tree-sitter grammar](/blog/2024/03/19/lets_create_a_tree-sitter_grammar).](/images/microfeatures/toc.png)
+
+It's important for me that the table of content is optional as I have a mix of small and large posts.
+The table of content is generated from the first two heading levels and it works quite well for my use-case.
+
 ## Flex and gallery display for images
+
+I sometimes want to display two or more images next to each other.
+Instead of having images embedded like normal I place two or more images in a `<figure>`html and use [flexbox][] to place them next to each other:
+
+::: Flex
+![](/images/hextraction/fancy_board.jpg)
+![](/images/hextraction/modular_board.jpg)
+
+Two boards for a game called [Hextraction][] that I [3D printed](/blog/2024/02/09/printing_hextraction_for_my_kids).
+:::
+
+When I have more images I use [CSS grid][] to create a small gallery:
+
+::: Gallery
+![](/images/trap14/Robot_0001.jpg)
+![](/images/trap14/Robot_0002.jpg)
+![](/images/trap14/Robot_0005.jpg)
+![](/images/trap14/Robot_0010.JPG)
+![](/images/trap14/Robot_0012.JPG)
+![](/images/trap14/Robot_0013.JPG)
+
+Pictures of a robot project from my time at the University.
+:::
 
 ## Different list types
 
@@ -135,19 +184,15 @@ And here are some unordered list types:
 Necessary? No.\
 Fun? I think so.
 
-## Highlight projects
+## Unbroken indexes of all posts
 
-- Highlighted projects on the homepage
+Under [/archive](/archive) I have a list of all posts so it's easy to scroll through and get an overview of what I've written about during the 15 years the blog has been active.
 
-## Series
+Naturally there's no pagination so you can just scroll through.
+I only have _279_ posts... What's the point of pagination anyway?
 
-## Heading links
-
-## Featured posts on the homepage
-
-## "Archive" contains index of all posts
-
-- Also a "per year" index of all posts
+There's also indexes for [tags](/blog/tags) (see [keyboards](/blog/tags/keyboards)) and per year (see [2023](/blog/2023)).
+The yearly index mostly exists so I have an easy way to see the past years posts when I do my [yearly review](/blog/tags/yearly_review).
 
 ## Featured & favorite posts
 
@@ -170,43 +215,109 @@ I handle featured and favorite posts in three ways:
 
    Clicking on the star takes you to [/favorite](/favorite).
 
+## Series
 
-## Table of content
+Tags are fine for grouping slightly related posts but sometimes posts follow a more structured story, which is where [series](/series) come in.
 
-I can optionally insert a table of contents by including a `:table-of-content:` marker in the markup.
-It uses the [<details>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) element and is collapsed by default.
-When expanded it looks like this:
+A good example of a series is the [Let's build a VORON Trident](/series/voron_trident) where I document my journey of building my first 3D printer in 12 posts.
 
-![Expanded table of content.](/images/microfeatures/toc.png)
+There's a few features that come with a series:
 
-It's important for me that the table of content is optional as I have a mix of small and large posts.
-The table of content is generated from the first two heading levels and it works quite well for my use-case.
+1. All series, both ongoing and completed, are listed under [/series](/series).
+
+1. Each series gets a separate page with a description and the list of posts.
+
+   See [/series/voron_trident](/series/voron_trident) or [/series/t-34](/series/t-34).
+
+1. A post is clearly marked as belonging to a series.
+
+   It's marked next to the post title:
+
+   ![The series is marked both above and below the post title.](/images/microfeatures/series_post_title.png)
+
+   And more information about the series is included at the end of the post, so it's easy to jump around in the series:
+
+   ![All posts in the series are included at the end of a post.](/images/microfeatures/series_post_end.png)
+
+1. Selected series are showcased on the homepage.
+
+I like series and I want to write more series.
+The drawback is that they take more effort to create than standalone blog posts.
+As my attention and motivation tends to shift a lot this increases the [risk of stress][] if I lose motivation in the middle of a series.
+
+## Projects
+
+While a blog is about writing I also wanted to highlight some of the personal projects I've made.
+
+There are no individual pages for the projects as they typically live outside this site (maybe at GitHub).
+Instead I have a [/projects](/projects) page with all the projects and I include a filtered version on the homepage.
+
+The projects markup is fairly simple, just a title and a description (that could include an image, code block, or whatever):
+
+![The [T-34 Keyboard layout](/series/t-34/) project.](/images/microfeatures/t34_project.png)
+
+Long ago I made some game prototypes and I wanted to showcase them in a slightly different manner.
+They're still included as a project but they get specialized markup that I'm pretty happy with:
+
+![The games overview in the [/projects](/projects) page.](/images/microfeatures/games.png)
+
+## Dark mode
+
+::: flex
+![](/images/microfeatures/djot_light.png)
+![](/images/microfeatures/djot_dark.png)
+
+The light and dark style of the site.
+:::
+
+Because I have a preference for dark mode I really wanted a dark mode for the blog, while also catering to people who prefers a light mode.
+
+[I implemented](/blog/2023/10/04/giving_the_blog_a_facelift/#automatic-dark-mode) dark mode using [prefers-color-scheme][], a simple solution that doesn't require JavaScript and "just works".
+It's a CSS feature that allows the user to specify their preference using the browser or operating system.
 
 # Microfeatures I may implement in the future
 
+Naturally, there's always more features you can implement.
+Many I won't bother with but there are some that I think are good ideas and that I may implement one day.
+
 ## Targeted RSS feeds
 
-- Per-series RSS
-- Per-tag RSS
+RSS feeds are awesome and I think all blogs should have them (and news sites, social media sites... almost everything really).
+I do of course [have a feed](/feed.xml) but it might be a good idea to add specialized feeds such as:
+
+- Feed for a series
+- Feed for a tag
+
+The only reason I don't have them is lazyness.
 
 ## Search
 
-- Search
+Because it's a static site it's harder to have a good search functionality.
+Maybe there's a good way to create/include one but I haven't looked into it more.
 
 ## A better 404 page
+
+Perhaps related to the search functiunality, it would be nice if the 404 page would include a helpful "did you mean" message.
+
+For example if you typed in the path `/use` it could suggest you to try [/uses](/uses) instead.
+
+So far I've avoided JavaScript in the blog but here it would be nice to have.
 
 ## Summary of a post
 
 ## Display "related" posts below the post
 
-## Header link icon
-
 [Microfeatures I Love in Blogs and Personal Websites]: https://danilafe.com/blog/blog_microfeatures/
 [snipe]: https://xkcd.com/356/
 [Hacker News discussion]: https://news.ycombinator.com/item?id=40774277
-[uses]: /uses
 [011cebb16131566a186b1fe7c8ba884890a688d6]: https://github.com/treeman/jonashietala/commit/011cebb16131566a186b1fe7c8ba884890a688d6
 [tufte]: /blog/2019/03/04/pollen_sidenotes
 [whycypto]: https://whycryptocurrencies.com/toc.html
 [Djot]: https://djot.net/
 [src]: https://github.com/treeman/jonashietala
+[Hextraction]: https://www.playhextraction.com/
+[flexbox]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox
+[CSS grid]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
+[risk of stress]: /blog/2023/03/14/battling_burnout
+[prefers-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+[Pandoc]: https://pandoc.org/MANUAL.html
