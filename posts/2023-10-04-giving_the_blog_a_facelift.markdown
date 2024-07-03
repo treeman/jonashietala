@@ -37,7 +37,7 @@ I'm sure you could make a bunch of improvements, but the design fulfills my goal
 I've been using dark mode when coding for ages, but it's only recently I tried to switch everything to dark by default.
 
 Some sites use a dark mode switcher button, but I think it's better if the sites detect your preference automatically.
-It's surprisingly easy in CSS, and here's a small example:
+It's surprisingly easy in CSS using [prefers-color-scheme][], and here's a small example:
 
 ```scss
 :root {
@@ -307,3 +307,4 @@ Maybe I'll just leave the styling alone for the next couple of years until I fee
 [stack-flow]: https://andy-bell.co.uk/my-favourite-3-lines-of-css/
 [every-layout]: https://every-layout.dev/
 [line-length]: https://practicaltypography.com/line-length.html
+[prefers-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
