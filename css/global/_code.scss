@@ -7,6 +7,12 @@ code > .line.hl {
   background-color: var(--melange_a_sel);
 }
 
+code > .line[data-linenum]::before {
+  content: attr(data-linenum);
+  padding-right: var(--space-2xs);
+  color: var(--melange_a_ui);
+}
+
 code {
   background-color: var(--melange_a_float);
 }

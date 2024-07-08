@@ -253,6 +253,7 @@ So we should do `foo` then `bar` then `quux`
 ```
 ```
 
+{linenum=14}
 {path="file.rs"}
 ```rust
 let x = 2;
@@ -284,7 +285,7 @@ Badum Badum
 int i = 2;
 ```
 
-{hl="37,12"}
+{hl="38,13" linenum=1}
 ````djot
 ---toml
 title = "Customizing Neovim"

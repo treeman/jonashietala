@@ -32,10 +32,11 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
 
         let mut res = String::new();
 
-        CodeBlock {
+        Code::Block {
             code: code.as_str(),
             lang: lang.as_deref(),
             path: None,
+            linenum_start: None,
             highlight_lines: None,
         }
         .push(&mut res);
@@ -98,7 +99,11 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
         }
 
         let mut res = String::new();
-        push_code_inline(&mut res, &lang, &code);
+        Code::Inline {
+            code: &code,
+            lang: Some(&lang),
+        }
+        .push(&mut res);
         Some(Event::Html(res.into()))
     }
 }

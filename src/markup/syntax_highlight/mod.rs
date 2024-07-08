@@ -11,10 +11,6 @@ use regex::Regex;
 use std::borrow::Cow;
 use tracing::warn;
 
-// FIXME
-// - A trailing </span> may be broken and wrapped inside a div
-// - Maybe use a span for a line instead of a div?
-
 pub enum Code<'a> {
     Inline {
         code: &'a str,
@@ -24,6 +20,7 @@ pub enum Code<'a> {
         code: &'a str,
         lang: Option<&'a str>,
         path: Option<&'a str>,
+        linenum_start: Option<u32>,
         highlight_lines: Option<RangeSet<u32>>,
     },
 }
@@ -41,6 +38,7 @@ impl<'a> Code<'a> {
                 code,
                 lang,
                 path,
+                linenum_start,
                 highlight_lines,
             } => {
                 let transformed = TransformedCode::new(*lang, code);
@@ -48,7 +46,7 @@ impl<'a> Code<'a> {
                 push_descr(*lang, *path, s);
                 s.push_str("<pre>");
                 transformed.push_code_tag_start(s);
-                transformed.push_code_lines(highlight_lines.as_ref(), s);
+                transformed.push_code_lines(*linenum_start, highlight_lines.as_ref(), s);
                 s.push_str("</code>");
                 s.push_str("</pre>");
                 s.push_str("</div>");
@@ -135,50 +133,53 @@ impl<'a> TransformedCode<'a> {
         s.push_str(code);
     }
 
-    fn push_code_lines(&self, highlight_lines: Option<&RangeSet<u32>>, s: &mut String) {
+    fn push_code_lines(
+        &self,
+        linenum_start: Option<u32>,
+        highlight_lines: Option<&RangeSet<u32>>,
+        s: &mut String,
+    ) {
         let code = self.code();
+
+        let mut linenum_width = 1;
+        if let Some(offset) = linenum_start {
+            for (num, _) in code.lines().enumerate() {
+                let num = num as u32 + offset;
+                let w = num.to_string().len();
+                if w > linenum_width {
+                    linenum_width = w;
+                }
+            }
+        }
+
         for (num, line) in code.lines().enumerate() {
+            let linenum = (num + 1) as u32;
             let mut classes = vec!["line"];
             if highlight_lines
                 .as_ref()
-                .map(|hl| hl.contains(num.try_into().unwrap()))
+                .map(|hl| hl.contains(linenum))
                 .unwrap_or(false)
             {
                 classes.push("hl");
             };
-            s.push_str(&format!(r#"<div class="{}">"#, classes.join(" ")));
+            let data_linenum = match linenum_start {
+                Some(start) => format!(
+                    r#"data-linenum="{:>width$}""#,
+                    linenum + start - 1,
+                    width = linenum_width
+                ),
+                None => "".to_string(),
+            };
+            s.push_str(&format!(
+                r#"<div class="{}"{}>"#,
+                classes.join(" "),
+                data_linenum
+            ));
             s.push_str(line);
             s.push('\n');
             s.push_str("</div>");
         }
     }
-}
-
-pub struct CodeBlock<'a> {
-    pub code: &'a str,
-    pub lang: Option<&'a str>,
-    pub path: Option<&'a str>,
-    pub highlight_lines: Option<RangeSet<u32>>,
-}
-
-impl<'a> CodeBlock<'a> {
-    pub fn push(self, s: &mut String) {
-        Code::Block {
-            code: self.code,
-            lang: self.lang,
-            path: self.path,
-            highlight_lines: self.highlight_lines,
-        }
-        .push(s);
-    }
-}
-
-pub fn push_code_inline(s: &mut String, lang: &str, code: &str) {
-    Code::Inline {
-        code,
-        lang: Some(lang),
-    }
-    .push(s);
 }
 
 fn push_descr(lang_id: Option<&str>, path: Option<&str>, s: &mut String) {

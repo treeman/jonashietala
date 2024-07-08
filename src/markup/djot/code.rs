@@ -37,6 +37,11 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
             parse_line_highlight_spec(x.to_string().as_str())
                 .expect("Error parsing `hl` code block attribute")
         });
+        let linenum_start = attrs.get("linenum").map(|x| {
+            x.to_string()
+                .parse::<u32>()
+                .expect("Error parsing `linenum` not a number")
+        });
 
         let mut code = String::new();
         // Next should eat the End event as well.
@@ -46,10 +51,11 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
 
         let mut res = String::new();
 
-        CodeBlock {
+        Code::Block {
             code: code.as_str(),
             lang: lang.as_deref(),
             path: path.as_deref(),
+            linenum_start,
             highlight_lines,
         }
         .push(&mut res);
@@ -131,7 +137,11 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
         };
 
         let mut res = String::new();
-        push_code_inline(&mut res, &lang, &code);
+        Code::Inline {
+            code: &code,
+            lang: Some(&lang),
+        }
+        .push(&mut res);
 
         let html = Container::RawBlock { format: "html" };
 
