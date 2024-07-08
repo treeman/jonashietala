@@ -5,7 +5,7 @@ series = "extending_neovim_for_my_blog"
 favorite = true
 ---
 
-I've used [telescope.nvim][]\'s find files with `require("telescope.builtin").find_files`lua for quite some time.
+I've used [telescope.nvim][]\'s find files with `require("telescope.builtin").find_files`{lang=lua} for quite some time.
 I use find files together with it's cousin `.oldfiles` (find recently opened files) all the time for finding source code files, blog posts, and more.
 
 But it's naturally restricted to operate on only filenames and you can make telescope richer by operating on structured data.
@@ -178,10 +178,10 @@ First, the input arguments to `scoring_function`:
   ```
 
 What `scoring_function` should do is return a single numeric value signifying how close `ordinal` is to `prompt`, where higher means a better match.
-Because we defined `discard = true`lua if we return a value less than `0`lua, the entry will get removed (filtered).
+Because we defined `discard = true`{lang=lua} if we return a value less than `0`{lang=lua}, the entry will get removed (filtered).
 
 At first I thought this was a weird way of creating a sorting function.
-I had expected a comparison function like `cmp(left, right)`lua but after having played with it a little it seems pretty clever.
+I had expected a comparison function like `cmp(left, right)`{lang=lua} but after having played with it a little it seems pretty clever.
 
 ## Sorter requirements
 
@@ -294,8 +294,8 @@ scoring_function = function(_, prompt, entry)
 end,
 ```
 
-Remember that a return value of `< 0`lua filters the entry, so we make sure to check that for each part.
-This is already how `fzy_sorter:scoring_function` works and it will either return `< 0`lua for entries we should remove and a value in `0..1`lua otherwise.
+Remember that a return value of `< 0`{lang=lua} filters the entry, so we make sure to check that for each part.
+This is already how `fzy_sorter:scoring_function` works and it will either return `< 0`{lang=lua} for entries we should remove and a value in `0..1`{lang=lua} otherwise.
 Because the matching of tags and series is so similar, I introduced the `score_element` helper function:
 
 
@@ -344,19 +344,19 @@ end
 
 With this in place we have a working sorter.
 
-- If we type regular text, then `series_score` and `tags_score` will be `0`lua, practically ignoring them.
-- A `#series_filter` will set `series_score == -1`lua unless the post has a matching series, removing the entry.
-- And typing `@tag1 @tag2` will require a match for every tag, otherwise `tags_score == -1`lua that again removes the entry.
+- If we type regular text, then `series_score` and `tags_score` will be `0`{lang=lua}, practically ignoring them.
+- A `#series_filter` will set `series_score == -1`{lang=lua} unless the post has a matching series, removing the entry.
+- And typing `@tag1 @tag2` will require a match for every tag, otherwise `tags_score == -1`{lang=lua} that again removes the entry.
 - Adding the fuzzy scores together gives us a pretty good fuzzy matching behavior I feel.
 
 The only requirement left is to order posts by date.
 It must be done carefully not to override the sort order we get from the fuzzy matching.
 
-One way to do this is to sort all posts and add a post counter to each entity (so the first post would get `1`lua and the last `272`lua) and then add it to the final score somehow.
+One way to do this is to sort all posts and add a post counter to each entity (so the first post would get `1`{lang=lua} and the last `272`{lang=lua}) and then add it to the final score somehow.
 This felt a little cumbersome and I wanted to see if I could implement the scoring function without having to sort the entries first.
 After all, we already have the date of each post...
 
-This is possible by placing the post on a timeline between the date of the very first post and today, and then clamping the range to `0..1`lua.
+This is possible by placing the post on a timeline between the date of the very first post and today, and then clamping the range to `0..1`{lang=lua}.
 Something like this:
 
 ```lua

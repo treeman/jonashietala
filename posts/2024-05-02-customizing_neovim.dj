@@ -66,7 +66,7 @@ require("blog.commands")
 
 The above files handles the initial registration, the other files are required when they're needed.
 
-For example, `autocmd.lua` registers a `{ "BufRead", "BufNewFile" }`lua autocommand that establishes a connection to the backend, and registers buffer local keymaps:
+For example, `autocmd.lua` registers a `{ "BufRead", "BufNewFile" }`{lang=lua} autocommand that establishes a connection to the backend, and registers buffer local keymaps:
 
 ```lua
 -- This way we include other blog related functionality
@@ -257,7 +257,7 @@ Instead of pasting a big chunk of code, let's go through the most important impl
 
 1. I want to use the title from the metadata because I'll often change the title and I want the slug to be updated.
 
-   We can extract the title from the post by shelling out to [ripgrep][] that matches against a `title = "My title"`toml line.
+   We can extract the title from the post by shelling out to [ripgrep][] that matches against a `title = "My title"`{lang=toml} line.
 
    [nvim-nio][] provides `process.run` to run a shell command:
 
@@ -336,7 +336,7 @@ Instead of pasting a big chunk of code, let's go through the most important impl
 
    The error to look out for is `nvim_exec2 must not be called in a lua loop callback`, which I assume means that `nio` uses the lower level lua loop API for its async system.
 
-   What we need to do is yield to the Neovim scheduler before calling `vim.cmd` to rename the file, which can be done with `nio.scheduler()`lua:
+   What we need to do is yield to the Neovim scheduler before calling `vim.cmd` to rename the file, which can be done with `nio.scheduler()`{lang=lua}:
 
    ```lua
    nio.scheduler()

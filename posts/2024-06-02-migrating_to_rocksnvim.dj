@@ -286,7 +286,7 @@ With that said, being able to lazy load plugins is a great feature when you need
 
 On a basic level you can accomplish lazy loading by following these three steps:
 
-1. Mark the plugin with `opt = true`lua.
+1. Mark the plugin with `opt = true`{lang=lua}.
 
    {path="rocks.toml"}
    ```toml

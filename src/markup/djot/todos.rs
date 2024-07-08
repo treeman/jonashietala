@@ -1,11 +1,10 @@
 use crate::markup::markup_lookup::{Element, MarkupLookup, TodoTag};
+use crate::markup::ParseContext;
 use jotdown::{Attributes, Container, Event};
 use std::cell::RefCell;
 use std::iter::Peekable;
 use std::ops::Range;
 use std::rc::Rc;
-
-use crate::markup::ParseContext;
 
 pub struct TransformTodoComments<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> {
     parent: Peekable<I>,

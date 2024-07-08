@@ -29,7 +29,7 @@ imap <C-L> λ
 imap <C-E> ◊
 ```
 
-Pollen markup uses `◊` extensively so having an easy way to insert it is very important. And in Racket instead of writing lambdas `(lambda (x) ...)`racket you can write `(λ (x) ...)`racket. It's not necessary but I thought, why not?
+Pollen markup uses `◊` extensively so having an easy way to insert it is very important. And in Racket instead of writing lambdas `(lambda (x) ...)`{lang=racket} you can write `(λ (x) ...)`{lang=racket}. It's not necessary but I thought, why not?
 
 # Configuring Pollen
 
@@ -92,7 +92,7 @@ You can also specify attributes such as classes, which is quite handy:
 ◊div[#:class "my-class"]{ ... }
 ```
 
-But the real power of the markup language is how easy it is to create your own tags. Just define regular Racket functions and provide them in pollen.rkt like so: `(provide (all-from-out "rkt/tags.rkt"))`racket
+But the real power of the markup language is how easy it is to create your own tags. Just define regular Racket functions and provide them in pollen.rkt like so: `(provide (all-from-out "rkt/tags.rkt"))`{lang=racket}
 
 Here are some examples of tags I've implemented:
 
@@ -212,9 +212,9 @@ Now it would be fairly easy (or at least it's possible to style it in such a way
 
 I wanted to be able to customize the placement on the narrower screen as I wanted, while the floating sidenote should be as close to their reference as possible. I solved it, but it's not very pretty...
 
-My first thought was to insert two sidenotes, and set `display:none`css to hide one of them. But this would break screen readers or simplified readers that removes much of the styling, such as the "reader view" in Firefox. So I opted for a more complex solution of manually modifying the top margin for each sidenote.
+My first thought was to insert two sidenotes, and set `display:none`{lang=css} to hide one of them. But this would break screen readers or simplified readers that removes much of the styling, such as the "reader view" in Firefox. So I opted for a more complex solution of manually modifying the top margin for each sidenote.
 
-In practice it means I insert a sidenote using `◊sn{my-ref}`pollen, which by default inserts it below the current paragraph. If I want to manually place it somewhere else I use `◊note-pos[#:top -9]{my-ref}`pollen. So for example:
+In practice it means I insert a sidenote using `◊sn{my-ref}`{lang=pollen}, which by default inserts it below the current paragraph. If I want to manually place it somewhere else I use `◊note-pos[#:top -9]{my-ref}`{lang=pollen}. So for example:
 
 ```pollen
 First paragraph.◊sn{my-ref}
@@ -224,7 +224,7 @@ Second paragraph.
 ◊note-pos[#:top -9]{my-ref}
 ```
 
-The text for the sidenote is given by `◊ndef["my-ref"]{Sidenote text here}`pollen, which can be paced anywhere in the source file.
+The text for the sidenote is given by `◊ndef["my-ref"]{Sidenote text here}`{lang=pollen}, which can be paced anywhere in the source file.
 
 There's a bunch of sidenote specific styling, but the important parts are given by:
 
@@ -258,9 +258,9 @@ There's a bunch of sidenote specific styling, but the important parts are given 
 }
 ```
 
-And margins are overridden by `<div class="sidenote" style="margin-top:-9em;">`html.
+And margins are overridden by `<div class="sidenote" style="margin-top:-9em;">`{lang=html}.
 
-The actual implementation of `◊sn`pollen and `◊ndef`pollen has grown surprisingly large and I went through the old version in the [previous post][sidenotes], so I'll skip it here. The implementation has changed a little but not in any major way. You can always find the [latest code on GitHub][sidenote-code] if you're interested.
+The actual implementation of `◊sn`{lang=pollen} and `◊ndef`{lang=pollen} has grown surprisingly large and I went through the old version in the [previous post][sidenotes], so I'll skip it here. The implementation has changed a little but not in any major way. You can always find the [latest code on GitHub][sidenote-code] if you're interested.
 
 
 # Local markup
@@ -370,7 +370,7 @@ This can be accomplished by writing a bit of lisp code in the tag that splits th
       ,@(map make-row rows)))
 ```
 
-(Yes I know that the "..." row will generate a `<span class="time">...</span>`html and a `<span class="txt"></span>`html element, but it doesn't affect the appearance.)
+(Yes I know that the "..." row will generate a `<span class="time">...</span>`{lang=html} and a `<span class="txt"></span>`{lang=html} element, but it doesn't affect the appearance.)
 
 
 # Table of contents

@@ -149,7 +149,7 @@ return {
 
 Incredibly nice when you have lots of plugins, and some have large configurations (like [lspconfig][], [treesitter][nvim-treesitter] or [cmp][nvim-cmp]).
 
-One last big thing is I wanted to have all global keymaps in one single file. [lazy.nvim][] supports adding keymaps in the plugin specification using `keys = { }`lua option. I accomplished this by simply returning a "module" table from `config/keymaps.lua`:
+One last big thing is I wanted to have all global keymaps in one single file. [lazy.nvim][] supports adding keymaps in the plugin specification using `keys = { }`{lang=lua} option. I accomplished this by simply returning a "module" table from `config/keymaps.lua`:
 
 ```lua
 M = {}
@@ -193,7 +193,7 @@ local on_attach = function(client, buffer)
 end
 ```
 
-One last thing; for the regular mappings you don't want to just remap them in `config/keymaps.lua` because multiple files will run `require("config.keymaps")`lua, so I wrapped it in an init function:
+One last thing; for the regular mappings you don't want to just remap them in `config/keymaps.lua` because multiple files will run `require("config.keymaps")`{lang=lua}, so I wrapped it in an init function:
 
 ```lua
 M.init = function()
@@ -280,7 +280,7 @@ I think that's very nice, but treesitter is more than that. And a great example 
 - `if` textobject for inner function. So `cif` would delete the function body and enter insert mode.
 - `ax` textobject for outer comment, to easily delete/change comments.
 
-The beauty is that these work on treesitter nodes, so they work equally well across languages for functions like `fn myfun() { }`rust, `function myfun() ... end`lua or a `def myfun() do .. end`elixir. (Given that the treesitter implementation supports these options. Markdown doesn't have the concept of a function for instance.)
+The beauty is that these work on treesitter nodes, so they work equally well across languages for functions like `fn myfun() { }`{lang=rust}, `function myfun() ... end`{lang=lua} or a `def myfun() do .. end`{lang=elixir}. (Given that the treesitter implementation supports these options. Markdown doesn't have the concept of a function for instance.)
 
 ## [Neogit][]: Git management
 

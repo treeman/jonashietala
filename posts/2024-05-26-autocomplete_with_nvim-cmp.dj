@@ -361,7 +361,7 @@ callback(items)
 
 ::: note
 As the completion logic grew more complex, I moved it out from Neovim to the backend.
-It was easier to setup completion details for individual items that way, and now I only rely on a single `"Complete"`lua message that I pipe directly back to `cmp`:
+It was easier to setup completion details for individual items that way, and now I only rely on a single `"Complete"`{lang=lua} message that I pipe directly back to `cmp`:
 
 ```lua
 function source:complete(params, callback)

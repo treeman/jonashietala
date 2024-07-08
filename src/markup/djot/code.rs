@@ -1,8 +1,6 @@
 use crate::markup::syntax_highlight::*;
-use colored::Colorize;
 use itertools::{Itertools, MultiPeek};
 use jotdown::{Attributes, Container, Event};
-use tracing::warn;
 
 pub struct CodeBlockSyntaxHighlight<'a, I: Iterator<Item = Event<'a>>> {
     parent: I,
@@ -89,26 +87,15 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
             return Some(event);
         }
 
-        let start = match self.parent.next()? {
-            start @ Event::Start(Container::Verbatim, _) => start,
+        let attrs = match self.parent.next()? {
+            Event::Start(Container::Verbatim, attrs) => attrs,
             other => return Some(other),
         };
 
-        // We need to peek directly after the verbatim.
-        loop {
-            if let Some(Event::End(Container::Verbatim)) = self.parent.peek() {
-                break;
-            }
-        }
-
-        match self.parent.peek() {
-            Some(Event::Str(txt)) => {
-                if !INLINE_CODE_SPEC.is_match(txt) {
-                    return Some(start);
-                }
-            }
-            _ => return Some(start),
-        }
+        let lang = match attrs.get("lang") {
+            Some(lang) => lang.to_string(),
+            None => return Some(Event::Start(Container::Verbatim, attrs)),
+        };
 
         // Now lets eat it up!
         let mut code = String::new();
@@ -117,24 +104,10 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
                 Event::End(Container::Verbatim) => break,
                 Event::Str(text) => code.push_str(&text),
                 x => {
-                    warn!("Unexpected event: {x:?}");
-                    return Some(start);
+                    panic!("Unexpected event: {x:?}");
                 }
             }
         }
-
-        let txt = match self.parent.next()? {
-            Event::Str(txt) => txt,
-            other => panic!("Should have peeked a surefire match, got: {other:?}"),
-        };
-
-        let (lang, trailing) = match inline_code_spec(&txt) {
-            Some(x) => x,
-            None => panic!(
-                "Inline code spec not matched: {}",
-                format!("`{code}`{txt}").red()
-            ),
-        };
 
         let mut res = String::new();
         Code::Inline {
@@ -144,10 +117,6 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
         .push(&mut res);
 
         let html = Container::RawBlock { format: "html" };
-
-        if !trailing.is_empty() {
-            self.event_queue.push(Event::Str(trailing.into()));
-        }
 
         self.event_queue.push(Event::End(html.clone()));
         self.event_queue.push(Event::Str(res.into()));
@@ -211,7 +180,7 @@ let square x = x * x
         // ..
         // Code
         // Text("rust end")
-        let s = r"Inline `let x = 2;`rust end";
+        let s = r"Inline `let x = 2;`{lang=rust} end";
         let res = convert(s)?;
         assert!(res.starts_with(
             r#"<p>Inline 
@@ -227,7 +196,7 @@ let square x = x * x
         // ..
         // Code
         // Text("rust end")
-        let s = r"`x->y`c";
+        let s = r"`x->y`{lang=c}";
         let res = convert(s)?;
         assert_eq!(res, "<p>\n<code class=\"highlight c\">x<span class=\"punctuation accessor c\">-&gt;</span>y</code></p>");
         Ok(())
@@ -298,24 +267,24 @@ Text
     #[test]
     fn test_code_highlight_line_text() -> Result<()> {
         let s = r#"
-    {hl="1,3..4"}
+    {hl="2,4..5"}
     ```
-    0
     1
     2
     3
     4
     5
+    6
     ```"#;
         let res = convert(s)?;
         assert_eq!(
             res,
-            r#"<div class="code-wrapper"><pre><code><div class="line">0
-</div><div class="line hl">1
-</div><div class="line">2
-</div><div class="line hl">3
+            r#"<div class="code-wrapper"><pre><code><div class="line">1
+</div><div class="line hl">2
+</div><div class="line">3
 </div><div class="line hl">4
-</div><div class="line">5
+</div><div class="line hl">5
+</div><div class="line">6
 </div></code></pre></div>"#
         );
         Ok(())
