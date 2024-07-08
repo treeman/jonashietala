@@ -3,7 +3,6 @@
 @use "../global/font_size" as *;
 
 code > .line.hl {
-  background-color: var(--melange_d_cyan);
   background-color: var(--melange_a_sel);
 }
 
@@ -30,7 +29,7 @@ pre {
 // Give extra space for path and language boxes that will
 // overflow the code block.
 .code-wrapper:has(.descr) {
-  padding-top: 1rem;
+  margin-top: 1rem;
 }
 
 .code-wrapper .descr {
@@ -175,18 +174,22 @@ pre {
 //   color: $gb-lm-light-blue;
 // }
 .meta.selector.css .entity.name.tag {
+  color: var(--melange_b_yellow);
+  font-weight: normal;
+}
+.meta.selector.css .entity.other.attribute-name.class {
   color: var(--melange_c_cyan);
 }
-// .meta.selector.css,
-// .entity.other.attribute-name.id {
-// Just normal fg
-// }
-// .meta.selector.css .entity.other.attribute-name.class {
-//   color: $gb-lm-light-green;
-// }
-// .support.type.property-name.css {
-//   color: $gb-lm-light-aqua;
-// }
+.support.type.property-name.css {
+  color: var(--melange_a_fg);
+}
+.support.type.custom-property.css :is(.name, .punctuation) {
+  color: var(--melange_c_blue);
+  font-style: italic;
+}
+.punctuation.css {
+  color: var(--melange_c_red);
+}
 // .property {
 //   color: var(--melange_c_green);
 // }

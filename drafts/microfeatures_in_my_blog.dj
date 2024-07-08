@@ -92,19 +92,97 @@ I guess I should use footnotes more now that I have them.
 
              There are various flavors such as [Pandoc][] flavored markdown that has footnotes, among other things.
 
-## Display the language or path for code blocks
+## Enhanced code snippets
 
-For code blocks I add a small description that displays the language.
-It can be customized to for example display the path of the file:
+{hl="4,9..11" linenum="14" path="src/markup/djot/code.rs"}
+```rust
+pub enum Code<'a> {
+    Inline {
+        code: &'a str,
+        lang: Option<&'a str>,
+    },
+    Block {
+        code: &'a str,
+        lang: Option<&'a str>,
+        path: Option<&'a str>,
+        linenum_start: Option<u32>,
+        highlight_lines: Option<RangeSet<u32>>,
+    },
+}
+```
 
-![](/images/microfeatures/code_descr.png)
+Embedding code into blogs is common practice and I've added a few extra features to the code display on my blog:
 
-## Syntax highlight for inline code elements
+[before]: https://developer.mozilla.org/en-US/docs/Web/CSS/::before
+[data attributes]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
 
-Highlighting code blocks is standard but I wonder, why don't we also highlight inline code?
+A. Overlay the language or file path.
 
-It's something I added to be able to refer back to values like `"-NoHU"`lua, `0`lua, and `require("telescope.builtin").find_files()`lua when explaining what happens inside a code block.
-A sentence with color is much more pleasing than the colorless `"-NoHU"`, `0`,and `require("telescope.builtin").find_files()` don't you think?
+   For code blocks there's a small description that displays the language.
+   It can be customized to for example display the path of the file:
+
+   ![](/images/microfeatures/code_descr.png)
+
+   It's accomplished using CSS with [data attributes][] and [::before][before], and won't be visible in the RSS feed.
+
+   ::: tip
+   View the source Luke.
+   :::
+
+A. Syntax highlight for inline code elements.
+
+   Highlighting code blocks is standard but I wonder, why don't we also highlight inline code?
+
+   It's something I added to be able to refer back to values like `"-NoHU"`lua, `0`lua, and `require("telescope.builtin").find_files()`lua when explaining what happens inside a code block.
+   A sentence with color is much more pleasing than the colorless `"-NoHU"`, `0`, and `require("telescope.builtin").find_files()` don't you think?
+
+A. Ability to highlight lines.
+
+   {hl=2}
+   ```css
+   code > .line.hl {
+     background-color: var(--melange_a_sel);
+   }
+   ```
+
+   Benjamin Tan's excellent [blog post about Jujutsu][ofcrse] used highlighted lines to good effect and inspired me to implement them.
+
+A. Optionally add line numbers.
+
+   {linenum=9}
+   ```css
+   code > .line[data-linenum]::before {
+     content: attr(data-linenum);
+     padding-right: var(--space-2xs);
+     color: var(--melange_a_ui);
+   }
+   ```
+
+   Line numbers is another feature I've recently implemented that I _think_ is a good idea.
+   Them being optional is important as line numbers adds a bit of bloat.
+   I'll probably only use them in very specific scenarios where I really want to call out code at certain lines.
+
+   ::: note
+   The selector at line 9 targets lines with the linenum [data attribute][data attributes] to avoid the padding at line 11 to apply to code blocks without line numbers.
+
+   Adding line numbers in [::before][before] has the additional benefit of the line numbers not being included in the selection, so copying the code works as expected.
+   :::
+
+A. No images, no JavaScript, and no embedded Gists.
+
+   It frustrates me to no end when someone has made the effort to write a good blog post and then use _images_ for their code.
+   Images inevitably fail to render as crisply as regular text and they're either too small, too blurry, or impossible to read on the phone.
+
+   I also really dislike requiring JavaScript just for displaying text or embedding code as [GitHub Gists][].
+   It's just text---let's serve it as text.
+
+   ::: warn
+   I've gotten email at work with images of example code they expected me to copy.
+   That's [Office Space thriller][] material and such behavior will earn you enemies for life.
+   :::
+
+
+[ofcrse]: https://ofcr.se/jujutsu-merge-workflow
 
 ## Table of content
 
@@ -313,14 +391,6 @@ Another interesting idea is to display a bunch of related posts at the end of a 
 The problem is similar to that of [summarizing a post](#Summary-of-a-post): it's cumbersome to maintain or hard to auto-generate well.
 For now I'm content with [tags](/blog/tags) and [series](/series) as a means of grouping related posts.
 
-## More advanced code bloks
-
-Displaying code is an area where I could do a lot more, for example:
-
-- Optionally display line numbers (with offsets).
-- Highlight lines or words.
-- Line numbers links to the complete source code at GitHub.
-
 ## More post metadata
 
 1. "Discussion links"
@@ -341,3 +411,5 @@ Displaying code is an area where I could do a lot more, for example:
 [risk of stress]: /blog/2023/03/14/battling_burnout
 [prefers-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
 [Pandoc]: https://pandoc.org/MANUAL.html
+[GitHub Gists]: https://docs.github.com/en/get-started/writing-on-github/editing-and-sharing-content-with-gists/creating-gists
+[Office Space thriller]: https://www.youtube.com/watch?v=2mtTBtMXNkg
