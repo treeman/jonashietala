@@ -158,7 +158,7 @@ fn check_url(range: &PosRange, url: &str, site: &Site, res: &mut Vec<Diagnostic>
     match SiteUrl::parse(url) {
         Ok(site_url) => {
             let path = site_url.output_file(&site.opts.output_dir);
-            if !path.exists() {
+            if !path.exists() && url != "/feed.xml" {
                 push_diagnostic(
                     range,
                     format!("Link to non-existent url: `{}`", url),

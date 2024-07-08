@@ -36,6 +36,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
             code: code.as_str(),
             lang: lang.as_deref(),
             path: None,
+            highlight_lines: None,
         }
         .push(&mut res);
 

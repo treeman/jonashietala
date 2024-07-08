@@ -284,6 +284,7 @@ Badum Badum
 int i = 2;
 ```
 
+{hl="37,12"}
 ````djot
 ---toml
 title = "Customizing Neovim"
@@ -344,9 +345,9 @@ With a footnote.[^wtf]
 | Left aligned |  Centered  | Right aligned |
 |:-------------|:----------:|--------------:|
 | First row    |    Data    |          Data |
-| Second row   | **Cell** 1 |          1111 |
-| Third row    | **Cell** 2 |          3333 |
-| Fourth row   | **Cell** 3 |          6789 |
+| Second row   | *Cell* 1 |          1111 |
+| Third row    | *Cell* 2 |          3333 |
+| Fourth row   | *Cell* 3 |          6789 |
 ^ With table caption
 
 [blog](/blogxxxxx) and auto <https://google.com> \

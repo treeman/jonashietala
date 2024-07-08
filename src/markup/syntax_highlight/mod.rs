@@ -1,136 +1,193 @@
 pub mod syntect_highlighter;
 pub mod treesitter_highlighter;
 
+use btree_range_map::RangeSet;
 use syntect_highlighter::SyntectHighlighter;
 use treesitter_highlighter::TreesitterHighlighter;
 
-use eyre::Result;
+use eyre::{eyre, Result};
 use lazy_static::lazy_static;
 use regex::Regex;
+use std::borrow::Cow;
 use tracing::warn;
 
-pub struct CodeBlock<'a> {
-    pub code: &'a str,
-    pub lang: Option<&'a str>,
-    pub path: Option<&'a str>,
+// FIXME
+// - A trailing </span> may be broken and wrapped inside a div
+// - Maybe use a span for a line instead of a div?
+
+pub enum Code<'a> {
+    Inline {
+        code: &'a str,
+        lang: Option<&'a str>,
+    },
+    Block {
+        code: &'a str,
+        lang: Option<&'a str>,
+        path: Option<&'a str>,
+        highlight_lines: Option<RangeSet<u32>>,
+    },
 }
 
-impl<'a> CodeBlock<'a> {
-    pub fn push(self, s: &mut String) {
-        match self.lang {
+impl<'a> Code<'a> {
+    pub fn push(&self, s: &mut String) {
+        match self {
+            Self::Inline { code, lang } => {
+                let transformed = TransformedCode::new(*lang, code);
+                transformed.push_code_tag_start(s);
+                transformed.push_code_raw(s);
+                s.push_str("</code>");
+            }
+            Self::Block {
+                code,
+                lang,
+                path,
+                highlight_lines,
+            } => {
+                let transformed = TransformedCode::new(*lang, code);
+                transformed.push_wrapper_tag_start(s);
+                push_descr(*lang, *path, s);
+                s.push_str("<pre>");
+                transformed.push_code_tag_start(s);
+                transformed.push_code_lines(highlight_lines.as_ref(), s);
+                s.push_str("</code>");
+                s.push_str("</pre>");
+                s.push_str("</div>");
+            }
+        }
+    }
+}
+
+enum TransformedCode<'a> {
+    Highlighted {
+        code: Cow<'a, str>,
+        lang_id: String,
+        wide: bool,
+    },
+    NoHighlight {
+        code: Cow<'a, str>,
+        wide: bool,
+    },
+}
+
+impl<'a> TransformedCode<'a> {
+    fn new(lang: Option<&str>, code: &'a str) -> TransformedCode<'a> {
+        let wide = largest_line_count(code) > 66;
+
+        match lang {
             Some(lang) => match Highlighter::create(lang) {
-                Some(highlighter) => match highlighter.highlight(self.code) {
-                    Ok(highlighted) => {
-                        push_code_block_highlight(
-                            s,
-                            &highlighter.lang_id,
-                            self.path,
-                            self.code,
-                            &highlighted,
-                        );
-                    }
+                Some(highlighter) => match highlighter.highlight(code) {
+                    Ok(highlighted) => Self::Highlighted {
+                        lang_id: highlighter.lang_id,
+                        code: Cow::Owned(highlighted),
+                        wide,
+                    },
                     Err(err) => {
                         panic!("Syntax highlight error: {}", err);
                     }
                 },
                 None => {
                     warn!("No highlighter found for: {}", lang);
-                    push_code_block_no_highlight(s, self.code, self.path);
+                    Self::NoHighlight {
+                        code: Cow::Borrowed(code),
+                        wide,
+                    }
                 }
             },
-            None => {
-                push_code_block_no_highlight(s, self.code, self.path);
-            }
+            None => Self::NoHighlight {
+                code: Cow::Borrowed(code),
+                wide,
+            },
         }
+    }
+
+    fn push_code_tag_start(&self, s: &mut String) {
+        match self {
+            Self::Highlighted { lang_id, .. } => {
+                let html_id = html_escape::encode_safe(lang_id);
+                s.push_str(&format!(r#"<code class="highlight {html_id}">"#));
+            }
+            Self::NoHighlight { .. } => s.push_str("<code>"),
+        }
+    }
+
+    fn push_wrapper_tag_start(&self, s: &mut String) {
+        let mut classes = vec!["code-wrapper"];
+        if self.wide() {
+            classes.push("wide");
+        }
+        s.push_str(&format!(r#"<div class="{}">"#, classes.join(" ")));
+    }
+
+    fn wide(&self) -> bool {
+        match self {
+            Self::Highlighted { wide, .. } | Self::NoHighlight { wide, .. } => *wide,
+        }
+    }
+
+    fn code(&self) -> &str {
+        match self {
+            Self::Highlighted { code, .. } | Self::NoHighlight { code, .. } => code.as_ref(),
+        }
+    }
+
+    fn push_code_raw(&self, s: &mut String) {
+        let code = self.code();
+        s.push_str(code);
+    }
+
+    fn push_code_lines(&self, highlight_lines: Option<&RangeSet<u32>>, s: &mut String) {
+        let code = self.code();
+        for (num, line) in code.lines().enumerate() {
+            let mut classes = vec!["line"];
+            if highlight_lines
+                .as_ref()
+                .map(|hl| hl.contains(num.try_into().unwrap()))
+                .unwrap_or(false)
+            {
+                classes.push("hl");
+            };
+            s.push_str(&format!(r#"<div class="{}">"#, classes.join(" ")));
+            s.push_str(line);
+            s.push('\n');
+            s.push_str("</div>");
+        }
+    }
+}
+
+pub struct CodeBlock<'a> {
+    pub code: &'a str,
+    pub lang: Option<&'a str>,
+    pub path: Option<&'a str>,
+    pub highlight_lines: Option<RangeSet<u32>>,
+}
+
+impl<'a> CodeBlock<'a> {
+    pub fn push(self, s: &mut String) {
+        Code::Block {
+            code: self.code,
+            lang: self.lang,
+            path: self.path,
+            highlight_lines: self.highlight_lines,
+        }
+        .push(s);
     }
 }
 
 pub fn push_code_inline(s: &mut String, lang: &str, code: &str) {
-    match Highlighter::create(lang) {
-        Some(highlighter) => match highlighter.highlight(code) {
-            Ok(highlighted) => {
-                push_code_highlight(s, &highlighter.lang_id, &highlighted);
-            }
-            Err(err) => {
-                panic!("Syntax highlight error: {}", err);
-            }
-        },
-        None => {
-            warn!("No highlighter found for: {}", lang);
-            push_code_no_highlight(s, code);
-        }
+    Code::Inline {
+        code,
+        lang: Some(lang),
     }
+    .push(s);
 }
 
-fn push_code_block_highlight(
-    s: &mut String,
-    lang_id: &str,
-    path: Option<&str>,
-    original_code: &str,
-    highlighted_code: &str,
-) {
-    let display_name = html_escape::encode_safe(lang_display_name(lang_id));
-    let html_id = html_escape::encode_safe(lang_id);
-
-    // Wrap things in an extra div to allow the language display div to
-    // be visible outside the <pre> tag.
-    // Set the language as a class and insert text using ::before to
-    // not interfere with readers of different types.
-    push_code_wrapper_start(s, original_code);
-    push_descr(s, Some(display_name.as_ref()), path);
-    s.push_str("<pre>");
-    push_code_highlight(s, &html_id, highlighted_code);
-    s.push_str(r#"</pre>"#);
-    s.push_str(r#"</div>"#);
-}
-
-fn push_descr(s: &mut String, lang: Option<&str>, path: Option<&str>) {
-    if let Some(descr) = path.or(lang) {
+fn push_descr(lang_id: Option<&str>, path: Option<&str>, s: &mut String) {
+    let descr = path.or_else(|| lang_id.map(lang_display_name));
+    if let Some(descr) = descr {
         s.push_str(&format!(
             r#"<div class="descr" data-descr="{}"></div>"#,
-            descr
+            html_escape::encode_safe(descr)
         ));
-    }
-}
-
-fn push_code_block_no_highlight(s: &mut String, code: &str, path: Option<&str>) {
-    push_code_wrapper_start(s, code);
-    push_descr(s, None, path);
-    s.push_str("<pre>");
-    push_code_no_highlight(s, code);
-    s.push_str(r#"</pre>"#);
-    s.push_str(r#"</div>"#);
-}
-
-fn push_code_highlight(s: &mut String, html_id: &str, highlighted_code: &str) {
-    s.push_str(r#"<code class="highlight "#);
-    s.push_str(html_id);
-    s.push_str(r#"">"#);
-    s.push_str(highlighted_code);
-    s.push_str("</code>");
-}
-
-fn push_code_no_highlight(s: &mut String, code: &str) {
-    s.push_str("<code>");
-    s.push_str(&html_escape::encode_safe(&code));
-    s.push_str("</code>");
-}
-
-fn push_code_wrapper_start(s: &mut String, raw_code: &str) {
-    let mut classes = vec!["code-wrapper"];
-    if let Some(extra) = extra_code_class(raw_code) {
-        classes.push(extra);
-    }
-    s.push_str(&format!(r#"<div class="{}">"#, classes.join(" ")));
-}
-
-fn extra_code_class(raw_code: &str) -> Option<&'static str> {
-    let count = largest_line_count(raw_code);
-
-    if count > 66 {
-        Some("wide")
-    } else {
-        None
     }
 }
 
@@ -188,9 +245,8 @@ fn lang_display_name(lang: &str) -> &str {
 
 lazy_static! {
     pub static ref BLOCK_CODE_SPEC: Regex = Regex::new(r"^[\w_-]+$").unwrap();
-}
-lazy_static! {
     pub static ref INLINE_CODE_SPEC: Regex = Regex::new(r"^([\w_-]+)(.*?)$").unwrap();
+    pub static ref RANGE: Regex = Regex::new(r"^(\d+)..(\d+)$").unwrap();
 }
 
 pub fn inline_code_spec(s: &str) -> Option<(String, String)> {
@@ -213,21 +269,59 @@ pub fn parse_code_spec(s: &str) -> Option<String> {
     }
 }
 
+pub fn parse_line_highlight_spec(spec: &str) -> Result<RangeSet<u32>> {
+    let mut res = RangeSet::new();
+
+    for part in spec.split(',') {
+        let part = part.trim();
+        if let Some(caps) = RANGE.captures(part) {
+            let from = caps[1].parse::<u32>()?;
+            let to = caps[2].parse::<u32>()?;
+            res.insert(from..=to);
+        } else {
+            let line = part.parse::<u32>()?;
+            res.insert(line);
+        }
+    }
+
+    if res.is_empty() {
+        Err(eyre!("Empty highlight spec: `{spec}`"))
+    } else {
+        Ok(res)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    //     #[test]
+    //     fn test_extra_code_class() {
+    //         assert_eq!(largest_line_count("one\ntwo\nthree"), 5);
+    //         assert_eq!(extra_code_class("one\ntwo\nthree"), None);
+    //         assert_eq!(
+    //             extra_code_class(
+    //                 r"
+    // One line that is exactly 67... Which line, it's this one...........
+    // This is just a small line
+    // "
+    //             ),
+    //             Some("wide")
+    //         );
+    //     }
+
     #[test]
-    fn test_extra_code_class() {
-        assert_eq!(largest_line_count("one\ntwo\nthree"), 5);
-        assert_eq!(extra_code_class("one\ntwo\nthree"), None);
-        assert_eq!(
-            extra_code_class(
-                r"
-One line that is exactly 67... Which line, it's this one...........
-This is just a small line
-"
-            ),
-            Some("wide")
-        );
+    fn test_parse_line_highlight_spec() -> Result<()> {
+        let set = parse_line_highlight_spec("0,2,4..5")?;
+
+        assert!(set.contains(0));
+        assert!(!set.contains(1));
+        assert!(set.contains(2));
+        assert!(!set.contains(3));
+        assert!(set.contains(4));
+        assert!(set.contains(5));
+        assert!(!set.contains(6));
+
+        Ok(())
     }
 }

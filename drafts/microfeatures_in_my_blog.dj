@@ -99,13 +99,6 @@ It can be customized to for example display the path of the file:
 
 ![](/images/microfeatures/code_descr.png)
 
-Displaying code is an area where I could do more, for example:
-
-- Optionally display line numbers (with offsets).
-- Highlight lines.
-- Highlight words or diff against the previous code block.
-- Links to the complete source code.
-
 ## Syntax highlight for inline code elements
 
 Highlighting code blocks is standard but I wonder, why don't we also highlight inline code?
@@ -288,7 +281,7 @@ I do of course [have a feed](/feed.xml) but it might be a good idea to add speci
 - Feed for a series
 - Feed for a tag
 
-The only reason I don't have them is lazyness.
+The only reason I don't have them is laziness.
 
 ## Search
 
@@ -297,7 +290,7 @@ Maybe there's a good way to create/include one but I haven't looked into it more
 
 ## A better 404 page
 
-Perhaps related to the search functiunality, it would be nice if the 404 page would include a helpful "did you mean" message.
+Perhaps related to the search functionality, it would be nice if the 404 page would include a helpful "did you mean" message.
 
 For example if you typed in the path `/use` it could suggest you to try [/uses](/uses) instead.
 
@@ -305,7 +298,34 @@ So far I've avoided JavaScript in the blog but here it would be nice to have.
 
 ## Summary of a post
 
+I've toyed with the idea of having a summary of each post, so I could have the summary of a featured on the homepage.
+However, good summaries are cumbersome to maintain or hard to auto-generate.
+
+I don't want to summaries manually---it introduces too much friction into blogging.
+While LLMs are really quite good at generating summaries, I think we need less AI generated content on the web, not more.
+Taking the first N characters or M paragraphs is a shoddy way of summarizing a post that won't create a useful summary.
+
+While I like the idea of a post summary, it's not a feature I'll implement anytime soon.
+
 ## Display "related" posts below the post
+
+Another interesting idea is to display a bunch of related posts at the end of a post.
+The problem is similar to that of [summarizing a post](#Summary-of-a-post): it's cumbersome to maintain or hard to auto-generate well.
+For now I'm content with [tags](/blog/tags) and [series](/series) as a means of grouping related posts.
+
+## More advanced code bloks
+
+Displaying code is an area where I could do a lot more, for example:
+
+- Optionally display line numbers (with offsets).
+- Highlight lines or words.
+- Line numbers links to the complete source code at GitHub.
+
+## More post metadata
+
+1. "Discussion links"
+1. A human-readable changelog
+1. Thanks
 
 [Microfeatures I Love in Blogs and Personal Websites]: https://danilafe.com/blog/blog_microfeatures/
 [snipe]: https://xkcd.com/356/

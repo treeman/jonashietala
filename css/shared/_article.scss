@@ -137,8 +137,11 @@ article {
   // pre.wide {
   //   @include overflow-bleed;
   // }
+  pre code > .line {
+    padding-inline: var(--space-xs);
+  }
   pre {
-    padding: var(--space-xs);
+    padding-block: var(--space-xs);
     overflow-wrap: normal;
     overflow: auto;
   }
@@ -570,7 +573,7 @@ article {
       top: 1.4ch;
       padding: 0 var(--space-3xs);
       background-color: var(--color-background);
-      content: "Footnotes";
+      content: "Notes";
     }
 
     :is(ol, ul) > li::before {

@@ -1,8 +1,10 @@
 use crate::util;
 use camino::{Utf8Path, Utf8PathBuf};
 use colored::Colorize;
+use eyre::eyre;
 use eyre::Result;
 use lazy_static::lazy_static;
+use regex::Regex;
 use syntect::parsing::SyntaxReference;
 use syntect::{
     dumps, highlighting::ThemeSet, html, html::ClassStyle, html::ClassedHTMLGenerator,
@@ -36,7 +38,23 @@ impl<'a> SyntectHighlighter<'a> {
         for line in LinesWithEndings::from(code) {
             html_generator.parse_html_for_line_which_includes_newline(line)?;
         }
-        Ok(html_generator.finalize())
+
+        // The purpose here is to remove the span that wraps the entire output.
+        // Usually that's not a problem, but I want to wrap each line in their own element
+        // so I can highlight lines. An element that wraps the entire output makes this hard to
+        // accomplish.
+        let html = html_generator.finalize();
+        if html.is_empty() {
+            return Ok(html);
+        }
+
+        if let Some(caps) = SOURCE_SPAN.captures(&html) {
+            Ok(caps[1].to_string())
+        } else {
+            Err(eyre!(
+                "`source` span isn't wrapping highlighted code: `{html}`"
+            ))
+        }
     }
 }
 
@@ -63,6 +81,8 @@ pub fn dump_theme(file: &Utf8Path) -> Result<()> {
 
 lazy_static! {
     static ref SS: SyntaxSet = syntax_set();
+    static ref SOURCE_SPAN: Regex =
+        Regex::new(r#"(?s)^<span class="(?:source|text) [^"]+">(.+)</span>$"#).unwrap();
 }
 
 // Use a binary dump to radically speedup SyntaxSet creation.

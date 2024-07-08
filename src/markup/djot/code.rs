@@ -33,6 +33,10 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
 
         let lang = parse_code_spec(lang);
         let path = attrs.get("path").map(|x| x.to_string());
+        let highlight_lines = attrs.get("hl").map(|x| {
+            parse_line_highlight_spec(x.to_string().as_str())
+                .expect("Error parsing `hl` code block attribute")
+        });
 
         let mut code = String::new();
         // Next should eat the End event as well.
@@ -46,6 +50,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
             code: code.as_str(),
             lang: lang.as_deref(),
             path: path.as_deref(),
+            highlight_lines,
         }
         .push(&mut res);
 
@@ -214,7 +219,7 @@ let square x = x * x
         // Text("rust end")
         let s = r"`x->y`c";
         let res = convert(s)?;
-        assert_eq!(res, "<p>\n<code class=\"highlight c\"><span class=\"source c\">x<span class=\"punctuation accessor c\">-&gt;</span>y</span></code></p>");
+        assert_eq!(res, "<p>\n<code class=\"highlight c\">x<span class=\"punctuation accessor c\">-&gt;</span>y</code></p>");
         Ok(())
     }
 
@@ -228,7 +233,11 @@ let square x = x * x
 x->y
 ```";
         let res = convert(s)?;
-        assert_eq!(res, "<div class=\"code-wrapper\"><div class=\"descr\" data-descr=\"c\"></div><pre><code class=\"highlight c\"><span class=\"source c\">x<span class=\"punctuation accessor c\">-&gt;</span>y\n</span></code></pre></div>");
+        assert_eq!(
+            res,
+            r#"<div class="code-wrapper"><div class="descr" data-descr="c"></div><pre><code class="highlight c"><div class="line">x<span class="punctuation accessor c">-&gt;</span>y
+</div></code></pre></div>"#
+        );
         Ok(())
     }
 
@@ -245,7 +254,7 @@ x->y
     }
 
     #[test]
-    fn test_code_path_attr() -> Result<()> {
+    fn test_code_path_attr_lang() -> Result<()> {
         let s = r#"
 {path="file.rs"}
 ```rust
@@ -254,8 +263,8 @@ let x = 2;
         let res = convert(s)?;
         assert_eq!(
             res,
-            r#"<div class="code-wrapper"><div class="descr" data-descr="file.rs"></div><pre><code class="highlight rust"><span class="source rust"><span class="storage type rust">let</span> x <span class="keyword operator rust">=</span> <span class="constant numeric integer decimal rust">2</span><span class="punctuation terminator rust">;</span>
-</span></code></pre></div>"#
+            r#"<div class="code-wrapper"><div class="descr" data-descr="file.rs"></div><pre><code class="highlight rust"><div class="line"><span class="storage type rust">let</span> x <span class="keyword operator rust">=</span> <span class="constant numeric integer decimal rust">2</span><span class="punctuation terminator rust">;</span>
+</div></code></pre></div>"#
         );
         Ok(())
     }
@@ -270,8 +279,34 @@ Text
         let res = convert(s)?;
         assert_eq!(
             res,
-            r#"<div class="code-wrapper"><div class="descr" data-descr="file"></div><pre><code>Text
-</code></pre></div>"#
+            r#"<div class="code-wrapper"><div class="descr" data-descr="file"></div><pre><code><div class="line">Text
+</div></code></pre></div>"#
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn test_code_highlight_line_text() -> Result<()> {
+        let s = r#"
+    {hl="1,3..4"}
+    ```
+    0
+    1
+    2
+    3
+    4
+    5
+    ```"#;
+        let res = convert(s)?;
+        assert_eq!(
+            res,
+            r#"<div class="code-wrapper"><pre><code><div class="line">0
+</div><div class="line hl">1
+</div><div class="line">2
+</div><div class="line hl">3
+</div><div class="line hl">4
+</div><div class="line">5
+</div></code></pre></div>"#
         );
         Ok(())
     }

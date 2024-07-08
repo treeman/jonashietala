@@ -2,6 +2,11 @@
 @use "../global/fonts" as *;
 @use "../global/font_size" as *;
 
+code > .line.hl {
+  background-color: var(--melange_d_cyan);
+  background-color: var(--melange_a_sel);
+}
+
 code {
   background-color: var(--melange_a_float);
 }
@@ -500,7 +505,6 @@ pre {
 }
 
 .markup {
-  background-color: var(--melange_a_float);
   color: var(--melange_a_fg);
 }
 
