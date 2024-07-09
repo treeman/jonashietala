@@ -5,7 +5,8 @@ tags = ["Blog"]
 
 ![[xkcd: Nerd sniping][snipe]](/images/microfeatures/nerd_sniping.png)
 
-A while I ago I encountered a blog post called [Microfeatures I Love in Blogs and Personal Websites][] and with the related [Hacker News discussion][] I naturally got [nerd sniped][snipe].
+A while I ago I encountered a blog post called [Microfeatures I Love in Blogs and Personal Websites][], and together with the related [Hacker News discussion][] I got [nerd sniped][snipe].
+(I spent more time than I care to admit implementing new and exciting microfeatures for the blog.)
 
 :table-of-content:
 
@@ -390,11 +391,12 @@ Another interesting idea is to display a bunch of related posts at the end of a 
 The problem is similar to that of [summarizing a post](#Summary-of-a-post): it's cumbersome to maintain or hard to auto-generate well.
 For now I'm content with [tags](/blog/tags) and [series](/series) as a means of grouping related posts.
 
-## More post metadata
+## Changelog
 
-1. "Discussion links"
-1. A human-readable changelog
-1. Thanks
+While I [display the latest Git commit](#Published-and-revision-info) for each post I was impressed by the list of "meaningful changes" at the bottom of the [jj init][] blog post.
+
+A changelog looks cool but I think I might be too lazy to make use of it.
+Generating the changelog from Git history is also not great I think---I'd need to separate commits more than I do and write better commit messages.
 
 [Microfeatures I Love in Blogs and Personal Websites]: https://danilafe.com/blog/blog_microfeatures/
 [snipe]: https://xkcd.com/356/
@@ -412,3 +414,4 @@ For now I'm content with [tags](/blog/tags) and [series](/series) as a means of 
 [Pandoc]: https://pandoc.org/MANUAL.html
 [GitHub Gists]: https://docs.github.com/en/get-started/writing-on-github/editing-and-sharing-content-with-gists/creating-gists
 [Office Space thriller]: https://www.youtube.com/watch?v=2mtTBtMXNkg
+[jj init]: https://v5.chriskrycho.com/essays/jj-init/
