@@ -1,6 +1,6 @@
 ---
 title: "Easy setup of a static site on Amazon S3 with SSL"
-tags: Webpage
+tags: Blog
 ---
 
 I've been hosting my site on Amazon S3 for a while now but I never activated SSL for it. I just never got around to it, probably the usual procrastination.

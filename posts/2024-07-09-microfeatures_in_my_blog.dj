@@ -1,6 +1,6 @@
 ---toml
 title = "Microfeatures in my blog"
-tags = ["Blog"]
+tags = ["Blog", "CSS", "Web Design"]
 favorite = true
 ---
 
@@ -115,12 +115,9 @@ pub enum Code<'a> {
 
 Embedding code into blogs is common practice and I've added a few extra features to the code display on my blog:
 
-[before]: https://developer.mozilla.org/en-US/docs/Web/CSS/::before
-[data attributes]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
-
 A. Overlay the language or file path.
 
-   For code blocks there's a small description that displays the language.
+   For code blocks there's a small [description that displays the language](/blog/2023/10/06/language_spec_in_code_blocks).
    It can be customized to for example display the path of the file:
 
    ![](/images/microfeatures/code_descr.png)
@@ -430,3 +427,5 @@ A post like [The current T-34 keyboard layout][] would probably benefit from a p
 [yt-embed]: /blog/2014/09/01/embedding_youtube_videos_with_hakyll
 [yt-heavy]: https://frontendmasters.com/blog/youtube-embeds-are-bananas-heavy-and-its-fixable/
 [The current T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
+[before]: https://developer.mozilla.org/en-US/docs/Web/CSS/::before
+[data attributes]: https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes

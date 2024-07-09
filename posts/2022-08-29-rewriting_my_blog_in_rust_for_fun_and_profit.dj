@@ -1,6 +1,6 @@
 ---toml
 title = "Rewriting my blog in Rust for fun and profit"
-tags = ["Rust", "Webpage", "Hakyll", "Haskell"]
+tags = ["Rust", "Blog", "Hakyll", "Haskell"]
 recommended = true
 favorite = true
 ---

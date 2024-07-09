@@ -1,6 +1,6 @@
 ---
 title: "Language spec in code blocks"
-tags: ["Blog", "CSS"]
+tags: ["Blog", "CSS", "Web Design"]
 ---
 
 Even though I just recently [restyled the blog][] and wasn't going to touch it, there was one thing I wanted to add, but it felt a little bothersome so I skipped it.
