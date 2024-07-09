@@ -35,6 +35,8 @@ lazy_static! {
         "dbbd685327e956deae2b3ed7d8431d74c137a6c9",
         // Migrate from ad-hoc inline code language spec to Djot attributes
         "52025a7683b2f882ff800eeb6d4e874cab2f8aa2",
+        // Rework tags a little
+        "9074ed5f7aa581bd1110555379a3e9cbdd799517",
     ]
     .into();
 }
