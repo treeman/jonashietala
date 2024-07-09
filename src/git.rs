@@ -32,7 +32,9 @@ lazy_static! {
         // Favorite system
         "ffcc7fb0a323bd1b4c181aaf8bc2236d0bf34529",
         // Add to favorite
-        "dbbd685327e956deae2b3ed7d8431d74c137a6c9"
+        "dbbd685327e956deae2b3ed7d8431d74c137a6c9",
+        // Migrate from ad-hoc inline code language spec to Djot attributes
+        "52025a7683b2f882ff800eeb6d4e874cab2f8aa2",
     ]
     .into();
 }

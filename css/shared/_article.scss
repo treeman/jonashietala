@@ -349,8 +349,9 @@ article {
   // This little beauty is here because once upon a time I was dumb,
   // and created some svg files with transparent backgrounds.
   // It's not great on a dark background when all text is also dark.
+  // FIXME should be more explicit to only target those svg files
   @media (prefers-color-scheme: dark) {
-    img {
+    img:not(.play-button) {
       background-color: $melange_light_a_bg;
     }
   }
@@ -516,29 +517,70 @@ article {
   }
 
   /*
-   * Pretty video embedding
+   * YouTube embedding with thumbnail + link instead of iframe.
    */
-  .video-wrapper {
+  .yt-wrapper {
     @include overflow-bleed;
     --measure: 100%;
-    @include extra-space-s;
-  }
-  .video-container {
+    margin-top: var(--space-2xs);
+    display: flex;
+    justify-content: center;
     position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;
   }
 
-  .video-container iframe,
-  .video-container object,
-  .video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  .yt-container {
+    a {
+      color: var(--melange_a_com);
+      color: var(--melange_a_fg);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+      color: var(--color-link-hover);
+    }
+
+    .yt-overlay {
+      position: absolute;
+      display: inline-block;
+      width: 100%;
+      left: 0;
+      top: calc(50% + 24px + 1ch);
+      display: flex;
+      justify-content: center;
+      @include sans-serif;
+
+      span {
+        display: inline-block;
+        padding-inline: var(--space-3xs);
+        color: $melange_dark_a_fg;
+        background-color: rgba($melange_dark_a_bg, 0.8);
+      }
+    }
+    .play-button {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 64px;
+      height: 48px;
+      margin-left: -34px;
+      margin-top: -24px;
+
+      path.background {
+        fill: $melange_dark_a_sel;
+      }
+      path.arrow {
+        fill: $melange_dark_a_fg;
+      }
+    }
+
+    &:hover {
+      .play-button path.background {
+        fill: $melange_light_b_red;
+      }
+      .yt-overlay span {
+        text-decoration: underline;
+      }
+    }
   }
 
   /*

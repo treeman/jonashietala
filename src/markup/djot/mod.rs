@@ -41,7 +41,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
 
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);
-    let transformed = EmbedYoutube::new(transformed);
+    let transformed = EmbedYoutube::new(transformed, true);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = DivTransforms::new(transformed);
@@ -67,9 +67,11 @@ pub fn djot_to_html_feed(djot: &str) -> Result<markup::FeedHtml> {
     let transformed = StripSymbols::new(transformed, ["table-of-content"].into());
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);
+    let transformed = EmbedYoutube::new(transformed, false);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = DivTransforms::new(transformed);
+    let transformed = QuoteTransforms::new(transformed);
 
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;

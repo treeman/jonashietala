@@ -58,7 +58,7 @@ fn parse_markdown(s: &str) -> String {
     let transformed = Parser::new_with_broken_link_callback(s, Options::all(), Some(&mut cb));
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);
-    let transformed = EmbedYoutube::new(transformed);
+    let transformed = EmbedYoutube::new(transformed, true);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = QuoteAttrs::new(transformed);
@@ -72,6 +72,7 @@ fn parse_markdown(s: &str) -> String {
 fn parse_markdown_to_feed(s: &str) -> String {
     let transformed = Parser::new_ext(s, Options::all());
     let transformed = AutoFigures::new(transformed);
+    let transformed = EmbedYoutube::new(transformed, false);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = QuoteAttrs::new(transformed);

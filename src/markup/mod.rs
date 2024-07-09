@@ -1,4 +1,5 @@
 mod djot;
+mod embed_youtube;
 mod markdown;
 pub mod markup_lookup;
 mod syntax_highlight;

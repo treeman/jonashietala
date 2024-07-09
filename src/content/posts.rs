@@ -589,7 +589,7 @@ mod tests {
         assert!(
             rendered.contains(r##"<h2><a href="#Header-1" class="heading-ref">Header 1</a></h2>"##)
         );
-        assert!(rendered.contains(r#"<iframe src="//www.youtube.com/embed/eoKDyhxCVm0""#));
+        assert!(rendered.contains(r#"<a href="https://www.youtube.com/watch?v=eoKDyhxCVm0""#));
         assert!(rendered.contains("☃︎"));
         assert!(rendered.contains("Dashes—and–some…"));
         assert!(rendered.contains("“Auto quote” ‘A’"));

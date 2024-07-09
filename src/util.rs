@@ -38,9 +38,10 @@ where
     Ok(file)
 }
 
-pub fn write_to_file<P>(file: P, content: &str) -> Result<()>
+pub fn write_to_file<P, C>(file: P, content: C) -> Result<()>
 where
     P: AsRef<Path>,
+    C: AsRef<[u8]>,
 {
     debug!("Writing {:?}", file.as_ref());
     let dir = file.as_ref().parent().expect("Should have a parent dir");
