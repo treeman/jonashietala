@@ -1,6 +1,7 @@
 ---toml
 title = "Microfeatures in my blog"
 tags = ["Blog"]
+favorite = true
 ---
 
 ![[xkcd: Nerd sniping][snipe]](/images/microfeatures/nerd_sniping.png)
@@ -25,13 +26,13 @@ One small feature won't make a big difference but dozens of microfeatures might 
 
 # Microfeatures I've implemented
 
-Here's a list of notable microfeatures I've made for the blog.
+Here's a collection of notable microfeatures I've implemented for the blog.
 It's not an exhaustive list, just the ones I think are fun, interesting, or that I'd like to see in more blogs.
 
 ## Published and revision info
 
 There's a trend for blog posts to not include the date the post was published---and I hate it, _especially_ for technical content.
-I don't even like to call the date of publishing a "micro" feature as it more an essential feature.
+I don't even like to call the date of publishing a "micro" feature as it's more an essential feature.
 
 Regardless, I include the published date below the post title in my blog:
 
@@ -148,7 +149,7 @@ A. Ability to highlight lines.
 
    Benjamin Tan's excellent [blog post about Jujutsu][ofcrse] used highlighted lines to good effect and inspired me to implement them.
 
-A. Optionally add line numbers.
+A. Line numbers with offset.
 
    {linenum=9}
    ```css
@@ -160,7 +161,7 @@ A. Optionally add line numbers.
    ```
 
    Line numbers is another feature I've recently implemented that I _think_ is a good idea.
-   Them being optional is important as line numbers adds a bit of bloat.
+   Them being optional is important as line numbers adds visual bloat.
    I'll probably only use them in very specific scenarios where I really want to call out code at certain lines.
 
    ::: note
@@ -178,7 +179,7 @@ A. No images, no JavaScript, and no embedded Gists.
    It's just text---let's serve it as text.
 
    ::: warn
-   I've gotten email at work with images of example code they expected me to copy.
+   I've gotten email at work with images of code they expected me to copy.
    That's [Office Space thriller][] material and such behavior will earn you enemies for life.
    :::
 
@@ -219,6 +220,17 @@ When I have more images I use [CSS grid][] to create a small gallery:
 
 Pictures of a robot project from my time at the University.
 :::
+
+## Embedding YouTube thumbnails
+
+http://www.youtube.com/watch?v=eoKDyhxCVm0
+
+The recommended way to embed YouTube videos is to use iframes and it's something [I implemented over a decade ago][yt-embed].
+It works but it's not a great solution.
+Embedding anything from Google is an enabler for their all-encompassing privacy violations and [YouTube embeds are bananas heavy][yt-heavy].
+
+Instead I embed an image generated from the video (served from my site, not YouTube) and make it a link that takes you to YouTube.
+I could've used JavaScript to convert the placeholder into an embedded video when clicked but I like simplicity and redirecting to YouTube allows third-party players to handle the redirect.
 
 ## Different list types
 
@@ -290,7 +302,7 @@ I handle featured and favorite posts in three ways:
 
 Tags are fine for grouping slightly related posts but sometimes posts follow a more structured story, which is where [series](/series) come in.
 
-A good example of a series is the [Let's build a VORON Trident](/series/voron_trident) where I document my journey of building my first 3D printer in 12 posts.
+A good example of a series is the [Let's build a VORON Trident](/series/voron_trident) where I document my journey of building my first 3D printer over 12 posts.
 
 There's a few features that come with a series:
 
@@ -321,7 +333,7 @@ As my attention and motivation tends to shift a lot this increases the [risk of 
 While a blog is about writing I also wanted to highlight some of the personal projects I've made.
 
 There are no individual pages for the projects as they typically live outside this site (maybe at GitHub).
-Instead I have a [/projects](/projects) page with all the projects and I include a filtered version on the homepage.
+Instead I have a [/projects](/projects) page with the projects and I include a subset of those on the homepage.
 
 The projects markup is fairly simple, just a title and a description (that could include an image, code block, or whatever):
 
@@ -332,7 +344,7 @@ They're still included as a project but they get specialized markup that I'm pre
 
 ![The games overview in the [/projects](/projects) page.](/images/microfeatures/games.png)
 
-## Dark mode
+## Automatic dark mode
 
 ::: flex
 ![](/images/microfeatures/djot_light.png)
@@ -341,7 +353,7 @@ They're still included as a project but they get specialized markup that I'm pre
 The light and dark style of the site.
 :::
 
-Because I have a preference for dark mode I really wanted a dark mode for the blog, while also catering to people who prefers a light mode.
+Because I have a preference for dark mode I really wanted a dark mode for the blog, while also catering to people that prefers a light mode.
 
 [I implemented](/blog/2023/10/04/giving_the_blog_a_facelift/#automatic-dark-mode) dark mode using [prefers-color-scheme][], a simple solution that doesn't require JavaScript and "just works".
 It's a CSS feature that allows the user to specify their preference using the browser or operating system.
@@ -376,12 +388,12 @@ So far I've avoided JavaScript in the blog but here it would be nice to have.
 
 ## Summary of a post
 
-I've toyed with the idea of having a summary of each post, so I could have the summary of a featured on the homepage.
-However, good summaries are cumbersome to maintain or hard to auto-generate.
+I've toyed with the idea of having a summary of each post, so I could have the summary of a featured post on the homepage.
+However, good summaries are cumbersome to maintain and hard to auto-generate.
 
-I don't want to summaries manually---it introduces too much friction into blogging.
-While LLMs are really quite good at generating summaries, I think we need less AI generated content on the web, not more.
-Taking the first N characters or M paragraphs is a shoddy way of summarizing a post that won't create a useful summary.
+I don't want to summarize manually---it introduces too much friction into blogging.
+While LLMs are honestly quite good at generating summaries, I think we need less AI generated content on the web, not more.
+Taking the first N characters or M paragraphs is a shoddy way of summarizing a post and won't create a useful summary.
 
 While I like the idea of a post summary, it's not a feature I'll implement anytime soon.
 
@@ -395,8 +407,8 @@ For now I'm content with [tags](/blog/tags) and [series](/series) as a means of 
 
 While I [display the latest Git commit](#Published-and-revision-info) for each post I was impressed by the list of "meaningful changes" at the bottom of the [jj init][] blog post.
 
-A changelog looks cool but I think I might be too lazy to make use of it.
-Generating the changelog from Git history is also not great I think---I'd need to separate commits more than I do and write better commit messages.
+A changelog looks cool but I'm too lazy to maintain one for all posts.
+A post like [The current T-34 keyboard layout][] would probably benefit from a proper changelog.
 
 [Microfeatures I Love in Blogs and Personal Websites]: https://danilafe.com/blog/blog_microfeatures/
 [snipe]: https://xkcd.com/356/
@@ -415,3 +427,6 @@ Generating the changelog from Git history is also not great I think---I'd need t
 [GitHub Gists]: https://docs.github.com/en/get-started/writing-on-github/editing-and-sharing-content-with-gists/creating-gists
 [Office Space thriller]: https://www.youtube.com/watch?v=2mtTBtMXNkg
 [jj init]: https://v5.chriskrycho.com/essays/jj-init/
+[yt-embed]: /blog/2014/09/01/embedding_youtube_videos_with_hakyll
+[yt-heavy]: https://frontendmasters.com/blog/youtube-embeds-are-bananas-heavy-and-its-fixable/
+[The current T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
