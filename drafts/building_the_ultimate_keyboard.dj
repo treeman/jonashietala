@@ -3,6 +3,8 @@ title = "Building the ultimate keyboard"
 tags = ["Computer", "Keyboards"]
 ---
 
+:table-of-content:
+
 When you see the description "the ultimate keyboard", what do you think about?
 
 There are _many_ keyboards in this world; here are some that I could come up with that might fit the "ultimate" moniker:
@@ -53,6 +55,35 @@ a. Contain the keys I need but no more.
    Some modifications are fine of course.
 
 With these requirements I need to be able to customize all parts of the keyboard and I really don't want to learn CAD and create one from scratch; I wonder what alternatives I have?
+
+# I like Choc switches
+
+::: plus
+- Low-profile
+- Low actuation force
+- Can be closer together
+:::
+
+## Different kinds of switches
+
+![](/images/cosmos/choc_switches.jpg)
+
+- Linear, tactile, or clicky?
+- How heavy should they be?
+
+[sunset]: https://splitkb.com/collections/switches-and-keycaps/products/sunset-kailh-low-profile-choc-switches
+[switch-kinds]: https://splitkb.com/collections/switches-and-keycaps/products/kailh-low-profile-choc-switches
+[silent]: https://splitkb.com/collections/switches-and-keycaps/products/ambients-kailh-low-profile-choc-switches
+[keycaps]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps
+
+## Keycaps
+
+![It's hard to decide on a colorscheme so I [bought a bunch of random colors][keycaps].](/images/cosmos/choc_keycaps.jpg)
+
+Keycaps aren't only for looking cool.
+A convex keycap for the thumb button instead of the standard concave one makes it much more comfortable.
+
+![The blue convex keycap to the left and the red concave to the right.](/images/cosmos/keycaps_concave_convex.jpg)
 
 # [Cosmos][] keyboard configurator
 
@@ -233,6 +264,19 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 - Move thumb keys on left side closer together
 
 ![](/images/cosmos/v13_proto.jpg)
+
+## Final prototype
+
+![](/images/cosmos/v14_proto_both.jpg)
+
+# Wiring
+
+## Matrix
+
+::: flex
+![](/images/cosmos/left_wiring.jpg)
+![](/images/cosmos/right_wiring.jpg)
+:::
 
 [v2-ball]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgBWkwKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFchIXCNqD2LawigEQyaPAzeD7h+QBGKIDICgSDgipynEQm4mEnuDckOQBUhowgE4IABCAyL0CGICGisAHIICAnAEo0MbBAkJTCAPgAQF4A9gBARABSABIAEgASABIAEgASABgAGgAcAEYACAAKACYAfQDqAHoB6AByAGwAQCQAYQHuAEAgAEAMAA4KFgBiAEBwAEAyAHYBNABhAdiAggB
 [v2-left]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgAWiMKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFclIaMIBOCAAQgMi9AhiAhorAByCAgJwBKNDGwQJCUwgD4AEBeAPYAQEQAEgASABIAEgASABIAEgAYABoAHABGAAgACgAmAH0A6gB6AegAcgBsAEAkAGEB7gBAIABADAAOChYAYgBAcABAMgB2ATQAYQH

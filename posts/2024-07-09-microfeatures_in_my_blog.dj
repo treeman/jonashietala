@@ -253,11 +253,11 @@ And here are some unordered list types:
 
 - Bullet
 
-::: list-dash
+::: dash
 - Dash
 :::
 
-::: list-plus
+::: plus
 - Plus
 :::
 
