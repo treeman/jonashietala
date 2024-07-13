@@ -287,7 +287,9 @@ pub enum DivClass {
     Warn,
     Important,
     Update,
-    Greek,
+    ListGreek,
+    ListDash,
+    ListPlus,
 }
 
 impl DivClass {
@@ -302,7 +304,9 @@ impl DivClass {
             "warn" | "warning" => Some(Self::Warn),
             "important" => Some(Self::Important),
             "update" => Some(Self::Update),
-            "greek" => Some(Self::Greek),
+            "greek" => Some(Self::ListGreek),
+            "dash" => Some(Self::ListDash),
+            "plus" => Some(Self::ListPlus),
             _ => None,
         }
     }
@@ -317,7 +321,9 @@ impl DivClass {
             Self::Warn => "warn",
             Self::Important => "important",
             Self::Update => "update",
-            Self::Greek => "greek",
+            Self::ListGreek => "greek",
+            Self::ListDash => "dash",
+            Self::ListPlus => "plus",
         }
     }
 }
@@ -338,7 +344,9 @@ fn div_class_completions() -> Vec<CompletionItem> {
         DivClass::Warn,
         DivClass::Important,
         DivClass::Update,
-        DivClass::Greek,
+        DivClass::ListGreek,
+        DivClass::ListDash,
+        DivClass::ListPlus,
     ]
     .into_iter()
     .map(|e| CompletionItemBuilder::DivClass(e).into())
