@@ -5,13 +5,14 @@
 @mixin full-bleed-wrapper {
   display: grid;
   grid-template-columns:
-    1fr minmax(0, var(--overflow-size)) min(var(--measure), 100%) minmax(
+    1fr
+    minmax(0, var(--overflow-size)) min(var(--measure), 100%) minmax(
       0,
       var(--overflow-size)
     )
     1fr;
   max-inline-size: none;
-  grid-gap: var(--flow-space);
+  row-gap: var(--flow-space);
 
   & > * {
     grid-column: 3;
