@@ -278,6 +278,143 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 ![](/images/cosmos/right_wiring.jpg)
 :::
 
+![The rows are connected with diodes and then with a cable to a pin on the controller.](/images/cosmos/left_rows_soldered.jpg)
+
+![Both the rows and columns are wired up and soldered to the controller.](/images/cosmos/left_matrix.jpg)
+
+![The matrix on the right keyboard is done but not yet connected to the controller.
+It was a lot more difficult to solder because of the awkward positions of the switches.](/images/cosmos/right_matrix.jpg)
+
+## TRRS & handedness
+
+{path="config.h"}
+```c
+#define SPLIT_HAND_PIN GP1
+```
+
+![The TRRS connector is connected to Vcc, GND, and pin 2 (and similarly on the right side).
+Pin 1 is also connected to Vcc to signal to QMK that this is the left side of the keyboard, whereas pin 1 is connected to GND on the right controller.
+](/images/cosmos/left_micro_soldered.jpg)
+
+## Trackball
+
+TODO
+
+![](/images/cosmos/liatris.webp)
+
+# Support in QMK
+
+{path="keyboard.json"}
+```json
+{
+    "keyboard_name": "cybershard",
+    "bootloader": "rp2040",
+    "diode_direction": "COL2ROW",
+    "processor": "RP2040",
+    "url": "",
+    "usb": {
+        "device_version": "0.0.1",
+        "pid": "0x0002",
+        "vid": "0x0361"
+    },
+}
+```
+
+{path="rules.mk"}
+```make
+SERIAL_DRIVER = vendor
+```
+
+{path="keyboard.json"}
+```json
+{
+    "matrix_pins": {
+        "rows": ["GP26", "GP27", "GP22", "GP20"],
+        // Oops, I made a mistake when soldering
+        // as I swapped pin 6 and 7.
+        "cols": ["GP3", "GP4", "GP5", "GP6", "GP7"]
+    },
+    "layouts": {
+        "LAYOUT": {
+            "layout": [
+                // First physical row
+                { "matrix": [1, 0], "x": 0, "y": 0 },
+                { "matrix": [0, 1], "x": 0, "y": 0 },
+                { "matrix": [0, 2], "x": 0, "y": 0 },
+                { "matrix": [0, 3], "x": 0, "y": 0 },
+                { "matrix": [0, 4], "x": 0, "y": 0 },
+
+                // Second row
+                { "matrix": [2, 0], "x": 0, "y": 0 },
+                { "matrix": [1, 1], "x": 0, "y": 0 },
+                { "matrix": [1, 2], "x": 0, "y": 0 },
+                { "matrix": [1, 3], "x": 0, "y": 0 },
+                { "matrix": [1, 4], "x": 0, "y": 0 },
+
+                // etc...
+            ]
+        }
+    }
+}
+```
+
+{path="keyboard.json"}
+```json
+{
+    "split": {
+        "enabled": true,
+        "soft_serial_pin": "GP2",
+        "matrix_pins": {
+            "right": {
+                "rows": ["GP27", "GP26", "GP22", "GP20"],
+                "cols": ["GP3", "GP4", "GP5", "GP6", "GP7"]
+            }
+        },
+        "transport": {
+            "sync": {
+                "matrix_state": true
+            }
+        }
+    },
+    "layouts": {
+        "LAYOUT": {
+            "layout": [
+                // These 5 keys are the first row on the left side
+                { "matrix": [1, 0], "x": 0, "y": 0 },
+                { "matrix": [0, 1], "x": 0, "y": 0 },
+                { "matrix": [0, 2], "x": 0, "y": 0 },
+                { "matrix": [0, 3], "x": 0, "y": 0 },
+                { "matrix": [0, 4], "x": 0, "y": 0 },
+                // The rows 0 to 3 are rows on the left side and
+                // rows 4 to 7 are rows on the right side. 
+                { "matrix": [4, 0], "x": 0, "y": 0 },
+                { "matrix": [4, 1], "x": 0, "y": 0 },
+                { "matrix": [4, 2], "x": 0, "y": 0 },
+                { "matrix": [4, 3], "x": 0, "y": 0 },
+                // The last key is connected to next row
+                { "matrix": [5, 4], "x": 0, "y": 0 },
+
+                // etc..
+            ]
+        }
+    }
+}
+```
+
+```c
+LAYOUT(
+ // Left side                                    // Right side
+ SE_J,    SE_C,    SE_Y,    SE_F,    SE_P,       SE_X,    SE_W,    SE_O,    SE_U,    SE_DOT,
+ SE_R,    SE_S,    SE_T,    SE_H,    SE_K,       SE_M,    SE_N,    SE_A,    SE_I,    REPEAT,
+ SE_COMM, SE_V,    SE_G,    SE_D,    SE_B,       SE_SLSH, SE_L,    SE_LPRN, SE_RPRN, SE_UNDS,
+          SE_A,    SE_B,
+                            // Left thumb keys   // Right thumb key
+                            FUN_CLR, MT_SPC,     SE_E,
+                                                 // Mouse thumb keys          // Mouse pinky
+                                                 SE_X,    KC_BTN1,                   KC_BTN2
+),
+```
+
 [v2-ball]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgBWkwKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFchIXCNqD2LawigEQyaPAzeD7h+QBGKIDICgSDgipynEQm4mEnuDckOQBUhowgE4IABCAyL0CGICGisAHIICAnAEo0MbBAkJTCAPgAQF4A9gBARABSABIAEgASABIAEgASABgAGgAcAEYACAAKACYAfQDqAHoB6AByAGwAQCQAYQHuAEAgAEAMAA4KFgBiAEBwAEAyAHYBNABhAdiAggB
 [v2-left]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgAWiMKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFclIaMIBOCAAQgMi9AhiAhorAByCAgJwBKNDGwQJCUwgD4AEBeAPYAQEQAEgASABIAEgASABIAEgAYABoAHABGAAgACgAmAH0A6gB6AegAcgBsAEAkAGEB7gBAIABADAAOChYAYgBAcABAMgB2ATQAYQH
 [v3]: https://ryanis.cool/cosmos/beta#expert:eJzlWt9v2zYQfvdfQeRlaSHRli0njoe+JNuAYMgyNOlT4AdaomIusiSQVBw38P++O9KW9cOeHSBtBExoVel4PN199x1FnxqkidIkzbSAizG5tRfkC3ntELJgcXw/E8FTwhUM+s5adjeTaR6K5HFMekbGpyW1jehGJIX0DxboVMIYHeHoE19eMiVA+SSYpcEJylQg+eI6CUXAQf7geg7Z/XdSaN8vMw4mzDURieJSb03die84eDPYiq7SPNFcKpE8jYmWOccRCCUJeTgmryu8DdIk4dbZEy2lOqkI0ei3u0sYY89cskdeHQb3+csY/QTpXAQyhSEt0zjmaC+TqRG6uZq6NuqIKc2Tm7rqxjl4iBYBi69iziRLAo4QGusBSu4wKrVVVzMexxAJ0RaZKYAMzyGxyKwSWXVWnW6X/HV7//uY2OmkS/SMb4MgC6FnqJTwR6bFMwdoTVYIk5xkMQt4SFiu0zkzvsVLitrXiTFjHtll4TN6GxLNpg7KFSfPLM7ByIJLPsYJtYR7Hh06pN8zZ3Py8ewN8XxuBCCe4Mw63oM+9TqdwFA5yOUz0zl4ajlc3N9GV2mcz5MxmHSqA1/TxZgYocpYALw2InDKG1WE1gDKL1DOZADpAEA73c+fO+Qz+aZ4lMckAgwV1xrmEEZCEUUQclJyDXVRCfHKgIxLLAhFQdxdR2GkV7VQKKWFCWdfaCV37mcmXQknucJUpCRLlcACN0/Os4zL4snkWv+ioBg006A7XRoVoKaNIgnJix2E2agNo2AFKKni8oTvJI0iiN3EQtbBmAf9Cc/52zjzBYi1IPdSRaefMCr7zFOv75CHnkPwz8ReevYyYrHiFdWqpldcbjUL107XisUgokN+45FIhF3rNpko4bFNBKg9wooxJuD/wwR8fwDrmAyyqbFiATPLWsCg0uw4IVDvkYhrSrjiAN36m7sYmGJWh+WJkazsAFMZUBwyam+DOFdWbe3R2tomo+MqqHhQU6q3yQ3TUrycbpxq8sgewZpCLhZfITW+ut76flXYruDrQup61SEAdX65PK2mHlVMeO8B4KAB4Ky1APZaiJ/fwC9pLX5t5F+zgPOW4Oe9uYB7H1m/s3SOGgLf5ScNUP9pLagHivojMG3W9Ly18LWQks2SFi2Br/fmkob9sut/dE3PRRjGvFnUT62F9UBRfwiqzap2WotfG1nZLOu0Hfi9varNZuejq1oCLM2ajtuK6eH39M+HtFnStK3wtZGRzYrOfiJ81eZME8O3779dz2tDYZvAmpX9a6uxPfTb2jt3SAte2d1Wg3iQn28BsTM5tgWpZ/l8Wmo/htiWA71c2d5pwpmcmu5oMc8puo+204idRwX0JWyO3f1yE9VYv5XiUST7mo79ER2dlY/z3a3FaqOSDobl42x347I8x/XPaX9UOi4ac3DapNa7dAfgjzsYwGlUHQLka5TYQ4hdy71N+eau/ButUyLBgTRXHB3Rc9za2X/M77Zy9L2jgvXBwNDQzLRokTrbZn4abQmzKRdaS3W9X17v8JsPUzua5kbebPL3q3L7RaBv+v2lhx7ZGt5b8NbIEfW+G8syQctq7mA/Kct6Z03yFrmp5dj1BhRyhEsBbPy9natBqeQ+1VbNxnppaTiE9WLXwgtWg6cpi+P3BtDtD4+DEMIdVA7/OEj9IfUq845G2OtRWBf8PkWIfbp7P9CEWJkvna9EslDkhqNoRomQm5s9AP8IcrpnR7JzeByUF029vezsU9xDDfHs0d3vqvdj548Az/Oofxx8I/ofr5wKzqMh7fvlYx+eO8h4ZgAd4LP89wYUtwh2EV1IofRXrvSeF/X/5I3HX7JUatwAsTzWm8+96/+XgX7XcEIRfqockwfQW+8aHZxjaTdxOqt/AWrGK+I=>
@@ -296,3 +433,4 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 [Dactyl]: https://github.com/adereth/dactyl-keyboard
 [Dactyl Manuform]: https://github.com/carbonfet/dactyl-manuform
 [Ferris]: https://github.com/pierrechevalier83/ferris
+[Liatris]: https://splitkb.com/products/liatris
