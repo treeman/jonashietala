@@ -278,12 +278,17 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 ![](/images/cosmos/right_wiring.jpg)
 :::
 
-![The rows are connected with diodes and then with a cable to a pin on the controller.](/images/cosmos/left_rows_soldered.jpg)
+![The rows are connected with diodes and with a cable to a pin on the controller.](/images/cosmos/left_rows_soldered.jpg)
+
+![The matrix on the right keyboard.
+It was a lot more difficult to solder because of the awkward positions of the switches.](/images/cosmos/right_matrix.jpg)
 
 ![Both the rows and columns are wired up and soldered to the controller.](/images/cosmos/left_matrix.jpg)
 
-![The matrix on the right keyboard is done but not yet connected to the controller.
-It was a lot more difficult to solder because of the awkward positions of the switches.](/images/cosmos/right_matrix.jpg)
+The wiring is horrible, I know.
+
+I only lost one microcontroller due to a short...
+With my wiring prowess I consider that a success!
 
 ## TRRS & handedness
 
@@ -302,16 +307,42 @@ TODO
 
 ![](/images/cosmos/liatris.webp)
 
-# Support in QMK
+# Adding the keyboard to QMK
+
+The QMK cli has the `qmk new-keyboard` command that helps you get started.
+I couldn't get the generated template to work for me, so I copied settings from an existing keybord with `rp2042` support.
+
+I'll try to hit on the most important parts of the config, take a [look at the source code][cybershard] for all details.
+
+## Basic setup
+
+The folder structure for a keyboard looks like this:
+
+{path="qmk_firmware/keyboards"}
+```
+cybershard
+├── keyboard.json
+├── rules.mk
+└── keymaps
+    └── default
+        ├── config.h
+        ├── keymap.c
+        └── ...
+```
+
+({=Cybershard=} is the name I eventually settled on for the keyboard.)
+
+The most important part is `keyboard.json` that defines (almost) everything we need for a new keyboard in QMK.
+
+First you need to set the `processor`, `bootloader`, and `usb` values.
+The [Liatris][] microcontroller uses the [RP2040](https://docs.qmk.fm/platformdev_rp2040) MCU, and I just picked some vendor- and product identifiers:
 
 {path="keyboard.json"}
 ```json
 {
     "keyboard_name": "cybershard",
-    "bootloader": "rp2040",
-    "diode_direction": "COL2ROW",
     "processor": "RP2040",
-    "url": "",
+    "bootloader": "rp2040",
     "usb": {
         "device_version": "0.0.1",
         "pid": "0x0002",
@@ -320,18 +351,15 @@ TODO
 }
 ```
 
-{path="rules.mk"}
-```make
-SERIAL_DRIVER = vendor
-```
+Then we need to define the matrix (with the pins we soldered) and the layout (how we'll configure the keymap in `keymap.c`):
 
 {path="keyboard.json"}
 ```json
 {
+    "diode_direction": "COL2ROW",
     "matrix_pins": {
+        // We need to use a `GP` prefix for the pins.
         "rows": ["GP26", "GP27", "GP22", "GP20"],
-        // Oops, I made a mistake when soldering
-        // as I swapped pin 6 and 7.
         "cols": ["GP3", "GP4", "GP5", "GP6", "GP7"]
     },
     "layouts": {
@@ -358,40 +386,122 @@ SERIAL_DRIVER = vendor
 }
 ```
 
+Note that we can pick whatever physical pins we want as we can move around and configure them in software.
+The `LAYOUT` macro is what we use in `keymap.c` to define our keymap.
+When defining it we can choose to skip certain keys and reorganize it to be easier to define; for example, there's no switch at `0,0` in my keyboard so I skip that.
+
+The above `LAYOUT` can then be used like this:
+
+{path="keymap.c"}
+```c
+LAYOUT(
+ SE_J,    SE_C,    SE_Y,    SE_F,    SE_P,
+ SE_R,    SE_S,    SE_T,    SE_H,    SE_K,
+ SE_COMM, SE_V,    SE_G,    SE_D,    SE_B,
+          SE_A,    SE_B,
+                            // Thumb keys
+                            FUN_CLR, MT_SPC,
+),
+```
+
+## Flashing
+
+With the above setup we should be able to flash the keyboard by first entering the boot loader and running:
+
+```fish
+qmk flash -kb cybershard -km default
+```
+
+::: tip
+I didn't add a reset button to the keyboard that you typically use to enter the boot loader.
+The [Liatris][] has a boot button that you can hold when you connect the keyboard, but I want to hide the controller inside the casing.
+
+QMK has a `QK_BOOT` key that does the same.
+I added it as a 5-finger [combo][] to make it easy to press but difficult to press by accident.
+:::
+
+Now the process of updating the firmware is quite nice and unless I screw up I don't need to connect another keyboard to do it.
+
+1. Start flashing with `qmk flash` (it will wait until it finds a flashable target).
+2. Press the `QK_BOOT` combo (the keyboard becomes unresponsive).
+3. Wait until the script finishes and the keyboard is available again.
+
+::: note
+`qmk flash` didn't work for me and it always got stuck at:
+
+```
+Flashing for bootloader: rp2040
+Waiting for drive to deploy...
+```
+
+After some digging around I found that all you're doing is copying a `.uf2` file into a usb storage, and the controller will then reboot as a keyboard with _something_ like this:
+
+```fish
+qmk compile -kb cybershard -km default
+sudo mount /dev/sdf1 /media/sd
+sudo cp cybershard_default.uf2 /media/sd/
+```
+
+After more frustration I found out that the flash scripts looks for a file called `INFO_UF2.TXT` under all drives mounted below `/media`.
+Because my system doesn't mount usb drives by default the script would never find it and hang.
+
+The simple solution is to start mounting usb drives automatically, which I did by installing [udevil](https://ignorantguru.github.io/udevil/) and running `devmon` on system startup.
+:::
+
+## Split keyboard
+
+To get the split keyboard feature to work I had to set the `SERIAL_DRIVER` option in `rules.mk`:
+
+{path="rules.mk"}
+```make
+SERIAL_DRIVER = vendor
+```
+
 {path="keyboard.json"}
 ```json
 {
     "split": {
         "enabled": true,
+        // The pin that signals if the current controller is the left (high)
+        // or right (low) controller.
+        "handedness": {
+            "pin": "GP1"
+        },
+        // The TRRS data pin.
         "soft_serial_pin": "GP2",
         "matrix_pins": {
             "right": {
+                // We can override the pins for the right controller.
+                // Note that GP26 and GP27 are swapped compared to the left side
+                // due to a mistake I made when soldering.
                 "rows": ["GP27", "GP26", "GP22", "GP20"],
                 "cols": ["GP3", "GP4", "GP5", "GP6", "GP7"]
             }
         },
         "transport": {
             "sync": {
+                // We need to sync the matrix state to allow combos, mods, and
+                // other stuff to work.
                 "matrix_state": true
             }
         }
     },
     "layouts": {
         "LAYOUT": {
+            // The rows 0 to 3 specifies rows on the left side and
+            // 4 to 7 the rows on the right side.
             "layout": [
-                // These 5 keys are the first row on the left side
+                // These 5 keys are the first row on the left side.
                 { "matrix": [1, 0], "x": 0, "y": 0 },
                 { "matrix": [0, 1], "x": 0, "y": 0 },
                 { "matrix": [0, 2], "x": 0, "y": 0 },
                 { "matrix": [0, 3], "x": 0, "y": 0 },
                 { "matrix": [0, 4], "x": 0, "y": 0 },
-                // The rows 0 to 3 are rows on the left side and
-                // rows 4 to 7 are rows on the right side. 
+                // These 5 keys are the first row on the right side.
                 { "matrix": [4, 0], "x": 0, "y": 0 },
                 { "matrix": [4, 1], "x": 0, "y": 0 },
                 { "matrix": [4, 2], "x": 0, "y": 0 },
                 { "matrix": [4, 3], "x": 0, "y": 0 },
-                // The last key is connected to next row
                 { "matrix": [5, 4], "x": 0, "y": 0 },
 
                 // etc..
@@ -400,6 +510,10 @@ SERIAL_DRIVER = vendor
     }
 }
 ```
+
+The `LAYOUT` macro is just a function with many arguments but with the right order it can be formatted
+to look similar to the physical keyboard.
+This is for example the base layer of my keyboard:
 
 ```c
 LAYOUT(
