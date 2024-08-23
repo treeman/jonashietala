@@ -116,6 +116,14 @@ Unordered list:
 
 - Rice
 
+::: dash
+- Dash
+:::
+
+::: plus
+- Plus
+:::
+
 Ordered list:
 
 1. Milk

@@ -109,11 +109,19 @@ For voice input I have a [Blue Microphone Snowball iCE][].
 It would be cool to have an awesome podcasting microphone, but that's just overkill.
 Maybe if this one dies on me.
 
+## Laptop
+
+TODO
+
+Framework 13
+
 # Other software tools
 
 - I use [Fastmail][] for emails and my calendar.
 
 - I try to use [Todoist][] to track my tasks and todos, but sometimes I keep them in my personal wiki folder instead.
+
+- [Habit loop tracker][]
 
 # Other hardware & Gadgets
 
@@ -137,11 +145,6 @@ Maybe if this one dies on me.
   Why not a simpler watch then?
   Because I get almost 30 days of battery life with this one.
   I hate charging things all the time.
-
-- I also have a [WHOOP][] band.
-
-  The [WHOOP's boxers][boxer] is actually the killer feature of [WHOOP][] for me as it allows me to use the tracking device using BJJ practice.
-  There are a lot of other features and their app is actually quite nice but as I said I've been really toning down the obsession with metrics lately.
 
 - A [VORON Trident][] 3D printer.
 
@@ -172,7 +175,6 @@ Maybe if this one dies on me.
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 [nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
 [nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
-[flash.nvim]: https://github.com/folke/flash.nvim
 [neogit]: https://github.com/NeogitOrg/neogit
 [gitsigns.nvim]: https://github.com/lewis6991/gitsigns.nvim
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
@@ -186,5 +188,6 @@ Maybe if this one dies on me.
 [Blue Microphone Snowball iCE]: https://www.logitechg.com/en-us/products/streaming-gear/snowball-ice-usb-microphone.html
 [Garmin Instinct 2X Solar]: https://www.garmin.com/sv-SE/p/884585/pn/010-02805-00
 [VORON Trident]: /series/voron_trident
+[Habit loop tracker]: https://loophabits.org/
 
 
