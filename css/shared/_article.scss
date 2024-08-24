@@ -26,7 +26,7 @@ article {
   h5,
   h6,
   h7 {
-    &>a:not(:first-of-type) {
+    & > a:not(:first-of-type) {
       text-decoration: underline;
     }
 
@@ -72,7 +72,7 @@ article {
   // so the margin on the `:not(:first-child)` headers will never happen.
   // Remove `--flow-space` because it will be introduced from `@include flow`
   // in wrapping articles and other sections.
-  section> :is(h1, h2, h3, h4, h5, h6, h7):first-child {
+  section > :is(h1, h2, h3, h4, h5, h6, h7):first-child {
     margin-block-start: calc(var(--space-m) - var(--flow-space));
   }
 
@@ -148,7 +148,7 @@ article {
   // pre.wide {
   //   @include overflow-bleed;
   // }
-  pre code>.line {
+  pre code > .line {
     padding-inline: var(--space-xs);
   }
 
@@ -181,12 +181,12 @@ article {
     margin-block: var(--space-m);
     font-style: italic;
 
-    >blockquote {
+    > blockquote {
       border-left: 0px;
     }
   }
 
-  blockquote>footer {
+  blockquote > footer {
     font-size: 80%;
     text-align: right;
   }
@@ -258,57 +258,57 @@ article {
     counter-reset: ordered-counter;
   }
 
-  :is(ol, ul)>li::before {
+  :is(ol, ul) > li::before {
     float: left;
     margin-left: calc(-1 * var(--space-m));
     color: var(--color-list-bullet);
   }
 
-  ol>li::before {
+  ol > li::before {
     @include sans-serif;
     counter-increment: ordered-counter;
     content: counter(ordered-counter);
   }
 
-  ol[type="A" s]>li::before {
+  ol[type="A" s] > li::before {
     content: counter(ordered-counter, upper-alpha);
   }
 
-  ol[type="a" s]>li::before {
+  ol[type="a" s] > li::before {
     content: counter(ordered-counter, lower-alpha);
   }
 
-  ol[type="I" s]>li::before {
+  ol[type="I" s] > li::before {
     content: counter(ordered-counter, upper-roman);
   }
 
-  ol[type="i" s]>li::before {
+  ol[type="i" s] > li::before {
     content: counter(ordered-counter, lower-roman);
   }
 
-  .greek ol[type="a" s]>li::before {
+  .greek ol[type="a" s] > li::before {
     content: counter(ordered-counter, lower-greek);
   }
 
-  ul>li::before {
+  ul > li::before {
     @include sans-serif;
     content: "•";
   }
 
-  .dash ul>li::before {
+  .dash ul > li::before {
     content: "-";
   }
 
-  .plus ul>li::before {
+  .plus ul > li::before {
     content: "+";
   }
 
-  ul>li.checked::before {
+  ul > li.checked::before {
     @include sans-serif;
     content: "[×]";
   }
 
-  ul>li.unchecked::before {
+  ul > li.unchecked::before {
     @include sans-serif;
     content: "[ ]";
   }
@@ -332,7 +332,7 @@ article {
       margin-left: 0;
     }
 
-    ol>li:before {
+    ol > li:before {
       margin-left: 0;
       content: none;
     }
@@ -370,11 +370,11 @@ article {
 
   // Special case of removing spacing between table of content
   // directly preceding a heading.
-  .toc:not(:first-child)~section>h2:first-child {
+  .toc:not(:first-child) ~ section > h2:first-child {
     margin-block-start: var(--space-xs);
   }
 
-  .toc:first-child~section>h2:first-child {
+  .toc:first-child ~ section > h2:first-child {
     margin-block-start: 0;
   }
 
@@ -424,7 +424,7 @@ article {
   figure.flex-33,
   figure.flex-25,
   figure.flex-20 {
-    &>* {
+    & > * {
       padding-inline: 0.1em;
     }
 
@@ -460,7 +460,7 @@ article {
     grid-gap: var(--space-3xs);
   }
 
-  figure.gallery>figcaption {
+  figure.gallery > figcaption {
     grid-column: 1 / -1 !important;
     max-inline-size: none;
     display: flex;
@@ -675,128 +675,101 @@ article {
       content: "Notes";
     }
 
-    :is(ol, ul)>li::before {
+    :is(ol, ul) > li::before {
       color: var(--color-footnote-def);
     }
   }
 }
 
+.timeline .events {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space-xs);
+  position: relative;
 
-/* .timelines h2 { */
-/* 	text-align: center; */
-/* 	color: #fff; */
-/* 	font-weight: 600; */
-/* 	margin-bottom: 40px; */
-/* 	font-size: 32px; */
-/* } */
-/* .d-flex-2 { */
-/* 	display: flex; */
-/* 	align-items: center; */
-/* } */
-/* .timeline-area { */
-/* 	padding: 80px 0; */
-/* } */
-/* .all-timelines { */
-/* 	position: relative; */
-/* } */
-/* .timelines h2 { */
-/* 	text-align: center; */
-/* 	color: #fff; */
-/* 	font-weight: 600; */
-/* 	margin-bottom: 40px; */
-/* } */
-/* .all-timelines::before { */
-/* 	content: ""; */
-/* 	position: absolute; */
-/* 	left: 0; */
-/* 	right: 0; */
-/* 	margin: auto; */
-/* 	height: 100%; */
-/* 	width: 2px; */
-/* 	background: #efa22f; */
-/* 	top: 20px; */
-/* } */
-/* .single-timeline { */
-/* 	margin-bottom: 22px; */
-/* } */
-/* .timeline-blank { */
-/* 	width: 50%; */
-/* } */
-/* .timeline-text { */
-/* 	width: 50%; */
-/* 	padding-left: 30px; */
-/* 	-webkit-box-sizing: border-box; */
-/* 	box-sizing: border-box; */
-/* 	position: relative; */
-/* } */
-/* .timeline-text h6 { */
-/* 	color: #f0f1f2; */
-/* 	font-weight: 900; */
-/* 	display: inline-block; */
-/* 	font-size: 1rem; */
-/* } */
-/* .timeline-text span { */
-/* 	color: #f0f1f2; */
-/* 	display: block; */
-/* 	width: 100%; */
-/* } */
-/* .single-timeline:nth-child(even) .timeline-text span { */
-/* 	text-align: right; */
-/* } */
-/* .t-square { */
-/* 	content: ""; */
-/* 	position: absolute; */
-/* 	width: 12px; */
-/* 	height: 12px; */
-/* 	left: -6px; */
-/* 	background: #efa22f; */
-/* } */
-/* .single-timeline:nth-child(even) { */
-/* 	-webkit-box-orient: horizontal; */
-/* 	-webkit-box-direction: reverse; */
-/* 	-ms-flex-direction: row-reverse; */
-/* 	flex-direction: row-reverse; */
-/* } */
-/* .single-timeline:nth-child(even) .t-square { */
-/* 	right: -6px; */
-/* 	left: unset; */
-/* } */
-/* .single-timeline:nth-child(even) .timeline-text { */
-/* 	padding-left: 0; */
-/* 	padding-right: 30px; */
-/* 	text-align: right; */
-/* } */
-/**/
-/* @media all and (max-width: 991px) { */
-/* } */
-/* @media all and (max-width: 768px) { */
-/* 	.all-timelines::before { */
-/* 		right: unset; */
-/* 		top: 0; */
-/* 	} */
-/* 	.single-timeline:nth-child(2n) .timeline-text { */
-/* 		padding-left: 30px; */
-/* 		padding-right: 0; */
-/* 		text-align: left; */
-/* 	} */
-/* 	.single-timeline:nth-child(2n) .t-square { */
-/* 		left: -6px; */
-/* 		right: unset; */
-/* 	} */
-/* 	.timeline-blank { */
-/* 		display: none; */
-/* 	} */
-/* 	.timeline-text { */
-/* 		width: 100%; */
-/* 	} */
-/* 	.single-timeline:nth-child(even) .timeline-text span { */
-/* 		text-align: left !important; */
-/* 	} */
-/* } */
-/* @media all and (max-width: 575px) { */
-/* } */
-/* @media all and (max-width: 360px) { */
-/* 	.all-timelines::before { */
-/* 		top: 32px; */
-/* 	} */
-/* } */
+  // Horizontal line.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background: var(--color-hr);
+  }
+
+  .event {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .event .marker {
+    fill: var(--color-hr);
+    order: 0;
+    position: relative;
+    left: -6px;
+    flex-shrink: 0;
+  }
+  .event:is(.family) .marker {
+    fill: var(--melange_b_red);
+  }
+  .event:is(.life) .marker {
+    fill: var(--melange_b_yellow);
+  }
+  .event:is(.hobbies) .marker {
+    fill: var(--melange_c_yellow);
+  }
+
+  .event:is(.projects) .marker {
+    fill: var(--melange_b_blue);
+  }
+  .event:is(.work) .marker {
+    fill: var(--melange_b_green);
+  }
+  .event:is(.programming) .marker {
+    fill: var(--melange_b_magenta);
+  }
+
+  .content time {
+    @include sans-serif;
+    font-weight: bold;
+  }
+
+  // Cutoff when we place the timeline in the middle and move some
+  // events to the left side.
+  @media (min-width: 700px) {
+    // Expand the available area a bit.
+    .timeline {
+      @include overflow-bleed;
+    }
+    // Place the horizontal line in the middle.
+    &::before {
+      left: 50%;
+    }
+
+    // Move marker to the middle.
+    .event .marker {
+      order: 1;
+    }
+
+    .event .content {
+      // All content on one side (this is the left).
+      width: 50%;
+      text-align: right;
+      padding-inline: var(--space-xs);
+    }
+
+    // Aligned to the right.
+    .event:is(.programming, .work, .projects) {
+      // This is enough to move everything over to the side.
+      flex-direction: row-reverse;
+
+      .marker {
+        left: 6px;
+      }
+
+      .content {
+        text-align: left;
+      }
+    }
+  }
+}

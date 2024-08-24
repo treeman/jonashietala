@@ -1,4 +1,8 @@
+use eyre::{eyre, Result};
 use jotdown::{Attributes, Container, Event, LinkType, SpanLinkType};
+use lazy_static::lazy_static;
+use regex::Regex;
+use tracing::{error, warn};
 
 pub struct DivTransforms<'a, I: Iterator<Item = Event<'a>>> {
     parent: I,
@@ -74,7 +78,11 @@ impl TransformType {
         }
     }
 
-    fn transform<'a>(self, content: Vec<Event<'a>>, attrs: &Attributes) -> Vec<Event<'a>> {
+    fn try_transform<'a>(
+        self,
+        content: Vec<Event<'a>>,
+        attrs: &Attributes,
+    ) -> Result<Vec<Event<'a>>> {
         match self {
             Self::Note => wrap_content(content.into_iter(), "aside", Some("note")),
             Self::Tip => wrap_content(content.into_iter(), "aside", Some("tip")),
@@ -102,13 +110,23 @@ impl TransformType {
             Self::Timeline => convert_timeline(content.into_iter()),
         }
     }
+
+    fn transform<'a>(self, content: Vec<Event<'a>>, attrs: &Attributes) -> Vec<Event<'a>> {
+        match self.try_transform(content, attrs) {
+            Ok(res) => res,
+            Err(err) => {
+                error!("{}", err);
+                Vec::new()
+            }
+        }
+    }
 }
 
 fn wrap_content<'a, I: Iterator<Item = Event<'a>>>(
     content: I,
     container: &str,
     class: Option<&str>,
-) -> Vec<Event<'a>> {
+) -> Result<Vec<Event<'a>>> {
     let mut res = Vec::new();
     let html = Container::RawBlock { format: "html" };
 
@@ -129,7 +147,7 @@ fn wrap_content<'a, I: Iterator<Item = Event<'a>>>(
     res.push(Event::Str(format!("</{container}>").into()));
     res.push(Event::End(html));
 
-    res
+    Ok(res)
 }
 
 fn wrap_images<'a, I>(
@@ -137,7 +155,7 @@ fn wrap_images<'a, I>(
     container: &str,
     class: Option<&str>,
     insert_links: bool,
-) -> Vec<Event<'a>>
+) -> Result<Vec<Event<'a>>>
 where
     I: Iterator<Item = Event<'a>>,
 {
@@ -147,13 +165,13 @@ where
     inner.append(&mut imgs);
 
     if !caption.is_empty() {
-        inner.append(&mut wrap_content(caption.into_iter(), "figcaption", None));
+        inner.append(&mut wrap_content(caption.into_iter(), "figcaption", None)?);
     }
 
     wrap_content(inner.into_iter(), container, class)
 }
 
-fn parse_flex<'a, I>(content: I) -> Vec<Event<'a>>
+fn parse_flex<'a, I>(content: I) -> Result<Vec<Event<'a>>>
 where
     I: Iterator<Item = Event<'a>>,
 {
@@ -172,7 +190,7 @@ where
     inner.append(&mut imgs);
 
     if !caption.is_empty() {
-        inner.append(&mut wrap_content(caption.into_iter(), "figcaption", None));
+        inner.append(&mut wrap_content(caption.into_iter(), "figcaption", None)?);
     }
 
     wrap_content(inner.into_iter(), "figure", class)
@@ -238,49 +256,89 @@ where
     (imgs, content.collect(), img_count)
 }
 
-fn convert_timeline<'a, I>(content: I) -> Vec<Event<'a>>
+lazy_static! {
+    pub static ref TRAILING_CLASS: Regex = Regex::new(r"^(.+)\s\.(\S+)$").unwrap();
+}
+
+fn convert_timeline<'a, I>(mut content: I) -> Result<Vec<Event<'a>>>
 where
     I: Iterator<Item = Event<'a>>,
 {
-    let mut curr_class = None;
+    assert!(matches!(
+        content.next(),
+        Some(Event::Start(Container::DescriptionList, _))
+    ));
 
     let mut res = Vec::new();
 
     let html = Container::RawBlock { format: "html" };
-    res.push(Event::Start(html.clone(), Attributes::new()));
 
-    // Every entry should be contained in a span.
-    for x in content {
-        match x {
-            Event::Start(Container::Span, attrs) => {
-                curr_class = attrs.get("class").map(|x| x.to_string());
+    res.push(Event::Start(html.clone(), Attributes::new()));
+    res.push(Event::Str(
+        r#"<div class="timeline"><div class="events">"#.into(),
+    ));
+    res.push(Event::End(html.clone()));
+
+    while let Some(token) = content.next() {
+        match token {
+            Event::Start(Container::DescriptionTerm, _) => {}
+            Event::End(Container::DescriptionList) => break,
+            token => return Err(eyre!("Unknown token: {:?}", token)),
+        };
+
+        let (when, class) = match content.next() {
+            Some(Event::Str(s)) => match TRAILING_CLASS.captures(s.as_ref()) {
+                Some(captures) => (captures[1].to_string(), captures[2].to_string()),
+                None => return Err(eyre!("Failed to match timeline heading: `{s}`")),
+            },
+            token => {
+                return Err(eyre!("Expected string , got: {:?}", token));
             }
-            Event::Str(event) => {
-                if let Some(ref class) = curr_class {
-                    let mut split = event.split(" | ");
-                    let when = split.next().unwrap();
-                    let text = split.next().unwrap();
-                    res.push(Event::Str(
-                        format!(
-                            r#"<div class="timeline-event {class}">
-                                <div class="timeline-blank"></div>
-                                <div class="timeline-text">
-                                    <span class="when">{when}</span>
-                                    <span class="text">{text}</span>
-                                </div>
-                            </div>
-                            "#
-                        )
-                        .into(),
-                    ));
-                }
+        };
+
+        for token in content.by_ref() {
+            if matches!(token, Event::Start(Container::DescriptionDetails, _)) {
+                break;
             }
-            _ => {}
         }
+
+        res.push(Event::Start(html.clone(), Attributes::new()));
+        res.push(Event::Str(
+            format!(
+                r#"<div class="event {}">
+      <svg class="marker" xmlns="http://www.w3.org/2000/svg" width="12" height="12">
+        <circle cx="6" cy="6" r="6" />
+      </svg>
+      <div class="content">
+        <time>{}</time>
+        <div class="text">
+        "#,
+                class,
+                html_escape::encode_text(&when)
+            )
+            .into(),
+        ));
+        res.push(Event::End(html.clone()));
+
+        for token in content.by_ref() {
+            match token {
+                Event::End(Container::DescriptionDetails) => break,
+                x => res.push(x),
+            }
+        }
+
+        // Close `text`, `content` and `event`
+        res.push(Event::Start(html.clone(), Attributes::new()));
+        res.push(Event::Str("</div></div></div>".into()));
+        res.push(Event::End(html.clone()));
     }
 
+    // Close `events` and `timeline`
+    res.push(Event::Start(html.clone(), Attributes::new()));
+    res.push(Event::Str("</div></div>".into()));
     res.push(Event::End(html.clone()));
-    res
+
+    Ok(res)
 }
 
 #[cfg(test)]
