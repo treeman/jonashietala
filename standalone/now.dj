@@ -2,6 +2,12 @@
 title = "What am I up to right now?"
 ---
 
+
+::: epigraph
+> You can’t control the wind, but you can adjust your sails.
+> ^ Yiddish Proverb
+:::
+
 This is my [now page][] where I try to lay out what I'm focusing on right now.
 The point is the *big picture* and should only include things that you'd say to a friend you haven't seen in a year.
 
@@ -9,7 +15,7 @@ The point is the *big picture* and should only include things that you'd say to 
 
 # Family
 
-{=The kids are doing great.=}
+The kids are in general doing great.
 We're working on some anger management, how to cope with changes, and with reducing screen time.
 There are tons of challenges but progress is being made.
 
@@ -44,10 +50,5 @@ I'm currently working through the [Cosmere series][] by Brandon Sanderson, which
 I'm always working on different projects, often jumping between projects before finishing them.
 
 As a general theme though I've spent most of my time recently with 3D printing things to build, going deeper into Neovim and its Lua API, and writing (or procrastinating by working on writing tools such as this blog).
-
-I've got _tons_ of projects I'd like to start, work on, and complete; but knowing myself I have no idea what they'll be until I'm there.
-
-> Sometimes I feel like I'm not planning my life---I'm just along for the ride.
-> ^ Me
 
 [Cosmere series]: https://www.brandonsanderson.com/books-and-art/#cosmere

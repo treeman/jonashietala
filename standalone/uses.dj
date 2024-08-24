@@ -13,8 +13,8 @@ For more lists like this, check out <https://github.com/wesbos/awesome-uses>.
 ![With the text more readable for the blog.](/images/uses/neovim.png)
 
 I do all my development, writing and note taking inside [Neovim][].
-I've been using Vim (and later Neovim when I wanted async code) since more than 15 years ago, and I don't see myself ever switching away.
-I have quite a few plugins and tweaks, here's a list of my favorite ones:
+I've been using Vim (and later Neovim when I wanted async code) since 15 years ago, and I don't see myself ever switching away.
+I have quite a few plugins and tweaks, here's a list of some notable ones:
 
 - [lazy.nvim][] as the plugin manager.
 - [telescope.nvim][] for fuzzy finding all the things.
@@ -111,9 +111,10 @@ Maybe if this one dies on me.
 
 ## Laptop
 
-TODO
+![](/images/framework_no_keys.jpg)
 
-Framework 13
+I use [Framework Laptop 13][] as my travel laptop and when I want to code in the sofa in the evenings.
+I have the variant with the AMD Ryzen™ 5 7640U processor and matte display but I've been very happy with it so I'll probably keep upgrading the laptop in the future.
 
 # Other software tools
 
@@ -121,7 +122,7 @@ Framework 13
 
 - I try to use [Todoist][] to track my tasks and todos, but sometimes I keep them in my personal wiki folder instead.
 
-- [Habit loop tracker][]
+- After trying out _tons_ of habit trackers I've settled on [Habit loop tracker][] to help me add and continue the habits I want to have.
 
 # Other hardware & Gadgets
 
@@ -164,8 +165,6 @@ Framework 13
 [Void Linux]: https://voidlinux.org/
 [Arch Linux]: https://archlinux.org/
 [Steam Deck]: https://www.steamdeck.com/en/
-[WHOOP]: https://join.whoop.com/EBB986
-[boxer]: https://shop.whoop.com/en-eu/products/any-wear-boxer/?sku=927-A2-00-0-0
 [Fastmail]: https://www.fastmail.com/
 [Todoist]: https://todoist.com
 [Fairphone 4]: https://www.fairphone.com/en/
@@ -189,5 +188,6 @@ Framework 13
 [Garmin Instinct 2X Solar]: https://www.garmin.com/sv-SE/p/884585/pn/010-02805-00
 [VORON Trident]: /series/voron_trident
 [Habit loop tracker]: https://loophabits.org/
+[Framework Laptop 13]: https://frame.work/se/en/products/laptop-diy-13-gen-amd/configuration/new
 
 

@@ -2,7 +2,7 @@ use eyre::{eyre, Result};
 use jotdown::{Attributes, Container, Event, LinkType, SpanLinkType};
 use lazy_static::lazy_static;
 use regex::Regex;
-use tracing::{error, warn};
+use tracing::error;
 
 pub struct DivTransforms<'a, I: Iterator<Item = Event<'a>>> {
     parent: I,
