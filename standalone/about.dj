@@ -29,6 +29,7 @@ and work/programming/nerd stuff to the right
 ```
 I was born in the north of Sweden     1989
                                       2006      I got introduced to Visual Basic
+Got together with Veronica            2008
                                       2009      I became a Vim zealot
 Me and Veronica moved to Linköping    2010      Study Computer Science
                                       2010      Started training ITF Taekwon-do
@@ -42,6 +43,160 @@ Our second child                      2020
 Our third child                       2022
                                       2024      Started my own consulting company
 ```
+
+::: timeline
+: 1989
+
+  I was born in the north of Sweden
+
+: 2006
+
+  I got introduced to Visual Basic
+
+: 2008
+
+  Got together with Veronica
+
+: 2009
+
+  I became a Vim zealot
+
+: 2010
+
+  Me and Veronica moved to Linköping
+
+: 2010
+
+  Study Computer Science
+
+: 2010
+
+  Started training ITF Taekwon-do
+
+: 2015
+
+  Graduated the University, started working at Configura
+
+: 2016
+
+  Started training Brazilian Jiu-Jitsu
+
+: 2017
+
+  Our first child
+
+: 2019
+
+  Moved away from the city
+
+: 2019
+
+  Started working remotely
+
+: 2020
+
+  Our second child
+
+: 2021
+
+  [I self-published a book][book]
+
+: 2021
+
+  We started a grappling club
+
+: 2022
+
+  Our third child
+
+: 2024
+
+  Started my own consulting company
+
+:::
+
+```=html
+<div class="timeline-area">
+	<div class="container">
+		<div class="timelines">
+			<h2>Timelines</h2>
+		</div>
+		<div class="all-timelines">
+			<!--SINGLE TIMELINE-->
+			<div class="single-timeline d-flex-2">
+				<div class="timeline-blank"></div>
+				<div class="timeline-text d-flex-2">
+					<span>
+						<h6>April 2019</h6> — The launch of Aryacoin; AYA ICO, resulting in over 30BTC collected
+					</span>
+					<div class="t-square"></div>
+				</div>
+			</div>
+			<!--SINGLE TIMELINE-->
+			<div class="single-timeline d-flex-2">
+				<div class="timeline-blank"></div>
+				<div class="timeline-text d-flex-2">
+					<span>
+						<h6>December 2019 </h6>— The launch of AYA Pay
+					</span>
+					<div class="t-square"></div>
+				</div>
+			</div>
+			<!--SINGLE TIMELINE-->
+			<div class="single-timeline d-flex-2">
+				<div class="timeline-blank"></div>
+				<div class="timeline-text d-flex-2">
+					<span>
+						<h6>April 2020</h6> — The successful Hamedan Hardfork, supported by all AYA exchanges, aimed at integrating the dPoW algorithm, improving the security of the AYA blockchain.
+					</span>
+					<div class="t-square"></div>
+				</div>
+			</div>
+			<!--SINGLE TIMELINE-->
+			<div class="single-timeline d-flex-2">
+				<div class="timeline-blank"></div>
+				<div class="timeline-text d-flex-2">
+					<span>
+						<h6>June 2020</h6> — Aryna Exchange goes live, opening more trading opportunities globally
+					</span>
+					<div class="t-square"></div>
+				</div>
+			</div>
+			<!--SINGLE TIMELINE-->
+			<div class="single-timeline d-flex-2">
+				<div class="timeline-blank"></div>
+				<div class="timeline-text d-flex-2">
+					<span>
+						<h6>July 2020</h6> — The enabling of our Coin Exchanger
+					</span>
+					<div class="t-square"></div>
+				</div>
+			</div>
+			<!--SINGLE TIMELINE-->
+			<div class="single-timeline d-flex-2">
+				<div class="timeline-blank"></div>
+				<div class="timeline-text d-flex-2">
+					<span>
+						<h6>November 2020</h6> — The implementation of Smart Contracts into the Aryacoin Ecosystem
+					</span>
+					<div class="t-square"></div>
+				</div>
+			</div>
+			<!--SINGLE TIMELINE-->
+			<div class="single-timeline d-flex-2">
+				<div class="timeline-blank"></div>
+				<div class="timeline-text d-flex-2">
+					<span>
+						<h6>Q1 2021</h6> — Alef B goes live (more details coming soon)
+					</span>
+					<div class="t-square"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+```
+
+<https://codepen.io/alvarotrigo/pen/ExwYygW>
 
 # How I started programming
 

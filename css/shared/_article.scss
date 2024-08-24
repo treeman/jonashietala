@@ -26,7 +26,7 @@ article {
   h5,
   h6,
   h7 {
-    & > a:not(:first-of-type) {
+    &>a:not(:first-of-type) {
       text-decoration: underline;
     }
 
@@ -40,24 +40,29 @@ article {
     position: relative;
     top: -3px;
     vertical-align: baseline;
+
     &,
     a {
       color: var(--color-highlight-favorite);
     }
+
     a:hover {
       color: var(--color-link-hover);
     }
   }
+
   span.favorite {
     display: inline-block;
     position: relative;
     top: -2px;
     vertical-align: baseline;
+
     &,
     a {
       color: var(--color-highlight-favorite);
       text-decoration: none;
     }
+
     a:hover {
       color: var(--color-link-hover);
     }
@@ -67,7 +72,7 @@ article {
   // so the margin on the `:not(:first-child)` headers will never happen.
   // Remove `--flow-space` because it will be introduced from `@include flow`
   // in wrapping articles and other sections.
-  section > :is(h1, h2, h3, h4, h5, h6, h7):first-child {
+  section> :is(h1, h2, h3, h4, h5, h6, h7):first-child {
     margin-block-start: calc(var(--space-m) - var(--flow-space));
   }
 
@@ -89,6 +94,7 @@ article {
     text-decoration: underline;
     margin-right: -2px;
   }
+
   .post-info .item-spec {
     color: var(--melange_a_ui);
   }
@@ -97,6 +103,7 @@ article {
     text-decoration: underline;
     color: var(--color-text);
   }
+
   time a:hover {
     text-decoration: underline;
     color: var(--color-link-hover);
@@ -106,9 +113,11 @@ article {
     @include sans-serif;
     @include font-size("s");
   }
+
   .tag-links a {
     color: var(--color-tags);
   }
+
   .tag-links a:hover {
     color: var(--color-tags-hover);
   }
@@ -131,20 +140,24 @@ article {
     padding: 0;
     width: 100%;
   }
+
   .code-wrapper.wide {
     @include overflow-bleed;
   }
+
   // pre.wide {
   //   @include overflow-bleed;
   // }
-  pre code > .line {
+  pre code>.line {
     padding-inline: var(--space-xs);
   }
+
   pre {
     padding-block: var(--space-xs);
     overflow-wrap: normal;
     overflow: auto;
   }
+
   code {
     padding: 0.2rem;
     margin: 0;
@@ -159,18 +172,21 @@ article {
     padding-block: var(--space-2xs);
     @include flow;
   }
+
   & blockquote {
     border-left: 3px solid var(--color-blockquote-bar);
   }
+
   .epigraph {
     margin-block: var(--space-m);
     font-style: italic;
 
-    > blockquote {
+    >blockquote {
       border-left: 0px;
     }
   }
-  blockquote > footer {
+
+  blockquote>footer {
     font-size: 80%;
     text-align: right;
   }
@@ -185,6 +201,7 @@ article {
       "kern" on,
       "tnum" on;
   }
+
   th,
   td {
     padding: var(--space-3xs) var(--space-s) var(--space-3xs) 0;
@@ -198,6 +215,7 @@ article {
       width: 25ch;
     }
   }
+
   table.center {
     margin: 0 auto;
   }
@@ -218,13 +236,16 @@ article {
   :is(ol, ul):not(:has(p)) {
     @include flow(var(--space-2xs));
   }
+
   :is(ol, ul):has(p) {
     @include flow(var(--space-xs));
   }
+
   // Consistent spacing inside items
   li {
     @include flow();
   }
+
   // Replace standard item bullets/numbers with our own
   // and add in some spacing.
   ul,
@@ -232,49 +253,62 @@ article {
     list-style: none;
     margin-left: var(--space-m);
   }
+
   ol {
     counter-reset: ordered-counter;
   }
-  :is(ol, ul) > li::before {
+
+  :is(ol, ul)>li::before {
     float: left;
     margin-left: calc(-1 * var(--space-m));
     color: var(--color-list-bullet);
   }
-  ol > li::before {
+
+  ol>li::before {
     @include sans-serif;
     counter-increment: ordered-counter;
     content: counter(ordered-counter);
   }
-  ol[type="A"s] > li::before {
+
+  ol[type="A" s]>li::before {
     content: counter(ordered-counter, upper-alpha);
   }
-  ol[type="a"s] > li::before {
+
+  ol[type="a" s]>li::before {
     content: counter(ordered-counter, lower-alpha);
   }
-  ol[type="I"s] > li::before {
+
+  ol[type="I" s]>li::before {
     content: counter(ordered-counter, upper-roman);
   }
-  ol[type="i"s] > li::before {
+
+  ol[type="i" s]>li::before {
     content: counter(ordered-counter, lower-roman);
   }
-  .greek ol[type="a"s] > li::before {
+
+  .greek ol[type="a" s]>li::before {
     content: counter(ordered-counter, lower-greek);
   }
-  ul > li::before {
+
+  ul>li::before {
     @include sans-serif;
     content: "•";
   }
-  .dash ul > li::before {
+
+  .dash ul>li::before {
     content: "-";
   }
-  .plus ul > li::before {
+
+  .plus ul>li::before {
     content: "+";
   }
-  ul > li.checked::before {
+
+  ul>li.checked::before {
     @include sans-serif;
     content: "[×]";
   }
-  ul > li.unchecked::before {
+
+  ul>li.unchecked::before {
     @include sans-serif;
     content: "[ ]";
   }
@@ -297,7 +331,8 @@ article {
       @include flow(var(--space-3xs));
       margin-left: 0;
     }
-    ol > li:before {
+
+    ol>li:before {
       margin-left: 0;
       content: none;
     }
@@ -317,13 +352,16 @@ article {
       color: var(--color-text);
       text-decoration: none;
     }
+
     a:hover {
       color: var(--color-link-hover);
       text-decoration: underline;
     }
+
     a.heading-1 {
       font-weight: bold;
     }
+
     a.heading-2 {
       margin-left: var(--space-xs);
       font-size: 90%;
@@ -332,10 +370,11 @@ article {
 
   // Special case of removing spacing between table of content
   // directly preceding a heading.
-  .toc:not(:first-child) ~ section > h2:first-child {
+  .toc:not(:first-child)~section>h2:first-child {
     margin-block-start: var(--space-xs);
   }
-  .toc:first-child ~ section > h2:first-child {
+
+  .toc:first-child~section>h2:first-child {
     margin-block-start: 0;
   }
 
@@ -385,7 +424,7 @@ article {
   figure.flex-33,
   figure.flex-25,
   figure.flex-20 {
-    & > * {
+    &>* {
       padding-inline: 0.1em;
     }
 
@@ -394,18 +433,22 @@ article {
       background-color: none;
     }
   }
+
   figure.flex-50 a,
   figure.flex-50 img {
     flex: 0 1 50%;
   }
+
   figure.flex-33 a,
   figure.flex-33 img {
     flex: 0 1 33%;
   }
+
   figure.flex-25 a,
   figure.flex-25 img {
     flex: 0 1 25%;
   }
+
   figure.flex-20 a,
   figure.flex-20 img {
     flex: 0 1 20%;
@@ -417,7 +460,7 @@ article {
     grid-gap: var(--space-3xs);
   }
 
-  figure.gallery > figcaption {
+  figure.gallery>figcaption {
     grid-column: 1 / -1 !important;
     max-inline-size: none;
     display: flex;
@@ -445,6 +488,7 @@ article {
       margin-block-end: var(--space-2xs);
     }
   }
+
   aside.note {
     border-color: var(--melange_b_blue);
 
@@ -453,6 +497,7 @@ article {
       color: var(--melange_b_blue);
     }
   }
+
   aside.tip {
     border-color: var(--melange_b_green);
 
@@ -461,6 +506,7 @@ article {
       color: var(--melange_b_green);
     }
   }
+
   aside.warn {
     border-color: var(--melange_b_yellow);
 
@@ -469,6 +515,7 @@ article {
       color: var(--melange_b_yellow);
     }
   }
+
   aside.important {
     border-color: var(--melange_b_magenta);
 
@@ -477,11 +524,13 @@ article {
       color: var(--melange_b_magenta);
     }
   }
+
   aside.update {
     border-color: var(--melange_c_cyan);
 
     .info {
       color: var(--melange_b_cyan);
+
       .date {
         margin-left: var(--space-3xs);
         @include sans-serif;
@@ -500,12 +549,15 @@ article {
     color: var(--melange_a_bg);
     padding: var(--space-3xs);
   }
+
   span.todo {
     background-color: var(--melange_c_blue);
   }
+
   span.fixme {
     background-color: var(--melange_c_red);
   }
+
   span.note {
     background-color: var(--melange_c_cyan);
   }
@@ -534,6 +586,7 @@ article {
       color: var(--melange_a_fg);
       text-decoration: none;
     }
+
     a:hover {
       text-decoration: underline;
       color: var(--color-link-hover);
@@ -556,6 +609,7 @@ article {
         background-color: rgba($melange_dark_a_bg, 0.8);
       }
     }
+
     .play-button {
       position: absolute;
       left: 50%;
@@ -568,6 +622,7 @@ article {
       path.background {
         fill: $melange_dark_a_sel;
       }
+
       path.arrow {
         fill: $melange_dark_a_fg;
       }
@@ -577,6 +632,7 @@ article {
       .play-button path.background {
         fill: $melange_light_b_red;
       }
+
       .yt-overlay span {
         text-decoration: underline;
       }
@@ -591,6 +647,7 @@ article {
     &:link {
       text-decoration: none;
     }
+
     &:hover {
       text-decoration: underline;
     }
@@ -618,8 +675,128 @@ article {
       content: "Notes";
     }
 
-    :is(ol, ul) > li::before {
+    :is(ol, ul)>li::before {
       color: var(--color-footnote-def);
     }
   }
 }
+
+
+/* .timelines h2 { */
+/* 	text-align: center; */
+/* 	color: #fff; */
+/* 	font-weight: 600; */
+/* 	margin-bottom: 40px; */
+/* 	font-size: 32px; */
+/* } */
+/* .d-flex-2 { */
+/* 	display: flex; */
+/* 	align-items: center; */
+/* } */
+/* .timeline-area { */
+/* 	padding: 80px 0; */
+/* } */
+/* .all-timelines { */
+/* 	position: relative; */
+/* } */
+/* .timelines h2 { */
+/* 	text-align: center; */
+/* 	color: #fff; */
+/* 	font-weight: 600; */
+/* 	margin-bottom: 40px; */
+/* } */
+/* .all-timelines::before { */
+/* 	content: ""; */
+/* 	position: absolute; */
+/* 	left: 0; */
+/* 	right: 0; */
+/* 	margin: auto; */
+/* 	height: 100%; */
+/* 	width: 2px; */
+/* 	background: #efa22f; */
+/* 	top: 20px; */
+/* } */
+/* .single-timeline { */
+/* 	margin-bottom: 22px; */
+/* } */
+/* .timeline-blank { */
+/* 	width: 50%; */
+/* } */
+/* .timeline-text { */
+/* 	width: 50%; */
+/* 	padding-left: 30px; */
+/* 	-webkit-box-sizing: border-box; */
+/* 	box-sizing: border-box; */
+/* 	position: relative; */
+/* } */
+/* .timeline-text h6 { */
+/* 	color: #f0f1f2; */
+/* 	font-weight: 900; */
+/* 	display: inline-block; */
+/* 	font-size: 1rem; */
+/* } */
+/* .timeline-text span { */
+/* 	color: #f0f1f2; */
+/* 	display: block; */
+/* 	width: 100%; */
+/* } */
+/* .single-timeline:nth-child(even) .timeline-text span { */
+/* 	text-align: right; */
+/* } */
+/* .t-square { */
+/* 	content: ""; */
+/* 	position: absolute; */
+/* 	width: 12px; */
+/* 	height: 12px; */
+/* 	left: -6px; */
+/* 	background: #efa22f; */
+/* } */
+/* .single-timeline:nth-child(even) { */
+/* 	-webkit-box-orient: horizontal; */
+/* 	-webkit-box-direction: reverse; */
+/* 	-ms-flex-direction: row-reverse; */
+/* 	flex-direction: row-reverse; */
+/* } */
+/* .single-timeline:nth-child(even) .t-square { */
+/* 	right: -6px; */
+/* 	left: unset; */
+/* } */
+/* .single-timeline:nth-child(even) .timeline-text { */
+/* 	padding-left: 0; */
+/* 	padding-right: 30px; */
+/* 	text-align: right; */
+/* } */
+/**/
+/* @media all and (max-width: 991px) { */
+/* } */
+/* @media all and (max-width: 768px) { */
+/* 	.all-timelines::before { */
+/* 		right: unset; */
+/* 		top: 0; */
+/* 	} */
+/* 	.single-timeline:nth-child(2n) .timeline-text { */
+/* 		padding-left: 30px; */
+/* 		padding-right: 0; */
+/* 		text-align: left; */
+/* 	} */
+/* 	.single-timeline:nth-child(2n) .t-square { */
+/* 		left: -6px; */
+/* 		right: unset; */
+/* 	} */
+/* 	.timeline-blank { */
+/* 		display: none; */
+/* 	} */
+/* 	.timeline-text { */
+/* 		width: 100%; */
+/* 	} */
+/* 	.single-timeline:nth-child(even) .timeline-text span { */
+/* 		text-align: left !important; */
+/* 	} */
+/* } */
+/* @media all and (max-width: 575px) { */
+/* } */
+/* @media all and (max-width: 360px) { */
+/* 	.all-timelines::before { */
+/* 		top: 32px; */
+/* 	} */
+/* } */

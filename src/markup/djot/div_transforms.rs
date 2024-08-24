@@ -55,6 +55,7 @@ enum TransformType {
     Flex,
     Figure,
     Gallery,
+    Timeline,
 }
 
 impl TransformType {
@@ -68,6 +69,7 @@ impl TransformType {
             "flex" => Some(Self::Flex),
             "figure" => Some(Self::Figure),
             "gallery" => Some(Self::Gallery),
+            "timeline" => Some(Self::Timeline),
             _ => None,
         }
     }
@@ -97,6 +99,7 @@ impl TransformType {
             Self::Flex => parse_flex(content.into_iter()),
             Self::Figure => wrap_images(content.into_iter(), "figure", None, false),
             Self::Gallery => wrap_images(content.into_iter(), "figure", Some("gallery"), true),
+            Self::Timeline => convert_timeline(content.into_iter()),
         }
     }
 }
@@ -233,6 +236,51 @@ where
     }
 
     (imgs, content.collect(), img_count)
+}
+
+fn convert_timeline<'a, I>(content: I) -> Vec<Event<'a>>
+where
+    I: Iterator<Item = Event<'a>>,
+{
+    let mut curr_class = None;
+
+    let mut res = Vec::new();
+
+    let html = Container::RawBlock { format: "html" };
+    res.push(Event::Start(html.clone(), Attributes::new()));
+
+    // Every entry should be contained in a span.
+    for x in content {
+        match x {
+            Event::Start(Container::Span, attrs) => {
+                curr_class = attrs.get("class").map(|x| x.to_string());
+            }
+            Event::Str(event) => {
+                if let Some(ref class) = curr_class {
+                    let mut split = event.split(" | ");
+                    let when = split.next().unwrap();
+                    let text = split.next().unwrap();
+                    res.push(Event::Str(
+                        format!(
+                            r#"<div class="timeline-event {class}">
+                                <div class="timeline-blank"></div>
+                                <div class="timeline-text">
+                                    <span class="when">{when}</span>
+                                    <span class="text">{text}</span>
+                                </div>
+                            </div>
+                            "#
+                        )
+                        .into(),
+                    ));
+                }
+            }
+            _ => {}
+        }
+    }
+
+    res.push(Event::End(html.clone()));
+    res
 }
 
 #[cfg(test)]
