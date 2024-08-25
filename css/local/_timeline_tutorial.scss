@@ -1,0 +1,158 @@
+@use "../global/fonts" as *;
+@use "../components/system" as *;
+
+.timeline-1 {
+  .events::before {
+    // We need some content for the element to show up.
+    content: "";
+    // Use absolute positioning to
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background: var(--color-hr);
+  }
+
+  .events {
+    position: relative;
+  }
+
+  .events::before {
+    background: var(--color-hr);
+  }
+  .event.life .marker {
+    fill: var(--melange_b_yellow);
+  }
+  .event.programming .marker {
+    fill: var(--melange_b_magenta);
+  }
+  .event.family .marker {
+    fill: var(--melange_b_red);
+  }
+}
+
+.timeline-2 {
+  .event {
+    display: flex;
+  }
+}
+
+.timeline-3 {
+  .event .marker {
+    position: relative;
+    left: -6px;
+    top: 6px;
+  }
+}
+
+.timeline-4 {
+  .event .marker {
+    position: relative;
+    left: -6px;
+    top: 0px;
+  }
+  .event {
+    align-items: baseline;
+  }
+}
+
+.timeline .events {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space-xs);
+  position: relative;
+
+  // Horizontal line.
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background: var(--color-hr);
+  }
+
+  .event {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .event .marker {
+    fill: var(--color-hr);
+    order: 0;
+    position: relative;
+    left: -6px;
+    flex-shrink: 0;
+  }
+
+  .content time {
+    @include sans-serif;
+    font-weight: bold;
+  }
+
+  .event:is(.family) .marker {
+    fill: var(--melange_b_red);
+  }
+
+  .event:is(.life) .marker {
+    fill: var(--melange_b_yellow);
+  }
+
+  .event:is(.hobbies) .marker {
+    fill: var(--melange_c_yellow);
+  }
+
+  .event:is(.projects) .marker {
+    fill: var(--melange_b_blue);
+  }
+
+  .event:is(.work) .marker {
+    fill: var(--melange_b_green);
+  }
+
+  .event:is(.programming) .marker {
+    fill: var(--melange_b_magenta);
+  }
+}
+
+// Cutoff when we place the timeline in the middle and move some
+// events to the left side.
+@media (min-width: 700px) {
+  // Expand the available area a bit.
+  .timeline {
+    @include overflow-bleed;
+  }
+
+  .timeline .events {
+    // Place the horizontal line in the middle.
+    &::before {
+      left: 50%;
+    }
+
+    // Move marker to the middle.
+    .event .marker {
+      order: 1;
+    }
+
+    .event .content {
+      // All content on one side (this is the left).
+      width: 50%;
+      text-align: right;
+      padding-inline: var(--space-xs);
+    }
+
+    // Aligned to the right.
+    .event:is(.programming, .work, .projects) {
+      // This is enough to move everything over to the side.
+      flex-direction: row-reverse;
+
+      .marker {
+        left: 6px;
+      }
+
+      .content {
+        text-align: left;
+      }
+    }
+  }
+}

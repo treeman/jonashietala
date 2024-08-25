@@ -1,0 +1,363 @@
+---toml
+title = "A simple timeline using CSS flexbox"
+tags = ["CSS"]
+---
+
+As I added a [/now][] page to the site I also decided to refresh my [/about][] page and I figured it would be neat to have timeline element where I could list some of the larger events in my life.
+
+To my surprise it wasn't too difficult to create one that looks pretty clean---the [flexbox][] feature in CSS is really good.
+In this post I'll walk you through how I made this kind of timeline:
+
+::: timeline
+: 1989 .life
+
+  I was born in the north of Sweden
+
+: 2006 .programming
+
+  I got introduced to Visual Basic
+
+: August 2008 .family
+
+  Got together with Veronica
+:::
+
+# Markup
+
+```html
+<div class="timeline">
+  <div class="events">
+    <!-- The first `1989` event -->
+    <div class="event life">
+      <!-- The circle is an svg -->
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <!-- The event info -->
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- etc ... -->
+  </div>
+</div>
+```
+
+# A simple line
+
+Let's start with the actual line in the timeline.
+I chose to use the [::before][before] pseudo-element on the `events` div to simulate a line by setting the width and height:
+
+```scss
+.events::before {
+   // We need some content for the element to show up.
+   content: "";
+   // Use absolute positioning to place the timeline at the very top.
+   position: absolute;
+   top: 0;
+   // With a height and with the timeline will be a tall and thin box.
+   height: 100%;
+   width: 1px;
+```
+
+We also need to set the wrapper `.events`{lang=scss} to use relative positioning, otherwise the timeline will start from the top of the page, not the container:
+
+```scss
+.events {
+  position: relative;
+}
+```
+
+I'll also throw in a little bit of coloring so it's easier to see the line and circles:
+
+```scss
+// For the tutorial I use slightly different colors,
+// but you get the idea.
+.events::before { background: white; }
+.event.life .marker { fill: yellow; }
+.event.programming .marker { fill: magenta; }
+.event.family .marker { fill: red; }
+```
+
+And we have our line for our timeline:
+
+```=html
+<div class="timeline-1">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+# Alignment
+
+The circle and event aren't aligned, let's try to fix that.
+
+By using flexbox the event will display its content horizontally (with the circle to the left and the content to the right):
+
+```scss
+.event {
+   display: flex;
+}
+```
+
+```=html
+<div class="timeline-1 timeline-2">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Close, but the circle seems off.
+Remember that the circle is an svg 12 pixels wide and high and positioning will use `0,0` by default.
+
+With relative positioning we can move the center of the circle to align it better:
+
+```scss
+.event .marker {
+   position: relative;
+   left: -6px;
+   top: 6px;
+}
+```
+
+```=html
+<div class="timeline-1 timeline-2 timeline-3">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+But if you look closely this still doesn't look correct.
+Turns out that [centering things is the hardest problem in computer science][center-hard], so don't be discouraged.
+
+To save you some grief, I found that `align-items: baseline` does a better job than nudging top positioning:
+
+{hl="4,7"}
+```scss
+.event .marker {
+  position: relative;
+  left: -6px;
+  top: 0px;
+}
+.event {
+  align-items: baseline;
+}
+```
+
+Et voilà:
+
+```=html
+<div class="timeline-1 timeline-2 timeline-3 timeline-4">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+[center-hard]: https://tonsky.me/blog/centering/
+
+
+[/now]: /now
+[/about]: /about
+[flexbox]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox
+[before]: https://developer.mozilla.org/en-US/docs/Web/CSS/::before
