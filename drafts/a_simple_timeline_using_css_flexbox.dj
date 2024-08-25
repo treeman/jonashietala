@@ -837,7 +837,10 @@ For the blog I don't use `nth-child(even)` as I prefer to group events to either
 </div>
 ```
 
+# We're done
+
 ```scss
+// The line in the middle.
 .events::before {
   content: "";
   position: absolute;
@@ -848,23 +851,28 @@ For the blog I don't use `nth-child(even)` as I prefer to group events to either
 }
 
 .events {
+  // Needed for positioning the line.
   position: relative;
-  margin-block: 0.5em;
+  // Add some space.
   display: flex;
+  margin-block: 0.5em;
   flex-direction: column;
   row-gap: 1em;
 }
 
 .event {
+  // Layout content and marker using flexbox.
   display: flex;
+  // Align marker vertically.
   align-items: baseline;
 }
 .event .marker {
+  // Adjust marker to center on the line.
   position: relative;
   left: -6px;
-  top: 0px;
 }
 
+// Some coloring to make our life easier.
 .event.life .marker {
   fill: var(--melange_b_yellow);
 }
@@ -880,27 +888,36 @@ For the blog I don't use `nth-child(even)` as I prefer to group events to either
 }
 
 @media (min-width: 700px) {
+  // Place the line in the middle.
   .events::before {
     left: 50%;
   }
-  // Move marker to the middle.
+  // Layout the marker after the content.
   .event .marker {
     order: 1;
   }
   .event .content {
+    // Make the content take 50% space so the marker
+    // will be placed at 50% (on top of the line).
     width: 50%;
+    // Event is to the left, align text towards the line.
     text-align: right;
+    // Avoid overlap with the marker.
     padding-inline: 1em;
   }
+  // For these types, move the event to the right.
   .event:is(.programming, .work, .projects) {
+    // Layout the content and marker from right to left.
     flex-direction: row-reverse;
 
-    .marker {
-      left: 6px;
-    }
-
+    // Now align text to the left.
     .content {
       text-align: left;
+    }
+    // We used to offset the marker from the left with -6px,
+    // now we need to do it from the other side.
+    .marker {
+      left: 6px;
     }
   }
 }
@@ -911,5 +928,4 @@ For the blog I don't use `nth-child(even)` as I prefer to group events to either
 [/about]: /about
 [flexbox]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox
 [before]: https://developer.mozilla.org/en-US/docs/Web/CSS/::before
-
 [media queries]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries

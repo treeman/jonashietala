@@ -176,19 +176,24 @@
       // Make the content take 50% space so the marker
       // will be placed at 50% (on top of the line).
       width: 50%;
+      // Event is to the left, align text towards the line.
       text-align: right;
-      // Avoid
+      // Avoid overlap with the marker.
       padding-inline: 1em;
     }
+    // For these types, move the event to the right.
     .event:is(.programming, .work, .projects) {
+      // Layout the content and marker from right to left.
       flex-direction: row-reverse;
 
-      .marker {
-        left: 6px;
-      }
-
+      // Now align text to the left.
       .content {
         text-align: left;
+      }
+      // We used to offset the marker from the left with -6px,
+      // now we need to do it from the other side.
+      .marker {
+        left: 6px;
       }
     }
   }
