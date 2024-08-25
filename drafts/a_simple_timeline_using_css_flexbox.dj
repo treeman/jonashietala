@@ -8,19 +8,60 @@ As I added a [/now][] page to the site I also decided to refresh my [/about][] p
 To my surprise it wasn't too difficult to create one that looks pretty clean---the [flexbox][] feature in CSS is really good.
 In this post I'll walk you through how I made this kind of timeline:
 
-::: timeline
-: 1989 .life
-
-  I was born in the north of Sweden
-
-: 2006 .programming
-
-  I got introduced to Visual Basic
-
-: August 2008 .family
-
-  Got together with Veronica
-:::
+```=html
+<div class="timeline-done">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
 
 # Markup
 
@@ -77,15 +118,24 @@ We also need to set the wrapper `.events`{lang=scss} to use relative positioning
 }
 ```
 
-I'll also throw in a little bit of coloring so it's easier to see the line and circles:
+I'll also throw in a little bit of styling so it's easier to see:
 
 ```scss
 // For the tutorial I use slightly different colors,
 // but you get the idea.
 .events::before { background: white; }
+// Events use different classes to differentiate them.
 .event.life .marker { fill: yellow; }
 .event.programming .marker { fill: magenta; }
 .event.family .marker { fill: red; }
+// Make the time stand out
+.content time {
+  font-family: concourse_4, Helvetica, sans-serif;
+  font-weight: bold;
+}
+// Just some extra spacing to make the timeline not merge
+// with the surrounding text.
+.events { margin-block: 0.5em; }
 ```
 
 And we have our line for our timeline:
@@ -297,8 +347,6 @@ To save you some grief, I found that `align-items: baseline` does a better job t
 }
 ```
 
-Et voilà:
-
 ```=html
 <div class="timeline-1 timeline-2 timeline-3 timeline-4">
   <div class="events">
@@ -354,10 +402,514 @@ Et voilà:
 </div>
 ```
 
+# Vertical spacing
+
+It feels a bit cramped so lets space things out.
+One way is to simply add a `margin-bottom: 1em;`{lang=scss} but that would add a useless space below the last event (that we'd have to remove another way).
+
+I think a cleaner way is to use [flexbox][] and `row-gap` to only specify spacing between elements:
+
+```scss
+.timeline-5 {
+  .events {
+    display: flex;
+    // Lay out events column-wise instead of row-wise.
+    flex-direction: column;
+    // Set some spacing between elements.
+    row-gap: 1em;
+  }
+}
+```
+
+```=html
+<div class="timeline-1 timeline-2 timeline-3 timeline-4 timeline-5">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+# Making it responsive
+
+What we've made is good for smaller screens but for larger screens I'd like to place the line in the middle and move some events to the left and some to the right.
+
+I'll use [media queries][] to create a cutoff:
+
+```scss
+@media (min-width: 700px) {
+  // Styling for wider screens goes here.
+}
+```
+
+Even though I won't include the media query in the following code snippets the media query should wrap them all.
+
+## Events to the left
+
+The first thing I'd like to do is move the line to the middle:
+
+```scss
+.events::before {
+  // This centers the line horizontally.
+  // Remember that we used absolute positioning before.
+  left: 50%;
+}
+```
+
+```=html
+<div class="timeline-1 timeline-2 timeline-3 timeline-4 timeline-5 timeline-6">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Now, let's move the marker to the timeline.
+
+First lets move the marker to be after the content in the layout ordering:
+
+```scss
+.event .marker {
+  order: 1;
+}
+```
+
+```=html
+<div class="timeline-1 timeline-2 timeline-3 timeline-4 timeline-5 timeline-6 timeline-7">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Secondly, we'll make the content take up all the space to the left, pushing the marker on top of the line in the middle:
+
+```scss
+.event .content {
+  width: 50%;
+}
+```
+
+```=html
+<div class="timeline-1 timeline-2 timeline-3 timeline-4 timeline-5 timeline-6 timeline-7 timeline-8">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Now lets move right-align the content and add some padding so the text won't overlap with the marker:
+
+```scss
+.event .content {
+  text-align: right;
+  padding-inline: 1em;
+}
+```
+
+```=html
+<div class="timeline-1 timeline-2 timeline-3 timeline-4 timeline-5 timeline-6 timeline-7 timeline-8 timeline-9">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## Events to the right
+
+To move events to the right side of the timeline all we have to do is tell [flexbox][] to lay out elements from right to left instead of left to right:
+
+```scss
+// Use `nth-child(even)` to target every other event.
+.event:nth-child(even) {
+  // Layout elements from right to left.
+  flex-direction: row-reverse;
+}
+```
+
+To make it look good lets add left aligned text and move the marker offset to be aligned over the line again:
+
+```scss
+.event:nth-child(even) {
+  .content { text-align: left; }
+  // The marker used to be offset -6px, but now we
+  // move from the right.
+  .marker { left: 6px; }
+}
+```
+
+For the blog I don't use `nth-child(even)` as I prefer to group events to either side by type:
+
+```scss
+//.event:nth-child(even) {
+.event:is(.programming, .work, .projects) {
+  // ...
+}
+```
+
+```=html
+<div class="timeline-1 timeline-2 timeline-3 timeline-4 timeline-5 timeline-6 timeline-7 timeline-8
+  timeline-9 timeline-10">
+  <div class="events">
+    <div class="event life">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>1989</time>
+        <div class="text">
+          <p>I was born in the north of Sweden</p>
+        </div>
+      </div>
+    </div>
+    <div class="event programming">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>2006</time>
+        <div class="text">
+          <p>I got introduced to Visual Basic</p>
+        </div>
+      </div>
+    </div>
+    <div class="event family">
+      <svg
+        class="marker"
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+      >
+        <circle cx="6" cy="6" r="6"></circle>
+      </svg>
+      <div class="content">
+        <time>August 2008</time>
+        <div class="text">
+          <p>Got together with Veronica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+```scss
+.events::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: var(--color-hr);
+}
+
+.events {
+  position: relative;
+  margin-block: 0.5em;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+
+.event {
+  display: flex;
+  align-items: baseline;
+}
+.event .marker {
+  position: relative;
+  left: -6px;
+  top: 0px;
+}
+
+.event.life .marker {
+  fill: var(--melange_b_yellow);
+}
+.event.programming .marker {
+  fill: var(--melange_b_magenta);
+}
+.event.family .marker {
+  fill: var(--melange_b_red);
+}
+.content time {
+  font-family: concourse_4, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+@media (min-width: 700px) {
+  .events::before {
+    left: 50%;
+  }
+  // Move marker to the middle.
+  .event .marker {
+    order: 1;
+  }
+  .event .content {
+    width: 50%;
+    text-align: right;
+    padding-inline: 1em;
+  }
+  .event:is(.programming, .work, .projects) {
+    flex-direction: row-reverse;
+
+    .marker {
+      left: 6px;
+    }
+
+    .content {
+      text-align: left;
+    }
+  }
+}
+```
+
 [center-hard]: https://tonsky.me/blog/centering/
-
-
 [/now]: /now
 [/about]: /about
 [flexbox]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox
 [before]: https://developer.mozilla.org/en-US/docs/Web/CSS/::before
+
+[media queries]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries

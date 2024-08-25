@@ -15,6 +15,7 @@
 
   .events {
     position: relative;
+    margin-block: 0.5em;
   }
 
   .events::before {
@@ -28,6 +29,10 @@
   }
   .event.family .marker {
     fill: var(--melange_b_red);
+  }
+  .content time {
+    font-family: concourse_4, Helvetica, sans-serif;
+    font-weight: bold;
   }
 }
 
@@ -56,14 +61,59 @@
   }
 }
 
-.timeline .events {
-  display: flex;
-  flex-direction: column;
-  row-gap: var(--space-xs);
-  position: relative;
+.timeline-5 {
+  .events {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+  }
+}
 
-  // Horizontal line.
-  &::before {
+@media (min-width: 700px) {
+  .timeline-6 {
+    .events::before {
+      left: 50%;
+    }
+  }
+
+  .timeline-7 {
+    // Move marker to the middle.
+    .event .marker {
+      order: 1;
+    }
+  }
+
+  .timeline-8 {
+    .event .content {
+      width: 50%;
+    }
+  }
+
+  .timeline-9 {
+    .event .content {
+      text-align: right;
+      padding-inline: 1em;
+    }
+  }
+
+  .timeline-10 {
+    .event:is(.programming, .work, .projects) {
+      flex-direction: row-reverse;
+
+      .marker {
+        left: 6px;
+      }
+
+      .content {
+        text-align: left;
+      }
+    }
+  }
+}
+
+.timeline-done {
+  // The line in the middle.
+  .events::before {
     content: "";
     position: absolute;
     top: 0;
@@ -72,11 +122,79 @@
     background: var(--color-hr);
   }
 
-  .event {
+  .events {
+    // Needed for positioning the line.
+    position: relative;
+    // Add some space.
     display: flex;
-    align-items: baseline;
+    margin-block: 0.5em;
+    flex-direction: column;
+    row-gap: 1em;
   }
 
+  .event {
+    // Layout content and marker using flexbox.
+    display: flex;
+    // Align marker vertically.
+    align-items: baseline;
+  }
+  .event .marker {
+    // Adjust marker to center on the line.
+    position: relative;
+    left: -6px;
+  }
+
+  // Some coloring to make our life easier.
+  .event.life .marker {
+    fill: var(--melange_b_yellow);
+  }
+  .event.programming .marker {
+    fill: var(--melange_b_magenta);
+  }
+  .event.family .marker {
+    fill: var(--melange_b_red);
+  }
+  .content time {
+    font-family: concourse_4, Helvetica, sans-serif;
+    font-weight: bold;
+  }
+}
+
+// When the screen is at least 700px wide layout
+// events to the sides of a centered line.
+@media (min-width: 700px) {
+  .timeline-done {
+    // Place the line in the middle.
+    .events::before {
+      left: 50%;
+    }
+    // Layout the marker after the content.
+    .event .marker {
+      order: 1;
+    }
+    .event .content {
+      // Make the content take 50% space so the marker
+      // will be placed at 50% (on top of the line).
+      width: 50%;
+      text-align: right;
+      // Avoid
+      padding-inline: 1em;
+    }
+    .event:is(.programming, .work, .projects) {
+      flex-direction: row-reverse;
+
+      .marker {
+        left: 6px;
+      }
+
+      .content {
+        text-align: left;
+      }
+    }
+  }
+}
+
+.timeline-x .events {
   .event .marker {
     fill: var(--color-hr);
     order: 0;
