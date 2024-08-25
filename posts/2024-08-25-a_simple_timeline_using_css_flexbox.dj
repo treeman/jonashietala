@@ -1,6 +1,6 @@
 ---toml
 title = "A simple timeline using CSS flexbox"
-tags = ["CSS"]
+tags = ["Blog", "CSS", "Web Design"]
 ---
 
 As I added a [/now][] page to the site I also decided to refresh my [/about][] page and I figured it would be neat to have timeline element where I could list some of the larger events in my life.
@@ -64,6 +64,9 @@ In this post I'll walk you through how I made this kind of timeline:
 ```
 
 # Markup
+
+I like to start with the markup before moving on to styling.
+I have two wrappers (`timeline` and `events`) around the different events (`event`) that contains the event marker (`svg`) and content with a `time` and `text`:
 
 ```html
 <div class="timeline">
@@ -135,7 +138,7 @@ I'll also throw in a little bit of styling so it's easier to see:
 }
 // Just some extra spacing to make the timeline not merge
 // with the surrounding text.
-.events { margin-block: 0.5em; }
+.events { margin: 0.5em; }
 ```
 
 And we have our line for our timeline:
@@ -402,6 +405,8 @@ To save you some grief, I found that `align-items: baseline` does a better job t
 </div>
 ```
 
+(The alignment looks good enough to me, at least with the default font I use.)
+
 # Vertical spacing
 
 It feels a bit cramped so lets space things out.
@@ -557,8 +562,9 @@ The first thing I'd like to do is move the line to the middle:
 </div>
 ```
 
-Now, let's move the marker to the timeline.
+(Use a wider screen to see the effects of our changes.)
 
+Now, let's move the marker to the timeline.
 First lets move the marker to be after the content in the layout ordering:
 
 ```scss
@@ -685,7 +691,7 @@ Secondly, we'll make the content take up all the space to the left, pushing the 
 </div>
 ```
 
-Now lets move right-align the content and add some padding so the text won't overlap with the marker:
+Lets move right-align the content and add some padding so the text won't overlap with the marker:
 
 ```scss
 .event .content {
@@ -760,6 +766,16 @@ To move events to the right side of the timeline all we have to do is tell [flex
   flex-direction: row-reverse;
 }
 ```
+::: note
+For the blog I don't use `nth-child(even)` as I prefer to group events to either side by type:
+
+```scss
+.event:is(.programming, .work, .projects) {
+  flex-direction: row-reverse;
+}
+```
+:::
+
 
 To make it look good lets add left aligned text and move the marker offset to be aligned over the line again:
 
@@ -769,15 +785,6 @@ To make it look good lets add left aligned text and move the marker offset to be
   // The marker used to be offset -6px, but now we
   // move from the right.
   .marker { left: 6px; }
-}
-```
-
-For the blog I don't use `nth-child(even)` as I prefer to group events to either side by type:
-
-```scss
-//.event:nth-child(even) {
-.event:is(.programming, .work, .projects) {
-  // ...
 }
 ```
 
@@ -838,6 +845,15 @@ For the blog I don't use `nth-child(even)` as I prefer to group events to either
 ```
 
 # We're done
+
+That's all there is to the timeline I use.
+You can of course modify and expand on it in many ways but I quite like this simple styling.
+
+With [flexbox][] it was in the end fairly simple to get a basic timeline created and it's one of my absolute favorite CSS features that manages to simplify many things that used to be very awkward.
+
+***
+
+Here's the all the styling for the timeline we created in this post:
 
 ```scss
 // The line in the middle.

@@ -15,7 +15,7 @@
 
   .events {
     position: relative;
-    margin-block: 0.5em;
+    margin: 0.5em;
   }
 
   .events::before {
@@ -127,7 +127,7 @@
     position: relative;
     // Add some space.
     display: flex;
-    margin-block: 0.5em;
+    margin: 0.5em;
     flex-direction: column;
     row-gap: 1em;
   }
