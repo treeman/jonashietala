@@ -287,6 +287,19 @@ The file layout should look something like this:
     └── myapp.gleam
 ```
 
+{date="2024-08-30"}
+::: update
+I only tested this on Linux where the `.so` extension is used but I didn't test it on Mac or Windows.
+
+I'm told that on Mac a `.dylib` file will be generated but you should still copy it to the `priv/` folder with the `.so` extension:
+
+```fish-shell
+$ cp target/release/librslib.dylib ../priv/librslib.so
+```
+
+On Windows a `.dll` file will be generated and that's also the extension that should be used in the `priv/` folder.
+:::
+
 To include the library we'll use some Erlang.
 We'll use `src/rslib.erl` similar to before, but with [Erlang NIFs][erlang_nif_tut]:
 
