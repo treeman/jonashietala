@@ -3,7 +3,9 @@ title = "Building my ultimate keyboard"
 tags = ["Computer", "Keyboards"]
 ---
 
-TODO picture of the keyboard
+![](/images/cosmos/final.jpg)
+
+TODO better picture
 
 :table-of-content:
 
@@ -347,7 +349,6 @@ But I'm too lazy to redo the wiring at this point time.
 Here's a list of things that bothers me:
 
 1. The mouse pinky key is sometimes in the way when typing (I should lower it or maybe _\*gasp\*_ remove it).
-1. The inner thumb keys on both sides are very difficult to use.
 1. I have no use of the bottom extra two keys on the left side (ring and middle finger column).
 
 Maybe I'll find a use for the extra keys in the future but having unused keys _annoys_ me.
@@ -363,6 +364,19 @@ Surprisingly this is even worse with a softer support but I don't want to risk i
 
 I think of them more as _palm_ rests, where I rest the lower part of the palm on the rest, making sure the wrist itself doesn't receive any pressure.
 :::
+
+### Magnet attachments
+
+![](/images/cosmos/magnets_in_case.jpg)
+![](/images/cosmos/magnets_on_rest.jpg)
+
+## Microcontroller holder
+
+![](/images/cosmos/microcontroller_holder.jpg)
+
+## Bottom plate
+
+![](/images/cosmos/bottom_plate.jpg)
 
 # Wiring
 
