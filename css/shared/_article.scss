@@ -258,6 +258,11 @@ article {
     counter-reset: ordered-counter;
   }
 
+  // Nudge lists together so we can display `-` and `+` items as if they're the same list.
+  div:is(.plus, .dash) ~ div:is(.plus, .dash) {
+    margin-top: calc(-0.5 * var(--space-2xs));
+  }
+
   :is(ol, ul) > li::before {
     float: left;
     margin-left: calc(-1 * var(--space-m));
