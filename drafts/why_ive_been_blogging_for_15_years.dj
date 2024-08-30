@@ -1,0 +1,38 @@
+---toml
+title = "Why I've been blogging for 15 years"
+tags = ["Some tag"]
+---
+
+# Motivations
+
+1. Helps me think more clearly
+1. Helps me flesh out ideas
+1. Helps me document things I've done and problems I've faced
+1. I enjoy the process of writing
+1. I enjoy developing the blog as a project that exclusively solves my problems
+1. Documenting personal projects
+
+   This was the reason I started in the first place (I think)
+
+1. Publishing something forces me to do better.
+1. Looking back at what I've done makes me feel better.
+
+   Yearly review plays a nice roll here.
+
+1. Helps me become a better writer
+
+# I don't track visitors
+
+
+
+# The tech-stack journey
+
+I'm a programmer and I love tinkering with stuff.
+
+1. PHP (Kohana)
+1. Perl (Mojolicious)
+1. Jekyll (static site generator)
+1. Haskell (Hakyll)
+1. Rust (handmade generator)
+
+# Posts have massively increased in scope
