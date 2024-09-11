@@ -398,7 +398,6 @@ impl Group {
 
     fn accept(&self, post: &CountedWordsPostItem) -> bool {
         if let Some(id) = &post.series_id {
-            dbg!(&id);
             if self.series.contains(id.as_str()) {
                 return true;
             }

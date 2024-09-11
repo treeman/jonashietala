@@ -1,9 +1,9 @@
 ---toml
-title = "Why I've been blogging for 15 years"
-tags = ["Some tag"]
+title = "A look back at 15 years of blogging"
+tags = ["Blog"]
 ---
 
-# Stats
+# Some stats
 
 {% https://css-tricks.com/how-to-make-charts-with-svg/ %}
 
@@ -53,14 +53,14 @@ tags = ["Some tag"]
 {before_date="2024-09-01"}
 :post-stats-graph:
 
-Point types:
-- Series
-  - Neovim
-  - VORON Trident
-  - Crypto
-  - T-34
-- Game creation
-- Yearly review
+Different graphs to try:
+
+- Scatter plot of word count / publish date with grouped coloring
+- Graph charts of tags
+- Pie chart of groupings
+- Radar chart of groupings
+- Sunburst chart
+- Line chart / bar chart of published posts per year
 
 279 posts
 5521 days since first post (5521/279 = 19.78853046595) => one post every 20 days
@@ -70,7 +70,7 @@ Longest post: tree-sitter grammar (6272 words / 44695 chars)
 Novelette: 7500--20000 words
 Short story: 1000--10000 words
 
-# I don't track site visits
+## I don't track site visits
 
 
 # Motivations
