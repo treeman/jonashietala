@@ -240,7 +240,7 @@ impl PartialPostItem {
         };
 
         let created = NaiveDateTime::new(post_dir.date, time);
-        let url = post_dir.to_url().expect("Should be able to create a url");
+        let url = post_dir.to_url()?;
 
         Ok(Self {
             title: meta.title.clone(),
@@ -272,6 +272,38 @@ impl PartialOrd for PartialPostItem {
 impl Ord for PartialPostItem {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.created.cmp(&other.created)
+    }
+}
+
+#[derive(Debug)]
+pub struct CountedWordsPostItem {
+    pub title: String,
+    pub tags: Vec<Tag>,
+    pub created: NaiveDate,
+    pub path: AbsPath,
+    pub url: SiteUrl,
+    pub word_count: usize,
+    pub series_id: Option<String>,
+}
+
+impl CountedWordsPostItem {
+    pub fn from_file(path: AbsPath) -> Result<Self> {
+        let post_dir = PostDirMetadata::parse_post(&path)?;
+        let markup: RawMarkupFile<PostMetadata> = RawMarkupFile::from_file(path)?;
+
+        let words: Vec<_> = markup.markup.content().split_whitespace().collect();
+
+        let url = post_dir.to_url()?;
+
+        Ok(Self {
+            title: markup.markup_meta.title.clone(),
+            tags: markup.markup_meta.tags.clone().into(),
+            created: post_dir.date,
+            path: markup.path,
+            url,
+            series_id: markup.markup_meta.series.clone(),
+            word_count: words.len(),
+        })
     }
 }
 

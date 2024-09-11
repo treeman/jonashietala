@@ -6,6 +6,7 @@ mod embed_youtube;
 mod lookup_register;
 mod quote_transforms;
 mod strip_elements;
+mod symbol_transforms;
 mod table_of_content;
 mod todos;
 mod transform_headers;
@@ -18,6 +19,7 @@ use self::embed_youtube::EmbedYoutube;
 use self::lookup_register::LookupRegister;
 use self::quote_transforms::QuoteTransforms;
 use self::strip_elements::{StripElements, StripSymbols};
+use self::symbol_transforms::SymbolTransforms;
 use self::table_of_content::insert_toc;
 use self::todos::TransformTodoComments;
 use self::transform_headers::TransformHeaders;
@@ -45,6 +47,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
     let transformed = DivTransforms::new(transformed);
+    let transformed = SymbolTransforms::new(transformed);
     let transformed = QuoteTransforms::new(transformed);
 
     let mut body = String::new();

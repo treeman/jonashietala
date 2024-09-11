@@ -36,7 +36,7 @@ grass = "0.13.2"
 rayon = "1.9"
 colored = "2.0.0"
 thiserror = "1.0"
-itertools = "0.12.1"
+itertools = {version = "0.12.1", features = ["use_alloc"] }
 reqwest = { version = "0.11", features = ["json", "blocking"] }
 futures = "0.3.21"
 atom_syndication = "0.12.2"

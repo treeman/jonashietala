@@ -63,7 +63,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
         }
         let has_caption = !caption_events.is_empty();
 
-        // Eat until the ending paragraph
+        // Eat ending paragraph
         if !matches!(self.parent.next()?, Event::End(Container::Paragraph)) {
             panic!("Should have an end paragraph tag");
         };

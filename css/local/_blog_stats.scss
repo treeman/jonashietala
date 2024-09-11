@@ -1,0 +1,137 @@
+@use "../global/fonts" as *;
+@use "../global/font_size" as *;
+@use "../components/system" as *;
+
+.blog-stats-graph {
+  /* height: 500px; */
+  /* width: 800px; */
+  @include overflow-bleed;
+  background-color: var(--melange_a_float);
+
+  .labels.x-labels {
+    text-anchor: middle;
+  }
+
+  .labels.y-labels {
+    text-anchor: end;
+  }
+  .y-labels .label-title {
+    text-anchor: end;
+  }
+
+  .grid {
+    stroke: var(--melange_a_ui);
+    stroke-dasharray: 0;
+    stroke-width: 1;
+  }
+
+  .labels {
+    @include font-size("s");
+    @include sans-serif;
+    fill: var(--color-text);
+  }
+
+  .label-title {
+    font-weight: bold;
+    fill: var(--color-text);
+  }
+
+  .data-set-label {
+    @include font-size("s");
+  }
+
+  // Warm (red, yellow, magenta)
+  .data-set.crypto {
+    &,
+    &:hover {
+      fill: var(--melange_b_yellow);
+    }
+  }
+  .data-set.programming {
+    &,
+    &:hover {
+      fill: var(--melange_b_red);
+    }
+  }
+  .data-set.voron_trident {
+    &,
+    &:hover {
+      fill: var(--melange_c_magenta);
+    }
+  }
+  .data-set.life {
+    &,
+    &:hover {
+      fill: var(--melange_c_yellow);
+    }
+  }
+  .data-set.linux {
+    &,
+    &:hover {
+      fill: var(--melange_b_magenta);
+    }
+  }
+
+  // Cool (green, cyan, blue)
+  .data-set.games {
+    &,
+    &:hover {
+      fill: var(--melange_c_blue);
+    }
+  }
+  .data-set.t-34 {
+    &,
+    &:hover {
+      fill: var(--melange_b_cyan);
+    }
+  }
+  .data-set.game_design_course {
+    &,
+    &:hover {
+      fill: var(--melange_c_cyan);
+    }
+  }
+  .data-set.gaming {
+    &,
+    &:hover {
+      fill: var(--melange_b_green);
+    }
+  }
+
+  // Black/white
+  .data-set.yearly_review {
+    &,
+    &:hover {
+      z-index: 10;
+      fill: var(--melange_a_com);
+      cursor: pointer;
+    }
+  }
+  .data-set.fallback {
+    &,
+    &:hover {
+      fill: var(--melange_a_ui);
+    }
+  }
+
+  &:hover {
+    .data-set {
+      fill: var(--melange_a_sel);
+    }
+  }
+
+  .data-1 {
+    fill: var(--melange_b_green);
+    stroke-width: 1;
+  }
+  .data-2 {
+    fill: var(--melange_b_magenta);
+    stroke-width: 1;
+  }
+  .data-1:hover {
+    fill: red;
+  }
+  .data-2:has(foreignObject input:checked) {
+    fill: blue;
+  }
+}
