@@ -63,7 +63,7 @@ enum Commands {
     /// List all drafts
     ListDrafts,
     /// List all markup content
-    // ListMarkupContent,
+    ListMarkupContent,
     /// Dump a syntax binary, used to speedup SyntaxSet initialization
     DumpSyntaxBinary,
     /// Dump the CSS of a theme
@@ -137,6 +137,9 @@ async fn main() -> Result<()> {
         }
         Commands::ListDrafts => {
             json_api::list_drafts(&CURRENT_DIR).await?;
+        }
+        Commands::ListMarkupContent => {
+            json_api::list_markup_content(&CURRENT_DIR).await?;
         }
         Commands::DumpSyntaxBinary => {
             markup::syntect_highlighter::dump_syntax_binary()?;

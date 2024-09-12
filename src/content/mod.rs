@@ -15,10 +15,10 @@ pub use homepage::HomepageItem;
 pub use nav_highlight::add_nav_highlight;
 pub use posts::{
     load_partial_posts, load_posts, set_post_prev_next, CountedWordsPostItem, PartialPostItem,
-    PostDirMetadata, PostItem, PostMetadata, PostRef,
+    PostItem, PostRef,
 };
 pub use projects::{Game, GameContext, ProjectsItem};
 pub use series::{load_series, SeriesContext, SeriesItem, SeriesRef};
 pub use series_archive::SeriesArchiveItem;
-pub use standalone::{load_standalones, StandaloneItem};
+pub use standalone::{load_standalones, PartialStandaloneItem, StandaloneItem};
 pub use tags::{tags_archives, Tag, TagListItem};

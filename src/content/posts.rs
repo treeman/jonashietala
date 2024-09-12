@@ -32,6 +32,7 @@ pub fn load_posts(dirs: &[AbsPath], context: &LoadContext) -> Result<BTreeMap<Po
     Ok(posts)
 }
 
+// TODO remove.
 pub fn load_partial_posts(base: &AbsPath, dir: &AbsPath) -> Result<Vec<PartialPostItem>> {
     let mut posts = markup::find_markup_files(base, &[dir])
         .par_iter()
@@ -254,6 +255,14 @@ impl PartialPostItem {
             favorite: meta.favorite.unwrap_or(false),
             is_draft: post_dir.is_draft,
         })
+    }
+}
+
+impl TryFrom<&FilePath> for PartialPostItem {
+    type Error = eyre::Error;
+
+    fn try_from(path: &FilePath) -> std::result::Result<Self, Self::Error> {
+        PartialPostItem::from_file(path.abs_path())
     }
 }
 

@@ -599,7 +599,7 @@ pub struct SymbolInfo {
 
 #[derive(Debug, Serialize, PartialEq, Eq)]
 #[serde(tag = "type")]
-pub enum ExtraCompletionInfo {
+pub enum ContentInfo {
     Post(PostInfo),
     Standalone(StandaloneInfo),
     Constant(ConstantInfo),
@@ -664,7 +664,7 @@ pub struct CompletionItem {
     // Blog specific metadata
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(flatten)]
-    pub info: Option<ExtraCompletionInfo>,
+    pub info: Option<ContentInfo>,
 }
 
 pub enum CompletionItemBuilder {
@@ -719,7 +719,7 @@ impl From<CompletionItemBuilder> for CompletionItem {
             CompletionItemBuilder::Img(info) => CompletionItem {
                 label: info.url.clone(),
                 kind: CompletionItemKind::File,
-                info: Some(ExtraCompletionInfo::Img(info)),
+                info: Some(ContentInfo::Img(info)),
                 ..Default::default()
             },
             CompletionItemBuilder::Post(info) => CompletionItem {
@@ -727,21 +727,21 @@ impl From<CompletionItemBuilder> for CompletionItem {
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
                 kind: CompletionItemKind::File,
-                info: Some(ExtraCompletionInfo::Post(info)),
+                info: Some(ContentInfo::Post(info)),
             },
             CompletionItemBuilder::Standalone(info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
                 kind: CompletionItemKind::File,
-                info: Some(ExtraCompletionInfo::Standalone(info)),
+                info: Some(ContentInfo::Standalone(info)),
             },
             CompletionItemBuilder::Constant(info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
                 label: info.title.clone(),
                 insert_text: Some(info.url.clone()),
                 kind: CompletionItemKind::Constant,
-                info: Some(ExtraCompletionInfo::Constant(info)),
+                info: Some(ContentInfo::Constant(info)),
             },
             CompletionItemBuilder::Series(t, info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.title.as_str()].join("|")),
@@ -751,7 +751,7 @@ impl From<CompletionItemBuilder> for CompletionItem {
                     CompletionType::Id => Some(info.id.clone()),
                 },
                 kind: CompletionItemKind::Module,
-                info: Some(ExtraCompletionInfo::Series(info)),
+                info: Some(ContentInfo::Series(info)),
             },
             CompletionItemBuilder::Tag(t, info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.name.as_str()].join("|")),
@@ -761,31 +761,31 @@ impl From<CompletionItemBuilder> for CompletionItem {
                     CompletionType::Id => Some(info.name.clone()),
                 },
                 kind: CompletionItemKind::Folder,
-                info: Some(ExtraCompletionInfo::Tag(info)),
+                info: Some(ContentInfo::Tag(info)),
             },
             CompletionItemBuilder::Heading(info) => CompletionItem {
                 label: format!("{} {}", "#".repeat(info.level.into()), info.content),
                 filter_text: Some(info.content.clone()),
                 insert_text: Some(info.id.clone()),
                 kind: CompletionItemKind::Class,
-                info: Some(ExtraCompletionInfo::Heading(info)),
+                info: Some(ContentInfo::Heading(info)),
             },
             CompletionItemBuilder::LinkDefInfo(info) => CompletionItem {
                 filter_text: Some([info.url.as_str(), info.label.as_str()].join("|")),
                 label: info.label.clone(),
                 insert_text: Some(info.label.clone()),
-                info: Some(ExtraCompletionInfo::LinkDef(info)),
+                info: Some(ContentInfo::LinkDef(info)),
                 kind: CompletionItemKind::Reference,
             },
             CompletionItemBuilder::BrokenLink(info) => CompletionItem {
                 label: info.tag.clone(),
-                info: Some(ExtraCompletionInfo::BrokenLink(info)),
+                info: Some(ContentInfo::BrokenLink(info)),
                 kind: CompletionItemKind::Field,
                 ..Default::default()
             },
             CompletionItemBuilder::DivClass(class) => CompletionItem {
                 label: class.to_string(),
-                info: Some(ExtraCompletionInfo::DivClass(DivClassInfo {
+                info: Some(ContentInfo::DivClass(DivClassInfo {
                     name: class.as_str(),
                 })),
                 kind: CompletionItemKind::Keyword,
@@ -793,9 +793,7 @@ impl From<CompletionItemBuilder> for CompletionItem {
             },
             CompletionItemBuilder::Symbol(sym) => CompletionItem {
                 label: sym.to_string(),
-                info: Some(ExtraCompletionInfo::Symbol(SymbolInfo {
-                    sym: sym.as_str(),
-                })),
+                info: Some(ContentInfo::Symbol(SymbolInfo { sym: sym.as_str() })),
                 kind: CompletionItemKind::Keyword,
                 ..Default::default()
             },
@@ -843,7 +841,7 @@ mod tests {
                 insert_text: Some("/blog/2022/02/01/feb_post".into()),
                 filter_text: Some("/blog/2022/02/01/feb_post|Feb post 1".into()),
                 kind: CompletionItemKind::File,
-                info: Some(ExtraCompletionInfo::Post(PostInfo {
+                info: Some(ContentInfo::Post(PostInfo {
                     title: "Feb post 1".into(),
                     path: test_site
                         .input_path("posts/2022-02-01-feb_post.dj")
@@ -864,7 +862,7 @@ mod tests {
             myseries.filter_text,
             Some("/series/myseries|My series".into())
         );
-        let series_info = if let Some(ExtraCompletionInfo::Series(ref x)) = myseries.info {
+        let series_info = if let Some(ContentInfo::Series(ref x)) = myseries.info {
             x
         } else {
             panic!("Wrong series info");
@@ -882,7 +880,7 @@ mod tests {
         assert_eq!(one.label, "One");
         assert_eq!(one.insert_text, Some("/blog/tags/one".to_string()));
         assert_eq!(one.filter_text, Some("/blog/tags/one|One".into()));
-        let one_info = if let Some(ExtraCompletionInfo::Tag(ref tag)) = one.info {
+        let one_info = if let Some(ContentInfo::Tag(ref tag)) = one.info {
             tag
         } else {
             panic!("Wrong tag info");
@@ -901,7 +899,7 @@ mod tests {
                 insert_text: Some("/404".into()),
                 filter_text: Some("/404|404".into()),
                 kind: CompletionItemKind::File,
-                info: Some(ExtraCompletionInfo::Standalone(StandaloneInfo {
+                info: Some(ContentInfo::Standalone(StandaloneInfo {
                     title: "404".into(),
                     url: "/404".into(),
                     path: test_site.input_path("standalone/404.markdown").to_string()
@@ -916,7 +914,7 @@ mod tests {
                 insert_text: Some("/projects".into()),
                 filter_text: Some("/projects|Projects".into()),
                 kind: CompletionItemKind::Constant,
-                info: Some(ExtraCompletionInfo::Constant(ConstantInfo {
+                info: Some(ContentInfo::Constant(ConstantInfo {
                     title: "Projects".into(),
                     url: "/projects".into(),
                 }))
@@ -953,7 +951,7 @@ mod tests {
                 insert_text: Some("heading-with-text".into()),
                 filter_text: Some("heading with text".into()),
                 kind: CompletionItemKind::Class,
-                info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
+                info: Some(ContentInfo::Heading(HeadingInfo {
                     id: "heading-with-text".into(),
                     content: "heading with text".into(),
                     level: 1,
@@ -1009,7 +1007,7 @@ mod tests {
                 insert_text: Some("Regular-heading".into()),
                 filter_text: Some("Regular heading".into()),
                 kind: CompletionItemKind::Class,
-                info: Some(ExtraCompletionInfo::Heading(HeadingInfo {
+                info: Some(ContentInfo::Heading(HeadingInfo {
                     id: "Regular-heading".into(),
                     content: "Regular heading".into(),
                     level: 2,
@@ -1061,7 +1059,7 @@ mod tests {
                 insert_text: Some("tag1".to_string()),
                 filter_text: Some("/404|tag1".into()),
                 kind: CompletionItemKind::Reference,
-                info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
+                info: Some(ContentInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
                     start_row: 35,
@@ -1100,7 +1098,7 @@ mod tests {
                 insert_text: Some("tag1".into()),
                 filter_text: Some("/404|tag1".into()),
                 kind: CompletionItemKind::Reference,
-                info: Some(ExtraCompletionInfo::LinkDef(LinkDefInfo {
+                info: Some(ContentInfo::LinkDef(LinkDefInfo {
                     label: "tag1".into(),
                     url: "/404".into(),
                     start_row: 35,
@@ -1129,7 +1127,7 @@ mod tests {
                 insert_text: None,
                 filter_text: None,
                 kind: CompletionItemKind::Field,
-                info: Some(ExtraCompletionInfo::BrokenLink(BrokenLinkInfo {
+                info: Some(ContentInfo::BrokenLink(BrokenLinkInfo {
                     tag: "broken_tag".into(),
                     row: 33
                 }))
@@ -1162,7 +1160,7 @@ mod tests {
         assert_eq!(one.label, "One");
         assert_eq!(one.insert_text, Some("One".to_string()));
         assert_eq!(one.filter_text, Some("/blog/tags/one|One".into()));
-        let one_info = if let Some(ExtraCompletionInfo::Tag(ref tag)) = one.info {
+        let one_info = if let Some(ContentInfo::Tag(ref tag)) = one.info {
             tag
         } else {
             panic!("Wrong tag info");
@@ -1191,7 +1189,7 @@ mod tests {
             myseries.filter_text,
             Some("/series/myseries|My series".into())
         );
-        let series_info = if let Some(ExtraCompletionInfo::Series(ref x)) = myseries.info {
+        let series_info = if let Some(ContentInfo::Series(ref x)) = myseries.info {
             x
         } else {
             panic!("Wrong series info");

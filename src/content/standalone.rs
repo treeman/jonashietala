@@ -119,3 +119,44 @@ pub struct StandaloneMetadata {
     #[serde(default = "Default::default")]
     is_draft: bool,
 }
+
+/// A standalone item with frontmatter data but without markup.
+#[derive(Debug)]
+pub struct PartialStandaloneItem {
+    pub title: String,
+    pub path: AbsPath,
+    pub url: SiteUrl,
+    pub is_draft: bool,
+}
+
+impl PartialStandaloneItem {
+    pub fn from_file(path: AbsPath) -> Result<Self> {
+        let markup = RawMarkupFile::from_file(path)?;
+        Self::from_markup(markup)
+    }
+
+    pub fn from_markup(markup: RawMarkupFile<StandaloneMetadata>) -> Result<Self> {
+        let slug = markup
+            .path
+            .file_stem()
+            .ok_or_else(|| eyre!("Missing file stem: {}", markup.path))?
+            .to_string();
+
+        let url = SiteUrl::parse(&format!("/{slug}/")).expect("Should be able to create a url");
+
+        Ok(Self {
+            title: markup.markup_meta.title,
+            path: markup.path,
+            url,
+            is_draft: markup.markup_meta.is_draft,
+        })
+    }
+}
+
+impl TryFrom<&FilePath> for PartialStandaloneItem {
+    type Error = eyre::Error;
+
+    fn try_from(path: &FilePath) -> std::result::Result<Self, Self::Error> {
+        PartialStandaloneItem::from_file(path.abs_path())
+    }
+}
