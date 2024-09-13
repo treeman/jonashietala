@@ -27,7 +27,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for DivTransforms<'a, I> {
         }
 
         let (transformer, class, attrs) = match self.parent.next()? {
-            Event::Start(Container::Div { class }, attrs) => match TransformType::parse(class) {
+            Event::Start(Container::Div { class }, attrs) => match DivTransform::parse(class) {
                 Some(h) => (h, class, attrs),
                 _ => return Some(Event::Start(Container::Div { class }, attrs)),
             },
@@ -50,7 +50,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for DivTransforms<'a, I> {
 }
 
 #[derive(Debug)]
-enum TransformType {
+pub enum DivTransform {
     Note,
     Tip,
     Warn,
@@ -62,7 +62,7 @@ enum TransformType {
     Timeline,
 }
 
-impl TransformType {
+impl DivTransform {
     fn parse(id: &str) -> Option<Self> {
         match id.to_lowercase().as_str() {
             "note" => Some(Self::Note),
@@ -107,7 +107,7 @@ impl TransformType {
             Self::Flex => parse_flex(content.into_iter()),
             Self::Figure => wrap_images(content.into_iter(), "figure", None, false),
             Self::Gallery => wrap_images(content.into_iter(), "figure", Some("gallery"), true),
-            Self::Timeline => convert_timeline(content.into_iter()),
+            Self::Timeline => convert_timeline(content.into_iter(), attrs),
         }
     }
 
@@ -260,7 +260,7 @@ lazy_static! {
     pub static ref TRAILING_CLASS: Regex = Regex::new(r"^(.+)\s\.(\S+)$").unwrap();
 }
 
-fn convert_timeline<'a, I>(mut content: I) -> Result<Vec<Event<'a>>>
+fn convert_timeline<'a, I>(mut content: I, attrs: &Attributes) -> Result<Vec<Event<'a>>>
 where
     I: Iterator<Item = Event<'a>>,
 {
@@ -273,9 +273,14 @@ where
 
     let html = Container::RawBlock { format: "html" };
 
+    let extra_class = attrs
+        .get("class")
+        .map(|x| x.to_string())
+        .unwrap_or("".into());
+
     res.push(Event::Start(html.clone(), Attributes::new()));
     res.push(Event::Str(
-        r#"<div class="timeline"><div class="events">"#.into(),
+        format!(r#"<div class="timeline {extra_class}"><div class="events">"#).into(),
     ));
     res.push(Event::End(html.clone()));
 

@@ -48,24 +48,29 @@ Before you know it your knees starts hurting, you get tired before midnight, you
 
 # The tech-stack journey
 
+{.blog-tech-stack}
 ::: timeline
-: The dark ages .family
+: Before 2009 .before
+
+  Before my very first post on the blog I had to figure out how to make a blog.
+  As the self-conscious hacker that I was I knew that Wordpress wouldn't cut it, so I created a site in PHP using the [Kohana Framework][].
+
+  Maybe you think that must have a horrible experience, but the opposite is true;
+  Kohana had excellent documentation and that's 
 
   PHP (Kohana)
 
-: The enlightened period .programming
-
   Perl (Mojoliciuous)
 
-: July 2009 .life
+: July 2009 .jekyll
 
   A simple static website with Jekyll. I don't have Git history from this time.
 
-: July 2013 .projects
+: July 2013 .hakyll
 
   A static generator DSL with Hakyll
 
-: August 2022 .life
+: August 2022 .rust
 
   Rewrote the site in Rust
 :::
@@ -83,3 +88,5 @@ Novelette: 7500--20000 words
 Short story: 1000--10000 words
 
 ## I don't track site visits
+
+[Kohana Framework]: https://kohanaframework.org/

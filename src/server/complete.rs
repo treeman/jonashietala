@@ -282,13 +282,16 @@ fn append_series(t: CompletionType, site: &Site, res: &mut Vec<CompletionItem>) 
 #[serde(rename_all = "lowercase")]
 pub enum DivClass {
     Flex,
+    Figure,
     Gallery,
-    Epigraph,
+    Timeline,
     Note,
     Tip,
     Warn,
     Important,
     Update,
+
+    Epigraph,
     ListGreek,
     ListDash,
     ListPlus,
@@ -299,13 +302,16 @@ impl DivClass {
     pub fn new(s: &str) -> Option<Self> {
         match s.to_lowercase().as_str() {
             "flex" => Some(Self::Flex),
+            "figure" => Some(Self::Figure),
             "gallery" => Some(Self::Gallery),
-            "epigraph" => Some(Self::Epigraph),
+            "timeline" => Some(Self::Timeline),
             "note" => Some(Self::Note),
             "tip" => Some(Self::Tip),
             "warn" | "warning" => Some(Self::Warn),
             "important" => Some(Self::Important),
             "update" => Some(Self::Update),
+
+            "epigraph" => Some(Self::Epigraph),
             "greek" => Some(Self::ListGreek),
             "dash" => Some(Self::ListDash),
             "plus" => Some(Self::ListPlus),
@@ -316,13 +322,16 @@ impl DivClass {
     pub fn as_str(&self) -> &'static str {
         match self {
             Self::Flex => "flex",
+            Self::Figure => "figure",
             Self::Gallery => "gallery",
-            Self::Epigraph => "epigraph",
+            Self::Timeline => "timeline",
             Self::Note => "note",
             Self::Tip => "tip",
             Self::Warn => "warn",
             Self::Important => "important",
             Self::Update => "update",
+
+            Self::Epigraph => "epigraph",
             Self::ListGreek => "greek",
             Self::ListDash => "dash",
             Self::ListPlus => "plus",
@@ -626,7 +635,8 @@ mod tests {
                     created: "2022-02-01".to_string(),
                     url: "/blog/2022/02/01/feb_post".to_string(),
                     tags: vec!["One".to_string()],
-                    series: Some("myseries".to_string())
+                    series: Some("myseries".to_string()),
+                    is_draft: false
                 }))
             })
         );

@@ -716,6 +716,12 @@ article {
     flex-shrink: 0;
   }
 
+  .content .text {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--flow-space);
+  }
+
   .content time {
     @include sans-serif;
     font-weight: bold;
@@ -743,6 +749,20 @@ article {
 
   .event:is(.programming) .marker {
     fill: var(--melange_b_magenta);
+  }
+}
+.timeline.blog-tech-stack {
+  .event.before .marker {
+    fill: var(--melange_c_green);
+  }
+  .event.jekyll .marker {
+    fill: var(--melange_c_yellow);
+  }
+  .event.hakyll .marker {
+    fill: var(--melange_c_magenta);
+  }
+  .event.rust .marker {
+    fill: var(--melange_b_red);
   }
 }
 
@@ -773,7 +793,7 @@ article {
     }
 
     // Aligned to the right.
-    .event:is(.programming, .work, .projects) {
+    .event:is(.programming, .work, .projects, .jekyll, .rust) {
       // This is enough to move everything over to the side.
       flex-direction: row-reverse;
 
