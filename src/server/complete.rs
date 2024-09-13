@@ -1,10 +1,12 @@
-use crate::content::PartialPostItem;
 use crate::content::SeriesItem;
 use crate::content::StandaloneItem;
 use crate::content::Tag;
+use crate::content::{
+    BrokenLinkInfo, ConstantInfo, ContentInfo, DivClassInfo, HeadingContext, HeadingInfo, ImgInfo,
+    LinkDefInfo, PostInfo, SeriesInfo, StandaloneInfo, SymbolInfo, TagInfo,
+};
 use crate::content::{PostItem, PostRef};
 use crate::markup::markup_lookup::{Element, Img, ImgRef, Link, LinkRef};
-use crate::markup::markup_lookup::{Heading, LinkDef};
 use crate::markup::MarkupLookup;
 use crate::paths::AbsPath;
 use crate::paths::RelPath;
@@ -677,7 +679,8 @@ mod tests {
                 info: Some(ContentInfo::Standalone(StandaloneInfo {
                     title: "404".into(),
                     url: "/404".into(),
-                    path: test_site.input_path("standalone/404.markdown").to_string()
+                    path: test_site.input_path("standalone/404.markdown").to_string(),
+                    is_draft: false
                 }))
             })
         );

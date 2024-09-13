@@ -1,52 +1,28 @@
-use crate::content::{load_partial_posts, PartialPostItem, PartialStandaloneItem};
+use crate::content::ContentInfo;
 use crate::markup;
 use crate::paths::AbsPath;
-use crate::server::complete::PostInfo;
+use crate::paths::FilePath;
 use eyre::Result;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
-pub async fn list_posts(dir: &AbsPath) -> Result<()> {
-    display_posts_or_drafts(dir, dir.join("posts")).await
-}
-
-pub async fn list_drafts(dir: &AbsPath) -> Result<()> {
-    display_posts_or_drafts(dir, dir.join("drafts")).await
-}
-
-async fn display_posts_or_drafts(base: &AbsPath, dir: AbsPath) -> Result<()> {
-    let posts: Vec<_> = load_partial_posts(base, &dir)?
-        .into_iter()
-        .map(PostInfo::from)
-        .collect();
-    let json = serde_json::to_string(&posts)?;
-    println!("{}", json);
-    Ok(())
-}
-
 pub async fn list_markup_content(base: &AbsPath) -> Result<()> {
-    let posts = markup::find_markup_files(base, &[base.join("posts"), base.join("drafts")])
+    let mut all_files = markup::find_markup_files(
+        base,
+        &[
+            base.join("posts"),
+            base.join("drafts"),
+            base.join("projects"),
+            base.join("standalone"),
+            base.join("series"),
+        ],
+    );
+    all_files.push(FilePath::from_path(base, base.join("projects.dj"))?);
+
+    let content = all_files
         .par_iter()
-        .map(PartialPostItem::try_from)
-        .collect::<Result<Vec<_>>>()?;
-    // .map(PostInfo::from)
-    // .map(ContentInfo::from);
+        .map(ContentInfo::try_from)
+        .collect::<Result<Vec<ContentInfo>>>()?;
 
-    let standalones = markup::find_markup_files(base, &[base.join("standalone")])
-        .par_iter()
-        .map(PartialStandaloneItem::try_from)
-        .collect::<Result<Vec<_>>>()?;
-    // dbg!(standalones);
-
-    let series = markup::find_markup_files(base, &[base.join("series")]);
-
-    // let games
-    // let projects
-
-    // for path in find_markup_files(&context.opts.input_dir, &[dir]).into_iter() {
-    //     let item = StandaloneItem::from_file(&path, context)?;
-    //     if !item.is_draft || context.opts.include_drafts {
-    //         res.insert(item);
-    //     }
-    // }
+    println!("{}", serde_json::to_string(&content)?);
     Ok(())
 }

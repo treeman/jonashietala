@@ -1,7 +1,7 @@
 use super::complete;
-use super::complete::TagInfo;
 use super::goto_def::{self, GotoDefRes};
 use super::messages::{NeovimEvent, NeovimResponse, WebEvent};
+use crate::content::TagInfo;
 use crate::server::{diagnostics, info};
 use crate::site::Site;
 use std::sync::{Arc, Mutex};

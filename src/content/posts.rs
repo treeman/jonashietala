@@ -32,18 +32,6 @@ pub fn load_posts(dirs: &[AbsPath], context: &LoadContext) -> Result<BTreeMap<Po
     Ok(posts)
 }
 
-// TODO remove.
-pub fn load_partial_posts(base: &AbsPath, dir: &AbsPath) -> Result<Vec<PartialPostItem>> {
-    let mut posts = markup::find_markup_files(base, &[dir])
-        .par_iter()
-        .map(|path| PartialPostItem::from_file(path.abs_path()))
-        .collect::<Result<Vec<_>>>()?;
-
-    posts.sort();
-
-    Ok(posts)
-}
-
 pub fn set_post_prev_next(posts: &mut BTreeMap<PostRef, PostItem>) {
     let mut next: Option<(&PostRef, &mut PostItem)> = None;
     for curr in posts.iter_mut().peekable() {
@@ -289,7 +277,6 @@ pub struct CountedWordsPostItem {
     pub title: String,
     pub tags: Vec<Tag>,
     pub created: NaiveDate,
-    pub path: AbsPath,
     pub url: SiteUrl,
     pub word_count: usize,
     pub series_id: Option<String>,
@@ -308,7 +295,6 @@ impl CountedWordsPostItem {
             title: markup.markup_meta.title.clone(),
             tags: markup.markup_meta.tags.clone().into(),
             created: post_dir.date,
-            path: markup.path,
             url,
             series_id: markup.markup_meta.series.clone(),
             word_count: words.len(),

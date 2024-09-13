@@ -1,5 +1,6 @@
-use super::complete::{CompletionItem, TagInfo};
+use super::complete::CompletionItem;
 use super::diagnostics::Diagnostic;
+use crate::content::TagInfo;
 use crate::markup::markup_lookup::Element;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;

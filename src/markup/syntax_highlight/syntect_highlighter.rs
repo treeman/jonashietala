@@ -74,7 +74,7 @@ pub fn dump_theme(file: &Utf8Path) -> Result<()> {
         Utf8PathBuf::from_path_buf(format!("css/themes/{}.scss", file.file_stem().unwrap()).into())
             .unwrap();
     let css = html::css_for_theme_with_class_style(&theme, ClassStyle::Spaced)?;
-    util::write_to_file(&output_file, &css)?;
+    util::write_to_file(&output_file, css)?;
     println!("{} {}", "[Created]".green(), output_file);
     Ok(())
 }

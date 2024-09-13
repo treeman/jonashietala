@@ -57,7 +57,7 @@ My created post
     pub fn change_file(&mut self, file: &str, from: &str, to: &str) -> Result<()> {
         let path = self.input_dir.path().join(file);
         let content = fs::read_to_string(&path)?.replace(from, to);
-        util::write_to_file(&path, &content)?;
+        util::write_to_file(&path, content)?;
         self.site.file_changed(
             Event::new(EventKind::Access(AccessKind::Close(AccessMode::Write))).add_path(path),
         )

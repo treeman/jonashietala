@@ -108,6 +108,24 @@ impl TeraItem for ProjectsItem {
     }
 }
 
+#[derive(Debug)]
+pub struct PartialProjectsItem {
+    pub path: AbsPath,
+    pub title: String,
+}
+
+impl PartialProjectsItem {
+    pub fn from_file(path: &FilePath) -> Result<Self> {
+        let abs_path = path.abs_path();
+        let markup: RawMarkupFile<ProjectsMetadata> = RawMarkupFile::from_file(abs_path)?;
+
+        Ok(Self {
+            path: markup.path,
+            title: markup.markup_meta.title.clone(),
+        })
+    }
+}
+
 #[derive(Deserialize, Debug)]
 pub struct ProjectsMetadata {
     title: String,
@@ -141,7 +159,7 @@ pub struct Project {
 }
 
 impl Project {
-    fn from_file(path: AbsPath) -> Result<Self> {
+    pub fn from_file(path: AbsPath) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
         Self::from_markup(markup)
     }
@@ -193,6 +211,32 @@ impl PartialEq for Project {
     }
 }
 
+#[derive(Debug)]
+pub struct PartialProject {
+    pub title: String,
+    pub link: Option<String>,
+    pub year: u32,
+    pub path: AbsPath,
+    pub homepage: bool,
+}
+
+impl PartialProject {
+    pub fn from_file(path: AbsPath) -> Result<Self> {
+        let markup = RawMarkupFile::from_file(path)?;
+        Self::from_markup(markup)
+    }
+
+    pub fn from_markup(markup: RawMarkupFile<ProjectMetadata>) -> Result<Self> {
+        Ok(Self {
+            title: markup.markup_meta.title,
+            link: markup.markup_meta.link,
+            year: markup.markup_meta.year,
+            path: markup.path,
+            homepage: markup.markup_meta.homepage.unwrap_or(false),
+        })
+    }
+}
+
 #[derive(Debug, Serialize, Clone)]
 pub struct ProjectContext<'a> {
     title: Cow<'a, str>,
@@ -241,18 +285,18 @@ pub struct GameRef {
 
 #[derive(Debug)]
 pub struct Game {
-    title: String,
-    event: String,
-    event_link: Option<String>,
-    url: SiteUrl,
-    path: AbsPath,
-    img: SiteUrl,
-    published: NaiveDate,
+    pub title: String,
+    pub event: String,
+    pub event_link: Option<String>,
+    pub url: SiteUrl,
+    pub path: AbsPath,
+    pub img: SiteUrl,
+    pub published: NaiveDate,
     markup_lookup: Option<MarkupLookup>,
 }
 
 impl Game {
-    fn from_file(path: AbsPath) -> Result<Self> {
+    pub fn from_file(path: AbsPath) -> Result<Self> {
         let markup = RawMarkupFile::from_file(path)?;
         Self::from_markup(markup)
     }

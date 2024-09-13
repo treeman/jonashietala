@@ -776,7 +776,8 @@ impl Site {
 
     fn rebuild_series(&mut self, path: AbsPath) -> Result<()> {
         info!("Series changed: {path}");
-        let mut updated = SeriesItem::from_file(path.clone())?;
+        let file_path = self.file_path(path)?;
+        let mut updated = SeriesItem::from_file(&file_path)?;
 
         // We need to loop as we can't build a SeriesRef without having the last updated field.
         let old_ref = self

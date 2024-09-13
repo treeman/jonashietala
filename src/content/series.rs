@@ -1,7 +1,7 @@
 use crate::context::LoadContext;
 use crate::item::Item;
 use crate::markup::{find_markup_files, Html, Markup, MarkupLookup, ParseContext, RawMarkupFile};
-use crate::paths::AbsPath;
+use crate::paths::{AbsPath, FilePath};
 use crate::{content::PostItem, context::RenderContext, item::TeraItem, site_url::SiteUrl};
 use chrono::{NaiveDate, Utc};
 use eyre::{eyre, Result};
@@ -31,7 +31,7 @@ pub fn load_series(
 
     let mut series = find_markup_files(&context.opts.input_dir, &[dir])
         .par_iter_mut()
-        .map(|path| SeriesItem::from_file(path.abs_path()).map(|serie| (serie.id.clone(), serie)))
+        .map(|path| SeriesItem::from_file(path).map(|serie| (serie.id.clone(), serie)))
         .collect::<Result<HashMap<_, _>>>()?;
 
     for (id, series_posts) in posts_in_series.into_iter() {
@@ -82,8 +82,9 @@ pub struct SeriesItem {
 }
 
 impl SeriesItem {
-    pub fn from_file(path: AbsPath) -> Result<Self> {
-        let markup = RawMarkupFile::from_file(path)?;
+    pub fn from_file(path: &FilePath) -> Result<Self> {
+        let abs_path = path.abs_path();
+        let markup = RawMarkupFile::from_file(abs_path)?;
         Self::from_markup(markup)
     }
 
@@ -151,6 +152,40 @@ impl TeraItem for SeriesItem {
 
     fn tera_source_file(&self) -> Option<&AbsPath> {
         None
+    }
+}
+
+#[derive(Debug)]
+pub struct PartialSeriesItem {
+    pub id: String,
+    pub title: String,
+    pub completed: bool,
+    pub path: AbsPath,
+    pub url: SiteUrl,
+    pub homepage: bool,
+}
+
+impl PartialSeriesItem {
+    pub fn from_file(path: &FilePath) -> Result<Self> {
+        let abs_path = path.abs_path();
+        let markup = RawMarkupFile::from_file(abs_path)?;
+        Self::from_markup(markup)
+    }
+
+    pub fn from_markup(markup: RawMarkupFile<SeriesMetadata>) -> Result<Self> {
+        let SeriesDirMetadata { id } = SeriesDirMetadata::from_path(&markup.path)?;
+
+        let url =
+            SiteUrl::parse(&format!("/series/{id}/")).expect("Should be able to create a url");
+
+        Ok(Self {
+            id,
+            title: markup.markup_meta.title,
+            completed: markup.markup_meta.completed,
+            path: markup.path,
+            url,
+            homepage: markup.markup_meta.homepage.unwrap_or(false),
+        })
     }
 }
 

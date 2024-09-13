@@ -13,13 +13,15 @@ mod tags;
 pub use archive::{post_archives, ArchiveItem};
 pub use external::{JsItem, SassItem};
 pub use homepage::HomepageItem;
-pub use info::ContentInfo;
+pub use info::{
+    BrokenLinkInfo, ConstantInfo, ContentInfo, DivClassInfo, HeadingContext, HeadingInfo, ImgInfo,
+    LinkDefInfo, PostInfo, SeriesInfo, StandaloneInfo, SymbolInfo, TagInfo,
+};
 pub use nav_highlight::add_nav_highlight;
 pub use posts::{
-    load_partial_posts, load_posts, set_post_prev_next, CountedWordsPostItem, PartialPostItem,
-    PostItem, PostRef,
+    load_posts, set_post_prev_next, CountedWordsPostItem, PartialPostItem, PostItem, PostRef,
 };
-pub use projects::{Game, GameContext, ProjectsItem};
+pub use projects::{Game, GameContext, PartialProject, PartialProjectsItem, ProjectsItem};
 pub use series::{load_series, SeriesContext, SeriesItem, SeriesRef};
 pub use series_archive::SeriesArchiveItem;
 pub use standalone::{load_standalones, PartialStandaloneItem, StandaloneItem};

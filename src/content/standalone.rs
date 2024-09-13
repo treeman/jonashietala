@@ -130,8 +130,9 @@ pub struct PartialStandaloneItem {
 }
 
 impl PartialStandaloneItem {
-    pub fn from_file(path: AbsPath) -> Result<Self> {
-        let markup = RawMarkupFile::from_file(path)?;
+    pub fn from_file(path: &FilePath) -> Result<Self> {
+        let abs_path = path.abs_path();
+        let markup = RawMarkupFile::from_file(abs_path)?;
         Self::from_markup(markup)
     }
 
@@ -150,13 +151,5 @@ impl PartialStandaloneItem {
             url,
             is_draft: markup.markup_meta.is_draft,
         })
-    }
-}
-
-impl TryFrom<&FilePath> for PartialStandaloneItem {
-    type Error = eyre::Error;
-
-    fn try_from(path: &FilePath) -> std::result::Result<Self, Self::Error> {
-        PartialStandaloneItem::from_file(path.abs_path())
     }
 }

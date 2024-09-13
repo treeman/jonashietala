@@ -58,11 +58,7 @@ enum Commands {
     Sync,
     /// Upload files from `files` which aren't handled by the site generator
     UploadFiles,
-    /// List all posts
-    ListPosts,
-    /// List all drafts
-    ListDrafts,
-    /// List all markup content
+    /// List all markup content and output as json
     ListMarkupContent,
     /// Dump a syntax binary, used to speedup SyntaxSet initialization
     DumpSyntaxBinary,
@@ -131,12 +127,6 @@ async fn main() -> Result<()> {
                 print_urls: true,
             })
             .await?;
-        }
-        Commands::ListPosts => {
-            json_api::list_posts(&CURRENT_DIR).await?;
-        }
-        Commands::ListDrafts => {
-            json_api::list_drafts(&CURRENT_DIR).await?;
         }
         Commands::ListMarkupContent => {
             json_api::list_markup_content(&CURRENT_DIR).await?;
