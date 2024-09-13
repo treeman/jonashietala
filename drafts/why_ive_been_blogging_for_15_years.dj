@@ -3,75 +3,26 @@ title = "A look back at 15 years of blogging"
 tags = ["Blog"]
 ---
 
-# Some stats
-
-{% https://css-tricks.com/how-to-make-charts-with-svg/ %}
-
-```=html
-<svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="blog-stats-graph" role="img">
-<g class="grid x-grid" id="xGrid">
-  <line x1="90" x2="90" y1="5" y2="371"></line>
-</g>
-<g class="grid y-grid" id="yGrid">
-  <line x1="90" x2="705" y1="370" y2="370"></line>
-</g>
-  <g class="labels x-labels">
-  <text x="100" y="400">2008</text>
-  <text x="246" y="400">2009</text>
-  <text x="392" y="400">2010</text>
-  <text x="538" y="400">2011</text>
-  <text x="684" y="400">2012</text>
-  <text x="400" y="440" class="label-title">Year</text>
-</g>
-<g class="labels y-labels">
-  <text x="80" y="15">15</text>
-  <text x="80" y="131">10</text>
-  <text x="80" y="248">5</text>
-  <text x="80" y="373">0</text>
-  <text x="50" y="200" class="label-title">Price</text>
-</g>
-<g class="data-1" data-setname="Our first data set">
-  <a href="/"><circle cx="90" cy="192" data-value="7.2" r="4"><title>192</title></circle></a>
-  <circle cx="240" cy="141" data-value="8.1" r="4"></circle>
-  <circle cx="388" cy="179" data-value="7.7" r="4"></circle>
-  <circle cx="531" cy="200" data-value="6.8" r="4"></circle>
-  <circle cx="677" cy="104" data-value="6.7" r="4"></circle>
-</g>
-<g class="data-2" data-setname="Our second data set">
-  <a href="/"><circle cx="95" cy="90" data-value="7.2" r="4"><title>192</title></circle></a>
-  <circle cx="220" cy="161" data-value="8.1" r="4"></circle>
-  <circle cx="390" cy="199" data-value="7.7" r="4"></circle>
-  <circle cx="539" cy="220" data-value="6.8" r="4"></circle>
-  <circle cx="627" cy="114" data-value="6.7" r="4"></circle>
-  <foreignObject x="0%" y="0%" width="100%" height="100%">
-    <input type="checkbox" CHECKED>
-  </foreignObject>
-</g>
-</svg>
-```
-
 {before_date="2024-09-01"}
 :post-stats-graph:
 
-Different graphs to try:
+It's not always so great to be reminded of how old you are.
 
-- Scatter plot of word count / publish date with grouped coloring
-- Graph charts of tags
-- Pie chart of groupings
-- Radar chart of groupings
-- Sunburst chart
-- Line chart / bar chart of published posts per year
+- My kids have started pointing out that I'm wrong about lots of stuff.
+- Russia invaded Ukraine 2 years ago.
+- Trump became President almost 8 years ago.
+- Jurassic Park was released _30 years ago_.
+- Inglorious Basterds and Avatar came out 15 years ago.
 
-279 posts
-5521 days since first post (5521/279 = 19.78853046595) => one post every 20 days
-Shortest post: Settled on an unoriginal idea (30 words / 202 chars)
-Longest post: tree-sitter grammar (6272 words / 44695 chars)
+i. I've been blogging for 15 years.
 
-Novelette: 7500--20000 words
-Short story: 1000--10000 words
+I've been blogging for longer than I've been waiting for _Winds of Winter_.
 
-## I don't track site visits
+Time flies when you're having fun.
 
+Before you know it your knees starts hurting, you get tired before midnight, your kids are correcting you on mistakes you're making, and that little blog you started some time ago, Jurassic Park came out over 30 years ago?
+
+Before you know it your knees starts hurting, you get tired before midnight, your kids are correcting you on mistakes you're making, and that little blog you started some time ago
 
 # Motivations
 
@@ -97,17 +48,38 @@ Short story: 1000--10000 words
 
 # The tech-stack journey
 
-I'm a programmer and I love tinkering with stuff.
+::: timeline
+: The dark ages .family
 
-## Some false starts
+  PHP (Kohana)
 
-1. PHP (Kohana)
-1. Perl (Mojolicious)
+: The enlightened period .programming
 
-## A simple static website with Jekyll
+  Perl (Mojoliciuous)
 
-## A static generator DSL with Hakyll
+: July 2009 .life
 
-## Created my own specialized site generator in Rust
+  A simple static website with Jekyll. I don't have Git history from this time.
+
+: July 2013 .projects
+
+  A static generator DSL with Hakyll
+
+: August 2022 .life
+
+  Rewrote the site in Rust
+:::
 
 # Posts have massively increased in scope
+
+# Stats
+
+279 posts
+5521 days since first post (5521/279 = 19.78853046595) => one post every 20 days
+Shortest post: Settled on an unoriginal idea (30 words / 202 chars)
+Longest post: tree-sitter grammar (6272 words / 44695 chars)
+
+Novelette: 7500--20000 words
+Short story: 1000--10000 words
+
+## I don't track site visits
