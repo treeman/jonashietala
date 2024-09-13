@@ -752,8 +752,11 @@ article {
   }
 }
 .timeline.blog-tech-stack {
-  .event.before .marker {
+  .event.kohana .marker {
     fill: var(--melange_c_green);
+  }
+  .event.mojolicious .marker {
+    fill: var(--melange_c_blue);
   }
   .event.jekyll .marker {
     fill: var(--melange_c_yellow);
@@ -800,19 +803,20 @@ article {
       text-align: right;
       padding-inline: var(--space-xs);
     }
+  }
 
-    // Aligned to the right.
-    .event:is(.programming, .work, .projects, .jekyll, .rust, .djot) {
-      // This is enough to move everything over to the side.
-      flex-direction: row-reverse;
+  // Aligned to the right.
+  .timeline .event:is(.programming, .work, .projects),
+  .timeline.blog-tech-stack .event:nth-child(even) {
+    // This is enough to move everything over to the side.
+    flex-direction: row-reverse;
 
-      .marker {
-        left: 6px;
-      }
+    .marker {
+      left: 6px;
+    }
 
-      .content {
-        text-align: left;
-      }
+    .content {
+      text-align: left;
     }
   }
 }

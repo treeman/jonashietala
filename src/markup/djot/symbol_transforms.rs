@@ -327,7 +327,10 @@ impl Groups {
                 Group::series("voron_trident", &["voron_trident"]),
                 Group::series("t-34", &["t-34"]),
                 Group::tagged("crypto", &["Why Cryptocurrencies?"]),
-                Group::tagged("games", &["Experimental Gameplay Project", "Ludum Dare"]),
+                Group::tagged(
+                    "games",
+                    &["Experimental Gameplay Project", "Ludum Dare", "Games"],
+                ),
                 Group::tagged("game_design_course", &["Game Design Course"]),
                 Group::tagged("yearly_review", &["Yearly Review"]),
                 Group::tagged(

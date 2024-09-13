@@ -24,37 +24,91 @@ Before you know it your knees starts hurting, you get tired before midnight, you
 
 Before you know it your knees starts hurting, you get tired before midnight, your kids are correcting you on mistakes you're making, and that little blog you started some time ago
 
-# Motivations
+# Why I started the blog
 
-1. Helps me think more clearly
-1. Helps me flesh out ideas
-1. Helps me document things I've done and problems I've faced
-1. I enjoy the process of writing
-1. I enjoy developing the blog as a project that exclusively solves my problems
-1. Documenting personal projects
+I started this blog because I wanted to create a bunch of [fast game prototypes][games] and I wanted somewhere I could write about my plans and, ultimately, the games.
 
-   This was the reason I started in the first place (I think)
+You see, I was a budding programmer and I wanted to learn how to program by making a game.
+Not a simple game like _Tetris_---that would be way too sensible---no, I wanted to make a big RTS game, like [StarCraft][] or [Supreme Commander][].
+And to do that you needed a *game engine*.
+
+So I got stuck developing my engine with awesome features such as:
+
+- A menu with keyboard and mouse support, and cool hover effects.
+- A console you could bring up with `F2` where you could update variables (such as unit speed) without having to recompile.
+- You could select entities with proper `Ctrl`, `Shift`, and right click behavior.
+
+... But, embarrassingly, I didn't have anything even resembling a game, and with the development speed I had I doubt I'd be finished to this day.
+
+I'd gotten stuck in the *Game Engine Trap*, and I hated it.
+
+Then I found _The Experimental Gameplay Project_ (of [World of Goo][] fame) that promoted the idea that you should be able to create a game prototype in just 7 days.
+That sounded like the perfect cure against the *Game Engine Trap* (it was), so I created this blog to document my progress.
+
+# Why I've continued to blog
+
+While the blog fulfilled it's initial purpose as I developed around a dozen [game prototypes][games] that got me out of the *Game Engine Trap* (and that gave me a small "game engine" library at the end), I soon started write about other things.
+
+There are a number of reasons that I've continued to blog for so long:
+
+1. I enjoy writing.
+
+   I realize now that the biggest reason I blog is that I enjoy the writing process.
+   I can't put my finger on _why_, I just like it.
+
+   This isn't always true though and I've had years where I've barely written anything at all ([2022](/blog/2022) for example), and where I've almost had to force myself to write something.
+   I guess the motivation ebbs and flows sometimes.
+
+1. Writing helps me think more clearly and helps me flesh out ideas.
+
+   The act of writing something down helps me find errors in my thinking and helps me consider different viewpoints.
+   Rewriting the text you've written has a similar benefit to refactoring your code; your thoughts will be more polished afterwards.
 
 1. Publishing something forces me to do better.
-1. Looking back at what I've done makes me feel better.
 
-   Yearly review plays a nice roll here.
+   If I'm going to put something out there I'm going to re-read and rework my text/code/ideas one or two times more than if I had kept it for myself.
 
-1. Helps me become a better writer
+   For example, [my custom keyboard layout][t-34] wouldn't have been nearly as well-developed if I hadn't published it for everyone to see.
+   (Even if nobody will read your posts, the mere act of putting something out there has this effect I think.)
 
-## Why I started the blog in the first place
+   Being more thoughtful about what I write is something I've become more cognizant of as the years have gone by.
+   My first posts where little more than a stream of thoughts, while the larger posts I gravitate towards today have gone through multiple revisions and rewrites before I publish them.
 
-## Why I blog today
+   ::: note
+   At any time I have several drafts that I'm writing on, but many of them never gets published.
+   Sometimes I lose interest, and other times I see that the post won't become the polished masterpiece (or at least, not a pile of dung) I had hoped for so I abandon it.
+   :::
 
-# The tech-stack journey
+1. The blog is a place to document my personal projects.
+
+1. Looking at a log of things I've done makes me feel better.
+
+   Yearly review!
+
+1. It's a place where I can document things I've done and problems I've faced.
+
+1. I enjoy developing the blog as a project that exclusively solves my problems.
+
+1. Blogging helps me become a better writer, which in turns helps me become a better developer.
+
+[t-34]: /series/t-34/
+
+## My motivations aren't dependent on external feedback
+
+# Evolving the tech stack
+
+The tech choices I've made for this blog have oscillated between chosen because they seemed interesting, to boring and utilitarian, and back again.
+At the moment the blogging software is a whole project in and of itself, in addition to writing the blog posts
+(by design; it's a fun project to tinker with.)
 
 {.blog-tech-stack}
 ::: timeline
-: Before 2009 .before
-
-  Before my first post on the blog I tried to figure out how to get create a blog.
+: ~ 2008 .kohana
 
   I started out with PHP using the [Kohana Framework][] and I still have fond memories of their excellent documentation.
+  Although I had figured out how to create a website, it never graduated to a real blog.
+
+: Early 2009 .mojolicious
 
   Then I moved on to rewrite the site in Perl using [Mojolicious][].
   I'm not sure my efforts ever resulted in anything tangible but I remember if was fun to play around with.
@@ -69,9 +123,9 @@ Before you know it your knees starts hurting, you get tired before midnight, you
 
   Eventually, I grew tired of the boring backend that just got the job done and in my quest to learn Haskell I replaced the generator with [Hakyll][], another static site generator with a pretty neat DSL.
 
- Sadly, I never truly graduated from the "throw shit at the wall until it sticks" stage of my Haskell journey, which is why I barely added any features to the blog for many years.
+: 2013–2022 .hakyll-space
 
- (I still have an [XMonad][] config in Haskell I've been meaning to migrate from for almost a decade.)
+  Sadly, I never truly graduated from the "throw shit at the wall until it sticks" stage of my Haskell journey, which is why I barely added any features to the blog for many years.
 
 : August 2022 .rust
 
@@ -80,7 +134,7 @@ Before you know it your knees starts hurting, you get tired before midnight, you
 
   Religious weirdness aside, having complete control of the site generator made it fun again to [tinker and add small features][microfeatures] to the blog.
 
-: October 2023 .css
+: 2023 .css
 
   Honestly though, my favorite piece of technology on the blog is [CSS][].
   I just really like to spend time to fiddle with [the design][design] and to make small tweaks here and there.
@@ -91,14 +145,13 @@ Before you know it your knees starts hurting, you get tired before midnight, you
 : February 2024 .djot
 
   Almost by accident I [started using Djot][] instead of Markdown to write my posts.
-  I couldn't find a Tree-sitter grammar for Djot (for proper highlighting in Neovim) [so I created one][djot-treesitter].
+  I couldn't find a Tree-sitter grammar for Djot [so I created one][djot-treesitter].
 
 : May 2024 .neovim
 
-  I'm in the process of [connecting the site generator to Neovim][extending-neovim] to provide autocomplete, diagnostics, jumping between posts, and other LSP-like features.
-  There's lots of potential for spending _tons_ of time in this swamp, and I worry I won't see it through to the end.
+  I'm in the process of [connecting the site generator to Neovim][extending-neovim] to provide autocomplete, diagnostics, jumping between posts, and other cool features.
 
-  (I have basically all the features I want working, just a bunch of bugs and small tweaks that I worry I won't address, not to mention blogging about them.)
+  There's lots of potential for spending _tons_ of time in this swamp but these IDE-like features really elevate the writing experience.
 :::
 
 # Posts have massively increased in scope
@@ -123,9 +176,12 @@ Short story: 1000--10000 words
 [rust-rewrite]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit
 [microfeatures]: /blog/2024/07/09/microfeatures_in_my_blog
 [CSS]: /blog/tags/css/
-[XMonad]: https://xmonad.org/
 [design]: /blog/2023/10/04/giving_the_blog_a_facelift/
 [Sass]: https://sass-lang.com/
 [started using Djot]: /blog/2024/02/02/blogging_in_djot_instead_of_markdown
 [djot-treesitter]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
 [extending-neovim]: /series/extending_neovim_for_my_blog/
+[StarCraft]: https://en.wikipedia.org/wiki/StarCraft
+[Supreme Commander]: https://en.wikipedia.org/wiki/Supreme_Commander_(video_game)
+[games]: /projects/#games
+[World of Goo]: https://store.steampowered.com/app/22000/World_of_Goo/
