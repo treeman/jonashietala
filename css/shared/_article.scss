@@ -764,6 +764,15 @@ article {
   .event.rust .marker {
     fill: var(--melange_b_red);
   }
+  .event.css .marker {
+    fill: var(--melange_b_blue);
+  }
+  .event.djot .marker {
+    fill: var(--melange_b_cyan);
+  }
+  .event.neovim .marker {
+    fill: var(--melange_b_yellow);
+  }
 }
 
 // Cutoff when we place the timeline in the middle and move some
@@ -793,7 +802,7 @@ article {
     }
 
     // Aligned to the right.
-    .event:is(.programming, .work, .projects, .jekyll, .rust) {
+    .event:is(.programming, .work, .projects, .jekyll, .rust, .djot) {
       // This is enough to move everything over to the side.
       flex-direction: row-reverse;
 

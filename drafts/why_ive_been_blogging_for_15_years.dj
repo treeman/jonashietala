@@ -52,27 +52,53 @@ Before you know it your knees starts hurting, you get tired before midnight, you
 ::: timeline
 : Before 2009 .before
 
-  Before my very first post on the blog I had to figure out how to make a blog.
-  As the self-conscious hacker that I was I knew that Wordpress wouldn't cut it, so I created a site in PHP using the [Kohana Framework][].
+  Before my first post on the blog I tried to figure out how to get create a blog.
 
-  Maybe you think that must have a horrible experience, but the opposite is true;
-  Kohana had excellent documentation and that's 
+  I started out with PHP using the [Kohana Framework][] and I still have fond memories of their excellent documentation.
 
-  PHP (Kohana)
-
-  Perl (Mojoliciuous)
+  Then I moved on to rewrite the site in Perl using [Mojolicious][].
+  I'm not sure my efforts ever resulted in anything tangible but I remember if was fun to play around with.
 
 : July 2009 .jekyll
 
-  A simple static website with Jekyll. I don't have Git history from this time.
+  I stumbled upon the idea of using a static site for my blog and therefore abandoned Perl for [Jekyll][], a popular static site generator at that time.
 
-: July 2013 .hakyll
+  I believe it was a smart choice because it helped me [start writing][first], instead of jerking around with cool tech.
 
-  A static generator DSL with Hakyll
+: ~ July 2013 .hakyll
+
+  Eventually, I grew tired of the boring backend that just got the job done and in my quest to learn Haskell I replaced the generator with [Hakyll][], another static site generator with a pretty neat DSL.
+
+ Sadly, I never truly graduated from the "throw shit at the wall until it sticks" stage of my Haskell journey, which is why I barely added any features to the blog for many years.
+
+ (I still have an [XMonad][] config in Haskell I've been meaning to migrate from for almost a decade.)
 
 : August 2022 .rust
 
-  Rewrote the site in Rust
+  Having outgrown existing solutions I decided to join the Rewrite in Rust club^(cult?)^ by
+  [rewriting my blog in Rust][rust-rewrite].
+
+  Religious weirdness aside, having complete control of the site generator made it fun again to [tinker and add small features][microfeatures] to the blog.
+
+: October 2023 .css
+
+  Honestly though, my favorite piece of technology on the blog is [CSS][].
+  I just really like to spend time to fiddle with [the design][design] and to make small tweaks here and there.
+  I do use [Sass][] but 95% is just plain CSS.
+
+  Modern CSS is honestly great.
+
+: February 2024 .djot
+
+  Almost by accident I [started using Djot][] instead of Markdown to write my posts.
+  I couldn't find a Tree-sitter grammar for Djot (for proper highlighting in Neovim) [so I created one][djot-treesitter].
+
+: May 2024 .neovim
+
+  I'm in the process of [connecting the site generator to Neovim][extending-neovim] to provide autocomplete, diagnostics, jumping between posts, and other LSP-like features.
+  There's lots of potential for spending _tons_ of time in this swamp, and I worry I won't see it through to the end.
+
+  (I have basically all the features I want working, just a bunch of bugs and small tweaks that I worry I won't address, not to mention blogging about them.)
 :::
 
 # Posts have massively increased in scope
@@ -90,3 +116,16 @@ Short story: 1000--10000 words
 ## I don't track site visits
 
 [Kohana Framework]: https://kohanaframework.org/
+[Mojolicious]: https://www.mojolicious.org/
+[Jekyll]: https://jekyllrb.com/
+[first]: /blog/2009/07/21/the_first_worst_post
+[Hakyll]: https://jaspervdj.be/hakyll/
+[rust-rewrite]: /blog/2022/08/29/rewriting_my_blog_in_rust_for_fun_and_profit
+[microfeatures]: /blog/2024/07/09/microfeatures_in_my_blog
+[CSS]: /blog/tags/css/
+[XMonad]: https://xmonad.org/
+[design]: /blog/2023/10/04/giving_the_blog_a_facelift/
+[Sass]: https://sass-lang.com/
+[started using Djot]: /blog/2024/02/02/blogging_in_djot_instead_of_markdown
+[djot-treesitter]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
+[extending-neovim]: /series/extending_neovim_for_my_blog/
