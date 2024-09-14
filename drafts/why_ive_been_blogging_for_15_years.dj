@@ -1,10 +1,18 @@
 ---toml
-title = "A look back at 15 years of blogging"
+title = "Why I still blog after 15 years"
 tags = ["Blog"]
 ---
 
 {before_date="2024-09-01"}
 :post-stats-graph:
+
+Time flies when you're having fun.
+
+Before you know it, your little babies have started school, you celebrate the _30th anniversary_ of Jurassic Park, and that little blog you started have now been going for 15 years.
+
+_15 years_ is a long time; longer than I've been waiting for _Winds of Winter_, the next Game of Thrones book.
+
+---
 
 It's not always so great to be reminded of how old you are.
 
@@ -56,7 +64,8 @@ There are a number of reasons that I've continued to blog for so long:
    I realize now that the biggest reason I blog is that I enjoy the writing process.
    I can't put my finger on _why_, I just like it.
 
-   This isn't always true though and I've had years where I've barely written anything at all ([2022](/blog/2022) for example), and where I've almost had to force myself to write something.
+   This isn't always true though and I've had years where I've barely written anything at all ([2022](/blog/2022) for example).
+   Sometimes I've had to force myself to write something.
    I guess the motivation ebbs and flows sometimes.
 
 1. Writing helps me think more clearly and helps me flesh out ideas.
@@ -76,24 +85,50 @@ There are a number of reasons that I've continued to blog for so long:
 
    ::: note
    At any time I have several drafts that I'm writing on, but many of them never gets published.
-   Sometimes I lose interest, and other times I see that the post won't become the polished masterpiece (or at least, not a pile of dung) I had hoped for so I abandon it.
+   Sometimes I lose interest, and other times I see that the post won't become the polished masterpiece (or at least, not a pile of dung), so I abandon it.
    :::
 
 1. The blog is a place to document my personal projects.
 
+   Over the years I've done [other projects](/projects) than [making games][games], such as [built a 3D printer][VORON] and [wrote a book][crypto].
+   It's nice to have a place where I can write about them.
+
 1. Looking at a log of things I've done makes me feel better.
 
-   Yearly review!
+   I've been doing a small [yearly review][] every year where I try to list the highlights of the past year.
+   (The blog helps me remember what I've done.)
+   It's been super helpful for me as it helps counteract the [depressing feeling][burnout] that nothing has happened and that I haven't done anything.
 
-1. It's a place where I can document things I've done and problems I've faced.
+   Doing a yearly review of some sort is a practice I highly recommend everyone to try---and of course you don't have to publish it for everyone to see.
 
 1. I enjoy developing the blog as a project that exclusively solves my problems.
 
+   Programming is my biggest hobby and I'll never stop doing it until I die.
+   The blog is a great project as it's something that exists only for me so I can rewrite, refactor, and add whatever silly features I want and I only have myself to answer to.
+   It's a nice feeling.
+
 1. Blogging helps me become a better writer, which in turns helps me become a better developer.
 
-[t-34]: /series/t-34/
+   I think communicating well is an important and underrated part of being an effective software developer.
+   Writing well is a skill that can be developed by practice, and maintaining a blog is a pretty good way to practice I'd say.
+
+   ::: important
+   No, dumping a stream of thought into ChatGPT isn't good enough.
+   :::
 
 ## My motivations aren't dependent on external feedback
+
+It's important to point out that it's not external feedback that has kept me going all these years.
+Yes, of course, it's nice to get the occasional email with compliments, but that's just a bonus.
+
+{=I keep this blog for me to write, not necessarily for others to read.=}
+
+Many of these kinds of retrospectives contain graphs of views over time or the most popular posts; but I don't have them because I can't---I don't keep any statistics whatsoever.
+
+I don't really care, and I don't want to care, about how many readers I have or what posts are and aren't popular.
+I worry that if I add statistics to the blog it'll change from an activity I perform for the activity's sake, to an exercise in hunting clicks where I write for others instead of for myself.
+
+If I were chasing views I would certainly not have continued to blog for as long as I have, and I'd have missed out on the [many benefits](#Why-Ive-continued-to-blog) I've gotten from the blog.
 
 # Evolving the tech stack
 
@@ -156,6 +191,14 @@ At the moment the blogging software is a whole project in and of itself, in addi
 
 # Posts have massively increased in scope
 
+# What does the future bring?
+
+People are quick to point out that they're not the same person they were a decade ago, yet they're sure they won't change much the coming decade.
+While it _feels_ like I'll keep blogging the same way I'm doing right now, it would be foolish to claim that as a fact.
+
+I'll probably keep blogging in some capacity, but the topics, frequency, and length will likely all change.
+
+
 # Stats
 
 279 posts
@@ -165,8 +208,6 @@ Longest post: tree-sitter grammar (6272 words / 44695 chars)
 
 Novelette: 7500--20000 words
 Short story: 1000--10000 words
-
-## I don't track site visits
 
 [Kohana Framework]: https://kohanaframework.org/
 [Mojolicious]: https://www.mojolicious.org/
@@ -185,3 +226,8 @@ Short story: 1000--10000 words
 [Supreme Commander]: https://en.wikipedia.org/wiki/Supreme_Commander_(video_game)
 [games]: /projects/#games
 [World of Goo]: https://store.steampowered.com/app/22000/World_of_Goo/
+[VORON]: /series/voron_trident/
+[crypto]: /series/making-cryptobook
+[t-34]: /series/t-34/
+[yearly review]: /blog/tags/yearly_review
+[burnout]: /blog/2023/03/14/battling_burnout
