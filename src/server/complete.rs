@@ -290,7 +290,7 @@ pub enum DivClass {
     Warn,
     Important,
     Update,
-
+    // Transform(DivTransform),
     Epigraph,
     ListGreek,
     ListDash,
@@ -368,6 +368,7 @@ fn div_class_completions() -> Vec<CompletionItem> {
 #[serde(rename_all = "lowercase")]
 pub enum Symbol {
     TableOfContent,
+    // Transform(SymbolTransform),
 }
 
 impl Symbol {
