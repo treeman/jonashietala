@@ -272,6 +272,7 @@ impl Ord for PartialPostItem {
     }
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 pub struct CountedWordsPostItem {
     pub title: String,

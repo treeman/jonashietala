@@ -13,12 +13,14 @@ mod transform_headers;
 
 use self::auto_figures::AutoFigures;
 use self::code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
+pub use self::div_transforms::DivTransform;
 use self::div_transforms::DivTransforms;
 use self::drop_offset::DropOffset;
 use self::embed_youtube::EmbedYoutube;
 use self::lookup_register::LookupRegister;
 use self::quote_transforms::QuoteTransforms;
 use self::strip_elements::{StripElements, StripSymbols};
+pub use self::symbol_transforms::SymbolTransform;
 use self::symbol_transforms::SymbolTransforms;
 use self::table_of_content::insert_toc;
 use self::todos::TransformTodoComments;

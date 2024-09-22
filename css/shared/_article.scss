@@ -761,11 +761,14 @@ article {
   .event.jekyll .marker {
     fill: var(--melange_c_yellow);
   }
-  .event.hakyll .marker {
+  .event:is(.hakyll, .hakyll-space) .marker {
     fill: var(--melange_c_magenta);
   }
   .event.rust .marker {
     fill: var(--melange_b_red);
+  }
+  .event.git .marker {
+    fill: var(--melange_b_green);
   }
   .event.css .marker {
     fill: var(--melange_b_blue);

@@ -2,6 +2,7 @@ use eyre::{eyre, Result};
 use jotdown::{Attributes, Container, Event, LinkType, SpanLinkType};
 use lazy_static::lazy_static;
 use regex::Regex;
+use serde::Serialize;
 use tracing::error;
 
 pub struct DivTransforms<'a, I: Iterator<Item = Event<'a>>> {
@@ -49,7 +50,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for DivTransforms<'a, I> {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub enum DivTransform {
     Note,
     Tip,
@@ -63,7 +64,7 @@ pub enum DivTransform {
 }
 
 impl DivTransform {
-    fn parse(id: &str) -> Option<Self> {
+    pub fn parse(id: &str) -> Option<Self> {
         match id.to_lowercase().as_str() {
             "note" => Some(Self::Note),
             "tip" => Some(Self::Tip),
@@ -75,6 +76,20 @@ impl DivTransform {
             "gallery" => Some(Self::Gallery),
             "timeline" => Some(Self::Timeline),
             _ => None,
+        }
+    }
+
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            DivTransform::Flex => "flex",
+            DivTransform::Figure => "figure",
+            DivTransform::Gallery => "gallery",
+            DivTransform::Timeline => "timeline",
+            DivTransform::Note => "note",
+            DivTransform::Tip => "tip",
+            DivTransform::Warn => "warn",
+            DivTransform::Important => "important",
+            DivTransform::Update => "update",
         }
     }
 

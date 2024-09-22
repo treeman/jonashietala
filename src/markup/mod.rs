@@ -1,5 +1,6 @@
 mod djot;
 mod embed_youtube;
+mod graphs;
 mod markdown;
 pub mod markup_lookup;
 mod syntax_highlight;
@@ -16,6 +17,7 @@ use tracing::{error, warn};
 use walkdir::WalkDir;
 use yaml_front_matter::{Document, YamlFrontMatter};
 
+pub use self::djot::{DivTransform, SymbolTransform};
 pub use self::syntax_highlight::syntect_highlighter;
 pub use markup_lookup::MarkupLookup;
 

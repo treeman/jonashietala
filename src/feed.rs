@@ -34,7 +34,10 @@ impl From<&PostItem> for Entry {
             updated: fixed_date_time(post.modified),
             published: Some(fixed_date_time(post.created)),
             links: vec![Link {
-                href: post.url.href().to_string(),
+                href: BASE_SITE_URL
+                    .join(post.url.href().as_ref())
+                    .expect("Should be able to join url")
+                    .to_string(),
                 rel: "alternate".to_string(),
                 ..Default::default()
             }],

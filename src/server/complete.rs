@@ -8,6 +8,7 @@ use crate::content::{
 use crate::content::{PostItem, PostRef};
 use crate::markup::markup_lookup::{Element, Img, ImgRef, Link, LinkRef};
 use crate::markup::MarkupLookup;
+use crate::markup::{DivTransform, SymbolTransform};
 use crate::paths::AbsPath;
 use crate::paths::RelPath;
 use crate::site::Site;
@@ -281,16 +282,7 @@ fn append_series(t: CompletionType, site: &Site, res: &mut Vec<CompletionItem>) 
 #[derive(Debug, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum DivClass {
-    Flex,
-    Figure,
-    Gallery,
-    Timeline,
-    Note,
-    Tip,
-    Warn,
-    Important,
-    Update,
-    // Transform(DivTransform),
+    Transform(DivTransform),
     Epigraph,
     ListGreek,
     ListDash,
@@ -301,36 +293,17 @@ impl DivClass {
     #[allow(dead_code)]
     pub fn new(s: &str) -> Option<Self> {
         match s.to_lowercase().as_str() {
-            "flex" => Some(Self::Flex),
-            "figure" => Some(Self::Figure),
-            "gallery" => Some(Self::Gallery),
-            "timeline" => Some(Self::Timeline),
-            "note" => Some(Self::Note),
-            "tip" => Some(Self::Tip),
-            "warn" | "warning" => Some(Self::Warn),
-            "important" => Some(Self::Important),
-            "update" => Some(Self::Update),
-
             "epigraph" => Some(Self::Epigraph),
             "greek" => Some(Self::ListGreek),
             "dash" => Some(Self::ListDash),
             "plus" => Some(Self::ListPlus),
-            _ => None,
+            x => DivTransform::parse(x).map(Self::Transform),
         }
     }
 
     pub fn as_str(&self) -> &'static str {
         match self {
-            Self::Flex => "flex",
-            Self::Figure => "figure",
-            Self::Gallery => "gallery",
-            Self::Timeline => "timeline",
-            Self::Note => "note",
-            Self::Tip => "tip",
-            Self::Warn => "warn",
-            Self::Important => "important",
-            Self::Update => "update",
-
+            Self::Transform(t) => t.as_str(),
             Self::Epigraph => "epigraph",
             Self::ListGreek => "greek",
             Self::ListDash => "dash",
@@ -347,14 +320,14 @@ impl Display for DivClass {
 
 fn div_class_completions() -> Vec<CompletionItem> {
     [
-        DivClass::Flex,
-        DivClass::Gallery,
+        DivClass::Transform(DivTransform::Flex),
+        DivClass::Transform(DivTransform::Gallery),
+        DivClass::Transform(DivTransform::Note),
+        DivClass::Transform(DivTransform::Tip),
+        DivClass::Transform(DivTransform::Warn),
+        DivClass::Transform(DivTransform::Important),
+        DivClass::Transform(DivTransform::Update),
         DivClass::Epigraph,
-        DivClass::Note,
-        DivClass::Tip,
-        DivClass::Warn,
-        DivClass::Important,
-        DivClass::Update,
         DivClass::ListGreek,
         DivClass::ListDash,
         DivClass::ListPlus,
@@ -368,7 +341,7 @@ fn div_class_completions() -> Vec<CompletionItem> {
 #[serde(rename_all = "lowercase")]
 pub enum Symbol {
     TableOfContent,
-    // Transform(SymbolTransform),
+    Transform(SymbolTransform),
 }
 
 impl Symbol {
@@ -376,13 +349,14 @@ impl Symbol {
     pub fn new(s: &str) -> Option<Self> {
         match s.to_lowercase().as_str() {
             "table-of-content" => Some(Self::TableOfContent),
-            _ => None,
+            x => SymbolTransform::parse(x).map(Self::Transform),
         }
     }
 
     pub fn as_str(&self) -> &'static str {
         match self {
             Self::TableOfContent => "table-of-content",
+            Self::Transform(t) => t.as_str(),
         }
     }
 }

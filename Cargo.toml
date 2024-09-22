@@ -59,7 +59,8 @@ axum-server = "0.6.0"
 toml-frontmatter = "0.1.0"
 # Note that all tree-sitter grammars needs to depend on the same tree-sitter version!
 # Really annoying...
-tree-sitter-highlight = "^0.22.5"
+# tree-sitter-highlight = "^0.22.5"
+tree-sitter-highlight = "^0.23"
 # Syntect has better Rust highlighting
 # tree-sitter-rust = "0.20.4"
 tree-sitter-sdjot = { git = "https://github.com/treeman/tree-sitter-sdjot.git" }
@@ -78,3 +79,4 @@ tree-sitter-lua = { git = "https://github.com/tree-sitter-grammars/tree-sitter-l
 btree-range-map = "0.7.2"
 serde_repr = "0.1.19"
 git2 = "0.19.0"
+charming = { version = "0.3.1", features = ["ssr", "html"] }
