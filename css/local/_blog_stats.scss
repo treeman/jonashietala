@@ -9,10 +9,8 @@
 }
 
 .blog-stats-graph {
-  /* height: 500px; */
-  /* width: 800px; */
   @include overflow-bleed;
-  background-color: var(--melange_a_float);
+  /* background-color: var(--melange_a_float); */
 
   .labels.x-labels {
     text-anchor: middle;
@@ -43,7 +41,7 @@
   }
 
   .data-set-label {
-    @include font-size("s");
+    @include font-size("xs");
   }
 
   // Warm (red, yellow, magenta)
@@ -59,7 +57,7 @@
       fill: var(--melange_b_red);
     }
   }
-  .data-set.voron_trident {
+  .data-set.printing {
     &,
     &:hover {
       fill: var(--melange_c_magenta);
@@ -83,9 +81,10 @@
     &,
     &:hover {
       fill: var(--melange_c_blue);
+      z-index: 1000;
     }
   }
-  .data-set.t-34 {
+  .data-set.keyboards {
     &,
     &:hover {
       fill: var(--melange_b_cyan);
@@ -108,8 +107,7 @@
   .data-set.yearly_review {
     &,
     &:hover {
-      z-index: 10;
-      fill: var(--melange_a_com);
+      fill: var(--melange_a_fg);
       cursor: pointer;
     }
   }
@@ -119,10 +117,14 @@
       fill: var(--melange_a_ui);
     }
   }
+  .data-set:hover {
+    circle {
+      r: 5px;
+    }
 
-  &:hover {
-    .data-set {
-      fill: var(--melange_a_sel);
+    .data-set-label {
+      /* font-size: 1.1rem; */
+      font-weight: bold;
     }
   }
 

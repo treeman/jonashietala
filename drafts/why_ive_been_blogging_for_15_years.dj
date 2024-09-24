@@ -114,8 +114,8 @@ If I were chasing views I would certainly not have continued to blog for as long
 
 # Evolution of the tech stack
 
-The tech choices I've made for this blog have oscillated between because they looked interesting, to boring and utilitarian, and back again.
-At the moment the blogging software is a whole project in and of itself (by design; it's a fun project to tinker with).
+One of the reasons I've been blogging so long is that I've been able to play around with the tech stack of the blog.
+I've changed the tech stack a number of times; from choosing languages I wanted to learn, to a boring setup that "just works", and back again.
 
 {.blog-tech-stack}
 ::: timeline
@@ -175,28 +175,38 @@ At the moment the blogging software is a whole project in and of itself (by desi
   There's lots of potential for spending _tons_ of time in this swamp but these IDE-like features really elevate the writing experience.
 :::
 
-# Posts have massively increased in scope
+At the moment the blogging software is a whole project in and of itself (by design; it's a fun project to tinker with).
 
-{before_date="2024-09-01"}
+# Posts have changed focus and increased in scope
+
+{before_date="2024-09-01" caption="Posts mapped by published date and work count, grouped into lose categories."}
 :post-stats-graph:
 
-# What does the future bring?
+It probably comes as no surprise that my posts have changed a lot since I started the blog.
+I made the above visualization that counts the words (in markup) and plots them on a time axis, together with loose grouping of the type of post.
 
-People are quick to point out that they're not the same person they were a decade ago, yet they're sure they won't change much the coming decade.
-While it _feels_ like I'll keep blogging the same way I'm doing right now, it would be foolish to claim that as a fact.
+I have two main takeaways:
 
-I'll probably keep blogging in some capacity, but the topics, frequency, and length will likely all change.
+1. The posts have grown larger and more ambitious.
 
+   In the beginning I treated the blog almost like a Twitter/X feed with short updates on my game making progress.
+   Now I spend weeks or even months slowly working away on a post until I feel it's interesting and polished enough to publish.
 
-# Stats
+1. As my interests have changed, so has the focus of my posts.
 
-279 posts
-5521 days since first post (5521/279 = 19.78853046595) => one post every 20 days
-Shortest post: Settled on an unoriginal idea (30 words / 202 chars)
-Longest post: tree-sitter grammar (6272 words / 44695 chars)
+   I only write about my hobbies or things that I'm interested in at that moment so it's only natural that the theme of the posts have changed.
+   Gaming related posts have given way for more programming and the occasional meat-space related project.
 
-Novelette: 7500--20000 words
-Short story: 1000--10000 words
+## What does the future bring?
+
+I find almost find it obvious that the blog has changed so much during the 15 years of it's existence; _of course_ my posts would grow more ambitious as my writing matured and I'd _obviously_ start gravitating away from games towards other projects.
+
+Naturally, it's just a lie I tell myself with the benefit of hindsight.
+
+Predicting the future is impossible and I have no idea what the blog will look like 15 years from now.
+While it _feels_ like I'll keep blogging the same way, it would be foolish to claim that as a fact.
+
+Sometimes it's best to stop worrying and just enjoy the ride.
 
 [Kohana Framework]: https://kohanaframework.org/
 [Mojolicious]: https://www.mojolicious.org/

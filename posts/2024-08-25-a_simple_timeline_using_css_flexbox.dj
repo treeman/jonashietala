@@ -63,6 +63,10 @@ In this post I'll walk you through how I made this kind of timeline:
 </div>
 ```
 
+::: note
+If you're reading this post in a feed reader then the embedded HTML examples (such as the above) won't show up correctly.
+:::
+
 # Markup
 
 I like to start with the markup before moving on to styling.

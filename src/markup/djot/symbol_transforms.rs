@@ -1,4 +1,4 @@
-use crate::markup::graphs;
+use crate::markup::graphs::{self, PostStatsGraph};
 use chrono::NaiveDate;
 use eyre::Result;
 use jotdown::{Attributes, Container, Event};
@@ -113,7 +113,11 @@ fn create_post_stats_graph<'a>(attrs: &Attributes) -> Result<Vec<Event<'a>>> {
         None
     };
 
-    let graph = graphs::post_stats_graph(before_date_filter)?;
+    let graph = PostStatsGraph {
+        before_date: before_date_filter,
+        caption: attrs.get("caption").map(|x| x.to_string()),
+    }
+    .generate()?;
 
     let html = Container::RawBlock { format: "html" };
 
