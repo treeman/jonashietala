@@ -180,7 +180,7 @@ At the moment the blogging software is a whole project in and of itself (by desi
 
 # Posts have changed focus and increased in scope
 
-{before_date="2024-09-01" caption="Posts mapped by published date and work count, grouped into lose categories. (You'll need CSS enabled to view the Graph in a nice way.)"}
+{before_date="2024-09-01" caption="Posts mapped by published date and word count, grouped into lose categories. (You'll need CSS enabled to view the Graph in a nice way.)"}
 :post-stats-graph:
 
 It probably comes as no surprise that my posts have changed a lot since I started the blog.
