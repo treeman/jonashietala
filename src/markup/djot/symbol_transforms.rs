@@ -1,4 +1,4 @@
-use crate::markup::graphs::{self, PostStatsGraph};
+use crate::markup::graphs::PostStatsGraph;
 use chrono::NaiveDate;
 use eyre::Result;
 use jotdown::{Attributes, Container, Event};

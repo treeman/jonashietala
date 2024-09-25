@@ -1,6 +1,7 @@
 ---toml
 title = "Why I still blog after 15 years"
 tags = ["Blog"]
+favorite = true
 ---
 
 ::: epigraph
@@ -179,11 +180,11 @@ At the moment the blogging software is a whole project in and of itself (by desi
 
 # Posts have changed focus and increased in scope
 
-{before_date="2024-09-01" caption="Posts mapped by published date and work count, grouped into lose categories."}
+{before_date="2024-09-01" caption="Posts mapped by published date and work count, grouped into lose categories. (You'll need CSS enabled to view the Graph in a nice way.)"}
 :post-stats-graph:
 
 It probably comes as no surprise that my posts have changed a lot since I started the blog.
-I made the above visualization that counts the words (in markup) and plots them on a time axis, together with loose grouping of the type of post.
+I made the above visualization that counts the words of each post and plots them on a time axis, together with loose grouping of the type of post.
 
 I have two main takeaways:
 

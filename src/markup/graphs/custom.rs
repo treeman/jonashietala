@@ -147,12 +147,7 @@ pub fn post_stats_graph_custom(
 
     let mut data_sets = Vec::new();
 
-    let background_color = "#f1f1f1";
-    let grid_color = "#a98a78";
-    let text_color = "#54433a";
-
     for group in groups.groups {
-        let color = group.default_color;
         let points = join(
             group.posts.into_iter().map(|post| {
                 let x = date_to_x(&post.created);
@@ -162,7 +157,7 @@ pub fn post_stats_graph_custom(
                 let href = post.url.href();
                 format!(
                     r#"<a href="{href}">
-    <circle cx="{x}" cy="{y}" data-value="{val}" r="{point_radius}" fill="{color}">
+    <circle cx="{x}" cy="{y}" data-value="{val}" r="{point_radius}">
       <title>{title}</title>
     </circle>
     </a>"#
@@ -187,9 +182,9 @@ pub fn post_stats_graph_custom(
             label_row += 1;
         }
         let label = format!(
-            r#"<rect x="{box_x}" y="{box_y}" width="{box_w}" height="{box_w}" fill="{color}"
+            r#"<rect x="{box_x}" y="{box_y}" width="{box_w}" height="{box_w}"
                             class="data-set-label-box" />
-    <text x="{x}" y="{y}" class="data-set-label" fill="{text_color}">{title}</text>"#
+    <text x="{x}" y="{y}" class="data-set-label">{title}</text>"#
         );
         let class = group.id;
         data_sets.push(format!(
@@ -215,17 +210,17 @@ pub fn post_stats_graph_custom(
     <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="blog-stats-graph" role="img"
         viewBox="0 0 {viewbox_w} {viewbox_h}">
     <g class="grid x-axis">
-      <line x1="{plot_left}" x2="{plot_right}" y1="{plot_bottom}" y2="{plot_bottom}" fill="{grid_color}"></line>
+      <line x1="{plot_left}" x2="{plot_right}" y1="{plot_bottom}" y2="{plot_bottom}"></line>
     </g>
     <g class="grid y-grid">
-      <line x1="{plot_left}" x2="{plot_left}" y1="{plot_top}" y2="{plot_bottom}" fill="{grid_color}"></line>
+      <line x1="{plot_left}" x2="{plot_left}" y1="{plot_top}" y2="{plot_bottom}"></line>
     </g>
     <g class="labels x-labels">
       {x_ticks}
     </g>
     <g class="labels y-labels">
       {y_ticks}
-      <text x="{y_label_x}" y="{padding}" class="label-title" fill="{text_color}">Words</text>
+      <text x="{y_label_x}" y="{padding}" class="label-title">Words</text>
     </g>
     {data_sets}
     </svg>
@@ -246,18 +241,12 @@ impl Groups {
     fn new() -> Self {
         Self {
             groups: vec![
-                Group::tagged("3D printing", "printing", "#be79bb", &["3D printing"]),
-                Group::tagged("Keyboards", "keyboards", "#3d6568", &["Keyboards"]),
-                Group::tagged(
-                    "Book writing",
-                    "crypto",
-                    "#a06d00",
-                    &["Why Cryptocurrencies?"],
-                ),
+                Group::tagged("3D printing", "printing", &["3D printing"]),
+                Group::tagged("Keyboards", "keyboards", &["Keyboards"]),
+                Group::tagged("Book writing", "crypto", &["Why Cryptocurrencies?"]),
                 Group::tagged(
                     "Game creation",
                     "games",
-                    "#7892bd",
                     &[
                         "Experimental Gameplay Project",
                         "Ludum Dare",
@@ -270,16 +259,10 @@ impl Groups {
                 //     "game_design_course",
                 //     &["Game Design Course"],
                 // ),
-                Group::tagged(
-                    "Yearly Review",
-                    "yearly_review",
-                    "#54433a",
-                    &["Yearly Review"],
-                ),
+                Group::tagged("Yearly Review", "yearly_review", &["Yearly Review"]),
                 Group::tagged(
                     "Programming",
                     "programming",
-                    "#bf0021",
                     &[
                         "Rust",
                         "Neovim",
@@ -291,15 +274,10 @@ impl Groups {
                         "Programming",
                     ],
                 ),
-                Group::tagged("Life", "life", "#bc5c00", &["Life", "School"]),
-                Group::tagged("Gaming", "gaming", "#739797", &["Gaming", "Netrunner"]),
-                Group::tagged(
-                    "Linux",
-                    "linux",
-                    "#904180",
-                    &["Linux", "Slackware", "Void Linux"],
-                ),
-                Group::fallback("Other", "fallback", "#a98a78"),
+                Group::tagged("Life", "life", &["Life", "School"]),
+                Group::tagged("Gaming", "gaming", &["Gaming", "Netrunner"]),
+                Group::tagged("Linux", "linux", &["Linux", "Slackware", "Void Linux"]),
+                Group::fallback("Other", "fallback"),
             ],
         }
     }
@@ -322,48 +300,34 @@ struct Group {
     series: HashSet<&'static str>,
     tags: HashSet<&'static str>,
     posts: Vec<CountedWordsPostItem>,
-    default_color: &'static str,
     fallback: bool,
 }
 
 impl Group {
     #[allow(dead_code)]
-    fn series(
-        name: &'static str,
-        id: &'static str,
-        default_color: &'static str,
-        series: &[&'static str],
-    ) -> Self {
+    fn series(name: &'static str, id: &'static str, series: &[&'static str]) -> Self {
         Self {
             id,
             name,
             series: series.iter().copied().collect(),
-            default_color,
             ..Default::default()
         }
     }
 
-    fn tagged(
-        name: &'static str,
-        id: &'static str,
-        default_color: &'static str,
-        tags: &[&'static str],
-    ) -> Self {
+    fn tagged(name: &'static str, id: &'static str, tags: &[&'static str]) -> Self {
         Self {
             id,
             name,
             tags: tags.iter().copied().collect(),
-            default_color,
             ..Default::default()
         }
     }
 
-    fn fallback(name: &'static str, id: &'static str, default_color: &'static str) -> Self {
+    fn fallback(name: &'static str, id: &'static str) -> Self {
         Self {
             id,
             name,
             fallback: true,
-            default_color,
             ..Default::default()
         }
     }
