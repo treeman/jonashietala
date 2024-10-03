@@ -1,0 +1,114 @@
+---toml
+title = "Writing Home Assistant automations using Genservers in Elixir"
+tags = ["Home Assistant", "Elixir"]
+---
+
+# Why?
+
+Ever since I started with home automation I've thought that it would be a great match for the concurrency model that Elixir uses.
+You'll have all sorts of automations running concurrently, reacting to different triggers, waiting for different actions, and interacting with each other; something I think Elixir excels at.
+
+Now, there are many options for writing automations for Home Assistant that already work well, I just wanted to use Elixir because I _like_ it.
+That Elixir happens to be a good fit for home automation is just a bonus.
+
+::: important
+People think that home automation exists to make your life easier, but that's just a bi-product of the true purpose of home automation: *having fun*.
+:::
+
+I've tried to write automations via the Home Assistant UI (meh), using YAML configuration (hated it), visual programming with [Node-RED][] (I want real programming), and in Python using [Pyscript][] (pretty good).
+In the end I simply enjoyed writing automations in Elixir more.
+
+{% There's already quite a few ways you can create automations for Home Assistant: %}
+{%%}
+{% - Via the Home Assistant UI %}
+{% - Using YAML configuration %}
+{% - Visual programming with [Node-RED][] %}
+{% - Write them in Python with [AppDaemon][] or [Pyscript][] %}
+{% - And more... %}
+{%%}
+{% The existing options are fine although somewhat lacking at times. %}
+
+[Node-RED]: https://github.com/hassio-addons/addon-node-red
+[AppDaemon]: https://appdaemon.readthedocs.io/en/latest/index.html
+[Pyscript]: https://github.com/custom-components/pyscript
+
+# Controlling Home Assistant from Elixir
+
+- Websocket
+- REST
+
+## Connecting
+
+## Collecting states
+
+## Outline of a GenServer automation
+
+- start_link/init
+- Supervisor
+
+# Let there be light
+
+> Gentlemen I am now about to send a signal from this laptop through our local ISP racing down fiber-optic cable at the speed of light to San Francisco, bouncing off a satellite in geosynchronous orbit to Lisbon Portugal where the data packets will be handed off to submerge transatlantic cables terminating in Halifax Nova Scotia, and transferred across the continent via microwave relays back to our ISP and the XM receiver attached to this...
+>
+> Lamp.
+> ^ [Big Bang Theory: Internet success](https://www.youtube.com/watch?v=mqp8_ROAIJY)
+
+For my example I'll use the ultimate expression of home automation: controlling a light source.
+
+Jokes aside, controlling a light is a good beginning because it's easy to start with (turn it on/off), you'll get to see results in the real world (the light changes color), and you can increase the complexity if you want (create a sunrise alarm and use [circadian lighting][] during the day).
+
+## Time trigger
+
+3. Turn on light on a specific time
+
+## Wake-up lighting
+
+4. Make a sunrise transition at a specific time
+
+## Abort the wake-up sequence
+
+5. Turn off during sunrise cancels the sunrise
+
+## A passive bedtime transition
+
+6. Bedtime transition, but don't turn on the light
+
+   - When light turns on should set the light to the correct transition value
+
+7. Turn on during the day set to other value
+
+# Automation testing
+
+1. Send events directly to GenServer
+1. Mock calls to `turn_on` and `is_on/is_off` and capture results
+
+# A simpler API for simpler automations
+
+While GenServers are great in many ways they're a bit verbose for simple automations.
+I took inspiration from [AppDaemon's `listen_state`][listen_state] for a simpler API:
+
+```elixir
+# This automation turns on a ledstrip behind my monitors when the plug power
+# is above 180, which happens when I turn on my three monitors.
+listen_state(
+  "sensor.winterfell_plug_power",
+  fn ->
+    Light.turn_on("light.j_kontor_dator_ledstrip", color_temp: 220, brightness_pct: 40)
+  end,
+  gt: 180
+)
+```
+
+`listen_state` is implemented by---you guessed it---a GenServer.
+What `listen_state` does is register a trigger callback and some trigger conditions with the GenServer, then the server calls the callbacks whenever the conditions are met.
+
+# What's next?
+
+- Create automation entities (use the REST service)
+- Simpler API (Task)
+- Circadian lighting (call another GenServer)
+- Tracking automations (Registry)
+- Cron style support (library)
+
+[listen_state]: https://appdaemon.readthedocs.io/en/latest/AD_API_REFERENCE.html#appdaemon.entity.Entity.listen_state
+[circadian lighting]: https://www.thelightingpractice.com/what-is-circadian-lighting/
