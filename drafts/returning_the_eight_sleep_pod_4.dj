@@ -1,46 +1,107 @@
 ---toml
-title = "Returning the Eight Sleep Pod 4"
-tags = ["Some tag"]
+title = "Trying and returning the Eight Sleep Pod 4"
+tags = ["Eight Sleep", "New Stuff"]
 ---
 
-I recently bought the Eight Sleep Pod 4---a smart mattress that tracks your heart rate, HRV, snoring, and cools or warms the mattress during the night.
+I recently bought the [Eight Sleep Pod 4](https://www.eightsleep.com/se/product/pod-cover/)---a smart mattress cover that tracks your heart rate, HRV, snoring, and cools or warms the mattress during the night.
 There's a lot to like about the mattress but in the end I opted to return it.
 
-This post describes my experience with the mattress.
+This post describes my experience with the Pod 4.
 
-# Sleep is extremely important
+# Sleep is important enough to offset the steep price
 
-The [Eight Sleep][] mattress is really expensive.
-But that's not enough; it's a mattress with *a subscription*!
+The [Eight Sleep][] mattress is really expensive but that's not all---it's a mattress with *a subscription*!
 I hated it when [Oura][] introduced a subscription for their ring, and I hate the world that led us to a _mattress_ with a subscription.
 
-So why bother with the ridiculous mattress?
+So why bother with the ridiculous pricing?
 
 Because {=sleep is important=}.
 
-[Oura]: https://ouraring.com/
-[Eight Sleep]: https://www.eightsleep.com/se/
+What would 60 or even 30 minutes of extra sleep per day be worth?
+Or maybe the same amount of sleep but better?
+For me, as a parent of young kids that wakes up way too early, the answer is that it would be worth *a lot*.
+
+That's why I was able to look past the price and give Eight Sleep a chance.
 
 # My experience with the smart mattress
+
+There are a bunch of things I like about the mattress and a bunch of things I didn't like about it.
+The cons outweigh the pros for me but not by much; if my circumstances were a little different I might have kept it.
 
 ## Pros
 
 ::: plus
 + Sleep generally improved.
-+ Can get very hot and cold.
+
+  I didn't get the promised +30 minutes of extra sleep but anecdotally it was a positive change.
+
++ The mattress could get very hot and cold.
+
+  I was worried that the mattress wouldn't be able to get cold enough but it was able to go _really_ cool.
+
 + Tap control on the side works very well.
-+ It's a gadget, I like gadgets.
+
+  It was very easy to tap the side of the bed to increase or decrease the temperature (at least for me, the bed is flush to the other wall).
+
++ Separate sections of the bed is excellent.
+
+  Although our kids slept with us the two sections worked well for us.
+
++ It's a cool gadget---I like gadgets.
 :::
 
 ## Cons
 
 ::: dash
-- Did not achieve the partner approval.
-- No history of the temperature or my adjustments during the night. So every evening is a guessing game what temperature I should use.
-- "Autopilot has reduced your snoring/deep sleep by X%" feels completely made up. I don't have the base, so how can it reduce my snoring? And how can it claim to prove anything when I'm not sleeping the whole night in the bed? It's a black box that I don't trust.
-- I sleep parts or even the whole night in my kids' bed
 - There's no way to connect it to Home Assistant.
+
+  I like home automation and I'll freely admit that if I could've connected the bed to Home Assistant I would've kept it, everything else be damned.
+
+  Using it as a presence sensor and being able to track the temperature of the bed and create my own automations would be glorious.
+
+  But alas, Eight Sleep keeps all the data to themselves and want you to pay for the expensive subscription for the _privilege_ of controlling your own mattress.
+
+- I sleep parts or even whole nights in my kids' bed.
+
+  To benefit from this kind of mattress you need to sleep on it, which I didn't always do.
+
+- The app is a black box.
+
+  I was severely disappointed in the app as it doesn't provide any insight into what the Autopilot is doing, making you question if it does anything at all or if it's just another empty AI marketing term.
+
+  1. There's no history of the temperature adjustments during the night.
+
+     You can't look back at the night and see your own or the Autopilot's temperature adjustments.
+     My own adjustments aren't even saved so the temperature settings for the next night is a guessing game.
+
+     Eight Sleep claims that Autopilot is making adjustments but for all I know it's not doing anything.
+
+  1. The "Autopilot has reduced your X by Y%" messages feels made up.
+
+     I didn't have the Pod 4 Ultra that can elevate the bed, so how can the Autopilot reduce my snoring during the night?
+     Sometimes I didn't sleep the whole night in the bed yet Autopilot claims it improved my deep sleep with 20%?
+
+     I'll give them the benefit of the doubt and say it's probably bad statistics rather than regular old bullshit, but how can you tell?
+
+- *Most importantly* it did not achieve the partner approval.
 :::
 
 # Using the free 30 day return
 
+I gave it a shot but after a few weeks I decided to use the generous free 30 day return to send back the pod and get a refund (you throw away the mattress).
+
+It wasn't the smoothest ride but the customer service did a decent enough job.
+I had lots of trouble with the pickup, although that was probably an issue with the shipping company rather than Eight Sleep:
+
+1. At first, they didn't show up.
+2. The next time I didn't get a label I could print, so they couldn't take the package.
+3. Then they again didn't show up.
+4. Finally, we tried another shipping company and Eight Sleep sent the label to me directly, then they picked it up.
+
+I work from home so it wasn't that big of a deal, although it was a bit stressful.
+
+Still, the free return is great and it might be the biggest reason to try Eight Sleep.
+In the future, when the kids get older and if someone reverse engineers the next generation of the Pod to connect it to Home Assistant, I might give it a try again.
+
+[Oura]: https://ouraring.com/
+[Eight Sleep]: https://www.eightsleep.com/se/
