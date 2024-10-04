@@ -1,0 +1,46 @@
+---toml
+title = "Returning the Eight Sleep Pod 4"
+tags = ["Some tag"]
+---
+
+I recently bought the Eight Sleep Pod 4---a smart mattress that tracks your heart rate, HRV, snoring, and cools or warms the mattress during the night.
+There's a lot to like about the mattress but in the end I opted to return it.
+
+This post describes my experience with the mattress.
+
+# Sleep is extremely important
+
+The [Eight Sleep][] mattress is really expensive.
+But that's not enough; it's a mattress with *a subscription*!
+I hated it when [Oura][] introduced a subscription for their ring, and I hate the world that led us to a _mattress_ with a subscription.
+
+So why bother with the ridiculous mattress?
+
+Because {=sleep is important=}.
+
+[Oura]: https://ouraring.com/
+[Eight Sleep]: https://www.eightsleep.com/se/
+
+# My experience with the smart mattress
+
+## Pros
+
+::: plus
++ Sleep generally improved.
++ Can get very hot and cold.
++ Tap control on the side works very well.
++ It's a gadget, I like gadgets.
+:::
+
+## Cons
+
+::: dash
+- Did not achieve the partner approval.
+- No history of the temperature or my adjustments during the night. So every evening is a guessing game what temperature I should use.
+- "Autopilot has reduced your snoring/deep sleep by X%" feels completely made up. I don't have the base, so how can it reduce my snoring? And how can it claim to prove anything when I'm not sleeping the whole night in the bed? It's a black box that I don't trust.
+- I sleep parts or even the whole night in my kids' bed
+- There's no way to connect it to Home Assistant.
+:::
+
+# Using the free 30 day return
+
