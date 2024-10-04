@@ -28,9 +28,6 @@ In the end I simply enjoyed writing automations in Elixir more.
 {%%}
 {% The existing options are fine although somewhat lacking at times. %}
 
-[Node-RED]: https://github.com/hassio-addons/addon-node-red
-[AppDaemon]: https://appdaemon.readthedocs.io/en/latest/index.html
-[Pyscript]: https://github.com/custom-components/pyscript
 
 # Controlling Home Assistant from Elixir
 
@@ -48,12 +45,13 @@ In the end I simply enjoyed writing automations in Elixir more.
 
 # Let there be light
 
+For my example I'll use the ultimate expression of home automation:\
+controlling a light source.
+
 > Gentlemen I am now about to send a signal from this laptop through our local ISP racing down fiber-optic cable at the speed of light to San Francisco, bouncing off a satellite in geosynchronous orbit to Lisbon Portugal where the data packets will be handed off to submerge transatlantic cables terminating in Halifax Nova Scotia, and transferred across the continent via microwave relays back to our ISP and the XM receiver attached to this...
 >
 > Lamp.
 > ^ [Big Bang Theory: Internet success](https://www.youtube.com/watch?v=mqp8_ROAIJY)
-
-For my example I'll use the ultimate expression of home automation: controlling a light source.
 
 Jokes aside, controlling a light is a good beginning because it's easy to start with (turn it on/off), you'll get to see results in the real world (the light changes color), and you can increase the complexity if you want (create a sunrise alarm and use [circadian lighting][] during the day).
 
@@ -110,5 +108,10 @@ What `listen_state` does is register a trigger callback and some trigger conditi
 - Tracking automations (Registry)
 - Cron style support (library)
 
+[Node-RED]: https://github.com/hassio-addons/addon-node-red
+[AppDaemon]: https://appdaemon.readthedocs.io/en/latest/index.html
+[Pyscript]: https://github.com/custom-components/pyscript
 [listen_state]: https://appdaemon.readthedocs.io/en/latest/AD_API_REFERENCE.html#appdaemon.entity.Entity.listen_state
 [circadian lighting]: https://www.thelightingpractice.com/what-is-circadian-lighting/
+[Quantum]: https://hexdocs.pm/quantum/readme.html
+[Oban]: https://github.com/oban-bg/oban
