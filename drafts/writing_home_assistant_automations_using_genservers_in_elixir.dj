@@ -80,6 +80,40 @@ Jokes aside, controlling a light is a good beginning because it's easy to start 
 1. Send events directly to GenServer
 1. Mock calls to `turn_on` and `is_on/is_off` and capture results
 
+## Careful, mistakes can come back to haunt you
+
+Tests in an asynchronous and concurrent system---where messages don't arrive immediately and where services interact with each other---can be very annoying to deal with as it's easy to introduce race conditions, where a test _sometimes_ fail.
+
+Here's an error I made when writing tests for this (still fairly simple) automation:
+
+1. The light state should be `off` in the beginning of the test.
+
+   I sent an `:state_changed`{lang="elixir"} message over PubSub that would trickle down to the rest of the application.
+
+2. The `States` GenServer picks up the message and stores it, ready to answer the `is_on` check.
+
+   I knew this could introduce a race condition so I waited until `is_on` returned the correct result.
+
+3. But the `Trigger` GenServer also picked up the same `:state_changed`{lang="elixir"} message and transformed it to a simpler `:state`{lang="elixir"} message.
+
+   ```elixir
+   # This is the raw state changed message, including the new and old state.
+   {:state_changed, %{entity_id: @entity, new_state: %{state: "on", ...}, old_state: ...}}
+
+   # This is the simpler state changed message.
+   {:state, @entity, "on"}
+   ```
+
+4. The automation picks up the simpler `:state`{lang="elixir"} message to turn off the sunrise.
+
+   I only wanted the state for the `is_on` check, but here the `:state`{lang="elixir"} message arrived in the middle of the sunrise, turning off the sunrise and breaking the test.
+
+(I shouldn't have involved PubSub at all. That can be relegated to larger, more isolated, integration tests.)
+
+These kinds of problems are a pain and they only get worse as your application grows.
+
+I find simplicity and isolation are preferable, which is why I try to send messages directly to the GenServer I'm testing instead of triggering them via the PubSub system, which is a global system that affects other parts of the application.
+
 # A simpler API for simpler automations
 
 While GenServers are great in many ways they're a bit verbose for simple automations.
