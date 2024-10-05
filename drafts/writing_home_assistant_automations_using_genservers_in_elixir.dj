@@ -28,24 +28,265 @@ In the end I simply enjoyed writing automations in Elixir more.
 {%%}
 {% The existing options are fine although somewhat lacking at times. %}
 
+::: note
+I'll 
+:::
 
 # Controlling Home Assistant from Elixir
 
-- Websocket
-- REST
+The very first thing we need to solve is how do we get data from Home Assistant and how to call services (now called actions)?
+
+Home Assistant has a [websocket API][] and a [REST API][] that we can use to implement our engine.
+As we can get all entity state and call services over the websocket there's no need to bother with the [REST API][] for our example (it's required to set states).
+
 
 ## Connecting
 
-## Collecting states
+I used [WebSockex][] to setup the websocket connection to Home Assistant.
+Here's a tentative start that connects and receives a message:
+
+```elixir
+defmodule Haex.WebsocketClient do
+  use WebSockex
+  require Logger
+
+  # Adjust to your Home Assitant instance
+  @url "ws://lannisport:8123/api/websocket"
+
+  def start_link(_args) do
+    WebSockex.start_link(@url, __MODULE__, %{}, name: __MODULE__)
+  end
+
+  @impl true
+  def handle_frame({:text, msg}, state) do
+    case Jason.decode(msg) do
+      {:ok, msg} ->
+        Logger.debug("Received:\n#{inspect(msg)}")
+        handle_msg(msg, state)
+
+      {:error, error} ->
+        Logger.warning("Couldn't decode message `#{inspect(error)}`:\n#{inspect(msg)}")
+        {:ok, state}
+    end
+  end
+
+  defp handle_msg(msg, state) do
+    Logger.warning("Unhandled message: #{inspect(msg)}")
+    {:ok, state}
+  end
+end
+```
+
+As with all concurrent services in Elixir Websockex should be started in a supervision tree.
+Under the main Application Supervisor works well:
+
+{hl="8" path="lib/haex/application.ex"}
+```elixir
+defmodule Haex.Application do
+  @moduledoc false
+
+  use Application
+
+  @impl true
+  def start(_type, _args) do
+    children = [Haex.WebsocketClient]
+    Supervisor.start_link(children, strategy: :one_for_one)
+  end
+end
+```
+
+If we run this then Home Assistant will send us a message upon connection:
+
+```
+[warning] Unhandled message: %{"ha_version" => "2024.10.0", "type" => "auth_required"}
+```
+
+This means we need to authenticate using a [long lived access token](https://community.home-assistant.io/t/how-to-get-long-lived-access-token/162159/6).
+Following the [websocket API][] we should respond with an `"auth"`{lang="elixir"} message:
+
+```elixir
+defp handle_msg(%{"type" => "auth_required"}, state) do
+  token = Application.fetch_env!(:haex, :access_token)
+
+  reply =
+    Jason.encode!(%{
+      type: "auth",
+      access_token: token
+    })
+
+  {:reply, {:text, reply}, state}
+end
+```
+
+It's prudent to fetch secrets from environment variables in `runtime.exs`:
+
+{path="config/runtime.exs"}
+```elixir
+config :haex, access_token: System.fetch_env!("HA_ACCESS_TOKEN")
+```
+
+And now we get another unhandled message, telling us our auth succeeded:
+
+```
+[warning] Unhandled message: %{"ha_version" => "2024.10.0", "type" => "auth_ok"}
+```
+
+## Subscribing to state changes
+
+After authenticating we can tell Home Assistant that we'd like to subscribe to all state changes in the system (so we can  write automations that trigger on a state change).
+
+I'm lazy so I send the subscription message when I'm handling (ignoring) the `"auth_ok"`{lang="elixir"} message:
+
+```elixir
+defp handle_msg(%{"type" => "auth_ok"}, state) do
+  reply = Jason.encode!(%{id: 1, type: :subscribe_events, event_type: :state_changed})
+  {:reply, {:text, reply}, state}
+end
+```
+
+With this up we'll get another acknowledgment that our subscribe command succeeded (matching `id: 1`{lang="elixir"}):
+
+```
+[warning] Unhandled message: %{"id" => 1, "result" => nil, "success" => true, "type" => "result"}
+```
+
+And we start receiving state changed messages:
+
+```
+[warning] Unhandled message: %{"event" => %{"context" => %{"id" => "01J9DK3CN0CEEWGCV1139HTC11", "parent_id" => nil, "user_id" => nil}, "data" => %{"entity_id" => "sensor.vardagsrum_innelampor_switch_power", "new_state" => %{"attributes" => %{"device_class" => "power", "friendly_name" => "Vardagsrum innelampor switch Power", "state_class" => "measurement", "unit_of_measurement" => "W"}, "context" => %{"id" => "01J9DK3CN0CEEWGCV1139HTC11", "parent_id" => nil, "user_id" => nil}, "entity_id" => "sensor.vardagsrum_innelampor_switch_power", "last_changed" => "2024-10-05T05:40:36.640422+00:00", "last_reported" => "2024-10-05T05:40:36.640422+00:00", "last_updated" => "2024-10-05T05:40:36.640422+00:00", "state" => "4.6"}, "old_state" => %{"attributes" => %{"device_class" => "power", "friendly_name" => "Vardagsrum innelampor switch Power", "state_class" => "measurement", "unit_of_measurement" => "W"}, "context" => %{"id" => "01J9DK37CMJBDFK7M5VGYJ1CZG", "parent_id" => nil, "user_id" => nil}, "entity_id" => "sensor.vardagsrum_innelampor_switch_power", "last_changed" => "2024-10-05T05:40:31.252863+00:00", "last_reported" => "2024-10-05T05:40:31.252863+00:00", "last_updated" => "2024-10-05T05:40:31.252863+00:00", "state" => "4.5"}}, "event_type" => "state_changed", "origin" => "LOCAL", "time_fired" => "2024-10-05T05:40:36.640422+00:00"}, "id" => 1, "type" => "event"}
+[warning] Unhandled message: %{"event" => %{"context" => %{"id" => "01J9DK3CQ27BWBX0R9MAP5SRM9", "parent_id" => nil, "user_id" => nil}, "data" => %{"entity_id" => "sensor.dishwasher_plug_voltage", "new_state" => %{"attributes" => %{"device_class" => "voltage", "friendly_name" => "Dishwasher plug Voltage", "state_class" => "measurement", "unit_of_measurement" => "V"}, "context" => %{"id" => "01J9DK3CQ27BWBX0R9MAP5SRM9", "parent_id" => nil, "user_id" => nil}, "entity_id" => "sensor.dishwasher_plug_voltage", "last_changed" => "2024-10-05T05:40:36.706679+00:00", "last_reported" => "2024-10-05T05:40:36.706679+00:00", "last_updated" => "2024-10-05T05:40:36.706679+00:00", "state" => "232.5"}, "old_state" => %{"attributes" => %{"device_class" => "voltage", "friendly_name" => "Dishwasher plug Voltage", "state_class" => "measurement", "unit_of_measurement" => "V"}, "context" => %{"id" => "01J9DK37THDW13GTP09KXNMG0Q", "parent_id" => nil, "user_id" => nil}, "entity_id" => "sensor.dishwasher_plug_voltage", "last_changed" => "2024-10-05T05:40:31.697304+00:00", "last_reported" => "2024-10-05T05:40:31.697304+00:00", "last_updated" => "2024-10-05T05:40:31.697304+00:00", "state" => "232.18"}}, "event_type" => "state_changed", "origin" => "LOCAL", "time_fired" => "2024-10-05T05:40:36.706679+00:00"}, "id" => 1, "type" => "event"}
+...
+```
+
+## Managing cross-service messages with PubSub
+
+At this point I'd like to take a step and plan ahead a little.
+We have our state changed events but how should we send them to the automations we'll write?
+
+One option might be to let `WebSocketClient`{lang="elixir"} loop over all automations and call them directly:
+
+```elixir
+defp handle_msg(msg = %{"type" => "event"}, state) do
+  for automation <- automations do
+    automation.state_changed(msg)
+  end
+
+  {:ok, state}
+end
+```
+
+But that's not very flexible.
+We'd have to keep the `automations` list updated and what about other services that might want to subscribe to state changes but aren't automations?
+
+Instead I opted to use [Phoenix.PubSub][], a publisher/subscriber service that can broadcast messages throughout your application.
+
+First we'll need to start an instance in our supervision tree (called `Haex.PubSub`{lang="elixir"}):
+
+{hl=5 path="lib/haex/application.ex"}
+```elixir
+@impl true
+def start(_type, _args) do
+  children =
+    [
+      {Phoenix.PubSub, name: Haex.PubSub},
+      Haex.WebsocketClient
+    ]
+
+  Supervisor.start_link(children, strategy: :one_for_one)
+end
+```
+
+Then we can broadcast messages to anyone who cares to listen:
+
+{hl="2..11"}
+```elixir
+defp handle_msg(%{"type" => "event", "event" => event}, state) do
+  PubSub.broadcast(
+    Haex.PubSub,
+    "state_schanged",
+    {:state_changed,
+     %{
+       entity_id: event["entity_id"],
+       new_state: event["new_state"],
+       old_state: event["old_state"]
+     }}
+  )
+
+  {:ok, state}
+end
+```
+
+If a service wants to receive the messages they'll subscribe to the `"state_changed"`{lang="elixir"} channel:
+
+```elixir
+PubSub.subscribe(Haex.PubSub, "state_changed")
+```
+
+## Collecting states and calling services
+
+There's still a few implementation details missing until we can start with our automations.
+They're not central to this post but we still need to know about them, so I'll go through them quickly here:
+
+1. We'll need to be able answer if an entity is on.
+
+   I track all states in the system with a `States` GenServer that subscribes to the `"state_changed"`{lang="elixir"} message mentioned above and a `"get_states"`{lang="elixir"} message that dumps all states in Home Assistant.
+
+2. We'll need to be able to call a service.
+
+   It can be done by sending this kind of message over the websocket:
+
+   ```elixir
+   %{
+     type: :call_service,
+     domain: :light,
+     service: :turn_on,
+     target: %{
+       entity_id: "light.j_kontor_dator_ledstrip"
+     }
+     service_data: %{
+       color_name: "beige",
+       brightness: 100
+     }
+   }
+   ```
 
 ## Outline of a GenServer automation
 
-- start_link/init
-- Supervisor
+An automation is a regular [GenServer][] that subscribes to triggers and then does stuff.
+It might look like something like this:
+
+{hl="17"}
+```elixir
+defmodule Automations.MyAutomation do
+  use GenServer
+  alias Phoenix.PubSub
+
+  def start_link(opts) do
+    GenServer.start_link(__MODULE__, opts)
+  end
+
+  @impl true
+  def init(_opts) do
+    PubSub.subscribe(Haex.PubSub, "time")
+    {:ok, %{}}
+  end
+
+  @impl true
+  def handle_info({:time, time}, state) do
+    # Do something at a specific time
+    {:noreply, state}
+  end
+end
+```
+
+If you're unfamiliar with GenServers then the gist is that a GenServer is an isolated process that receives messages and should be started in a supervision tree.
+In the above example we subscribe to the `"time"`{lang="elixir"} channel and then receive a message with the `handle_info` callback.
+
+(The `"time"`{lang="elixir"} message is generated from a `"state_changed"`{lang="elixir"} message for the entity `sensor.time` that's updated every minute.)
 
 # Let there be light
 
-For my example I'll use the ultimate expression of home automation:\
+It's finally time for the ultimate expression of home automation:\
 controlling a light source.
 
 > Gentlemen I am now about to send a signal from this laptop through our local ISP racing down fiber-optic cable at the speed of light to San Francisco, bouncing off a satellite in geosynchronous orbit to Lisbon Portugal where the data packets will be handed off to submerge transatlantic cables terminating in Halifax Nova Scotia, and transferred across the continent via microwave relays back to our ISP and the XM receiver attached to this...
@@ -53,27 +294,157 @@ controlling a light source.
 > Lamp.
 > ^ [Big Bang Theory: Internet success](https://www.youtube.com/watch?v=mqp8_ROAIJY)
 
-Jokes aside, controlling a light is a good beginning because it's easy to start with (turn it on/off), you'll get to see results in the real world (the light changes color), and you can increase the complexity if you want (create a sunrise alarm and use [circadian lighting][] during the day).
+Jokes aside, controlling a light is great because it's easy to start with (turn on/off), you'll get to see results in the real world (the light changes color), and you can increase the complexity if you want (create a sunrise alarm, use [circadian lighting][], flash during a fire alarm, etc).
 
 ## Time trigger
 
-3. Turn on light on a specific time
+Let's ease into an automation by performing a turning on a light on a specific time:
+
+{hl="21..24,6..7"}
+```elixir
+defmodule Automations.BedroomLight do
+  use GenServer
+  alias Phoenix.PubSub
+  alias Haex.Light
+
+  # This is the Home Assistant entity I want to control.
+  @entity "light.jonas_bedroom_lamp"
+
+  def start_link(opts) do
+    GenServer.start_link(__MODULE__, opts)
+  end
+
+  @impl true
+  def init(_opts) do
+    PubSub.subscribe(Haex.PubSub, "time")
+    {:ok, %{}}
+  end
+
+  @impl true
+  def handle_info({:time, time}, state) do
+    # Note that time only ticks every minute so seconds will always be zero.
+    if time == ~T[06:00:00] do
+      Light.turn_on(@entity, color_name: "yellow", brightness_pct: 80, transition: 10)
+    end
+
+    {:noreply, state}
+  end
+end
+```
 
 ## Wake-up lighting
 
-4. Make a sunrise transition at a specific time
+That was easy.
+Let's try something bit more interesting: a wake-up sequence.
+
+Specifically I'd like to gradually change the brightness and color of the light from a dim red to a bright, white light.
+
+We could hardcode it with something like this:
+
+```elixir
+ def handle_info({:time, time}, state) do
+   transition = 450
+
+   cond do
+     time == ~T[06:00:00] ->
+       Light.turn_on(@entity, brightness_pct: 10, color_name: "red", transition: transition)
+
+     time == ~T[06:10:00] ->
+       Light.turn_on(@entity, brightness_pct: 70, color_name: "orange", transition: transition)
+
+     time == ~T[06:20:00] ->
+       Light.turn_on(@entity, brightness_pct: 80, color_name: "gold", transition: transition)
+
+     time == ~T[06:30:00] ->
+       Light.turn_on(@entity, brightness_pct: 100, kelvin: 2700, transition: transition)
+
+     true ->
+       nil
+   end
+
+   {:noreply, state}
+ end
+```
+
+But that's not flexible if we for example want the start time to be configurable via the UI in the future.
+While refactoring it let's try to implement the transitions using a message passing approach:
+
+{hl="4..5" linenum=0}
+```elixir
+@impl true
+def handle_info({:time, time}, state) do
+  if time == ~T[06:00:00] do
+    send(self(), :transition_sunrise)
+    {:noreply, Map.put(state, :light_state, {:sunrise, 0})}
+  else
+    {:noreply, state}
+  end
+end
+```
+
+At line 3 we're using `send()` to send the message `:transition_sunrise`{lang="elixir"} to ourselves and at line 4 we're tracking inserting `:light_state`{lang="elixir"} as `{:sunrise, 0}`{lang="elixir"}, to let the GenServer keep track of what transition we should perform.
+
+This message is again handled by `handle_info`:
+
+{linenum=0}
+```elixir
+def handle_info(:transition_sunrise, state = %{light_state: {:sunrise, _}}) do
+  case set_sunrise_light(state) do
+    :done ->
+      # We've reached our last transition.
+      {:noreply, Map.put(state, :state, :day)}
+
+    {:next, next} ->
+      # We still have transitions left to handle,
+      # send another :transition_sunrise message after 10 minutes,
+      # repeating the loop.
+      Process.send_after(self(), :transition_sunrise, 10 * 60 * 1000)
+      {:noreply, Map.put(state, :light_state, {:sunrise, next})}
+  end
+end
+```
+
+The function `set_sunrise_light` sets the light depending on `{:sunrise, sunrise_state}`{lang="elixir"} and returns `:done`{lang="elixir"} when we've set the last transition.
+Pay attention to line 10 where we send another `:transition_sunrise`{lang="elixir"} message but with a delay, continuing the recursion until we've set handled all transitions.
+
+I'm not thrilled about the implementation of `set_sunrise_light` but here it is:
+
+```elixir
+ defp set_sunrise_light(%{light_state: {:sunrise, sunrise_state}}) do
+   transition = 450
+
+   transitions =
+     [
+       [brightness_pct: 10, color_name: "red", transition: transition],
+       [brightness_pct: 70, color_name: "orange", transition: transition],
+       [brightness_pct: 80, color_name: "gold", transition: transition],
+       [brightness_pct: 100, kelvin: 2700, transition: transition]
+     ]
+     # Transform the list into a map with index => transition.
+     # Yes, it's a shoddy imitation of an array.
+     |> Enum.with_index()
+     |> Map.new(fn {val, index} -> {index, val} end)
+
+   last_state = Enum.count(transitions) - 1
+
+   {light_opts, next_transition} =
+     if sunrise_state >= last_state do
+       {transitions[last_state], :done}
+     else
+       {transitions[sunrise_state], {:next, sunrise_state + 1}}
+     end
+
+   Light.turn_on(@entity, light_opts)
+
+   next_transition
+ end
+```
 
 ## Abort the wake-up sequence
 
 5. Turn off during sunrise cancels the sunrise
 
-## A passive bedtime transition
-
-6. Bedtime transition, but don't turn on the light
-
-   - When light turns on should set the light to the correct transition value
-
-7. Turn on during the day set to other value
+6. Turn on during the day set to other value
 
 # Automation testing
 
@@ -149,3 +520,8 @@ What `listen_state` does is register a trigger callback and some trigger conditi
 [circadian lighting]: https://www.thelightingpractice.com/what-is-circadian-lighting/
 [Quantum]: https://hexdocs.pm/quantum/readme.html
 [Oban]: https://github.com/oban-bg/oban
+[WebSockex]: https://hexdocs.pm/websockex/WebSockex.html
+[websocket API]: https://developers.home-assistant.io/docs/api/websocket/
+[REST API]: https://developers.home-assistant.io/docs/api/rest/
+[Phoenix.PubSub]: https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html
+[GenServer]: https://hexdocs.pm/elixir/GenServer.html
