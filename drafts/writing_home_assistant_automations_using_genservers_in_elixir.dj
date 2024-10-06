@@ -442,17 +442,44 @@ I'm not thrilled about the implementation of `set_sunrise_light` but here it is:
 
 ## Abort the wake-up sequence
 
-5. Turn off during sunrise cancels the sunrise
+I'd like to add the ability to abort the sunrise alarm by turning off the lamp.
+It's fairly straightforward:
 
-6. Turn on during the day set to other value
+1. Subscribe to a state change:
+
+   ```elixir
+   PubSub.subscribe(Haex.PubSub, "state:" <> @entity)
+   ```
+
+2. Change the state if we're in a sunrise:
+
+   ```elixir
+   def handle_info({:state, @entity, "off"}, state = %{state: {:sunrise, _}}) do
+     {:noreply, Map.put(state, :state, :day)}
+   end
+
+   def handle_info(_, state) do
+     {:noreply, state}
+   end
+   ```
+
+We still have a `:transition_sunrise`{lang="elixir"} message that will arrive later but the fallback `handle_info` will ignore it.
+If we'll implement a snooze or restart for our sunrise this may become a problem,
+a solution might be to store the timer reference that `Process.send_after`{lang="elixir"} returns in the GenServer stat, and call `cancel_timer` on it when we switch away from the sunrise.
+
+::: note
+At this point the drawback of the message passing approach becomes clear.
+I wanted to use it to give a slightly more interesting example but I'm not sure it's a better design than simply relying on the `:time`{lang="elixir"} tick, like we did at the [beginning of the section](#Wake-up-lighting).
+:::
 
 ## State machines are great
 
 So far we only have a sunrise alarm, but it's easy to imagine more features that our humble lamp could support:
 
+- Being able to snooze the wake-up light.
 - [Circadian lighting][circadian lighting] during the day, fixed nightlight during the night.
 - A bedtime transition, similar to the wake-up light except it doesn't force the light on.
-- "Cleaning mode" that overrides the gradual transitions and sets the light to max brightness.
+- A "max power mode" that sets the light to max brightness, triggered by toggling `on/off` quickly. Should only end when you turn off the light.
 - The all-important "sexy time" mode.
 - If a fire alarm goes off, flash the light in an aggressive way. Should of course override every other mode.
 
