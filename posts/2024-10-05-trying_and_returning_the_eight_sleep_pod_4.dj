@@ -61,6 +61,12 @@ The cons outweigh the pros for me but not by much; if my circumstances were a li
 
   But alas, Eight Sleep keeps all the data to themselves and want you to pay for the expensive subscription for the _privilege_ of controlling your own mattress.
 
+  {date="2024-10-06"}
+  ::: update
+  An integration for Home Assistant [actually exists][ha].
+  I feel very silly now.
+  :::
+
 - I sleep parts or even whole nights in my kids' bed.
 
   To benefit from this kind of mattress you need to sleep on it, which I didn't always do.
@@ -105,3 +111,4 @@ In the future, when the kids get older and if someone reverse engineers the next
 
 [Oura]: https://ouraring.com/
 [Eight Sleep]: https://www.eightsleep.com/se/
+[ha]: https://github.com/lukas-clarke/eight_sleep

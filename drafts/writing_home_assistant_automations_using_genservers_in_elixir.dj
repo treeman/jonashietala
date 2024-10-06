@@ -457,9 +457,10 @@ So far we only have a sunrise alarm, but it's easy to imagine more features that
 - If a fire alarm goes off, flash the light in an aggressive way. Should of course override every other mode.
 
 While you could implement them all as separate automations, the more you add the harder it gets to keep them from interfering with each other.
+You wouldn't want your sexy time to be interrupted would you?
 
 An alternative is to use a state machine to track the different states, making the state transitions more explicit.
-Our automation is already a simple state and it's fairly easy to add more states and more functionality to it.
+Our automation is already a simple state machine and it's fairly easy to add more states and more functionality to it.
 
 # Automation testing
 
