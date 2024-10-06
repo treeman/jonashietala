@@ -3,6 +3,8 @@ title = "Writing Home Assistant automations using Genservers in Elixir"
 tags = ["Home Assistant", "Elixir"]
 ---
 
+:table-of-content:
+
 # Why?
 
 Ever since I started with home automation I've thought that it would be a great match for the concurrency model that Elixir uses.
@@ -29,7 +31,8 @@ In the end I simply enjoyed writing automations in Elixir more.
 {% The existing options are fine although somewhat lacking at times. %}
 
 ::: note
-I'll 
+While I'll try to provide as many details as possible I won't provide the complete source code for everything in this post.
+If you want to follow along I encourage you to fill in the blanks and make adjustments where applicable.
 :::
 
 # Controlling Home Assistant from Elixir
@@ -467,7 +470,7 @@ We still have a `:transition_sunrise`{lang="elixir"} message that will arrive la
 If we'll implement a snooze or restart for our sunrise this may become a problem,
 a solution might be to store the timer reference that `Process.send_after`{lang="elixir"} returns in the GenServer stat, and call `cancel_timer` on it when we switch away from the sunrise.
 
-::: note
+::: important
 At this point the drawback of the message passing approach becomes clear.
 I wanted to use it to give a slightly more interesting example but I'm not sure it's a better design than simply relying on the `:time`{lang="elixir"} tick, like we did at the [beginning of the section](#Wake-up-lighting).
 :::
@@ -491,8 +494,165 @@ Our automation is already a simple state machine and it's fairly easy to add mor
 
 # Automation testing
 
-1. Send events directly to GenServer
-1. Mock calls to `turn_on` and `is_on/is_off` and capture results
+An automation is just an Elixir GenServer, so the same strategies to test a GenServer applies here too.
+I'll start with the test I want to write, and we'll work backwards to make it happen:
+
+```elixir
+test "trigger sunrise", %{server: server} do
+  # Start the sunrise by sending a time message to the automation.
+  send(server, {:time, ~T[06:00:00]})
+
+  # Assert that we'll eventually receive the sunrise transitions.
+  # This matches against the raw websocket messages,
+  # I didn't bother with a helper to make it easer to match against
+  # "light.turn_on" service calls.
+  assert eventually(fn ->
+           [
+             %{service_data: %{brightness_pct: 100, kelvin: 2700}},
+             %{service_data: %{brightness_pct: 80, color_name: "gold"}},
+             %{service_data: %{brightness_pct: 70, color_name: "orange"}},
+             %{service_data: %{brightness_pct: 10, color_name: "red"}}
+           ] =
+             WebsocketClientCollector.get_messages(server)
+         end)
+end
+```
+
+## An isolated GenServer
+
+The first thing we'll need to do is to start the GenServer so we can start interacting with it.
+We don't need a supervision tree (we don't need automatic restarts) so we can start it directly and send it to the test:
+
+```elixir
+setup _opts do
+  {:ok, server} = BedroomLight.start_link([])
+  %{server: server}
+end
+
+test "trigger sunrise alarm", %{server: server} do
+  # ...
+end
+```
+
+I like to test against isolated GenServers as it allows parallel testing and it reduces the risk for contamination from other parts of the application.
+
+## Alter the code to be able to test?
+
+If we run this test we'll notice that the automation will only output the first sunrise transition.
+What gives?
+
+Remember this line?
+
+```elixir
+Process.send_after(self(), :transition_sunrise, 10 * 60 * 1000)
+```
+
+It says that we'll continue the sunrise transition after _10 minutes_.
+Nobody wants to wait that long for a test to finish...
+
+To get around this I added an option to the automation so that we can override delay to 1 millisecond during the test:
+
+```elixir
+setup opts do
+  transition_time = opts[:transition_time] || 1
+  {:ok, server} = BedroomLight.start_link(transition_time: transition_time)
+  %{server: server}
+end
+
+# And in the automation:
+transition_time = state[:transition_time] || 10 * 60 * 1000
+Process.send_after(self(), :transition_sunrise, transition_time)
+```
+
+I don't like modifying code just to make tests work but in this case I think it's a reasonable workaround.
+
+## The eventually helper
+
+I want to touch on the `eventually` helper that I think is super useful when testing processes in Elixir.
+It comes in handy whenever I want to wait for a message to be delivered or wait for a process to reach a certain state.
+
+Here it is:
+
+```elixir
+def eventually(func, timeout \\ 1_000) do
+  # Use Task to be able to timeout the execution.
+  task = Task.async(fn -> _eventually(func) end)
+  Task.await(task, timeout)
+end
+
+defp _eventually(func) do
+  try do
+    if func.() do
+      # Return true so we can use it in an `assert` statement.
+      true
+    else
+      Process.sleep(10)
+      _eventually(func)
+    end
+  rescue
+    # Safe up so we don't have to bother with proper matches etc
+    # inside the predicate function.
+    _ ->
+      Process.sleep(10)
+      _eventually(func)
+  end
+end
+```
+
+## Capturing sent websocket messages
+
+The last thing we need is to capture outgoing websocket messages.
+In fact we also need to block the websocket connection because as it is now the full application will run when we run then tests, including connecting to our Home Assistant instance and start receiving state changed events.
+
+We can do this by replacing the websocket client during tests.
+The configs is a good place for these settings:
+
+{path="config/config.exs"}
+```elixir
+config :haex,
+  ws_client: Haex.WebsocketClient
+```
+
+{path="config/test.exs"}
+```elixir
+config :haex,
+  ws_client: WebsocketClientCollector,
+```
+
+Then when we send a message we delegate to the proper client:
+
+```elixir
+def send(data) do
+  ws_client().send(data)
+end
+
+def ws_client() do
+  Application.fetch_env!(:haex, :ws_client)
+end
+```
+
+All `WebsocketClientCollector`{lang="elixir"} does is collect sent messages by process id:
+
+```elixir
+defmodule WebsocketClientCollector do
+  use GenServer
+
+  def send(msg) do
+    GenServer.call(__MODULE__, {:send, msg})
+  end
+
+  def get_messages(pid) do
+    case GenServer.call(__MODULE__, {:get_messages, pid}) do
+      {:ok, msgs} -> msgs
+      :error -> []
+    end
+  end
+
+  # ...
+end
+```
+
+With this our test for the sunrise alarm should pass!
 
 ## Careful, mistakes can come back to haunt you
 
