@@ -20,7 +20,7 @@ Specifically, in this post I'll go through:
 3. How to use this knowledge to write and test a simple automation.
 
 ::: note
-While I'll try to provide as many details as possible I won't provide the complete source code for everything in this post.
+While I'll try to be as detailed as possible I've made some simplifications and I won't provide the complete source code for everything in this post.
 If you want to follow along I encourage you to fill in the blanks and make adjustments where applicable.
 :::
 
@@ -423,14 +423,12 @@ I'm not thrilled about the implementation of `set_sunrise_light` but here it is:
 
 ```elixir
  defp set_sunrise_light(%{light_state: {:sunrise, sunrise_state}}) do
-   transition = 450
-
    transitions =
      [
-       [brightness_pct: 10, color_name: "red", transition: transition],
-       [brightness_pct: 70, color_name: "orange", transition: transition],
-       [brightness_pct: 80, color_name: "gold", transition: transition],
-       [brightness_pct: 100, kelvin: 2700, transition: transition]
+       [brightness_pct: 10, color_name: "red", transition: 450],
+       [brightness_pct: 70, color_name: "orange", transition: 450],
+       [brightness_pct: 80, color_name: "gold", transition: 450],
+       [brightness_pct: 100, kelvin: 2700, transition: 450]
      ]
      # Transform the list into a map with index => transition.
      # Yes, it's a shoddy imitation of an array.
@@ -463,7 +461,7 @@ It's fairly straightforward:
    PubSub.subscribe(Haex.PubSub, "state:" <> @entity)
    ```
 
-   (I use a simplified message instead of the raw `"state_changed"`{lang="elixir"} message generated from Home Assistant.)
+   (I use a simplified message instead of the raw `"state_changed"`{lang="elixir"} message we've seen before.)
 
 2. Change the state if we're in a sunrise:
 
@@ -492,13 +490,12 @@ and we can let it keep track of the transitions and lets us focus on the more in
 
 This lets us start a sunrise with something like this:
 
-{linenum=0 hl="3,17"}
+{linenum=0 hl="3,16"}
 ```elixir
 if time == ~T[06:00:00] do
   {:ok, transition_pid} =
     LightTransition.start_link(
       entity_id: @entity,
-      transition_delay: transition,
       transitions: [
         [brightness_pct: 10, color_name: "red", transition: 450],
         [brightness_pct: 70, color_name: "orange", transition: 450],
@@ -516,7 +513,7 @@ if time == ~T[06:00:00] do
 ```
 
 At line 2 we start our transition using `start_link`, foregoing the supervision tree as it doesn't make sense to have the transition without the automation.
-We keep track of the service process id at line 16, which we can use to stop the transition if needed:
+We keep track of the service process id at line 15, which we can use to stop the transition if needed:
 
 ```elixir
 GenServer.stop(state.transition)
@@ -548,7 +545,7 @@ defmodule Haex.LightTransition do
       [light_opts | rest] ->
         Light.turn_on(state.entity_id, light_opts)
 
-        timer = Process.send_after(self(), :transition, state.transition_delay)
+        timer = Process.send_after(self(), :transition, light_opts.transition)
         {:noreply, Map.merge(state, %{transitions: rest, timer: timer, last: light_opts})}
     end
   end
@@ -614,17 +611,18 @@ test "trigger sunrise", %{server: server} do
   send(server, {:time, ~T[06:00:00]})
 
   # Assert that we'll eventually receive the sunrise transitions.
-  # This matches against the raw websocket messages,
-  # I didn't bother with a helper to make it easer to match against
-  # "light.turn_on" service calls.
   assert eventually(fn ->
            [
-             %{service_data: %{brightness_pct: 100, kelvin: 2700}},
-             %{service_data: %{brightness_pct: 80, color_name: "gold"}},
-             %{service_data: %{brightness_pct: 70, color_name: "orange"}},
-             %{service_data: %{brightness_pct: 10, color_name: "red"}}
+             %{brightness_pct: 100, kelvin: 2700},
+             %{brightness_pct: 80, color_name: "gold"},
+             %{brightness_pct: 70, color_name: "orange"},
+             %{brightness_pct: 10, color_name: "red"},
+             %{brightness_pct: 1, color_name: "red"}
            ] =
-             WebsocketClientCollector.get_messages(server)
+             WebsocketClientCollector.get_messages(
+               entity_id: @entity,
+               get_service_data: true
+             )
          end)
 end
 ```
@@ -665,8 +663,8 @@ To get around this I added an option to the automation so that we can override t
 
 ```elixir
 setup opts do
-  transition_time = opts[:transition_time] || 1
-  {:ok, server} = BedroomLight.start_link(transition_time: transition_time)
+  opts = Map.put_new(opts, :transition_time, 1)
+  {:ok, server} = BoysRoofLight.start_link(opts)
   %{server: server}
 end
 
@@ -754,11 +752,8 @@ defmodule WebsocketClientCollector do
     GenServer.call(__MODULE__, {:send, msg})
   end
 
-  def get_messages(pid) do
-    case GenServer.call(__MODULE__, {:get_messages, pid}) do
-      {:ok, msgs} -> msgs
-      :error -> []
-    end
+  def get_messages(opts \\ []) do
+    GenServer.call(__MODULE__, {:get_messages, opts})
   end
 
   # Skipped the implementation ...
@@ -770,9 +765,10 @@ With this our test for the sunrise alarm should pass!
 ::: note
 Beware that if we run tests in parallel the collector will receive messages from all tests and we need a way to separate them.
 
-Instead of implementing a collector we could use a mocking library like [Mox][].
-In this case I like the collector approach more as getting a list of messages feels easier to reason about.
-Other times, for example if our automation needs to check states of other entities, I prefer [Mox][].
+If we use unique `entity_ids` for all test modules we could filter on that (even with `use ExUnit.Case, async: true`{lang="elixir"} tests in a module aren't run concurrently, but remember to clear messages between tests).
+
+Or we could do what [Mox][] does and separate results by calling process id.
+This is the most robust but it's a more cumbersome to implement as we're using nested processes (the child process `LightTransition`{lang="elixir"} GenServer will make the send calls, not the automation).
 :::
 
 [Mox]: https://hexdocs.pm/mox/Mox.html
@@ -790,7 +786,7 @@ test "turn off light after sunrise alarm has begun halts it", %{server: server} 
   send(server, {:time, ~T[06:00:00]})
 
   assert eventually(fn ->
-           {:sunrise, _} = BedroomLight.get_state(server)
+           :sunrise = BedroomLight.get_state(server)
          end)
 
   # Should stop the sunrise
@@ -806,7 +802,7 @@ end
 
 Even though it appears we're avoiding race conditions by waiting for the automation to change its internal state at line 4 and 11, this test may still fail on occasion.
 
-The issue is that on the very last line we're testing that we only received a single sunrise transition.
+The issue is that on the last line we're testing that we only received a single sunrise transition.
 But we set a transition time of `10` milliseconds on line 0, and _sometimes_ the messages arrive in such a way that the automation manages to transition twice.
 
 To add some leeway in our test we might try to change the condition to `< 4` and to increase the transition time...
@@ -865,7 +861,7 @@ But there are a couple of features that are missing and would enhance the system
 
   I want to be able to enable and disable the automations in the system.
   I've been manually creating `input_boolean.<automation>_enabled` entities, but our automation engine could create these manually.
-  We could keep track of when the automation was last triggered and display the internal state of automations (such as`{:sunrise, 0}`{lang="elixir"}) for debugging purposes.
+  We could keep track of when the automation was last triggered and display the internal state of automations for debugging purposes.
 
   To set states (and create entities) we need to use the [REST API][].
 
