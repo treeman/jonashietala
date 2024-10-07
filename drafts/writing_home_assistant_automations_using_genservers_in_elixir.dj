@@ -5,34 +5,39 @@ tags = ["Home Assistant", "Elixir"]
 
 :table-of-content:
 
-# Why?
+I've been a fan of Home Assistant a while now;
+it's a great platform for home automation with its beginner friendly and feature rich UI,
+support for _a ton_ of different devices and integrations,
+and there's a bunch of ways to create automations.
 
-Ever since I started with home automation I've thought that it would be a great match for the concurrency model that Elixir uses.
-You'll have all sorts of automations running concurrently, reacting to different triggers, waiting for different actions, and interacting with each other; something I think Elixir excels at.
+But there's no engine for writing automations in Elixir that I could find;
+this post addresses this fatal weakness.
 
-Now, there are many options for writing automations for Home Assistant that already work well, I just wanted to use Elixir because I _like_ it.
-That Elixir happens to be a good fit for home automation is just a bonus.
+Specifically, in this post I'll go through:
 
-::: important
-People think that home automation exists to make your life easier, but that's just a bi-product of the true purpose of home automation: *having fun*.
-:::
-
-I've tried to write automations via the Home Assistant UI (meh), using YAML configuration (hated it), visual programming with [Node-RED][] (I want real programming), and in Python using [Pyscript][] (pretty good).
-In the end I simply enjoyed writing automations in Elixir more.
-
-{% There's already quite a few ways you can create automations for Home Assistant: %}
-{%%}
-{% - Via the Home Assistant UI %}
-{% - Using YAML configuration %}
-{% - Visual programming with [Node-RED][] %}
-{% - Write them in Python with [AppDaemon][] or [Pyscript][] %}
-{% - And more... %}
-{%%}
-{% The existing options are fine although somewhat lacking at times. %}
+1. How to use Home Assistant's Websocket API.
+2. An introduction to GenServers and concurrency in Elixir.
+3. How to use this knowledge to write and test a simple automation.
 
 ::: note
 While I'll try to provide as many details as possible I won't provide the complete source code for everything in this post.
 If you want to follow along I encourage you to fill in the blanks and make adjustments where applicable.
+:::
+
+# Why Elixir?
+
+Ever since I started with home automation I've thought that it would be a great match for the concurrency model that Elixir uses.
+You'll have all sorts of automations running concurrently, reacting to different triggers, waiting for different actions, and interacting with each other; something I think Elixir excels at.
+
+Now, there are many options for writing automations for Home Assistant that already work well,
+the biggest reason I wanted to use Elixir is because I _like_ it.
+That Elixir happens to be a good fit for home automation is just a bonus.
+
+I've tried to write automations via the Home Assistant UI (meh), using YAML configuration (hated it), visual programming with [Node-RED][] (I want real programming), and in Python using [Pyscript][] (pretty good).
+In the end I simply enjoyed writing automations in Elixir more.
+
+::: important
+People think that home automation exists to make your life easier, but that's just a bi-product of the true purpose of home automation: *having fun*.
 :::
 
 # Controlling Home Assistant from Elixir
@@ -40,8 +45,7 @@ If you want to follow along I encourage you to fill in the blanks and make adjus
 The very first thing we need to solve is how do we get data from Home Assistant and how to call services (now called actions)?
 
 Home Assistant has a [websocket API][] and a [REST API][] that we can use to implement our engine.
-As we can get all entity state and call services over the websocket there's no need to bother with the [REST API][] for our example (it's required to set states).
-
+As we can get entity states and call services over the websocket there's no need to bother with the [REST API][] for our example.
 
 ## Connecting
 
@@ -98,6 +102,10 @@ defmodule Haex.Application do
 end
 ```
 
+::: note
+The main purpose of the supervision tree is to provide fault tolerance by monitoring and restarting processes if they fail.
+:::
+
 If we run this then Home Assistant will send us a message upon connection:
 
 ```
@@ -105,7 +113,7 @@ If we run this then Home Assistant will send us a message upon connection:
 ```
 
 This means we need to authenticate using a [long lived access token](https://community.home-assistant.io/t/how-to-get-long-lived-access-token/162159/6).
-Following the [websocket API][] we should respond with an `"auth"`{lang="elixir"} message:
+Reading the [websocket API][] we should respond with an `"auth"`{lang="elixir"} message:
 
 ```elixir
 defp handle_msg(%{"type" => "auth_required"}, state) do
@@ -204,7 +212,7 @@ Then we can broadcast messages to anyone who cares to listen:
 {hl="2..11"}
 ```elixir
 defp handle_msg(%{"type" => "event", "event" => event}, state) do
-  PubSub.broadcast(
+  Phoenix.PubSub.broadcast(
     Haex.PubSub,
     "state_schanged",
     {:state_changed,
@@ -222,41 +230,39 @@ end
 If a service wants to receive the messages they'll subscribe to the `"state_changed"`{lang="elixir"} channel:
 
 ```elixir
-PubSub.subscribe(Haex.PubSub, "state_changed")
+Phoenix.PubSub.subscribe(Haex.PubSub, "state_changed")
 ```
 
-## Collecting states and calling services
+## Calling services
 
-There's still a few implementation details missing until we can start with our automations.
-They're not central to this post but we still need to know about them, so I'll go through them quickly here:
+There's key component left and that's how do call a service / execute an action?
 
-1. We'll need to be able answer if an entity is on.
+You call a service by sending this type of message over the websocket:
 
-   I track all states in the system with a `States` GenServer that subscribes to the `"state_changed"`{lang="elixir"} message mentioned above and a `"get_states"`{lang="elixir"} message that dumps all states in Home Assistant.
+```elixir
+# This message turns on a light.
+%{
+  id: 2,
+  type: :call_service,
+  domain: :light,
+  service: :turn_on,
+  target: %{
+    entity_id: "light.j_kontor_dator_ledstrip"
+  }
+  service_data: %{
+    color_name: "beige",
+    brightness: 100
+  }
+}
+```
 
-2. We'll need to be able to call a service.
-
-   It can be done by sending this kind of message over the websocket:
-
-   ```elixir
-   %{
-     type: :call_service,
-     domain: :light,
-     service: :turn_on,
-     target: %{
-       entity_id: "light.j_kontor_dator_ledstrip"
-     }
-     service_data: %{
-       color_name: "beige",
-       brightness: 100
-     }
-   }
-   ```
+You'll then receive a successful result message corresponding to the `id` of the message.
+You're supposed to correlate the `id`s of the messages you send and receive, but it's not central to this post so I'll gloss over that implementation detail.
 
 ## Outline of a GenServer automation
 
-An automation is a regular [GenServer][] that subscribes to triggers and then does stuff.
-It might look like something like this:
+I decided to create automations as regular [GenServer][]s that subscribes to triggers and then does stuff.
+An automation might look like something like this:
 
 {hl="17"}
 ```elixir
@@ -283,8 +289,13 @@ end
 ```
 
 If you're unfamiliar with GenServers then the gist is that a GenServer is an isolated process that receives messages and should be started in a supervision tree.
-In the above example we subscribe to the `"time"`{lang="elixir"} channel and then receive a message with the `handle_info` callback.
 
+::: note
+GenServers represent different kind of "object oriented programming",
+very similar to the [Actor Model][].
+:::
+
+In the above example we subscribe to the `"time"`{lang="elixir"} channel and then receive a message with the `handle_info` callback.
 (The `"time"`{lang="elixir"} message is generated from a `"state_changed"`{lang="elixir"} message for the entity `sensor.time` that's updated every minute.)
 
 # Let there be light
@@ -301,7 +312,7 @@ Jokes aside, controlling a light is great because it's easy to start with (turn 
 
 ## Time trigger
 
-Let's ease into an automation by performing a turning on a light on a specific time:
+Let's ease into an automation by turning on a light on a specific time:
 
 {hl="21..24,6..7"}
 ```elixir
@@ -454,6 +465,8 @@ It's fairly straightforward:
    PubSub.subscribe(Haex.PubSub, "state:" <> @entity)
    ```
 
+   (I use a simplified message instead of the raw `"state_changed"`{lang="elixir"} message generated from Home Assistant.)
+
 2. Change the state if we're in a sunrise:
 
    ```elixir
@@ -467,21 +480,21 @@ It's fairly straightforward:
    ```
 
 We still have a `:transition_sunrise`{lang="elixir"} message that will arrive later but the fallback `handle_info` will ignore it.
-If we'll implement a snooze or restart for our sunrise this may become a problem,
+If we'll implement a snooze or restart for our sunrise this may become a problem;
 a solution might be to store the timer reference that `Process.send_after`{lang="elixir"} returns in the GenServer stat, and call `cancel_timer` on it when we switch away from the sunrise.
 
 ::: important
 At this point the drawback of the message passing approach becomes clear.
-I wanted to use it to give a slightly more interesting example but I'm not sure it's a better design than simply relying on the `:time`{lang="elixir"} tick, like we did at the [beginning of the section](#Wake-up-lighting).
+I wanted to use it to give a slightly more interesting example of Elixir's concurrency but I'm not sure it's a better design than simply relying on the `:time`{lang="elixir"} tick, like we did at the [beginning of the section](#Wake-up-lighting).
 :::
 
 ## State machines are great
 
 So far we only have a sunrise alarm, but it's easy to imagine more features that our humble lamp could support:
 
-- Being able to snooze the wake-up light.
+- Snooze the wake-up light.
 - [Circadian lighting][circadian lighting] during the day, fixed nightlight during the night.
-- A bedtime transition, similar to the wake-up light except it doesn't force the light on.
+- A bedtime transition, similar to a reverse wake-up light except it shouldn't force the light on.
 - A "max power mode" that sets the light to max brightness, triggered by toggling `on/off` quickly. Should only end when you turn off the light.
 - The all-important "sexy time" mode.
 - If a fire alarm goes off, flash the light in an aggressive way. Should of course override every other mode.
@@ -495,7 +508,7 @@ Our automation is already a simple state machine and it's fairly easy to add mor
 # Automation testing
 
 An automation is just an Elixir GenServer, so the same strategies to test a GenServer applies here too.
-I'll start with the test I want to write, and we'll work backwards to make it happen:
+I'll start with the test I want to write, and we'll work backwards to make it work:
 
 ```elixir
 test "trigger sunrise", %{server: server} do
@@ -521,7 +534,7 @@ end
 ## An isolated GenServer
 
 The first thing we'll need to do is to start the GenServer so we can start interacting with it.
-We don't need a supervision tree (we don't need automatic restarts) so we can start it directly and send it to the test:
+We don't need a supervision tree so we can start it directly and send it to the test:
 
 ```elixir
 setup _opts do
@@ -534,7 +547,7 @@ test "trigger sunrise alarm", %{server: server} do
 end
 ```
 
-I like to test against isolated GenServers as it allows parallel testing and it reduces the risk for contamination from other parts of the application.
+I like to test against isolated GenServers as it allows parallel testing and it reduces the risk of contamination from other parts of the application.
 
 ## Alter the code to be able to test?
 
@@ -550,7 +563,7 @@ Process.send_after(self(), :transition_sunrise, 10 * 60 * 1000)
 It says that we'll continue the sunrise transition after _10 minutes_.
 Nobody wants to wait that long for a test to finish...
 
-To get around this I added an option to the automation so that we can override delay to 1 millisecond during the test:
+To get around this I added an option to the automation so that we can override the delay to 1 millisecond during the test:
 
 ```elixir
 setup opts do
@@ -599,13 +612,15 @@ defp _eventually(func) do
 end
 ```
 
+Careful use of checkpoints in our tests, where we wait for a state to be fulfilled, is much preferable over sprinkling `Process.sleep()`{lang="elixir"} in our tests, hoping that the race conditions will go away.
+
 ## Capturing sent websocket messages
 
 The last thing we need is to capture outgoing websocket messages.
 In fact we also need to block the websocket connection because as it is now the full application will run when we run then tests, including connecting to our Home Assistant instance and start receiving state changed events.
 
 We can do this by replacing the websocket client during tests.
-The configs is a good place for these settings:
+The application config is a good place for these settings:
 
 {path="config/config.exs"}
 ```elixir
@@ -631,7 +646,7 @@ def ws_client() do
 end
 ```
 
-All `WebsocketClientCollector`{lang="elixir"} does is collect sent messages by process id:
+All `WebsocketClientCollector`{lang="elixir"} does is collect sent messages by process id and is able to return a list of them:
 
 ```elixir
 defmodule WebsocketClientCollector do
@@ -648,76 +663,116 @@ defmodule WebsocketClientCollector do
     end
   end
 
-  # ...
+  # Skipped the implementation ...
 end
 ```
 
 With this our test for the sunrise alarm should pass!
 
-## Careful, mistakes can come back to haunt you
+::: note
+Instead of implementing a collector we could use a mocking library like [Mox][].
+In this case I like the collector approach more as getting a list of messages feels easier to reason about.
+Other times, for example if our automation needs to check states of other entities, I prefer [Mox][].
+:::
+
+[Mox]: https://hexdocs.pm/mox/Mox.html
+
+## Beware of race conditions
 
 Tests in an asynchronous and concurrent system---where messages don't arrive immediately and where services interact with each other---can be very annoying to deal with as it's easy to introduce race conditions, where a test _sometimes_ fail.
 
-Here's an error I made when writing tests for this (still fairly simple) automation:
+Consider this test where we'll test that the sunrise is aborted if the light is turned off in the middle:
 
-1. The light state should be `off` in the beginning of the test.
-
-   I sent an `:state_changed`{lang="elixir"} message over PubSub that would trickle down to the rest of the application.
-
-2. The `States` GenServer picks up the message and stores it, ready to answer the `is_on` check.
-
-   I knew this could introduce a race condition so I waited until `is_on` returned the correct result.
-
-3. But the `Trigger` GenServer also picked up the same `:state_changed`{lang="elixir"} message and transformed it to a simpler `:state`{lang="elixir"} message.
-
-   ```elixir
-   # This is the raw state changed message, including the new and old state.
-   {:state_changed, %{entity_id: @entity, new_state: %{state: "on", ...}, old_state: ...}}
-
-   # This is the simpler state changed message.
-   {:state, @entity, "on"}
-   ```
-
-4. The automation picks up the simpler `:state`{lang="elixir"} message to turn off the sunrise.
-
-   I only wanted the state for the `is_on` check, but here the `:state`{lang="elixir"} message arrived in the middle of the sunrise, turning off the sunrise and breaking the test.
-
-(I shouldn't have involved PubSub at all. That can be relegated to larger, more isolated, integration tests.)
-
-These kinds of problems are a pain and they only get worse as your application grows.
-
-I find simplicity and isolation are preferable, which is why I try to send messages directly to the GenServer I'm testing instead of triggering them via the PubSub system, which is a global system that affects other parts of the application.
-
-# A simpler API for simpler automations
-
-While GenServers are great in many ways they're a bit verbose for simple automations.
-I took inspiration from [AppDaemon's `listen_state`][listen_state] for a simpler API:
-
+{linenum=0}
 ```elixir
-# This automation turns on a ledstrip behind my monitors when the plug power
-# is above 180, which happens when I turn on my three monitors.
-listen_state(
-  "sensor.winterfell_plug_power",
-  fn ->
-    Light.turn_on("light.j_kontor_dator_ledstrip", color_temp: 220, brightness_pct: 40)
-  end,
-  gt: 180
-)
+@tag transition_time: 10
+test "turn off light after sunrise alarm has begun halts it", %{server: server} do
+  send(server, {:time, ~T[06:00:00]})
+
+  assert eventually(fn ->
+           {:sunrise, _} = BedroomLight.get_state(server)
+         end)
+
+  # Should stop the sunrise
+  send(server, {:state, @entity, "off"})
+
+  assert eventually(fn ->
+           :day == BedroomLight.get_state(server)
+         end)
+
+  assert Enum.count(WebsocketClientCollector.get_messages(server)) == 1
+end
 ```
 
-`listen_state` is implemented by---you guessed it---a GenServer.
-What `listen_state` does is register a trigger callback and some trigger conditions with the GenServer, then the server calls the callbacks whenever the conditions are met.
+Even though it appears we're avoiding race conditions by waiting for the automation to change its internal state at line 4 and 11, this test may still fail on occasion.
+
+The issue is that on the very last line we're testing that we only received a single sunrise transition.
+But we set a transition time of `10` milliseconds on line 0, and _sometimes_ the messages arrive in such a way that the automation manages to transition twice.
+
+To add some leeway in our test we might try to change the condition to `< 4` and to increase the transition time...
+
+::: warn
+Theoretically the test could still fail even with our precautions.
+Testing timeouts reliably is hard; I again question my life choices and wonder if it wouldn't be better to use `:time`{lang="elixir"} messages for the transitions as well.
+:::
 
 # What's next?
 
-- Create automation entities (use the REST service)
-- Simpler API (Task)
-- Circadian lighting (call another GenServer)
-- Tracking automations (Registry)
-- Cron style support (library)
+We already have a working home automation engine that can be used as-is to control our home.
+But there are a couple of features that are missing and would enhance the system, for example:
 
+- Cron style support.
+
+  We can add cron-like scheduling to our automations using libraries such as [Quantum][] or [Oban][].
+
+- A simpler API for simpler automations.
+
+  While GenServers are great in many ways they're a bit verbose for simple automations.
+  I took inspiration from [AppDaemon's `listen_state`][listen_state] for a simpler API:
+
+  ```elixir
+  # This automation turns on a ledstrip behind my monitors when the plug power
+  # is above 180, which happens when I turn on my three monitors.
+  listen_state(
+    "sensor.winterfell_plug_power",
+    fn ->
+      Light.turn_on("light.j_kontor_dator_ledstrip", color_temp: 220, brightness_pct: 40)
+    end,
+    gt: 180
+  )
+  ```
+
+  `listen_state` is implemented by---you guessed it---a GenServer.
+  `listen_state` registers a trigger callback together with some trigger conditions within the GenServer, then the server calls the callbacks whenever the conditions are met.
+  This way we don't need to mess with the internals of a GenServer and can use a declarative approach to create simpler automations.
+
+- Querying entity states.
+
+  Sometimes we want to only execute an automation if an entity has a specific value, for example:
+
+  ```elixir
+  if is_on("input_boolean.doorbell_sound_enabled") do
+    # Trigger doorbell
+  end
+  ```
+
+  I support this with the `States` GenServer that holds the state of every entity in Home Assistant.
+  At startup it [fetches all states][] and uses the state changed event [we've seen before](#Subscribing-to-state-changes) to keep it in sync.
+
+- Generate automation entities.
+
+  ![Home Assistant dashboard to enable/disable automations.](/images/toggle_automations.png)
+
+  I want to be able to enable and disable the automations in the system.
+  I've been manually creating `input_boolean.<automation>_enabled` entities, but our automation engine could create these manually.
+  We could keep track of when the automation was last triggered and display the internal state of automations (such as`{:sunrise, 0}`{lang="elixir"}) for debugging purposes.
+
+  To set states (and create entities) we need to use the [REST API][].
+
+There's probably a bunch of things I haven't yet realized that I need, but at the moment I'm really happy with writing my home automations in Elixir.
+
+[fetches all states]: https://developers.home-assistant.io/docs/api/websocket/#fetching-states
 [Node-RED]: https://github.com/hassio-addons/addon-node-red
-[AppDaemon]: https://appdaemon.readthedocs.io/en/latest/index.html
 [Pyscript]: https://github.com/custom-components/pyscript
 [listen_state]: https://appdaemon.readthedocs.io/en/latest/AD_API_REFERENCE.html#appdaemon.entity.Entity.listen_state
 [circadian lighting]: https://www.thelightingpractice.com/what-is-circadian-lighting/
@@ -728,3 +783,4 @@ What `listen_state` does is register a trigger callback and some trigger conditi
 [REST API]: https://developers.home-assistant.io/docs/api/rest/
 [Phoenix.PubSub]: https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html
 [GenServer]: https://hexdocs.pm/elixir/GenServer.html
+[Actor Model]: https://en.wikipedia.org/wiki/Actor_model
