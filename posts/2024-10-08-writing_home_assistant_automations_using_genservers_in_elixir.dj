@@ -620,7 +620,6 @@ test "trigger sunrise", %{server: server} do
              %{brightness_pct: 1, color_name: "red"}
            ] =
              WebsocketClientCollector.get_messages(
-               entity_id: @entity,
                get_service_data: true
              )
          end)
@@ -762,15 +761,16 @@ end
 
 With this our test for the sunrise alarm should pass!
 
-::: note
+::: warn
 Beware that if we run tests in parallel the collector will receive messages from all tests and we need a way to separate them.
 
 If we use unique `entity_ids` for all test modules we could filter on that (even with `use ExUnit.Case, async: true`{lang="elixir"} tests in a module aren't run concurrently, but remember to clear messages between tests).
 
 Or we could do what [Mox][] does and separate results by calling process id.
-This is the most robust but it's a more cumbersome to implement as we're using nested processes (the child process `LightTransition`{lang="elixir"} GenServer will make the send calls, not the automation).
+This is the most robust but it's a more cumbersome to implement as we're using nested processes (the child process `LightTransition`{lang="elixir"} GenServer will call `Light.turn_on()`{lang="elixir"}, so we need to [explicitly allow][] it).
 :::
 
+[explicitly allow]: https://hexdocs.pm/mox/Mox.html#module-explicit-allowances
 [Mox]: https://hexdocs.pm/mox/Mox.html
 
 ## Beware of race conditions
