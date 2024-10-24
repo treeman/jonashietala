@@ -77,7 +77,14 @@ I went with it because it's quite popular, it has good cooling (I print a bunch 
 
 ## Galileo 2 standalone
 
-![](/images/voron_0/dragonburner_mounted.jpg)
+![Dragon Burner together with the Galileo 2 extruder mounted on the printer.](/images/voron_0/dragonburner_mounted.jpg)
+
+For the extruder I opted for the standalone version of [Galileo 2][].
+I've [used Galileo 2 on the Trident](/blog/2024/02/27/lets_build_a_voron_more_mods#Galileo-2) but I hated the push down latch it uses in the Stealthburner configuration and when the extruder broke (it pulled out a heat-set insert) I went back to the Clockwork 2 on the Trident and rebuilt the Galileo for the VORON 0 instead.
+
+The build was really fast and simple---compared to Stealthburner it's night and day.
+
+![The parts for Galileo 2. There will be left-overs from the Stealthburner variant.](/images/voron_0/galileo_standalone.jpg)
 
 # Unsorted
 
@@ -88,3 +95,4 @@ I went with it because it's quite popular, it has good cooling (I print a bunch 
 [Lecktor]: https://lecktor.com/en/
 [3DJake]: https://www.3djake.com/
 [Dragon Burner]: https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner
+[Galileo 2]: https://github.com/JaredC01/Galileo2
