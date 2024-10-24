@@ -1,0 +1,90 @@
+---toml
+title = "Let's build a VORON 0"
+tags = ["Some tag"]
+---
+
+# Why another printer?
+
+# Why a VORON 0?
+
+# Waiting to build
+
+I ordered a VORON 0 from [Lecktor][] in February and it took roughly 4 months before I got the _first_ shipment of parts and it wasn't until the end of 2024 that I had received all the parts needed to complete the build.
+
+The wait was annoying...
+
+::: warn
+While I can't complain about the quality of parts, with the massive delays I regret ordering from [Lecktor][] and I would've been happier with an LDO kit from [3DJake][], like I was first considering.
+:::
+
+## Printing parts myself
+
+So what do you do when you can't start the build?
+
+Of course, you print parts!
+
+![A box of some of the printed parts for the build.](/images/voron_0/box_of_parts.jpg)
+
+There's something very satisfying with printing parts you then build a printer with.
+
+This time I wanted to make a colorful printer and I came up with this mix of filament:
+
+- [PolyLite ASA Yellow](https://www.3djake.com/polymaker/polylite-asa-yellow)
+- [Formfutura EasyFil ABS Light Green](https://www.3djake.com/formfutura/easyfiltm-abs-light-green)
+- [Formfutura EasyFil ABS Light Blue](https://www.3djake.com/formfutura/easyfiltm-abs-light-blue)
+- [Formfutura EasyFil ABS Magenta](https://www.3djake.com/formfutura/easyfiltm-abs-magenta)
+
+# The build
+
+![](/images/voron_0/office_overview2.jpg)
+
+## Frame and stuff
+
+![](/images/voron_0/assembly_start.jpg)
+
+![](/images/voron_0/frame.jpg)
+
+## Kirigami
+
+![](/images/voron_0/kirigami_assemblqu.jpg)
+
+![](/images/voron_0/plate_upside_down.jpg)
+
+## X-carriage mod
+
+![The carriage collides with the stock A drive](/images/voron_0/wrong_drive2.jpg)
+
+![The carriage passes the modded B drive](/images/voron_0/wrong_drive1.jpg)
+
+## Belts
+
+![](/images/voron_0/belt_routing.jpg)
+
+![](/images/voron_0/in_progress.jpg)
+
+## Dragon Burner toolhead
+
+I got the parts needed to build the standard mini stealthburner...
+
+But I'm attracted to playing around with new stuff and I decided to try out the [Dragon Burner][] instead.
+I went with it because it's quite popular, it has good cooling (I print a bunch of PLA), and I haven't tried it out yet.
+
+![](/images/voron_0/dragonburner_front.jpg)
+
+![](/images/voron_0/dragonburner_back.jpg)
+
+![](/images/voron_0/dragonburner_cable_back.jpg)
+
+## Galileo 2 standalone
+
+![](/images/voron_0/dragonburner_mounted.jpg)
+
+# Unsorted
+
+![](/images/voron_0/first_shipment.jpg)
+
+![](/images/voron_0/wrong_wire.jpg)
+
+[Lecktor]: https://lecktor.com/en/
+[3DJake]: https://www.3djake.com/
+[Dragon Burner]: https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner
