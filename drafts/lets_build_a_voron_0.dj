@@ -69,18 +69,27 @@ I got the parts needed to build the standard mini stealthburner...
 But I'm attracted to playing around with new stuff and I decided to try out the [Dragon Burner][] instead.
 I went with it because it's quite popular, it has good cooling (I print a bunch of PLA), and I haven't tried it out yet.
 
-![](/images/voron_0/dragonburner_front.jpg)
+![The fans are inserted.
+I don't care about LEDs so I inserted an opaque magenta part instead.
+I think it looks really good.](/images/voron_0/dragonburner_front.jpg)
 
-![](/images/voron_0/dragonburner_back.jpg)
+![The back of the Dragon Burner.
+I opted for the [Rapido 2][] instead of the [Dragon][] that came with the kit because the [Dragon][] has problems printing PLA.
+](/images/voron_0/dragonburner_back.jpg)
 
-![](/images/voron_0/dragonburner_cable_back.jpg)
+[Rapido 2]: https://www.3djake.com/phaetus/rapido-plus-hotend-2-hf
+[Dragon]: https://www.3djake.com/phaetus/dragon-hotend-uhf
+
+![I was a bit confused on how to route the wires as there was very little space when mounting the toolhead on the carriage.
+Routing the wires close to the fans, clipping off the ears of the fans, and holding together it with cable ties in this way worked for me.](/images/voron_0/dragonburner_cable_back.jpg)
 
 ## Galileo 2 standalone
 
 ![Dragon Burner together with the Galileo 2 extruder mounted on the printer.](/images/voron_0/dragonburner_mounted.jpg)
 
 For the extruder I opted for the standalone version of [Galileo 2][].
-I've [used Galileo 2 on the Trident](/blog/2024/02/27/lets_build_a_voron_more_mods#Galileo-2) but I hated the push down latch it uses in the Stealthburner configuration and when the extruder broke (it pulled out a heat-set insert) I went back to the Clockwork 2 on the Trident and rebuilt the Galileo for the VORON 0 instead.
+I've [used Galileo 2 on the Trident](/blog/2024/02/27/lets_build_a_voron_more_mods#Galileo-2) but I hated the push down latch it uses in the Stealthburner configuration.
+The latch eventually broke by pulling out a heat-set insert so I went back to the Clockwork 2 on the Trident and rebuilt the Galileo for the VORON 0 instead.
 
 The build was really fast and simple---compared to Stealthburner it's night and day.
 
