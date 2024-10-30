@@ -95,6 +95,30 @@ The build was really fast and simple---compared to Stealthburner it's night and 
 
 ![The parts for Galileo 2. There will be left-overs from the Stealthburner variant.](/images/voron_0/galileo_standalone.jpg)
 
+## Filters
+
+Of course, I need to have activated carbon filter and an exhaust fan with a HEPA filter in the printer.
+
+### Nevermore
+
+The [Nevermore V4][] is an activated carbon filter that fits well in the VORON 0.
+
+![I fastened the fan using a strip of VHB---it was a struggle to position it in the middle.](/images/voron_0/nevermore_fan.jpg)
+
+![The Nevermore is mounted standing in the side of the printer.](/images/voron_0/nevermore_mounted.jpg)
+
+::: important
+Just remember to preload the extrusion with extra M3 nuts when you assemble the printer.
+(I've heard LDO has nuts you can insert after... Sounds great.)
+:::
+
+### Exhaust
+
+[tophat exhaust][]
+
+## Wiring
+
+
 # Unsorted
 
 ![](/images/voron_0/first_shipment.jpg)
@@ -105,3 +129,5 @@ The build was really fast and simple---compared to Stealthburner it's night and 
 [3DJake]: https://www.3djake.com/
 [Dragon Burner]: https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner
 [Galileo 2]: https://github.com/JaredC01/Galileo2
+[Nevermore V4]: https://github.com/nevermore3d/Nevermore_Micro
+[tophat exhaust]: https://svelte.printables.com/model/886969-voron-02-filtered-tophat-exhaust

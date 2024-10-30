@@ -352,6 +352,31 @@ Here's a list of things that bothers me:
 Maybe I'll find a use for the extra keys in the future but having unused keys _annoys_ me.
 :::
 
+## Trackball mounting types
+
+![Roller bearings for the trackball.](/images/cosmos/roller_trackball.jpg)
+
+When I started this project [Cosmos][] only supported a single type of trackball mount: roller bearings.
+They worked quite poorly for me as the ball was spinning well in one direction but poorly in others.
+
+Luckily new options were added and as I'm writing this there's 4 different ways you can mount the trackball:
+
+1. Roller bearings (the old option)
+2. [BTU (7.5mm or 9mm)](https://www.aliexpress.com/item/1005005411108700.html)
+3. [Static ball bearings (3.175mm)](https://www.aliexpress.com/item/4000140404600.html)
+
+Because I was burned with the bad experience (and I didn't want to rebuild the keyboard yet again) I made small prototypes of the three different options:
+
+![The new trackball mounts; BTU 9mm, BTU 7.5mm, and static ball bearings.](/images/cosmos/trackball_types.jpg)
+
+The BTUs had the least friction and it felt really easy to spin the ball but they were also distressingly loud.
+The static ball bearings had more friction than the BTUs and less than the roller bearings while being completely silent, so I chose to go with the ball bearings.
+
+While they don't feel nearly as good as the [Kensington SlimBlade][] they're decent enough.
+I try not to use the mouse _that_ much and having the trackball so much closer is worth it compared to having a separate trackball unit besides the keyboard.
+
+[Kensington SlimBlade]: https://www.kensington.com/p/products/ergonomic-desk-accessories/ergonomic-input-devices/slimblade-trackball/
+
 ## Wrist rests
 
 ![Some of the different wrist rests I tried.](/images/cosmos/prototype_rests.jpg)
