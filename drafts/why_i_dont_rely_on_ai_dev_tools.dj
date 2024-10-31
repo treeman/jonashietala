@@ -1,0 +1,143 @@
+---toml
+title = "Why I don't rely on AI for programming (too much)"
+tags = ["Some tag"]
+---
+
+::: epigraph
+> I find that ai can help significantly with doing plumbing, but it has no problems with connecting the pipes wrong. I need to double and triple check the updated code - or fix the resulting errors when I don’t do that.
+> ^ [thih9 on Hacker News](https://news.ycombinator.com/item?id=41988665)
+:::
+
+I've been skeptical of the AI craze that's been going on in the developer community.
+It's a useful tool but some people behave like large swaths of developers will be replaced by AI tomorrow.
+
+I don't understand the hype as my experience has been quite different, yet I've struggled to pinpoint why.
+In this post post I'll try to explain what I think is the fundamental problem I have with letting an AI generate code for me.
+
+# I'm bad at double-checking code
+
+I realized what my problem with AI is when I read this comment on Hacker News (emphasis mine):
+
+> My theory is the willingness to baby sit and the modality. I'm perfectly fine telling the tool I use its errors and working side by side with it like it was another person. At the end of the day it can belt out lines of code faster than I, or any human, can and *I can review code very quickly* so the overall productivity boost has been great.
+> ^ [ianbutler on Hacker News](https://news.ycombinator.com/item?id=41989760)
+
+It's true that I'm not fond of pair programming but the key issue is that I {+can't+} review code quickly.
+On the contrary I'm quite bad at looking at an unknown piece of code and verify that it's correct.
+
+::: note
+I'm specifically talking about _verifying_ code, not on figuring out what the code is trying to do or even the intent behind the code, which I think I'm relatively decent at.
+:::
+
+## Struggling to verify math problems
+
+This isn't a problem of mine that's unique for programming.
+I've been quite good at math (relatively speaking) since I was a child and I breezed through the University math (where I read as many math courses I could get my hands on).
+
+Despite my relative skills I _always_ got marks against me during tests and exams.
+They weren't caused by my lack of understanding but by small mistakes like writing numbers wrong.
+Mistakes that I tried hard to correct; I started to double-check and triple-check my work but they were still slipping through.
+
+I realized that when I was first solving the problem I was focused.
+I was _in the zone_ and I could keep the problem in my head while I worked.
+
+But when I went back to verify my work my brain wouldn't engage in the same way.
+I was trying to but I couldn't get into the zone.
+The problem was Done™ and it was like my brain had disengaged.
+If I was looking at myself in a third-person view I'm sure my eyes would glaze over.
+
+::: note
+Yeah, maybe I'm not that good at math.
+:::
+
+## It's hard to read code without a mental model
+
+When we write code or solve math problems I think we build up a mental model of the problem we're trying to solve and the system we're interacting with;
+what a variable name signifies, what effects a function call might have, and how pieces of information relate to one another.
+
+This mental model is crucial when reading code or solving math problems and if it's missing we need to rebuild it.
+I think this is what happened when I had finished my math problems: when I was finished I dropped the model, so coming back to it was a struggle.
+
+The same is true when reviewing code; you'll be much more effective when reviewing small changes to a code base you're familiar with because you already have a mental model of the surrounding systems.
+It becomes harder when you're reviewing larger changes, or reviewing changes in an unfamiliar code base, because you have more gaps in your mental model.
+
+## I struggle to properly review code
+
+Maybe it's a skill issue but I find it much more difficult to find errors in code others write (or I myself wrote a while ago) than to find errors while I'm developing the code.
+I get the same "eye glazes over" feeling as when I went back to verify my math problems.
+I'm slow, I know I'm not doing a good job, and it's a struggle.
+
+I truly wonder how other people review code in a productive way.
+Sometimes I feel I need to run, change, and test the code to understand it... But that's time consuming especially as the amount of code increases.
+Trusting your fellow developers seems like a necessity.
+
+# AI generated code requires careful verification
+
+Some are enamored with how great AI code generation is.
+And to be sure, compared to just a few years ago it's _unbelievably_ good.
+But would I trust the code as much as I'd trust a co-worker? Absolutely not.
+
+In my experience an AI is _at best_ as good as a new developer, often much worse, and sometimes outright horrible.
+(And no, I don't blindly trust a new developer. I don't trust myself either.)
+At least I can be reasonably sure that other developers test or run their code before I need to look at it.
+
+Relying on AI is like copy pasting code from [Stack Overflow][]: useful but you cannot trust it.
+While the code may look good on a surface level, it's often subtly wrong in ways that even a [Stack Overflow][] answer doesn't quite manage to.
+Hallucinating a non existing library function or adding an extra argument are quite common.
+
+This is mostly fine for short snippets where it's easy to run the code and test but the problem becomes significant when you {-copy paste-} rely on AI for larger pieces of code.
+
+# Programming less and reviewing more is a bad trade
+
+The crux of the matter is that {=I'm much more productive when I'm programming than when I'm reviewing code=}.
+With most current AI tools it feels like I'm reviewing code more than programming and that's a bad trade for me to make.
+
+## You still need to build a mental model
+
+While you're writing code you're continually building up your mental model but when you let an AI generate the code you still need to do the hard work of building your mental model.
+
+I don't think writing code is the most important thing you're doing while programming---it's building a mental model of the system you're building.
+
+## There's no return of your investment
+
+Ever felt that it would be faster to just code something yourself than to gently guide a junior developer through a problem?
+That's how I feel like when I shepherd an AI, with the difference that teaching a junior programmer is an investment but the AI won't learn no matter how many times you interact with it.
+
+::: note
+Wait, what about context windows?
+Well, there's no way to keep a context window spanning months or years.
+The learning I'm talking about is more akin to training or tuning an LLM.
+
+Maybe your own AI developer that you'll tune every time you interact with it will be available soon™.
+:::
+
+# Some AI tools are very useful
+
+I need to clarify that while I'm skeptical towards the current AI hype I find some AI tools useful in various contexts.
+
+For programming I'm a heavy user of [Kagi's quick answer][] functionality that uses AI to summarize the search results and gives you references so you can drill down further if you need to.
+I use it many times a day to answer questions like:
+
++ How do you format a date in Python?
++ How do you subscribe to a table change in postgres in Elixir?
++ How do you open a new buffer in Neovim using Lua?
++ How to order mp4 by length in Linux?
++ What's the cron syntax to execute a script every second day?
+
+It's not bullet proof but the combination of good search results (way better than Google in my opinion) combined with AI's summarizing ability is absolutely fantastic.
+
+# I must be missing something
+
+AI dev tools are useful, I just haven't seen the incredible productivity boost that some say exist.
+Maybe they are working on different problems in different contexts than I am, have different standards, or just are better at utilizing them than I am?
+
+{% I do think some fall into the trap of evaluating the tools as how useful they _may become_ instead of how useful they are _right now_. %}
+{% I just don't see how the current AI tools are nearly as productive as they're made out to be. %}
+
+Because, surely, it would be way to simple to dismiss the productivity claims as people evaluating the tools as how useful they _may become_ instead of how useful they are _right now_?
+
+![[xkcd: 605](https://xkcd.com/605/); ever relevant as a response to the currently hyped technology.](https://imgs.xkcd.com/comics/extrapolating.png)
+
+{% It would be way too simple as dis %}
+
+[Stack Overflow]: https://stackoverflow.com/
+[Kagi's quick answer]: https://help.kagi.com/kagi/ai/quick-answer.html
