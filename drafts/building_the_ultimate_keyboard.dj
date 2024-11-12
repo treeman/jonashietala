@@ -124,72 +124,84 @@ I already have a [layout that I really like][t34] so I wasn't starting from noth
 These were the important parts going into the design process:
 
 1. A 3x5 grid with 1-2 thumb keys (in practice one thumb key is enough).
+
+   If you question why I want to build such a small keyboard I'll redirect you to the discussion in [The T-34 keyboard layout][t34-discussion] post.
+
 1. Integrated trackball on the right-hand side.
-1. Use [Choc switches](#I-like-Choc-switches).
+1. Choc switches.
 
-If you question why I want to build such a small keyboard I'll redirect you to the discussion in [The T-34 keyboard layout][t34-discussion] post.
+    One of the major decisions with a keyboard is what kind of switch to use.
+    While MX-style switches are the most common I personally really love Choc switches for a couple of reasons:
 
-# I like Choc switches
+    ::: plus
+    - Low-profile
+    - Low actuation force
+    - Can be closer together
+    :::
 
-One of the major decisions with a keyboard is what kind of switch to use.
-While MX-style switches are the most common I personally really love Choc switches for a couple of reasons:
+    While a low profile switch is more important for a flat keyboard, not a tented and curved one like I'm building now,
+    the flatter keycaps and the switches being closer together is crucial for pressing two keys with one finger:
 
-::: plus
-- Low-profile
-- Low actuation force
-- Can be closer together
-:::
+    ::: flex
+    ![](/images/cosmos/compo_no_press.jpg)
+    ![](/images/cosmos/combo_press.jpg)
 
-While a low profile switch is more important for a flat keyboard, not a tented and curved one like I'm building now,
-the flatter keycaps and the switches being closer together is crucial for pressing two keys with one finger:
+    A horizontal combo is pressed with the finger in the middle of the keys. It's surprisingly comfortable.
+    :::
 
-::: flex
-![](/images/cosmos/compo_no_press.jpg)
-![](/images/cosmos/combo_press.jpg)
+    The low-actuation force is also more comfortable to me, it helps reduce the strain on my fingers, and makes combos (pressing several switches at once) generally more pleasant.
 
-A horizontal combo is pressed with the finger in the middle of the keys. It's surprisingly comfortable.
-:::
 
-The low-actuation force is also more comfortable to me, helps reduce the strain on my fingers, and makes combos (pressing several switches at once) generally more pleasant to use.
+# Hardware and material
 
-## Different kinds of switches
+with just a 3D printer, you also need some hardware:
 
-![](/images/cosmos/choc_switches.jpg)
+1. Two microcontrollers.
 
-But what kind of Choc switch should I use?
-Should it be [linear][], [tactile][sunset], or [clicky][]?
-Exactly how heavy should they be?
-Should they be [silent][]?
+    I got the [Liatris][] microcontroller as it has enough pins to connect a trackball sensor and it supports QMK.
 
-I wasn't sure so I ordered a sampling of different switches to try.
+1. Switches
 
-For the final keyboard I used the [Ambients silent Noctural (linear / 20gf)][silent] switches,
-although the only factor I ended up caring about was getting as light switches as possible.
-(I've previously used modded 15gf switches, which were even better, but I couldn't find a way to buy them.)
+    What kind of Choc switch should I use?\
+    Should they be [linear][], [tactile][sunset], or [clicky][]?\
+    Exactly how heavy should they be?\
+    Should they be [silent][]?
 
-## Keycaps
+    I wasn't sure so I ordered a sampling of different switches to try.
 
-![It's hard to decide on a colorscheme so I [bought a bunch of random colors][keycaps].](/images/cosmos/choc_keycaps.jpg)
+    ![A collection of different Choc switches.](/images/cosmos/choc_switches.jpg)
 
-Keycaps aren't only for looking cool.
-A convex keycap for the thumb button instead of the standard concave one makes it much more comfortable:
+    For the final keyboard I used the [Ambients silent Noctural (linear / 20gf)][silent] switches,
+    although the only factor I ended up caring about was getting as light switches as possible.
+    (I've previously used modded 15gf switches, which were even better, but I couldn't find a way to buy them.)
 
-![The blue convex keycap to the left and the red concave to the right.](/images/cosmos/keycaps_concave_convex.jpg)
+1. Keycaps
 
-I also got keycaps for the index row with these small [homing notches][keycaps-homing] to help my fingers more easily find the home row.
+    ![It's hard to decide on a colorscheme so I [bought a bunch of random colors][keycaps].](/images/cosmos/choc_keycaps.jpg)
 
-[keycaps-homing]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps?variant=47289185632603
+    Keycaps aren't only for looking cool.
+    A convex keycap for the thumb button instead of the standard concave one makes it much more comfortable:
 
-# Additional hardware
+    ![The blue convex keycap to the left and the red concave to the right.](/images/cosmos/keycaps_concave_convex.jpg)
 
-It's not enough with just a 3D printer, you also need some hardware:
+    I also got keycaps for the index row with these small [homing notches][keycaps-homing] to help my fingers more easily find the home row.
 
-- Switches
-- Keycaps
-- TRRS connector + cable
-- Liatris microcontroller
-- Trackball + sensor
-- Some screws and cables
+1. A pair of [TRRS connectors][] and a [TRRS cable][].
+1. A Trackball with a matching sensor.
+
+    I decided to pick up [this PMW3389 sensor][pmw3389] because it was recommended in the keyboard configurator and [a red 34mm trackball from Amazon][trackball].
+
+1. Filament for the 3D printed pieces.
+
+   I ended up settling on the [PolyTerra PLA Army Purple][] for the case and some TPU I had home for the plate.
+
+1. Finally some extra hardware such as diodes, screws, heatset inserts, and cable to do the wiring.
+
+[PolyTerra PLA Army Purple]: https://www.3djake.com/polymaker/polyterra-pla-army-purple
+[TRRS cable]: https://splitkb.com/products/braided-trrs-cable?variant=31226379501645
+[TRRS connectors]: https://splitkb.com/products/trrs-jacks?_pos=2&_sid=2fdada9a4&_ss=r
+[trackball]: https://www.amazon.se/dp/B071NX7Y2J?th=1
+
 
 # Prototypes
 
@@ -372,10 +384,12 @@ Because I was burned with the bad experience (and I didn't want to rebuild the k
 The BTUs had the least friction and it felt really easy to spin the ball but they were also distressingly loud.
 The static ball bearings had more friction than the BTUs and less than the roller bearings while being completely silent, so I chose to go with the ball bearings.
 
+![The ball bearings installed on the keyboard, with the trackball sensor peeking through.](/images/cosmos/trackball_mount.jpg)
+
 While they don't feel nearly as good as the [Kensington SlimBlade][] they're decent enough.
 I try not to use the mouse _that_ much and having the trackball so much closer is worth it compared to having a separate trackball unit besides the keyboard.
 
-[Kensington SlimBlade]: https://www.kensington.com/p/products/ergonomic-desk-accessories/ergonomic-input-devices/slimblade-trackball/
+# Additional printed parts
 
 ## Wrist rests
 
@@ -391,6 +405,7 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 ### Magnet attachments
 
 ![](/images/cosmos/magnets_in_case.jpg)
+
 ![](/images/cosmos/magnets_on_rest.jpg)
 
 ## Microcontroller holder
@@ -422,22 +437,42 @@ The wiring is horrible, I know.
 I only lost one microcontroller due to a short...
 With my wiring prowess I consider that a success!
 
-## TRRS & handedness
+## Controller pin assignments
 
-{path="config.h"}
-```c
-#define SPLIT_HAND_PIN GP1
-```
+
+
+![The pins of the [Liatris][] microcontroller.
+It's a RP2040-based controller.](/images/cosmos/liatris.webp)
+
+::: warn
+It's a good idea to plan out the pin assignments in advance.
+I made the mistake of _soldering_ the wrong pins, mixing the two sets of SPI pins (you can't use RX0 together with TX1 for example).
+
+Or you could not solder directly on the controller, like a normal person.
+:::
+
+| Controller pin | Connection |
+|:---- |:- |
+| 1 | Handedness (V~CC~ on the left keyboard and GND on the right) |
+| 2 | TRRS data |
+| 3, 4, 5, 6, 7 | Matrix columns |
+| 20, 22, 26, 27 | Matrix rows |
+| 13 (CS1) | Trackball SS |
+| 14 (SCK1) | Trackball SCK |
+| 15 (TX1) | Trackball MOSI |
+| 16 (RX1) | Trackball MISO |
+
+::: note
+Although I connected trackball MT to pin 21 on the controller, the motion functionality isn't supported for split keyboards.
+I also didn't connect RST.
+:::
 
 ![The TRRS connector is connected to Vcc, GND, and pin 2 (and similarly on the right side).
 Pin 1 is also connected to Vcc to signal to QMK that this is the left side of the keyboard, whereas pin 1 is connected to GND on the right controller.
 ](/images/cosmos/left_micro_soldered.jpg)
 
-## Trackball
+![The [pmw3389][] sensor attached beneath the trackball.](/images/cosmos/pmw339.jpg)
 
-TODO
-
-![](/images/cosmos/liatris.webp)
 
 # Adding the keyboard to QMK
 
@@ -549,7 +584,7 @@ I didn't add a reset button to the keyboard that you typically use to enter the 
 The [Liatris][] has a boot button that you can hold when you connect the keyboard, but I want to hide the controller inside the casing.
 
 QMK has a `QK_BOOT` key that does the same.
-I added it as a 5-finger [combo][] to make it easy to press but difficult to press by accident.
+I added it as a 5-finger [combo][] to make it easily accessible but difficult to press by accident.
 :::
 
 Now the process of updating the firmware is quite nice and unless I screw up I don't need to connect another keyboard to do it.
@@ -661,6 +696,114 @@ LAYOUT(
 ),
 ```
 
+## Trackball
+
+It took a long time for me to get the trackball working.
+There's quite a lot of documentation for QMK but curiously enough I didn't find anything that covered the whole setup.
+I arrived here by trial and error, trying to piece together parts from other keyboards into a setup that worked for me.
+
+First we need to create the files `halconf.h` and `mcuconf.h` (they go in the same folder as `keyboard.json`) to enable the SPI driver:
+
+{path="halconf.h"}
+```c
+#pragma once
+#include_next <halconf.h>
+#define HAL_USE_SPI TRUE
+```
+
+{path="mcuconf.h"}
+```c
+#pragma once
+#include_next <mcuconf.h>
+#undef RP_SPI_USE_SPI1
+#define RP_SPI_USE_SPI1 TRUE
+```
+
+::: important
+I enable the `SPI1` device that uses the `CS1`, `SCK1`, `TX1`, and `RX1` pins on the controller.
+If you want to use the `SPI0` device then you must connect to the `CS0`, `SCK0`, `TX0`, and `RX0` pins instead.
+:::
+
+And enable the pointing device with the `pmw3389` device driver in `rules.mk`
+
+{path="rules.mk"}
+```
+POINTING_DEVICE_ENABLE = yes
+POINTING_DEVICE_DRIVER = pmw3389
+```
+
+Now we need to add the sensor pins to `config.h`:
+
+{path="config.h"}
+```c
+// SPI1, matching mcuconf.h
+#define SPI_DRIVER SPID1
+// The pin connections from the pmw3389 sensor
+#define SPI_MISO_PIN GP12
+#define PMW33XX_CS_PIN GP13
+#define SPI_SCK_PIN GP14
+#define SPI_MOSI_PIN GP15
+```
+
+This should be enough to get the sensor going, but because we have a split keyboard we need to set that up too:
+
+{path="config.h"}
+```c
+#define SPLIT_POINTING_ENABLE
+// The trackball is on the right
+#define POINTING_DEVICE_RIGHT
+```
+
+There are some additional tweaks that I had to play with to make the trackball work well:
+
+{path="config.h"}
+```c
+// The trackball is quite sensitive to how
+// large the liftoff distance should be.
+#define PMW33XX_LIFTOFF_DISTANCE 0x10
+// Sets the mouse resolution, up to 16000.
+// I still haven't settled on a value here.
+#define PMW33XX_CPI 2000
+// Make the ball move in the direction I want.
+#define POINTING_DEVICE_ROTATION_270 1
+#define POINTING_DEVICE_INVERT_X 1
+```
+
+With that I got the trackball move the mouse as expected.
+
+### Debug
+
+As I struggled to get the trackball working I tried to use the debug output.
+I'll include it here for completeness sake:
+
+1. Enable the console in `rules.mk`:
+
+    {path="rules.mk"}
+    ```
+    CONSOLE_ENABLE = yes
+    ```
+
+1. Enable pointing device debugging in `config.h`:
+
+    {path="config.h"}
+    ```c
+    #define POINTING_DEVICE_DEBUG
+    ```
+
+1. Turn on debugging in `keymap.c`:
+
+    {path="keymap.c"}
+    ```c
+    void keyboard_post_init_user(void) {
+        debug_enable = true;
+        debug_mouse = true;
+    }
+    ```
+
+And then run `qmk console` from the command line.
+
+
+
 [v2-ball]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgBWkwKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFchIXCNqD2LawigEQyaPAzeD7h+QBGKIDICgSDgipynEQm4mEnuDckOQBUhowgE4IABCAyL0CGICGisAHIICAnAEo0MbBAkJTCAPgAQF4A9gBARABSABIAEgASABIAEgASABgAGgAcAEYACAAKACYAfQDqAHoB6AByAGwAQCQAYQHuAEAgAEAMAA4KFgBiAEBwAEAyAHYBNABhAdiAggB
 [v2-left]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgAWiMKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFclIaMIBOCAAQgMi9AhiAhorAByCAgJwBKNDGwQJCUwgD4AEBeAPYAQEQAEgASABIAEgASABIAEgAYABoAHABGAAgACgAmAH0A6gB6AegAcgBsAEAkAGEB7gBAIABADAAOChYAYgBAcABAMgB2ATQAYQH
 [v3]: https://ryanis.cool/cosmos/beta#expert:eJzlWt9v2zYQfvdfQeRlaSHRli0njoe+JNuAYMgyNOlT4AdaomIusiSQVBw38P++O9KW9cOeHSBtBExoVel4PN199x1FnxqkidIkzbSAizG5tRfkC3ntELJgcXw/E8FTwhUM+s5adjeTaR6K5HFMekbGpyW1jehGJIX0DxboVMIYHeHoE19eMiVA+SSYpcEJylQg+eI6CUXAQf7geg7Z/XdSaN8vMw4mzDURieJSb03die84eDPYiq7SPNFcKpE8jYmWOccRCCUJeTgmryu8DdIk4dbZEy2lOqkI0ei3u0sYY89cskdeHQb3+csY/QTpXAQyhSEt0zjmaC+TqRG6uZq6NuqIKc2Tm7rqxjl4iBYBi69iziRLAo4QGusBSu4wKrVVVzMexxAJ0RaZKYAMzyGxyKwSWXVWnW6X/HV7//uY2OmkS/SMb4MgC6FnqJTwR6bFMwdoTVYIk5xkMQt4SFiu0zkzvsVLitrXiTFjHtll4TN6GxLNpg7KFSfPLM7ByIJLPsYJtYR7Hh06pN8zZ3Py8ewN8XxuBCCe4Mw63oM+9TqdwFA5yOUz0zl4ajlc3N9GV2mcz5MxmHSqA1/TxZgYocpYALw2InDKG1WE1gDKL1DOZADpAEA73c+fO+Qz+aZ4lMckAgwV1xrmEEZCEUUQclJyDXVRCfHKgIxLLAhFQdxdR2GkV7VQKKWFCWdfaCV37mcmXQknucJUpCRLlcACN0/Os4zL4snkWv+ioBg006A7XRoVoKaNIgnJix2E2agNo2AFKKni8oTvJI0iiN3EQtbBmAf9Cc/52zjzBYi1IPdSRaefMCr7zFOv75CHnkPwz8ReevYyYrHiFdWqpldcbjUL107XisUgokN+45FIhF3rNpko4bFNBKg9wooxJuD/wwR8fwDrmAyyqbFiATPLWsCg0uw4IVDvkYhrSrjiAN36m7sYmGJWh+WJkazsAFMZUBwyam+DOFdWbe3R2tomo+MqqHhQU6q3yQ3TUrycbpxq8sgewZpCLhZfITW+ut76flXYruDrQup61SEAdX65PK2mHlVMeO8B4KAB4Ky1APZaiJ/fwC9pLX5t5F+zgPOW4Oe9uYB7H1m/s3SOGgLf5ScNUP9pLagHivojMG3W9Ly18LWQks2SFi2Br/fmkob9sut/dE3PRRjGvFnUT62F9UBRfwiqzap2WotfG1nZLOu0Hfi9varNZuejq1oCLM2ajtuK6eH39M+HtFnStK3wtZGRzYrOfiJ81eZME8O3779dz2tDYZvAmpX9a6uxPfTb2jt3SAte2d1Wg3iQn28BsTM5tgWpZ/l8Wmo/htiWA71c2d5pwpmcmu5oMc8puo+204idRwX0JWyO3f1yE9VYv5XiUST7mo79ER2dlY/z3a3FaqOSDobl42x347I8x/XPaX9UOi4ac3DapNa7dAfgjzsYwGlUHQLka5TYQ4hdy71N+eau/ButUyLBgTRXHB3Rc9za2X/M77Zy9L2jgvXBwNDQzLRokTrbZn4abQmzKRdaS3W9X17v8JsPUzua5kbebPL3q3L7RaBv+v2lhx7ZGt5b8NbIEfW+G8syQctq7mA/Kct6Z03yFrmp5dj1BhRyhEsBbPy9natBqeQ+1VbNxnppaTiE9WLXwgtWg6cpi+P3BtDtD4+DEMIdVA7/OEj9IfUq845G2OtRWBf8PkWIfbp7P9CEWJkvna9EslDkhqNoRomQm5s9AP8IcrpnR7JzeByUF029vezsU9xDDfHs0d3vqvdj548Az/Oofxx8I/ofr5wKzqMh7fvlYx+eO8h4ZgAd4LP89wYUtwh2EV1IofRXrvSeF/X/5I3HX7JUatwAsTzWm8+96/+XgX7XcEIRfqockwfQW+8aHZxjaTdxOqt/AWrGK+I=>
@@ -687,3 +830,6 @@ LAYOUT(
 [linear]: https://splitkb.com/collections/switches-and-keycaps/products/kailh-low-profile-choc-switches?variant=42309434802435
 [clicky]: https://splitkb.com/collections/switches-and-keycaps/products/kailh-low-profile-choc-switches?variant=39459382427725
 [keycaps]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps
+[Kensington SlimBlade]: https://www.kensington.com/p/products/ergonomic-desk-accessories/ergonomic-input-devices/slimblade-trackball/
+[pmw3389]: https://www.tindie.com/products/citizenjoe/pmw3389-motion-sensor/
+[keycaps-homing]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps?variant=47289185632603
