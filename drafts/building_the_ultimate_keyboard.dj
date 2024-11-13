@@ -1,6 +1,7 @@
 ---toml
 title = "Building my ultimate keyboard"
-tags = ["Computer", "Keyboards"]
+tags = ["Computer", "Keyboards", "Cybershard"]
+favorite = true
 ---
 
 ![](/images/cosmos/final.jpg)
@@ -438,8 +439,6 @@ I only lost one microcontroller due to a short...
 With my wiring prowess I consider that a success!
 
 ## Controller pin assignments
-
-
 
 ![The pins of the [Liatris][] microcontroller.
 It's a RP2040-based controller.](/images/cosmos/liatris.webp)

@@ -1,0 +1,83 @@
+---toml
+title = "The Cybershard keyboard layout"
+tags = ["Computer", "Keyboards", "Keyboard layouts", "Cybershard"]
+favorite = true
+---
+
+:table-of-content:
+
+This is the keyboard layout I'm using for [my custom keyboard][].
+It's a keyboard with an integrated trackball with 3 keys for the trackball and 35 keys for typing (for 38 keys in total).
+The layout is heavily based on the [T-34 keyboard layout][], see the [original T-34 post][] for the background and philosophy of the layout.
+
+![The Cybershard keyboard.](/images/cosmos/cybershard.jpg)
+
+# Legend
+
+![Legend](/images/cybershard-layout/legend.png)
+
+# Layers
+
+## Base
+
+![](/images/cybershard-layout/base.png)
+
+## Swedish overlay
+
+## Navigation layer
+
+## Workspace layer
+
+## Mouse layer
+
+Activate using Automatic Mouse Layer: <https://docs.qmk.fm/features/pointing_device>
+
+What should I have on the mouse layer?
+
+- Copy
+- Paste
+- Left click
+- Right click
+- Middle click
+- Up/dn DPI
+
+- Mods (Shift Ctrl Alt Win), same locations as usual
+
+- Precision/speed modes
+
+## Windows layer
+
+## Numbers
+
+## Function keys
+
+## Symbols
+
+## One-handed Shortcuts (maybe not?)
+
+## Special symbols
+
+## Modifiers
+
+# Combos
+
+## Horizontal combo
+
+## Vertical combos
+
+## Numbers and symbols
+
+# Long press
+
+# Leader sequences
+
+# CAPSWORD
+
+# NUMWORD
+
+# Repeat key
+
+# More info
+
+[T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
+[original T-34 post]: /blog/post/blog/2021/06/03/the-t-34-keyboard-layout
