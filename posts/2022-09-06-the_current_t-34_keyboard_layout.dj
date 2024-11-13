@@ -183,6 +183,20 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 
 While I try to keep this post updated, [reading the code][src] will always give you a more up to date reference. If you're interested in *why* the layout looks like it does, I try to write the motivations in the [T-34 series][t-34-series].
 
+::: changelog
+: 2021-09-05
+
+  [The T-34/0 keyboard layout](/blog/2021/09/05/t-34-0)
+
+: 2021-12-15
+
+  [The T-34/1 keyboard layout](/blog/2021/12/15/t-34-1)
+
+: 2022-08-28
+
+  [The T-34/2 keyboard layout](/blog/2022/08/28/the_t-342_keyboard_layout)
+:::
+
 {title="QMK leader key"}
 [leader key]: https://docs.qmk.fm/#/feature_leader_key
 {title="QMK auto shift"}
