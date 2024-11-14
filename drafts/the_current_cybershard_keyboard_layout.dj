@@ -46,17 +46,16 @@ This is used for all window and workspace management in [xmonad][]. Some common 
 
 ![Mouse layer.](/images/cybershard-layout/mouse.png)
 
-This layer is activated using QMK's [automatic mouse layer][] which will activate whenever the trackball is moved and deactivated after a short timeout.
+This layer is activated using QMK's [automatic mouse layer][] that will activate whenever the trackball is moved and deactivated after a short timeout.
 
 [automatic mouse layer]: https://docs.qmk.fm/features/pointing_device#pointing-device-auto-mouse
 
-What should I have on the mouse layer?
+There are some extra modes for the trackball:
 
-TODO
-
-- Precision mode
-- Speed mode
-- Scroll mode (hold space)
+- `Prec` enters the precision mode with a lower DPI for more precise mouse movement.
+- Holding the [`MOD` combo](#Horizontal-combos) activates the speed mode with higher DPI.
+- Similarly, holding the [`SYM` combo](#Horizontal-combos) actives scrolling mode, where the trackball scrolls instead of moves the mouse.
+- Both the `Ctrl` and `Shift` [combos][] are always available, and useful with the trackball.
 
 ## Windows layer
 
@@ -108,9 +107,13 @@ Note that combos are layer independent, and work the same regardless of what lay
 
 ![Horizontal combos with nearby keys.](/images/cybershard-layout/hcombos.png)
 
-Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#Modifiers). Holding `Enter` turns on the [windows layer](#Windows-layer) together with `Alt`.
+Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#Modifiers).
 
 `SWE` activates the [Swedish layer](#Swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
+
+`vsplit` splits a window vertically in Vim, `Close Window` closes a window in Vim (`<C-w>q`), and `Save Vim` saves the buffer in Vim.
+
+`Clear` resets all states; sets the `Base` layer, releases modifiers, stops [CAPSWORD][] and [NUMWORD][], and similar.
 
 { .center }
 | Split combos  | Result |
@@ -123,11 +126,13 @@ Note that some have a separate hold behaviour; for instance holding `Escape` act
 | `,` + `V` + `G` + `D` + `Space`     | `QMK_BOOT` (left controller) |
 | `E` + `L` + `(` + `)` + `_`     | `QMK_BOOT` (right controller) |
 
+`QMK_BOOT` enters boot mode for the connected microcontroller, making it easy to update the keymap on the keyboard.
+
 ## Vertical combos
 
 ![Vertical combos. All except `;` are pressed with a single finger between the keys.](/images/cybershard-layout/vcombos.png)
 
-`vsplt` and `hsplit` splits windows in Vim, and there are also horizontal combos for closing a window and saving.
+`hsplit` splits a window horizontally in Vim.
 
 ## Numbers and symbols
 
@@ -148,7 +153,7 @@ There are a bunch of special cases as well (mostly on top of [combos]):
 |:----------------------------------|:------------|
 | `_` `<` `>` `/` `\` `#`           |  Double, e.g `__` |
 | `"` `'` `=` `` ` `` `0` `.`       |  Triple, e.g `"""` |
-| `|` `&` `=`                       |  Double with spaces, e.g `||` |
+| `|` `&` `=`                       |  Double with spaces, e.g ` || ` |
 | `!`                               |  ` != ` (with spaces) |
 | `?`                               |  `{:?}` |
 | `#`                               |  `{:#?}` |
@@ -162,8 +167,9 @@ I use the combo `l` + `)` as the [leader key][]. This will wait for a sequence o
 
 { .center }
 | Leader sequence       |  Action |
-|-----------------------|-------------|
+|:----------------------|:------------|
 | `l` + `)`, `c`        |  **C**aps lock |
+| `l` + `)`, `s`        |  `Ctrl` + `Gui` + `Space` (mapped to set Swedish input in Linux) |
 | `l` + `)`, `t`, `n`   |  **T**oggle **N**umber layer |
 | `l` + `)`, `t`, `s`   |  **T**oggle **S**ymbols layer |
 | `l` + `)`, `t`, `c`   |  **T**oggle **C**aps lock escape swap |
@@ -189,6 +195,13 @@ There's also a reverse repeat key that "reverses" the last pressed key. The idea
 See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [reverse repeat key][rev-rep-writeup] for some more information about them.
 
 # More info
+
+# TODO
+
+- Add dead keys for `~` `` ` `` `^` `´`, rework special layer
+- Add `e` + `k` = `é` combo to graphics
+- One shot inner thumb key for `FUN`
+- *T*oggle *F*unction layer leader sequence
 
 [T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
 [original T-34 post]: /blog/2021/06/03/the-t-34-keyboard-layout
