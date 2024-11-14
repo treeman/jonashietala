@@ -45,6 +45,10 @@ pub fn insert_toc<'a>(body: &'a str, lookup: &MarkupLookup) -> Cow<'a, str> {
     })
 }
 
+pub fn remove_toc(body: &str) -> Cow<'_, str> {
+    TOC_SYMBOL.replace(body, "")
+}
+
 lazy_static! {
     pub static ref TOC_SYMBOL: Regex = Regex::new(r"(<p>:table-of-content:</p>)").unwrap();
 }

@@ -183,18 +183,31 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 
 While I try to keep this post updated, [reading the code][src] will always give you a more up to date reference. If you're interested in *why* the layout looks like it does, I try to write the motivations in the [T-34 series][t-34-series].
 
+{% 2021-06-03 First post %}
+
 ::: changelog
-: 2021-09-05
+: 2023-11-03
 
-  [The T-34/0 keyboard layout](/blog/2021/09/05/t-34-0)
+  Add `@u` to number layer for easier execution of Neovim macros (e.g. `17@u`)
 
-: 2021-12-15
+: 2022-10-24
 
-  [The T-34/1 keyboard layout](/blog/2021/12/15/t-34-1)
+  1. Add the Windows layer to enable windows switching using `Alt-Tab` and `Ctrl-Alt-Tab`.
+  1. Move `PgUp` to the home row pinky on the navigation layer.
+  1. Use the `QWERTY` layout for the shortcut layer on the left side.
 
 : 2022-08-28
 
-  [The T-34/2 keyboard layout](/blog/2022/08/28/the_t-342_keyboard_layout)
+  Another [large update](/blog/2022/08/28/the_t-342_keyboard_layout) that swaps `A` `O` and `I` `U`, reduces inner thumb key usage, makes layers accessible via home-row combos, reworks the symbols, and more.
+
+: 2021-12-15
+
+  [This update](/blog/2021/12/15/t-34-1) moves the repeat key, adds a shortcut layer, and moves modifiers to combos.
+
+: 2021-09-05
+
+  A major update [documented in this post](/blog/2021/09/05/t-34-0) that introduces the repeat key, moves around keys on the base layer, reworks the symbols layer, and more.
+
 :::
 
 {title="QMK leader key"}

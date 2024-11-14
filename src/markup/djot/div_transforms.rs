@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use crate::markup::djot::changelog::convert_changelog;
 use eyre::{eyre, Result};
 use jotdown::{Attributes, Container, Event, LinkType, SpanLinkType};
 use lazy_static::lazy_static;
@@ -127,7 +127,7 @@ impl DivTransform {
             Self::Figure => wrap_images(content.into_iter(), "figure", None, false),
             Self::Gallery => wrap_images(content.into_iter(), "figure", Some("gallery"), true),
             Self::Timeline => convert_timeline(content.into_iter(), attrs),
-            Self::Changelog => convert_changelog(content.into_iter(), attrs),
+            Self::Changelog => convert_changelog(content.into_iter()),
         }
     }
 
@@ -366,94 +366,6 @@ where
     Ok(res)
 }
 
-// TODO
-// 1. Should store these and output them last in post
-// 2. Need to format them in a nice way.
-fn convert_changelog<'a, I>(mut content: I, _attrs: &Attributes) -> Result<Vec<Event<'a>>>
-where
-    I: Iterator<Item = Event<'a>>,
-{
-    assert!(matches!(
-        content.next(),
-        Some(Event::Start(Container::DescriptionList, _))
-    ));
-
-    let mut res = Vec::new();
-
-    let html = Container::RawBlock { format: "html" };
-
-    res.push(Event::Start(html.clone(), Attributes::new()));
-    res.push(Event::Str(
-        r#"<div class="changelog"><div class="items">"#.into(),
-    ));
-    res.push(Event::End(html.clone()));
-
-    while let Some(token) = content.next() {
-        match token {
-            Event::Start(Container::DescriptionTerm, _) => {}
-            Event::End(Container::DescriptionList) => break,
-            token => return Err(eyre!("Unknown token: {:?}", token)),
-        };
-
-        lazy_static! {
-            static ref DATE: Regex = Regex::new(r"^(\d{4})-(\d{2})-(\d{2})$").unwrap();
-        }
-
-        let when = match content.next() {
-            Some(Event::Str(s)) => match DATE.captures(s.as_ref()) {
-                Some(captures) => NaiveDate::from_ymd_opt(
-                    captures[1].parse().unwrap(),
-                    captures[2].parse().unwrap(),
-                    captures[3].parse().unwrap(),
-                )
-                .unwrap(),
-                None => return Err(eyre!("Failed to match changelog date: `{s}`")),
-            },
-            token => {
-                return Err(eyre!("Expected string , got: {:?}", token));
-            }
-        };
-
-        for token in content.by_ref() {
-            if matches!(token, Event::Start(Container::DescriptionDetails, _)) {
-                break;
-            }
-        }
-
-        res.push(Event::Start(html.clone(), Attributes::new()));
-        res.push(Event::Str(
-            format!(
-                r#"<div class="item">
-      <div class="date">{}</div>
-      <div class="description">
-          "#,
-                html_escape::encode_text(&when.format("%B %e, %Y").to_string())
-            )
-            .into(),
-        ));
-        res.push(Event::End(html.clone()));
-
-        for token in content.by_ref() {
-            match token {
-                Event::End(Container::DescriptionDetails) => break,
-                x => res.push(x),
-            }
-        }
-
-        // Close `description` and `item`
-        res.push(Event::Start(html.clone(), Attributes::new()));
-        res.push(Event::Str("</div></div>".into()));
-        res.push(Event::End(html.clone()));
-    }
-
-    // Close `items` and `changelog`
-    res.push(Event::Start(html.clone(), Attributes::new()));
-    res.push(Event::Str("</div></div>".into()));
-    res.push(Event::End(html.clone()));
-
-    Ok(res)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -678,6 +590,34 @@ My *title*
 "#
         );
 
+        Ok(())
+    }
+
+    #[test]
+    fn test_changelog() -> Result<()> {
+        let s = r#"
+# Head
+
+Text
+
+::: changelog
+: 2021-09-05
+
+  First
+
+: 2021-12-15
+
+  Second
+
+: 2022-08-28
+
+  [Third](/abc)
+:::
+
+After
+"#;
+        let s = convert(s)?;
+        assert!(s.contains(r#"<div class="changelog"><div class="items">"#));
         Ok(())
     }
 }

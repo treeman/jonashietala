@@ -663,13 +663,13 @@ article {
   }
 
   section[role="doc-endnotes"] {
-    hr {
+    > hr {
       overflow: visible;
       text-align: center;
       margin: 0;
     }
 
-    hr:after {
+    > hr:after {
       @include sans-serif;
       @include font-size("s");
       color: var(--color-footnote-def);
@@ -682,6 +682,41 @@ article {
 
     :is(ol, ul) > li::before {
       color: var(--color-footnote-def);
+    }
+  }
+
+  /*
+   * Changelog
+   */
+  section.changelog {
+    > hr {
+      overflow: visible;
+      text-align: center;
+      margin: 0;
+    }
+
+    > hr:after {
+      @include sans-serif;
+      @include font-size("s");
+      color: var(--color-footnote-def);
+      position: relative;
+      top: 1.4ch;
+      padding: 0 var(--space-3xs);
+      background-color: var(--color-background);
+      content: "Changelog";
+    }
+
+    :is(ol, ul) > li::before {
+      color: var(--color-footnote-def);
+    }
+
+    .item time {
+      @include sans-serif;
+    }
+
+    .item .description {
+      display: grid;
+      row-gap: var(--flow-space);
     }
   }
 }

@@ -1,4 +1,5 @@
 use btree_range_map::RangeMap;
+use chrono::NaiveDate;
 use lazy_static::lazy_static;
 use regex::Regex;
 use serde::Serialize;
@@ -153,6 +154,17 @@ pub struct ElementLookup {
 type LinkLabel = String;
 type HeadingId = String;
 
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct ChangeLogItem {
+    pub date: NaiveDate,
+    pub description: String,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct ChangeLog {
+    pub items: Vec<ChangeLogItem>,
+}
+
 #[derive(Debug)]
 pub struct MarkupLookup {
     // Element lookup by character position.
@@ -161,6 +173,9 @@ pub struct MarkupLookup {
     // Element lookup by id or type.
     pub link_defs: HashMap<LinkLabel, Vec<LinkDefLookup>>,
     pub headings: HashMap<HeadingId, Vec<HeadingLookup>>,
+
+    // The post's changelog
+    pub changelog: Option<ChangeLog>,
 
     // Position translations.
     prev_line_size_sum: Vec<usize>,
@@ -188,6 +203,7 @@ impl MarkupLookup {
             char_pos_to_element: RangeMap::new(),
             link_defs: HashMap::new(),
             headings: HashMap::new(),
+            changelog: None,
             prev_line_size_sum: line_size_sum,
             line_calc_offset,
         }

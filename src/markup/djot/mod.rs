@@ -1,4 +1,5 @@
 mod auto_figures;
+mod changelog;
 mod code;
 mod div_transforms;
 mod drop_offset;
@@ -12,6 +13,7 @@ mod todos;
 mod transform_headers;
 
 use self::auto_figures::AutoFigures;
+use self::changelog::move_changelog;
 use self::code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 pub use self::div_transforms::DivTransform;
 use self::div_transforms::DivTransforms;
@@ -22,7 +24,7 @@ use self::quote_transforms::QuoteTransforms;
 use self::strip_elements::{StripElements, StripSymbols};
 pub use self::symbol_transforms::SymbolTransform;
 use self::symbol_transforms::SymbolTransforms;
-use self::table_of_content::insert_toc;
+use self::table_of_content::{insert_toc, remove_toc};
 use self::todos::TransformTodoComments;
 use self::transform_headers::TransformHeaders;
 use crate::markup::{self, Html, HtmlParseRes, MarkupLookup, ParseContext};
@@ -60,6 +62,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
         .into_inner();
 
     body = insert_toc(&body, &lookup).to_string();
+    body = move_changelog(&body).to_string();
 
     Ok(HtmlParseRes {
         html: Html(body),
@@ -80,6 +83,10 @@ pub fn djot_to_html_feed(djot: &str) -> Result<markup::FeedHtml> {
 
     let mut body = String::new();
     Renderer::default().push(transformed, &mut body)?;
+
+    body = remove_toc(&body).to_string();
+    body = move_changelog(&body).to_string();
+
     Ok(markup::FeedHtml(body))
 }
 
