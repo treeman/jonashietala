@@ -344,27 +344,6 @@ I had to redo most of the configuration and I think I made some minor changes th
 
 ![](/images/cosmos/v13_proto.jpg)
 
-## Final prototype
-
-I did make some more minor tweaks for the final prototype...
-But I can't remember, probably some small changes to the thumb or top pinky keys again.
-
-![Behold, it's finally and completely done!](/images/cosmos/v14_proto_both.jpg)
-
-::: note
-After having used the keyboard for typing...
-I notice that it might not be done.
-
-But I'm too lazy to redo the wiring at this point time.
-
-Here's a list of things that bothers me:
-
-1. The mouse pinky key is sometimes in the way when typing (I should lower it or maybe _\*gasp\*_ remove it).
-1. I have no use of the bottom extra two keys on the left side (ring and middle finger column).
-
-Maybe I'll find a use for the extra keys in the future but having unused keys _annoys_ me.
-:::
-
 ## Trackball mounting types
 
 ![Roller bearings for the trackball.](/images/cosmos/roller_trackball.jpg)
@@ -389,6 +368,10 @@ The static ball bearings had more friction than the BTUs and less than the rolle
 
 While they don't feel nearly as good as the [Kensington SlimBlade][] they're decent enough.
 I try not to use the mouse _that_ much and having the trackball so much closer is worth it compared to having a separate trackball unit besides the keyboard.
+
+## Remove mouse keys
+
+![](/images/cosmos/right_complete_no_mouse_keys.jpg)
 
 # Additional printed parts
 
@@ -431,6 +414,8 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 ![The matrix on the right keyboard.
 It was a lot more difficult to solder because of the awkward positions of the switches.](/images/cosmos/right_matrix.jpg)
 
+![](/images/cosmos/right_matrix_no_mouse_keys.jpg)
+
 ![Both the rows and columns are wired up and soldered to the controller.](/images/cosmos/left_matrix.jpg)
 
 The wiring is horrible, I know.
@@ -438,7 +423,9 @@ The wiring is horrible, I know.
 I only lost one microcontroller due to a short...
 With my wiring prowess I consider that a success!
 
-## Controller pin assignments
+## Controller wiring
+
+![](/images/cosmos/microcontroller_cutoff.jpg)
 
 ![The pins of the [Liatris][] microcontroller.
 It's a RP2040-based controller.](/images/cosmos/liatris.webp)
@@ -471,6 +458,8 @@ Pin 1 is also connected to Vcc to signal to QMK that this is the left side of th
 ](/images/cosmos/left_micro_soldered.jpg)
 
 ![The [pmw3389][] sensor attached beneath the trackball.](/images/cosmos/pmw339.jpg)
+
+![](/images/cosmos/right_wiring_complete.jpg)
 
 
 # Adding the keyboard to QMK
@@ -800,7 +789,6 @@ I'll include it here for completeness sake:
     ```
 
 And then run `qmk console` from the command line.
-
 
 
 [v2-ball]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgBWkwKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFchIXCNqD2LawigEQyaPAzeD7h+QBGKIDICgSDgipynEQm4mEnuDckOQBUhowgE4IABCAyL0CGICGisAHIICAnAEo0MbBAkJTCAPgAQF4A9gBARABSABIAEgASABIAEgASABgAGgAcAEYACAAKACYAfQDqAHoB6AByAGwAQCQAYQHuAEAgAEAMAA4KFgBiAEBwAEAyAHYBNABhAdiAggB

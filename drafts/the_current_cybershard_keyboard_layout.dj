@@ -50,12 +50,13 @@ This layer is activated using QMK's [automatic mouse layer][] that will activate
 
 [automatic mouse layer]: https://docs.qmk.fm/features/pointing_device#pointing-device-auto-mouse
 
-There are some extra modes for the trackball:
+Here are some extra features for the trackball:
 
+- The keys for lowering and raising DPI exists to adjust DPI on the fly, so I can figure out what DPI setting I should set as standard.
 - `Prec` enters the precision mode with a lower DPI for more precise mouse movement.
 - Holding the [`MOD` combo](#Horizontal-combos) activates the speed mode with higher DPI.
 - Similarly, holding the [`SYM` combo](#Horizontal-combos) actives scrolling mode, where the trackball scrolls instead of moves the mouse.
-- Both the `Ctrl` and `Shift` [combos][] are always available, and useful with the trackball.
+- The regular modifier [combos][] like `Ctrl` and `Shift` are available, which may be useful with the trackball.
 
 ## Windows layer
 
@@ -85,11 +86,11 @@ Similar to the numbers layer, there are [combos][] that are used to output stand
 
 Some common symbol sequences, like `->`, exists as [combos][] and others, like ` != `, as [long press](#Long-press).
 
-## Special symbols
+## Special characters
 
-![Specials (with ←↓↑→ symbols, not arrow keys).](/images/cybershard-layout/spec.png)
+![Specials.](/images/cybershard-layout/spec.png)
 
-Some of these are [dead keys][], to add diacritic to any letter. To get `é` I do `´` then `e`, and the operating system will merge them together.
+Some of these are [dead keys][], to add diacritic to any letter. To get `é` you can use the dead key `´` then `e`, and the operating system will merge them together.
 
 ## Modifiers
 
@@ -169,9 +170,10 @@ I use the combo `l` + `)` as the [leader key][]. This will wait for a sequence o
 | Leader sequence       |  Action |
 |:----------------------|:------------|
 | `l` + `)`, `c`        |  **C**aps lock |
-| `l` + `)`, `s`        |  `Ctrl` + `Gui` + `Space` (mapped to set Swedish input in Linux) |
+| `l` + `)`, `s`        |  *S*et Swedish input in Linux (`Ctrl` + `Gui` + `Space`) |
 | `l` + `)`, `t`, `n`   |  **T**oggle **N**umber layer |
 | `l` + `)`, `t`, `s`   |  **T**oggle **S**ymbols layer |
+| `l` + `)`, `t`, `f`   |  **T**oggle **F**unction layer |
 | `l` + `)`, `t`, `c`   |  **T**oggle **C**aps lock escape swap |
 
 # CAPSWORD
