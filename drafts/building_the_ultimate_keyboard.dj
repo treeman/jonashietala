@@ -206,7 +206,7 @@ with just a 3D printer, you also need some hardware:
 
 # Prototypes
 
-![Discarded prototypes.](/images/cosmos/prototype_cases.jpg)
+![Some discarded prototypes.](/images/cosmos/prototype_cases.jpg)
 
 When you're trying to design something like a custom keyboard I think you need to go through a bunch of trial-and-error until you find something that fits.
 
@@ -411,10 +411,12 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 
 ![The rows are connected with diodes and with a cable to a pin on the controller.](/images/cosmos/left_rows_soldered.jpg)
 
-![The matrix on the right keyboard.
+![The matrix on the right side.
 It was a lot more difficult to solder because of the awkward positions of the switches.](/images/cosmos/right_matrix.jpg)
 
-![](/images/cosmos/right_matrix_no_mouse_keys.jpg)
+![The 3rd matrix I soldered for the right side, this time without the challenging mouse keys.
+Note that I wired it up slightly differently than in the wiring plan above because it felt more straightforward.
+Exactly how you choose to construct the matrix doesn't really matter, as long as every key as a unique row/column combination.](/images/cosmos/right_matrix_no_mouse_keys.jpg)
 
 ![Both the rows and columns are wired up and soldered to the controller.](/images/cosmos/left_matrix.jpg)
 
@@ -425,7 +427,7 @@ With my wiring prowess I consider that a success!
 
 ## Controller wiring
 
-![](/images/cosmos/microcontroller_cutoff.jpg)
+![The right-side controller connected to the TRRS and the trackball sensor.](/images/cosmos/microcontroller_cutoff.jpg)
 
 ![The pins of the [Liatris][] microcontroller.
 It's a RP2040-based controller.](/images/cosmos/liatris.webp)
@@ -459,7 +461,7 @@ Pin 1 is also connected to Vcc to signal to QMK that this is the left side of th
 
 ![The [pmw3389][] sensor attached beneath the trackball.](/images/cosmos/pmw339.jpg)
 
-![](/images/cosmos/right_wiring_complete.jpg)
+![The complete wiring of the right-side keyboard.](/images/cosmos/right_wiring_complete.jpg)
 
 
 # Adding the keyboard to QMK
