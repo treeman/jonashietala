@@ -28,8 +28,8 @@ Some even have "ultimate" in their name, although I'll assert that they're far f
 > ^ Tywin Lannister
 
 I'll go one step further to say that no keyboard is universally the ultimate because it's impossible to agree on how to rank different keyboards.
-For example, while I personally prefer a split keyboard, you might not;
-some people have very long fingers and some have very short fingers, making some layouts more preferable.
+For example, while I personally prefer a split keyboard, you might not.
+Some people have very long fingers and some have very short fingers, making some layouts more preferable.
 Others may not even have 10 fingers (or both hands), requiring more drastic modifications.
 
 If an ultimate keyboard exists, it differs from person to person.
@@ -56,7 +56,7 @@ a. Have an integrated trackball or trackpad.
 a. Contain the keys I need but no more.
 
    I like smaller keyboards and I've been very happy and with [my custom keyboard layout][t34] that only has 34 keys.
-   Some modifications are fine of course.
+   Some modifications are fine of course but for the most part I want to be able to use the same layout on both the [Ferris][] and my new keyboard.
 
 With these requirements I need to be able to customize all parts of the keyboard and I really don't want to learn CAD and create one from scratch; I wonder what alternatives I have?
 
@@ -155,7 +155,7 @@ These were the important parts going into the design process:
 
 # Hardware and material
 
-with just a 3D printer, you also need some hardware:
+It's not enough with just a 3D printer, to build a working keyboard you need a bunch of hardware:
 
 1. Two microcontrollers.
 
@@ -173,7 +173,7 @@ with just a 3D printer, you also need some hardware:
     ![A collection of different Choc switches.](/images/cosmos/choc_switches.jpg)
 
     For the final keyboard I used the [Ambients silent Noctural (linear / 20gf)][silent] switches,
-    although the only factor I ended up caring about was getting as light switches as possible.
+    where the deciding factor was getting as light switches as possible.
     (I've previously used modded 15gf switches, which were even better, but I couldn't find a way to buy them.)
 
 1. Keycaps
@@ -194,9 +194,9 @@ with just a 3D printer, you also need some hardware:
 
 1. Filament for the 3D printed pieces.
 
-   I ended up settling on the [PolyTerra PLA Army Purple][] for the case and some TPU I had home for the plate.
+   I ended up settling on the [PolyTerra PLA Army Purple][] for the case but I used a bunch of different filament during the prototype phase.
 
-1. Finally some extra hardware such as diodes, screws, heatset inserts, and cable to do the wiring.
+1. Diodes, screws, heatset inserts, and cable to do the wiring.
 
 [PolyTerra PLA Army Purple]: https://www.3djake.com/polymaker/polyterra-pla-army-purple
 [TRRS cable]: https://splitkb.com/products/braided-trrs-cable?variant=31226379501645
@@ -314,7 +314,12 @@ Adjustments made:
 - Removed the display
 :::
 
+Although I said I wanted to have a 3x5 grid, the generator included an easy option to include a small bottom row with 2 extra keys (for the ring and middle finger) that I wanted to try out for the left side.
+They're okay. Not uncomfortable but not quite comfortable enough that I want to have common keys there.
+
 ## Beta V3
+
+![](/images/cosmos/v12_proto.jpg)
 
 At this point the Beta V3 of [configurator][Cosmos] is out and in it there's several improvements, most notably:
 
@@ -333,16 +338,14 @@ I had to redo most of the configuration and I think I made some minor changes th
 - Lowered ring pinky column key a little
 :::
 
-![](/images/cosmos/v12_proto.jpg)
-
 ## Small tweaks to pinky and thumb keys
+
+![](/images/cosmos/v13_proto.jpg)
 
 ::: plus
 - Raise/tilt top pinky row key
 - Move thumb keys on left side closer together
 :::
-
-![](/images/cosmos/v13_proto.jpg)
 
 ## Trackball mounting types
 
@@ -369,11 +372,32 @@ The static ball bearings had more friction than the BTUs and less than the rolle
 While they don't feel nearly as good as the [Kensington SlimBlade][] they're decent enough.
 I try not to use the mouse _that_ much and having the trackball so much closer is worth it compared to having a separate trackball unit besides the keyboard.
 
+::: note
+When I discovered this issue I had already wired up the keyboard, so to switch mount I had to redo the wiring.
+It was worth it.
+:::
+
 ## Remove mouse keys
 
 ![](/images/cosmos/right_complete_no_mouse_keys.jpg)
 
+After having used the keyboard for real I realized that the three keys dedicated to mouse buttons would have to go.
+There were a few issues with them:
+
+::: dash
+- The pinky key got in the way sometimes when I reached for the top column, and I couldn't retrain myself to avoid it.
+- One of the goals with the [keyboard layout I use][t34] is to reduce the thumb and pinky usage of my right hand. The mouse keys counteract this goal.
+- QMK's [automatic mouse layer][] feature---that activates a mouse layer when the trackball moves---is a superior solution if you're fine with having to use both hands to operate the mouse.
+:::
+
+So I had them removed and I rewired the right half for the 3rd time.
+Sigh.
+
+I think the lesson is that it's not enough to print a prototype and press keys, you have to build and _use_ the keyboard a bunch before you can evaluate some of the design decisions.
+
 # Additional printed parts
+
+While the case is the biggest and most important part of this kind of keyboard, there are a few other parts I had to print to complete the keyboard.
 
 ## Wrist rests
 
@@ -388,26 +412,52 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 
 ### Magnet attachments
 
+::: flex
 ![](/images/cosmos/magnets_in_case.jpg)
-
 ![](/images/cosmos/magnets_on_rest.jpg)
+:::
+
+The wrist rests didn't come with any sort of attachment to the case, so they just always drifted away.
+I tried to combat this by gluing magnets inside the case and outside the wrist rest, making them stick together just enough to stay together during normal use, while being easily removable.
 
 ## Microcontroller holder
 
-![](/images/cosmos/microcontroller_holder.jpg)
+![The microcontroller is held in place by a holder you screw into the case.](/images/cosmos/microcontroller_holder.jpg)
+
+There's a holder to fasten the microcontroller to the case that I use.
+I had to manually make a hole to make the `Boot` button accessible, which was easily accomplished when slicing the model.
 
 ## Bottom plate
 
-![](/images/cosmos/bottom_plate.jpg)
+![A flexible bottom plate hides the wiring.](/images/cosmos/bottom_plate.jpg)
+
+One problem with the [Ferris][] was that it would sometimes slip on the table.
+I counteracted this by using an old Netrunner playmat but I wanted another solution.
+
+The keyboard is generated with a bottom plate that's used to hide and protect the internals.
+I printed it in TPU, a flexible and rubbery material, that gives enough grip to stay relatively still when I'm typing.
 
 # Wiring
 
+![The complete wiring of the right-side keyboard.](/images/cosmos/right_wiring_complete.jpg)
+
 ## Matrix
+
+One of the first things you need to do when wiring up a custom keyboard is to plan out a matrix.
+I guess you could directly wire every switch directly to the controller too, but that's not feasible if you have a larger amount of keys, so the usual thing is to use a matrix approach instead.
+
+What it means is you should wire together all keys in a row and connect that to a pin on the controller, and to the same with the rows.
+
+It might look something like this:
 
 ::: flex
 ![](/images/cosmos/left_wiring.jpg)
 ![](/images/cosmos/right_wiring.jpg)
+
+The green lines indicate columns and the purple lines indicates rows.
 :::
+
+You should also use diodes in the matrix (for either rows or columns, I chose the rows). Pay attention to the diode direction.
 
 ![The rows are connected with diodes and with a cable to a pin on the controller.](/images/cosmos/left_rows_soldered.jpg)
 
@@ -416,7 +466,7 @@ It was a lot more difficult to solder because of the awkward positions of the sw
 
 ![The 3rd matrix I soldered for the right side, this time without the challenging mouse keys.
 Note that I wired it up slightly differently than in the wiring plan above because it felt more straightforward.
-Exactly how you choose to construct the matrix doesn't really matter, as long as every key as a unique row/column combination.](/images/cosmos/right_matrix_no_mouse_keys.jpg)
+Exactly how you choose to construct the matrix doesn't really matter, as long as every key has a unique row/column combination.](/images/cosmos/right_matrix_no_mouse_keys.jpg)
 
 ![Both the rows and columns are wired up and soldered to the controller.](/images/cosmos/left_matrix.jpg)
 
@@ -429,15 +479,15 @@ With my wiring prowess I consider that a success!
 
 ![The right-side controller connected to the TRRS and the trackball sensor.](/images/cosmos/microcontroller_cutoff.jpg)
 
-![The pins of the [Liatris][] microcontroller.
-It's a RP2040-based controller.](/images/cosmos/liatris.webp)
-
 ::: warn
 It's a good idea to plan out the pin assignments in advance.
 I made the mistake of _soldering_ the wrong pins, mixing the two sets of SPI pins (you can't use RX0 together with TX1 for example).
 
 Or you could not solder directly on the controller, like a normal person.
 :::
+
+![The pins of the [Liatris][] microcontroller.
+It's an RP2040-based controller.](/images/cosmos/liatris.webp)
 
 | Controller pin | Connection |
 |:---- |:- |
@@ -461,8 +511,10 @@ Pin 1 is also connected to Vcc to signal to QMK that this is the left side of th
 
 ![The [pmw3389][] sensor attached beneath the trackball.](/images/cosmos/pmw339.jpg)
 
-![The complete wiring of the right-side keyboard.](/images/cosmos/right_wiring_complete.jpg)
-
+::: important
+The trackball sensor is _very_ sensitive with the distance towards the trackball.
+With my last print I had to file down the print where the sensor was attached to in order to get the sensor to track properly.
+:::
 
 # Adding the keyboard to QMK
 
@@ -822,3 +874,4 @@ And then run `qmk console` from the command line.
 [Kensington SlimBlade]: https://www.kensington.com/p/products/ergonomic-desk-accessories/ergonomic-input-devices/slimblade-trackball/
 [pmw3389]: https://www.tindie.com/products/citizenjoe/pmw3389-motion-sensor/
 [keycaps-homing]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps?variant=47289185632603
+[automatic mouse layer]: https://docs.qmk.fm/features/pointing_device#pointing-device-auto-mouse
