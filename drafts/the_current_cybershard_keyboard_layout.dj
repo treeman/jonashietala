@@ -22,11 +22,15 @@ The layout is for the most part a copy of the [T-34 keyboard layout][], see the 
 
 ![](/images/cybershard-layout/base.png)
 
+![](/images/cybershard-layout/_BASE.svg)
+
 The [repeat key](#Repeat-key) is used to output the last pressed key. I shift keys using [auto shift][] (see [long press](#Long-press)) and [CAPSWORD][]. The letters `Z` and `Q`, together with a bunch of other keys, are on [combos][].
 
 ## Swedish overlay
 
 ![Swedish overlay.](/images/cybershard-layout/swe.png)
+
+![Swedish overlay.](/images/cybershard-layout/_SWE.svg)
 
 When I want to write Swedish I activate this layer that replaces `()_` with `åäö`, or I use [combos][] from any layer.
 
@@ -34,17 +38,23 @@ When I want to write Swedish I activate this layer that replaces `()_` with `å�
 
 ![Navigation layer.](/images/cybershard-layout/nav.png)
 
+![Navigation layer.](/images/cybershard-layout/_NAV.svg)
+
 `Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][]. `Ctrl` + arrow is used to switch windows in Vim. Tabbing is for switching tabs in Firefox.
 
 ## Workspace layer
 
 ![Workspace layer. All keys have an implicit `Gui` modifier.](/images/cybershard-layout/wnav.png)
 
+![Workspace layer. All keys have an implicit `Gui` modifier.](/images/cybershard-layout/_WNAV.svg)
+
 This is used for all window and workspace management in [xmonad][]. Some common operations are also on the [navigation layer](#Navigation-layer).
 
 ## Mouse layer
 
 ![Mouse layer.](/images/cybershard-layout/mouse.png)
+
+![Mouse layer.](/images/cybershard-layout/_MOUSE.svg)
 
 This layer is activated using QMK's [automatic mouse layer][] that will activate whenever the trackball is moved and deactivated after a short timeout.
 
@@ -62,11 +72,15 @@ Here are some extra features for the trackball:
 
 ![Windows layer. All keys have an implicit `Alt` modifier.](/images/cybershard-layout/win.png)
 
+![Windows layer. All keys have an implicit `Alt` modifier.](/images/cybershard-layout/_WIN.svg)
+
 This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, without releasing `Alt`.
 
 ## Numbers
 
 ![Numbers. The darkened keys turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/num.png)
+
+![Numbers. The darkened keys turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/_NUM.svg)
 
 While I can activate the number layer persistently (using [leader sequences](#Leader-sequences)) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD][] for larger numbers (like `1984`).
 
@@ -78,9 +92,13 @@ While I can activate the number layer persistently (using [leader sequences](#Le
 
 ![Function keys.](/images/cybershard-layout/fun.png)
 
+![Function keys.](/images/cybershard-layout/_FUN.svg)
+
 ## Symbols
 
 ![Symbols.](/images/cybershard-layout/sym.png)
+
+![Symbols.](/images/cybershard-layout/_SYM.svg)
 
 Similar to the numbers layer, there are [combos][] that are used to output standalone symbols. The [combos][] follow the layout of the symbols layer, and combos with same-side thumb. So `Space` + left-hand key or `E` + right-hand key outputs a symbol, regardless of what layers are activated.
 
@@ -90,11 +108,15 @@ Some common symbol sequences, like `->`, exists as [combos][] and others, like `
 
 ![Specials.](/images/cybershard-layout/spec.png)
 
+![Specials.](/images/cybershard-layout/_SPEC.svg)
+
 Some of these are [dead keys][], to add diacritic to any letter. To get `é` you can use the dead key `´` then `e`, and the operating system will merge them together.
 
 ## Modifiers
 
 ![Modifiers.](/images/cybershard-layout/mods.png)
+
+![Modifiers.](/images/cybershard-layout/_MODS.svg)
 
 I typically use [long press](#Long-press) for shift and [combos][] for other modifiers, this layer is a fallback for when those aren't enough.
 
@@ -200,10 +222,10 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 
 # TODO
 
-- Add dead keys for `~` `` ` `` `^` `´`, rework special layer
-- Add `e` + `k` = `é` combo to graphics
-- One shot inner thumb key for `FUN`
-- *T*oggle *F*unction layer leader sequence
+- RSTH combo for `SHORT` layer (one-shot)
+- Use extra buttons for mouse keys (right, left, middle = right+left)
+- Fix `Prec`
+- Cancel mouse layer when `NAV` is held
 
 [T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
 [original T-34 post]: /blog/2021/06/03/the-t-34-keyboard-layout
