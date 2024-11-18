@@ -3,6 +3,7 @@ mod changelog;
 mod code;
 mod div_transforms;
 mod drop_offset;
+mod embed_svg;
 mod embed_youtube;
 mod lookup_register;
 mod quote_transforms;
@@ -18,6 +19,7 @@ use self::code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 pub use self::div_transforms::DivTransform;
 use self::div_transforms::DivTransforms;
 use self::drop_offset::DropOffset;
+use self::embed_svg::EmbedSvg;
 use self::embed_youtube::EmbedYoutube;
 use self::lookup_register::LookupRegister;
 use self::quote_transforms::QuoteTransforms;
@@ -46,6 +48,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
     let transformed = DropOffset::new(transformed);
 
     let transformed = TransformHeaders::new(transformed);
+    let transformed = EmbedSvg::new(transformed);
     let transformed = AutoFigures::new(transformed);
     let transformed = EmbedYoutube::new(transformed, true);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);

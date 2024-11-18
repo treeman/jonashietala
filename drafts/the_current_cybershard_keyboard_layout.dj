@@ -22,7 +22,7 @@ The layout is for the most part a copy of the [T-34 keyboard layout][], see the 
 
 ![](/images/cybershard-layout/base.png)
 
-![](/images/cybershard-layout/_BASE.svg)
+![](/images/cybershard-layout/_BASE.svg){embed=true}
 
 The [repeat key](#Repeat-key) is used to output the last pressed key. I shift keys using [auto shift][] (see [long press](#Long-press)) and [CAPSWORD][]. The letters `Z` and `Q`, together with a bunch of other keys, are on [combos][].
 
