@@ -2,54 +2,81 @@
 :root {
   .keycap.blank {
     --key-fill: #f7f2ea;
+    /* --key-fill: var(--melange-other_a_fg); */
   }
   .keycap.default {
     --key-fill: #e5c494;
+    /* --key-fill: var(--melange-other_a_com); */
+    /* --key-fill: var(--melange-other_b_yellow); */
   }
   .keycap.mod1 {
     --key-fill: #84ba5b;
+    /* --key-fill: var(--melange-other_c_green); */
   }
   .keycap.mod_down {
     --key-fill: #a6d854;
+    /* --key-fill: var(--melange-other_c_cyan); */
   }
   .keycap.mod_implicit {
     --key-fill: #b0ba5a;
+    /* --key-fill: var(--melange-other_b_green); */
   }
   .keycap.layer1 {
     --key-fill: #8da0cb;
+    /* --key-fill: var(--melange-other_b_blue); */
   }
   .keycap.layer_down {
     --key-fill: #a78cca;
+    /* --key-fill: var(--melange-other_c_blue); */
   }
   .keycap.layer_toggle {
     --key-fill: #9173bf;
+    /* --key-fill: var(--melange-other_c_magenta); */
   }
   .keycap.active_layer {
     --key-fill: #fc8d62;
+    /* --key-fill: var(--melange-other_b_red); */
   }
   .keycap.combo {
     --key-fill: #d48a8a;
   }
   .keycap.dead_key {
     --key-fill: #e78ac3;
+    /* --key-fill: var(--melange-other_b_magenta); */
   }
   .keycap.management {
     --key-fill: #969696;
+    /* --key-fill: var(--melange-other_a_ui); */
   }
   .keycap.layer_down {
     --key-fill: #a78cca;
   }
   .keycap.special {
     --key-fill: #ffd92f;
+    /* --key-fill: var(--melange-other_b_yellow); */
   }
 }
 
 .keycap {
   .outer.border {
     fill: var(--key-fill);
+    /* filter: brightness(0.8); */
   }
   .inner.border {
     fill: var(--key-fill);
     filter: brightness(1.25);
   }
 }
+
+/* @media (prefers-color-scheme: dark) { */
+/*   .keycap { */
+/*     .outer.border { */
+/*       fill: var(--key-fill); */
+/*       filter: brightness(0.8); */
+/*     } */
+/*     .inner.border { */
+/*       fill: var(--key-fill); */
+/*       filter: brightness(1); */
+/*     } */
+/*   } */
+/* } */

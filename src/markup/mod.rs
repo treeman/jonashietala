@@ -11,6 +11,7 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use serde::de::DeserializeOwned;
 use std::borrow::Cow;
+use std::collections::HashSet;
 use std::fs;
 use std::ops::Deref;
 use tracing::{error, warn};
@@ -78,7 +79,7 @@ impl Deref for FeedHtml {
 pub struct HtmlParseRes {
     pub html: Html,
     pub lookup: Option<MarkupLookup>,
-    pub embedded_files: Vec<RelPath>,
+    pub embedded_files: HashSet<RelPath>,
 }
 
 #[derive(Debug, Clone)]
@@ -207,8 +208,7 @@ impl<Meta: DeserializeOwned> ExtractMetadataRes<Meta> {
 pub struct MarkupFile<Meta: DeserializeOwned> {
     pub markup: Markup,
     pub markup_lookup: Option<MarkupLookup>,
-    // TODO utilize this
-    pub embedded_files: Vec<RelPath>,
+    pub embedded_files: HashSet<RelPath>,
     pub html: Html,
     pub path: AbsPath,
     pub markup_meta: Meta,

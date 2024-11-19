@@ -33,6 +33,7 @@ use crate::markup::{self, Html, HtmlParseRes, MarkupLookup, ParseContext};
 use eyre::Result;
 use jotdown::{html::Renderer, Parser, Render};
 use std::cell::RefCell;
+use std::collections::HashSet;
 use std::rc::Rc;
 
 pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
@@ -41,7 +42,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
         context.markup_meta_line_count,
     )));
 
-    let mut embedded_files = Vec::new();
+    let mut embedded_files = HashSet::new();
 
     let transformed = Parser::new(djot).into_offset_iter();
 

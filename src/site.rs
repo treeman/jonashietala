@@ -369,7 +369,7 @@ impl PathEvent {
             Self::Series
         } else if path.rel_path.starts_with("templates/") {
             Self::Template
-        } else if path.rel_path.starts_with("fonts/") || path.rel_path.starts_with("images/") {
+        } else if path.rel_path.starts_with("fonts/") {
             Self::Font
         } else if path.rel_path.starts_with("images/") {
             Self::Image
@@ -615,7 +615,8 @@ impl Site {
         let path = self.file_path_from_std(path)?;
 
         match PathEvent::from_path(&path) {
-            PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
+            PathEvent::Font => self.rebuild_copy(path, true)?,
+            PathEvent::Image => self.rebuild_img(path)?,
             _ => {}
         }
 
@@ -634,7 +635,8 @@ impl Site {
             PathEvent::Standalone => self.rebuild_standalone(path.abs_path())?,
             PathEvent::Series => self.rebuild_series(path.abs_path())?,
             PathEvent::Template => self.rebuild_template(path.abs_path())?,
-            PathEvent::Font | PathEvent::Image => self.rebuild_copy(path)?,
+            PathEvent::Font => self.rebuild_copy(path, true)?,
+            PathEvent::Image => self.rebuild_img(path)?,
             PathEvent::Homepage => self.rebuild_homepage()?,
             PathEvent::Project => self.rebuild_projects(path.abs_path())?,
             PathEvent::Unknown => warn!("Unknown write: {path}"),
@@ -923,13 +925,38 @@ impl Site {
         self.notify_refresh()
     }
 
-    fn rebuild_copy(&mut self, path: FilePath) -> Result<()> {
+    fn rebuild_copy(&mut self, path: FilePath, notify: bool) -> Result<()> {
         info!("Copy changed: {path}");
         util::copy_file(
             &path.abs_path(),
             &self.opts.output_dir.join(&path.rel_path.0),
         )?;
-        self.notify_refresh()
+        if notify {
+            self.notify_refresh()?;
+        }
+        Ok(())
+    }
+
+    fn rebuild_img(&mut self, path: FilePath) -> Result<()> {
+        // NOTE when changing multiple images (such as generating keyboard layout images)
+        // this may rebuild the post multiple times.
+        let changed_posts = self
+            .content
+            .posts
+            .values()
+            .filter(|post| post.embedded_files.contains(&path.rel_path))
+            .map(|post| post.path.clone())
+            .collect::<Vec<_>>();
+
+        // TODO should check series and standalones as well
+
+        for change in changed_posts {
+            self.rebuild_post(change.clone())?;
+        }
+
+        self.rebuild_copy(path, false)?;
+        self.notify_refresh()?;
+        Ok(())
     }
 
     fn rebuild_all(&mut self) -> Result<()> {

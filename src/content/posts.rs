@@ -8,6 +8,7 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::collections::BTreeMap;
+use std::collections::HashSet;
 use std::fmt::Debug;
 use tera::Context;
 use tracing::error;
@@ -18,7 +19,7 @@ use crate::context::{LoadContext, RenderContext};
 use crate::git::{CommitContext, LatestCommitInfo};
 use crate::item::Item;
 use crate::markup::{self, Html, Markup, MarkupLookup, ParseContext, RawMarkupFile};
-use crate::paths::{AbsPath, FilePath};
+use crate::paths::{AbsPath, FilePath, RelPath};
 use crate::{content::SeriesItem, item::TeraItem, site_url::SiteUrl, util};
 
 pub fn load_posts(dirs: &[AbsPath], context: &LoadContext) -> Result<BTreeMap<PostRef, PostItem>> {
@@ -92,6 +93,7 @@ pub struct PostItem {
     pub content: Html,
     pub markup: Markup,
     pub markup_lookup: Option<MarkupLookup>,
+    pub embedded_files: HashSet<RelPath>,
     pub series_id: Option<String>,
     pub series: Option<SeriesRef>,
     pub is_draft: bool,
@@ -133,6 +135,7 @@ impl PostItem {
             content: markup.html,
             markup: markup.markup,
             markup_lookup: markup.markup_lookup,
+            embedded_files: markup.embedded_files,
             series_id: partial.series_id,
             series: None,
             recommended: partial.recommended,

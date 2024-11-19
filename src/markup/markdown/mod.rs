@@ -16,6 +16,7 @@ use fenced_blocks::parse_fenced_blocks;
 use pulldown_cmark::{BrokenLink, CowStr, LinkType, Options, Parser};
 use quote_attrs::QuoteAttrs;
 use std::borrow::Cow;
+use std::collections::HashSet;
 use table_attrs::TableAttrs;
 use tracing::warn;
 use transform_headers::TransformHeaders;
@@ -28,7 +29,7 @@ pub fn markdown_to_html(markdown: &str) -> HtmlParseRes {
     HtmlParseRes {
         html: Html(parse_markdown(&preprocess(markdown))),
         lookup: None,
-        embedded_files: Vec::new(),
+        embedded_files: HashSet::new(),
     }
 }
 

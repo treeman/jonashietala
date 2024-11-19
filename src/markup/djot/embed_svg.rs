@@ -1,5 +1,6 @@
 use camino::Utf8PathBuf;
 use jotdown::{Attributes, Container, Event, SpanLinkType};
+use std::collections::HashSet;
 use std::fs;
 use tracing::warn;
 
@@ -8,11 +9,11 @@ use crate::paths::RelPath;
 pub struct EmbedSvg<'a, I: Iterator<Item = Event<'a>>> {
     parent: I,
     event_queue: Vec<Event<'a>>,
-    embedded_files: &'a mut Vec<RelPath>,
+    embedded_files: &'a mut HashSet<RelPath>,
 }
 
 impl<'a, I: Iterator<Item = Event<'a>>> EmbedSvg<'a, I> {
-    pub fn new(parent: I, embedded_files: &'a mut Vec<RelPath>) -> Self {
+    pub fn new(parent: I, embedded_files: &'a mut HashSet<RelPath>) -> Self {
         Self {
             parent,
             event_queue: vec![],
@@ -52,7 +53,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedSvg<'a, I> {
             .unwrap_or_else(|| src.to_string());
 
         self.embedded_files
-            .push(RelPath(Utf8PathBuf::from(src.to_string())));
+            .insert(RelPath(Utf8PathBuf::from(src.to_string())));
 
         let path = Utf8PathBuf::from(src);
         let embedded = fs::read_to_string(&path)
