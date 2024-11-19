@@ -105,7 +105,8 @@
       filter: brightness(1.2);
     }
   }
-  .keycap.mod1 {
+  .keycap.mod1,
+  .legend.mod1 {
     --key-fill: var(--melange_c_green);
   }
   .keycap.mod_down {
@@ -136,7 +137,8 @@
     --key-fill: var(--melange_b_yellow);
   }
 
-  .keycap {
+  .keycap,
+  .legend {
     .outer.border {
       fill: var(--key-fill);
       filter: brightness(0.8);
