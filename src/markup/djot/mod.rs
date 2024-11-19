@@ -41,6 +41,8 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
         context.markup_meta_line_count,
     )));
 
+    let mut embedded_files = Vec::new();
+
     let transformed = Parser::new(djot).into_offset_iter();
 
     let transformed = LookupRegister::new(transformed, djot, lookup.clone(), context);
@@ -48,8 +50,8 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
     let transformed = DropOffset::new(transformed);
 
     let transformed = TransformHeaders::new(transformed);
-    let transformed = EmbedSvg::new(transformed);
     let transformed = AutoFigures::new(transformed);
+    let transformed = EmbedSvg::new(transformed, &mut embedded_files);
     let transformed = EmbedYoutube::new(transformed, true);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
@@ -70,6 +72,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
     Ok(HtmlParseRes {
         html: Html(body),
         lookup: Some(lookup),
+        embedded_files,
     })
 }
 

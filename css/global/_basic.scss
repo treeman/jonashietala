@@ -4,7 +4,8 @@
 @use "font_size" as *;
 
 // Make images responsive without overflowing their container
-img {
+img,
+svg {
   max-inline-size: 100%;
 }
 

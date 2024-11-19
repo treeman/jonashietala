@@ -25,6 +25,7 @@ use self::djot::{djot_to_html, djot_to_html_feed};
 use self::markdown::{markdown_to_html, markdown_to_html_feed};
 use crate::paths::AbsPath;
 use crate::paths::FilePath;
+use crate::paths::RelPath;
 
 #[derive(Debug, Copy, Clone)]
 pub enum MarkupType {
@@ -77,6 +78,7 @@ impl Deref for FeedHtml {
 pub struct HtmlParseRes {
     pub html: Html,
     pub lookup: Option<MarkupLookup>,
+    pub embedded_files: Vec<RelPath>,
 }
 
 #[derive(Debug, Clone)]
@@ -154,6 +156,7 @@ impl<Meta: DeserializeOwned> RawMarkupFile<Meta> {
         Ok(MarkupFile {
             markup: self.markup,
             markup_lookup: res.lookup,
+            embedded_files: res.embedded_files,
             html: res.html,
             path: self.path,
             markup_meta: self.markup_meta,
@@ -204,6 +207,8 @@ impl<Meta: DeserializeOwned> ExtractMetadataRes<Meta> {
 pub struct MarkupFile<Meta: DeserializeOwned> {
     pub markup: Markup,
     pub markup_lookup: Option<MarkupLookup>,
+    // TODO utilize this
+    pub embedded_files: Vec<RelPath>,
     pub html: Html,
     pub path: AbsPath,
     pub markup_meta: Meta,

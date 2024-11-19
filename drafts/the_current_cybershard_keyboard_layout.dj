@@ -28,9 +28,7 @@ The [repeat key](#Repeat-key) is used to output the last pressed key. I shift ke
 
 ## Swedish overlay
 
-![Swedish overlay.](/images/cybershard-layout/swe.png)
-
-![Swedish overlay.](/images/cybershard-layout/_SWE.svg)
+![Swedish overlay.](/images/cybershard-layout/_SWE.svg){embed=true}
 
 When I want to write Swedish I activate this layer that replaces `()_` with `åäö`, or I use [combos][] from any layer.
 
@@ -38,7 +36,7 @@ When I want to write Swedish I activate this layer that replaces `()_` with `å�
 
 ![Navigation layer.](/images/cybershard-layout/nav.png)
 
-![Navigation layer.](/images/cybershard-layout/_NAV.svg)
+![Navigation layer.](/images/cybershard-layout/_NAV.svg){embed=true}
 
 `Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][]. `Ctrl` + arrow is used to switch windows in Vim. Tabbing is for switching tabs in Firefox.
 
@@ -46,15 +44,13 @@ When I want to write Swedish I activate this layer that replaces `()_` with `å�
 
 ![Workspace layer. All keys have an implicit `Gui` modifier.](/images/cybershard-layout/wnav.png)
 
-![Workspace layer. All keys have an implicit `Gui` modifier.](/images/cybershard-layout/_WNAV.svg)
+![Workspace layer. All keys have an implicit `Gui` modifier.](/images/cybershard-layout/_WNAV.svg){embed=true}
 
 This is used for all window and workspace management in [xmonad][]. Some common operations are also on the [navigation layer](#Navigation-layer).
 
 ## Mouse layer
 
-![Mouse layer.](/images/cybershard-layout/mouse.png)
-
-![Mouse layer.](/images/cybershard-layout/_MOUSE.svg)
+![Mouse layer.](/images/cybershard-layout/_MOUSE.svg){embed=true}
 
 This layer is activated using QMK's [automatic mouse layer][] that will activate whenever the trackball is moved and deactivated after a short timeout.
 
@@ -72,7 +68,7 @@ Here are some extra features for the trackball:
 
 ![Windows layer. All keys have an implicit `Alt` modifier.](/images/cybershard-layout/win.png)
 
-![Windows layer. All keys have an implicit `Alt` modifier.](/images/cybershard-layout/_WIN.svg)
+![Windows layer. All keys have an implicit `Alt` modifier.](/images/cybershard-layout/_WIN.svg){embed=true}
 
 This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, without releasing `Alt`.
 
@@ -80,7 +76,7 @@ This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, wi
 
 ![Numbers. The darkened keys turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/num.png)
 
-![Numbers. The darkened keys turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/_NUM.svg)
+![Numbers. The darkened keys turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/_NUM.svg){embed=true}
 
 While I can activate the number layer persistently (using [leader sequences](#Leader-sequences)) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD][] for larger numbers (like `1984`).
 
@@ -90,15 +86,13 @@ While I can activate the number layer persistently (using [leader sequences](#Le
 
 ## Function keys
 
-![Function keys.](/images/cybershard-layout/fun.png)
-
-![Function keys.](/images/cybershard-layout/_FUN.svg)
+![Function keys.](/images/cybershard-layout/_FUN.svg){embed=true}
 
 ## Symbols
 
 ![Symbols.](/images/cybershard-layout/sym.png)
 
-![Symbols.](/images/cybershard-layout/_SYM.svg)
+![Symbols.](/images/cybershard-layout/_SYM.svg){embed=true}
 
 Similar to the numbers layer, there are [combos][] that are used to output standalone symbols. The [combos][] follow the layout of the symbols layer, and combos with same-side thumb. So `Space` + left-hand key or `E` + right-hand key outputs a symbol, regardless of what layers are activated.
 
@@ -108,15 +102,13 @@ Some common symbol sequences, like `->`, exists as [combos][] and others, like `
 
 ![Specials.](/images/cybershard-layout/spec.png)
 
-![Specials.](/images/cybershard-layout/_SPEC.svg)
+![Specials.](/images/cybershard-layout/_SPEC.svg){embed=true}
 
 Some of these are [dead keys][], to add diacritic to any letter. To get `é` you can use the dead key `´` then `e`, and the operating system will merge them together.
 
 ## Modifiers
 
-![Modifiers.](/images/cybershard-layout/mods.png)
-
-![Modifiers.](/images/cybershard-layout/_MODS.svg)
+![Modifiers.](/images/cybershard-layout/_MODS.svg){embed=true}
 
 I typically use [long press](#Long-press) for shift and [combos][] for other modifiers, this layer is a fallback for when those aren't enough.
 
@@ -128,7 +120,7 @@ Note that combos are layer independent, and work the same regardless of what lay
 
 ## Horizontal combos
 
-![Horizontal combos with nearby keys.](/images/cybershard-layout/hcombos.png)
+![Horizontal combos with nearby keys.](/images/cybershard-layout/hcombos.png){embed=true}
 
 Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#Modifiers).
 

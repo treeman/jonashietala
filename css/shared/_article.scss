@@ -386,8 +386,13 @@ article {
   /*
    * Images
    */
-  img {
+  img,
+  svg {
     max-width: 100%;
+  }
+
+  svg {
+    width: 100%;
   }
 
   // This little beauty is here because once upon a time I was dumb,

@@ -28,6 +28,7 @@ pub fn markdown_to_html(markdown: &str) -> HtmlParseRes {
     HtmlParseRes {
         html: Html(parse_markdown(&preprocess(markdown))),
         lookup: None,
+        embedded_files: Vec::new(),
     }
 }
 
