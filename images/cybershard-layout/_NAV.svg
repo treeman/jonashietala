@@ -258,7 +258,7 @@
 <tspan x="37" dy="12">Alt</tspan>
 </text>
 </g>
-    <g class="keycap blank">
+    <g class="keycap default">
       <rect x="64" y="134.73999"
             width="54" height="54"
             rx="5" fill="#e5c494" class="outer border"/>
@@ -266,8 +266,12 @@
             width="42" height="42"
             rx="5" fill="#fff3c1" class="inner border"/>
 
+<text x="91" y="153.73999" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="91" dy="0">Back</tspan>
+<tspan x="91" dy="12">Mouse</tspan>
+</text>
 </g>
-    <g class="keycap blank">
+    <g class="keycap default">
       <rect x="118" y="118"
             width="54" height="54"
             rx="5" fill="#e5c494" class="outer border"/>
@@ -275,6 +279,10 @@
             width="42" height="42"
             rx="5" fill="#fff3c1" class="inner border"/>
 
+<text x="145" y="137" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="145" dy="0">Fwd</tspan>
+<tspan x="145" dy="12">Mouse</tspan>
+</text>
 </g>
     <g class="keycap default">
       <rect x="172" y="133.12"
@@ -345,7 +353,7 @@
             rx="5" fill="#fff3c1" class="inner border"/>
 
 </g>
-    <g class="keycap default">
+    <g class="keycap blank">
       <rect x="64" y="188.73999"
             width="54" height="54"
             rx="5" fill="#e5c494" class="outer border"/>
@@ -353,12 +361,8 @@
             width="42" height="42"
             rx="5" fill="#fff3c1" class="inner border"/>
 
-<text x="91" y="207.73999" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="91" dy="0">Back</tspan>
-<tspan x="91" dy="12">Mouse</tspan>
-</text>
 </g>
-    <g class="keycap default">
+    <g class="keycap blank">
       <rect x="118" y="172"
             width="54" height="54"
             rx="5" fill="#e5c494" class="outer border"/>
@@ -366,10 +370,6 @@
             width="42" height="42"
             rx="5" fill="#fff3c1" class="inner border"/>
 
-<text x="145" y="191" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="145" dy="0">Fwd</tspan>
-<tspan x="145" dy="12">Mouse</tspan>
-</text>
 </g>
     <g class="keycap blank">
       <rect x="199" y="212.5"
