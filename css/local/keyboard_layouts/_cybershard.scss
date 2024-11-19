@@ -1,68 +1,7 @@
 @use "../../global/melange" as *;
 
-.keycap.blank {
-  --key-fill: var(--melange_a_sel);
-  --key-fill: var(--melange_a_float);
-  .outer.border {
-    filter: brightness(1);
-  }
-  .inner.border {
-    filter: brightness(1.1);
-  }
-  text {
-    fill: var(--melange_a_fg);
-  }
-}
-.keycap.default {
-  --key-fill: #{$melange_dark_a_com};
-  .outer.border {
-    filter: brightness(1.2);
-  }
-  .inner.border {
-    filter: brightness(1.4);
-  }
-}
-.keycap.management {
-  --key-fill: var(--melange_a_ui);
-  .outer.border {
-    filter: brightness(1.2);
-  }
-  .inner.border {
-    filter: brightness(1.4);
-  }
-}
-.keycap.mod1 {
-  --key-fill: var(--melange_c_green);
-}
-.keycap.mod_down {
-  --key-fill: var(--melange_c_cyan);
-}
-.keycap.mod_implicit {
-  --key-fill: #{$melange_dark_b_green};
-}
-.keycap.layer1 {
-  --key-fill: var(--melange_c_blue);
-}
-.keycap.layer_down {
-  --key-fill: #{$melange_dark_c_magenta};
-}
-/* .keycap.layer_toggle { */
-/*   --key-fill: var(--melange_c_magenta); */
-/* } */
-.keycap.active_layer {
-  --key-fill: #{$melange_dark_b_red};
-}
-/* .keycap.combo { */
-/*   --key-fill: #d48a8a; */
-/* } */
-.keycap.dead_key {
-  --key-fill: var(--melange_c_red);
-}
-.keycap.special {
-  --key-fill: #{$melange_dark_b_yellow};
-}
-
-.keycap {
+.keycap,
+.legend {
   .outer.border {
     fill: var(--key-fill);
     filter: brightness(1);
@@ -71,11 +10,9 @@
     fill: var(--key-fill);
     filter: brightness(1.2);
   }
-}
 
-@media (prefers-color-scheme: dark) {
-  .keycap.blank {
-    --key-fill: var(--melange_a_sel);
+  &.blank {
+    --key-fill: var(--melange_a_float);
     .outer.border {
       filter: brightness(1);
     }
@@ -86,57 +23,57 @@
       fill: var(--melange_a_fg);
     }
   }
-  .keycap.default {
-    --key-fill: var(--melange_a_com);
-    /* --key-fill: var(--melange_a_float); */
+  &.default {
+    --key-fill: #{$melange_dark_a_com};
     .outer.border {
-      filter: brightness(1);
-    }
-    .inner.border {
       filter: brightness(1.2);
     }
+    .inner.border {
+      filter: brightness(1.4);
+    }
   }
-  .keycap.management {
+  &.management {
     --key-fill: var(--melange_a_ui);
     .outer.border {
-      filter: brightness(1);
-    }
-    .inner.border {
       filter: brightness(1.2);
     }
+    .inner.border {
+      filter: brightness(1.4);
+    }
   }
-  .keycap.mod1,
-  .legend.mod1 {
+  &.mod1 {
     --key-fill: var(--melange_c_green);
   }
-  .keycap.mod_down {
+  &.mod_down {
+    --key-fill: #{$melange_dark_b_green};
+  }
+  &.mod_implicit {
     --key-fill: var(--melange_c_cyan);
   }
-  .keycap.mod_implicit {
-    --key-fill: var(--melange_b_green);
-  }
-  .keycap.layer1 {
+  &.layer1 {
     --key-fill: var(--melange_c_blue);
   }
-  .keycap.layer_down {
-    --key-fill: var(--melange_b_magenta);
+  &.layer_down {
+    --key-fill: #{$melange_dark_b_blue};
   }
-  .keycap.layer_toggle {
-    --key-fill: var(--melange_c_magenta);
-  }
-  .keycap.active_layer {
-    --key-fill: var(--melange_b_red);
-  }
-  .keycap.combo {
-    --key-fill: #d48a8a;
-  }
-  .keycap.dead_key {
+  &.layer_toggle {
     --key-fill: var(--melange_c_red);
   }
-  .keycap.special {
-    --key-fill: var(--melange_b_yellow);
+  &.active_layer {
+    --key-fill: #{$melange_dark_b_red};
   }
+  &.combo {
+    --key-fill: white;
+  }
+  &.dead_key {
+    --key-fill: #{$melange_dark_c_yellow};
+  }
+  &.special {
+    --key-fill: #{$melange_dark_b_yellow};
+  }
+}
 
+@media (prefers-color-scheme: dark) {
   .keycap,
   .legend {
     .outer.border {
@@ -146,6 +83,68 @@
     .inner.border {
       fill: var(--key-fill);
       filter: brightness(1);
+    }
+
+    &.blank {
+      --key-fill: var(--melange_a_sel);
+      .outer.border {
+        filter: brightness(1);
+      }
+      .inner.border {
+        filter: brightness(1.1);
+      }
+      text {
+        fill: var(--melange_a_fg);
+      }
+    }
+    &.default {
+      --key-fill: var(--melange_a_com);
+      /* --key-fill: var(--melange_a_float); */
+      .outer.border {
+        filter: brightness(1);
+      }
+      .inner.border {
+        filter: brightness(1.2);
+      }
+    }
+    &.management {
+      --key-fill: var(--melange_a_ui);
+      .outer.border {
+        filter: brightness(1);
+      }
+      .inner.border {
+        filter: brightness(1.2);
+      }
+    }
+    &.mod1 {
+      --key-fill: var(--melange_c_green);
+    }
+    &.mod_down {
+      --key-fill: var(--melange_b_green);
+    }
+    &.mod_implicit {
+      --key-fill: var(--melange_c_cyan);
+    }
+    &.layer1 {
+      --key-fill: var(--melange_c_blue);
+    }
+    &.layer_down {
+      --key-fill: var(--melange_b_blue);
+    }
+    &.layer_toggle {
+      --key-fill: var(--melange_c_red);
+    }
+    &.active_layer {
+      --key-fill: var(--melange_b_red);
+    }
+    &.combo {
+      --key-fill: black;
+    }
+    &.dead_key {
+      --key-fill: var(--melange_c_yellow);
+    }
+    &.special {
+      --key-fill: var(--melange_b_yellow);
     }
   }
 }

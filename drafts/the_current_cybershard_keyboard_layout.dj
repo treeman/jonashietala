@@ -204,10 +204,6 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 
 # TODO
 
-- RSTH combo for `SHORT` layer (one-shot)
-- Use extra buttons for mouse keys (right, left, middle = right+left)
-- Fix `Prec`
-- Cancel mouse layer when `NAV` is held
 - Trademark symbol on `T` on specials layer
 
 [T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
