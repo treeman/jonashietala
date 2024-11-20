@@ -101,10 +101,10 @@
 
 </g>
     <g class="keycap blank">
-      <rect x="10" y="114.21999"
+      <rect x="10" y="125.020004"
             width="54" height="54"
             rx="5" fill="#e9e1db" class="outer border"/>
-      <rect x="16" y="118.21999"
+      <rect x="16" y="129.02"
             width="42" height="42"
             rx="5" fill="#fff6f0" class="inner border"/>
 
@@ -191,22 +191,22 @@
 </text>
 </g>
     <g class="keycap mod1">
-      <rect x="604" y="114.21999"
+      <rect x="604" y="125.020004"
             width="54" height="54"
             rx="5" fill="#6e9b72" class="outer border"/>
-      <rect x="610" y="118.21999"
+      <rect x="610" y="129.02"
             width="42" height="42"
             rx="5" fill="#80b585" class="inner border"/>
 
-<text x="631" y="139.22" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="631" y="150.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">Alt</tspan>
 </text>
 </g>
     <g class="keycap blank">
-      <rect x="10" y="168.22"
+      <rect x="10" y="179.02"
             width="54" height="54"
             rx="5" fill="#e9e1db" class="outer border"/>
-      <rect x="16" y="172.22"
+      <rect x="16" y="183.02"
             width="42" height="42"
             rx="5" fill="#fff6f0" class="inner border"/>
 
@@ -284,14 +284,14 @@
 
 </g>
     <g class="keycap mod1">
-      <rect x="604" y="168.22"
+      <rect x="604" y="179.02"
             width="54" height="54"
             rx="5" fill="#6e9b72" class="outer border"/>
-      <rect x="610" y="172.22"
+      <rect x="610" y="183.02"
             width="42" height="42"
             rx="5" fill="#80b585" class="inner border"/>
 
-<text x="631" y="187.22" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="631" y="198.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">Right</tspan>
 <tspan x="631" dy="12">Alt</tspan>
 </text>
