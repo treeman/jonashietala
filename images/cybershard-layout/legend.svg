@@ -16,7 +16,7 @@
             rx="5" fill="#c1a78e" class="outer border"/>
       <rect x="16" y="14"
             width="168" height="42"
-            rx="5" fill="#cab49e" class="inner border"/>
+            rx="5" fill="#ceb297" class="inner border"/>
     <text x="100" y="35" text-anchor="middle" dominant-baseline="middle">Shift &#x2F; Layer highlight</text>
     </g>
 
@@ -27,7 +27,7 @@
             rx="5" fill="#7892bd" class="outer border"/>
       <rect x="196" y="14"
             width="168" height="42"
-            rx="5" fill="#89a0c5" class="inner border"/>
+            rx="5" fill="#809cca" class="inner border"/>
     <text x="280" y="35" text-anchor="middle" dominant-baseline="middle">Layer (one shot &#x2F; down)</text>
     </g>
 
@@ -38,7 +38,7 @@
             rx="5" fill="#6e9b72" class="outer border"/>
       <rect x="376" y="14"
             width="168" height="42"
-            rx="5" fill="#7da581" class="inner border"/>
+            rx="5" fill="#77a87b" class="inner border"/>
     <text x="460" y="35" text-anchor="middle" dominant-baseline="middle">Modifier (one shot &#x2F; down)</text>
     </g>
 
@@ -49,7 +49,7 @@
             rx="5" fill="#a98a78" class="outer border"/>
       <rect x="556" y="14"
             width="168" height="42"
-            rx="5" fill="#b39888" class="inner border"/>
+            rx="5" fill="#b69481" class="inner border"/>
     <text x="640" y="35" text-anchor="middle" dominant-baseline="middle">Management</text>
     </g>
 
@@ -60,7 +60,7 @@
             rx="5" fill="#d47766" class="outer border"/>
       <rect x="16" y="68"
             width="168" height="42"
-            rx="5" fill="#da897a" class="inner border"/>
+            rx="5" fill="#e17e6c" class="inner border"/>
     <text x="100" y="89" text-anchor="middle" dominant-baseline="middle">Active key for layer</text>
     </g>
 
@@ -71,7 +71,7 @@
             rx="5" fill="#a3a9ce" class="outer border"/>
       <rect x="196" y="68"
             width="168" height="42"
-            rx="5" fill="#b4b9d7" class="inner border"/>
+            rx="5" fill="#adb3db" class="inner border"/>
     <text x="280" y="89" text-anchor="middle" dominant-baseline="middle">Layer (down)</text>
     </g>
 
@@ -82,7 +82,7 @@
             rx="5" fill="#85b695" class="outer border"/>
       <rect x="376" y="68"
             width="168" height="42"
-            rx="5" fill="#95c0a3" class="inner border"/>
+            rx="5" fill="#8ec39f" class="inner border"/>
     <text x="460" y="89" text-anchor="middle" dominant-baseline="middle">Modifier (down)</text>
     </g>
 
@@ -93,7 +93,7 @@
             rx="5" fill="#e49b5d" class="outer border"/>
       <rect x="556" y="68"
             width="168" height="42"
-            rx="5" fill="#e8a873" class="inner border"/>
+            rx="5" fill="#f1a462" class="inner border"/>
     <text x="640" y="89" text-anchor="middle" dominant-baseline="middle">Dead key</text>
     </g>
 
@@ -104,7 +104,7 @@
             rx="5" fill="#ece1d7" class="outer border"/>
       <rect x="16" y="122"
             width="168" height="42"
-            rx="5" fill="#f4eee8" class="inner border"/>
+            rx="5" fill="#f9ede3" class="inner border"/>
     <text x="100" y="143" text-anchor="middle" dominant-baseline="middle">Combo</text>
     </g>
 
@@ -115,7 +115,7 @@
             rx="5" fill="#c77b8b" class="outer border"/>
       <rect x="196" y="122"
             width="168" height="42"
-            rx="5" fill="#cf8d9b" class="inner border"/>
+            rx="5" fill="#d48394" class="inner border"/>
     <text x="280" y="143" text-anchor="middle" dominant-baseline="middle">Layer (toggle)</text>
     </g>
 
@@ -126,7 +126,7 @@
             rx="5" fill="#739797" class="outer border"/>
       <rect x="376" y="122"
             width="168" height="42"
-            rx="5" fill="#82a2a2" class="inner border"/>
+            rx="5" fill="#7da4a4" class="inner border"/>
     <text x="460" y="143" text-anchor="middle" dominant-baseline="middle">Modifier (implicit)</text>
     </g>
 
@@ -137,7 +137,7 @@
             rx="5" fill="#ebc06d" class="outer border"/>
       <rect x="556" y="122"
             width="168" height="42"
-            rx="5" fill="#eeca83" class="inner border"/>
+            rx="5" fill="#f8ca73" class="inner border"/>
     <text x="640" y="143" text-anchor="middle" dominant-baseline="middle">Special</text>
     </g>
 

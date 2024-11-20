@@ -16,7 +16,7 @@
             rx="5" fill="#e49b5d" class="outer border"/>
       <rect x="16" y="64.22"
             width="42" height="42"
-            rx="5" fill="#ebb689" class="inner border"/>
+            rx="5" fill="#feac67" class="inner border"/>
 
 <text x="37" y="85.22" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">~</tspan>
@@ -28,7 +28,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="70" y="30.74"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -37,7 +37,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="124" y="14"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -46,7 +46,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="178" y="29.119999"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -55,7 +55,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="232" y="36.68"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -64,7 +64,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="394" y="36.68"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -73,7 +73,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="448" y="29.119999"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -82,7 +82,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="502" y="14"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap dead_key">
@@ -91,7 +91,7 @@
             rx="5" fill="#e49b5d" class="outer border"/>
       <rect x="556" y="30.74"
             width="42" height="42"
-            rx="5" fill="#ebb689" class="inner border"/>
+            rx="5" fill="#feac67" class="inner border"/>
 
 <text x="577" y="51.739998" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="577" dy="0">^</tspan>
@@ -103,7 +103,7 @@
             rx="5" fill="#e49b5d" class="outer border"/>
       <rect x="610" y="64.22"
             width="42" height="42"
-            rx="5" fill="#ebb689" class="inner border"/>
+            rx="5" fill="#feac67" class="inner border"/>
 
 <text x="631" y="85.22" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">¨</tspan>
@@ -115,7 +115,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="16" y="118.21999"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -124,7 +124,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="70" y="84.74"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -133,7 +133,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="124" y="68"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -142,7 +142,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="178" y="83.119995"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap dead_key">
@@ -151,7 +151,7 @@
             rx="5" fill="#e49b5d" class="outer border"/>
       <rect x="232" y="90.68"
             width="42" height="42"
-            rx="5" fill="#ebb689" class="inner border"/>
+            rx="5" fill="#feac67" class="inner border"/>
 
 <text x="253" y="111.68" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="253" dy="0">´</tspan>
@@ -163,7 +163,7 @@
             rx="5" fill="#e49b5d" class="outer border"/>
       <rect x="394" y="90.68"
             width="42" height="42"
-            rx="5" fill="#ebb689" class="inner border"/>
+            rx="5" fill="#feac67" class="inner border"/>
 
 <text x="415" y="111.68" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="415" dy="0">`</tspan>
@@ -175,7 +175,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="448" y="83.119995"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -184,7 +184,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="502" y="68"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -193,7 +193,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="556" y="84.74"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -202,7 +202,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="610" y="118.21999"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -211,7 +211,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="16" y="172.22"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -220,7 +220,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="70" y="138.73999"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -229,7 +229,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="124" y="122"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -238,7 +238,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="178" y="137.12"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -247,7 +247,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="232" y="144.68001"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -256,7 +256,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="394" y="144.68001"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -265,7 +265,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="448" y="137.12"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -274,7 +274,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="502" y="122"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -283,7 +283,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="556" y="138.73999"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -292,7 +292,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="610" y="172.22"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -301,7 +301,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="70" y="192.73999"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -310,7 +310,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="124" y="176"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -319,7 +319,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="205" y="216.5"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -328,7 +328,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="259" y="230"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
     <g class="keycap blank">
@@ -337,7 +337,7 @@
             rx="5" fill="#e9e1db" class="outer border"/>
       <rect x="367" y="230"
             width="42" height="42"
-            rx="5" fill="#fcfbfb" class="inner border"/>
+            rx="5" fill="#fff6f0" class="inner border"/>
 
 </g>
 </svg>
