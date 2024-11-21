@@ -104,9 +104,9 @@ Note that combos are layer independent, and work the same regardless of what lay
 
 ![](/images/cybershard-layout/neighbour_combos.svg){embed=true}
 
-## Horizontal combos
+![](/images/cybershard-layout/mid_triple_combos.svg){embed=true}
 
-![Horizontal combos with nearby keys.](/images/cybershard-layout/hcombos.png){embed=true}
+## Horizontal combos
 
 Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#Modifiers).
 
@@ -130,8 +130,6 @@ Note that some have a separate hold behaviour; for instance holding `Escape` act
 `QMK_BOOT` enters boot mode for the connected microcontroller, making it easy to update the keymap on the keyboard.
 
 ## Vertical combos
-
-![Vertical combos. All except `;` are pressed with a single finger between the keys.](/images/cybershard-layout/vcombos.png)
 
 `hsplit` splits a window horizontally in Vim.
 
