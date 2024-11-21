@@ -1,0 +1,87 @@
+---toml
+title = "Handwiring a keyboard"
+tags = ["Computer", "Keyboards", "Cybershard"]
+series = "cybershard"
+favorite = true
+---
+
+# Wiring
+
+![The complete wiring of the right-side keyboard.](/images/cosmos/right_wiring_complete.jpg)
+
+## Matrix
+
+One of the first things you need to do when wiring up a custom keyboard is to plan out a matrix.
+I guess you could directly wire every switch directly to the controller too, but that's not feasible if you have a larger amount of keys, so the usual thing is to use a matrix approach instead.
+
+What it means is you should wire together all keys in a row and connect that to a pin on the controller, and to the same with the rows.
+
+It might look something like this:
+
+::: flex
+![](/images/cosmos/left_wiring.jpg)
+![](/images/cosmos/right_wiring.jpg)
+
+The green lines indicate columns and the purple lines indicates rows.
+:::
+
+You should also use diodes in the matrix (for either rows or columns, I chose the rows). Pay attention to the diode direction.
+
+![The rows are connected with diodes and with a cable to a pin on the controller.](/images/cosmos/left_rows_soldered.jpg)
+
+![The matrix on the right side.
+It was a lot more difficult to solder because of the awkward positions of the switches.](/images/cosmos/right_matrix.jpg)
+
+![The 3rd matrix I soldered for the right side, this time without the challenging mouse keys.
+Note that I wired it up slightly differently than in the wiring plan above because it felt more straightforward.
+Exactly how you choose to construct the matrix doesn't really matter, as long as every key has a unique row/column combination.](/images/cosmos/right_matrix_no_mouse_keys.jpg)
+
+![Both the rows and columns are wired up and soldered to the controller.](/images/cosmos/left_matrix.jpg)
+
+The wiring is horrible, I know.
+
+I only lost one microcontroller due to a short...
+With my wiring prowess I consider that a success!
+
+## Controller wiring
+
+![The right-side controller connected to the TRRS and the trackball sensor.](/images/cosmos/microcontroller_cutoff.jpg)
+
+::: warn
+It's a good idea to plan out the pin assignments in advance.
+I made the mistake of _soldering_ the wrong pins, mixing the two sets of SPI pins (you can't use RX0 together with TX1 for example).
+
+Or you could not solder directly on the controller, like a normal person.
+:::
+
+![The pins of the [Liatris][] microcontroller.
+It's an RP2040-based controller.](/images/cosmos/liatris.webp)
+
+| Controller pin | Connection |
+|:---- |:- |
+| 1 | Handedness (V~CC~ on the left keyboard and GND on the right) |
+| 2 | TRRS data |
+| 3, 4, 5, 6, 7 | Matrix columns |
+| 20, 22, 26, 27 | Matrix rows |
+| 13 (CS1) | Trackball SS |
+| 14 (SCK1) | Trackball SCK |
+| 15 (TX1) | Trackball MOSI |
+| 16 (RX1) | Trackball MISO |
+
+::: note
+Although I connected trackball MT to pin 21 on the controller, the motion functionality isn't supported for split keyboards.
+I also didn't connect RST.
+:::
+
+![The TRRS connector is connected to Vcc, GND, and pin 2 (and similarly on the right side).
+Pin 1 is also connected to Vcc to signal to QMK that this is the left side of the keyboard, whereas pin 1 is connected to GND on the right controller.
+](/images/cosmos/left_micro_soldered.jpg)
+
+![The [pmw3389][] sensor attached beneath the trackball.](/images/cosmos/pmw339.jpg)
+
+::: important
+The trackball sensor is _very_ sensitive with the distance towards the trackball.
+With my last print I had to file down the print where the sensor was attached to in order to get the sensor to track properly.
+:::
+
+

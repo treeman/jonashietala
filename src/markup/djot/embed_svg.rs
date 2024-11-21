@@ -30,10 +30,10 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedSvg<'a, I> {
             return Some(event);
         }
 
-        let src = match self.parent.next()? {
+        let (src, link_type, attrs) = match self.parent.next()? {
             Event::Start(Container::Image(src, link_type), attrs) => {
                 if should_embed(&src, &link_type, &attrs) {
-                    src
+                    (src, link_type, attrs)
                 } else {
                     return Some(Event::Start(Container::Image(src, link_type), attrs));
                 }
@@ -47,22 +47,27 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedSvg<'a, I> {
         }
 
         // Images typically include a leading `/` so strip it.
-        let src = src
+        let rel_src = src
             .strip_prefix('/')
             .map(String::from)
             .unwrap_or_else(|| src.to_string());
 
         self.embedded_files
-            .insert(RelPath(Utf8PathBuf::from(src.to_string())));
+            .insert(RelPath(Utf8PathBuf::from(rel_src.to_string())));
 
-        let path = Utf8PathBuf::from(src);
-        let embedded = fs::read_to_string(&path)
-            .unwrap_or_else(|_| panic!("Should be able to read file `{path}"));
-
-        let html = Container::RawBlock { format: "html" };
-        self.event_queue.push(Event::End(html.clone()));
-        self.event_queue.push(Event::Str(embedded.into()));
-        Some(Event::Start(html, Attributes::new()))
+        let path = Utf8PathBuf::from(rel_src);
+        match fs::read_to_string(&path) {
+            Ok(embedded) => {
+                let html = Container::RawBlock { format: "html" };
+                self.event_queue.push(Event::End(html.clone()));
+                self.event_queue.push(Event::Str(embedded.into()));
+                Some(Event::Start(html, Attributes::new()))
+            }
+            Err(err) => {
+                warn!("Couldn't embed image `{src}`: {err}");
+                Some(Event::Start(Container::Image(src, link_type), attrs))
+            }
+        }
     }
 }
 

@@ -1,0 +1,336 @@
+---toml
+title = "Adding a new keyboard to QMK"
+tags = ["Computer", "Keyboards", "Keyboard layouts", "Cybershard"]
+series = "cybershard"
+favorite = true
+---
+
+# Adding the keyboard to QMK
+
+The QMK cli has the `qmk new-keyboard` command that helps you get started.
+I couldn't get the generated template to work for me, so I copied settings from an existing keybord with `rp2042` support.
+
+I'll try to hit on the most important parts of the config, take a [look at the source code][cybershard] for all details.
+
+## Basic setup
+
+The folder structure for a keyboard looks like this:
+
+{path="qmk_firmware/keyboards"}
+```
+cybershard
+├── keyboard.json
+├── rules.mk
+└── keymaps
+    └── default
+        ├── config.h
+        ├── keymap.c
+        └── ...
+```
+
+({=Cybershard=} is the name I eventually settled on for the keyboard.)
+
+The most important part is `keyboard.json` that defines (almost) everything we need for a new keyboard in QMK.
+
+First you need to set the `processor`, `bootloader`, and `usb` values.
+The [Liatris][] microcontroller uses the [RP2040](https://docs.qmk.fm/platformdev_rp2040) MCU, and I just picked some vendor- and product identifiers:
+
+{path="keyboard.json"}
+```json
+{
+    "keyboard_name": "cybershard",
+    "processor": "RP2040",
+    "bootloader": "rp2040",
+    "usb": {
+        "device_version": "0.0.1",
+        "pid": "0x0002",
+        "vid": "0x0361"
+    },
+}
+```
+
+Then we need to define the matrix (with the pins we soldered) and the layout (how we'll configure the keymap in `keymap.c`):
+
+{path="keyboard.json"}
+```json
+{
+    "diode_direction": "COL2ROW",
+    "matrix_pins": {
+        // We need to use a `GP` prefix for the pins.
+        "rows": ["GP26", "GP27", "GP22", "GP20"],
+        "cols": ["GP3", "GP4", "GP5", "GP6", "GP7"]
+    },
+    "layouts": {
+        "LAYOUT": {
+            "layout": [
+                // First physical row
+                { "matrix": [1, 0], "x": 0, "y": 0 },
+                { "matrix": [0, 1], "x": 0, "y": 0 },
+                { "matrix": [0, 2], "x": 0, "y": 0 },
+                { "matrix": [0, 3], "x": 0, "y": 0 },
+                { "matrix": [0, 4], "x": 0, "y": 0 },
+
+                // Second row
+                { "matrix": [2, 0], "x": 0, "y": 0 },
+                { "matrix": [1, 1], "x": 0, "y": 0 },
+                { "matrix": [1, 2], "x": 0, "y": 0 },
+                { "matrix": [1, 3], "x": 0, "y": 0 },
+                { "matrix": [1, 4], "x": 0, "y": 0 },
+
+                // etc...
+            ]
+        }
+    }
+}
+```
+
+Note that we can pick whatever physical pins we want as we can move around and configure them in software.
+The `LAYOUT` macro is what we use in `keymap.c` to define our keymap.
+When defining it we can choose to skip certain keys and reorganize it to be easier to define; for example, there's no switch at `0,0` in my keyboard so I skip that.
+
+The above `LAYOUT` can then be used like this:
+
+{path="keymap.c"}
+```c
+LAYOUT(
+ SE_J,    SE_C,    SE_Y,    SE_F,    SE_P,
+ SE_R,    SE_S,    SE_T,    SE_H,    SE_K,
+ SE_COMM, SE_V,    SE_G,    SE_D,    SE_B,
+          SE_A,    SE_B,
+                            // Thumb keys
+                            FUN_CLR, MT_SPC,
+),
+```
+
+## Flashing
+
+With the above setup we should be able to flash the keyboard by first entering the boot loader and running:
+
+```fish
+qmk flash -kb cybershard -km default
+```
+
+::: tip
+I didn't add a reset button to the keyboard that you typically use to enter the boot loader.
+The [Liatris][] has a boot button that you can hold when you connect the keyboard, but I want to hide the controller inside the casing.
+
+QMK has a `QK_BOOT` key that does the same.
+I added it as a 5-finger [combo][] to make it easily accessible but difficult to press by accident.
+:::
+
+Now the process of updating the firmware is quite nice and unless I screw up I don't need to connect another keyboard to do it.
+
+1. Start flashing with `qmk flash` (it will wait until it finds a flashable target).
+2. Press the `QK_BOOT` combo (the keyboard becomes unresponsive).
+3. Wait until the script finishes and the keyboard is available again.
+
+::: note
+`qmk flash` didn't work for me and it always got stuck at:
+
+```
+Flashing for bootloader: rp2040
+Waiting for drive to deploy...
+```
+
+After some digging around I found that all you're doing is copying a `.uf2` file into a usb storage, and the controller will then reboot as a keyboard with _something_ like this:
+
+```fish
+qmk compile -kb cybershard -km default
+sudo mount /dev/sdf1 /media/sd
+sudo cp cybershard_default.uf2 /media/sd/
+```
+
+After more frustration I found out that the flash scripts looks for a file called `INFO_UF2.TXT` under all drives mounted below `/media`.
+Because my system doesn't mount usb drives by default the script would never find it and hang.
+
+The simple solution is to start mounting usb drives automatically, which I did by installing [udevil](https://ignorantguru.github.io/udevil/) and running `devmon` on system startup.
+:::
+
+## Split keyboard
+
+To get the split keyboard feature to work I had to set the `SERIAL_DRIVER` option in `rules.mk`:
+
+{path="rules.mk"}
+```make
+SERIAL_DRIVER = vendor
+```
+
+{path="keyboard.json"}
+```json
+{
+    "split": {
+        "enabled": true,
+        // The pin that signals if the current controller is the left (high)
+        // or right (low) controller.
+        "handedness": {
+            "pin": "GP1"
+        },
+        // The TRRS data pin.
+        "soft_serial_pin": "GP2",
+        "matrix_pins": {
+            "right": {
+                // We can override the pins for the right controller.
+                // Note that GP26 and GP27 are swapped compared to the left side
+                // due to a mistake I made when soldering.
+                "rows": ["GP27", "GP26", "GP22", "GP20"],
+                "cols": ["GP3", "GP4", "GP5", "GP6", "GP7"]
+            }
+        },
+        "transport": {
+            "sync": {
+                // We need to sync the matrix state to allow combos, mods, and
+                // other stuff to work.
+                "matrix_state": true
+            }
+        }
+    },
+    "layouts": {
+        "LAYOUT": {
+            // The rows 0 to 3 specifies rows on the left side and
+            // 4 to 7 the rows on the right side.
+            "layout": [
+                // These 5 keys are the first row on the left side.
+                { "matrix": [1, 0], "x": 0, "y": 0 },
+                { "matrix": [0, 1], "x": 0, "y": 0 },
+                { "matrix": [0, 2], "x": 0, "y": 0 },
+                { "matrix": [0, 3], "x": 0, "y": 0 },
+                { "matrix": [0, 4], "x": 0, "y": 0 },
+                // These 5 keys are the first row on the right side.
+                { "matrix": [4, 0], "x": 0, "y": 0 },
+                { "matrix": [4, 1], "x": 0, "y": 0 },
+                { "matrix": [4, 2], "x": 0, "y": 0 },
+                { "matrix": [4, 3], "x": 0, "y": 0 },
+                { "matrix": [5, 4], "x": 0, "y": 0 },
+
+                // etc..
+            ]
+        }
+    }
+}
+```
+
+The `LAYOUT` macro is just a function with many arguments but with the right order it can be formatted
+to look similar to the physical keyboard.
+This is for example the base layer of my keyboard:
+
+```c
+LAYOUT(
+ // Left side                                    // Right side
+ SE_J,    SE_C,    SE_Y,    SE_F,    SE_P,       SE_X,    SE_W,    SE_O,    SE_U,    SE_DOT,
+ SE_R,    SE_S,    SE_T,    SE_H,    SE_K,       SE_M,    SE_N,    SE_A,    SE_I,    REPEAT,
+ SE_COMM, SE_V,    SE_G,    SE_D,    SE_B,       SE_SLSH, SE_L,    SE_LPRN, SE_RPRN, SE_UNDS,
+          SE_A,    SE_B,
+                            // Left thumb keys   // Right thumb key
+                            FUN_CLR, MT_SPC,     SE_E,
+                                                 // Mouse thumb keys          // Mouse pinky
+                                                 SE_X,    KC_BTN1,                   KC_BTN2
+),
+```
+
+## Trackball
+
+It took a long time for me to get the trackball working.
+There's quite a lot of documentation for QMK but curiously enough I didn't find anything that covered the whole setup.
+I arrived here by trial and error, trying to piece together parts from other keyboards into a setup that worked for me.
+
+First we need to create the files `halconf.h` and `mcuconf.h` (they go in the same folder as `keyboard.json`) to enable the SPI driver:
+
+{path="halconf.h"}
+```c
+#pragma once
+#include_next <halconf.h>
+#define HAL_USE_SPI TRUE
+```
+
+{path="mcuconf.h"}
+```c
+#pragma once
+#include_next <mcuconf.h>
+#undef RP_SPI_USE_SPI1
+#define RP_SPI_USE_SPI1 TRUE
+```
+
+::: important
+I enable the `SPI1` device that uses the `CS1`, `SCK1`, `TX1`, and `RX1` pins on the controller.
+If you want to use the `SPI0` device then you must connect to the `CS0`, `SCK0`, `TX0`, and `RX0` pins instead.
+:::
+
+And enable the pointing device with the `pmw3389` device driver in `rules.mk`
+
+{path="rules.mk"}
+```
+POINTING_DEVICE_ENABLE = yes
+POINTING_DEVICE_DRIVER = pmw3389
+```
+
+Now we need to add the sensor pins to `config.h`:
+
+{path="config.h"}
+```c
+// SPI1, matching mcuconf.h
+#define SPI_DRIVER SPID1
+// The pin connections from the pmw3389 sensor
+#define SPI_MISO_PIN GP12
+#define PMW33XX_CS_PIN GP13
+#define SPI_SCK_PIN GP14
+#define SPI_MOSI_PIN GP15
+```
+
+This should be enough to get the sensor going, but because we have a split keyboard we need to set that up too:
+
+{path="config.h"}
+```c
+#define SPLIT_POINTING_ENABLE
+// The trackball is on the right
+#define POINTING_DEVICE_RIGHT
+```
+
+There are some additional tweaks that I had to play with to make the trackball work well:
+
+{path="config.h"}
+```c
+// The trackball is quite sensitive to how
+// large the liftoff distance should be.
+#define PMW33XX_LIFTOFF_DISTANCE 0x10
+// Sets the mouse resolution, up to 16000.
+// I still haven't settled on a value here.
+#define PMW33XX_CPI 2000
+// Make the ball move in the direction I want.
+#define POINTING_DEVICE_ROTATION_270 1
+#define POINTING_DEVICE_INVERT_X 1
+```
+
+With that I got the trackball move the mouse as expected.
+
+### Debug
+
+As I struggled to get the trackball working I tried to use the debug output.
+I'll include it here for completeness sake:
+
+1. Enable the console in `rules.mk`:
+
+    {path="rules.mk"}
+    ```
+    CONSOLE_ENABLE = yes
+    ```
+
+1. Enable pointing device debugging in `config.h`:
+
+    {path="config.h"}
+    ```c
+    #define POINTING_DEVICE_DEBUG
+    ```
+
+1. Turn on debugging in `keymap.c`:
+
+    {path="keymap.c"}
+    ```c
+    void keyboard_post_init_user(void) {
+        debug_enable = true;
+        debug_mouse = true;
+    }
+    ```
+
+And then run `qmk console` from the command line.
+
+[Liatris]: https://splitkb.com/products/liatris

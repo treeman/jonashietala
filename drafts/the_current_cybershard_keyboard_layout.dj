@@ -1,16 +1,14 @@
 ---toml
-title = "The Cybershard keyboard layout"
+title = "The current Cybershard layout"
 tags = ["Computer", "Keyboards", "Keyboard layouts", "Cybershard"]
 favorite = true
 ---
 
 :table-of-content:
 
-This is the keyboard layout I'm using for [my custom keyboard][].
+This is the keyboard layout I'm using for [my custom keyboard][cybershard].
 It's a keyboard with an integrated trackball and 35 keys.
 The layout is for the most part a copy of the [T-34 keyboard layout][], see the [original T-34 post][] for the background and philosophy of the layout.
-
-![The Cybershard keyboard.](/images/cosmos/cybershard.jpg)
 
 # Legend
 
@@ -103,6 +101,8 @@ I typically use [long press](#Long-press) for shift and [combos][] for other mod
 [Combos][qmk-combos] is another fantastic tool that I (ab)use a lot. Simply put it allows you to press multiple keys at once and acts as an additional key---very useful for smaller layouts.
 
 Note that combos are layer independent, and work the same regardless of what layers are activated. The base layer is shown in the graphics for reference.
+
+![](/images/cybershard-layout/neighbour_combos.svg){embed=true}
 
 ## Horizontal combos
 
@@ -204,6 +204,7 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 
 [T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
 [original T-34 post]: /blog/2021/06/03/the-t-34-keyboard-layout
+[cybershard]: /series/cybershard
 
 {title="QMK leader key"}
 [leader key]: https://docs.qmk.fm/#/feature_leader_key

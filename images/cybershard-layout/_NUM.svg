@@ -273,9 +273,9 @@
             width="42" height="42"
             rx="5" fill="#c39f8a" class="inner border"/>
 
-<text x="145" y="137" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="145" y="137.5" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="145" dy="0">Shift</tspan>
-<tspan x="145" dy="12">G</tspan>
+<tspan x="145" dy="11">G</tspan>
 </text>
 </g>
     <g class="keycap default">

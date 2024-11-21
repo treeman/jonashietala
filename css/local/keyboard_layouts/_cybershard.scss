@@ -23,6 +23,18 @@
       fill: var(--melange_a_fg);
     }
   }
+  &.combo_background {
+    --key-fill: var(--melange_a_float);
+    .outer.border {
+      filter: brightness(1);
+    }
+    .inner.border {
+      filter: brightness(1.1);
+    }
+    text {
+      fill: var(--melange_a_com);
+    }
+  }
   &.default {
     --key-fill: #{$melange_dark_a_com};
     .outer.border {
@@ -94,12 +106,23 @@
         filter: brightness(1.1);
       }
       text {
-        fill: var(--melange_a_fg);
+        fill: var(--melange_a_com);
+      }
+    }
+    &.combo_background {
+      --key-fill: var(--melange_a_sel);
+      .outer.border {
+        filter: brightness(1);
+      }
+      .inner.border {
+        filter: brightness(1.1);
+      }
+      text {
+        fill: var(--melange_a_ui);
       }
     }
     &.default {
       --key-fill: var(--melange_a_com);
-      /* --key-fill: var(--melange_a_float); */
       .outer.border {
         filter: brightness(1);
       }

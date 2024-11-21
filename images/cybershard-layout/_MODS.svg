@@ -291,9 +291,9 @@
             width="42" height="42"
             rx="5" fill="#80b585" class="inner border"/>
 
-<text x="631" y="198.02" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="631" y="198.52" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">Right</tspan>
-<tspan x="631" dy="12">Alt</tspan>
+<tspan x="631" dy="11">Alt</tspan>
 </text>
 </g>
     <g class="keycap blank">

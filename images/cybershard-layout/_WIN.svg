@@ -117,9 +117,9 @@
             width="42" height="42"
             rx="5" fill="#86b1b1" class="inner border"/>
 
-<text x="91" y="99.74" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="91" y="100.24" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="91" dy="0">Shift</tspan>
-<tspan x="91" dy="12">Tab</tspan>
+<tspan x="91" dy="11">Tab</tspan>
 </text>
 </g>
     <g class="keycap blank">

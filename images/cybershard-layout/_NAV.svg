@@ -144,10 +144,10 @@
             width="42" height="42"
             rx="5" fill="#86b1b1" class="inner border"/>
 
-<text x="91" y="93.74" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="91" y="94.74" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="91" dy="0">Ctrl</tspan>
-<tspan x="91" dy="12">Shift</tspan>
-<tspan x="91" dy="12">Tab</tspan>
+<tspan x="91" dy="11">Shift</tspan>
+<tspan x="91" dy="11">Tab</tspan>
 </text>
 </g>
     <g class="keycap mod_down">
@@ -171,9 +171,9 @@
             width="42" height="42"
             rx="5" fill="#86b1b1" class="inner border"/>
 
-<text x="199" y="98.119995" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="199" y="98.619995" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="199" dy="0">Ctrl</tspan>
-<tspan x="199" dy="12">Tab</tspan>
+<tspan x="199" dy="11">Tab</tspan>
 </text>
 </g>
     <g class="keycap mod_implicit">
@@ -253,9 +253,9 @@
             width="42" height="42"
             rx="5" fill="#b7bee8" class="inner border"/>
 
-<text x="37" y="198.02" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="37" y="198.52" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">Win</tspan>
-<tspan x="37" dy="12">Alt</tspan>
+<tspan x="37" dy="11">Alt</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -266,9 +266,9 @@
             width="42" height="42"
             rx="5" fill="#dbbda1" class="inner border"/>
 
-<text x="91" y="153.73999" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="91" y="154.23999" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="91" dy="0">Back</tspan>
-<tspan x="91" dy="12">Mouse</tspan>
+<tspan x="91" dy="11">Mouse</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -279,9 +279,9 @@
             width="42" height="42"
             rx="5" fill="#dbbda1" class="inner border"/>
 
-<text x="145" y="137" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="145" y="137.5" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="145" dy="0">Fwd</tspan>
-<tspan x="145" dy="12">Mouse</tspan>
+<tspan x="145" dy="11">Mouse</tspan>
 </text>
 </g>
     <g class="keycap default">

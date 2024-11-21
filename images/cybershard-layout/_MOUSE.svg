@@ -117,9 +117,9 @@
             width="42" height="42"
             rx="5" fill="#dbbda1" class="inner border"/>
 
-<text x="37" y="144.02" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="37" y="144.52" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">Lower</tspan>
-<tspan x="37" dy="12">DPI</tspan>
+<tspan x="37" dy="11">DPI</tspan>
 </text>
 </g>
     <g class="keycap blank">
@@ -244,9 +244,9 @@
             width="42" height="42"
             rx="5" fill="#dbbda1" class="inner border"/>
 
-<text x="199" y="152.12" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="199" y="152.62" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="199" dy="0">Raise</tspan>
-<tspan x="199" dy="12">DPI</tspan>
+<tspan x="199" dy="11">DPI</tspan>
 </text>
 </g>
     <g class="keycap blank">

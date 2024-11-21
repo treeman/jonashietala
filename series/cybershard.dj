@@ -1,11 +1,9 @@
 ---toml
 title = "Building my ultimate keyboard"
-img = "/images/cosmos/final.jpg"
+img = "/images/cosmos/cybershard.jpg"
 completed = false
 ---
 
-While I've [developed my own layout][] I've always been curious 
+While I've [developed my own keyboard layout][t34] for an existing keyboard I've always wanted to design and build my own completely custom keyboard.
 
-In this series I document my journey in developing a custom keyboard layout for a smaller keyboard. It contains pictures, graphs and ideas that have been fun and helpful for me.
-
-[developed my own layout]: /series/t-34
+[t34]: /series/t-34
