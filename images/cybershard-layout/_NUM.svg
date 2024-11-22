@@ -13,10 +13,10 @@
     <g class="keycap management">
       <rect x="10" y="60.22"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#c8b29d" class="outer border"/>
       <rect x="16" y="64.22"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#d0b9a3" class="inner border"/>
 
 <text x="37" y="85.22" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">J</tspan>
@@ -25,10 +25,10 @@
     <g class="keycap blank">
       <rect x="64" y="26.74"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="70" y="30.74"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="91" y="51.739998" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="91" dy="0">+</tspan>
@@ -37,10 +37,10 @@
     <g class="keycap blank">
       <rect x="118" y="10"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="124" y="14"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="145" y="35" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="145" dy="0">*</tspan>
@@ -49,10 +49,10 @@
     <g class="keycap blank">
       <rect x="172" y="25.119999"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="178" y="29.119999"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="199" y="50.12" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="199" dy="0">!</tspan>
@@ -61,10 +61,10 @@
     <g class="keycap management">
       <rect x="226" y="32.68"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#c8b29d" class="outer border"/>
       <rect x="232" y="36.68"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#d0b9a3" class="inner border"/>
 
 <text x="253" y="57.68" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="253" dy="0">P</tspan>
@@ -73,10 +73,10 @@
     <g class="keycap blank">
       <rect x="388" y="32.68"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="394" y="36.68"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="415" y="57.68" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="415" dy="0">X</tspan>
@@ -85,19 +85,19 @@
     <g class="keycap blank">
       <rect x="442" y="25.119999"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="448" y="29.119999"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap management">
       <rect x="496" y="10"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#c8b29d" class="outer border"/>
       <rect x="502" y="14"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#d0b9a3" class="inner border"/>
 
 <text x="523" y="35" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="523" dy="0">@u</tspan>
@@ -106,10 +106,10 @@
     <g class="keycap special">
       <rect x="550" y="26.74"
             width="54" height="54"
-            rx="5" fill="#ebc06d" class="outer border"/>
+            rx="5" fill="#e0c65f" class="outer border"/>
       <rect x="556" y="30.74"
             width="42" height="42"
-            rx="5" fill="#ffd076" class="inner border"/>
+            rx="5" fill="#e8cd62" class="inner border"/>
 
 <text x="577" y="51.739998" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="577" dy="0">Repeat</tspan>
@@ -118,10 +118,10 @@
     <g class="keycap blank">
       <rect x="604" y="60.22"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="610" y="64.22"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="631" y="85.22" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">.</tspan>
@@ -130,10 +130,10 @@
     <g class="keycap default">
       <rect x="10" y="125.020004"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="16" y="129.02"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="37" y="150.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">6</tspan>
@@ -142,10 +142,10 @@
     <g class="keycap default">
       <rect x="64" y="80.74"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="70" y="84.74"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="91" y="105.74" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="91" dy="0">4</tspan>
@@ -154,10 +154,10 @@
     <g class="keycap default">
       <rect x="118" y="64"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="124" y="68"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="145" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="145" dy="0">0</tspan>
@@ -166,10 +166,10 @@
     <g class="keycap default">
       <rect x="172" y="79.119995"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="178" y="83.119995"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="199" y="104.119995" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="199" dy="0">2</tspan>
@@ -178,10 +178,10 @@
     <g class="keycap management">
       <rect x="226" y="86.68"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#c8b29d" class="outer border"/>
       <rect x="232" y="90.68"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#d0b9a3" class="inner border"/>
 
 <text x="253" y="111.68" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="253" dy="0">K</tspan>
@@ -190,19 +190,19 @@
     <g class="keycap blank">
       <rect x="388" y="86.68"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="394" y="90.68"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap default">
       <rect x="442" y="79.119995"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="448" y="83.119995"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="469" y="104.119995" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="469" dy="0">3</tspan>
@@ -211,10 +211,10 @@
     <g class="keycap default">
       <rect x="496" y="64"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="502" y="68"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="523" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="523" dy="0">1</tspan>
@@ -223,10 +223,10 @@
     <g class="keycap default">
       <rect x="550" y="80.74"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="556" y="84.74"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="577" y="105.74" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="577" dy="0">5</tspan>
@@ -235,10 +235,10 @@
     <g class="keycap default">
       <rect x="604" y="125.020004"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="610" y="129.02"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="631" y="150.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">7</tspan>
@@ -247,10 +247,10 @@
     <g class="keycap blank">
       <rect x="10" y="179.02"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="16" y="183.02"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="37" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">,</tspan>
@@ -259,19 +259,19 @@
     <g class="keycap blank">
       <rect x="64" y="134.73999"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="70" y="138.73999"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap management">
       <rect x="118" y="118"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#c8b29d" class="outer border"/>
       <rect x="124" y="122"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#d0b9a3" class="inner border"/>
 
 <text x="145" y="137.5" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="145" dy="0">Shift</tspan>
@@ -281,10 +281,10 @@
     <g class="keycap default">
       <rect x="172" y="133.12"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="178" y="137.12"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="199" y="158.12" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="199" dy="0">8</tspan>
@@ -293,19 +293,19 @@
     <g class="keycap blank">
       <rect x="226" y="140.68001"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="232" y="144.68001"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap blank">
       <rect x="388" y="140.68001"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="394" y="144.68001"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="415" y="165.68001" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="415" dy="0">&#x2F;</tspan>
@@ -314,10 +314,10 @@
     <g class="keycap default">
       <rect x="442" y="133.12"
             width="54" height="54"
-            rx="5" fill="#c1a78e" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="448" y="137.12"
             width="42" height="42"
-            rx="5" fill="#dbbda1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="469" y="158.12" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="469" dy="0">9</tspan>
@@ -326,10 +326,10 @@
     <g class="keycap management">
       <rect x="496" y="118"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#c8b29d" class="outer border"/>
       <rect x="502" y="122"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#d0b9a3" class="inner border"/>
 
 <text x="523" y="143" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="523" dy="0">(</tspan>
@@ -338,10 +338,10 @@
     <g class="keycap management">
       <rect x="550" y="134.73999"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#c8b29d" class="outer border"/>
       <rect x="556" y="138.73999"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#d0b9a3" class="inner border"/>
 
 <text x="577" y="159.73999" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="577" dy="0">)</tspan>
@@ -350,10 +350,10 @@
     <g class="keycap blank">
       <rect x="604" y="179.02"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="610" y="183.02"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="631" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">_</tspan>
@@ -362,37 +362,37 @@
     <g class="keycap blank">
       <rect x="64" y="188.73999"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="70" y="192.73999"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap blank">
       <rect x="118" y="172"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="124" y="176"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap blank">
       <rect x="199" y="212.5"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="205" y="216.5"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap management">
       <rect x="253" y="226"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#c8b29d" class="outer border"/>
       <rect x="259" y="230"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#d0b9a3" class="inner border"/>
 
 <text x="280" y="251" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="280" dy="0">Space</tspan>
@@ -402,10 +402,10 @@
     <g class="keycap blank">
       <rect x="361" y="226"
             width="54" height="54"
-            rx="5" fill="#e9e1db" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="367" y="230"
             width="42" height="42"
-            rx="5" fill="#fff6f0" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
 </svg>

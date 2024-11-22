@@ -204,8 +204,10 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 
 # TODO
 
-- Trademark symbol on `T` on specials layer
+- Need a way to activate `Specials` layer
+- Holding `Prec` and trying to press `Left Mouse` is annoying as all hell...
 - Try out `-` on a `A` + `L` combo
+- Trademark symbol on `T` on specials layer
 
 [T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
 [original T-34 post]: /blog/2021/06/03/the-t-34-keyboard-layout
