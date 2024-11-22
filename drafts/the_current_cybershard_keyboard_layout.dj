@@ -102,38 +102,41 @@ I typically use [long press](#Long-press) for shift and [combos][] for other mod
 
 Note that combos are layer independent, and work the same regardless of what layers are activated. The base layer is shown in the graphics for reference.
 
-![](/images/cybershard-layout/neighbour_combos.svg){embed=true}
-
-![](/images/cybershard-layout/mid_triple_combos.svg){embed=true}
-
-## Horizontal combos
-
 Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#Modifiers).
 
 `SWE` activates the [Swedish layer](#Swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
 
 `vsplit` splits a window vertically in Vim, `Close Window` closes a window in Vim (`<C-w>q`), and `Save Vim` saves the buffer in Vim.
 
-`Clear` resets all states; sets the `Base` layer, releases modifiers, stops [CAPSWORD][] and [NUMWORD][], and similar.
+`hsplit` splits a window horizontally in Vim.
 
-{ .center }
-| Split combos  | Result |
-|:--------------|:-------|
-| `S` + `H`     | `"` |
-| `N` + `I`     | `'` |
-| `V` + `D`     | `Alt` (one-shot) |
-| `L` + `)`     | [Leader key](#Leader-sequences) |
-| `T` + `A`     | [CAPSWORD][] |
-| `,` + `V` + `G` + `D` + `Space`     | `QMK_BOOT` (left controller) |
-| `E` + `L` + `(` + `)` + `_`     | `QMK_BOOT` (right controller) |
+`Clear` resets all states; sets the `Base` layer, releases modifiers, stops [CAPSWORD][] and [NUMWORD][], and similar.
 
 `QMK_BOOT` enters boot mode for the connected microcontroller, making it easy to update the keymap on the keyboard.
 
-## Vertical combos
+## Neighbour combos
 
-`hsplit` splits a window horizontally in Vim.
+![](/images/cybershard-layout/neighbour_combos.svg){embed=true}
 
-## Numbers and symbols
+![](/images/cybershard-layout/mid_triple_combos.svg){embed=true}
+
+![](/images/cybershard-layout/save_vim.svg){embed=true}
+
+## Split combos
+
+![](/images/cybershard-layout/quotes.svg){embed=true}
+![](/images/cybershard-layout/split_lower.svg){embed=true}
+![](/images/cybershard-layout/angled.svg){embed=true}
+
+## Smart layers
+
+![](/images/cybershard-layout/smart_layers.svg){embed=true}
+
+## QMK boot
+
+![](/images/cybershard-layout/boot.svg){embed=true}
+
+## Thumb key combos
 
 ![Combos using `Space` and another key.](/images/cybershard-layout/MT_SPC.svg){embed=true}
 
@@ -143,19 +146,6 @@ Note that some have a separate hold behaviour; for instance holding `Escape` act
 
 Combos with a thumb key is used for digits or standalone symbols, with the logic of `same-side thumb` + `key` = `symbol` and `opposite-side thumb` + `key` = `digit`. The placements follow the [numbers](#Numbers), [symbols](#Symbols) and [Swedish](#Swedish-overlay) layers. Both thumbs activates [NUMWORD][].
 
-## Split combos
-
-![[CAPSWORD][]](/images/cybershard-layout/capsword.svg){embed=true}
-
-![](/images/cybershard-layout/comb_boot_l.svg){embed=true}
-![](/images/cybershard-layout/comb_boot_r.svg){embed=true}
-![](/images/cybershard-layout/dquo.svg){embed=true}
-![](/images/cybershard-layout/lalt.svg){embed=true}
-![](/images/cybershard-layout/leader.svg){embed=true}
-![](/images/cybershard-layout/quot.svg){embed=true}
-![](/images/cybershard-layout/save_vim.svg){embed=true}
-![](/images/cybershard-layout/scln.svg){embed=true}
-![](/images/cybershard-layout/win_alt.svg){embed=true}
 
 # Long press
 

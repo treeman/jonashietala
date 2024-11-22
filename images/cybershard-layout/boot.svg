@@ -192,41 +192,53 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap management">
       <rect x="10" y="179.02"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#a98a78" class="outer border"/>
       <rect x="16" y="183.02"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#c39f8a" class="inner border"/>
 
+<text x="37" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="37" dy="0">,</tspan>
+</text>
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap management">
       <rect x="64" y="134.73999"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#a98a78" class="outer border"/>
       <rect x="70" y="138.73999"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#c39f8a" class="inner border"/>
 
+<text x="91" y="159.73999" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="91" dy="0">V</tspan>
+</text>
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap management">
       <rect x="118" y="118"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#a98a78" class="outer border"/>
       <rect x="124" y="122"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#c39f8a" class="inner border"/>
 
+<text x="145" y="143" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="145" dy="0">G</tspan>
+</text>
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap management">
       <rect x="172" y="133.12"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#a98a78" class="outer border"/>
       <rect x="178" y="137.12"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#c39f8a" class="inner border"/>
 
+<text x="199" y="158.12" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="199" dy="0">D</tspan>
+</text>
 </g>
     <g class="keycap combo_background">
       <rect x="226" y="140.68001"
@@ -258,14 +270,17 @@
 <tspan x="469" dy="0">L</tspan>
 </text>
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap management">
       <rect x="496" y="118"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#a98a78" class="outer border"/>
       <rect x="502" y="122"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#c39f8a" class="inner border"/>
 
+<text x="523" y="143" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="523" dy="0">(</tspan>
+</text>
 </g>
     <g class="keycap management">
       <rect x="550" y="134.73999"
@@ -279,14 +294,17 @@
 <tspan x="577" dy="0">)</tspan>
 </text>
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap management">
       <rect x="604" y="179.02"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#a98a78" class="outer border"/>
       <rect x="610" y="183.02"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#c39f8a" class="inner border"/>
 
+<text x="631" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="631" dy="0">_</tspan>
+</text>
 </g>
     <g class="keycap combo_background">
       <rect x="64" y="188.73999"
@@ -315,34 +333,53 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap management">
       <rect x="253" y="226"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#a98a78" class="outer border"/>
       <rect x="259" y="230"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#c39f8a" class="inner border"/>
 
-</g>
-    <g class="keycap combo_background">
-      <rect x="361" y="226"
-            width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
-      <rect x="367" y="230"
-            width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
-
+<text x="280" y="251" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="280" dy="0">Space</tspan>
+</text>
+<text x="280" y="278.2" text-anchor="middle" class="sub">NAV</text>
 </g>
     <g class="keycap management">
-      <rect x="486" y="112.31999"
-            width="80" height="18"
+      <rect x="361" y="226"
+            width="54" height="54"
+            rx="5" fill="#a98a78" class="outer border"/>
+      <rect x="367" y="230"
+            width="42" height="42"
+            rx="5" fill="#c39f8a" class="inner border"/>
+
+<text x="388" y="251" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="388" dy="0">E</tspan>
+</text>
+</g>
+    <g class="keycap management">
+      <rect x="72" y="198"
+            width="160" height="18"
             rx="4" fill="#a98a78" class="outer border"/>
-      <rect x="487.5" y="113.31999"
-            width="77" height="14.5"
+      <rect x="73.5" y="199"
+            width="157" height="14.5"
             rx="4" fill="#c39f8a" class="inner border"/>
 
-<text x="526" y="120.56999" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="526" dy="0">Leader Key</tspan>
+<text x="152" y="206.25" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="152" dy="0">QMK Boot</tspan>
+</text>
+</g>
+    <g class="keycap management">
+      <rect x="434" y="198"
+            width="160" height="18"
+            rx="4" fill="#a98a78" class="outer border"/>
+      <rect x="435.5" y="199"
+            width="157" height="14.5"
+            rx="4" fill="#c39f8a" class="inner border"/>
+
+<text x="514" y="206.25" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="514" dy="0">QMK Boot</tspan>
 </text>
 </g>
 </svg>

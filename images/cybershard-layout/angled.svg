@@ -120,14 +120,17 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap default">
       <rect x="118" y="64"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#c1a78e" class="outer border"/>
       <rect x="124" y="68"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#dbbda1" class="inner border"/>
 
+<text x="145" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="145" dy="0">T</tspan>
+</text>
 </g>
     <g class="keycap combo_background">
       <rect x="172" y="79.119995"
@@ -165,14 +168,17 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap layer_down">
       <rect x="496" y="64"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#a3a9ce" class="outer border"/>
       <rect x="502" y="68"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#b7bee8" class="inner border"/>
 
+<text x="523" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="523" dy="0">A</tspan>
+</text>
 </g>
     <g class="keycap combo_background">
       <rect x="550" y="80.74"
@@ -219,14 +225,17 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap default">
       <rect x="172" y="133.12"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#c1a78e" class="outer border"/>
       <rect x="178" y="137.12"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#dbbda1" class="inner border"/>
 
+<text x="199" y="158.12" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="199" dy="0">D</tspan>
+</text>
 </g>
     <g class="keycap combo_background">
       <rect x="226" y="140.68001"
@@ -246,13 +255,13 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap management">
+    <g class="keycap layer_down">
       <rect x="442" y="133.12"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#a3a9ce" class="outer border"/>
       <rect x="448" y="137.12"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#b7bee8" class="inner border"/>
 
 <text x="469" y="158.12" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="469" dy="0">L</tspan>
@@ -267,17 +276,14 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap management">
+    <g class="keycap combo_background">
       <rect x="550" y="134.73999"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#e5c494" class="outer border"/>
       <rect x="556" y="138.73999"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#ffdaa4" class="inner border"/>
 
-<text x="577" y="159.73999" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="577" dy="0">)</tspan>
-</text>
 </g>
     <g class="keycap combo_background">
       <rect x="604" y="179.02"
@@ -333,16 +339,28 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap management">
-      <rect x="486" y="112.31999"
+    <g class="keycap default">
+      <rect x="135" y="43.2"
             width="80" height="18"
-            rx="4" fill="#a98a78" class="outer border"/>
-      <rect x="487.5" y="113.31999"
+            rx="4" fill="#c1a78e" class="outer border"/>
+      <rect x="136.5" y="44.2"
             width="77" height="14.5"
-            rx="4" fill="#c39f8a" class="inner border"/>
+            rx="4" fill="#dbbda1" class="inner border"/>
 
-<text x="526" y="120.56999" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="526" dy="0">Leader Key</tspan>
+<text x="175" y="51.45" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="175" dy="0">;</tspan>
+</text>
+</g>
+    <g class="keycap layer_down">
+      <rect x="459" y="43.2"
+            width="80" height="18"
+            rx="4" fill="#a3a9ce" class="outer border"/>
+      <rect x="460.5" y="44.2"
+            width="77" height="14.5"
+            rx="4" fill="#b7bee8" class="inner border"/>
+
+<text x="499" y="51.45" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="499" dy="0">WinAlt</tspan>
 </text>
 </g>
 </svg>

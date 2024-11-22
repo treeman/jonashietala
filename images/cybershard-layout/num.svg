@@ -246,17 +246,14 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap management">
+    <g class="keycap combo_background">
       <rect x="442" y="133.12"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#e5c494" class="outer border"/>
       <rect x="448" y="137.12"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#ffdaa4" class="inner border"/>
 
-<text x="469" y="158.12" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="469" dy="0">L</tspan>
-</text>
 </g>
     <g class="keycap combo_background">
       <rect x="496" y="118"
@@ -267,17 +264,14 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap management">
+    <g class="keycap combo_background">
       <rect x="550" y="134.73999"
             width="54" height="54"
-            rx="5" fill="#a98a78" class="outer border"/>
+            rx="5" fill="#e5c494" class="outer border"/>
       <rect x="556" y="138.73999"
             width="42" height="42"
-            rx="5" fill="#c39f8a" class="inner border"/>
+            rx="5" fill="#ffdaa4" class="inner border"/>
 
-<text x="577" y="159.73999" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="577" dy="0">)</tspan>
-</text>
 </g>
     <g class="keycap combo_background">
       <rect x="604" y="179.02"
@@ -315,34 +309,41 @@
             rx="5" fill="#ffdaa4" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap layer_toggle">
       <rect x="253" y="226"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#c77b8b" class="outer border"/>
       <rect x="259" y="230"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#e18b9d" class="inner border"/>
 
+<text x="280" y="251" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="280" dy="0">Space</tspan>
+</text>
+<text x="280" y="278.2" text-anchor="middle" class="sub">NAV</text>
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap layer_toggle">
       <rect x="361" y="226"
             width="54" height="54"
-            rx="5" fill="#e5c494" class="outer border"/>
+            rx="5" fill="#c77b8b" class="outer border"/>
       <rect x="367" y="230"
             width="42" height="42"
-            rx="5" fill="#ffdaa4" class="inner border"/>
+            rx="5" fill="#e18b9d" class="inner border"/>
 
+<text x="388" y="251" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="388" dy="0">E</tspan>
+</text>
 </g>
-    <g class="keycap management">
-      <rect x="486" y="112.31999"
+    <g class="keycap layer_toggle">
+      <rect x="297" y="205.2"
             width="80" height="18"
-            rx="4" fill="#a98a78" class="outer border"/>
-      <rect x="487.5" y="113.31999"
+            rx="4" fill="#c77b8b" class="outer border"/>
+      <rect x="298.5" y="206.2"
             width="77" height="14.5"
-            rx="4" fill="#c39f8a" class="inner border"/>
+            rx="4" fill="#e18b9d" class="inner border"/>
 
-<text x="526" y="120.56999" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="526" dy="0">Leader Key</tspan>
+<text x="337" y="213.45" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="337" dy="0">NUMWORD</tspan>
 </text>
 </g>
 </svg>
