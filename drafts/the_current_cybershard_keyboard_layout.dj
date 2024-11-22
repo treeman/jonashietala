@@ -6,21 +6,43 @@ favorite = true
 
 :table-of-content:
 
-This is the keyboard layout I'm using for [my custom keyboard][cybershard].
-It's a keyboard with an integrated trackball and 35 keys.
-The layout is for the most part a copy of the [T-34 keyboard layout][], see the [original T-34 post][] for the background and philosophy of the layout.
+This is the keyboard layout I'm using for my custom keyboard [that I generated, printed, and hand-wired][cybershard].
+It's a minimalistic keyboard of 35 keys and features an integrated trackball on the right-hand side.
+
+The keyboard layout started out as a direct copy of the [T-34 keyboard layout][], with some small modifications from the keyboard T-34 was designed for:
+
+- An extra two keys on the left-hand side.
+- Removed the second thumb key on the right-hand side.
+- Additions for mouse keys and trackball handling.
+
+While the layout has diverged since then, the design philosophy from [original T-34 post][] still holds true and I recommend it as it may explain why the layout looks like it does.
 
 # Legend
 
-![Legend](/images/cybershard-layout/legend.svg){embed=true}
+![](/images/cybershard-layout/legend.svg){embed=true}
+
+I use quite a number of special features for the keys and I've tried to color code according to the above legend.
+
+::: note
+I made a bit of a detour and developed [my own tool][layout_gen] to generate the images in this post as the existing tools didn't _exactly_ match my preferences.
+:::
+
+[layout_gen]: https://github.com/treeman/layout_gen
 
 # Layers
+
+[Layers][] are super important for smaller keyboards and I use them a ton.
 
 ## Base
 
 ![](/images/cybershard-layout/_BASE.svg){embed=true}
 
 The [repeat key](#Repeat-key) is used to output the last pressed key. I shift keys using [auto shift][] (see [long press](#Long-press)) and [CAPSWORD][]. The letters `Z` and `Q`, together with a bunch of other keys, are on [combos][].
+
+::: note
+If you wonder why the top left and right keys are off that's because the keyboard is built with them further away and with a different curvature than the other keys in the outer columns.
+I don't press `J` or `.` with my pinky but with my ring finger, leaving only two keys dedicated to the pinkies.
+:::
 
 ## Swedish overlay
 
@@ -32,7 +54,9 @@ When I want to write Swedish I activate this layer that replaces `()_` with `å�
 
 ![Navigation layer.](/images/cybershard-layout/_NAV.svg){embed=true}
 
-`Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][]. `Ctrl` + arrow is used to switch windows in Vim. Tabbing is for switching tabs in Firefox.
+`Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][]. `Ctrl` + arrow is used to switch windows in Vim. Tabbing is for switching tabs and the `Back` / `Fwd` mouse buttons goes backwards and forwards in the web browser.
+
+The [workspace layer](#Workspace-layer) is triggered by first holding `Space`, and then holding the right thumb key (`WNAV`).
 
 ## Workspace layer
 
@@ -64,77 +88,94 @@ This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, wi
 
 ## Numbers
 
-![Numbers. The darkened keys turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/_NUM.svg){embed=true}
+![Numbers layer. The darker keys turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/_NUM.svg){embed=true}
 
 While I can activate the number layer persistently (using [leader sequences](#Leader-sequences)) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD][] for larger numbers (like `1984`).
 
-[NUMWORD][] makes the number layer smart, so it will deactivate when certain keys are pressed (colored dark gray in the image). It's used to type numbers in text or code and for relative movement in Vim, where `17J` would move 17 lines down and then turn off the number layer.
+[NUMWORD][] makes the number layer smart, so it will deactivate when certain keys are pressed (darker colors in the image). It's used to type numbers in text or code and for relative movement in Vim, where `17J` would move 17 lines down and then turn off the number layer.
 
 `@u` is there to easily activate macros in Vim. For example `7@u` in the number layer would run the `u` macro 7 times and then turn off [NUMWORD][].
 
-## Function keys
-
-![Function keys.](/images/cybershard-layout/_FUN.svg){embed=true}
-
 ## Symbols
 
-![Symbols.](/images/cybershard-layout/_SYM.svg){embed=true}
+![Symbols layer.](/images/cybershard-layout/_SYM.svg){embed=true}
 
 Similar to the numbers layer, there are [combos][] that are used to output standalone symbols. The [combos][] follow the layout of the symbols layer, and combos with same-side thumb. So `Space` + left-hand key or `E` + right-hand key outputs a symbol, regardless of what layers are activated.
 
 Some common symbol sequences, like `->`, exists as [combos][] and others, like ` != `, as [long press](#Long-press).
 
+## Function keys
+
+![Function keys.](/images/cybershard-layout/_FUN.svg){embed=true}
+
+There are also combos for all function keys, using `FUN` + key position above.
+
+
 ## Special characters
 
-![Specials.](/images/cybershard-layout/_SPEC.svg){embed=true}
+![Specials layer.](/images/cybershard-layout/_SPEC.svg){embed=true}
 
-Some of these are [dead keys][], to add diacritic to any letter. To get `é` you can use the dead key `´` then `e`, and the operating system will merge them together.
+The [dead keys][] add diacritic to any letter. For example, to get `é` you can use the dead key `´` then `e`, and the operating system will merge them together.
+(`É` also exists as a [combo][combos].)
 
 ## Modifiers
 
 ![Modifiers.](/images/cybershard-layout/_MODS.svg){embed=true}
 
-I typically use [long press](#Long-press) for shift and [combos][] for other modifiers, this layer is a fallback for when those aren't enough.
+I typically use [long press](#Long-press) for shift and [combos][] for other modifiers, this layer is a fallback for when those aren't enough (the layer is mostly used for `Right Alt`).
 
 # Combos
 
-[Combos][qmk-combos] is another fantastic tool that I (ab)use a lot. Simply put it allows you to press multiple keys at once and acts as an additional key---very useful for smaller layouts.
+[Combos][qmk-combos] is another fantastic tool that I (ab)use a lot. Simply put it allows you to press multiple keys at once and acts as another key---very useful for smaller layouts.
 
-Note that combos are layer independent, and work the same regardless of what layers are activated. The base layer is shown in the graphics for reference.
-
-Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#Modifiers).
-
-`SWE` activates the [Swedish layer](#Swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
-
-`vsplit` splits a window vertically in Vim, `Close Window` closes a window in Vim (`<C-w>q`), and `Save Vim` saves the buffer in Vim.
-
-`hsplit` splits a window horizontally in Vim.
-
-`Clear` resets all states; sets the `Base` layer, releases modifiers, stops [CAPSWORD][] and [NUMWORD][], and similar.
-
-`QMK_BOOT` enters boot mode for the connected microcontroller, making it easy to update the keymap on the keyboard.
+::: important
+These combos are layer independent, and work regardless of what layers are activated.
+The base layer is shown in the graphics for reference.
+:::
 
 ## Neighbour combos
 
+These combos are made by two keys next to each other, either horizontally (pressed with two fingers) or vertically (pressed with one finger in the middle of two keys).
+
 ![](/images/cybershard-layout/neighbour_combos.svg){embed=true}
+
+* Some combos have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily.
+* `vsplit` splits a window vertically in Vim and `hsplit` splits it horizontally, and `Close Window` closes a window in Vim (`<C-w>q`).
+* `Clear` resets all states; sets the [base](#Base) layer, releases modifiers, stops [CAPSWORD][] and [NUMWORD][], and clears other persistent states.
+* `Rev Rep` is the reverse of the [repeat key](#Repeat-key).
 
 ![](/images/cybershard-layout/mid_triple_combos.svg){embed=true}
 
+* `SWE` activates the [Swedish layer](#Swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
+* `Ctrl W` is used to close tabs in Firefox.
+
 ![](/images/cybershard-layout/save_vim.svg){embed=true}
+
+* `Save Vim` is a 4-key combo that saves the buffer in Vim.
 
 ## Split combos
 
-![](/images/cybershard-layout/quotes.svg){embed=true}
-![](/images/cybershard-layout/split_lower.svg){embed=true}
-![](/images/cybershard-layout/angled.svg){embed=true}
+These split combos uses the ring and index finger.
+
+![Combos for the quotes `"` and `'`.](/images/cybershard-layout/quotes.svg){embed=true}
+
+![Alt and [leader key][] on the bottom row.](/images/cybershard-layout/split_lower.svg){embed=true}
+
+![Combos don't have to be on the same row, `;` is a fairly common key and this combo is fairly comfortable.](/images/cybershard-layout/angled.svg){embed=true}
 
 ## Smart layers
 
 ![](/images/cybershard-layout/smart_layers.svg){embed=true}
 
+* The middle fingers on `T` + `A` activates [CAPSWORD][].
+* The thumb on `Space` + `E` activates [NUMWORD][].
+
 ## QMK boot
 
 ![](/images/cybershard-layout/boot.svg){embed=true}
+
+whe keycode `QMK_BOOT` enters boot mode for the microcontroller connected via USB, making it easy to update the keymap on the keyboard.
+These two 5-key combos (one for each half) are almost impossible to trigger accidentally while being easily accessible.
 
 ## Thumb key combos
 
@@ -146,12 +187,13 @@ Note that some have a separate hold behaviour; for instance holding `Escape` act
 
 Combos with a thumb key is used for digits or standalone symbols, with the logic of `same-side thumb` + `key` = `symbol` and `opposite-side thumb` + `key` = `digit`. The placements follow the [numbers](#Numbers), [symbols](#Symbols) and [Swedish](#Swedish-overlay) layers. Both thumbs activates [NUMWORD][].
 
+# Additional features
 
-# Long press
+## Long press
 
 Most keys have a different behaviour when tapped compared to a long press. Most commonly I use this to produce shifted keys (called [auto shift][]). So to get `A` I press and hold `a` until it turns up.
 
-There are a bunch of special cases as well (mostly on top of [combos]):
+There are a bunch of special cases as well (many on top of [combos][]):
 
 { .center }
 | Tap                               |  Long press |
@@ -166,7 +208,7 @@ There are a bunch of special cases as well (mostly on top of [combos]):
 | `(` `[` `{`                       |  Close and move cursor between |
 | `@`                               |  `@u` (paired with `qu` combo for Vim macro execution) |
 
-# Leader sequences
+## Leader sequences
 
 I use the combo `l` + `)` as the [leader key][]. This will wait for a sequence of key presses (in contrast to combos where keys must be pressed at the same time). This is used with mnemonics for rarely used outputs:
 
@@ -180,19 +222,19 @@ I use the combo `l` + `)` as the [leader key][]. This will wait for a sequence o
 | `l` + `)`, `t`, `f`   |  **T**oggle **F**unction layer |
 | `l` + `)`, `t`, `c`   |  **T**oggle **C**aps lock escape swap |
 
-# CAPSWORD
+## CAPSWORD
 
 CAPSWORD is a "smart caps lock". It works like a regular caps lock, except it automatically turns off after certain keys are typed (most commonly space).
 
 It will not turn off on these keys: `a-z` `å` `ä` `ö` `_` `-` `Backspace` and `Repeat`.
 
-# NUMWORD
+## NUMWORD
 
 NUMWORD is a "smart layer". It's similar to [CAPSWORD][], except it's for the [numbers layer](#Numbers) instead of caps lock.
 
 It will not turn off on these keys: `0-9` `%` `+` `*` `-` `_` `.` `,` `:` `=` `x` `Backspace` `Repeat` `Reverse Repeat` and `Enter`.
 
-# Repeat key
+## Repeat key
 
 The repeat key simply repeats the previous key. So to type `fall` I can type `f` `a` `l` `Repeat`, using four different fingers instead of pressing `l` twice. It can also repeat things like `Ctrl-c` or `Delete`.
 

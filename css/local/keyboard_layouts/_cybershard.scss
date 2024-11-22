@@ -1,111 +1,111 @@
 @use "../../global/melange" as *;
 
-.keycap,
-.legend {
-  &.blank,
-  &.combo_background {
-    .outer.border {
-      fill: oklch(95% 0.0117 59.57);
-    }
-    .inner.border {
-      fill: oklch(98% 0.0117 59.57);
-    }
-    &.blank text {
-      fill: var(--melange_a_fg);
-    }
-    &.combo_background text {
-      fill: var(--melange_a_com);
-    }
-  }
-  &.default {
-    .outer.border {
-      fill: oklch(92% 0.051 80.53);
-    }
-    .inner.border {
-      fill: oklch(95% 0.051 80.53);
-    }
-  }
-  &.management {
-    .outer.border {
-      fill: oklch(77% 0.0402 65.7);
-    }
-    .inner.border {
-      fill: oklch(80% 0.0402 65.7);
-    }
-  }
-  &.layer1 {
-    .outer.border {
-      fill: oklch(77% 0.0829 260.6);
-    }
-    .inner.border {
-      fill: oklch(80% 0.0829 260.6);
-    }
-  }
-  &.layer_down {
-    .outer.border {
-      fill: oklch(77% 0.0829 302.47);
-    }
-    .inner.border {
-      fill: oklch(80% 0.0829 302.47);
-    }
-  }
-  &.layer_toggle {
-    .outer.border {
-      fill: oklch(77% 0.0829 342.47);
-    }
-    .inner.border {
-      fill: oklch(80% 0.0829 342.47);
-    }
-  }
-  &.mod1 {
-    .outer.border {
-      fill: oklch(77% 0.0901 146.92);
-    }
-    .inner.border {
-      fill: oklch(80% 0.0901 146.92);
-    }
-  }
-  &.mod_down {
-    .outer.border {
-      fill: oklch(77% 0.0901 126.44);
-    }
-    .inner.border {
-      fill: oklch(80% 0.0901 126.44);
-    }
-  }
-  &.mod_implicit {
-    .outer.border {
-      fill: oklch(77% 0.0901 96.44);
-    }
-    .inner.border {
-      fill: oklch(80% 0.0901 96.44);
-    }
-  }
-  &.active_layer {
-    .outer.border {
-      fill: oklch(77% 0.1385 31.76);
-    }
-    .inner.border {
-      fill: oklch(80% 0.1385 31.76);
-    }
-  }
-  &.dead_key {
-    .outer.border {
-      fill: oklch(77% 0.1211 66.81);
-    }
-    .inner.border {
-      fill: oklch(80% 0.1211 66.81);
-    }
-  }
-  &.special {
-    .outer.border {
-      fill: oklch(82% 0.13 95.57);
-    }
-    .inner.border {
-      fill: oklch(85% 0.13 95.57);
-    }
-  }
-}
+/* .keycap, */
+/* .legend { */
+/*   &.blank, */
+/*   &.combo_background { */
+/*     .outer.border { */
+/*       fill: oklch(95% 0.0117 59.57); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(98% 0.0117 59.57); */
+/*     } */
+/*     &.blank text { */
+/*       fill: var(--melange_a_fg); */
+/*     } */
+/*     &.combo_background text { */
+/*       fill: var(--melange_a_com); */
+/*     } */
+/*   } */
+/*   &.default { */
+/*     .outer.border { */
+/*       fill: oklch(92% 0.051 80.53); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(95% 0.051 80.53); */
+/*     } */
+/*   } */
+/*   &.management { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.0402 65.7); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.0402 65.7); */
+/*     } */
+/*   } */
+/*   &.layer1 { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.0829 260.6); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.0829 260.6); */
+/*     } */
+/*   } */
+/*   &.layer_down { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.0829 302.47); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.0829 302.47); */
+/*     } */
+/*   } */
+/*   &.layer_toggle { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.0829 342.47); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.0829 342.47); */
+/*     } */
+/*   } */
+/*   &.mod1 { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.0901 146.92); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.0901 146.92); */
+/*     } */
+/*   } */
+/*   &.mod_down { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.0901 126.44); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.0901 126.44); */
+/*     } */
+/*   } */
+/*   &.mod_implicit { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.0901 96.44); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.0901 96.44); */
+/*     } */
+/*   } */
+/*   &.active_layer { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.1385 31.76); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.1385 31.76); */
+/*     } */
+/*   } */
+/*   &.dead_key { */
+/*     .outer.border { */
+/*       fill: oklch(77% 0.1211 66.81); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(80% 0.1211 66.81); */
+/*     } */
+/*   } */
+/*   &.special { */
+/*     .outer.border { */
+/*       fill: oklch(82% 0.13 95.57); */
+/*     } */
+/*     .inner.border { */
+/*       fill: oklch(85% 0.13 95.57); */
+/*     } */
+/*   } */
+/* } */
 
 @media (prefers-color-scheme: dark) {
   .keycap,
@@ -128,6 +128,8 @@
     &.default {
       .outer.border {
         fill: oklch(73% 0.054 65.16);
+        // This errors even though firefox thinks it's correct...
+        /* fill: oklch(from var(--fill) calc(l - 0.05) c h); */
       }
       .inner.border {
         fill: oklch(76% 0.054 65.16);
