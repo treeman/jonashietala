@@ -135,11 +135,27 @@ Note that some have a separate hold behaviour; for instance holding `Escape` act
 
 ## Numbers and symbols
 
-![Combos using `Space` and another key.](/images/cybershard-layout/space_combos.png)
+![Combos using `Space` and another key.](/images/cybershard-layout/MT_SPC.svg){embed=true}
 
-![Combos using `E` and another key.](/images/cybershard-layout/e_combos.png)
+![Combos using `E` and another key.](/images/cybershard-layout/SE_E.svg){embed=true}
+
+![Combos using `FUN` and another key.](/images/cybershard-layout/FUN.svg){embed=true}
 
 Combos with a thumb key is used for digits or standalone symbols, with the logic of `same-side thumb` + `key` = `symbol` and `opposite-side thumb` + `key` = `digit`. The placements follow the [numbers](#Numbers), [symbols](#Symbols) and [Swedish](#Swedish-overlay) layers. Both thumbs activates [NUMWORD][].
+
+## Split combos
+
+![[CAPSWORD][]](/images/cybershard-layout/capsword.svg){embed=true}
+
+![](/images/cybershard-layout/comb_boot_l.svg){embed=true}
+![](/images/cybershard-layout/comb_boot_r.svg){embed=true}
+![](/images/cybershard-layout/dquo.svg){embed=true}
+![](/images/cybershard-layout/lalt.svg){embed=true}
+![](/images/cybershard-layout/leader.svg){embed=true}
+![](/images/cybershard-layout/quot.svg){embed=true}
+![](/images/cybershard-layout/save_vim.svg){embed=true}
+![](/images/cybershard-layout/scln.svg){embed=true}
+![](/images/cybershard-layout/win_alt.svg){embed=true}
 
 # Long press
 
@@ -199,6 +215,7 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 # TODO
 
 - Trademark symbol on `T` on specials layer
+- Try out `-` on a `A` + `L` combo
 
 [T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
 [original T-34 post]: /blog/2021/06/03/the-t-34-keyboard-layout
