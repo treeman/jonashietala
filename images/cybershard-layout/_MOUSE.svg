@@ -110,14 +110,14 @@
 
 </g>
     <g class="keycap default">
-      <rect x="10" y="125.020004"
+      <rect x="10" y="114.21999"
             width="54" height="54"
             rx="5" fill="#f7e5c3" class="outer border"/>
-      <rect x="16" y="129.02"
+      <rect x="16" y="118.21999"
             width="42" height="42"
             rx="5" fill="#ffecc9" class="inner border"/>
 
-<text x="37" y="144.52" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="37" y="133.72" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">Lower</tspan>
 <tspan x="37" dy="11">DPI</tspan>
 </text>
@@ -198,19 +198,19 @@
 
 </g>
     <g class="keycap blank">
-      <rect x="604" y="125.020004"
+      <rect x="604" y="114.21999"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
-      <rect x="610" y="129.02"
+      <rect x="610" y="118.21999"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap blank">
-      <rect x="10" y="179.02"
+      <rect x="10" y="168.22"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
-      <rect x="16" y="183.02"
+      <rect x="16" y="172.22"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
@@ -295,10 +295,10 @@
 
 </g>
     <g class="keycap blank">
-      <rect x="604" y="179.02"
+      <rect x="604" y="168.22"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
-      <rect x="610" y="183.02"
+      <rect x="610" y="172.22"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 

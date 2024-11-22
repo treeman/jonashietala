@@ -103,10 +103,10 @@
 
 </g>
     <g class="keycap combo_background">
-      <rect x="10" y="125.020004"
+      <rect x="10" y="114.21999"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
-      <rect x="16" y="129.02"
+      <rect x="16" y="118.21999"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
@@ -184,19 +184,19 @@
 
 </g>
     <g class="keycap combo_background">
-      <rect x="604" y="125.020004"
+      <rect x="604" y="114.21999"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
-      <rect x="610" y="129.02"
+      <rect x="610" y="118.21999"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
     <g class="keycap combo_background">
-      <rect x="10" y="179.02"
+      <rect x="10" y="168.22"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
-      <rect x="16" y="183.02"
+      <rect x="16" y="172.22"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
@@ -286,10 +286,10 @@
 </text>
 </g>
     <g class="keycap combo_background">
-      <rect x="604" y="179.02"
+      <rect x="604" y="168.22"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
-      <rect x="610" y="183.02"
+      <rect x="610" y="172.22"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 

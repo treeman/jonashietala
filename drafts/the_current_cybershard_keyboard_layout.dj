@@ -9,13 +9,18 @@ favorite = true
 This is the keyboard layout I'm using for my custom keyboard [that I generated, printed, and hand-wired][cybershard].
 It's a minimalistic keyboard of 35 keys and features an integrated trackball on the right-hand side.
 
-The keyboard layout started out as a direct copy of the [T-34 keyboard layout][], with some small modifications from the keyboard T-34 was designed for:
+The keyboard layout started out as a direct copy of the [T-34 keyboard layout][], with some small modifications from the 34-key keyboard T-34 was designed for:
 
-- An extra two keys on the left-hand side.
+- An extra two keys on the left-hand side, in the ring and middle finger columns.
 - Removed the second thumb key on the right-hand side.
-- Additions for mouse keys and trackball handling.
+- Accommodation for mouse keys and trackball handling.
 
 While the layout has diverged since then, the design philosophy from [original T-34 post][] still holds true and I recommend it as it may explain why the layout looks like it does.
+
+::: note
+The layout could pretty easily be converted to a 32-key layout by removing the two extra keys and the inner thumb key on the left-hand side.
+These keys are barely used and the biggest reason I have them is that I don't have the energy to rebuild the keyboard.
+:::
 
 # Legend
 
@@ -135,21 +140,21 @@ The base layer is shown in the graphics for reference.
 
 ## Neighbour combos
 
-These combos are made by two keys next to each other, either horizontally (pressed with two fingers) or vertically (pressed with one finger in the middle of two keys).
+These combos are made by keys next to each other, either horizontally (pressed with two fingers) or vertically (pressed with one finger in the middle of two keys).
 
-![](/images/cybershard-layout/neighbour_combos.svg){embed=true}
+![2-key neighboring combos.](/images/cybershard-layout/neighbour_combos.svg){embed=true}
 
 * Some combos have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily.
 * `vsplit` splits a window vertically in Vim and `hsplit` splits it horizontally, and `Close Window` closes a window in Vim (`<C-w>q`).
 * `Clear` resets all states; sets the [base](#Base) layer, releases modifiers, stops [CAPSWORD][] and [NUMWORD][], and clears other persistent states.
 * `Rev Rep` is the reverse of the [repeat key](#Repeat-key).
 
-![](/images/cybershard-layout/mid_triple_combos.svg){embed=true}
+![3-key horizontal combos.](/images/cybershard-layout/mid_triple_combos.svg){embed=true}
 
 * `SWE` activates the [Swedish layer](#Swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
 * `Ctrl W` is used to close tabs in Firefox.
 
-![](/images/cybershard-layout/save_vim.svg){embed=true}
+![A 4-key horizontal combo.](/images/cybershard-layout/save_vim.svg){embed=true}
 
 * `Save Vim` is a 4-key combo that saves the buffer in Vim.
 
@@ -170,6 +175,20 @@ These split combos uses the ring and index finger.
 * The middle fingers on `T` + `A` activates [CAPSWORD][].
 * The thumb on `Space` + `E` activates [NUMWORD][].
 
+## Thumb key combos
+
+I have a bunch of 2-key `thumb` + `key` combos:
+
+![Combos using `Space` and another key.](/images/cybershard-layout/MT_SPC.svg){embed=true}
+
+![Combos using `E` and another key.](/images/cybershard-layout/SE_E.svg){embed=true}
+
+The logic here is that `same-side thumb` + `key` = `symbol` and `opposite-side thumb` + `key` = `digit`, following the placements of the [numbers](#Numbers), [symbols](#Symbols) and [swedish](#Swedish-overlay) layers. They're used if I want to just type a single character, without having to activate a layer first.
+
+![Combos using `FUN` and another key.](/images/cybershard-layout/FUN.svg){embed=true}
+
+I have similar combos for the [function keys](#Function-keys).
+
 ## QMK boot
 
 ![](/images/cybershard-layout/boot.svg){embed=true}
@@ -177,21 +196,15 @@ These split combos uses the ring and index finger.
 whe keycode `QMK_BOOT` enters boot mode for the microcontroller connected via USB, making it easy to update the keymap on the keyboard.
 These two 5-key combos (one for each half) are almost impossible to trigger accidentally while being easily accessible.
 
-## Thumb key combos
-
-![Combos using `Space` and another key.](/images/cybershard-layout/MT_SPC.svg){embed=true}
-
-![Combos using `E` and another key.](/images/cybershard-layout/SE_E.svg){embed=true}
-
-![Combos using `FUN` and another key.](/images/cybershard-layout/FUN.svg){embed=true}
-
-Combos with a thumb key is used for digits or standalone symbols, with the logic of `same-side thumb` + `key` = `symbol` and `opposite-side thumb` + `key` = `digit`. The placements follow the [numbers](#Numbers), [symbols](#Symbols) and [Swedish](#Swedish-overlay) layers. Both thumbs activates [NUMWORD][].
 
 # Additional features
 
+While [layers][Layers] and [combos][] are the two main features I use, [QMK][] has a lot of other nifty features (and you roll your own implementation of them too).
+
 ## Long press
 
-Most keys have a different behaviour when tapped compared to a long press. Most commonly I use this to produce shifted keys (called [auto shift][]). So to get `A` I press and hold `a` until it turns up.
+Most keys have a different behaviour when tapped compared to a long press. Most commonly I use this to produce shifted keys (called [auto shift][]).
+So tapping the `A` key will output `a` as normal and if I hold it `A` will appear instead.
 
 There are a bunch of special cases as well (many on top of [combos][]):
 
@@ -210,13 +223,15 @@ There are a bunch of special cases as well (many on top of [combos][]):
 
 ## Leader sequences
 
-I use the combo `l` + `)` as the [leader key][]. This will wait for a sequence of key presses (in contrast to combos where keys must be pressed at the same time). This is used with mnemonics for rarely used outputs:
+I use the combo `l` + `)` as the [leader key][].
+This will wait for a sequence of key presses (in contrast to combos where keys must be pressed at the same time).
+I use this with mnemonics for rarely used outputs:
 
 { .center }
 | Leader sequence       |  Action |
 |:----------------------|:------------|
 | `l` + `)`, `c`        |  **C**aps lock |
-| `l` + `)`, `s`        |  *S*et Swedish input in Linux (`Ctrl` + `Gui` + `Space`) |
+| `l` + `)`, `s`        |  *S*et Swedish input in Linux (mapped in [xmonad][]) |
 | `l` + `)`, `t`, `n`   |  **T**oggle **N**umber layer |
 | `l` + `)`, `t`, `s`   |  **T**oggle **S**ymbols layer |
 | `l` + `)`, `t`, `f`   |  **T**oggle **F**unction layer |
@@ -226,13 +241,13 @@ I use the combo `l` + `)` as the [leader key][]. This will wait for a sequence o
 
 CAPSWORD is a "smart caps lock". It works like a regular caps lock, except it automatically turns off after certain keys are typed (most commonly space).
 
-It will not turn off on these keys: `a-z` `å` `ä` `ö` `_` `-` `Backspace` and `Repeat`.
+It will not turn off on letters, numbers, `_` `-` `Backspace` and `Repeat`.
 
 ## NUMWORD
 
-NUMWORD is a "smart layer". It's similar to [CAPSWORD][], except it's for the [numbers layer](#Numbers) instead of caps lock.
+NUMWORD is a "smart layer". It's similar to [CAPSWORD][], except it activates and then turns off the [numbers layer](#Numbers) instead of caps lock.
 
-It will not turn off on these keys: `0-9` `%` `+` `*` `-` `_` `.` `,` `:` `=` `x` `Backspace` `Repeat` `Reverse Repeat` and `Enter`.
+It will not turn off on these keys: `0-9` `%` `/` `+` `*` `-` `_` `.` `,` `:` `=` `x` `Backspace` `Repeat` `Reverse Repeat` and `Enter`.
 
 ## Repeat key
 
@@ -242,14 +257,33 @@ There's also a reverse repeat key that "reverses" the last pressed key. The idea
 
 See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [reverse repeat key][rev-rep-writeup] for some more information about them.
 
+## Auto mouse layer
+
 # More info
 
 # TODO
 
-- Need a way to activate `Specials` layer
+- `A` + `L` combo should be a tap hold with `-` and `WinAlt`
+- The `T` + `D` combo should be a top hold with `;` and `Alt`
+- Activate `Specials` with `V` + `D`
 - Holding `Prec` and trying to press `Left Mouse` is annoying as all hell...
-- Try out `-` on a `A` + `L` combo
+
+  Should activate another mouse layer with:
+
+  - `LB` on Thumb
+  - `RB` and `MB` in middle row
+
+  (Can use these instead of bottom two keys...)
+
+- `MOD` layer should have `LB` on thumb
 - Trademark symbol on `T` on specials layer
+
+::: changelog
+: 2024-11-03
+
+  Copied the [T-34][t-34-series] layout.
+
+:::
 
 [T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
 [original T-34 post]: /blog/2021/06/03/the-t-34-keyboard-layout
