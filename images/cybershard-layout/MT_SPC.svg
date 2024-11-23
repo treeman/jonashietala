@@ -47,17 +47,14 @@
 <tspan x="145" dy="0">*</tspan>
 </text>
 </g>
-    <g class="keycap default">
+    <g class="keycap combo_background">
       <rect x="172" y="25.119999"
             width="54" height="54"
-            rx="5" fill="#f7e5c3" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="178" y="29.119999"
             width="42" height="42"
-            rx="5" fill="#ffecc9" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
-<text x="199" y="50.12" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="199" dy="0">!</tspan>
-</text>
 </g>
     <g class="keycap combo_background">
       <rect x="226" y="32.68"
@@ -114,14 +111,14 @@
 
 </g>
     <g class="keycap default">
-      <rect x="10" y="114.21999"
+      <rect x="10" y="125.020004"
             width="54" height="54"
             rx="5" fill="#f7e5c3" class="outer border"/>
-      <rect x="16" y="118.21999"
+      <rect x="16" y="129.02"
             width="42" height="42"
             rx="5" fill="#ffecc9" class="inner border"/>
 
-<text x="37" y="139.22" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="37" y="150.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">|</tspan>
 </text>
 </g>
@@ -158,7 +155,7 @@
             rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="199" y="104.119995" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="199" dy="0">-</tspan>
+<tspan x="199" dy="0">%</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -219,22 +216,22 @@
 </text>
 </g>
     <g class="keycap default">
-      <rect x="604" y="114.21999"
+      <rect x="604" y="125.020004"
             width="54" height="54"
             rx="5" fill="#f7e5c3" class="outer border"/>
-      <rect x="610" y="118.21999"
+      <rect x="610" y="129.02"
             width="42" height="42"
             rx="5" fill="#ffecc9" class="inner border"/>
 
-<text x="631" y="139.22" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="631" y="150.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">7</tspan>
 </text>
 </g>
     <g class="keycap combo_background">
-      <rect x="10" y="168.22"
+      <rect x="10" y="179.02"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
-      <rect x="16" y="172.22"
+      <rect x="16" y="183.02"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
@@ -272,7 +269,7 @@
             rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="199" y="158.12" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="199" dy="0">%</tspan>
+<tspan x="199" dy="0">!</tspan>
 </text>
 </g>
     <g class="keycap combo_background">
@@ -333,14 +330,14 @@
 </text>
 </g>
     <g class="keycap default">
-      <rect x="604" y="168.22"
+      <rect x="604" y="179.02"
             width="54" height="54"
             rx="5" fill="#f7e5c3" class="outer border"/>
-      <rect x="610" y="172.22"
+      <rect x="610" y="183.02"
             width="42" height="42"
             rx="5" fill="#ffecc9" class="inner border"/>
 
-<text x="631" y="193.22" text-anchor="middle" dominant-baseline="middle" class="main">
+<text x="631" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">Ö</tspan>
 </text>
 </g>

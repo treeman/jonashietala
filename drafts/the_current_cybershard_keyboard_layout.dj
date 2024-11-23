@@ -9,13 +9,13 @@ favorite = true
 This is the keyboard layout I'm using for my custom keyboard [that I generated, printed, and hand-wired][cybershard].
 It's a minimalistic keyboard of 35 keys and features an integrated trackball on the right-hand side.
 
-The keyboard layout started out as a direct copy of the [T-34 keyboard layout][], with some small modifications from the 34-key keyboard T-34 was designed for:
+The keyboard layout started out as a direct copy of the [T-34 keyboard layout][t-34-curr], with some small modifications from the 34-key keyboard T-34 was designed for:
 
 - An extra two keys on the left-hand side, in the ring and middle finger columns.
 - Removed the second thumb key on the right-hand side.
 - Accommodation for mouse keys and trackball handling.
 
-While the layout has diverged since then, the design philosophy from [original T-34 post][] still holds true and I recommend it as it may explain why the layout looks like it does.
+While the layout has diverged since then, the design philosophy from [original T-34 post][t-34] still holds true and I recommend it as it may explain why the layout looks like it does.
 
 ::: note
 The layout could pretty easily be converted to a 32-key layout by removing the two extra keys and the inner thumb key on the left-hand side.
@@ -55,6 +55,34 @@ I don't press `J` or `.` with my pinky but with my ring finger, leaving only two
 
 When I want to write Swedish I activate this layer that replaces `()_` with `åäö`, or I use [combos][] from any layer.
 
+## Symbols
+
+![Symbols layer.](/images/cybershard-layout/_SYM.svg){embed=true}
+
+I typically use [combos][] to output symbols (following the same layout pattern as the symbols layer).
+The symbols layer is mostly used to roll symbol pairs like `{}` or `#[`.
+
+Some common symbol sequences (like `->`, ` != `, or ` ``` `) exists as [combos][] and others as [long press](#Long-press).
+
+## Numbers
+
+![Numbers layer. The browner keys (like `J`) turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/_NUM.svg){embed=true}
+
+While I can activate the number layer persistently (using [leader sequences](#Leader-sequences)) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD][] for larger numbers (like `1984`).
+
+[NUMWORD][] makes the number layer smart, so it will deactivate when certain keys are pressed.
+It's used to type numbers in text or code and for relative movement in Vim, where `17J` would move 17 lines down and then turn off the number layer.
+Jumping directly to a line in Vim with `12G` is also made convenient.
+
+`@u` is there to easily activate macros in Vim. For example `7@u` in the number layer would run the `u` macro 7 times and then turn off [NUMWORD][].
+
+## Function keys
+
+![Function keys.](/images/cybershard-layout/_FUN.svg){embed=true}
+
+The function keys follow the same layout as the [numbers layer](#Numbers).
+
+
 ## Navigation layer
 
 ![Navigation layer.](/images/cybershard-layout/_NAV.svg){embed=true}
@@ -68,53 +96,29 @@ The [workspace layer](#Workspace-layer) is triggered by first holding `Space`, a
 ![Workspace layer. All keys have an implicit `Gui` modifier.](/images/cybershard-layout/_WNAV.svg){embed=true}
 
 This is used for all window and workspace management in [xmonad][]. Some common operations are also on the [navigation layer](#Navigation-layer).
+[Auto shift](#Long-press) works and can used to send a window to another workspace (`Gui` + `Shift` + `2`).
 
 ## Mouse layer
 
 ![Mouse layer.](/images/cybershard-layout/_MOUSE.svg){embed=true}
 
-This layer is activated using QMK's [automatic mouse layer][] that will activate whenever the trackball is moved and deactivated after a short timeout.
+The mouse layer is similar to QMK's [automatic mouse layer][], which activates a layer when the trackball is moved, but with some modifications:
 
-[automatic mouse layer]: https://docs.qmk.fm/features/pointing_device#pointing-device-auto-mouse
+1. The [navigation layer](#Navigation-layer) must be active before the mouse layer can be activated.
+1. If `Space` is released the layer is deactivated, it's never turned off automatically.
 
-Here are some extra features for the trackball:
+Some notes on the layer:
 
-- The keys for lowering and raising DPI exists to adjust DPI on the fly, so I can figure out what DPI setting I should set as standard.
-- `Prec` enters the precision mode with a lower DPI for more precise mouse movement.
-- Holding the [`MOD` combo](#Horizontal-combos) activates the speed mode with higher DPI.
-- Similarly, holding the [`SYM` combo](#Horizontal-combos) actives scrolling mode, where the trackball scrolls instead of moves the mouse.
-- The regular modifier [combos][] like `Ctrl` and `Shift` are available, which may be useful with the trackball.
+* The `DPI` can be lowered and raised at runtime, to let narrow in on a good default value.
+* When the layer is active, the DPI is lowered making it easier click on small things.
+* The `Ctrl A` key can be held to instead output `Shift`, enabling easier `Shift` + mouse button dragging.
+* The `Ctrl` and `Alt` one-shot [combos][] are still available.
 
 ## Windows layer
 
 ![Windows layer. All keys have an implicit `Alt` modifier.](/images/cybershard-layout/_WIN.svg){embed=true}
 
 This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, without releasing `Alt`.
-
-## Numbers
-
-![Numbers layer. The darker keys turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/_NUM.svg){embed=true}
-
-While I can activate the number layer persistently (using [leader sequences](#Leader-sequences)) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD][] for larger numbers (like `1984`).
-
-[NUMWORD][] makes the number layer smart, so it will deactivate when certain keys are pressed (darker colors in the image). It's used to type numbers in text or code and for relative movement in Vim, where `17J` would move 17 lines down and then turn off the number layer.
-
-`@u` is there to easily activate macros in Vim. For example `7@u` in the number layer would run the `u` macro 7 times and then turn off [NUMWORD][].
-
-## Symbols
-
-![Symbols layer.](/images/cybershard-layout/_SYM.svg){embed=true}
-
-Similar to the numbers layer, there are [combos][] that are used to output standalone symbols. The [combos][] follow the layout of the symbols layer, and combos with same-side thumb. So `Space` + left-hand key or `E` + right-hand key outputs a symbol, regardless of what layers are activated.
-
-Some common symbol sequences, like `->`, exists as [combos][] and others, like ` != `, as [long press](#Long-press).
-
-## Function keys
-
-![Function keys.](/images/cybershard-layout/_FUN.svg){embed=true}
-
-There are also combos for all function keys, using `FUN` + key position above.
-
 
 ## Special characters
 
@@ -166,14 +170,20 @@ These split combos uses the ring and index finger.
 
 ![Alt and [leader key][] on the bottom row.](/images/cybershard-layout/split_lower.svg){embed=true}
 
-![Combos don't have to be on the same row, `;` is a fairly common key and this combo is fairly comfortable.](/images/cybershard-layout/angled.svg){embed=true}
+![Combos don't have to be on the same row, `;` and `-` are fairly common and these angled combos are fairly comfortable.](/images/cybershard-layout/angled.svg){embed=true}
 
-## Smart layers
+![Holding activates the [windows](#Windows-layer) layer.](/images/cybershard-layout/win_alt.svg){embed=true}
+
+## Combos over keyboard halfs
 
 ![](/images/cybershard-layout/smart_layers.svg){embed=true}
 
 * The middle fingers on `T` + `A` activates [CAPSWORD][].
 * The thumb on `Space` + `E` activates [NUMWORD][].
+
+![](/images/cybershard-layout/specials.svg){embed=true}
+
+* Access the [specials](#Special-characters) layer with the ring fingers.
 
 ## Thumb key combos
 
@@ -204,7 +214,7 @@ While [layers][Layers] and [combos][] are the two main features I use, [QMK][] h
 ## Long press
 
 Most keys have a different behaviour when tapped compared to a long press. Most commonly I use this to produce shifted keys (called [auto shift][]).
-So tapping the `A` key will output `a` as normal and if I hold it `A` will appear instead.
+So tapping the `A` key will output `a` as normal and if it it `A` will appear instead.
 
 There are a bunch of special cases as well (many on top of [combos][]):
 
@@ -241,13 +251,13 @@ I use this with mnemonics for rarely used outputs:
 
 CAPSWORD is a "smart caps lock". It works like a regular caps lock, except it automatically turns off after certain keys are typed (most commonly space).
 
-It will not turn off on letters, numbers, `_` `-` `Backspace` and `Repeat`.
+It will not turn off on letters, numbers, `_` `-` `Backspace` and the `Repeat` keys.
 
 ## NUMWORD
 
 NUMWORD is a "smart layer". It's similar to [CAPSWORD][], except it activates and then turns off the [numbers layer](#Numbers) instead of caps lock.
 
-It will not turn off on these keys: `0-9` `%` `/` `+` `*` `-` `_` `.` `,` `:` `=` `x` `Backspace` `Repeat` `Reverse Repeat` and `Enter`.
+It will not turn off on these keys: `0-9` `%` `/` `+` `*` `-` `_` `.` `,` `:` `=` `x` `Backspace` `Enter` and the `Repeat` keys.
 
 ## Repeat key
 
@@ -257,37 +267,42 @@ There's also a reverse repeat key that "reverses" the last pressed key. The idea
 
 See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [reverse repeat key][rev-rep-writeup] for some more information about them.
 
-## Auto mouse layer
+## Trackball
+
+The trackball is normally configured to move the mouse as a regular trackball.
+When moved it activates the [mouse layer](#Mouse-layer) but only when `Space` is held.
+
+There are different modes that alters the behavior of the trackball:
+
+1. Lower the DPI `Space` is held (the mouse moves slower when the [mouse layer](#Mouse-layer) is active).
+1. Raise the DPI then the [`MOD` combo](#Horizontal-combos) is held (the mouse moves faster).
+1. Scroll instead of moving the mouse when the [`SYM` combo](#Horizontal-combos) is held.
 
 # More info
 
+- See the [source code][src].
+- Read the [T-34 series][t-34-series].
+- Read the post about building cybershard
+
 # TODO
 
-- `A` + `L` combo should be a tap hold with `-` and `WinAlt`
-- The `T` + `D` combo should be a top hold with `;` and `Alt`
-- Activate `Specials` with `V` + `D`
-- Holding `Prec` and trying to press `Left Mouse` is annoying as all hell...
-
-  Should activate another mouse layer with:
-
-  - `LB` on Thumb
-  - `RB` and `MB` in middle row
-
-  (Can use these instead of bottom two keys...)
-
-- `MOD` layer should have `LB` on thumb
 - Trademark symbol on `T` on specials layer
 
 ::: changelog
-: 2024-11-03
+: 2024-11-18
 
-  Copied the [T-34][t-34-series] layout.
+  Copied the [T-34][t-34-series] layout and adapted it for the new keyboard by adding a mouse layer, remove the shortcut layer, and changed the activation of the specials layer.
+
+: 2024-11-22
+
+  Moved `-` to an angled combo, moving the `WIN` key to the top row,
+  and move `%` to the home-row and `!` to the bottom row.
+
+: 2024-11-23
+
+  Reworked the mouse layer and use a more advanced triggering mechanism to be more explicit about when the layer is turned on and off.
 
 :::
-
-[T-34 keyboard layout]: /blog/2022/09/06/the_current_t-34_keyboard_layout
-[original T-34 post]: /blog/2021/06/03/the-t-34-keyboard-layout
-[cybershard]: /series/cybershard
 
 {title="QMK leader key"}
 [leader key]: https://docs.qmk.fm/#/feature_leader_key
@@ -299,8 +314,6 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 [QMK]: https://docs.qmk.fm/
 {title="QMK layers"}
 [Layers]: https://docs.qmk.fm/#/feature_layers
-{title="The Ferris keyboard"}
-[Ferris]: https://github.com/pierrechevalier83/ferris
 {title="Xmonad"}
 [xmonad]: https://xmonad.org/
 {title="Dead keys"}
@@ -312,6 +325,8 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 [t-34-series]: /series/t-34/
 {title="T-34 first post"}
 [t-34]: /blog/2021/06/03/the-t-34-keyboard-layout/
+{title="The current T-34 layout"}
+[t-34-curr]: /blog/2022/09/06/the_current_t-34_keyboard_layout
 {title="Numbers and symbols"}
 [num-sym-combos]: #Numbers-and-symbols
 {title="Reverse repeat key"}
@@ -319,8 +334,10 @@ See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [revers
 {title="Repeat key"}
 [rep-writeup]: /blog/2021/09/05/t-34-0/#the-repeat-key
 {title="QMK source code"}
-[src]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/ferris/keymaps/treeman
+[src]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/cybershard
 
 [combos]: #Combos
 [CAPSWORD]: #CAPSWORD
 [NUMWORD]: #NUMWORD
+
+[automatic mouse layer]: https://docs.qmk.fm/features/pointing_device#pointing-device-auto-mouse
