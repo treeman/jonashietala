@@ -423,9 +423,14 @@ I tried to combat this by gluing magnets inside the case and outside the wrist r
 
 ### I ended up not using the wrist rests
 
-Despite my efforts, I haven't been using the printed rests as I reverted to the "squishy" ones I used before:
+Despite my efforts, I haven't been using the printed rests as I reverted to the ["squishy" ones][wrist rests] I've used before:
 
-![](/images/cosmos/squishy_rest.jpg)
+[wrist rests]: https://splitkb.com/products/crystals-gel-flexible-wrist-rest?_pos=1&_sid=43057db1e&_ss=r
+
+![It's not visible from this angle but my hand rests using the palm instead of the wrist.](/images/cosmos/squishy_rest.jpg)
+
+The printed felt too uncomfortable and I couldn't find an angle I liked more than the gel rests.
+Oh well.
 
 ## Microcontroller holder
 
@@ -451,9 +456,9 @@ I printed it in TPU, a flexible and rubbery material, that gives enough grip to 
 ## Matrix
 
 One of the first things you need to do when wiring up a custom keyboard is to plan out a matrix.
-I guess you could directly wire every switch directly to the controller too, but that's not feasible if you have a larger amount of keys, so the usual thing is to use a matrix approach instead.
+I guess you could directly wire every switch directly to the controller too, but that's not feasible if you have a larger amount of keys, so the usual thing is to use a matrix.
 
-What it means is you should wire together all keys in a row and connect that to a pin on the controller, and to the same with the rows.
+What a matrix means is you should wire together all keys in a row and connect that to a pin on the controller, and to the same with the columns.
 
 It might look something like this:
 
@@ -468,7 +473,7 @@ You should also use diodes in the matrix (for either rows or columns, I chose th
 
 ![The rows are connected with diodes and with a cable to a pin on the controller.](/images/cosmos/left_rows_soldered.jpg)
 
-![The matrix on the right side.
+![The first matrix I soldered on the right side.
 It was a lot more difficult to solder because of the awkward positions of the switches.](/images/cosmos/right_matrix.jpg)
 
 ![The 3rd matrix I soldered for the right side, this time without the challenging mouse keys.
@@ -484,7 +489,8 @@ With my wiring prowess I consider that a success!
 
 ## Controller wiring
 
-![The right-side controller connected to the TRRS and the trackball sensor.](/images/cosmos/microcontroller_cutoff.jpg)
+![The right-side controller connected to the TRRS and the trackball sensor.
+This was after I had removed them from my second wired right half and was preparing to rebuild it.](/images/cosmos/microcontroller_cutoff.jpg)
 
 ::: warn
 It's a good idea to plan out the pin assignments in advance.
@@ -530,21 +536,24 @@ With my last print I had to file down the print where the sensor was attached to
 The QMK cli has the `qmk new-keyboard` command that helps you get started.
 I couldn't get the generated template to work for me, so I copied settings from an existing keybord with `rp2042` support.
 
-I'll try to hit on the most important parts of the config, take a [look at the source code][cybershard] for all details.
+I'll try to hit on the most important parts of the config, take a [look at the source code][src] for all details.
 
 ## Basic setup
 
-The folder structure for a keyboard looks like this:
+The folder structure for the keyboard looks like this:
 
 {path="qmk_firmware/keyboards"}
 ```
 cybershard
 ├── keyboard.json
 ├── rules.mk
+├── halconf.h
+├── mcuconf.h
 └── keymaps
     └── default
         ├── config.h
         ├── keymap.c
+        ├── rules.mk
         └── ...
 ```
 
@@ -645,18 +654,18 @@ Now the process of updating the firmware is quite nice and unless I screw up I d
 3. Wait until the script finishes and the keyboard is available again.
 
 ::: note
-`qmk flash` didn't work for me and it always got stuck at:
+`qmk flash` first didn't work for me and it always got stuck at:
 
 ```
 Flashing for bootloader: rp2040
 Waiting for drive to deploy...
 ```
 
-After some digging around I found that all you're doing is copying a `.uf2` file into a usb storage, and the controller will then reboot as a keyboard with _something_ like this:
+After some digging around I found that the script is trying to copy a `.uf2` file into a usb storage, and the controller will then reboot as a keyboard with _something_ like this:
 
 ```fish
 qmk compile -kb cybershard -km default
-sudo mount /dev/sdf1 /media/sd
+sudo mount /dev/sdX1 /media/sd
 sudo cp cybershard_default.uf2 /media/sd/
 ```
 
@@ -674,6 +683,8 @@ To get the split keyboard feature to work I had to set the `SERIAL_DRIVER` optio
 ```make
 SERIAL_DRIVER = vendor
 ```
+
+And add the `split` configuration to `keyboard.json` and modify the `LAYOUT` macro:
 
 {path="keyboard.json"}
 ```json
@@ -720,7 +731,7 @@ SERIAL_DRIVER = vendor
                 { "matrix": [4, 1], "x": 0, "y": 0 },
                 { "matrix": [4, 2], "x": 0, "y": 0 },
                 { "matrix": [4, 3], "x": 0, "y": 0 },
-                { "matrix": [5, 4], "x": 0, "y": 0 },
+                { "matrix": [4, 4], "x": 0, "y": 0 },
 
                 // etc..
             ]
@@ -731,7 +742,7 @@ SERIAL_DRIVER = vendor
 
 The `LAYOUT` macro is just a function with many arguments but with the right order it can be formatted
 to look similar to the physical keyboard.
-This is for example the base layer of my keyboard:
+For example, this is how the base layer of my keyboard could look like:
 
 ```c
 LAYOUT(
@@ -739,17 +750,16 @@ LAYOUT(
  SE_J,    SE_C,    SE_Y,    SE_F,    SE_P,       SE_X,    SE_W,    SE_O,    SE_U,    SE_DOT,
  SE_R,    SE_S,    SE_T,    SE_H,    SE_K,       SE_M,    SE_N,    SE_A,    SE_I,    REPEAT,
  SE_COMM, SE_V,    SE_G,    SE_D,    SE_B,       SE_SLSH, SE_L,    SE_LPRN, SE_RPRN, SE_UNDS,
-          SE_A,    SE_B,
+          // The extra two keys on the left side
+          SE_MINS, SE_PLUS,
                             // Left thumb keys   // Right thumb key
-                            FUN_CLR, MT_SPC,     SE_E,
-                                                 // Mouse thumb keys          // Mouse pinky
-                                                 SE_X,    KC_BTN1,                   KC_BTN2
+                            FUN_CLR, MT_SPC,     SE_E
 ),
 ```
 
 ## Trackball
 
-It took a long time for me to get the trackball working.
+It took a long time for me to get the trackball working (admittedly, mostly because I soldered the pins wrong).
 There's quite a lot of documentation for QMK but curiously enough I didn't find anything that covered the whole setup.
 I arrived here by trial and error, trying to piece together parts from other keyboards into a setup that worked for me.
 
@@ -813,14 +823,13 @@ There are some additional tweaks that I had to play with to make the trackball w
 // large the liftoff distance should be.
 #define PMW33XX_LIFTOFF_DISTANCE 0x10
 // Sets the mouse resolution, up to 16000.
-// I still haven't settled on a value here.
-#define PMW33XX_CPI 2000
-// Make the ball move in the direction I want.
+#define PMW33XX_CPI 1600
+// The directions where messed up, this fixes it.
 #define POINTING_DEVICE_ROTATION_270 1
 #define POINTING_DEVICE_INVERT_X 1
 ```
 
-With that I got the trackball move the mouse as expected.
+With that I got the trackball moves the mouse as expected.
 
 ### Debug
 
@@ -853,12 +862,32 @@ I'll include it here for completeness sake:
 
 And then run `qmk console` from the command line.
 
-[Liatris]: https://splitkb.com/products/liatris
+# Is this the ultimate keyboard?
+
+No.
+
+It's not close to being an "ultimate" keyboard and there are a few things I'd like to change:
+
+i. The trackball still isn't nearly as comfortable as the [Kensington SlimBlade][].
+
+  Maybe a keyboard with a larger trackball would be better?
+
+i. The extra keys on the left side are barely useful.
+
+  It's not a big deal, maybe I can find some usage for them, but it certainly removes some of the weight of the _ultimate_ moniker.
+
+i. There are more extra features I feel an _ultimate_ keyboard should have.
+
+  The keyboard I've built is nice... But it's still just a normal keyboard with a trackball.
+  Maybe a vibration sensor, a display, or even some LEDs?
+  A [smart knob with software-configurable endstops and detents][smartknob] would really add some weight to the moniker of an ultimate keyboard.
+
+# Next steps
+
+[smartknob]: https://github.com/scottbez1/smartknob
 
 [v2-ball]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgBWkwKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFchIXCNqD2LawigEQyaPAzeD7h+QBGKIDICgSDgipynEQm4mEnuDckOQBUhowgE4IABCAyL0CGICGisAHIICAnAEo0MbBAkJTCAPgAQF4A9gBARABSABIAEgASABIAEgASABgAGgAcAEYACAAKACYAfQDqAHoB6AByAGwAQCQAYQHuAEAgAEAMAA4KFgBiAEBwAEAyAHYBNABhAdiAggB
-[v2-left]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgAWiMKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFclIaMIBOCAAQgMi9AhiAhorAByCAgJwBKNDGwQJCUwgD4AEBeAPYAQEQAEgASABIAEgASABIAEgAYABoAHABGAAgACgAmAH0A6gB6AegAcgBsAEAkAGEB7gBAIABADAAOChYAYgBAcABAMgB2ATQAYQH
 [v3]: https://ryanis.cool/cosmos/beta#expert:eJzlWt9v2zYQfvdfQeRlaSHRli0njoe+JNuAYMgyNOlT4AdaomIusiSQVBw38P++O9KW9cOeHSBtBExoVel4PN199x1FnxqkidIkzbSAizG5tRfkC3ntELJgcXw/E8FTwhUM+s5adjeTaR6K5HFMekbGpyW1jehGJIX0DxboVMIYHeHoE19eMiVA+SSYpcEJylQg+eI6CUXAQf7geg7Z/XdSaN8vMw4mzDURieJSb03die84eDPYiq7SPNFcKpE8jYmWOccRCCUJeTgmryu8DdIk4dbZEy2lOqkI0ei3u0sYY89cskdeHQb3+csY/QTpXAQyhSEt0zjmaC+TqRG6uZq6NuqIKc2Tm7rqxjl4iBYBi69iziRLAo4QGusBSu4wKrVVVzMexxAJ0RaZKYAMzyGxyKwSWXVWnW6X/HV7//uY2OmkS/SMb4MgC6FnqJTwR6bFMwdoTVYIk5xkMQt4SFiu0zkzvsVLitrXiTFjHtll4TN6GxLNpg7KFSfPLM7ByIJLPsYJtYR7Hh06pN8zZ3Py8ewN8XxuBCCe4Mw63oM+9TqdwFA5yOUz0zl4ajlc3N9GV2mcz5MxmHSqA1/TxZgYocpYALw2InDKG1WE1gDKL1DOZADpAEA73c+fO+Qz+aZ4lMckAgwV1xrmEEZCEUUQclJyDXVRCfHKgIxLLAhFQdxdR2GkV7VQKKWFCWdfaCV37mcmXQknucJUpCRLlcACN0/Os4zL4snkWv+ioBg006A7XRoVoKaNIgnJix2E2agNo2AFKKni8oTvJI0iiN3EQtbBmAf9Cc/52zjzBYi1IPdSRaefMCr7zFOv75CHnkPwz8ReevYyYrHiFdWqpldcbjUL107XisUgokN+45FIhF3rNpko4bFNBKg9wooxJuD/wwR8fwDrmAyyqbFiATPLWsCg0uw4IVDvkYhrSrjiAN36m7sYmGJWh+WJkazsAFMZUBwyam+DOFdWbe3R2tomo+MqqHhQU6q3yQ3TUrycbpxq8sgewZpCLhZfITW+ut76flXYruDrQup61SEAdX65PK2mHlVMeO8B4KAB4Ky1APZaiJ/fwC9pLX5t5F+zgPOW4Oe9uYB7H1m/s3SOGgLf5ScNUP9pLagHivojMG3W9Ly18LWQks2SFi2Br/fmkob9sut/dE3PRRjGvFnUT62F9UBRfwiqzap2WotfG1nZLOu0Hfi9varNZuejq1oCLM2ajtuK6eH39M+HtFnStK3wtZGRzYrOfiJ81eZME8O3779dz2tDYZvAmpX9a6uxPfTb2jt3SAte2d1Wg3iQn28BsTM5tgWpZ/l8Wmo/htiWA71c2d5pwpmcmu5oMc8puo+204idRwX0JWyO3f1yE9VYv5XiUST7mo79ER2dlY/z3a3FaqOSDobl42x347I8x/XPaX9UOi4ac3DapNa7dAfgjzsYwGlUHQLka5TYQ4hdy71N+eau/ButUyLBgTRXHB3Rc9za2X/M77Zy9L2jgvXBwNDQzLRokTrbZn4abQmzKRdaS3W9X17v8JsPUzua5kbebPL3q3L7RaBv+v2lhx7ZGt5b8NbIEfW+G8syQctq7mA/Kct6Z03yFrmp5dj1BhRyhEsBbPy9natBqeQ+1VbNxnppaTiE9WLXwgtWg6cpi+P3BtDtD4+DEMIdVA7/OEj9IfUq845G2OtRWBf8PkWIfbp7P9CEWJkvna9EslDkhqNoRomQm5s9AP8IcrpnR7JzeByUF029vezsU9xDDfHs0d3vqvdj548Az/Oofxx8I/ofr5wKzqMh7fvlYx+eO8h4ZgAd4LP89wYUtwh2EV1IofRXrvSeF/X/5I3HX7JUatwAsTzWm8+96/+XgX7XcEIRfqockwfQW+8aHZxjaTdxOqt/AWrGK+I=>
-[v6]: https://ryanis.cool/cosmos/beta#expert:eJzlWlFv2zYQfs+vIPKytLBoy7Jjx0Vfmm1AMWQZmhR7CPxAS5TNRZYEkkrsFvnvuyMlWbLsRenaRcCIWJGOR+r43Xcn+Wg/iZUmSaoFnMzItT0h78nXE0IeWRTdroR/H3MFnaNeLrtZySQLRLyckYGR8UVFrRBdibiU/sp8nUjoo1PsvefbD0wJUD71V4l/ijLlS/74MQ6Ez0F+57g9cvgzL7VvtymHKcw5EbHiUu+muhFfsPPK24kukyzWXCoR38+IlhnHHlhKHPBgRr4+4aWfxDG3xp5qKdVpTYiTfr75AH3sgUu25PVuMJ9vZmgnQiCF0p+40jMDJiERj5d6NSNjgxAha7b5UwQocQe5aHMdhorrHERCvhTXztAKWLyMOA6wl5rH2vhhaARmBWvhywRM0jKJIo7rSGVihE6mFo5FO2QKxl7tqxagwOK08Fl0GXEmWexzdJ1ZlY+SG0RT7dTVikcRLJNo65EFOBfuQyKRWiW07OndSb9Pfr++/WVG7ASkT/SK7+Ajj0KvUCnmS6bFAwenGj4QJjlJI+bzgLBMJ2tmrIu2FLU/xmYac9M+Cx7Q3oBotuihXHHywKIMJnnkks9wwB7V3AEd94h7gcehOXhGMMbjuRG4dDzHkfue9lzqnpz4Joj8TD4wnYGlNnrK6+vwMomydQxuG/fqHZ+SR+CDgTBlPnjSiMAod1oT2glQfoFyJn1DEYD0pP/27Ql5Sz4rHmYRCQFFIAySgjASiDCERccV41AXlRCxFAJhi8GoKIj7+TqM9HJvMZTScore8cVVDLpdGZfFnGQK3ZGQNFEC04u5d5amXJb3Jh/1TwpCUTMNuoutUcnJDZwPyMZ2wmjUhl6YBYipouqALyQx4VJdjbnPb3CbP4wt74Fbj+RWqvDsDS7L3vIMwofcwQf/5vbUtachixSvqrp1Tbc83WmWlp3likWnRYf8zEMRC5tpC19U8NgZD2pLyFczAgu4m4PxdzC9TSZ5pJXp0yRVn6VFsiEEoj4U0Z4S5jug3LC4ioArJkdsc4WnPM+oFHgOTrWXfpQpq5eblGsXLp3VYcVGTbxex1dMS7E5K6xqUsk2P2eRgxFYSo2xjlsInsrJaxBDciSDehfAuv6wPat7/02ZI78Hhl4Dw1V3MRx0EsJRA8K4uxB2k4XNSM66AqH78kgevGogr5I1agh8tp82cP2ru7g+F92vAmszuNfdRbCTxGzGtugKgoOXxza8RzujVw/utQiCiDej+767yD4X3a8DbDO8e92FsJvcbMZ30hEIvyG8zRvQq4e3BGCawR11FtYWT+5XQLUZ27SzCHaTl83QTv9LBOs1nCaM3/Bq7rhuJyLcLK0Z4u+6De+z37/dSY904SHe7zaOz7O0Izhuuo3js3w8h8Mu2PPa5+Bw7fMFcM9bF4j1KlsvKsXhAIumoJcpW9uOOZMLU70ux/XK2rCtA2NdWEHWIGyNOz/VsrCZ/VqKpYiP1oSndHpebZPjqy+Lw0Pqjavt/HBduTrGGU3ocFppF40xOGy+V1p2PLDH8Tw4TOtdAL5xyL995tYD7vDX56c2vm8ybEon+Mpt/w0MOaqQNKvxhxAYwQxjjPa8rI6E2m3CJOGORkW80T0C7O9y7O/MmCg5sNVh5M3NmWFdbndyhvk+TeW2LQv6R3OGnaRFymgZtgURveNkreqdN0ldumfPz47rUXATJmX4VuYeJEslFN/sZd5GzrWcHNus2szeMK1/v2BR9L0RdIbjdhjCer1aG7XDdDSmbm1ca4jdAYWEMRpSxHhED7+gNTFWZnv8K5EsEJmhKU6jRMDNxTGEfwQ9Hci0nlttLfk6uqDTdvC6gxF9AWvNzq8zMZB6dPKjaftDQHUv6HBUa+1R9SaV1hriIXX/edxRCruYJBzgH3y9++5gz8vkW/4i48iD/3/9BOWbNJEaX7NYFuli0z//ZRBOv4ceinC7ekbuQC9/je3hGEvVuXns/Q3iGMSf
 [final-version]: https://ryanis.cool/cosmos/beta#cm:CoYBChASBRCQQSATEgASADgxQIBOCg0SBRCQTSATEgASADgdChUSBRCQWSATEgASAxCwLzgJQITIvQIKFRIFEJBlIBMSABIDELA7OApAgYCcAQomEhEQkHEgE0CClKQMSP2JzLSQDBIHQICaJEiJBxIAOB5Aiq6KgAUYAECihdis8FJI3oyrwAEKQQouEhMQQCAAQMuFsI6gAki5j4i2oZILEhUIloASIABA2oPYttAKSMmjwM3g+wc4ABgCQOOLzKzwM0imqeDG8LMICo4BChASBRCQNSATEgASADgyQIBOCg0SBRCQKSATEgASADgeChkSBRCQHSATEgASABIFELBSQAQ4CkCDyL0CChkSBRCQESATEgASABIFELBQQAE4CUCCgJwBCiYSERCQBSATQIKUpAxI/YnQtJAMEgdAgJokSIkHEgA4HUCJroqABRgBQKGF2KzwUkjeiqu4AQo9CioSExBAIABAwIPontA1SLmPhLaRkgsSESAAQMyFsI6gAki5j4S2kZILOAAYA0Dki8ys8DNIpqncxoC0CBADGIYgIgYIvgEQtAE4A4IBAgQCUABYQ3IYSGSAAWRQ6AJY/giIAcwIYIQHaIQHcNAFeLyLvP7wOPIBAggB
 [Cosmos]: https://ryanis.cool/cosmos/
 [hhkb]: https://hhkeyboard.us/
@@ -880,9 +909,10 @@ And then run `qmk console` from the command line.
 [silent]: https://splitkb.com/collections/switches-and-keycaps/products/ambients-kailh-low-profile-choc-switches
 [linear]: https://splitkb.com/collections/switches-and-keycaps/products/kailh-low-profile-choc-switches?variant=42309434802435
 [clicky]: https://splitkb.com/collections/switches-and-keycaps/products/kailh-low-profile-choc-switches?variant=39459382427725
-[keycaps]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps
 [Kensington SlimBlade]: https://www.kensington.com/p/products/ergonomic-desk-accessories/ergonomic-input-devices/slimblade-trackball/
 [pmw3389]: https://www.tindie.com/products/citizenjoe/pmw3389-motion-sensor/
 [keycaps-homing]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps?variant=47289185632603
-[automatic mouse layer]: https://docs.qmk.fm/features/pointing_device#pointing-device-auto-mouse
 [QMK]: https://docs.qmk.fm/
+{title="QMK source code"}
+[src]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/cybershard
+[combo]: https://docs.qmk.fm/#/feature_combo
