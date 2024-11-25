@@ -360,7 +360,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="499" y="51.45" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="499" dy="0">-</tspan>
+<tspan x="499" dy="0">%</tspan>
 </text>
 </g>
 </svg>

@@ -82,8 +82,7 @@ It's excellent because it allows a clueless sod like me to configure a keyboard 
 1. Can generate a wrist rest.
 1. Exports `.stl` for easy printing or `.step` you can import to CAD.
 
-In the `Expert` mode you lose the nice UI but you can instead customize the keyboard using Javascript.
-Here's a small snippet from the tool:
+Here's a small snippet from how the code in `Expert` mode might look like:
 
 ```javascript
 const curvature = {
@@ -115,7 +114,7 @@ const upperKeysPlane = new Trsf()
   .translate(0, 0, 0, false);
 ```
 
-The entire state of the keyboard is also stored in the url, so I can easily share my config by [including a link][final-version].
+The entire state of the keyboard is also stored in the url, so I can easily share my config by including a link: [Cosmos reference of the final keyboard configuration][final-version].
 (Barring any breaking changes in the tool of course...)
 
 # Initial design parameters
@@ -150,7 +149,7 @@ These were the important parts going into the design process:
     A horizontal combo is pressed with the finger in the middle of the keys. It's surprisingly comfortable.
     :::
 
-    The low-actuation force is also more comfortable to me, it helps reduce the strain on my fingers, and makes combos (pressing several switches at once) generally more pleasant.
+    The low-actuation force is also more comfortable to me as it helps reduce the strain on my fingers, and makes combos (pressing several switches at once) generally more pleasant.
 
 
 # Hardware and material
@@ -159,12 +158,12 @@ It's not enough with just a 3D printer, to build a working keyboard you need a b
 
 1. Two microcontrollers.
 
-    I got the [Liatris][] microcontroller as it has enough pins to connect a trackball sensor and it supports QMK.
+    I got the [Liatris][] microcontroller as it has enough pins to connect a trackball sensor and it supports [QMK][].
 
 1. Switches
 
     What kind of Choc switch should I use?\
-    Should they be [linear][], [tactile][sunset], or [clicky][]?\
+    [Linear][linear], [tactile][sunset], or [clicky][]?\
     Exactly how heavy should they be?\
     Should they be [silent][]?
 
@@ -311,11 +310,12 @@ Adjustments made:
 - Move all thumb keys a little further away
 :::
 ::: dash
-- Removed the display
+- Removed the display (felt like too much of a hassle for a little coolness)
 :::
 
 Although I said I wanted to have a 3x5 grid, the generator included an easy option to include a small bottom row with 2 extra keys (for the ring and middle finger) that I wanted to try out for the left side.
-They're okay. Not uncomfortable but not quite comfortable enough that I want to have common keys there.
+They're... Okay I guess.
+Not crazy uncomfortable but not quite comfortable enough that I want to have common keys there.
 
 ## Beta V3
 
@@ -382,18 +382,19 @@ It was worth it.
 ![](/images/cosmos/right_complete_no_mouse_keys.jpg)
 
 After having used the keyboard for real I realized that the three keys dedicated to mouse buttons would have to go.
-There were a few issues with them:
+There were two major issues with them:
 
 ::: dash
 - The pinky key got in the way sometimes when I reached for the top column, and I couldn't retrain myself to avoid it.
 - One of the goals with the [keyboard layout I use][t34] is to reduce the thumb and pinky usage of my right hand. The mouse keys counteract this goal.
-- QMK's [automatic mouse layer][] feature---that activates a mouse layer when the trackball moves---is a superior solution if you're fine with having to use both hands to operate the mouse.
 :::
 
 So I had them removed and I rewired the right half for the 3rd time.
-Sigh.
+_Sigh_.
 
-I think the lesson is that it's not enough to print a prototype and press keys, you have to build and _use_ the keyboard a bunch before you can evaluate some of the design decisions.
+I think the lesson is that it's not enough to print a prototype and press switches pretending to type, you have to build and _use_ the keyboard a bunch before you can evaluate some of the design decisions.
+
+[Cosmos reference][final-version]
 
 # Additional printed parts
 
@@ -419,6 +420,12 @@ I think of them more as _palm_ rests, where I rest the lower part of the palm on
 
 The wrist rests didn't come with any sort of attachment to the case, so they just always drifted away.
 I tried to combat this by gluing magnets inside the case and outside the wrist rest, making them stick together just enough to stay together during normal use, while being easily removable.
+
+### I ended up not using the wrist rests
+
+Despite my efforts, I haven't been using the printed rests as I reverted to the "squishy" ones I used before:
+
+![](/images/cosmos/squishy_rest.jpg)
 
 ## Microcontroller holder
 
@@ -852,7 +859,7 @@ And then run `qmk console` from the command line.
 [v2-left]: https://ryanis.cool/cosmos/beta#cf:ChYIBBAFWAAYBSAEKL4BMLQBUABAAEgAWiMKEQjji8ys8DMQpqngxvCziOQBEg4Ii4XQlhAQgJqKoOuFclIaMIBOCAAQgMi9AhiAhorAByCAgJwBKNDGwQJCUwgD4AEBeAPYAQEQAEgASABIAEgASABIAEgAYABoAHABGAAgACgAmAH0A6gB6AegAcgBsAEAkAGEB7gBAIABADAAOChYAYgBAcABAMgB2ATQAYQH
 [v3]: https://ryanis.cool/cosmos/beta#expert:eJzlWt9v2zYQfvdfQeRlaSHRli0njoe+JNuAYMgyNOlT4AdaomIusiSQVBw38P++O9KW9cOeHSBtBExoVel4PN199x1FnxqkidIkzbSAizG5tRfkC3ntELJgcXw/E8FTwhUM+s5adjeTaR6K5HFMekbGpyW1jehGJIX0DxboVMIYHeHoE19eMiVA+SSYpcEJylQg+eI6CUXAQf7geg7Z/XdSaN8vMw4mzDURieJSb03die84eDPYiq7SPNFcKpE8jYmWOccRCCUJeTgmryu8DdIk4dbZEy2lOqkI0ei3u0sYY89cskdeHQb3+csY/QTpXAQyhSEt0zjmaC+TqRG6uZq6NuqIKc2Tm7rqxjl4iBYBi69iziRLAo4QGusBSu4wKrVVVzMexxAJ0RaZKYAMzyGxyKwSWXVWnW6X/HV7//uY2OmkS/SMb4MgC6FnqJTwR6bFMwdoTVYIk5xkMQt4SFiu0zkzvsVLitrXiTFjHtll4TN6GxLNpg7KFSfPLM7ByIJLPsYJtYR7Hh06pN8zZ3Py8ewN8XxuBCCe4Mw63oM+9TqdwFA5yOUz0zl4ajlc3N9GV2mcz5MxmHSqA1/TxZgYocpYALw2InDKG1WE1gDKL1DOZADpAEA73c+fO+Qz+aZ4lMckAgwV1xrmEEZCEUUQclJyDXVRCfHKgIxLLAhFQdxdR2GkV7VQKKWFCWdfaCV37mcmXQknucJUpCRLlcACN0/Os4zL4snkWv+ioBg006A7XRoVoKaNIgnJix2E2agNo2AFKKni8oTvJI0iiN3EQtbBmAf9Cc/52zjzBYi1IPdSRaefMCr7zFOv75CHnkPwz8ReevYyYrHiFdWqpldcbjUL107XisUgokN+45FIhF3rNpko4bFNBKg9wooxJuD/wwR8fwDrmAyyqbFiATPLWsCg0uw4IVDvkYhrSrjiAN36m7sYmGJWh+WJkazsAFMZUBwyam+DOFdWbe3R2tomo+MqqHhQU6q3yQ3TUrycbpxq8sgewZpCLhZfITW+ut76flXYruDrQup61SEAdX65PK2mHlVMeO8B4KAB4Ky1APZaiJ/fwC9pLX5t5F+zgPOW4Oe9uYB7H1m/s3SOGgLf5ScNUP9pLagHivojMG3W9Ly18LWQks2SFi2Br/fmkob9sut/dE3PRRjGvFnUT62F9UBRfwiqzap2WotfG1nZLOu0Hfi9varNZuejq1oCLM2ajtuK6eH39M+HtFnStK3wtZGRzYrOfiJ81eZME8O3779dz2tDYZvAmpX9a6uxPfTb2jt3SAte2d1Wg3iQn28BsTM5tgWpZ/l8Wmo/htiWA71c2d5pwpmcmu5oMc8puo+204idRwX0JWyO3f1yE9VYv5XiUST7mo79ER2dlY/z3a3FaqOSDobl42x347I8x/XPaX9UOi4ac3DapNa7dAfgjzsYwGlUHQLka5TYQ4hdy71N+eau/ButUyLBgTRXHB3Rc9za2X/M77Zy9L2jgvXBwNDQzLRokTrbZn4abQmzKRdaS3W9X17v8JsPUzua5kbebPL3q3L7RaBv+v2lhx7ZGt5b8NbIEfW+G8syQctq7mA/Kct6Z03yFrmp5dj1BhRyhEsBbPy9natBqeQ+1VbNxnppaTiE9WLXwgtWg6cpi+P3BtDtD4+DEMIdVA7/OEj9IfUq845G2OtRWBf8PkWIfbp7P9CEWJkvna9EslDkhqNoRomQm5s9AP8IcrpnR7JzeByUF029vezsU9xDDfHs0d3vqvdj548Az/Oofxx8I/ofr5wKzqMh7fvlYx+eO8h4ZgAd4LP89wYUtwh2EV1IofRXrvSeF/X/5I3HX7JUatwAsTzWm8+96/+XgX7XcEIRfqockwfQW+8aHZxjaTdxOqt/AWrGK+I=>
 [v6]: https://ryanis.cool/cosmos/beta#expert:eJzlWlFv2zYQfs+vIPKytLBoy7Jjx0Vfmm1AMWQZmhR7CPxAS5TNRZYEkkrsFvnvuyMlWbLsRenaRcCIWJGOR+r43Xcn+Wg/iZUmSaoFnMzItT0h78nXE0IeWRTdroR/H3MFnaNeLrtZySQLRLyckYGR8UVFrRBdibiU/sp8nUjoo1PsvefbD0wJUD71V4l/ijLlS/74MQ6Ez0F+57g9cvgzL7VvtymHKcw5EbHiUu+muhFfsPPK24kukyzWXCoR38+IlhnHHlhKHPBgRr4+4aWfxDG3xp5qKdVpTYiTfr75AH3sgUu25PVuMJ9vZmgnQiCF0p+40jMDJiERj5d6NSNjgxAha7b5UwQocQe5aHMdhorrHERCvhTXztAKWLyMOA6wl5rH2vhhaARmBWvhywRM0jKJIo7rSGVihE6mFo5FO2QKxl7tqxagwOK08Fl0GXEmWexzdJ1ZlY+SG0RT7dTVikcRLJNo65EFOBfuQyKRWiW07OndSb9Pfr++/WVG7ASkT/SK7+Ajj0KvUCnmS6bFAwenGj4QJjlJI+bzgLBMJ2tmrIu2FLU/xmYac9M+Cx7Q3oBotuihXHHywKIMJnnkks9wwB7V3AEd94h7gcehOXhGMMbjuRG4dDzHkfue9lzqnpz4Joj8TD4wnYGlNnrK6+vwMomydQxuG/fqHZ+SR+CDgTBlPnjSiMAod1oT2glQfoFyJn1DEYD0pP/27Ql5Sz4rHmYRCQFFIAySgjASiDCERccV41AXlRCxFAJhi8GoKIj7+TqM9HJvMZTScore8cVVDLpdGZfFnGQK3ZGQNFEC04u5d5amXJb3Jh/1TwpCUTMNuoutUcnJDZwPyMZ2wmjUhl6YBYipouqALyQx4VJdjbnPb3CbP4wt74Fbj+RWqvDsDS7L3vIMwofcwQf/5vbUtachixSvqrp1Tbc83WmWlp3likWnRYf8zEMRC5tpC19U8NgZD2pLyFczAgu4m4PxdzC9TSZ5pJXp0yRVn6VFsiEEoj4U0Z4S5jug3LC4ioArJkdsc4WnPM+oFHgOTrWXfpQpq5eblGsXLp3VYcVGTbxex1dMS7E5K6xqUsk2P2eRgxFYSo2xjlsInsrJaxBDciSDehfAuv6wPat7/02ZI78Hhl4Dw1V3MRx0EsJRA8K4uxB2k4XNSM66AqH78kgevGogr5I1agh8tp82cP2ru7g+F92vAmszuNfdRbCTxGzGtugKgoOXxza8RzujVw/utQiCiDej+767yD4X3a8DbDO8e92FsJvcbMZ30hEIvyG8zRvQq4e3BGCawR11FtYWT+5XQLUZ27SzCHaTl83QTv9LBOs1nCaM3/Bq7rhuJyLcLK0Z4u+6De+z37/dSY904SHe7zaOz7O0Izhuuo3js3w8h8Mu2PPa5+Bw7fMFcM9bF4j1KlsvKsXhAIumoJcpW9uOOZMLU70ux/XK2rCtA2NdWEHWIGyNOz/VsrCZ/VqKpYiP1oSndHpebZPjqy+Lw0Pqjavt/HBduTrGGU3ocFppF40xOGy+V1p2PLDH8Tw4TOtdAL5xyL995tYD7vDX56c2vm8ybEon+Mpt/w0MOaqQNKvxhxAYwQxjjPa8rI6E2m3CJOGORkW80T0C7O9y7O/MmCg5sNVh5M3NmWFdbndyhvk+TeW2LQv6R3OGnaRFymgZtgURveNkreqdN0ldumfPz47rUXATJmX4VuYeJEslFN/sZd5GzrWcHNus2szeMK1/v2BR9L0RdIbjdhjCer1aG7XDdDSmbm1ca4jdAYWEMRpSxHhED7+gNTFWZnv8K5EsEJmhKU6jRMDNxTGEfwQ9Hci0nlttLfk6uqDTdvC6gxF9AWvNzq8zMZB6dPKjaftDQHUv6HBUa+1R9SaV1hriIXX/edxRCruYJBzgH3y9++5gz8vkW/4i48iD/3/9BOWbNJEaX7NYFuli0z//ZRBOv4ceinC7ekbuQC9/je3hGEvVuXns/Q3iGMSf
-[final-version]: #
+[final-version]: https://ryanis.cool/cosmos/beta#cm:CoYBChASBRCQQSATEgASADgxQIBOCg0SBRCQTSATEgASADgdChUSBRCQWSATEgASAxCwLzgJQITIvQIKFRIFEJBlIBMSABIDELA7OApAgYCcAQomEhEQkHEgE0CClKQMSP2JzLSQDBIHQICaJEiJBxIAOB5Aiq6KgAUYAECihdis8FJI3oyrwAEKQQouEhMQQCAAQMuFsI6gAki5j4i2oZILEhUIloASIABA2oPYttAKSMmjwM3g+wc4ABgCQOOLzKzwM0imqeDG8LMICo4BChASBRCQNSATEgASADgyQIBOCg0SBRCQKSATEgASADgeChkSBRCQHSATEgASABIFELBSQAQ4CkCDyL0CChkSBRCQESATEgASABIFELBQQAE4CUCCgJwBCiYSERCQBSATQIKUpAxI/YnQtJAMEgdAgJokSIkHEgA4HUCJroqABRgBQKGF2KzwUkjeiqu4AQo9CioSExBAIABAwIPontA1SLmPhLaRkgsSESAAQMyFsI6gAki5j4S2kZILOAAYA0Dki8ys8DNIpqncxoC0CBADGIYgIgYIvgEQtAE4A4IBAgQCUABYQ3IYSGSAAWRQ6AJY/giIAcwIYIQHaIQHcNAFeLyLvP7wOPIBAggB
 [Cosmos]: https://ryanis.cool/cosmos/
 [hhkb]: https://hhkeyboard.us/
 [uhk]: https://ultimatehackingkeyboard.com/
@@ -878,3 +885,4 @@ And then run `qmk console` from the command line.
 [pmw3389]: https://www.tindie.com/products/citizenjoe/pmw3389-motion-sensor/
 [keycaps-homing]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps?variant=47289185632603
 [automatic mouse layer]: https://docs.qmk.fm/features/pointing_device#pointing-device-auto-mouse
+[QMK]: https://docs.qmk.fm/

@@ -166,7 +166,7 @@
             rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="199" y="104.119995" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="199" dy="0">%</tspan>
+<tspan x="199" dy="0">-</tspan>
 </text>
 </g>
     <g class="keycap default">
