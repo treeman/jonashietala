@@ -1,6 +1,6 @@
 ---
 title: "I designed my own keyboard layout. Was it worth it?"
-tags: [Computer, Keyboards, T-34]
+tags: [Computer, Keyboards, T-34, Keyboard layouts]
 series: t-34
 favorite: true
 ---

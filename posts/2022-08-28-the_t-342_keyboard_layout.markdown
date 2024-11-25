@@ -1,6 +1,6 @@
 ---
 title: "The T-34/2 keyboard layout"
-tags: [Computer, Keyboards, T-34]
+tags: [Computer, Keyboards, Keyboard layouts, T-34]
 series: t-34
 ---
 

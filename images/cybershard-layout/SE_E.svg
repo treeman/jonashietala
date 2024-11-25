@@ -359,13 +359,13 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap layer_toggle">
+    <g class="keycap special">
       <rect x="253" y="226"
             width="54" height="54"
-            rx="5" fill="#dca3c5" class="outer border"/>
+            rx="5" fill="#e0c65f" class="outer border"/>
       <rect x="259" y="230"
             width="42" height="42"
-            rx="5" fill="#e4a9cc" class="inner border"/>
+            rx="5" fill="#e8cd62" class="inner border"/>
 
 <text x="280" y="245.5" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="280" dy="0">NUM</tspan>

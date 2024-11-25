@@ -517,18 +517,6 @@
 <tspan x="550" dy="0">Bspc</tspan>
 </text>
 </g>
-    <g class="keycap special">
-      <rect x="581.5" y="62.479996"
-            width="45" height="16"
-            rx="4" fill="#e0c65f" class="outer border"/>
-      <rect x="583" y="63.479996"
-            width="42" height="12.5"
-            rx="4" fill="#e8cd62" class="inner border"/>
-
-<text x="604" y="69.729996" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="604" dy="0">Rev Rep</tspan>
-</text>
-</g>
     <g class="keycap mod1">
       <rect x="103" y="91.369995"
             width="30" height="16"

@@ -74,6 +74,9 @@ While I can activate the number layer persistently (using [leader sequences](#Le
 It's used to type numbers in text or code and for relative movement in Vim, where `17J` would move 17 lines down and then turn off the number layer.
 Jumping directly to a line in Vim with `12G` is also made convenient.
 
+If I want to enter the layer without it turning off I can either use [leadere sequences](#Leader-sequences) to activate it persistently or hold the [NUMWORD][] [combo](#Combos-over-keyboard-halfs) (hold both thumbs).
+The layer won't release until both thumb keys are released, so `Space` can be tapped with the left thumb without leaving the number layer.
+
 `@u` is there to easily activate macros in Vim. For example `7@u` in the number layer would run the `u` macro 7 times and then turn off [NUMWORD][].
 
 ## Function keys
@@ -178,8 +181,10 @@ These split combos uses the ring and index finger.
 
 ![](/images/cybershard-layout/smart_layers.svg){embed=true}
 
-* The middle fingers on `T` + `A` activates [CAPSWORD][].
-* The thumb on `Space` + `E` activates [NUMWORD][].
+* Tapping `T` + `A` once activates [CAPSWORD][], tapping again makes it persistent (`CAPS LOCK`), and a third tap to deactivate `CAPS LOCK`.
+* Tapping `Space` + `E` activates [NUMWORD][] and tapping them again activates the [number layer](#Numbers) persistently.
+
+The [repeat key](#Repeat-key) works with the above, making them easier to double-tap.
 
 ![](/images/cybershard-layout/specials.svg){embed=true}
 
@@ -241,11 +246,12 @@ I use this with mnemonics for rarely used outputs:
 | Leader sequence       |  Action |
 |:----------------------|:------------|
 | `l` + `)`, `c`        |  **C**aps lock |
-| `l` + `)`, `s`        |  *S*et Swedish input in Linux (mapped in [xmonad][]) |
+| `l` + `)`, `s`        |  *S*wedish input in Linux (mapped in [xmonad][]) |
 | `l` + `)`, `t`, `n`   |  **T**oggle **N**umber layer |
 | `l` + `)`, `t`, `s`   |  **T**oggle **S**ymbols layer |
 | `l` + `)`, `t`, `f`   |  **T**oggle **F**unction layer |
 | `l` + `)`, `t`, `c`   |  **T**oggle **C**aps lock escape swap |
+| `l` + `)`, `Esc`   |  `Ctrl` `Shift` **Esc**ape |
 
 ## CAPSWORD
 
@@ -261,11 +267,7 @@ It will not turn off on these keys: `0-9` `%` `/` `+` `*` `-` `_` `.` `,` `:` `=
 
 ## Repeat key
 
-The repeat key simply repeats the previous key. So to type `fall` I can type `f` `a` `l` `Repeat`, using four different fingers instead of pressing `l` twice. It can also repeat things like `Ctrl-c` or `Delete`.
-
-There's also a reverse repeat key that "reverses" the last pressed key. The idea is that if you pressed `PageUp` a bunch, but went too far, you could press `Reverse Repeat` to output `PageDown`.
-
-See [T-34/0][] for the introduction of the [repeat key][rep-writeup] and [reverse repeat key][rev-rep-writeup] for some more information about them.
+The repeat key simply repeats the previous key. So to type `fall` I can type `f` `a` `l` `Repeat`, using four different fingers instead of pressing `l` twice. It can also repeat things like `Ctrl-c` or `Delete`, and unlike regular keys that use [auto shift][] the `Repeat` key can be held.
 
 ## Trackball
 
@@ -280,13 +282,14 @@ There are different modes that alters the behavior of the trackball:
 
 # More info
 
-- See the [source code][src].
-- Read the [T-34 series][t-34-series].
-- Read the post about building cybershard
+- Read the [T-34 series][t-34-series] for the design process and motivations of my other keyboard layout (it's the same layout with minor refinements and additions).
+- See the post [Building my ultimate keyboard][cybershard] for how I designed and built the keyboard I'm using this layout with.
+- For implementation details and the most up-to-date reference check out the layout's [QMK source code][src].
 
-# TODO
-
-- Trademark symbol on `T` on specials layer
+  ::: warn
+  I use a bunch of custom re-implementations of existing QMK functionality and it's probably not a good idea to copy them.
+  They're there for various reasons, such as [CAPSWORD][] not being integrated into QMK when I started using it and I can't be bothered to migrate over.
+  :::
 
 ::: changelog
 : 2024-11-18

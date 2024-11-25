@@ -10,7 +10,7 @@ favorite = true
 
 What comes to mind when you see the description "the ultimate keyboard"?
 
-There are _many_ keyboards in this world; here are that might fit the "ultimate" moniker:
+There are _many_ keyboards in this world; here are some that might fit the "ultimate" moniker:
 
 - [Das Keyboard 4 Ultimate mechanical keyboard][das-ultimate]
 - [DataHand][]
@@ -33,7 +33,7 @@ Some people have very long fingers and some have very short fingers, making some
 Others may not even have 10 fingers (or both hands), requiring more drastic modifications.
 
 If an ultimate keyboard exists, it differs from person to person.
-This is my attempt to build an ultimate keyboard for myself.
+This is my attempt to build _my_ ultimate keyboard.
 
 # My wishlist
 
@@ -46,7 +46,7 @@ a. Should be split to support a more natural typing position.
 a. Customized for my own fingers and typing eccentricities.
 
    Column stagger, curvatures and tenting are features I think I want but they need to be tuned, probably by trial-and-error.
-   The position of the thumb keys is another sticking point that the other keyboards I've tried have failed to get right.
+   The position of the thumb keys is another sticking point that the other keyboards I've tried have failed to get just right.
 
 a. Have an integrated trackball or trackpad.
 
@@ -57,8 +57,8 @@ a. Contain the keys I need but no more.
 
    I like smaller keyboards and I've been very happy and with [my custom keyboard layout][t34] that only has 34 keys.
    Some modifications are fine of course but for the most part I want to be able to use the same layout on both the [Ferris][] and my new keyboard.
-
-With these requirements I need to be able to customize all parts of the keyboard and I really don't want to learn CAD and create one from scratch; I wonder what alternatives I have?
+ii)
+To fulfill these requirements I need to be able to customize all parts of the keyboard and I really don't want to learn CAD and create one from scratch; I wonder what alternatives I have?
 
 # [Cosmos][] keyboard configurator
 
@@ -76,7 +76,7 @@ It's excellent because it allows a clueless sod like me to configure a keyboard 
 1. Customize XY-spacing, row- and colomn curvature, and more.
 1. Several pre-made thumb clusters.
 1. UI to move around all the keys.
-1. Supports different switches (I so [need my Choc switches](#I-like-Choc-switches)).
+1. Supports different switches (I so need my Choc switches).
 1. An `Expert` mode that allows you to customize anything via JavaScript.
 1. Supports encoders, trackpads, OLED displays, and trackballs.
 1. Can generate a wrist rest.
