@@ -305,6 +305,10 @@ There are different modes that alters the behavior of the trackball:
 
   Reworked the mouse layer and use a more advanced triggering mechanism to be more explicit about when the layer is turned on and off.
 
+: 2024-11-25
+
+  Added double-tap functionality to [NUMWORD][] and [CAPSWORD][] [combos](#Combos-over-keyboard-halfs).
+
 :::
 
 {title="QMK leader key"}
