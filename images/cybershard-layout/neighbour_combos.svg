@@ -650,16 +650,16 @@
 <tspan x="550" dy="0">$</tspan>
 </text>
 </g>
-    <g class="keycap default">
-      <rect x="88" y="199.37"
-            width="60" height="16"
-            rx="4" fill="#f7e5c3" class="outer border"/>
-      <rect x="89.5" y="200.37"
-            width="57" height="12.5"
-            rx="4" fill="#ffecc9" class="inner border"/>
+    <g class="keycap mod_implicit">
+      <rect x="83" y="199.37"
+            width="70" height="16"
+            rx="4" fill="#c6b775" class="outer border"/>
+      <rect x="84.5" y="200.37"
+            width="67" height="12.5"
+            rx="4" fill="#cebe7a" class="inner border"/>
 
 <text x="118" y="206.62" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="118" dy="0">C(S(SE_M))</tspan>
+<tspan x="118" dy="0">Ctrl Shift M</tspan>
 </text>
 </g>
     <g class="keycap default">

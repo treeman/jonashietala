@@ -148,7 +148,7 @@ These combos are made by keys next to each other, either horizontally (pressed w
 * Some combos have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily.
 * `vsplit` splits a window vertically in Vim and `hsplit` splits it horizontally, and `Close Window` closes a window in Vim (`<C-w>q`).
 * `Clear` resets all states; sets the [base](#Base) layer, releases modifiers, stops [CAPSWORD][] and [NUMWORD][], and clears other persistent states.
-* `Rev Rep` is the reverse of the [repeat key](#Repeat-key).
+* `Ctrl` + `Shift` + `M` is the shortcut to mute/unmute in Teams.
 
 ![3-key horizontal combos.](/images/cybershard-layout/mid_triple_combos.svg){embed=true}
 
@@ -273,8 +273,8 @@ The trackball is normally configured to move the mouse as a regular trackball.
 
 There are different modes that alters the behavior of the trackball:
 
-1. Lower the DPI `Space` is held (the mouse moves slower when the [navigation layer](#Navigation-layers) is active).
-1. Raise the DPI then the [`MOD` combo](#Horizontal-combos) is held (the mouse moves faster).
+1. Lower the DPI when `Space` is held (the mouse moves slower when the [navigation layer](#Navigation-layers) is active).
+1. Raise the DPI when the [`MOD` combo](#Horizontal-combos) is held (the mouse moves faster).
 1. Scroll instead of moving the mouse when the [`SYM` combo](#Horizontal-combos) is held.
 
 # More info
@@ -341,7 +341,7 @@ There are different modes that alters the behavior of the trackball:
 {title="QMK source code"}
 [src]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/cybershard
 
-[cybershard]: http://localhost:8080/blog/2024/11/26/building_my_ultimate_keyboard/
+[cybershard]: https://www.jonashietala.se/blog/2024/11/26/building_my_ultimate_keyboard/
 
 [combos]: #Combos
 [CAPSWORD]: #CAPSWORD
