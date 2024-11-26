@@ -45,7 +45,10 @@ It's also extremely ugly code...
 
 ![](/images/cybershard-layout/_BASE.svg){embed=true}
 
-The [repeat key](#Repeat-key) is used to output the last pressed key. I shift keys using [auto shift][] (see [long press](#Long-press)) and [CAPSWORD][]. The letters `Z` and `Q`, together with a bunch of other keys, are on [combos][].
+* The [repeat key](#Repeat-key) is used to output the last pressed key.
+* I shift keys using [auto shift][] (see [long press](#Long-press)) and [CAPSWORD][].
+* The letters `Z` and `Q`, together with a bunch of other keys, are on [combos][].
+* The keys for `F2`, `F12` and `FUN` are just extras and aren't in a comfortable enough position to warrant anything more common.
 
 ::: note
 If you wonder why the top left and right keys are off that's because the keyboard is built with them further away and with a different curvature than the other keys in the outer columns.
