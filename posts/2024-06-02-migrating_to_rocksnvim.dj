@@ -520,7 +520,7 @@ I'd like it if a more sane approach to package management become more popular in
 [lazy.nvim]: https://github.com/folke/lazy.nvim
 [invalid-node-type]: https://github.com/nvim-treesitter/nvim-treesitter/issues/6419
 [On-again, off-again relationship]: https://en.wikipedia.org/wiki/On-again,_off-again_relationship
-[did a complete rewrite in Lua]: http://localhost:8080/blog/2023/10/01/rewriting_my_neovim_config_in_lua/
+[did a complete rewrite in Lua]: https://www.jonashietala.se/blog/2023/10/01/rewriting_my_neovim_config_in_lua/
 [toml-regex]: /blog/2024/05/08/browse_posts_with_telescopenvim#Finding-the-post-data-to-populate-the-picker
 [plenary.nvim]: https://github.com/nvim-lua/plenary.nvim
 [the bootstrap script]: https://github.com/nvim-neorocks/rocks.nvim?tab=readme-ov-file#rocket-bootstrapping-script
