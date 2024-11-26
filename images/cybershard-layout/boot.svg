@@ -203,6 +203,7 @@
 <text x="37" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">,</tspan>
 </text>
+<text x="37" y="231.22" text-anchor="middle" class="sub">ARROW</text>
 </g>
     <g class="keycap management">
       <rect x="64" y="134.73999"

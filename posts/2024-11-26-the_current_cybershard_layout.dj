@@ -29,7 +29,10 @@ These keys are barely used and the biggest reason I have them is that I don't ha
 I use quite a number of special features for the keys and I've tried to color code according to the above legend.
 
 ::: note
-I made a bit of a detour and developed [my own tool][layout_gen] to generate the images in this post as the existing tools didn't _exactly_ match my preferences.
+I made a bit of a detour and developed [my own tool][layout_gen] to generate the embedded svg images in this post as the existing tools didn't _exactly_ match my preferences.
+
+Note that I made it only for myself and it will probably break in many ways if you try to use it for your layout.
+It's also extremely ugly code...
 :::
 
 [layout_gen]: https://github.com/treeman/layout_gen
@@ -83,16 +86,23 @@ The layer won't release until both thumb keys are released, so `Space` can be ta
 
 ![Function keys.](/images/cybershard-layout/_FUN.svg){embed=true}
 
-The function keys follow the same layout as the [numbers layer](#Numbers).
+* The function keys follow the same layout as the [numbers layer](#Numbers).
+* The trackball `DPI` can be lowered and raised at runtime.
 
-
-## Navigation layer
+## Navigation layers
 
 ![Navigation layer.](/images/cybershard-layout/_NAV.svg){embed=true}
 
-`Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][]. `Ctrl` + arrow is used to switch windows in Vim. Tabbing is for switching tabs and the `Back` / `Fwd` mouse buttons goes backwards and forwards in the web browser.
+* `Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][].
+* This layer is used in conjunction with the trackball, giving access to mouse keys.
+* `Shift` + `Left Mouse` can be used to drag, `Ctrl` + `A` to select, and `Ctrl` + `C` to copy (on [long press](#Long-press)).
+* Tabbing is for switching browser tabs and the `Back` / `Fwd` mouse buttons goes backwards and forwards in history.
+* `Ctrl` + arrow is used to switch windows in Vim.
+* The [workspace layer](#Workspace-layer) is triggered by first holding `Space`, and then holding the right thumb key (`WNAV`).
 
-The [workspace layer](#Workspace-layer) is triggered by first holding `Space`, and then holding the right thumb key (`WNAV`).
+![Arrows on the left-hand side.](/images/cybershard-layout/_ARROW.svg){embed=true}
+
+This layer exists for the rare occasions I want to use all the arrow keys with the left hand instead of the right.
 
 ## Workspace layer
 
@@ -100,22 +110,6 @@ The [workspace layer](#Workspace-layer) is triggered by first holding `Space`, a
 
 This is used for all window and workspace management in [xmonad][]. Some common operations are also on the [navigation layer](#Navigation-layer).
 [Auto shift](#Long-press) works and can used to send a window to another workspace (`Gui` + `Shift` + `2`).
-
-## Mouse layer
-
-![Mouse layer.](/images/cybershard-layout/_MOUSE.svg){embed=true}
-
-The mouse layer is similar to QMK's [automatic mouse layer][], which activates a layer when the trackball is moved, but with some modifications:
-
-1. The [navigation layer](#Navigation-layer) must be active before the mouse layer can be activated.
-1. If `Space` is released the layer is deactivated, it's never turned off automatically.
-
-Some notes on the layer:
-
-* The `DPI` can be lowered and raised at runtime, to let narrow in on a good default value.
-* When the layer is active, the DPI is lowered making it easier click on small things.
-* The `Ctrl A` key can be held to instead output `Shift`, enabling easier `Shift` + mouse button dragging.
-* The `Ctrl` and `Alt` one-shot [combos][] are still available.
 
 ## Windows layer
 
@@ -171,11 +165,11 @@ These split combos uses the ring and index finger.
 
 ![Combos for the quotes `"` and `'`.](/images/cybershard-layout/quotes.svg){embed=true}
 
-![Alt and [leader key][] on the bottom row.](/images/cybershard-layout/split_lower.svg){embed=true}
+![Combos don't have to be on the same row, these angled combos are fairly comfortable.](/images/cybershard-layout/angled.svg){embed=true}
 
-![Combos don't have to be on the same row, `;` and `-` are fairly common and these angled combos are fairly comfortable.](/images/cybershard-layout/angled.svg){embed=true}
+![One-shot `Alt` on the left combo and holding the right combo activates the [windows](#Windows-layer) layer (with implicit `Alt`).](/images/cybershard-layout/split_top.svg){embed=true}
 
-![Holding activates the [windows](#Windows-layer) layer.](/images/cybershard-layout/win_alt.svg){embed=true}
+![[Leader key][leader key] on the bottom row.](/images/cybershard-layout/split_lower.svg){embed=true}
 
 ## Combos over keyboard halfs
 
@@ -185,6 +179,10 @@ These split combos uses the ring and index finger.
 * Tapping `Space` + `E` activates [NUMWORD][] and tapping them again activates the [number layer](#Numbers) persistently.
 
 The [repeat key](#Repeat-key) works with the above, making them easier to double-tap.
+
+![](/images/cybershard-layout/swap_unds_mins_c.svg){embed=true}
+
+* Swaps `_` and `-`.
 
 ![](/images/cybershard-layout/specials.svg){embed=true}
 
@@ -272,11 +270,10 @@ The repeat key simply repeats the previous key. So to type `fall` I can type `f`
 ## Trackball
 
 The trackball is normally configured to move the mouse as a regular trackball.
-When moved it activates the [mouse layer](#Mouse-layer) but only when `Space` is held.
 
 There are different modes that alters the behavior of the trackball:
 
-1. Lower the DPI `Space` is held (the mouse moves slower when the [mouse layer](#Mouse-layer) is active).
+1. Lower the DPI `Space` is held (the mouse moves slower when the [navigation layer](#Navigation-layers) is active).
 1. Raise the DPI then the [`MOD` combo](#Horizontal-combos) is held (the mouse moves faster).
 1. Scroll instead of moving the mouse when the [`SYM` combo](#Horizontal-combos) is held.
 
@@ -289,10 +286,12 @@ There are different modes that alters the behavior of the trackball:
   ::: warn
   I use a bunch of custom re-implementations of existing QMK functionality and it's probably not a good idea to copy them.
   They're there for various reasons, such as [CAPSWORD][] not being integrated into QMK when I started using it and I can't be bothered to migrate over.
+
+  The code is super messy and in desperate need of refactoring...
   :::
 
 ::: changelog
-: 2024-11-18
+: 2024-11-19
 
   Copied the [T-34][t-34-series] layout and adapted it for the new keyboard by adding a mouse layer, remove the shortcut layer, and changed the activation of the specials layer.
 
@@ -308,6 +307,12 @@ There are different modes that alters the behavior of the trackball:
 : 2024-11-25
 
   Added double-tap functionality to [NUMWORD][] and [CAPSWORD][] [combos](#Combos-over-keyboard-halfs).
+
+: 2024-11-26
+
+  1. Moved `-` back to it's original position and placed `%` on the angled combo.
+  1. Experimental functionality to swap `-` and `_` for the languages that use `kebab-case`.
+  1. Removed the mouse layer and placed mouse buttons on the [navigation layer](#Navigation-layers).
 
 :::
 
@@ -325,9 +330,6 @@ There are different modes that alters the behavior of the trackball:
 [xmonad]: https://xmonad.org/
 {title="Dead keys"}
 [dead keys]: https://en.wikipedia.org/wiki/Dead_key
-
-{title="The T-34/0 keyboard layout"}
-[T-34/0]:  /blog/2021/09/05/t-34-0/
 {title="The T-34 keyboard layout"}
 [t-34-series]: /series/t-34/
 {title="T-34 first post"}
@@ -336,12 +338,10 @@ There are different modes that alters the behavior of the trackball:
 [t-34-curr]: /blog/2022/09/06/the_current_t-34_keyboard_layout
 {title="Numbers and symbols"}
 [num-sym-combos]: #Numbers-and-symbols
-{title="Reverse repeat key"}
-[rev-rep-writeup]: /blog/2021/09/05/t-34-0/#reverse-repeat
-{title="Repeat key"}
-[rep-writeup]: /blog/2021/09/05/t-34-0/#the-repeat-key
 {title="QMK source code"}
 [src]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/cybershard
+
+[cybershard]: http://localhost:8080/blog/2024/11/26/building_my_ultimate_keyboard/
 
 [combos]: #Combos
 [CAPSWORD]: #CAPSWORD

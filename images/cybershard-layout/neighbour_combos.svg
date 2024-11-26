@@ -262,6 +262,7 @@
 <text x="37" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="37" dy="0">,</tspan>
 </text>
+<text x="37" y="231.22" text-anchor="middle" class="sub">ARROW</text>
 </g>
     <g class="keycap combo_background">
       <rect x="64" y="134.73999"
@@ -647,6 +648,18 @@
 
 <text x="550" y="152.62" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="550" dy="0">$</tspan>
+</text>
+</g>
+    <g class="keycap default">
+      <rect x="88" y="199.37"
+            width="60" height="16"
+            rx="4" fill="#f7e5c3" class="outer border"/>
+      <rect x="89.5" y="200.37"
+            width="57" height="12.5"
+            rx="4" fill="#ffecc9" class="inner border"/>
+
+<text x="118" y="206.62" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="118" dy="0">C(S(SE_M))</tspan>
 </text>
 </g>
     <g class="keycap default">

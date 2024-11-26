@@ -129,14 +129,17 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap special">
       <rect x="172" y="79.119995"
             width="54" height="54"
-            rx="5" fill="#f7f0ea" class="outer border"/>
+            rx="5" fill="#e0c65f" class="outer border"/>
       <rect x="178" y="83.119995"
             width="42" height="42"
-            rx="5" fill="#fff7f1" class="inner border"/>
+            rx="5" fill="#e8cd62" class="inner border"/>
 
+<text x="199" y="104.119995" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="199" dy="0">H</tspan>
+</text>
 </g>
     <g class="keycap combo_background">
       <rect x="226" y="86.68"
@@ -156,26 +159,26 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap special">
       <rect x="442" y="79.119995"
             width="54" height="54"
-            rx="5" fill="#f7f0ea" class="outer border"/>
+            rx="5" fill="#e0c65f" class="outer border"/>
       <rect x="448" y="83.119995"
+            width="42" height="42"
+            rx="5" fill="#e8cd62" class="inner border"/>
+
+<text x="469" y="104.119995" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="469" dy="0">N</tspan>
+</text>
+</g>
+    <g class="keycap combo_background">
+      <rect x="496" y="64"
+            width="54" height="54"
+            rx="5" fill="#f7f0ea" class="outer border"/>
+      <rect x="502" y="68"
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
-</g>
-    <g class="keycap default">
-      <rect x="496" y="64"
-            width="54" height="54"
-            rx="5" fill="#f7e5c3" class="outer border"/>
-      <rect x="502" y="68"
-            width="42" height="42"
-            rx="5" fill="#ffecc9" class="inner border"/>
-
-<text x="523" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="523" dy="0">A</tspan>
-</text>
 </g>
     <g class="keycap combo_background">
       <rect x="550" y="80.74"
@@ -249,17 +252,14 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap default">
+    <g class="keycap combo_background">
       <rect x="442" y="133.12"
             width="54" height="54"
-            rx="5" fill="#f7e5c3" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="448" y="137.12"
             width="42" height="42"
-            rx="5" fill="#ffecc9" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
-<text x="469" y="158.12" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="469" dy="0">L</tspan>
-</text>
 </g>
     <g class="keycap combo_background">
       <rect x="496" y="118"
@@ -333,16 +333,16 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap default">
-      <rect x="459" y="43.2"
+    <g class="keycap special">
+      <rect x="297" y="105.119995"
             width="80" height="18"
-            rx="4" fill="#f7e5c3" class="outer border"/>
-      <rect x="460.5" y="44.2"
+            rx="4" fill="#e0c65f" class="outer border"/>
+      <rect x="298.5" y="106.119995"
             width="77" height="14.5"
-            rx="4" fill="#ffecc9" class="inner border"/>
+            rx="4" fill="#e8cd62" class="inner border"/>
 
-<text x="499" y="51.45" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="499" dy="0">%</tspan>
+<text x="337" y="113.369995" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="337" dy="0">Swap _ and -</tspan>
 </text>
 </g>
 </svg>

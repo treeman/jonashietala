@@ -21,14 +21,17 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap mod1">
       <rect x="64" y="26.74"
             width="54" height="54"
-            rx="5" fill="#f7f0ea" class="outer border"/>
+            rx="5" fill="#91c696" class="outer border"/>
       <rect x="70" y="30.74"
             width="42" height="42"
-            rx="5" fill="#fff7f1" class="inner border"/>
+            rx="5" fill="#97ce9c" class="inner border"/>
 
+<text x="91" y="51.739998" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="91" dy="0">C</tspan>
+</text>
 </g>
     <g class="keycap combo_background">
       <rect x="118" y="10"
@@ -39,14 +42,17 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap combo_background">
+    <g class="keycap mod1">
       <rect x="172" y="25.119999"
             width="54" height="54"
-            rx="5" fill="#f7f0ea" class="outer border"/>
+            rx="5" fill="#91c696" class="outer border"/>
       <rect x="178" y="29.119999"
             width="42" height="42"
-            rx="5" fill="#fff7f1" class="inner border"/>
+            rx="5" fill="#97ce9c" class="inner border"/>
 
+<text x="199" y="50.12" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="199" dy="0">F</tspan>
+</text>
 </g>
     <g class="keycap combo_background">
       <rect x="226" y="32.68"
@@ -332,6 +338,18 @@
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
+</g>
+    <g class="keycap mod1">
+      <rect x="108" y="4.3199997"
+            width="80" height="18"
+            rx="4" fill="#91c696" class="outer border"/>
+      <rect x="109.5" y="5.3199997"
+            width="77" height="14.5"
+            rx="4" fill="#97ce9c" class="inner border"/>
+
+<text x="148" y="12.57" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="148" dy="0">Alt</tspan>
+</text>
 </g>
     <g class="keycap layer_down">
       <rect x="486" y="4.3199997"
