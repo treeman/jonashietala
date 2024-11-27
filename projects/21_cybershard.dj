@@ -1,0 +1,14 @@
+---toml
+title = "My ultimate keyboard"
+year = 2024
+link = "/blog/2024/11/26/building_my_ultimate_keyboard/"
+homepage = false
+---
+
+![](/images/cosmos/cybershard.jpg)
+
+I [built a custom keyboard][cybershard] with 35 keys and an integrated trackball.
+I've also got a completely [custom keyboard layout][layout] for it.
+
+[cybershard]: /blog/2024/11/26/building_my_ultimate_keyboard/
+[layout]: /blog/2024/11/26/the_current_cybershard_layout

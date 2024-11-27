@@ -1,0 +1,12 @@
+---toml
+title = "T-34 Keyboard layout"
+year = 2022
+link = "/series/t-34/"
+homepage = true
+---
+
+![](/images/t-34-layout/_BASE.svg){embed=true}
+
+I made [a custom keyboard layout][t34], designed for a keyboard with 34 keys. It's been a fun project but it's also helping me relieve my RSI.
+
+[t34]: /blog/2021/06/03/the-t-34-keyboard-layout/
