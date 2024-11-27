@@ -14,7 +14,7 @@ The layout is made for a small 34 key keyboard, I use the [Ferris][] with flat c
 
 # Legend
 
-![Legend](/images/t-34-curr/legend.png)
+![Legend](/images/t-34-layout/legend.svg){embed=true}
 
 # Layers
 
@@ -22,37 +22,37 @@ The layout is made for a small 34 key keyboard, I use the [Ferris][] with flat c
 
 ## Base
 
-![Base layer.](/images/t-34-2/base.png)
+![Base layer.](/images/t-34-layout/_BASE.svg){embed=true}
 
 The [repeat key](#Repeat-key) is used to output the last pressed key. I shift keys using [auto shift][] (see [long press](#Long-press)) and [CAPSWORD][]. The letters `Z` and `Q`, together with a bunch of other keys, are on [combos][].
 
 ## Swedish overlay
 
-![Swedish overlay.](/images/t-34/swe.png)
+![Swedish overlay.](/images/t-34-layout/_SWE.svg){embed=true}
 
 When I want to write Swedish I activate this layer that replaces `()_` with `åäö`, or I use [combos][] from any layer.
 
 ## Navigation layer
 
-![Navigation layer.](/images/t-34-curr/nav.png)
+![Navigation layer.](/images/t-34-layout/_NAV.svg){embed=true}
 
 `Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][]. `Ctrl` + arrow is used to switch windows in Vim. Tabbing is for switching tabs in Firefox.
 
 ## Workspace layer
 
-![Workspace layer. All keys have an implicit `Gui` modifier.](/images/t-34-2/wnav.png)
+![Workspace layer. All keys have an implicit `Gui` modifier.](/images/t-34-layout/_WNAV.svg){embed=true}
 
 This is used for all window and workspace management in [xmonad][]. Some common operations are also on the [navigation layer](#Navigation-layer).
 
 ## Windows layer
 
-![Windows layer. All keys have an implicit `Alt` modifier.](/images/t-34-curr/win.png)
+![Windows layer. All keys have an implicit `Alt` modifier.](/images/t-34-layout/_WIN.svg){embed=true}
 
 This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, without releasing `Alt`.
 
 ## Numbers
 
-![Numbers. The darkened keys turn off [NUMWORD](#NUMWORD).](/images/t-34-curr/num.png)
+![Numbers. The darkened keys turn off [NUMWORD](#NUMWORD).](/images/t-34-layout/_NUM.svg){embed=true}
 
 While I can activate the number layer persistently (using [leader sequences](#Leader-sequences)) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD][] for larger numbers (like `1984`).
 
@@ -62,11 +62,11 @@ While I can activate the number layer persistently (using [leader sequences](#Le
 
 ## Function keys
 
-![Function keys.](/images/t-34-2/fun.png)
+![Function keys.](/images/t-34-layout/_FUN.svg){embed=true}
 
 ## Symbols
 
-![Symbols.](/images/t-34-2/sym.png)
+![Symbols.](/images/t-34-layout/_SYM.svg){embed=true}
 
 Similar to the numbers layer, there are [combos][] that are used to output standalone symbols. The [combos][] follow the layout of the symbols layer, and combos with same-side thumb. So `Space` + left-hand key or `E` + right-hand key outputs a symbol, regardless of what layers are activated.
 
@@ -74,19 +74,19 @@ Some common symbol sequences, like `->`, exists as [combos][] and others, like `
 
 ## One-handed Shortcuts
 
-![Shortcuts.](/images/t-34-curr/shrt.png)
+![Shortcuts.](/images/t-34-layout/_SHRT.svg){embed=true}
 
 To give access to common QWERTY shortcuts using the left hand, for programs where I have my right hand on the mouse/trackball. ([Long press](#Long-press) still shifts them.)
 
 ## Special symbols
 
-![Specials (with ←↓↑→ symbols, not arrow keys).](/images/t-34-2/spec.png)
+![Specials (with ←↓↑→ symbols, not arrow keys).](/images/t-34-layout/_SPEC.svg){embed=true}
 
 Some of these are [dead keys][], to add diacritic to any letter. To get `é` I do `´` then `e`, and the operating system will merge them together.
 
 ## Modifiers
 
-![Modifiers.](/images/t-34-2/mods.png)
+![Modifiers.](/images/t-34-layout/_MODS.svg){embed=true}
 
 I typically use [long press](#Long-press) for shift and [combos][] for other modifiers, this layer is a fallback for when those aren't enough.
 
@@ -97,34 +97,49 @@ I typically use [long press](#Long-press) for shift and [combos][] for other mod
 
 Note that combos are layer independent, and work the same regardless of what layers are activated. The base layer is shown in the graphics for reference.
 
-## Horizontal combos
+## Neighbour combos
 
-![Horizontal combos with nearby keys.](/images/t-34-curr/hcombos.png)
+These combos are made by keys next to each other, either horizontally (pressed with two fingers) or vertically (pressed with one finger in the middle of two keys).
 
-Note that some have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily, and holding `Tab` activates the [modifiers layer](#Modifiers). Holding `Enter` turns on the [windows layer](#Windows-layer) together with `Alt`.
+![2-key neighboring combos.](/images/t-34-layout/neighbour_combos.svg){embed=true}
 
-`SWE` activates the [Swedish layer](#Swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
+* Some combos have a separate hold behaviour; for instance holding `Escape` activates the [symbols layer](#Symbols), allowing me to output `[]` easily.
+* `vsplit` splits a window vertically in Vim and `hsplit` splits it horizontally, and `Close Window` closes a window in Vim (`<C-w>q`).
+* `Clear` resets all states; sets the [base](#Base) layer, releases modifiers, stops [CAPSWORD][] and [NUMWORD][], and clears other persistent states.
 
-{ .center }
-| Split combos  | Result |
-|:--------------|:-------|
-| `S` + `H`     | `"` |
-| `N` + `I`     | `'` |
-| `V` + `D`     | `Alt` (one-shot) |
-| `L` + `)`     | [Leader key](#Leader-sequences) |
-| `T` + `A`     | [CAPSWORD][] |
+![3-key horizontal combos.](/images/t-34-layout/mid_triple_combos.svg){embed=true}
 
-## Vertical combos
+* `SWE` activates the [Swedish layer](#Swedish-overlay), and if prefixed with `()_` it will replace that with `åäö` and vice versa. So for example if I typed `hall(` I would press `SWE` to get `hallå`, with the Swedish layer activated.
+* `Ctrl W` is used to close tabs in Firefox.
 
-![Vertical combos. All except `;` are pressed with a single finger between the keys.](/images/t-34-curr/vcombos.png)
+![A 4-key horizontal combo.](/images/t-34-layout/save_vim.svg){embed=true}
 
-`vsplt` and `hsplit` splits windows in Vim, and there are also horizontal combos for closing a window and saving.
+* `Save Vim` is a 4-key combo that saves the buffer in Vim.
+
+## Split combos
+
+These split combos uses the ring and index finger.
+
+![Combos for the quotes `"` and `'`.](/images/t-34-layout/quotes.svg){embed=true}
+
+![Combos don't have to be on the same row, these angled combos are fairly comfortable.](/images/t-34-layout/angled.svg){embed=true}
+
+![One-shot `Alt` and the [Leader key](#Leader-sequences).](/images/t-34-layout/split_lower.svg){embed=true}
+
+## Combos over keyboard halfs
+
+![](/images/t-34-layout/smart_layers.svg){embed=true}
+
+* Tapping `T` + `A` once activates [CAPSWORD][], tapping again makes it persistent (`CAPS LOCK`), and a third tap to deactivate `CAPS LOCK`.
+* Tapping `Space` + `E` activates [NUMWORD][] and tapping them again activates the [number layer](#Numbers) persistently.
+
+The [repeat key](#Repeat-key) works with the above, making them easier to double-tap.
 
 ## Numbers and symbols
 
-![Combos using `Space` and another key.](/images/t-34-2/space_combos.png)
+![Combos using `Space` and another key.](/images/t-34-layout/MT_SPC.svg){embed=true}
 
-![Combos using `E` and another key.](/images/t-34-2/e_combos.png)
+![Combos using `E` and another key.](/images/t-34-layout/SE_E.svg){embed=true}
 
 Combos with a thumb key is used for digits or standalone symbols, with the logic of `same-side thumb` + `key` = `symbol` and `opposite-side thumb` + `key` = `digit`. The placements follow the [numbers](#Numbers), [symbols](#Symbols) and [Swedish](#Swedish-overlay) layers. Both thumbs activates [NUMWORD][].
 
@@ -186,6 +201,10 @@ While I try to keep this post updated, [reading the code][src] will always give 
 {% 2021-06-03 First post %}
 
 ::: changelog
+: 2024-11-27
+
+  Update the graphics to use embedded svgs generated from the source code.
+
 : 2023-11-03
 
   Add `@u` to number layer for easier execution of Neovim macros (e.g. `17@u`)

@@ -1,0 +1,601 @@
+{
+  "matrix": {
+    "left_rows": [5, 5, 5, 4],
+    "right_rows": [5, 5, 5, 1]
+  },
+  "legend": [
+    {
+      "class": "default",
+      "title": "Shift / Layer highlight"
+    },
+    {
+      "class": "layer1",
+      "title": "Layer (one shot / down)"
+    },
+    {
+      "class": "mod1",
+      "title": "Modifier (one shot / down)"
+    },
+    {
+      "class": "dead_key",
+      "title": "Dead key"
+    },
+
+    {
+      "class": "management",
+      "title": "Management"
+    },
+    {
+      "class": "layer_down",
+      "title": "Layer (down)"
+    },
+    {
+      "class": "mod_down",
+      "title": "Modifier (down)"
+    },
+    {
+      "class": "special",
+      "title": "Special"
+    },
+
+    {
+      "class": "active_layer",
+      "title": "Active key for layer"
+    },
+    {
+      "class": "layer_toggle",
+      "title": "Layer (toggle)"
+    },
+    {
+      "class": "mod_implicit",
+      "title": "Modifier (implicit)"
+    }
+  ],
+  "layers": {
+    "default": [
+      {
+        "keys": ["_______", "xxxxxxx"],
+        "title": "",
+        "class": "blank"
+      },
+      {
+        "keys": ["DN_CTRL"],
+        "title": "↓",
+        "hold_title": "Ctrl",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["PGUP_CA"],
+        "title": "PgUp",
+        "hold_title": "Ctrl A",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["PGDN_CC"],
+        "title": "PgUp",
+        "hold_title": "Ctrl C",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["HOME_CX"],
+        "title": "Home",
+        "hold_title": "Ctrl X",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["BTN3_CV"],
+        "title": "Middle\nMouse",
+        "hold_title": "Ctrl V",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["REPEAT"],
+        "title": "Repeat",
+        "class": "special"
+      },
+      {
+        "keys": ["FUN", "SPEC"],
+        "class": "layer1"
+      },
+      {
+        "keys": ["COMM_AR"],
+        "title": ",",
+        "hold_title": "ARROW",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["MT_SPC"],
+        "title": "Space",
+        "hold_title": "NAV",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["WIN_ALT"],
+        "title": "WIN",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["C(S(SE_M))"],
+        "title": "Ctrl Shift M",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["WNAV"],
+        "class": "layer_down"
+      },
+      {
+        "keys": ["OS_GUI"],
+        "title": "Gui",
+        "class": "mod1"
+      },
+      {
+        "keys": ["OS_CTRL"],
+        "title": "Ctrl",
+        "class": "mod1"
+      },
+      {
+        "keys": ["OS_SHFT"],
+        "title": "Shift",
+        "class": "mod1"
+      },
+      {
+        "keys": ["KC_LSFT", "KC_RSFT"],
+        "title": "Shift",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["KC_LCTL"],
+        "title": "Ctrl",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["OS_ALT"],
+        "title": "Alt",
+        "class": "mod1"
+      },
+      {
+        "keys": ["MY_RALT"],
+        "title": "Right\nAlt",
+        "class": "mod1"
+      },
+      {
+        "keys": ["M_PREC"],
+        "title": "Prec",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["KC_BTN1"],
+        "title": "Left\nMouse"
+      },
+      {
+        "keys": ["KC_BTN2"],
+        "title": "Right\nMouse"
+      },
+      {
+        "keys": ["KC_BTN3"],
+        "title": "Middle\nMouse"
+      },
+      {
+        "keys": ["KC_BTN4"],
+        "title": "Back\nMouse"
+      },
+      {
+        "keys": ["KC_BTN5"],
+        "title": "Fwd\nMouse"
+      },
+      {
+        "keys": ["DN_DPI"],
+        "class": "management",
+        "title": "Lower\nDPI"
+      },
+      {
+        "keys": ["UP_DPI"],
+        "class": "management",
+        "title": "Raise\nDPI"
+      },
+      {
+        "keys": ["SFT_CA"],
+        "title": "Ctrl A",
+        "hold_title": "Shift",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["C(SE_A)"],
+        "title": "Ctrl A",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["C(SE_C)"],
+        "title": "Ctrl C",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["C(SE_V)"],
+        "title": "Ctrl V",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["C(SE_X)"],
+        "title": "Ctrl X",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["CLEAR"],
+        "title": "Clear",
+        "class": "management"
+      },
+      {
+        "keys": ["ESC_SYM"],
+        "title": "Esc SYM",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["COLN_SYM"],
+        "title": ": SYM",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["\"#{}\"SS_TAP(X_LEFT)"],
+        "title": "#{}"
+      },
+      {
+        "keys": ["REV_REP"],
+        "title": "Rev Rep",
+        "class": "special"
+      },
+      {
+        "keys": ["C(SE_W)"],
+        "title": "Ctrl W",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["TAB_MOD"],
+        "title": "Tab MOD",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["CLOSE_WIN"],
+        "title": "Close Window"
+      },
+      {
+        "keys": ["TG_SWE"],
+        "title": "SWE",
+        "class": "layer_toggle"
+      },
+      {
+        "keys": ["E_ACUT"],
+        "title": "É"
+      },
+      {
+        "keys": ["CAPSWORD"],
+        "title": "CAPS\nWORD",
+        "class": "special"
+      },
+      {
+        "keys": ["NUMWORD"],
+        "title": "NUM\nWORD",
+        "class": "special"
+      },
+      {
+        "keys": ["QK_BOOT"],
+        "title": "QMK Boot",
+        "class": "management"
+      },
+      {
+        "keys": ["LEADER"],
+        "title": "Leader Key",
+        "class": "management"
+      },
+      {
+        "keys": ["MY_LALT"],
+        "title": "Alt",
+        "class": "mod1"
+      },
+      {
+        "keys": ["SAVE_VIM"],
+        "title": "Save Vim"
+      },
+      {
+        "keys": ["VIM_SP"],
+        "title": "hsplit"
+      },
+      {
+        "keys": ["VIM_VS"],
+        "title": "vsplit"
+      },
+      {
+        "keys": ["SWAP_UND_MIN"],
+        "class": "special",
+        "title": "Swap _ and -"
+      },
+      {
+        "keys": ["UND_MIN"],
+        "title": "_"
+      },
+      {
+        "keys": ["MIN_UND"],
+        "title": "-"
+      }
+    ],
+    "_ARROW": [
+      {
+        "keys": ["COMM_AR"],
+        "class": "active_layer"
+      }
+    ],
+    "_MOUSE": [
+      {
+        "keys": ["KC_BTN3"],
+        "title": "Middle\nMouse"
+      },
+      {
+        "keys": ["MT_SPC"],
+        "class": "active_layer"
+      }
+    ],
+    "_FUN": [
+      {
+        "keys": ["FUN"],
+        "class": "active_layer"
+      }
+    ],
+    "_NAV": [
+      {
+        "keys": ["MT_SPC"],
+        "class": "active_layer"
+      },
+      {
+        "keys": ["G(SE_J)"],
+        "title": "Gui J",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_K)"],
+        "title": "Gui K",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_W)"],
+        "title": "Gui W",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_E)"],
+        "title": "Gui E",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_R)"],
+        "title": "Gui R",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["SC_TAB"],
+        "title": "Ctrl\nShift\nTab",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["C_TAB"],
+        "title": "Ctrl\nTab",
+        "class": "mod_implicit"
+      }
+    ],
+    "_WNAV": [
+      {
+        "keys": ["WNAV"],
+        "class": "active_layer"
+      },
+      {
+        "keys": ["G(SE_J)"],
+        "title": "J",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_K)"],
+        "title": "K",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_C)"],
+        "title": "C",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_W)"],
+        "title": "W",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_E)"],
+        "title": "E",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_R)"],
+        "title": "R",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_H)"],
+        "title": "H",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_L)"],
+        "title": "L",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(KC_SPC)"],
+        "title": "Space",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_0)"],
+        "title": "0",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_1)"],
+        "title": "1",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_2)"],
+        "title": "2",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_3)"],
+        "title": "3",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_4)"],
+        "title": "4",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_5)"],
+        "title": "5",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_6)"],
+        "title": "6",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_7)"],
+        "title": "7",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_8)"],
+        "title": "8",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_9)"],
+        "title": "9",
+        "class": "mod_implicit"
+      }
+    ],
+    "_SPEC": [
+      {
+        "keys": ["SE_TILD", "SE_ACUT", "SE_GRV", "SE_CIRC", "SE_DIAE"],
+        "class": "dead_key"
+      },
+      {
+        "keys": ["SYM_COP"],
+        "title": "©"
+      },
+      {
+        "keys": ["SYM_TM"],
+        "title": "™"
+      },
+      {
+        "keys": ["SYM_EUR"],
+        "title": "€"
+      }
+    ],
+    "_WIN": [
+      {
+        "keys": ["S_TAB"],
+        "title": "Shift\nTab",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["KC_TAB"],
+        "title": "Tab",
+        "class": "mod_implicit"
+      }
+    ],
+    "_SYM": [
+      {
+        "keys": [
+          "SE_COMM",
+          "SE_SLSH",
+          "SE_LPRN",
+          "SE_RPRN",
+          "SE_DOT",
+          "SE_UNDS"
+        ],
+        "class": "blank"
+      }
+    ],
+    "_NUM": [
+      {
+        "keys": [
+          "SE_PLUS",
+          "SE_ASTR",
+          "SE_EXLM",
+          "SE_X",
+          "SE_COMM",
+          "SE_SLSH",
+          "SE_DOT",
+          "SE_UNDS"
+        ],
+        "class": "blank"
+      },
+      {
+        "keys": ["MT_SPC"],
+        "class": "management"
+      },
+      {
+        "keys": ["AT_U"],
+        "title": "@u",
+        "class": "management"
+      },
+      {
+        "keys": ["NUM_G"],
+        "title": "Shift\nG",
+        "class": "management"
+      },
+      {
+        "keys": [
+          "SE_J",
+          "SE_P",
+          "SE_K",
+          "SE_LPRN",
+          "SE_RPRN",
+          "SE_V",
+          "SE_B",
+          "SE_M",
+          "SE_W",
+          "SE_F"
+        ],
+        "class": "management"
+      }
+    ]
+  },
+  "combos": {
+    "background_layer_class": "combo_background",
+    "keys_with_separate_imgs": ["SE_E", "MT_SPC", "FUN"],
+    "highlight_groups": {
+      "quotes": ["dquo", "quot"],
+      "smart_layers": ["num", "capsword"],
+      "angled": ["perc", "scln"],
+      "split_top": ["lalt", "win_alt"],
+      "split_lower": ["leader"],
+      "boot": ["comb_boot_r", "comb_boot_l"]
+    },
+    "single_img": [],
+    "active_class_in_separate_layer": "active_layer"
+  },
+  "colors": {
+    "blank": "#fff7f1",
+    "combo_background": "#fff7f1",
+    "default": "#ffecc9",
+    "management": "#d0b9a3",
+    "mod1": "#97ce9c",
+    "mod_down": "#afc989",
+    "mod_implicit": "#cebe7a",
+    "layer1": "#9fbff4",
+    "layer_down": "#c8b1eb",
+    "layer_toggle": "#e4a9cc",
+    "active_layer": "#ff9a85",
+    "dead_key": "#f2ae64",
+    "special": "#e8cd62"
+  }
+}

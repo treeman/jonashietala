@@ -1,0 +1,144 @@
+<svg width='884px'
+    height='182x'
+    viewBox='0 0 884 182'
+    xmlns='http://www.w3.org/2000/svg'
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+ <style type='text/css'>
+    .legend .border { stroke: black; stroke-width: 1; }
+    .legend .inner.border { stroke: rgba(0,0,0,.1); }
+    .legend { font-family: sans-serif; font-size: 11px}
+  </style>
+    <g class="keycap default">
+      <rect x="10" y="10"
+            width="216" height="54"
+            rx="5" fill="#f7e5c3" class="outer border"/>
+      <rect x="16" y="14"
+            width="204" height="42"
+            rx="5" fill="#ffecc9" class="inner border"/>
+
+<text x="118" y="35" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="118" dy="0">Shift &#x2F; Layer highlight</tspan>
+</text>
+</g>
+    <g class="keycap layer1">
+      <rect x="226" y="10"
+            width="216" height="54"
+            rx="5" fill="#9ab9ec" class="outer border"/>
+      <rect x="232" y="14"
+            width="204" height="42"
+            rx="5" fill="#9fbff4" class="inner border"/>
+
+<text x="334" y="35" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="334" dy="0">Layer (one shot &#x2F; down)</tspan>
+</text>
+</g>
+    <g class="keycap mod1">
+      <rect x="442" y="10"
+            width="216" height="54"
+            rx="5" fill="#91c696" class="outer border"/>
+      <rect x="448" y="14"
+            width="204" height="42"
+            rx="5" fill="#97ce9c" class="inner border"/>
+
+<text x="550" y="35" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="550" dy="0">Modifier (one shot &#x2F; down)</tspan>
+</text>
+</g>
+    <g class="keycap dead_key">
+      <rect x="658" y="10"
+            width="216" height="54"
+            rx="5" fill="#eaa861" class="outer border"/>
+      <rect x="664" y="14"
+            width="204" height="42"
+            rx="5" fill="#f2ae64" class="inner border"/>
+
+<text x="766" y="35" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="766" dy="0">Dead key</tspan>
+</text>
+</g>
+    <g class="keycap management">
+      <rect x="10" y="64"
+            width="216" height="54"
+            rx="5" fill="#c8b29d" class="outer border"/>
+      <rect x="16" y="68"
+            width="204" height="42"
+            rx="5" fill="#d0b9a3" class="inner border"/>
+
+<text x="118" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="118" dy="0">Management</tspan>
+</text>
+</g>
+    <g class="keycap layer_down">
+      <rect x="226" y="64"
+            width="216" height="54"
+            rx="5" fill="#c1abe3" class="outer border"/>
+      <rect x="232" y="68"
+            width="204" height="42"
+            rx="5" fill="#c8b1eb" class="inner border"/>
+
+<text x="334" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="334" dy="0">Layer (down)</tspan>
+</text>
+</g>
+    <g class="keycap mod_down">
+      <rect x="442" y="64"
+            width="216" height="54"
+            rx="5" fill="#a8c184" class="outer border"/>
+      <rect x="448" y="68"
+            width="204" height="42"
+            rx="5" fill="#afc989" class="inner border"/>
+
+<text x="550" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="550" dy="0">Modifier (down)</tspan>
+</text>
+</g>
+    <g class="keycap special">
+      <rect x="658" y="64"
+            width="216" height="54"
+            rx="5" fill="#e0c65f" class="outer border"/>
+      <rect x="664" y="68"
+            width="204" height="42"
+            rx="5" fill="#e8cd62" class="inner border"/>
+
+<text x="766" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="766" dy="0">Special</tspan>
+</text>
+</g>
+    <g class="keycap active_layer">
+      <rect x="10" y="118"
+            width="216" height="54"
+            rx="5" fill="#f79581" class="outer border"/>
+      <rect x="16" y="122"
+            width="204" height="42"
+            rx="5" fill="#ff9a85" class="inner border"/>
+
+<text x="118" y="143" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="118" dy="0">Active key for layer</tspan>
+</text>
+</g>
+    <g class="keycap layer_toggle">
+      <rect x="226" y="118"
+            width="216" height="54"
+            rx="5" fill="#dca3c5" class="outer border"/>
+      <rect x="232" y="122"
+            width="204" height="42"
+            rx="5" fill="#e4a9cc" class="inner border"/>
+
+<text x="334" y="143" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="334" dy="0">Layer (toggle)</tspan>
+</text>
+</g>
+    <g class="keycap mod_implicit">
+      <rect x="442" y="118"
+            width="216" height="54"
+            rx="5" fill="#c6b775" class="outer border"/>
+      <rect x="448" y="122"
+            width="204" height="42"
+            rx="5" fill="#cebe7a" class="inner border"/>
+
+<text x="550" y="143" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="550" dy="0">Modifier (implicit)</tspan>
+</text>
+</g>
+</svg>
