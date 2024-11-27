@@ -92,18 +92,14 @@ But I admit they're overkill for my small office.
 
 ## Inputs
 
-![The almighty Ferris](/images/uses/ferris.jpg)
+![The Cybershard, a custom made keyboard.](/images/cosmos/cybershard.jpg)
 
 You also need some things to interact with the computer.
 
-The main attraction is the [Ferris][], a minimalistic keyboard with only 34 keys.
+The main attraction is the [Cybershard][], a minimalistic keyboard with only 35 keys and an integrated trackball that [I built for myself][Cybershard].
 Controversial I know, but I don't think you need more keys (except if you're gaming, then a number row is probably more ideal).
 All you need is a well-designed layout and a lot of dedication to internalize it.
-See my [series about the T-34 keyboard layout](/series/t-34/) for the layout I use.
-
-I use a trackball, the [Kensington SlimBlade Trackball][], instead of a mouse for the same reason I use a tiny keyboard:
-to combat RSI.
-It's been working well, no complaints about it.
+See my [custom made layout](/blog/2024/11/26/the_current_cybershard_layout) for the layout I use with the keyboard.
 
 For voice input I have a [Blue Microphone Snowball iCE][].
 It would be cool to have an awesome podcasting microphone, but that's just overkill.
@@ -189,5 +185,4 @@ I have the variant with the AMD Ryzen™ 5 7640U processor and matte display but
 [VORON Trident]: /series/voron_trident
 [Habit loop tracker]: https://loophabits.org/
 [Framework Laptop 13]: https://frame.work/se/en/products/laptop-diy-13-gen-amd/configuration/new
-
-
+[Cybershard]: /blog/2024/11/26/building_my_ultimate_keyboard/
