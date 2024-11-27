@@ -1,14 +1,14 @@
----
-title: "I designed my own keyboard layout. Was it worth it?"
-tags: [Computer, Keyboards, T-34, Keyboard layouts]
-series: t-34
-favorite: true
+---toml
+title = "I designed my own keyboard layout. Was it worth it?"
+tags = ["Computer", "Keyboards", "T-34", "Keyboard layouts"]
+series = "t-34"
+favorite = true
 ---
 
 Almost two and a half years ago I embarked on the journey to change keyboard layout.
 At first I tried out existing ones, but it didn't take long before I figured it's better to develop my own---and things went downhill fast from there.
 
-![(Some) [horizontal combos][combos] of the [T-34 layout][t-34].](/images/t-34-curr/hcombos.png)
+![(Some) [combos][combos] of the [T-34 layout][t-34].](/images/t-34-layout/neighbour_combos.svg){embed=true}
 
 But now that I haven't made any changes to the layout for over a year, I think it's time for some introspection and ask the dreaded question: was it worth it?
 And should you---the dear reader---do the same?
@@ -72,7 +72,7 @@ I don't think you have to be crazy to design a keyboard layout---but it probably
 
 I'm not motivated to make any large changes or experiments with the layout now, but there are some things I wish I had tried out more:
 
-1. [One shot][] shift on the thumb instead of `E`.
+1. [One shot][one shot] shift on the thumb instead of `E`.
 
    The [one shot][] shift seems like such a fantastic feature, but that would require me to move `E` away from the thumb, which would snowball into an entirely different layout.
 
@@ -130,7 +130,7 @@ I honestly thought it was **really fun** (even though learning it was a pain).
 
 ## A layout is more than alpha characters
 
-![Symbols are very important for a programmer.](/images/t-34-2/sym.png)
+![Symbols are very important for a programmer.](/images/t-34-layout/_SYM.svg){embed=true}
 
 Something that people seem to miss with alternative layouts---even people designing them---is that a layout is much more than where the alpha characters goes.
 
@@ -167,7 +167,7 @@ You don't have to do everything at once and you can try out the different levels
 
 # How do you even learn a new layout?
 
-![The [T-34][t-34] base layer. There's not a trace of QWERTY left.](/images/t-34-2/base.png)
+![The [T-34][t-34] base layer. There's not a trace of QWERTY left.](/images/t-34-layout/_BASE.svg){embed=true}
 
 Say that you've decided to learn a new layout. Now what?
 
@@ -238,28 +238,53 @@ But if you start using a new layout you *have* to practice, and you have to prac
 
   (This is indeed the trick on how to waste time on Very Productive™ things like [rewriting your Neovim setup][neovim].)
 
-[heatmaps]: /blog/2022/08/28/the_t-342_keyboard_layout/#more-heatmaps "The T-34/2 keyboard layout: More heatmaps"
-[t-34]: /blog/2022/09/06/the_current_t-34_keyboard_layout/ "The current T-34 keyboard layout"
-[symbols]: /blog/2021/06/03/the-t-34-keyboard-layout/#Symbols "The current T-34 keyboard layout: Symbols"
-[numbers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Numbers "The current T-34 keyboard layout: Numbers"
-[modifiers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Modifiers "The current T-34 keyboard layout: Modifiers"
-[navigation layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Navigation-layer "The current T-34 keyboard layout: Navigation layer"
-[workspace layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Workspace-layer "The current T-34 keyboard layout: Workspace layer"
-[windows layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Windows-layer "The current T-34 keyboard layout: Windows layer"
-[shortcuts]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#One-handed-Shortcuts "The current T-34 keyboard layout: One-handed shortcuts"
-[combos]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Combos "The current T-34 keyboard layout: Combos"
-[swedish]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Swedish-overlay "The current T-34 keyboard layout: Swedish overlay"
-[Betteridge's law of headlines]: https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines "Wikipedia: Betteridge's lay of headlines"
-[BEAKL 15]: https://deskthority.net/wiki/BEAKL#BEAKL_15 "BEAKL 15 keyboard layout"
-[Colemak-DH]: https://colemakmods.github.io/mod-dh/ "Colemak-DH keyboard layout"
-[Hands Down]: https://sites.google.com/alanreiser.com/handsdown "Hands Down keyboard layout"
-[combo]: https://docs.qmk.fm/#/feature_combo "QMK combos"
-[Mod-Tap]: https://docs.qmk.fm/#/mod_tap "QMK mod tap"
-[One shot]: https://docs.qmk.fm/#/one_shot_keys "QMK one-shot keys"
-[MTGAP 2.0]: https://mathematicalmulticore.wordpress.com/the-keyboard-layout-project/ "MTGAP 2.0 keyboard layout"
-[keybr]: https://www.keybr.com/ "Keybr: Typing practice"
-[ngram-type]: https://ranelpadon.github.io/ngram-type/ "Ngram Type"
-[typelit]: https://www.typelit.io/ "Practice typing by retyping ENTIRE novels"
-[MonkeyType]: https://monkeytype.com/ "Monkeytype: Typing test"
-[Home-row mods]: https://precondition.github.io/home-row-mods "A guide to home row mods"
-[neovim]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua/ "Rewriting my Neovim config in Lua" 
+{title="The T-34/2 keyboard layout: More heatmaps"}
+[heatmaps]: /blog/2022/08/28/the_t-342_keyboard_layout/#more-heatmaps
+{title="The current T-34 keyboard layout"}
+[t-34]: /blog/2022/09/06/the_current_t-34_keyboard_layout/
+{title="The current T-34 keyboard layout: Symbols"}
+[symbols]: /blog/2021/06/03/the-t-34-keyboard-layout/#Symbols
+{title="The current T-34 keyboard layout: Numbers"}
+[numbers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Numbers
+{title="The current T-34 keyboard layout: Modifiers"}
+[modifiers]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Modifiers
+{title="The current T-34 keyboard layout: Navigation layer"}
+[navigation layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Navigation-layer
+{title="The current T-34 keyboard layout: Workspace layer"}
+[workspace layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Workspace-layer
+{title="The current T-34 keyboard layout: Windows layer"}
+[windows layer]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Windows-layer
+{title="The current T-34 keyboard layout: One-handed shortcuts"}
+[shortcuts]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#One-handed-Shortcuts
+{title="The current T-34 keyboard layout: Combos"}
+[combos]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Combos
+{title="The current T-34 keyboard layout: Swedish overlay"}
+[swedish]: /blog/2022/09/06/the_current_t-34_keyboard_layout/#Swedish-overlay
+{title="Wikipedia: Betteridge's lay of headlines"}
+[Betteridge's law of headlines]: https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines
+{title="BEAKL 15 keyboard layout"}
+[BEAKL 15]: https://deskthority.net/wiki/BEAKL#BEAKL_15
+{title="Colemak-DH keyboard layout"}
+[Colemak-DH]: https://colemakmods.github.io/mod-dh/
+{title="Hands Down keyboard layout"}
+[Hands Down]: https://sites.google.com/alanreiser.com/handsdown
+{title="QMK combos"}
+[combo]: https://docs.qmk.fm/#/feature_combo
+{title="QMK mod tap"}
+[Mod-Tap]: https://docs.qmk.fm/#/mod_tap
+{title="MTGAP 2.0 keyboard layout"}
+[MTGAP 2.0]: https://mathematicalmulticore.wordpress.com/the-keyboard-layout-project/
+{title="Keybr: Typing practice"}
+[keybr]: https://www.keybr.com/
+{title="Ngram Type"}
+[ngram-type]: https://ranelpadon.github.io/ngram-type/
+{title="Practice typing by retyping ENTIRE novels"}
+[typelit]: https://www.typelit.io/
+{title="Monkeytype: Typing test"}
+[MonkeyType]: https://monkeytype.com/
+{title="A guide to home row mods"}
+[Home-row mods]: https://precondition.github.io/home-row-mods
+{title="QMK one-shot keys"}
+[one shot]: https://docs.qmk.fm/#/one_shot_keys
+{title="Rewriting my Neovim config in Lua" }
+[neovim]: /blog/2023/10/01/rewriting_my_neovim_config_in_lua/
