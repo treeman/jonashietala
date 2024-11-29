@@ -915,7 +915,9 @@ Check out [The current Cybershard layout][] for how the keyboard layout is comin
 [pmw3389]: https://www.tindie.com/products/citizenjoe/pmw3389-motion-sensor/
 [keycaps-homing]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps?variant=47289185632603
 [QMK]: https://docs.qmk.fm/
+
 {title="QMK source code"}
 [src]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/cybershard
+
 [combo]: https://docs.qmk.fm/#/feature_combo
 [keycaps]: https://splitkb.com/collections/switches-and-keycaps/products/mbk-pbt-coloured-blank-keycaps

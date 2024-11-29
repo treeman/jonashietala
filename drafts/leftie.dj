@@ -1,0 +1,7 @@
+---toml
+title = "Leftie"
+tags = ["Some tag"]
+---
+
+![](/images/leftie-layout/_BASE.svg){embed=true}
+
