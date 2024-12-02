@@ -201,7 +201,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="91" y="213.73999" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="91" dy="0">Q</tspan>
+<tspan x="91" dy="0">,</tspan>
 </text>
 </g>
     <g class="keycap combo_background">
@@ -213,7 +213,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 <text x="145" y="197" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="145" dy="0">X</tspan>
+<tspan x="145" dy="0">.</tspan>
 </text>
 </g>
     <g class="keycap combo_background">
@@ -287,7 +287,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="226" y="55.15" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="226" dy="0">:</tspan>
+<tspan x="226" dy="0">V</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -299,7 +299,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="118" y="98.619995" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="118" dy="0">.</tspan>
+<tspan x="118" dy="0">G</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -323,7 +323,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="226" y="109.149994" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="226" dy="0">V</tspan>
+<tspan x="226" dy="0">F</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -335,7 +335,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="118" y="152.62" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="118" dy="0">,</tspan>
+<tspan x="118" dy="0">P</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -347,7 +347,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="172" y="151.81" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="172" dy="0">Q</tspan>
+<tspan x="172" dy="0">Y</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -359,7 +359,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="226" y="163.15" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="226" dy="0">&#x2F;</tspan>
+<tspan x="226" dy="0">B</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -371,7 +371,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="118" y="206.62" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="118" dy="0">Z</tspan>
+<tspan x="118" dy="0">X</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -383,7 +383,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="91" y="79.99" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="91" dy="0">V</tspan>
+<tspan x="91" dy="0">Z</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -395,7 +395,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="91" y="133.98999" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="91" dy="0">X</tspan>
+<tspan x="91" dy="0">&#x2F;</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -407,7 +407,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="145" y="63.25" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="145" dy="0">P</tspan>
+<tspan x="145" dy="0">Q</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -419,7 +419,7 @@
             rx="4" fill="#ffecc9" class="inner border"/>
 
 <text x="145" y="117.25" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="145" dy="0">B</tspan>
+<tspan x="145" dy="0">:</tspan>
 </text>
 </g>
     <g class="keycap default">
