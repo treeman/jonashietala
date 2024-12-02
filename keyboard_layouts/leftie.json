@@ -1,7 +1,7 @@
 {
   "matrix": {
     "left_rows": [5, 5, 5, 4],
-    "right_rows": [5, 5, 5, 1]
+    "right_rows": [0, 0, 0, 0]
   },
   "legend": [
     {
@@ -83,6 +83,12 @@
         "class": "mod_down"
       },
       {
+        "keys": ["PGUP_C"],
+        "title": "PgUp",
+        "hold_title": "Ctrl",
+        "class": "mod_down"
+      },
+      {
         "keys": ["PGDN_CC"],
         "title": "PgUp",
         "hold_title": "Ctrl C",
@@ -130,6 +136,10 @@
         "keys": ["C(S(SE_M))"],
         "title": "Ctrl Shift M",
         "class": "mod_implicit"
+      },
+      {
+        "keys": ["SYM"],
+        "class": "layer1"
       },
       {
         "keys": ["WNAV"],
@@ -387,6 +397,16 @@
         "class": "mod_implicit"
       },
       {
+        "keys": ["KC_PGUP"],
+        "title": "PgUp",
+        "class": "default"
+      },
+      {
+        "keys": ["KC_PGDN"],
+        "title": "PgDn",
+        "class": "default"
+      },
+      {
         "keys": ["C_TAB"],
         "title": "Ctrl\nTab",
         "class": "mod_implicit"
@@ -529,19 +549,6 @@
         "class": "mod_implicit"
       }
     ],
-    "_SYM": [
-      {
-        "keys": [
-          "SE_COMM",
-          "SE_SLSH",
-          "SE_LPRN",
-          "SE_RPRN",
-          "SE_DOT",
-          "SE_UNDS"
-        ],
-        "class": "blank"
-      }
-    ],
     "_NUM": [
       {
         "keys": [
@@ -589,11 +596,11 @@
   },
   "combos": {
     "background_layer_class": "combo_background",
-    "keys_with_separate_imgs": ["SE_E", "MT_SPC", "FUN"],
+    "keys_with_separate_imgs": ["MT_SPC"],
     "highlight_groups": {
       "quotes": ["dquo", "quot"],
-      "smart_layers": ["num", "capsword"],
-      "angled": ["perc", "scln"],
+      "angled": ["scln"],
+      "angled2": ["perc"],
       "split_top": ["lalt", "win_alt"],
       "split_lower": ["leader"],
       "boot": ["comb_boot_r", "comb_boot_l"]

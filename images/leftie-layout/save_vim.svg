@@ -12,7 +12,7 @@
     .keycap .sub { font-size: 9px }
     .combos .keycap { font-size: 8px }
   </style>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="10" y="60.22"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -21,7 +21,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="64" y="26.74"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -30,19 +30,16 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap default">
+    <g class="keycap combo_background">
       <rect x="118" y="10"
             width="54" height="54"
-            rx="5" fill="#f7e5c3" class="outer border"/>
+            rx="5" fill="#f7f0ea" class="outer border"/>
       <rect x="124" y="14"
             width="42" height="42"
-            rx="5" fill="#ffecc9" class="inner border"/>
+            rx="5" fill="#fff7f1" class="inner border"/>
 
-<text x="145" y="35" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="145" dy="0">V</tspan>
-</text>
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="172" y="25.119999"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -51,7 +48,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="226" y="32.68"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -69,7 +66,7 @@
             rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="37" y="150.02" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="37" dy="0">X</tspan>
+<tspan x="37" dy="0">N</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -81,7 +78,7 @@
             rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="91" y="105.74" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="91" dy="0">Q</tspan>
+<tspan x="91" dy="0">S</tspan>
 </text>
 </g>
     <g class="keycap default">
@@ -93,19 +90,22 @@
             rx="5" fill="#ffecc9" class="inner border"/>
 
 <text x="145" y="89" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="145" dy="0">Z</tspan>
+<tspan x="145" dy="0">R</tspan>
 </text>
 </g>
-    <g class="keycap blank">
+    <g class="keycap default">
       <rect x="172" y="79.119995"
             width="54" height="54"
-            rx="5" fill="#f7f0ea" class="outer border"/>
+            rx="5" fill="#f7e5c3" class="outer border"/>
       <rect x="178" y="83.119995"
             width="42" height="42"
-            rx="5" fill="#fff7f1" class="inner border"/>
+            rx="5" fill="#ffecc9" class="inner border"/>
 
+<text x="199" y="104.119995" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="199" dy="0">H</tspan>
+</text>
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="226" y="86.68"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -114,7 +114,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="10" y="179.02"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -123,7 +123,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="64" y="134.73999"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -132,7 +132,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="118" y="118"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -141,7 +141,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="172" y="133.12"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -150,7 +150,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="226" y="140.68001"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -159,7 +159,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="64" y="188.73999"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -168,7 +168,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="118" y="172"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -177,7 +177,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="199" y="212.5"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -186,7 +186,7 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap combo_background">
       <rect x="253" y="226"
             width="54" height="54"
             rx="5" fill="#f7f0ea" class="outer border"/>
@@ -194,5 +194,17 @@
             width="42" height="42"
             rx="5" fill="#fff7f1" class="inner border"/>
 
+</g>
+    <g class="keycap default">
+      <rect x="81" y="190.62001"
+            width="80" height="18"
+            rx="4" fill="#f7e5c3" class="outer border"/>
+      <rect x="82.5" y="191.62001"
+            width="77" height="14.5"
+            rx="4" fill="#ffecc9" class="inner border"/>
+
+<text x="121" y="198.87001" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="121" dy="0">Save Vim</tspan>
+</text>
 </g>
 </svg>

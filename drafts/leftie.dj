@@ -5,11 +5,69 @@ tags = ["Some tag"]
 
 ![](/images/leftie-layout/_BASE.svg){embed=true}
 
-![](/images/leftie-layout/_SECOND.svg){embed=true}
-
-![](/images/leftie-layout/_NUM.svg){embed=true}
-
 ![](/images/leftie-layout/neighbour_combos.svg){embed=true}
+
+Worst positions on base:
+
+1. z
+1. q
+1. x
+1. /
+1. `:`
+1. ,
+1. .
+1. y
+
+* Hold `/` for `\`
+
+{% y : . / , " x ( $ ) ' q [ - _ \% z = } %}
 
 ![](/images/leftie-layout/mid_triple_combos.svg){embed=true}
 
+* Hold `=` for ` == `
+
+![](/images/leftie-layout/_SYM.svg){embed=true}
+
+* Hold `~` for ` ~= `
+
+![](/images/leftie-layout/MT_SPC.svg){embed=true}
+
+* Hold `!` for ` != `
+
+![](/images/leftie-layout/quotes.svg){embed=true}
+
+* `'` on hold
+
+![](/images/leftie-layout/angled.svg){embed=true}
+
+![](/images/leftie-layout/angled2.svg){embed=true}
+
+* Hold `%` for `%{}`
+
+![](/images/leftie-layout/split_lower.svg){embed=true}
+
+![](/images/leftie-layout/numword.svg){embed=true}
+
+![](/images/leftie-layout/capsword.svg){embed=true}
+
+![](/images/leftie-layout/comb_clear.svg){embed=true}
+
+![](/images/leftie-layout/comb_boot.svg){embed=true}
+
+Combos on `SYM`:
+
+* Vertical: `|>` `->` `=>` `<=` `>=`
+
+![](/images/leftie-layout/_NUM.svg){embed=true}
+
+# Navigation layer
+
+![](/images/leftie-layout/_NAV.svg){embed=true}
+
+Combos and tap hold:
+
+* `Gui W` + `Gui E` + `Gui R` on top vertical combos
+* `vsplit` + `hsplit`
+
+{% * Hold `PgUp` for `Home` %}
+{% * Hold `PgDn` for `End` %}
