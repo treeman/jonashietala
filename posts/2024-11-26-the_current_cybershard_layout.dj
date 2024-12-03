@@ -317,6 +317,11 @@ There are different modes that alters the behavior of the trackball:
   1. Experimental functionality to swap `-` and `_` for the languages that use `kebab-case`.
   1. Removed the mouse layer and placed mouse buttons on the [navigation layer](#Navigation-layers).
 
+: 2024-12-03
+
+  Reworked the [navigation layer](#Navigation-layers) to keep the original positions for `PgUp`, `PgDn`, and `Tab`s.
+  To allow this I moved the mouse click to index finger and demoted the `up`/`down` to the top row.
+
 :::
 
 {title="QMK leader key"}
