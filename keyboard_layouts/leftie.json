@@ -1,8 +1,11 @@
 {
-  "matrix": {
-    "left_rows": [5, 5, 5, 4],
-    "right_rows": [0, 0, 0, 0]
-  },
+  "physical_layout": [
+    "xxxxx         ",
+    "xxxxx         ",
+    "xxxxx         ",
+    " xx",
+    "   xx     "
+  ],
   "legend": [
     {
       "class": "default",
