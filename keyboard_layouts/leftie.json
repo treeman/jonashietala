@@ -1,11 +1,50 @@
 {
   "physical_layout": [
-    "xxxxx         ",
-    "xxxxx         ",
-    "xxxxx         ",
-    " xx",
-    "   xx     "
+    "54456         ",
+    "21004         ",
+    "64436         ",
+    " 77",
+    "   80"
   ],
+  "finger_assignments": [
+    "11233    ",
+    "01233    ",
+    "01233    ",
+    " 12",
+    "   44    "
+  ],
+  "outputs": {
+    "effort": true,
+    "layers": false,
+    "combos": false,
+    "legend": false,
+    "combo_keys_with_separate_imgs": ["MT_SPC"],
+    "combo_highlight_groups": {
+      "quotes": ["dquo", "quot"],
+      "angled": ["scln"],
+      "angled2": ["perc"],
+      "split_top": ["lalt", "win_alt"],
+      "split_lower": ["leader"],
+      "boot": ["comb_boot_r", "comb_boot_l"]
+    },
+    "combo_background_layer_class": "combo_background",
+    "active_class_in_separate_layer": "active_layer"
+  },
+  "colors": {
+    "blank": "#fff7f1",
+    "combo_background": "#fff7f1",
+    "default": "#ffecc9",
+    "management": "#d0b9a3",
+    "mod1": "#97ce9c",
+    "mod_down": "#afc989",
+    "mod_implicit": "#cebe7a",
+    "layer1": "#9fbff4",
+    "layer_down": "#c8b1eb",
+    "layer_toggle": "#e4a9cc",
+    "active_layer": "#ff9a85",
+    "dead_key": "#f2ae64",
+    "special": "#e8cd62"
+  },
   "legend": [
     {
       "class": "default",
@@ -596,34 +635,5 @@
         "class": "management"
       }
     ]
-  },
-  "combos": {
-    "background_layer_class": "combo_background",
-    "keys_with_separate_imgs": ["MT_SPC"],
-    "highlight_groups": {
-      "quotes": ["dquo", "quot"],
-      "angled": ["scln"],
-      "angled2": ["perc"],
-      "split_top": ["lalt", "win_alt"],
-      "split_lower": ["leader"],
-      "boot": ["comb_boot_r", "comb_boot_l"]
-    },
-    "single_img": [],
-    "active_class_in_separate_layer": "active_layer"
-  },
-  "colors": {
-    "blank": "#fff7f1",
-    "combo_background": "#fff7f1",
-    "default": "#ffecc9",
-    "management": "#d0b9a3",
-    "mod1": "#97ce9c",
-    "mod_down": "#afc989",
-    "mod_implicit": "#cebe7a",
-    "layer1": "#9fbff4",
-    "layer_down": "#c8b1eb",
-    "layer_toggle": "#e4a9cc",
-    "active_layer": "#ff9a85",
-    "dead_key": "#f2ae64",
-    "special": "#e8cd62"
   }
 }

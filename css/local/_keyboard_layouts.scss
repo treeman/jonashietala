@@ -109,6 +109,87 @@
       fill: oklch(85% 0.13 95.57);
     }
   }
+
+  &.effort_0 {
+    .outer.border {
+      fill: oklch(92% 0.1422 140.82);
+    }
+    .inner.border {
+      fill: oklch(95% 0.1422 140.82);
+    }
+  }
+  &.effort_1 {
+    .outer.border {
+      fill: oklch(90% 0.1422 127.47);
+    }
+    .inner.border {
+      fill: oklch(93% 0.1422 127.47);
+    }
+  }
+  &.effort_2 {
+    .outer.border {
+      fill: oklch(88% 0.1422 114.47);
+    }
+    .inner.border {
+      fill: oklch(91% 0.1422 114.47);
+    }
+  }
+  &.effort_3 {
+    .outer.border {
+      fill: oklch(86% 0.1422 101.47);
+    }
+    .inner.border {
+      fill: oklch(89% 0.1422 101.47);
+    }
+  }
+  &.effort_4 {
+    .outer.border {
+      fill: oklch(84% 0.1422 88.47);
+    }
+    .inner.border {
+      fill: oklch(87% 0.1422 88.47);
+    }
+  }
+  &.effort_4 {
+    .outer.border {
+      fill: oklch(82% 0.1422 75.47);
+    }
+    .inner.border {
+      fill: oklch(85% 0.1422 75.47);
+    }
+  }
+  &.effort_5 {
+    .outer.border {
+      fill: oklch(80% 0.1422 62.47);
+    }
+    .inner.border {
+      fill: oklch(83% 0.1422 62.47);
+    }
+  }
+  &.effort_6 {
+    .outer.border {
+      fill: oklch(78% 0.1422 49.47);
+    }
+    .inner.border {
+      fill: oklch(81% 0.1422 49.47);
+    }
+  }
+  &.effort_7 {
+    .outer.border {
+      fill: oklch(76% 0.1422 36.47);
+    }
+    .inner.border {
+      fill: oklch(79% 0.1422 36.47);
+    }
+  }
+  &.effort_8 {
+    .outer.border {
+      fill: oklch(74% 0.1422 19.76);
+    }
+    .inner.border {
+      fill: oklch(77% 0.1422 19.76);
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -217,6 +298,87 @@
       }
       .inner.border {
         fill: oklch(76% 0.1129 82.54);
+      }
+    }
+
+    &.effort_0 {
+      .outer.border {
+        fill: oklch(68% 0.1422 140.82);
+      }
+      .inner.border {
+        fill: oklch(71% 0.1422 140.82);
+      }
+    }
+    &.effort_1 {
+      .outer.border {
+        fill: oklch(66% 0.1422 127.47);
+      }
+      .inner.border {
+        fill: oklch(69% 0.1422 127.47);
+      }
+    }
+    &.effort_2 {
+      .outer.border {
+        fill: oklch(64% 0.1422 114.47);
+      }
+      .inner.border {
+        fill: oklch(67% 0.1422 114.47);
+      }
+    }
+    &.effort_3 {
+      .outer.border {
+        fill: oklch(62% 0.1422 101.47);
+      }
+      .inner.border {
+        fill: oklch(65% 0.1422 101.47);
+      }
+    }
+    &.effort_4 {
+      .outer.border {
+        fill: oklch(60% 0.1422 88.47);
+      }
+      .inner.border {
+        fill: oklch(63% 0.1422 88.47);
+      }
+    }
+    &.effort_4 {
+      .outer.border {
+        fill: oklch(58% 0.1422 75.47);
+      }
+      .inner.border {
+        fill: oklch(61% 0.1422 75.47);
+      }
+    }
+    &.effort_5 {
+      .outer.border {
+        fill: oklch(56% 0.1422 62.47);
+      }
+      .inner.border {
+        fill: oklch(59% 0.1422 62.47);
+      }
+    }
+    &.effort_6 {
+      .outer.border {
+        fill: oklch(54% 0.1422 49.47);
+      }
+      .inner.border {
+        fill: oklch(57% 0.1422 49.47);
+      }
+    }
+    &.effort_7 {
+      .outer.border {
+        fill: oklch(52% 0.1422 36.47);
+      }
+      .inner.border {
+        fill: oklch(55% 0.1422 36.47);
+      }
+    }
+    &.effort_8 {
+      .outer.border {
+        fill: oklch(50% 0.1422 19.76);
+      }
+      .inner.border {
+        fill: oklch(53% 0.1422 19.76);
       }
     }
   }

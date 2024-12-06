@@ -3,6 +3,10 @@ title = "Leftie"
 tags = ["Some tag"]
 ---
 
+![Effort grid](/images/leftie-layout/effort_grid.svg){embed=true}
+
+***
+
 ![](/images/leftie-layout/_BASE.svg){embed=true}
 
 ![](/images/leftie-layout/neighbour_combos.svg){embed=true}

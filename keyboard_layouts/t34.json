@@ -1,9 +1,15 @@
 {
   "physical_layout": [
-    "xxxxx    xxxxx",
-    "xxxxx    xxxxx",
-    "xxxxx    xxxxx",
-    "   xx    xx"
+    "54456    65445",
+    "21045    40012",
+    "64436    63446",
+    "   80    08"
+  ],
+  "finger_assignments": [
+    "11233    33211",
+    "01233    33210",
+    "01233    33210",
+    "   44    44"
   ],
   "legend": [
     {
