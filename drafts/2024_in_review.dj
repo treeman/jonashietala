@@ -1,0 +1,49 @@
+---toml
+title = "2024 in review"
+tags = ["Yearly Review"]
+---
+
+# 2024 Non-Geek Achievements
+
+::: plus
+- I quite my job and started my own company.
+
+  Mostly focused on consulting but maybe something else can grow from it one day?
+
+- I wrote 24 blog posts---it was quite a productive blogging year for me.
+
+- I read a lot of books this year!
+
+  Mostly fantasy with [The Kingkiller Chronicle][], [Gentlemen Bastards series][], [The Stormlight Archive][], and other books in the Cosmere as the highlights.
+
+- We had a grappling class for kids that went fairly well.
+:::
+
+# 2024 Geek Achievements
+
+::: plus
+- I built a [custom keyboard][] together with a [custom keyboard layout][].
+- Made the eBook for [Why Cryptocurrencies?][] freely available and finished the [How I wrote `Why Cryptocurrencies?`][] series.
+- I wrote a Tree-sitter grammar for Djot.
+
+  (I need to be more active maintaining it...
+  But it's fairly hard to get motivated to fix weird esoteric edge-cases that are kind of hard to come up with solutions.)
+
+- Finished the blog series about [building my first 3D printer][].
+- Rewrote my lighting home automation from Python to Elixir.
+- Realized that [meta-blogging][] is a great way to get [virtual points on Hacker News][].
+:::
+
+# Tentative plans for 2024
+
+::: plus
+- For some reason the idea of writing a fantasy novel got stuck in my head.
+
+  The last few days I've listened to dozens of hours of advice for aspiring writers but I don't know if it's a temporary thing
+  my mind just happened to latch onto or if it's something I'll actually end up doing.
+
+- Design a one-handed keyboard layout.
+
+  Again, this was just something my brain got stuck thinking about or if it's something I _need_ to do (so I can sleep).
+:::
+
