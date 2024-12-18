@@ -6,7 +6,7 @@ use atom_syndication::Person;
 use chrono::DateTime;
 use chrono::FixedOffset;
 use chrono::NaiveDateTime;
-use eyre::Result;
+use eyre::{eyre, Result};
 use tracing::debug;
 
 use crate::content::PostItem;
@@ -113,7 +113,8 @@ impl Item for SiteFeed {
             ..Default::default()
         };
 
-        feed.write_to(file)?;
+        feed.write_to(file)
+            .map_err(|err| eyre!("Error friting file {output_file}: {err}"))?;
 
         Ok(())
     }

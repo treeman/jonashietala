@@ -8,14 +8,21 @@ tags = ["Yearly Review"]
 ::: plus
 - I quite my job and started my own company.
 
-  Mostly focused on consulting but maybe something else can grow from it one day?
+  At the moment I'm focusing on consulting but maybe something else can grow from it one day?
 
 - I wrote 24 blog posts---it was quite a productive blogging year for me.
 
 - I read a lot of books this year!
 
-  Mostly fantasy with [The Kingkiller Chronicle][], [Gentlemen Bastards series][], [The Stormlight Archive][], and other books in the Cosmere as the highlights.
+  Mostly fantasy with [The Kingkiller Chronicle][], [Gentlemen Bastards series][], [The Stormlight Archive][], and other books in the Cosmere as my favorites.
 
+  ::: tip
+  If you're curious about Sanderson's books but a little apprehensive about jumping into a massive series such as [The Stormlight Archive][] then I can recommend [The Emperor's Soul][] as an excellent little introduction.
+  The standalone book [Warbreaker][] is also fantastic (available [for free on Brandon's website][Warbreaker]).
+  :::
+:::
+
+::: plus
 - We had a grappling class for kids that went fairly well.
 :::
 
@@ -23,14 +30,19 @@ tags = ["Yearly Review"]
 
 ::: plus
 - I built a [custom keyboard][] together with a [custom keyboard layout][].
-- Made the eBook for [Why Cryptocurrencies?][] freely available and finished the [How I wrote `Why Cryptocurrencies?`][] series.
-- I wrote a Tree-sitter grammar for Djot.
+- Made the eBook for [Why Cryptocurrencies?][] freely available and finished the [How I wrote 'Why Cryptocurrencies?'][crypto-series] series.
+- I wrote a [Tree-sitter grammar for Djot][].
 
-  (I need to be more active maintaining it...
-  But it's fairly hard to get motivated to fix weird esoteric edge-cases that are kind of hard to come up with solutions.)
+  ::: warning
+  I need to be more active maintaining it...
+  But it's fairly hard to get motivated to fix weird esoteric edge-cases that are kind of hard to solve and other projects are constantly begging for my attention.
+  Managing an open source project is not for the faint of heart.
+  :::
+:::
 
+::: plus
 - Finished the blog series about [building my first 3D printer][].
-- Rewrote my lighting home automation from Python to Elixir.
+- [Rewrote my lighting home automation][] from Python to Elixir.
 - Realized that [meta-blogging][] is a great way to get [virtual points on Hacker News][].
 :::
 
@@ -44,6 +56,21 @@ tags = ["Yearly Review"]
 
 - Design a one-handed keyboard layout.
 
-  Again, this was just something my brain got stuck thinking about or if it's something I _need_ to do (so I can sleep).
+  Again, this was just something my brain got stuck thinking about and I'm not sure if it's just a fleeting idea or something I _need_ to do so I can stop thinking about it.
+  (Sometimes just a little planning plus solving the most difficult problems are enough---I don't have to finish all the crazy/dumb ideas I get for my mind to consider them "done".)
 :::
 
+[Rewrote my lighting home automation]: /blog/2024/10/08/writing_home_assistant_automations_using_genservers_in_elixir
+[The Kingkiller Chronicle]: https://en.wikipedia.org/wiki/The_Kingkiller_Chronicle
+[Gentlemen Bastards series]: https://en.wikipedia.org/wiki/Scott_Lynch#Gentleman_Bastard_Sequence
+[virtual points on Hacker News]: https://news.ycombinator.com/item?id=41646531 
+[meta-blogging]: /blog/2024/09/25/why_i_still_blog_after_15_years
+[building my first 3D printer]: /series/voron_trident
+[Tree-sitter grammar for Djot]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
+[custom keyboard]: /blog/2024/11/26/building_my_ultimate_keyboard
+[custom keyboard layout]: /blog/2024/11/26/the_current_cybershard_layout
+[Warbreaker]: https://www.brandonsanderson.com/blogs/blog/warbreaker-rights-and-downloads
+[The Emperor's Soul]: https://en.wikipedia.org/wiki/The_Emperor%27s_Soul
+[The Stormlight Archive]: https://www.brandonsanderson.com/pages/the-stormlight-archive-series
+[crypto-series]: /series/making-cryptobook/
+[Why Cryptocurrencies?]: https://whycryptocurrencies.com/

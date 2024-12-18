@@ -64,7 +64,6 @@ Maybe it's a very light version of a [reverse bucket list][], and I can see that
   I've promised myself to finish up my ongoing projects before I'm allowed to do this, but we'll see how that goes.
   (Not well I suppose.)
 
-
 [posts]: /blog/2023/ "My blog posts in 2023"
 [ftl]: /blog/2023/06/16/i_beat_ftl_on_hard_with_all_ships_in_the_game/ "I beat FTL on Hard with all ships in the game"
 [VORON]: /series/voron_trident/ "Series: Let's build a VORON Trident"
