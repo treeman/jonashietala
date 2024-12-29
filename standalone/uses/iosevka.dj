@@ -11,42 +11,6 @@ title = "Iosevka"
 This is my `private-build-plans.toml` that I used to generate my variant (generated fonts are available [on GitHub][patched], naturally patched with [Nerd Fonts][]):
 
 ```toml
-[buildPlans.iosevka-tree]
-family = "Iosevka Tree"
-spacing = "term"
-serifs = "sans"
-no-ligation = true
-no-cv-ss = true
-export-glyph-names = false
-
-[buildPlans.iosevka-tree.variants.design]
-capital-g = "toothless-rounded-inward-serifed-hooked"
-b = "toothless-corner-serifless"
-d = "toothless-rounded-serifed"
-g = "double-storey"
-i = "hooky"
-l = "tailed-serifed"
-m = "earless-single-arch-short-leg-serifless"
-n = "earless-rounded-straight-serifless"
-p = "earless-corner-serifless"
-q = "earless-corner-straight-serifless"
-u = "toothless-corner-serifless"
-y = "straight-turn-serifless"
-one = "base"
-six = "open-contour"
-asterisk = "hex-low"
-ampersand = "upper-open"
-dollar = "open"
-percent = "dots"
-```
-
-```toml
-noCvSs = true
-noLigation = true
-exportGlyphNames = false
-```
-
-```toml
 [buildPlans.IosevkaTree]
 family = "Iosevka Tree"
 spacing = "term"
@@ -78,15 +42,29 @@ lig-ltgteq = "slanted"
 [buildPlans.IosevkaTree.ligations]
 inherits = "default-calt"
 enables = [
-	"tildeeq",
-	"minus-minus",
-	"plus-plus",
-	"underscore-underscore"
+  "tildeeq",
+  "minus-minus",
+  "plus-plus",
+  "underscore-underscore"
 ]
 disables = [
-	"llggeq"
+  "llggeq"
 ]
 ```
+
+::: note
+While I like ligatures on my own machine I don't think it's considerate if others should read your code, for example on this website or in presentations.
+
+Ligatures can be disabled with these settings:
+
+```toml
+noCvSs = true
+noLigation = true
+exportGlyphNames = false
+```
+:::
+
+And then build with:
 
 ```fish
 npm run build -- contents::IosevkaTree --jCmd=12
@@ -96,9 +74,8 @@ Patching them with [Nerd Fonts][] was surprisingly a pain as it didn't seem to a
 No big deal, this is how I did it using [fish][] (adjust paths as necessary):
 
 ```fish
-for x in ls ~/src/Iosevka/dist/iosevka-tree/ttf/iosevka-tree-*;
-  ./font-patcher -c ~/src/Iosevka/dist/iosevka-tree/ttf/iosevka-tree-bold.ttf
-    --out ~/iosevka-tree/;
+for x in ls ~/src/Iosevka/dist/IosevkaTree/TTF/IosevkaTree-*;
+  ./font-patcher -c $x --out ~/iosevka-tree/;
 end
 ```
 
