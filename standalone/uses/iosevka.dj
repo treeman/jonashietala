@@ -11,14 +11,14 @@ title = "Iosevka"
 This is my `private-build-plans.toml` that I used to generate my variant (generated fonts are available [on GitHub][patched], naturally patched with [Nerd Fonts][]):
 
 ```toml
-[buildPlans.IosevkaTree]
-family = "Iosevka Tree"
+[buildPlans.IosevkaTreeLig]
+family = "Iosevka Tree Lig"
 spacing = "term"
 serifs = "sans"
 noCvSs = false
 exportGlyphNames = true
 
-[buildPlans.IosevkaTree.variants.design]
+[buildPlans.IosevkaTreeLig.variants.design]
 capital-g = "toothless-rounded-inward-serifed-hooked"
 b = "toothless-corner-serifless"
 d = "toothless-rounded-serifed"
@@ -39,7 +39,7 @@ dollar = "open"
 percent = "dots"
 lig-ltgteq = "slanted"
 
-[buildPlans.IosevkaTree.ligations]
+[buildPlans.IosevkaTreeLig.ligations]
 inherits = "default-calt"
 enables = [
   "tildeeq",
@@ -55,22 +55,29 @@ disables = [
 ::: note
 While I like ligatures on my own machine I don't think it's considerate if others should read your code, for example on this website or in presentations.
 
-Ligatures can be disabled with these settings:
+Therefore I have another build plan that disables ligatures:
 
 ```toml
+[buildPlans.IosevkaTree]
+family = "Iosevka Tree"
+spacing = "term"
+serifs = "sans"
 noCvSs = true
 noLigation = true
 exportGlyphNames = false
+
+[buildPlans.IosevkaTree.variants.design]
+# Same variants as above
 ```
 :::
 
 And then build with:
 
 ```fish
-npm run build -- contents::IosevkaTree --jCmd=12
+npm run build -- ttf::IosevkaTreeLig --jCmd=12
 ```
 
-Patching them with [Nerd Fonts][] was surprisingly a pain as it didn't seem to accept a directory as input arguments.
+Patching them with [Nerd Fonts][] was surprisingly a pain as the provided font patcher didn't seem to accept a directory as input arguments.
 No big deal, this is how I did it using [fish][] (adjust paths as necessary):
 
 ```fish

@@ -1050,6 +1050,8 @@ fn unknown_change_msg(path: &RelPath) -> bool {
     #[allow(clippy::if_same_then_else)]
     if path.starts_with("target") {
         false
+    } else if path.starts_with("files/") {
+        false
     } else if path.starts_with("test-site/") {
         false
     } else if path.starts_with("itemref-derive/") {
