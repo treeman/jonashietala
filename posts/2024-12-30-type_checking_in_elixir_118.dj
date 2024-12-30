@@ -1,5 +1,5 @@
 ---toml
-title = "Type checking in Elixir 1.18"
+title = "A type checking error in Elixir 1.18"
 tags = ["Elixir"]
 ---
 
