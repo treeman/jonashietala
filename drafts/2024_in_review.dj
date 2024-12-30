@@ -3,62 +3,74 @@ title = "2024 in review"
 tags = ["Yearly Review"]
 ---
 
-# 2024 Non-Geek Achievements
+# Nerdy things I enjoyed
 
-::: plus
-- I quite my job and started my own company.
+- I read a lot of fantasy books this year!
+
+  My favorite new series were [The Kingkiller Chronicle][], [Gentlemen Bastards series][], and [The Stormlight Archive][].
+
+  ::: tip
+  If you're curious about Sanderson's books but a little apprehensive about jumping into a massive series such as [The Stormlight Archive][] then I'll recommend [The Emperor's Soul][] as an excellent little introduction.
+  The standalone book [Warbreaker][] is also fantastic (available [for free on Brandon's website][Warbreaker]).
+  :::
+
+- Customizing Neovim was fun and rewarding.
+
+  It's amazing I got anything productive done this year...
+
+- I still really enjoy Rust.
+
+- [Types are coming to Elixir][elixir_types] and I'm loving it.
+
+  (I recently migrated some small projects to v1.18 and found a bunch of errors.)
+
+- The [Gleam programming language](https://gleam.run/) shows a lot of promise.
+
+  My one gripe is the pain of manually encoding/decoding JSON (even with the various libraries) that's is annoying enough that I've avoided using the language for some projects.
+
+# Lessons I learned
+
+- CSS is alive and better than ever.
+
+- 3D printing is fun and useful.
+
+- I realized that [meta-blogging][] is a great way to get [virtual points on Hacker News][].
+
+# Things I accomplished
+
+- I quit my job and started my own company.
 
   At the moment I'm focusing on consulting but maybe something else can grow from it one day?
 
-- I wrote 24 blog posts---it was quite a productive blogging year for me.
+- I [wrote 24 blog posts](/blog/2024/)---it was quite a productive blogging year for me.
 
-- I read a lot of books this year!
-
-  Mostly fantasy with [The Kingkiller Chronicle][], [Gentlemen Bastards series][], [The Stormlight Archive][], and other books in the Cosmere as my favorites.
-
-  ::: tip
-  If you're curious about Sanderson's books but a little apprehensive about jumping into a massive series such as [The Stormlight Archive][] then I can recommend [The Emperor's Soul][] as an excellent little introduction.
-  The standalone book [Warbreaker][] is also fantastic (available [for free on Brandon's website][Warbreaker]).
-  :::
-:::
-
-::: plus
-- We had a grappling class for kids that went fairly well.
-:::
-
-# 2024 Geek Achievements
-
-::: plus
 - I built a [custom keyboard][] together with a [custom keyboard layout][].
-- Made the eBook for [Why Cryptocurrencies?][] freely available and finished the [How I wrote 'Why Cryptocurrencies?'][crypto-series] series.
+
+- Made the eBook for [Why Cryptocurrencies?][] freely available and finally finished the [How I wrote 'Why Cryptocurrencies?'][crypto-series] series.
+
 - I wrote a [Tree-sitter grammar for Djot][].
 
   ::: warning
   I need to be more active maintaining it...
   But it's fairly hard to get motivated to fix weird esoteric edge-cases that are kind of hard to solve and other projects are constantly begging for my attention.
-  Managing an open source project is not for the faint of heart.
+  Managing an open source project is not for the faint of heart (or with the easily distracted mind).
   :::
-:::
 
-::: plus
 - Finished the blog series about [building my first 3D printer][].
+
 - [Rewrote my lighting home automation][] from Python to Elixir.
-- Realized that [meta-blogging][] is a great way to get [virtual points on Hacker News][].
-:::
 
-# Tentative plans for 2024
 
-::: plus
+# Tentative plans for 2025
+
 - For some reason the idea of writing a fantasy novel got stuck in my head.
 
-  The last few days I've listened to dozens of hours of advice for aspiring writers but I don't know if it's a temporary thing
-  my mind just happened to latch onto or if it's something I'll actually end up doing.
+  The last weeks I've listened to dozens of hours of advice for aspiring writers but I don't know if it's a temporary thing my mind just happened to latch onto or if it's something I'll actually end up doing.
 
 - Design a one-handed keyboard layout.
 
   Again, this was just something my brain got stuck thinking about and I'm not sure if it's just a fleeting idea or something I _need_ to do so I can stop thinking about it.
   (Sometimes just a little planning plus solving the most difficult problems are enough---I don't have to finish all the crazy/dumb ideas I get for my mind to consider them "done".)
-:::
 
 [Rewrote my lighting home automation]: /blog/2024/10/08/writing_home_assistant_automations_using_genservers_in_elixir
 [The Kingkiller Chronicle]: https://en.wikipedia.org/wiki/The_Kingkiller_Chronicle
@@ -74,3 +86,4 @@ tags = ["Yearly Review"]
 [The Stormlight Archive]: https://www.brandonsanderson.com/pages/the-stormlight-archive-series
 [crypto-series]: /series/making-cryptobook/
 [Why Cryptocurrencies?]: https://whycryptocurrencies.com/
+[elixir_types]: https://elixir-lang.org/blog/2024/12/19/elixir-v1-18-0-released/
