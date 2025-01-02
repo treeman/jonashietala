@@ -17,7 +17,7 @@ pub enum DiagnosticSeverity {
     HINT = 4,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 pub struct Diagnostic {
     pub lnum: usize,
     pub end_lnum: usize,

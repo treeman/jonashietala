@@ -5,7 +5,7 @@ use crate::markup::markup_lookup::Element;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 #[serde(tag = "type")]
 pub enum WebEvent {
     Refresh,
@@ -53,7 +53,7 @@ pub enum NeovimEvent {
     },
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 #[serde(tag = "id")]
 pub enum NeovimResponse {
     ListTags {

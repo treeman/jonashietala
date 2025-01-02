@@ -411,7 +411,7 @@ impl Default for CompletionItemKind {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq, Default)]
+#[derive(Debug, Serialize, PartialEq, Eq, Default, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CompletionItem {
     // These are used by cmp.
