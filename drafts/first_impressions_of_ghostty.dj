@@ -6,9 +6,9 @@ tags = ["Linux", "Ghostty"]
 # Removing native borders
 
 ```
-# Remove decorations and borders
 window-decoration = false
-# This is needed to remove the borders
+
+# These are also needed to completely remove the borders
 # https://github.com/ghostty-org/ghostty/issues/2023
 gtk-titlebar = false
 # https://github.com/ghostty-org/ghostty/discussions/4224
@@ -19,7 +19,24 @@ gtk-adwaita = false
 
 # Minimum contrast
 
-Fixes ls example
+Unreadable `ls` output is a staple of the excellent Linux UX.
+It might sometimes look like this:
+
+![](/images/ls_unreadable.png)
+
+Super annoying.
+
+You can of course configure the `ls` output colors but that's just for one program and it won't automatically follow when you `ssh` to another server.
+
+[Ghostty][]'s `minimum-contrast` option ensures that the text and background will have enough contrast to always be visible:
+
+```
+minimum-contrast = 1.05
+```
+
+![](/images/ls_readable.png)
+
+Most excellent.
 
 # Hide cursor while typing
 
@@ -37,6 +54,26 @@ Interferes with [indent-blankline.nvim][] making the cursor very hard to spot in
 I used a similar feature with alacritty where it worked fine but unfortunately it breaks with [Ghostty][].
 
 # Consistent font sizing between desktop and laptop
+
+With [alacritty][] I have an annoying problem where I need to use a very different font size on my laptop and my desktop (`8` and `12`).
+This wasn't always the case and I think something may have changed in [alacritty][] but I'm not sure.
+
+[Ghostty][] handles this nicely and I can now use the same font settings across my machines (`font-size = 16`).
+
+# Ligature support
+
+![](/images/iosevka_ligatures.png)
+
+The [issue for adding ligatures to alacritty][alacritty-ligatures] was closed eight years ago and it's fairly safe to say it probably won't ever happen.
+
+```
+font-family = IosevkaTreeLig Nerd Font
+font-style = Medium
+font-style-bold = Bold
+font-style-italic = Medium Italic
+font-style-bold-italic = Bold Italic
+font-size = 16
+```
 
 # Colorscheme
 
@@ -69,3 +106,6 @@ palette = 14=#7B9695
 palette = 15=#C1A78E
 ```
 
+[Ghostty]: https://github.com/ghostty-org/ghostty
+[alacritty]: https://github.com/alacritty/alacritty
+[alacritty-ligatures]: https://github.com/alacritty/alacritty/issues/50
