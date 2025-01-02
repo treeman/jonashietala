@@ -262,6 +262,17 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
+        (
+            "ghostty",
+            HighlightConfiguration::new(
+                tree_sitter_ghostty::language(),
+                "ghostty",
+                tree_sitter_ghostty::HIGHLIGHTS_QUERY,
+                "",
+                "",
+            )
+            .unwrap(),
+        ),
         // Not as good as syntect atm.
         // (
         //     "lua",

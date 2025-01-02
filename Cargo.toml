@@ -76,6 +76,7 @@ tree-sitter-gleam = { git = "https://github.com/treeman/tree-sitter-gleam" }
 tree-sitter-toml = { git = "https://github.com/treeman/tree-sitter-toml" }
 tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter-query.git" }
 tree-sitter-lua = { git = "https://github.com/tree-sitter-grammars/tree-sitter-lua" }
+tree-sitter-ghostty = { path = "../tree-sitter-ghostty" }
 btree-range-map = "0.7.2"
 serde_repr = "0.1.19"
 git2 = "0.19.0"

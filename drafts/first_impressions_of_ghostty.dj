@@ -3,9 +3,9 @@ title = "First impressions of Ghostty"
 tags = ["Linux", "Ghostty"]
 ---
 
-# Removing native borders
+# I just want a blank canvas without any decorations
 
-```
+```ghostty
 window-decoration = false
 
 # These are also needed to completely remove the borders
@@ -14,8 +14,6 @@ gtk-titlebar = false
 # https://github.com/ghostty-org/ghostty/discussions/4224
 gtk-adwaita = false
 ```
-
-# Password field
 
 # Minimum contrast
 
@@ -30,7 +28,7 @@ You can of course configure the `ls` output colors but that's just for one progr
 
 [Ghostty][]'s `minimum-contrast` option ensures that the text and background will have enough contrast to always be visible:
 
-```
+```ghostty
 minimum-contrast = 1.05
 ```
 
@@ -40,18 +38,25 @@ Most excellent.
 
 # Hide cursor while typing
 
-```
+```ghostty
 mouse-hide-while-typing = true
 ```
 
+Another nice little feature is the ability to hide the cursor when I'm typing.
+
 # Cursor invert
 
-```
+```ghostty
 cursor-invert-fg-bg = true
 ```
 
-Interferes with [indent-blankline.nvim][] making the cursor very hard to spot in indents.
-I used a similar feature with alacritty where it worked fine but unfortunately it breaks with [Ghostty][].
+In [alacritty][] I've had the cursor invert the background and foreground and you can do that in [Ghostty][] too.
+
+I ran into an issue where it interferes with [indent-blankline.nvim][] making the cursor very hard to spot in indents (taking the color of the indent guides, which is by design low contrast with the background).
+
+Annoying but it gave me the shove I needed to try out different plugins to see if the error persisted and I ended up with (an even nicer) config using [snacks.nvim][] that didn't have this issue:
+
+![My old config using [indent-blankline.nvim][] to the left (with the cursor barely visible) and the new config using [snacks.nvim][] to the right.](/images/ghostty_indent_differences.png)
 
 # Consistent font sizing between desktop and laptop
 
@@ -62,11 +67,19 @@ This wasn't always the case and I think something may have changed in [alacritty
 
 # Ligature support
 
-![](/images/iosevka_ligatures.png)
+The [issue for adding ligatures to alacritty][alacritty-ligatures] was closed eight years ago
+and even though I wanted to try ligatures I couldn't be bothered to "run a "low quality fork".
 
-The [issue for adding ligatures to alacritty][alacritty-ligatures] was closed eight years ago and it's fairly safe to say it probably won't ever happen.
+[Ghostty][] seems like the opposite of "low quality" and it renders [Iosevka][]'s ligatures very well:
 
-```
+![My configured ligatures of Iosevka, rendered in Ghostty.](/images/iosevka_ligatures.png)
+
+Overall I feel that the font rendering in [Ghostty][] is a little better than in [alacritty][], although that can be recency bias.
+I'm still undecided on ligatures but I love that I can try them.
+
+I use a [custom Iosevka build](/iosevka) with these [Ghostty][] settings:
+
+```ghostty
 font-family = IosevkaTreeLig Nerd Font
 font-style = Medium
 font-style-bold = Bold
@@ -77,17 +90,14 @@ font-size = 16
 
 # Colorscheme
 
-```
-cursor-color = #ebc06d
-cursor-text = #292522
-cursor-style-blink = false
+While [Ghostty][] has an absolutely excellent theme selector with a bunch of included themes (`ghostty +list-themes`) [melange-nvim][] wasn't included, so I had to configure that myself:
 
-# Melange theme thank you very much
+```ghostty
+# The dark variant of melange
 background = #292522
 foreground = #ECE1D7
-selection-background =#403a36
-selection-foreground =#c1a78e
-
+selection-background = #403a36
+selection-foreground = #c1a78e
 palette = 0=#867462
 palette = 1=#D47766
 palette = 2=#85B695
@@ -106,6 +116,16 @@ palette = 14=#7B9695
 palette = 15=#C1A78E
 ```
 
+::: note
+Did I create a custom highlighter for the Ghostty configuration file just to have proper syntax highlighting for this one blog post?
+
+Yes I did. I created a simple treesitter grammar and included that into my blog.
+:::
+
 [Ghostty]: https://github.com/ghostty-org/ghostty
 [alacritty]: https://github.com/alacritty/alacritty
 [alacritty-ligatures]: https://github.com/alacritty/alacritty/issues/50
+[Iosevka]: https://github.com/be5invis/Iosevka
+[indent-blankline.nvim]: https://github.com/lukas-reineke/indent-blankline.nvim
+[snacks.nvim]: https://github.com/folke/snacks.nvim/tree/main
+[melange-nvim]: https://github.com/savq/melange-nvim
