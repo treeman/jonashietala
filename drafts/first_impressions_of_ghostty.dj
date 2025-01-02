@@ -1,0 +1,71 @@
+---toml
+title = "First impressions of Ghostty"
+tags = ["Linux", "Ghostty"]
+---
+
+# Removing native borders
+
+```
+# Remove decorations and borders
+window-decoration = false
+# This is needed to remove the borders
+# https://github.com/ghostty-org/ghostty/issues/2023
+gtk-titlebar = false
+# https://github.com/ghostty-org/ghostty/discussions/4224
+gtk-adwaita = false
+```
+
+# Password field
+
+# Minimum contrast
+
+Fixes ls example
+
+# Hide cursor while typing
+
+```
+mouse-hide-while-typing = true
+```
+
+# Cursor invert
+
+```
+cursor-invert-fg-bg = true
+```
+
+Interferes with [indent-blankline.nvim][] making the cursor very hard to spot in indents.
+I used a similar feature with alacritty where it worked fine but unfortunately it breaks with [Ghostty][].
+
+# Consistent font sizing between desktop and laptop
+
+# Colorscheme
+
+```
+cursor-color = #ebc06d
+cursor-text = #292522
+cursor-style-blink = false
+
+# Melange theme thank you very much
+background = #292522
+foreground = #ECE1D7
+selection-background =#403a36
+selection-foreground =#c1a78e
+
+palette = 0=#867462
+palette = 1=#D47766
+palette = 2=#85B695
+palette = 3=#EBC06D
+palette = 4=#A3A9CE
+palette = 5=#CF9BC2
+palette = 6=#89B3B6
+palette = 7=#ECE1D7
+palette = 8=#34302C
+palette = 9=#BD8183
+palette = 10=#78997A
+palette = 11=#E49B5D
+palette = 12=#7F91B2
+palette = 13=#B380B0
+palette = 14=#7B9695
+palette = 15=#C1A78E
+```
+
