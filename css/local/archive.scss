@@ -6,23 +6,27 @@ article.archive {
   h1 > * {
     @include large-underline-highlight(var(--color-highlight-archive));
   }
-  .tagged h1 > * {
+  .title-wrapper h1 > * {
     @include large-underline-highlight(var(--color-highlight-tags));
   }
 
-  .tagged > .tagged_by {
+  .title-wrapper > .pre-title {
     @include sans-serif;
     @include font-size("s");
     color: var(--color-highlight-archive);
   }
 
+  .title-wrapper .post-count {
+    color: var(--melange_a_ui);
+  }
+
+  .title-wrapper h1 {
+    margin-block-start: 0;
+  }
+
   h1 {
     margin-block-end: var(--space-xs);
     line-height: 1.3;
-  }
-
-  .tagged h1 {
-    margin-block-start: 0;
   }
 
   .favorite-descr {

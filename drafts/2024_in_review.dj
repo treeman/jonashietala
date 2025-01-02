@@ -18,7 +18,7 @@ tags = ["Yearly Review"]
 
   It's amazing I got anything productive done this year...
 
-- I still really enjoy Rust.
+- I really enjoy working with Rust in my own hobby projects.
 
 - [Types are coming to Elixir][elixir_types] and I'm loving it.
 
@@ -26,7 +26,8 @@ tags = ["Yearly Review"]
 
 - The [Gleam programming language](https://gleam.run/) shows a lot of promise.
 
-  My one gripe is the pain of manually encoding/decoding JSON (even with the various libraries) that's is annoying enough that I've avoided using the language for some projects.
+  My one gripe is the pain of manually encoding/decoding JSON (even with the various libraries).
+  Compared to Elixir dynamic encoding or Rust's `#[derive(Deserialize)]`{lang=rust} it just feels so bad that I've avoided Gleam for some projects (shame on me?).
 
 # Lessons I learned
 
@@ -75,7 +76,7 @@ tags = ["Yearly Review"]
 [Rewrote my lighting home automation]: /blog/2024/10/08/writing_home_assistant_automations_using_genservers_in_elixir
 [The Kingkiller Chronicle]: https://en.wikipedia.org/wiki/The_Kingkiller_Chronicle
 [Gentlemen Bastards series]: https://en.wikipedia.org/wiki/Scott_Lynch#Gentleman_Bastard_Sequence
-[virtual points on Hacker News]: https://news.ycombinator.com/item?id=41646531 
+[virtual points on Hacker News]: https://news.ycombinator.com/item?id=41646531
 [meta-blogging]: /blog/2024/09/25/why_i_still_blog_after_15_years
 [building my first 3D printer]: /series/voron_trident
 [Tree-sitter grammar for Djot]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar

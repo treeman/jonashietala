@@ -1,13 +1,24 @@
-{% import "post_info.html" as macros %} {% extends "site.html" %} {% block
-content %}
+{% import "post_info.html" as macros %}
+{% extends "site.html" %}
+{% block content %}
 <article class="archive">
-  {% if tag_filter %}
-  <div class="tagged">
-    <div class="tagged_by">Posts tagged</div>
+  <div class="title-wrapper">
+    <div class="pre-title">
+      <span class="count">{{ posts | length }}</span>
+      {% if posts | length == 1 %}
+        post
+      {% else %}
+        posts
+      {% endif %}
+
+    {% if tag_filter %}
+      tagged
+    {% else %}
+      in
+    {% endif %}
+    </div>
     <h1><span>{{ title }}</span></h1>
   </div>
-  {% else %}
-  <h1><span>{{ title }}</span></h1>
 
   {% if url == "/blog" %}
   <div class="favorite-descr">
@@ -15,6 +26,6 @@ content %}
   </div>
   {% endif %}
 
-  {% endif %} {{ macros::post_items(posts=posts) }}
+  {{ macros::post_items(posts=posts) }}
 </article>
 {% endblock content %}

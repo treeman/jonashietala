@@ -7,7 +7,6 @@ tags = ["Linux", "Ghostty"]
 
 ```ghostty
 window-decoration = false
-
 # These are also needed to completely remove the borders
 # https://github.com/ghostty-org/ghostty/issues/2023
 gtk-titlebar = false
@@ -54,16 +53,19 @@ In [alacritty][] I've had the cursor invert the background and foreground and yo
 
 I ran into an issue where it interferes with [indent-blankline.nvim][] making the cursor very hard to spot in indents (taking the color of the indent guides, which is by design low contrast with the background).
 
-Annoying but it gave me the shove I needed to try out different plugins to see if the error persisted and I ended up with (an even nicer) config using [snacks.nvim][] that didn't have this issue:
+Annoying but it gave me the shove I needed to try out different plugins to see if the problem persisted.
+I ended up with (an even nicer) setup using [snacks.nvim][] that didn't have this issue:
 
-![My old config using [indent-blankline.nvim][] to the left (with the cursor barely visible) and the new config using [snacks.nvim][] to the right.](/images/ghostty_indent_differences.png)
+![Left: [indent-blankline.nvim][] (cursor barely visible)\
+Right: [snacks.nvim][] (cursor visible and it highlights scope).
+](/images/ghostty_indent_differences.png)
 
 # Consistent font sizing between desktop and laptop
 
 With [alacritty][] I have an annoying problem where I need to use a very different font size on my laptop and my desktop (`8` and `12`).
 This wasn't always the case and I think something may have changed in [alacritty][] but I'm not sure.
 
-[Ghostty][] handles this nicely and I can now use the same font settings across my machines (`font-size = 16`).
+[Ghostty][] handles this nicely and I can now use the same font settings across my machines (`font-size = 16`{lang=ghostty}).
 
 # Ligature support
 
@@ -74,7 +76,7 @@ and even though I wanted to try ligatures I couldn't be bothered to "run a "low 
 
 ![My configured ligatures of Iosevka, rendered in Ghostty.](/images/iosevka_ligatures.png)
 
-Overall I feel that the font rendering in [Ghostty][] is a little better than in [alacritty][], although that can be recency bias.
+Overall I feel that the font rendering in [Ghostty][] is a little better than in [alacritty][], although that might be recency bias.
 I'm still undecided on ligatures but I love that I can try them.
 
 I use a [custom Iosevka build](/iosevka) with these [Ghostty][] settings:
@@ -90,14 +92,12 @@ font-size = 16
 
 # Colorscheme
 
-While [Ghostty][] has an absolutely excellent theme selector with a bunch of included themes (`ghostty +list-themes`) [melange-nvim][] wasn't included, so I had to configure that myself:
+While [Ghostty][] has an absolutely excellent theme selector with a bunch of included themes (`ghostty +list-themes`) [melange-nvim][] wasn't included, so I had configured the colorscheme myself:
 
 ```ghostty
 # The dark variant of melange
 background = #292522
 foreground = #ECE1D7
-selection-background = #403a36
-selection-foreground = #c1a78e
 palette = 0=#867462
 palette = 1=#D47766
 palette = 2=#85B695
@@ -114,14 +114,21 @@ palette = 12=#7F91B2
 palette = 13=#B380B0
 palette = 14=#7B9695
 palette = 15=#C1A78E
+# I think it's nice to colorize the selection too
+selection-background = #403a36
+selection-foreground = #c1a78e
 ```
+
+# I'm happy with Ghostty
 
 ::: note
 Did I create a custom highlighter for the Ghostty configuration file just to have proper syntax highlighting for this one blog post?
 
 Yes I did. I created a [simple treesitter grammar][ts] and included that into my blog.
+Creating a simple grammar [is surprisingly straightforward](create_ts).
 :::
 
+[create_ts]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar
 [Ghostty]: https://github.com/ghostty-org/ghostty
 [alacritty]: https://github.com/alacritty/alacritty
 [alacritty-ligatures]: https://github.com/alacritty/alacritty/issues/50
