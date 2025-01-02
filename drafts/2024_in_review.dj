@@ -43,7 +43,7 @@ tags = ["Yearly Review"]
 
   At the moment I'm focusing on consulting but maybe something else can grow from it one day?
 
-- I [wrote 24 blog posts](/blog/2024/)---it was quite a productive blogging year for me.
+- I [wrote 26 blog posts](/blog/2024/)---it was quite a productive blogging year for me.
 
 - I built a [custom keyboard][] together with a [custom keyboard layout][].
 
@@ -53,16 +53,18 @@ tags = ["Yearly Review"]
 
   ::: warning
   I need to be more active maintaining it...
-  But it's fairly hard to get motivated to fix weird esoteric edge-cases that are kind of hard to solve and other projects are constantly begging for my attention.
+  But it's hard to get motivated as I've got so many other interesting things I'd like to work on.
   Managing an open source project is not for the faint of heart (or with the easily distracted mind).
   :::
 
 - Finished the blog series about [building my first 3D printer][].
 
+  I'm up to over 2100 printing hours with the machine so it's safe to say I've been using it not _only_ tinkering with it.
+
 - [Rewrote my lighting home automation][] from Python to Elixir.
 
 
-# Tentative plans for 2025
+# Weird ideas for 2025
 
 - For some reason the idea of writing a fantasy novel got stuck in my head.
 
