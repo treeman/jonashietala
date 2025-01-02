@@ -12,7 +12,10 @@ chrono = "0.4.34"
 eyre = "0.6.12"
 glob = "0.3.0"
 lazy_static = "1.4.0"
-pulldown-cmark = { version = "0.10.3", default-features = false, features = ["simd", "html"] }
+pulldown-cmark = { version = "0.10.3", default-features = false, features = [
+  "simd",
+  "html",
+] }
 regex = "1"
 serde = "1.0"
 serde_yaml = "0.9"
@@ -21,7 +24,13 @@ yaml-front-matter = "0.1.0"
 camino = "1.0.7"
 tera = "1"
 html-escape = "0.2.11"
-syntect = { version = "5.0.0", default-features = false, features = ["html", "regex-onig", "default-syntaxes", "yaml-load", "plist-load"] }
+syntect = { version = "5.0.0", default-features = false, features = [
+  "html",
+  "regex-onig",
+  "default-syntaxes",
+  "yaml-load",
+  "plist-load",
+] }
 tempfile = "3.3.0"
 clap = { version = "4.5.1", features = ["derive"] }
 scraper = "0.19"
@@ -36,7 +45,7 @@ grass = "0.13.2"
 rayon = "1.9"
 colored = "2.0.0"
 thiserror = "1.0"
-itertools = {version = "0.12.1", features = ["use_alloc"] }
+itertools = { version = "0.12.1", features = ["use_alloc"] }
 reqwest = { version = "0.11", features = ["json", "blocking"] }
 futures = "0.3.21"
 atom_syndication = "0.12.2"
@@ -74,9 +83,9 @@ tree-sitter-gleam = { git = "https://github.com/treeman/tree-sitter-gleam" }
 # tree-sitter-gleam = { path = "../tree-sitter-gleam" }
 # tree-sitter-toml = { path = "../tree-sitter-toml" }
 tree-sitter-toml = { git = "https://github.com/treeman/tree-sitter-toml" }
-tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter-query.git" }
+tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter-query.git", rev = "f767fb0ac5e711b6d44c5e0c8d1f349687a86ce0" }
 tree-sitter-lua = { git = "https://github.com/tree-sitter-grammars/tree-sitter-lua" }
-tree-sitter-ghostty = { path = "../tree-sitter-ghostty" }
+tree-sitter-ghostty = { git = "https://github.com/treeman/tree-sitter-ghostty" }
 btree-range-map = "0.7.2"
 serde_repr = "0.1.19"
 git2 = "0.19.0"
