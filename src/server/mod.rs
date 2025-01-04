@@ -76,16 +76,16 @@ async fn run_web_connection(stream: TcpStream, mut rx: Receiver<WebEvent>) -> Re
                 match msg {
                     Some(Ok(msg)) => {
                         if msg.is_close() {
-                            debug!("ws connection closed");
+                            debug!("ws connection closed {peer}");
                             break;
                         }
                     },
                     Some(Err(err)) => {
-                        error!("ws error: {err:?}, closing ws");
+                        error!("ws error: {err:?}, closing ws {peer}");
                         break;
                     },
                     None => {
-                        error!("Got None msg, closing ws");
+                        error!("Got None msg, closing ws {peer}");
                         break;
                     }
                 }
@@ -95,7 +95,7 @@ async fn run_web_connection(stream: TcpStream, mut rx: Receiver<WebEvent>) -> Re
                     Ok(msg) => {
                         ws_sender.send(Message::text(serde_json::to_string(&msg)?)).await?;
                     },
-                    err => error!("Error receiving internal event: {err:?}"),
+                    err => error!("Error receiving internal event: {err:?} {peer}"),
                 }
             }
         }
