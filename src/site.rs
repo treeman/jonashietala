@@ -551,7 +551,9 @@ impl Site {
             debug!("Copied {} files", copied);
         }
 
-        self.notify_change(&items)?;
+        if let Err(err) = self.notify_change(&items) {
+            error!("notify_change error {err}");
+        }
 
         Ok(())
     }

@@ -96,7 +96,7 @@ impl SymbolTransform {
         match self.try_transform(attrs) {
             Ok(res) => res,
             Err(err) => {
-                error!("{}", err);
+                error!("symbol transform error: {err}");
                 Vec::new()
             }
         }

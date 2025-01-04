@@ -41,20 +41,28 @@ pub async fn run(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
 
     let (web_tx, mut web_rx) = broadcast::channel::<WebEvent>(32);
     let (nvim_tx, mut nvim_rx) = broadcast::channel::<NeovimResponse>(32);
+
+    // These debug listeners are important so that the channels can be kept alive,
+    // otherwise sending will fail.
+    // (We could ignore those errors as well but we want debug messages anyway.)
+    tokio::spawn(async move {
+        loop {
+            if let Ok(msg) = web_rx.recv().await {
+                debug!("Got internal web event: {msg:?}");
+            }
+        }
+    });
+    tokio::spawn(async move {
+        loop {
+            if let Ok(msg) = nvim_rx.recv().await {
+                debug!("Got neovim event: {msg:?}");
+            }
+        }
+    });
+
     site.set_notifiers(web_tx.clone(), nvim_tx.clone());
 
     let site = Arc::new(Mutex::new(site));
-
-    tokio::spawn(async move {
-        if let Ok(msg) = web_rx.recv().await {
-            debug!("Got internal web event: {msg:?}");
-        }
-    });
-    tokio::spawn(async move {
-        if let Ok(msg) = nvim_rx.recv().await {
-            debug!("Got neovim event: {msg:?}");
-        }
-    });
 
     start_web_connection(web_tx.clone()).await?;
     start_neovim_connection(site.clone(), web_tx, nvim_tx).await?;
@@ -244,7 +252,7 @@ fn start_hotwatch(site: Arc<Mutex<Site>>) {
             .watch(".", move |event| {
                 let mut site = site.lock().expect("Hotwatch failed");
                 if let Err(err) = site.file_changed(event) {
-                    error!("{err}");
+                    error!("hotwatch error: {err}");
                 }
             })
             .expect("failed to watch folder!");
