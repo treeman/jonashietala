@@ -3,6 +3,28 @@ title = "First impressions of Ghostty"
 tags = ["Linux", "Ghostty"]
 ---
 
+There are two conflicting forces in play in setting up your computer environment:
+
+i. It's worthwhile to pursue small improvements in frequently used tools.
+i. It's not productive to get stuck tweaking your setup endlessly.
+
+Finding a balance is tricky.
+It's common to find people get stuck at the extreme ends of the spectrum
+where some programmers refuse to configure or learn their tools at all while others get stuck re-configuring their setups constantly, with no productivity gains to show for it.
+
+I think this is why I've been wanting to try other terminals (such as [wezterm][] or [kitty][]) for years but I haven't bothered, defaulting back to [alacritty][] that I've been using for many years.
+
+On one hand it's just a terminal, what difference could it make?
+On the other hand, I spend countless of hours every day inside a terminal so even a small improvement should pay off in the long run.
+
+Enter [Ghostty][], a terminal that's been hyped up to a massive degree.
+I'd like to make fun of the ridiculousness of it all but I've gotta admit that the hype (and the negative counter reaction)
+made me finally spend a little time to try out a new terminal.
+
+[Ghostty][] isn't revolutionizing my setup but it's nice and it's now my preferred terminal.
+(No, I still haven't tried [wezterm][] or [kitty][].)
+
+
 # I just want a blank canvas without any decorations
 
 One of the big selling points of [Ghostty][] is it's [native platform integration][native].
@@ -33,6 +55,33 @@ The password input style is neat, although I'm not sure it does anything functio
 
 [native]: https://gpanders.com/blog/ghostty-is-native-so-what/
 
+# Hide cursor while typing
+
+```ghostty
+mouse-hide-while-typing = true
+```
+
+A small quality-of-life feature is the ability to hide the cursor when typing.
+
+
+# Cursor invert
+
+```ghostty
+cursor-invert-fg-bg = true
+```
+
+In [alacritty][] I've had the cursor invert the background and foreground and you can do that in [Ghostty][] too.
+
+I ran into an issue where it interferes with [indent-blankline.nvim][] making the cursor very hard to spot in indents (taking the color of the indent guides, which is by design low contrast with the background).
+
+Annoying but it gave me the shove I needed to try out different plugins to see if the problem persisted.
+I ended up with (an even nicer) setup using [snacks.nvim][] that didn't have this issue:
+
+![Left: [indent-blankline.nvim][] (cursor barely visible)\
+Right: [snacks.nvim][] (cursor visible and it highlights scope).
+](/images/ghostty_indent_differences.png)
+
+
 # Minimum contrast
 
 Unreadable `ls` output is a staple of the excellent Linux UX.
@@ -54,30 +103,10 @@ minimum-contrast = 1.05
 
 Most excellent.
 
-# Hide cursor while typing
+::: warn
+This feature has the potential to break "eye candy" features, such the Neovim indent lines plugins if you use a low contrast configuration.
+:::
 
-```ghostty
-mouse-hide-while-typing = true
-```
-
-Another nice little feature is the ability to hide the cursor when I'm typing.
-
-# Cursor invert
-
-```ghostty
-cursor-invert-fg-bg = true
-```
-
-In [alacritty][] I've had the cursor invert the background and foreground and you can do that in [Ghostty][] too.
-
-I ran into an issue where it interferes with [indent-blankline.nvim][] making the cursor very hard to spot in indents (taking the color of the indent guides, which is by design low contrast with the background).
-
-Annoying but it gave me the shove I needed to try out different plugins to see if the problem persisted.
-I ended up with (an even nicer) setup using [snacks.nvim][] that didn't have this issue:
-
-![Left: [indent-blankline.nvim][] (cursor barely visible)\
-Right: [snacks.nvim][] (cursor visible and it highlights scope).
-](/images/ghostty_indent_differences.png)
 
 # Consistent font sizing between desktop and laptop
 
@@ -157,3 +186,6 @@ Did I create a custom highlighter for the Ghostty configuration file just to hav
 [snacks.nvim]: https://github.com/folke/snacks.nvim/tree/main
 [melange-nvim]: https://github.com/savq/melange-nvim
 [ts]: https://github.com/treeman/tree-sitter-ghostty
+[kitty]: https://github.com/kovidgoyal/kitty
+[wezterm]: https://github.com/wez/wezterm
+[Neovim]: https://neovim.io/
