@@ -1,6 +1,5 @@
 use camino::Utf8Path;
 use eyre::Result;
-use flume::Sender;
 use git2::Repository;
 use hotwatch::notify::event::AccessKind;
 use hotwatch::notify::event::AccessMode;
@@ -21,6 +20,7 @@ use std::fmt::Debug;
 use std::fs;
 use std::path::PathBuf;
 use tera::{Context, Tera};
+use tokio::sync::broadcast::Sender;
 use tracing::{debug, error, info, warn};
 use url::Url;
 
@@ -551,7 +551,9 @@ impl Site {
             debug!("Copied {} files", copied);
         }
 
-        self.notify_change(&items)?;
+        if let Err(err) = self.notify_change(&items) {
+            error!("notify_change error {err}");
+        }
 
         Ok(())
     }
@@ -1035,6 +1037,7 @@ impl Site {
     }
 
     fn notify_refresh(&self) -> Result<()> {
+        debug!("notify refresh");
         if let Some(ref tx) = self.web_notifier {
             tx.send(WebEvent::Refresh)?;
         }

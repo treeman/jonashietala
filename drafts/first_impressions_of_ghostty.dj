@@ -5,14 +5,33 @@ tags = ["Linux", "Ghostty"]
 
 # I just want a blank canvas without any decorations
 
+One of the big selling points of [Ghostty][] is it's [native platform integration][native].
+It's supposed to integrate well with your window manager so it looks the same and gives you some extra functionality...
+But I don't know why I should care---I just want a big square without decorations of any kind.
+
+You're supposed to to be able to simply turn it off:
+
 ```ghostty
 window-decoration = false
-# These are also needed to completely remove the borders
-# https://github.com/ghostty-org/ghostty/issues/2023
+```
+
+But at the moment [there's a bug](https://github.com/ghostty-org/ghostty/issues/2023) that requires you set some weird GTK settings to fully remove the borders:
+
+```ghostty
 gtk-titlebar = false
-# https://github.com/ghostty-org/ghostty/discussions/4224
 gtk-adwaita = false
 ```
+
+It's unfortunate that I have to tinker with these settings as I haven't done any GKT configuration on my machine (I use a tiling window manager without any GUI elements anywhere).
+
+::: note
+There might some useful native features I don't know about.
+The password input style is neat, although I'm not sure it does anything functionally different compared to other terminals:
+
+![](/images/ghostty_password.png)
+:::
+
+[native]: https://gpanders.com/blog/ghostty-is-native-so-what/
 
 # Minimum contrast
 
@@ -124,8 +143,9 @@ selection-foreground = #c1a78e
 ::: note
 Did I create a custom highlighter for the Ghostty configuration file just to have proper syntax highlighting for this one blog post?
 
-Yes I did. I created a [simple treesitter grammar][ts] and included that into my blog.
-Creating a simple grammar [is surprisingly straightforward](create_ts).
+[You bet I did][ts].
+
+(It's a simple [treesitter grammar][create_ts].)
 :::
 
 [create_ts]: /blog/2024/03/19/lets_create_a_tree-sitter_grammar

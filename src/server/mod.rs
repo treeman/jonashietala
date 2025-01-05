@@ -11,7 +11,6 @@ use crate::site::{Site, SiteOptions};
 use axum::{routing::get_service, Router};
 use axum_server::Server;
 use eyre::Result;
-use flume::{Receiver, RecvError, Sender};
 use futures_util::{SinkExt, StreamExt};
 use handler::Response;
 use hotwatch::Hotwatch;
@@ -22,6 +21,7 @@ use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader, BufWriter};
 use tokio::net::tcp::ReadHalf;
 use tokio::net::tcp::WriteHalf;
 use tokio::net::{TcpListener, TcpStream};
+use tokio::sync::broadcast::{self, error::RecvError, Receiver, Sender};
 use tokio_tungstenite::{accept_async, tungstenite::Message};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::{debug, error, info};
@@ -39,21 +39,40 @@ pub async fn run(output_dir: &AbsPath, current_dir: &AbsPath) -> Result<()> {
 
     site.render_all()?;
 
-    let (web_tx, web_rx) = flume::unbounded::<WebEvent>();
-    let (nvim_tx, nvim_rx) = flume::unbounded::<NeovimResponse>();
+    let (web_tx, mut web_rx) = broadcast::channel::<WebEvent>(32);
+    let (nvim_tx, mut nvim_rx) = broadcast::channel::<NeovimResponse>(32);
+
+    // These debug listeners are important so that the channels can be kept alive,
+    // otherwise sending will fail.
+    // (We could ignore those errors as well but we want debug messages anyway.)
+    tokio::spawn(async move {
+        loop {
+            if let Ok(msg) = web_rx.recv().await {
+                debug!("Got internal web event: {msg:?}");
+            }
+        }
+    });
+    tokio::spawn(async move {
+        loop {
+            if let Ok(msg) = nvim_rx.recv().await {
+                debug!("Got neovim event: {msg:?}");
+            }
+        }
+    });
+
     site.set_notifiers(web_tx.clone(), nvim_tx.clone());
 
     let site = Arc::new(Mutex::new(site));
 
-    start_web_connection(web_rx).await?;
-    start_neovim_connection(site.clone(), web_tx, nvim_tx, nvim_rx).await?;
+    start_web_connection(web_tx.clone()).await?;
+    start_neovim_connection(site.clone(), web_tx, nvim_tx).await?;
     start_hotwatch(site);
     start_file_watcher(output_dir).await?;
 
     Ok(())
 }
 
-async fn run_web_connection(stream: TcpStream, rx: Receiver<WebEvent>) -> Result<()> {
+async fn run_web_connection(stream: TcpStream, mut rx: Receiver<WebEvent>) -> Result<()> {
     let peer = stream.peer_addr()?;
     let ws_stream = accept_async(stream).await?;
     info!("ws connection from: {peer}");
@@ -65,27 +84,26 @@ async fn run_web_connection(stream: TcpStream, rx: Receiver<WebEvent>) -> Result
                 match msg {
                     Some(Ok(msg)) => {
                         if msg.is_close() {
-                            debug!("ws connection closed");
+                            debug!("ws connection closed {peer}");
                             break;
                         }
                     },
                     Some(Err(err)) => {
-                        error!("ws error: {err:?}, closing ws");
+                        error!("ws error: {err:?}, closing ws {peer}");
                         break;
                     },
                     None => {
-                        error!("Got None msg, closing ws");
+                        error!("Got None msg, closing ws {peer}");
                         break;
                     }
                 }
             }
-            msg = rx.recv_async() => {
+            msg = rx.recv() => {
                 match msg {
                     Ok(msg) => {
-                        debug!("Got internal event: {msg:?}");
                         ws_sender.send(Message::text(serde_json::to_string(&msg)?)).await?;
                     },
-                    err => error!("Error receiving internal event: {err:?}"),
+                    err => error!("Error receiving internal event: {err:?} {peer}"),
                 }
             }
         }
@@ -94,17 +112,18 @@ async fn run_web_connection(stream: TcpStream, rx: Receiver<WebEvent>) -> Result
     Ok(())
 }
 
-async fn start_web_connection(rx: Receiver<WebEvent>) -> Result<()> {
+async fn start_web_connection(tx: Sender<WebEvent>) -> Result<()> {
     let addr = "127.0.0.1:8081";
     let listener = TcpListener::bind(addr).await?;
 
     tokio::spawn(async move {
         info!("events socket on: {addr}");
+        let tx = tx;
 
         loop {
             match listener.accept().await {
                 Ok((stream, _)) => {
-                    let rx = rx.clone();
+                    let rx = tx.subscribe();
                     tokio::spawn(async move {
                         if let Err(e) = run_web_connection(stream, rx).await {
                             error!("Websocket error: {e:?}");
@@ -154,8 +173,8 @@ async fn handle_nvim_msg(
         match handler::handle_msg(event, site.clone()) {
             Some(Response::Web(msg)) => web_tx.send(msg)?,
             Some(Response::Reply(msg)) => nvim_tx.send(msg)?,
-            None => {}
-        }
+            None => 0,
+        };
         Ok(false)
     }
 }
@@ -165,8 +184,8 @@ async fn run_neovim_connection(
     mut stream: TcpStream,
     web_tx: Sender<WebEvent>,
     nvim_tx: Sender<NeovimResponse>,
-    nvim_rx: Receiver<NeovimResponse>,
 ) -> Result<()> {
+    let mut nvim_rx = nvim_tx.subscribe();
     let peer = stream.peer_addr()?;
     info!("Tcp connection from: {peer}");
     let (reader, writer) = stream.split();
@@ -175,7 +194,7 @@ async fn run_neovim_connection(
 
     loop {
         tokio::select! {
-            msg = nvim_rx.recv_async() => {
+            msg = nvim_rx.recv() => {
                 if let Err(err) = handle_nvim_reply(msg, &mut writer).await {
                     error!("Nvim reply error: {err:?}");
                 }
@@ -198,7 +217,6 @@ async fn start_neovim_connection(
     site: Arc<Mutex<Site>>,
     web_tx: Sender<WebEvent>,
     nvim_tx: Sender<NeovimResponse>,
-    nvim_rx: Receiver<NeovimResponse>,
 ) -> Result<()> {
     let addr = "127.0.0.1:8082";
     let listener = TcpListener::bind(addr).await?;
@@ -210,12 +228,9 @@ async fn start_neovim_connection(
                 Ok((stream, _)) => {
                     let web_tx = web_tx.clone();
                     let nvim_tx = nvim_tx.clone();
-                    let nvim_rx = nvim_rx.clone();
                     let site = site.clone();
                     tokio::spawn(async move {
-                        if let Err(e) =
-                            run_neovim_connection(site, stream, web_tx, nvim_tx, nvim_rx).await
-                        {
+                        if let Err(e) = run_neovim_connection(site, stream, web_tx, nvim_tx).await {
                             error!("Neovim listener error: {e:?}");
                         }
                     });
@@ -237,7 +252,7 @@ fn start_hotwatch(site: Arc<Mutex<Site>>) {
             .watch(".", move |event| {
                 let mut site = site.lock().expect("Hotwatch failed");
                 if let Err(err) = site.file_changed(event) {
-                    error!("{err}");
+                    error!("hotwatch error: {err}");
                 }
             })
             .expect("failed to watch folder!");

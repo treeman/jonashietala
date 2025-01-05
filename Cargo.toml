@@ -60,7 +60,6 @@ sxd-document = "0.3.2"
 jotdown = "0.4.1"
 tokio-websockets = { version = "0.8.2", features = ["server", "openssl"] }
 futures-util = "0.3.30"
-flume = "0.11.0"
 serde_json = "1.0.113"
 tokio-tungstenite = "0.21.0"
 pulldown-cmark-escape = "0.10.0"

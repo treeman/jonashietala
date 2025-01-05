@@ -135,7 +135,7 @@ impl DivTransform {
         match self.try_transform(content, attrs) {
             Ok(res) => res,
             Err(err) => {
-                error!("{}", err);
+                error!("div transform error: {err}");
                 Vec::new()
             }
         }

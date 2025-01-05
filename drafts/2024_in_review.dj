@@ -27,7 +27,8 @@ tags = ["Yearly Review"]
 - The [Gleam programming language](https://gleam.run/) shows a lot of promise.
 
   My one gripe is the pain of manually encoding/decoding JSON (even with the various libraries).
-  Compared to Elixir dynamic encoding or Rust's `#[derive(Deserialize)]`{lang=rust} it just feels so bad that I've avoided Gleam for some projects (shame on me?).
+  Compared to for example Elixir dynamic encoding or Rust's `#[derive(Deserialize)]`{lang=rust} it just feels so bad that I've avoided Gleam for some projects.
+  Shame on me?
 
 # Lessons I learned
 
@@ -59,7 +60,7 @@ tags = ["Yearly Review"]
 
 - Finished the blog series about [building my first 3D printer][].
 
-  I'm up to over 2100 printing hours with the machine so it's safe to say I've been using it not _only_ tinkering with it.
+  I'm up to over 2100 printing hours with the machine so it's safe to say I've been using it, not _only_ playing around with.
 
 - [Rewrote my lighting home automation][] from Python to Elixir.
 

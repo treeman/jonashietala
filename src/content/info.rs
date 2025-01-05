@@ -10,7 +10,7 @@ use serde::Serialize;
 
 use super::series::PartialSeriesItem;
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 #[serde(tag = "type")]
 pub enum ContentInfo {
     Post(PostInfo),
@@ -55,17 +55,17 @@ impl TryFrom<&FilePath> for ContentInfo {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct DivClassInfo {
     pub name: &'static str,
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct SymbolInfo {
     pub sym: &'static str,
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct TagInfo {
     pub id: String,
     pub name: String,
@@ -93,7 +93,7 @@ impl TagInfo {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct PostInfo {
     pub title: String,
     pub path: String,
@@ -133,7 +133,7 @@ impl From<PartialPostItem> for PostInfo {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct StandaloneInfo {
     pub title: String,
     pub url: String,
@@ -163,7 +163,7 @@ impl From<PartialStandaloneItem> for StandaloneInfo {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct ConstantInfo {
     pub title: String,
     pub url: String,
@@ -175,7 +175,7 @@ pub struct UrlInfo {
     pub url: String,
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct SeriesInfo {
     pub id: String,
     pub title: String,
@@ -225,7 +225,7 @@ impl From<PartialSeriesItem> for SeriesInfo {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 #[serde(untagged)]
 pub enum HeadingContext {
     OtherFile {
@@ -240,7 +240,7 @@ pub enum HeadingContext {
     },
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct HeadingInfo {
     pub id: String,
     pub content: String,
@@ -259,7 +259,7 @@ impl HeadingInfo {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct LinkDefInfo {
     pub label: String,
     pub url: String,
@@ -278,7 +278,7 @@ impl LinkDefInfo {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct BrokenLinkInfo {
     pub tag: String,
     pub row: usize,
@@ -293,13 +293,13 @@ impl BrokenLinkInfo {
     }
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct ImgInfo {
     pub url: String,
     pub modified: u64,
 }
 
-#[derive(Debug, Serialize, PartialEq, Eq)]
+#[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct GameInfo {
     title: String,
     event: String,
@@ -322,7 +322,7 @@ impl From<Game> for GameInfo {
     }
 }
 
-#[derive(Debug, Serialize, Eq, PartialEq)]
+#[derive(Debug, Serialize, Eq, PartialEq, Clone)]
 pub struct ProjectsInfo {
     pub title: String,
     pub path: String,
@@ -337,7 +337,7 @@ impl From<PartialProjectsItem> for ProjectsInfo {
     }
 }
 
-#[derive(Debug, Serialize, Eq, PartialEq)]
+#[derive(Debug, Serialize, Eq, PartialEq, Clone)]
 pub struct ProjectInfo {
     pub title: String,
     pub link: Option<String>,
