@@ -3,6 +3,8 @@ title = "2024 in review"
 tags = ["Yearly Review"]
 ---
 
+It's time for my [15th yearly review](/blog/tags/yearly_review).
+
 # Nerdy things I enjoyed
 
 - I read a lot of fantasy books this year!
@@ -30,13 +32,8 @@ tags = ["Yearly Review"]
   Compared to for example Elixir dynamic encoding or Rust's `#[derive(Deserialize)]`{lang=rust} it just feels so bad that I've avoided Gleam for some projects.
   Shame on me?
 
-# Lessons I learned
-
 - CSS is alive and better than ever.
 
-- 3D printing is fun and useful.
-
-- I realized that [meta-blogging][] is a great way to get [virtual points on Hacker News][].
 
 # Things I accomplished
 
@@ -55,7 +52,7 @@ tags = ["Yearly Review"]
   ::: warning
   I need to be more active maintaining it...
   But it's hard to get motivated as I've got so many other interesting things I'd like to work on.
-  Managing an open source project is not for the faint of heart (or with the easily distracted mind).
+  Managing an open source project is not for the faint of heart (or the easily distracted).
   :::
 
 - Finished the blog series about [building my first 3D printer][].
@@ -64,18 +61,32 @@ tags = ["Yearly Review"]
 
 - [Rewrote my lighting home automation][] from Python to Elixir.
 
+- I realized that [meta-blogging][] is a great way to get [virtual points on Hacker News][].
 
-# Weird ideas for 2025
+
+# Tentative plans/goals/wishes for 2025
 
 - For some reason the idea of writing a fantasy novel got stuck in my head.
 
-  The last weeks I've listened to dozens of hours of advice for aspiring writers but I don't know if it's a temporary thing my mind just happened to latch onto or if it's something I'll actually end up doing.
+  I had a stint where I listened to dozens of hours of advice for aspiring writers and started planning a series.
+  The excitement tapered off a bit during the Christmas holidays and I don't know if this was just a temporary sidetrack or if it's something I'll actually end up doing.
 
 - Design a one-handed keyboard layout.
 
   Again, this was just something my brain got stuck thinking about and I'm not sure if it's just a fleeting idea or something I _need_ to do so I can stop thinking about it.
   (Sometimes just a little planning plus solving the most difficult problems are enough---I don't have to finish all the crazy/dumb ideas I get for my mind to consider them "done".)
 
+- Complete my second 3D printer.
+
+  There's no point in having a single printer; what if I break it and I can no longer print replacement parts for it?
+
+- Develop my home automation system more.
+
+  I've got a _ton_ of things I'd like to improve (or play around with).
+  For instance, yesterday I received the [Home Assistant Voice Preview Edition][voice-pe] that I hope works as well as advertised.
+
+
+[voice-pe]: https://www.home-assistant.io/voice-pe/
 [Rewrote my lighting home automation]: /blog/2024/10/08/writing_home_assistant_automations_using_genservers_in_elixir
 [The Kingkiller Chronicle]: https://en.wikipedia.org/wiki/The_Kingkiller_Chronicle
 [Gentlemen Bastards series]: https://en.wikipedia.org/wiki/Scott_Lynch#Gentleman_Bastard_Sequence
