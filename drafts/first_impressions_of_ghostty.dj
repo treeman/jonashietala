@@ -12,18 +12,13 @@ Finding a balance is tricky.
 It's common to find people get stuck at the extreme ends of the spectrum
 where some programmers refuse to configure or learn their tools at all while others get stuck re-configuring their setups constantly, with no productivity gains to show for it.
 
-I think this is why I've been wanting to try other terminals (such as [wezterm][] or [kitty][]) for years but I haven't bothered, defaulting back to [alacritty][] that I've been using for many years.
-
 On one hand it's just a terminal, what difference could it make?
 On the other hand, I spend countless of hours every day inside a terminal so even a small improvement should pay off in the long run.
 
-Enter [Ghostty][], a terminal that's been hyped up to a massive degree.
-I'd like to make fun of the ridiculousness of it all but I've gotta admit that the hype (and the negative counter reaction)
-made me finally spend a little time to try out a new terminal.
+This is why I've been using [alacritty][] as my terminal for many years, never getting further with alternatives such as [wezterm][] or [kitty][] than adding them to my TODO list.
 
-[Ghostty][] isn't revolutionizing my setup but it's nice and it's now my preferred terminal.
-(No, I still haven't tried [wezterm][] or [kitty][].)
-
+Enter [Ghostty][], a terminal so hyped stopped my procrastination and made me try out a new terminal.
+I don't quite people hyping up a _terminal_ but I admit that [Ghostty][] is nice enough that it's now my preferred terminal.
 
 # I just want a blank canvas without any decorations
 
