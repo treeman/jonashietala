@@ -8,17 +8,21 @@ There are two conflicting forces in play in setting up your computer environment
 i. It's worthwhile to pursue small improvements in frequently used tools.
 i. It's not productive to get stuck tweaking your setup endlessly.
 
-Finding a balance is tricky.
-It's common to find people get stuck at the extreme ends of the spectrum
-where some programmers refuse to configure or learn their tools at all while others get stuck re-configuring their setups constantly, with no productivity gains to show for it.
+It's common to find people get stuck at the extreme ends of the spectrum;
+some programmers refuse to configure or learn their tools at all, while others get stuck re-configuring their setups constantly without any productivity gains to show for it.
 
-On one hand it's just a terminal, what difference could it make?
+Finding a balance can be tricky.
+With regards to terminals I've been using [alacritty][] for many years.
+It gets the job done but I don't know if I'm missing out on anything?
+I've been meaning to look at alternatives like [wezterm][] and [kitty][] but I never got far enough to try them out.
+
+On one hand it's just a terminal, what difference could it make?\
 On the other hand, I spend countless of hours every day inside a terminal so even a small improvement should pay off in the long run.
 
-This is why I've been using [alacritty][] as my terminal for many years, never getting further with alternatives such as [wezterm][] or [kitty][] than adding them to my TODO list.
+Enter [Ghostty][], a terminal so hyped up it made me drop any useful things I was working on and see what the fuzz was about.
+I don't quite get why people hype up a terminal of all things but here we are.
 
-Enter [Ghostty][], a terminal so hyped stopped my procrastination and made me try out a new terminal.
-I don't quite people hyping up a _terminal_ but I admit that [Ghostty][] is nice enough that it's now my preferred terminal.
+[Ghostty][] didn't revolutionize my setup or anything but I admit that [Ghostty][] is quite nice and it has replaced [alacritty][] as my terminal.
 
 # I just want a blank canvas without any decorations
 
@@ -26,37 +30,29 @@ One of the big selling points of [Ghostty][] is it's [native platform integratio
 It's supposed to integrate well with your window manager so it looks the same and gives you some extra functionality...
 But I don't know why I should care---I just want a big square without decorations of any kind.
 
-You're supposed to to be able to simply turn it off:
+You're supposed to to be able to simply turn off any window decorations:
 
 ```ghostty
 window-decoration = false
 ```
 
-But at the moment [there's a bug](https://github.com/ghostty-org/ghostty/issues/2023) that requires you set some weird GTK settings to fully remove the borders:
+At the moment [there's a bug](https://github.com/ghostty-org/ghostty/issues/2023) that requires you set some weird GTK settings to fully remove the borders:
 
 ```ghostty
 gtk-titlebar = false
 gtk-adwaita = false
 ```
 
-It's unfortunate that I have to tinker with these settings as I haven't done any GKT configuration on my machine (I use a tiling window manager without any GUI elements anywhere).
+It's unfortunate as I haven't done any GKT configuration on my machine (I use [XMonad][] as my window manager and I don't have any window decorations anywhere).
 
 ::: note
 There might some useful native features I don't know about.
-The password input style is neat, although I'm not sure it does anything functionally different compared to other terminals:
+The password input style is neat for instance, although I'm not sure it does anything functionally different compared to other terminals:
 
 ![](/images/ghostty_password.png)
 :::
 
 [native]: https://gpanders.com/blog/ghostty-is-native-so-what/
-
-# Hide cursor while typing
-
-```ghostty
-mouse-hide-while-typing = true
-```
-
-A small quality-of-life feature is the ability to hide the cursor when typing.
 
 
 # Cursor invert
@@ -70,7 +66,7 @@ In [alacritty][] I've had the cursor invert the background and foreground and yo
 I ran into an issue where it interferes with [indent-blankline.nvim][] making the cursor very hard to spot in indents (taking the color of the indent guides, which is by design low contrast with the background).
 
 Annoying but it gave me the shove I needed to try out different plugins to see if the problem persisted.
-I ended up with (an even nicer) setup using [snacks.nvim][] that didn't have this issue:
+I ended up with (an even nicer) setup using [snacks.nvim][] that doesn't hide the cursor:
 
 ![Left: [indent-blankline.nvim][] (cursor barely visible)\
 Right: [snacks.nvim][] (cursor visible and it highlights scope).
@@ -80,7 +76,7 @@ Right: [snacks.nvim][] (cursor visible and it highlights scope).
 # Minimum contrast
 
 Unreadable `ls` output is a staple of the excellent Linux UX.
-It might sometimes look like this:
+It might look like this:
 
 ![](/images/ls_unreadable.png)
 
@@ -88,7 +84,7 @@ Super annoying.
 
 You can of course configure the `ls` output colors but that's just for one program and it won't automatically follow when you `ssh` to another server.
 
-[Ghostty][]'s `minimum-contrast` option ensures that the text and background will have enough contrast to always be visible:
+[Ghostty][]'s `minimum-contrast` option ensures that the text and background always has enough contrast to be visible:
 
 ```ghostty
 minimum-contrast = 1.05
@@ -100,7 +96,18 @@ Most excellent.
 
 ::: warn
 This feature has the potential to break "eye candy" features, such the Neovim indent lines plugins if you use a low contrast configuration.
+I still run into minor issues from time to time.
 :::
+
+
+# Hide cursor while typing
+
+```ghostty
+mouse-hide-while-typing = true
+```
+
+A small quality-of-life feature is the ability to hide the cursor when typing.
+I didn't know I needed this in my life.
 
 
 # Consistent font sizing between desktop and laptop
@@ -108,19 +115,19 @@ This feature has the potential to break "eye candy" features, such the Neovim in
 With [alacritty][] I have an annoying problem where I need to use a very different font size on my laptop and my desktop (`8` and `12`).
 This wasn't always the case and I think something may have changed in [alacritty][] but I'm not sure.
 
-[Ghostty][] handles this nicely and I can now use the same font settings across my machines (`font-size = 16`{lang=ghostty}).
+[Ghostty][] doesn't have this problem and I can now use the same font settings across my machines (`font-size = 16`{lang=ghostty}).
 
 # Ligature support
 
 The [issue for adding ligatures to alacritty][alacritty-ligatures] was closed eight years ago
-and even though I wanted to try ligatures I couldn't be bothered to "run a "low quality fork".
+and even though I wanted to try ligatures I couldn't be bothered to "run a low quality fork".
 
 [Ghostty][] seems like the opposite of "low quality" and it renders [Iosevka][]'s ligatures very well:
 
 ![My configured ligatures of Iosevka, rendered in Ghostty.](/images/iosevka_ligatures.png)
 
 Overall I feel that the font rendering in [Ghostty][] is a little better than in [alacritty][], although that might be recency bias.
-I'm still undecided on ligatures but I love that I can try them.
+I'm still undecided on ligatures but I love that I don't have to feel limited by the terminal.
 
 I use a [custom Iosevka build](/iosevka) with these [Ghostty][] settings:
 
@@ -135,7 +142,8 @@ font-size = 16
 
 # Colorscheme
 
-While [Ghostty][] has an absolutely excellent theme selector with a bunch of included themes (`ghostty +list-themes`) [melange-nvim][] wasn't included, so I had configured the colorscheme myself:
+While [Ghostty][] has an absolutely excellent theme selector with a bunch of included themes (`ghostty +list-themes`) [melange-nvim][] wasn't included, so I had to configure the colorscheme myself.
+It was fairly straightforward even though the `palette = 0=` syntax was a bit surprising:
 
 ```ghostty
 # The dark variant of melange
@@ -164,7 +172,13 @@ selection-foreground = #c1a78e
 
 # I'm happy with Ghostty
 
-::: note
+In the end [Ghostty][] has improved my setup and I'm happy I took time to try it out.
+It took a little more time than "just launch it" but it absolutely wasn't a big deal.
+The reward was a few pleasant improvements that have improved my life a little.
+
+And perhaps most important of all: I'm now an alpha Nerd that uses a terminal written in Zig.
+
+::: tip
 Did I create a custom highlighter for the Ghostty configuration file just to have proper syntax highlighting for this one blog post?
 
 [You bet I did][ts].
@@ -183,4 +197,4 @@ Did I create a custom highlighter for the Ghostty configuration file just to hav
 [ts]: https://github.com/treeman/tree-sitter-ghostty
 [kitty]: https://github.com/kovidgoyal/kitty
 [wezterm]: https://github.com/wez/wezterm
-[Neovim]: https://neovim.io/
+[XMonad]: https://xmonad.org/
