@@ -135,10 +135,21 @@
         "class": "mod_down"
       },
       {
+        "keys": ["END_CX"],
+        "title": "End",
+        "hold_title": "Ctrl X",
+        "class": "mod_down"
+      },
+      {
         "keys": ["BTN3_CV"],
         "title": "Middle\nMouse",
         "hold_title": "Ctrl V",
         "class": "mod_down"
+      },
+      {
+        "keys": ["LR_MOUSE"],
+        "title": "Left/Right Mouse",
+        "class": "special"
       },
       {
         "keys": ["REPEAT"],
@@ -169,6 +180,27 @@
       {
         "keys": ["C(S(SE_M))"],
         "title": "Ctrl Shift M",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["CA_AR"],
+        "title": "Ctrl A",
+        "hold_title": "ARROW",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["C(SE_F)"],
+        "title": "Ctrl F",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["C(SE_U)"],
+        "title": "Ctrl U",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["C(SE_D)"],
+        "title": "Ctrl D",
         "class": "mod_implicit"
       },
       {
