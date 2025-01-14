@@ -306,6 +306,7 @@
 <text x="631" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">_</tspan>
 </text>
+<text x="631" y="231.22" text-anchor="middle" class="sub">_MOUSE</text>
 </g>
     <g class="keycap combo_background">
       <rect x="64" y="188.73999"

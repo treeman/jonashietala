@@ -361,17 +361,18 @@
 <tspan x="577" dy="0">)</tspan>
 </text>
 </g>
-    <g class="keycap default">
+    <g class="keycap layer_down">
       <rect x="604" y="179.02"
             width="54" height="54"
-            rx="5" fill="#f7e5c3" class="outer border"/>
+            rx="5" fill="#c1abe3" class="outer border"/>
       <rect x="610" y="183.02"
             width="42" height="42"
-            rx="5" fill="#ffecc9" class="inner border"/>
+            rx="5" fill="#c8b1eb" class="inner border"/>
 
 <text x="631" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">_</tspan>
 </text>
+<text x="631" y="231.22" text-anchor="middle" class="sub">_MOUSE</text>
 </g>
     <g class="keycap default">
       <rect x="64" y="188.73999"

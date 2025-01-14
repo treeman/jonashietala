@@ -372,6 +372,7 @@
 <text x="631" y="204.02" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="631" dy="0">_</tspan>
 </text>
+<text x="631" y="231.22" text-anchor="middle" class="sub">_MOUSE</text>
 </g>
     <g class="keycap combo_background">
       <rect x="64" y="188.73999"
@@ -615,16 +616,16 @@
 <tspan x="226" dy="0">Shift</tspan>
 </text>
 </g>
-    <g class="keycap special">
-      <rect x="397" y="155.9"
-            width="90" height="16"
-            rx="4" fill="#e0c65f" class="outer border"/>
-      <rect x="398.5" y="156.9"
-            width="87" height="12.5"
-            rx="4" fill="#e8cd62" class="inner border"/>
+    <g class="keycap mod1">
+      <rect x="424.5" y="155.9"
+            width="35" height="16"
+            rx="4" fill="#91c696" class="outer border"/>
+      <rect x="426" y="156.9"
+            width="32" height="12.5"
+            rx="4" fill="#97ce9c" class="inner border"/>
 
 <text x="442" y="163.15" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="442" dy="0">Left&#x2F;Right Mouse</tspan>
+<tspan x="442" dy="0">Shift</tspan>
 </text>
 </g>
     <g class="keycap mod1">
@@ -757,18 +758,6 @@
 
 <text x="199" y="132.37" text-anchor="middle" dominant-baseline="middle" class="main">
 <tspan x="199" dy="0">&gt;=</tspan>
-</text>
-</g>
-    <g class="keycap default">
-      <rect x="387.5" y="132.68001"
-            width="55" height="16"
-            rx="4" fill="#f7e5c3" class="outer border"/>
-      <rect x="389" y="133.68001"
-            width="52" height="12.5"
-            rx="4" fill="#ffecc9" class="inner border"/>
-
-<text x="415" y="139.93001" text-anchor="middle" dominant-baseline="middle" class="main">
-<tspan x="415" dy="0">Mid Mouse</tspan>
 </text>
 </g>
 </g>

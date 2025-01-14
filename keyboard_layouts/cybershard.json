@@ -397,6 +397,12 @@
         "title": "_"
       },
       {
+        "keys": ["UND_MIN_MOUSE"],
+        "class": "layer_down",
+        "title": "_",
+        "hold_title": "_MOUSE"
+      },
+      {
         "keys": ["MIN_UND"],
         "title": "-"
       }
@@ -413,7 +419,7 @@
         "title": "Middle\nMouse"
       },
       {
-        "keys": ["MT_SPC"],
+        "keys": ["UND_MIN_MOUSE"],
         "class": "active_layer"
       }
     ],
@@ -427,6 +433,16 @@
       {
         "keys": ["MT_SPC"],
         "class": "active_layer"
+      },
+      {
+        "keys": ["G(SE_DOT)"],
+        "title": "Gui .",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_COMM)"],
+        "title": "Gui ,",
+        "class": "mod_implicit"
       },
       {
         "keys": ["G(SE_J)"],

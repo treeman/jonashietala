@@ -96,12 +96,19 @@ The layer won't release until both thumb keys are released, so `Space` can be ta
 
 ![Navigation layer.](/images/cybershard-layout/_NAV.svg){embed=true}
 
-* `Gui-W`, `Gui-E` and `Gui-R` are used to switch between monitors and `Gui-J`/`Gui-K` to switch windows in [xmonad][].
-* This layer is used in conjunction with the trackball, giving access to mouse keys.
-* `Shift` + `Left Mouse` can be used to drag, `Ctrl` + `A` to select, and `Ctrl` + `C` to copy.
+* Keys with `Gui` are used in [xmonad][].
+
+  - `Gui` + `W`, `Gui` + `E` and `Gui` + `R` are used to switch between monitor.
+  - `Gui` + `J`/`Gui` + `K` to switch windows.
+  - `Gui` + `,`/`Gui` + `.` to add/remove windows from the "master" area.
+
+* This layer is commonly used in conjunction with the trackball, giving access to mouse keys.
+
+  For instance, `Shift` + `Left Mouse` can be used to drag, `Ctrl` + `A` to select, and `Ctrl` + `C` to copy.
+
 * Tabbing is for switching browser tabs and the `Back` / `Fwd` mouse buttons goes backwards and forwards in history.
 * `Ctrl` + arrow is used to switch windows in Neovim.
-* `Ctrl` + `D` and `Ctrl` + `U` are used in Neovim to scroll half a screen (compared to `PgUp`/`PgDn` that scrolls an entire screen.
+* `Ctrl` + `D` and `Ctrl` + `U` are used in Neovim to scroll half a screen (compared to `PgUp`/`PgDn` that scrolls an entire screen).
 * The [workspace layer](#Workspace-layer) is triggered by first holding `Space`, and then holding the right thumb key (`WNAV`).
 
 ![Arrows on the left-hand side.](/images/cybershard-layout/_ARROW.svg){embed=true}
@@ -121,6 +128,12 @@ This is used for all window and workspace management in [xmonad][]. Some common 
 ![Windows layer. All keys have an implicit `Alt` modifier.](/images/cybershard-layout/_WIN.svg){embed=true}
 
 This is purely to enable window switching using `Alt-Tab` and `Ctrl-Alt-Tab`, without releasing `Alt`.
+
+## Mouse layer
+
+![The mouse layer for right-hand only usage.](/images/cybershard-layout/_MOUSE.svg){embed=true}
+
+I generally prefer to use the [navigation layer](#Navigation-layers), where the mouse buttons are on the left side, but in some cases I'd like to only use my right hand.
 
 ## Special characters
 
@@ -278,7 +291,7 @@ The trackball is normally configured to move the mouse as a regular trackball.
 
 There are different modes that alters the behavior of the trackball:
 
-1. Lower the DPI when `Space` is held (the mouse moves slower when the [navigation layer](#Navigation-layers) is active).
+1. Lower the DPI when `Space` or `_` are held (the mouse moves slower when the [navigation layer](#Navigation-layers) or the [mouse layer](#Mouse-layer) are active).
 1. Raise the DPI when the [`MOD` combo](#Horizontal-combos) is held (the mouse moves faster).
 1. Scroll instead of moving the mouse when the [`SYM` combo](#Horizontal-combos) is held.
 
@@ -331,6 +344,12 @@ There are different modes that alters the behavior of the trackball:
   Moved `PgUp` and `Home` to the right side and it's enough to use the arrow keys on the right. (The secondary navigation layer exists to enable arrow keys on the left side.)
 
   2. Added mouse button combos on the right-hand side so in a pinch I can operate the mouse with one hand.
+
+: 2025-01-14
+
+  1. Removed mouse button combos from the right-side and place them on a separate layer instead (to keep the shift combo in the regular place).
+
+  1. Add `Gui` + `,`/`.` for [xmonad][] master window management to the [navigation layer](#Navigation-layers), moving `Ctrl` + `A` to the home-row once again.
 
 :::
 
