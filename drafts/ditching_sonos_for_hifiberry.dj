@@ -1,0 +1,209 @@
+---toml
+title = "Ditching Sonos for HifiBerry and Music Assistant"
+tags = ["Some tag"]
+---
+
+# The woes of Sonos
+
+We've had a Sonos speaker in our Kitchen for more than a decade.
+At first I was very happy with it; the speaker was easy to use, it integrated well with Spotify, and despite being a single fairly cheap the sound was pretty good.
+
+But gradually the experience got worse:
+
+1. The speaker sometimes didn't start playing songs via Spotify.
+1. We couldn't connect to the speaker via the Sonos app (having to unplug the speaker and pray to the Sonos god that it would be enough to fix it).
+1. Playback randomly paused.
+1. The speaker lost WIFI connection, reconnecting after a while.
+1. Finally, the radio integration stopped working.
+
+Still it could be worse, at least our speaker wasn't [bricked](https://news.ycombinator.com/item?id=21895086) and we supposedly dodged a bunch of issues by never upgrading to the new app.
+
+
+# The setup
+
+A. Use [Music Assistant][] as the central controller for streaming music, radio, and announcement sounds (such as the doorbell chime).
+A. Setup a [HifiBerry][] player that [Music Assistant][] can control.
+
+   It can also be controlled directly by the Spotify app or Bluetooth.
+
+A. Connect [Music Assistant][ha] with [Home Assistant][ha] to control playback via our smart-home dashboard and automations.
+A. Use the [Home Assistant Voice Preview Edition][] to control the speakers via voice commands.
+A. Setup more squeezebox players for [Music Assistant][] to control (for example allowing us to remotely play music on the Linux computer connected to the TV speakers).
+
+[ha]: https://www.home-assistant.io/
+[Home Assistant Voice Preview Edition]: https://www.home-assistant.io/voice-pe/
+
+# Music Assistant
+
+1. Install Music Assistant
+
+   I host my homelab things using docker compose and it was as simple as:
+
+  {path="docker-compose.yaml"}
+  ```yaml
+  services:
+    music-assistant-server:
+      image: ghcr.io/music-assistant/server:latest
+      container_name: music-assistant-server
+      restart: unless-stopped
+      # Network mode must be set to host for MA to work correctly
+      network_mode: host
+      volumes:
+        - ./music-assistant-server/data:/data/
+      # privileged caps (and security-opt) needed to mount smb folders within the container
+      cap_add:
+        - SYS_ADMIN
+        - DAC_READ_SEARCH
+      security_opt:
+        - apparmor:unconfined
+      environment:
+        - LOG_LEVEL=info
+
+    # And home assistant and other things.
+  ```
+
+1. Add providers
+
+   A provider is a source of music.
+   There's a bunch of them but for now I added Spotify and RadioBrowser:
+
+   ![](/images/ma_spotify.png)
+
+   The Spotify provider should automatically sync all Spotify playlists into [Music Assistant][] and it allows you to search and play any song on Spotify.
+
+   Radio stations from RadioBrowser won't show up automatically and you have to find them under the `Browse` tab and add them to the library, and then you can find them under the `Radio` tab.
+
+1. Add players
+
+   For [Music Assistant][] to recognize the squeezebox players we'll setup later we need to enable the Slimproto provider:
+
+   ![](/images/ma_players.png)
+
+   This should automatically add any squeezebox players on the network to [Music Assistant][].
+
+   ::: note
+   Quite a few different providers are supported.
+   I could even add our Sonos speaker as a player and we managed to once more listen to the radio on it.
+   Rejoice!
+   :::
+
+Open-source music management---particularly on Linux---has a reputation of being notoriously troublesome.
+But I've gotta say, [Music Assistant][] was simple to setup and it really does work well.
+
+# A HifiBerry player
+
+![The [HifiBerry AMP2][] on top of a Raspberry Pi 3, acting as the amplifier and smart music controller. All you need is to connect the passive speakers.](/images/hifiberry_pi.jpg)
+
+I was fairly lost in what kind of amplifier and music player I should get.
+
+There's a lot of options out there but I was worried about paying a lot of money for something I wasn't sure it would integrate well into my smart home setup.
+
+In the end I settled on a [HifiBerry AMP2](https://www.hifiberry.com/shop/boards/dealing-with-blocked-p5-holes-7/) that would slot into a Raspberry Pi.
+For simplicity I decided to start with their operating system [HifiBerryOS](https://www.hifiberry.com/hifiberryos/) that hopefully should "just work" and be open enough for me to manually fix things if needed.
+It was also cheap enough that I can replace it with something else if it doesn't work out.
+
+I didn't have to be worried as the little device does everything I need.
+
+
+## A squeezebox player
+
+HifiBerry can act as a squeezebox player by enabling the Squeezelite extension and then enabling the Squeezelite source.
+
+## Spotify Connect
+
+The downside of many of these music players is that there's _so_ many options.
+For Spotify for example you can:
+
+- Setup HifiBerry as a Spotify Connect client
+- Run a Spotify daemon (via [spotifyd][])
+- Setup HifiBerry as a squeezebox client and use the Spotify plugin from the [Lyrion Music Server][lms] or even [Music Assistant][] itself
+- If you're on iPhone you can use Airplay
+
+We wanted to be able to play from the Spotify app on our phones which is what Spotify Connect is made for.
+(Maybe the other options can do that as well but they're harder to setup.)
+
+There's no extra setup for Spotify Connect needed other than enabling it as a source.
+
+::: warn
+I ran into an issue where the Spotify app got stuck at "Connecting" when I tried to play to the device.
+
+This [was an issue with a static DNS entry][dns].
+To [fix it][host-fix] I had to remove `ap-gew4.spotify.com` from `/etc/hosts` on the device.
+
+[host-fix]: https://github.com/ashthespy/Vollibrespot/issues/13#issuecomment-2481246915
+[dns]: https://github.com/ashthespy/Vollibrespot/issues/13
+:::
+
+## Other sources
+
+I also enabled the Bluetooth source so I can listen to podcasts streamed from my phone.
+I don't have a need to stream music or radio from HifiBerry's web interface.
+
+# Home Assistant
+
+1. Connect to [Music Assistant][]
+
+   ![](/images/ma_ha.png)
+
+   ![](/images/ma_plugins.png)
+
+* Play a specific radio station
+
+  ```yaml
+  action: music_assistant.play_media
+  target:
+    entity_id: media_player.bkitchen
+  data:
+    media_id: P4 Norrbotten
+  ```
+
+* Play a track
+
+  ```yaml
+  action: music_assistant.play_media
+  target:
+    entity_id: media_player.bkitchen
+  data:
+    media_id: To Hell and Back
+    media_type: track
+  ```
+
+* Play a playlist
+
+  ```yaml
+  action: music_assistant.play_media
+  target:
+    entity_id: media_player.bkitchen
+  data:
+    media_id: Work
+    media_type: playlist
+  ```
+
+* Play a playlist with a random song
+
+  ```yaml
+  action: music_assistant.play_media
+  target:
+    entity_id: media_player.bkitchen
+  data:
+    media_id: Work
+    media_type: playlist
+    enqueue: replace
+
+  action: media_player.shuffle_set
+  target:
+    entity_id:
+      - media_player.bkitchen
+  data:
+    shuffle: true
+
+  action: media_player.media_next_track
+  target:
+    entity_id:
+      - media_player.bkitchen
+  ```
+
+# Voice control
+
+[Music Assistant]: https://www.music-assistant.io/
+[HifiBerry]: https://www.hifiberry.com/
