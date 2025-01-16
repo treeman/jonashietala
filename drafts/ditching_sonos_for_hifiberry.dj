@@ -5,7 +5,7 @@ tags = ["Some tag"]
 
 # The woes of Sonos
 
-We've had a Sonos speaker in our Kitchen for more than a decade.
+We've had a Sonos speaker in our kitchen for more than a decade.
 At first I was very happy with it; the speaker was easy to use, it integrated well with Spotify, and despite being a single fairly cheap the sound was pretty good.
 
 But gradually the experience got worse:
@@ -19,27 +19,64 @@ But gradually the experience got worse:
 Still it could be worse, at least our speaker wasn't [bricked](https://news.ycombinator.com/item?id=21895086) and we supposedly dodged a bunch of issues by never upgrading to the new app.
 
 
-# The setup
+# The new setup
 
-A. Use [Music Assistant][] as the central controller for streaming music, radio, and announcement sounds (such as the doorbell chime).
+A. Use [Music Assistant][] as the central controller for streaming music, radio, and announcement sounds (such as the doorbell chime) to different players and speakers.
 A. Setup a [HifiBerry][] player that [Music Assistant][] can control.
 
-   It can also be controlled directly by the Spotify app or Bluetooth.
+   Together with a pair of speakers it replaces the Sonos in the kitchen.
+   The player can also be controlled directly by the Spotify app or Bluetooth.
 
-A. Connect [Music Assistant][ha] with [Home Assistant][ha] to control playback via our smart-home dashboard and automations.
+A. Connect [Music Assistant][] with [Home Assistant][] to control playback via our smart-home dashboard and automations.
 A. Use the [Home Assistant Voice Preview Edition][] to control the speakers via voice commands.
-A. Setup more squeezebox players for [Music Assistant][] to control (for example allowing us to remotely play music on the Linux computer connected to the TV speakers).
+A. Setup more squeezebox players for [Music Assistant][] to control.
 
-[ha]: https://www.home-assistant.io/
-[Home Assistant Voice Preview Edition]: https://www.home-assistant.io/voice-pe/
+   To for example remotely play music on the computer connected to the TV speakers in the living room (the computer runs Void Linux, I'm not a fan of smart TVs).
 
-# Music Assistant
 
-1. Install Music Assistant
+# What is [Music Assistant][] and why is it awesome?
+
+[Music Assistant][] is a music management service that acts as a hub that connects different providers and players, letting you control your music from one central location.
+
+![Image showing how [Music Assistant][] bridges different sources with different players.
+Taken from [this Home Assistant blog post][ma2].](/images/ma_how_it_worps.jpg)
+
+So you could have this kind of setup and let [Music Assistant][] connect them together in whatever way you wish, including multi-room setups:
+
+{.center}
+| Provider |     | Player |
+|----------|------|--------------------------------|
+| Spotify (user 1)|     | Sonos (washing room) |
+| Spotify (user 2)   |     | Chromecast (TV) |
+| Radio |     |  Squeezebox player 1 (kitchen)|
+| Local storage |     | Squeezebox player 2 (living room) |
+
+::: warn
+Careful to not get nerd sniped;
+with room presence detection you could have the music follow you automatically as you move around the house.
+:::
+
+Here's a few reasons why I think [Music Assistant][] is awesome:
+
+::: plus
+* Freedom from the limitations of one ecosystem, now and in the future.
+* Can mix and match music from local storage, Spotify, and other providers.
+* One place to control all your speakers of varying types and connections.
+* [Integrates well with Home Assistant][ma2].
+:::
+
+::: note
+[Music Assistant][], as it's name implies, started out as a [Home Assistant][] component.
+That's why I initially dismissed it but [Music Assistant][] is now a standalone service.
+:::
+
+## How to set it up
+
+1. [Install Music Assistant][]
 
    I host my homelab things using docker compose and it was as simple as:
 
-  {path="docker-compose.yaml"}
+  {}
   ```yaml
   services:
     music-assistant-server:
@@ -50,7 +87,8 @@ A. Setup more squeezebox players for [Music Assistant][] to control (for example
       network_mode: host
       volumes:
         - ./music-assistant-server/data:/data/
-      # privileged caps (and security-opt) needed to mount smb folders within the container
+      # privileged caps (and security-opt) needed to mount
+      # smb folders within the container
       cap_add:
         - SYS_ADMIN
         - DAC_READ_SEARCH
@@ -71,7 +109,10 @@ A. Setup more squeezebox players for [Music Assistant][] to control (for example
 
    The Spotify provider should automatically sync all Spotify playlists into [Music Assistant][] and it allows you to search and play any song on Spotify.
 
-   Radio stations from RadioBrowser won't show up automatically and you have to find them under the `Browse` tab and add them to the library, and then you can find them under the `Radio` tab.
+   ::: tip
+   Radio stations from RadioBrowser won't show up automatically.
+   You first have to find them under the `Browse` tab and add them to the library, then they'll appear in the `Radio` tab.
+   :::
 
 1. Add players
 
@@ -98,46 +139,46 @@ I was fairly lost in what kind of amplifier and music player I should get.
 
 There's a lot of options out there but I was worried about paying a lot of money for something I wasn't sure it would integrate well into my smart home setup.
 
-In the end I settled on a [HifiBerry AMP2](https://www.hifiberry.com/shop/boards/dealing-with-blocked-p5-holes-7/) that would slot into a Raspberry Pi.
+In the end I settled on a [HifiBerry AMP2][] that would slot into a Raspberry Pi turning it onto an amplifier and a smart music controller.
 For simplicity I decided to start with their operating system [HifiBerryOS](https://www.hifiberry.com/hifiberryos/) that hopefully should "just work" and be open enough for me to manually fix things if needed.
-It was also cheap enough that I can replace it with something else if it doesn't work out.
 
-I didn't have to be worried as the little device does everything I need.
+The setup is also cheap enough that I can replace it with something else in the future without feeling to bad about it but so far my fears have been unfounded as the little device has done everything I wanted it to.
 
+## How to set it up
 
-## A squeezebox player
+1. A squeezebox player
 
-HifiBerry can act as a squeezebox player by enabling the Squeezelite extension and then enabling the Squeezelite source.
+  HifiBerry can act as a squeezebox player by enabling the Squeezelite extension and then enabling the Squeezelite source.
+  This should allow [Music Assistant][] to find and control the player.
 
-## Spotify Connect
+1. Spotify Connect
 
-The downside of many of these music players is that there's _so_ many options.
-For Spotify for example you can:
+  The downside of many of these music players is that there's _so_ many options.
+  For Spotify for example you can:
 
-- Setup HifiBerry as a Spotify Connect client
-- Run a Spotify daemon (via [spotifyd][])
-- Setup HifiBerry as a squeezebox client and use the Spotify plugin from the [Lyrion Music Server][lms] or even [Music Assistant][] itself
-- If you're on iPhone you can use Airplay
+  - Setup HifiBerry as a Spotify Connect client.
+  - Run a Spotify daemon (via [spotifyd][]).
+  - Setup HifiBerry as a squeezebox client and use the Spotify plugin from the [Lyrion Music Server][].
+  - If you're on iPhone you can use Airplay.
 
-We wanted to be able to play from the Spotify app on our phones which is what Spotify Connect is made for.
-(Maybe the other options can do that as well but they're harder to setup.)
+  While we can already play Spotify from [Music Assistant][] via squeezebox I wanted to be able to play from the Spotify app on our phones too (replicating our old setup with Sonos).
 
-There's no extra setup for Spotify Connect needed other than enabling it as a source.
+  Simply enabling the Spotify Connect source does just that.
 
-::: warn
-I ran into an issue where the Spotify app got stuck at "Connecting" when I tried to play to the device.
+  ::: warn
+  I ran into an issue where the Spotify mobile app got stuck at "Connecting" when I tried to play to HifiBerry.
 
-This [was an issue with a static DNS entry][dns].
-To [fix it][host-fix] I had to remove `ap-gew4.spotify.com` from `/etc/hosts` on the device.
+  This [was an issue with a static DNS entry][dns].
+  To [fix it][host-fix] I had to remove `ap-gew4.spotify.com` from `/etc/hosts` on the device.
 
-[host-fix]: https://github.com/ashthespy/Vollibrespot/issues/13#issuecomment-2481246915
-[dns]: https://github.com/ashthespy/Vollibrespot/issues/13
-:::
+  [host-fix]: https://github.com/ashthespy/Vollibrespot/issues/13#issuecomment-2481246915
+  [dns]: https://github.com/ashthespy/Vollibrespot/issues/13
+  :::
 
-## Other sources
+1. More sources
 
-I also enabled the Bluetooth source so I can listen to podcasts streamed from my phone.
-I don't have a need to stream music or radio from HifiBerry's web interface.
+  I also enabled the Bluetooth source so I can listen to podcasts streamed from my phone.
+  I don't have a need to stream music or radio from HifiBerry's web interface but they were useful as a debugging tool.
 
 # Home Assistant
 
@@ -147,7 +188,9 @@ I don't have a need to stream music or radio from HifiBerry's web interface.
 
    ![](/images/ma_plugins.png)
 
-* Play a specific radio station
+## How to...
+
+* Play a specific radio station?
 
   ```yaml
   action: music_assistant.play_media
@@ -157,7 +200,7 @@ I don't have a need to stream music or radio from HifiBerry's web interface.
     media_id: P4 Norrbotten
   ```
 
-* Play a track
+* Play a track?
 
   ```yaml
   action: music_assistant.play_media
@@ -168,7 +211,7 @@ I don't have a need to stream music or radio from HifiBerry's web interface.
     media_type: track
   ```
 
-* Play a playlist
+* Play a playlist?
 
   ```yaml
   action: music_assistant.play_media
@@ -179,17 +222,9 @@ I don't have a need to stream music or radio from HifiBerry's web interface.
     media_type: playlist
   ```
 
-* Play a playlist with a random song
+* Play a playlist randomized?
 
   ```yaml
-  action: music_assistant.play_media
-  target:
-    entity_id: media_player.bkitchen
-  data:
-    media_id: Work
-    media_type: playlist
-    enqueue: replace
-
   action: media_player.shuffle_set
   target:
     entity_id:
@@ -197,13 +232,27 @@ I don't have a need to stream music or radio from HifiBerry's web interface.
   data:
     shuffle: true
 
-  action: media_player.media_next_track
+  action: music_assistant.play_media
   target:
-    entity_id:
-      - media_player.bkitchen
+    entity_id: media_player.bkitchen
+  data:
+    media_id: Work
+    media_type: playlist
+    enqueue: replace
   ```
 
 # Voice control
 
+
+# More Squeezebox clients
+
+[Squeezelite]: https://github.com/ralph-irving/squeezelite
 [Music Assistant]: https://www.music-assistant.io/
 [HifiBerry]: https://www.hifiberry.com/
+[Home Assistant]: https://www.home-assistant.io/
+[Home Assistant Voice Preview Edition]: https://www.home-assistant.io/voice-pe/
+[Lyrion Music Server]: https://lyrion.org/
+[spotifyd]: https://github.com/Spotifyd/spotifyd
+[Install Music Assistant]: https://www.music-assistant.io/installation/
+[ma2]: https://www.home-assistant.io/blog/2024/05/09/music-assistant-2/
+[HifiBerry AMP2]: https://www.hifiberry.com/shop/boards/dealing-with-blocked-p5-holes-7/

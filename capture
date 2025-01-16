@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OUTPUT="$SCRIPT_DIR/script_outputs/$1-$(date +'%Y-%m-%d_%H-%M-%S').script_output"
+script -q -c "$@" $OUTPUT
