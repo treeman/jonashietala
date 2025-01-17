@@ -258,6 +258,8 @@ Easy table So cool
 
 So we should do `foo` then `bar` then `quux`
 
+Inline `code` here `let x = 2;`{lang=rust} `let x = 2;`{=rust}
+
 ```
 ```
 

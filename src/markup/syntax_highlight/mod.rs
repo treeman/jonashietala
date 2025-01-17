@@ -11,6 +11,10 @@ use regex::Regex;
 use std::borrow::Cow;
 use tracing::warn;
 
+pub fn has_highlighter(lang_id: &str) -> bool {
+    HighlighterType::find(lang_id).is_some()
+}
+
 pub enum Code<'a> {
     Inline {
         code: &'a str,
@@ -25,7 +29,7 @@ pub enum Code<'a> {
     },
 }
 
-impl<'a> Code<'a> {
+impl Code<'_> {
     pub fn push(&self, s: &mut String) {
         match self {
             Self::Inline { code, lang } => {

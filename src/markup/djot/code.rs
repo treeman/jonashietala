@@ -65,6 +65,85 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
     }
 }
 
+// TODO
+// Use `let n = 1;`{=rust] instead of {lang=rust}
+//
+// BUT we need to be able to highlight or embed html (the only exception).
+// So keep `{lang=html}` but transform `{=rust}` for all languages except for html.
+//
+// We can still highlight `lang=xxx` using this kind of query:
+//
+// ((verbatim
+//   (content) @injection.content)
+//   (inline_attribute
+//     (args
+//       (key_value
+//         ((key) @key
+//           (#eq? @key "lang"))
+//         (value) @injection.language))))
+
+// pub struct InlineCodeSyntaxHighlight<'a, I: Iterator<Item = Event<'a>>> {
+//     parent: MultiPeek<I>,
+//     event_queue: Vec<Event<'a>>,
+// }
+//
+// impl<'a, I: Iterator<Item = Event<'a>>> InlineCodeSyntaxHighlight<'a, I> {
+//     pub fn new(parent: I) -> Self {
+//         Self {
+//             parent: parent.multipeek(),
+//             event_queue: vec![],
+//         }
+//     }
+// }
+//
+// impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'a, I> {
+//     type Item = Event<'a>;
+//
+//     fn next(&mut self) -> Option<Self::Item> {
+//         if let Some(event) = self.event_queue.pop() {
+//             return Some(event);
+//         }
+//
+//         let (format, attrs) = match self.parent.next()? {
+//             Event::Start(Container::RawInline { format }, attrs) => (format, attrs),
+//             other => return Some(other),
+//         };
+//
+//         if !has_highlighter(format) {
+//             return Some(Event::Start(Container::RawInline { format }, attrs));
+//         }
+//
+//         // Now lets eat it up!
+//         let mut code = String::new();
+//         loop {
+//             match self.parent.next()? {
+//                 Event::End(Container::RawInline { format: end_format }) => {
+//                     if format == end_format {
+//                         break;
+//                     }
+//                 }
+//                 Event::Str(text) => code.push_str(&text),
+//                 x => {
+//                     panic!("Unexpected event: {x:?}");
+//                 }
+//             }
+//         }
+//
+//         let mut res = String::new();
+//         Code::Inline {
+//             code: &code,
+//             lang: Some(format),
+//         }
+//         .push(&mut res);
+//
+//         let html = Container::RawBlock { format: "html" };
+//
+//         self.event_queue.push(Event::End(html.clone()));
+//         self.event_queue.push(Event::Str(res.into()));
+//         Some(Event::Start(html, Attributes::new()))
+//     }
+// }
+
 pub struct InlineCodeSyntaxHighlight<'a, I: Iterator<Item = Event<'a>>> {
     parent: MultiPeek<I>,
     event_queue: Vec<Event<'a>>,
@@ -182,6 +261,23 @@ let square x = x * x
         // Text("rust end")
         let s = r"Inline `let x = 2;`{lang=rust} end";
         let res = convert(s)?;
+        assert!(res.starts_with(
+            r#"<p>Inline 
+<code class="highlight rust">"#
+        ));
+        assert!(res.ends_with(r#"</code> end</p>"#));
+        Ok(())
+    }
+
+    #[test]
+    fn test_highlight_raw_inline_code() -> Result<()> {
+        // Text
+        // ..
+        // Code
+        // Text("rust end")
+        let s = r"Inline `let x = 2;`{=rust} end";
+        let res = convert(s)?;
+        dbg!(&res);
         assert!(res.starts_with(
             r#"<p>Inline 
 <code class="highlight rust">"#

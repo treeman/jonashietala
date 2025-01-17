@@ -15,9 +15,6 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for DropOffset<
     type Item = Event<'a>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        self.parent.next().map(|x| {
-            // dbg!(&x);
-            x.0
-        })
+        self.parent.next().map(|x| x.0)
     }
 }

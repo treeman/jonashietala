@@ -340,10 +340,6 @@ impl Group {
         }
         if !self.tags.is_empty() {
             for tag in &post.tags {
-                // if post.series_id == Some("voron_trident".to_string()) {
-                //     dbg!(&tag);
-                //     dbg!(&self.tags);
-                // }
                 if self.tags.contains(tag.id.as_str()) {
                     return true;
                 }
