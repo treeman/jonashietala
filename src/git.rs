@@ -37,6 +37,8 @@ lazy_static! {
         "52025a7683b2f882ff800eeb6d4e874cab2f8aa2",
         // Rework tags a little
         "9074ed5f7aa581bd1110555379a3e9cbdd799517",
+        // Use `{=rust}` instead of `{lang=rust} for inline highlighting
+        "b5310570e82f3b89792a5987214344627b4f8f3b"
     ]
     .into();
 }
