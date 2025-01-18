@@ -1,6 +1,6 @@
 ---toml
 title = "Ditching Sonos for HifiBerry and Music Assistant"
-tags = ["Some tag"]
+tags = ["Home Assistant", "Homelab"]
 ---
 
 # The woes of Sonos
@@ -31,7 +31,7 @@ A. Connect [Music Assistant][] with [Home Assistant][] to control playback via o
 A. Use the [Home Assistant Voice Preview Edition][] to control the speakers via voice commands.
 A. Setup more squeezebox players for [Music Assistant][] to control.
 
-   To for example remotely play music on the computer connected to the TV speakers in the living room (the computer runs Void Linux, I'm not a fan of smart TVs).
+   To for example remotely play music on the computer connected to the TV speakers in the living room (I'm not a fan of smart TVs).
 
 
 # What is [Music Assistant][] and why is it awesome?
@@ -181,11 +181,18 @@ The setup is also cheap enough that I can replace it with something else in the 
 
 # Home Assistant
 
-1. Connect to [Music Assistant][]
+[Music Assistant][] naturally integrates well with [Home Assistant][].
+Setup is straightforward:
+
+1. Add the [Music Assistant][] integration:
 
    ![](/images/ma_ha.png)
 
+1. Enable the [Home Assistant][] plugin in [Music Assistant][]:
+
    ![](/images/ma_plugins.png)
+
+With this all players in [Music Assistant][] are exposed to [Home Assistant][] and you can create automations and all that good stuff.
 
 ## How to...
 
@@ -242,8 +249,18 @@ The setup is also cheap enough that I can replace it with something else in the 
 
 # Voice control
 
+# Expanding the setup
 
-# More Squeezebox clients
+It started out as a simple quest to replace a single Sonos speaker but [Music Assistant][] makes it so easy to expand the setup:
+
+- A squeezebox client for the living room speakers.
+
+  I hate modern smart TVs with a passion so to stream we use a computer running Linux.
+  We have a regular, dumb, amplifier with some speakers connected to the TV.
+
+  [Squeezelite][] turns the computer into a squeezebox client, transforming the setup into a smart player for [Music Assistant][] to stream music to.
+
+- x
 
 [Squeezelite]: https://github.com/ralph-irving/squeezelite
 [Music Assistant]: https://www.music-assistant.io/
