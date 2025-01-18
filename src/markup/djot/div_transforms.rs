@@ -617,7 +617,7 @@ Text
 After
 "#;
         let s = convert(s)?;
-        assert!(s.contains(r#"<div class="changelog"><div class="items">"#));
+        assert!(s.contains(r#"<section class="changelog">"#));
         Ok(())
     }
 }

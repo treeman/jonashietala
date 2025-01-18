@@ -76,7 +76,6 @@ That's why I initially dismissed it but [Music Assistant][] is now a standalone 
 
    I host my homelab things using docker compose and it was as simple as:
 
-  {}
   ```yaml
   services:
     music-assistant-server:

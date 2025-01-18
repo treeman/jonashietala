@@ -156,21 +156,8 @@ impl<'a, I: Iterator<Item = Event<'a>>> InlineCodeSyntaxHighlight<'a, I> {
             event_queue: vec![],
         }
     }
-}
 
-impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'a, I> {
-    type Item = Event<'a>;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if let Some(event) = self.event_queue.pop() {
-            return Some(event);
-        }
-
-        let attrs = match self.parent.next()? {
-            Event::Start(Container::Verbatim, attrs) => attrs,
-            other => return Some(other),
-        };
-
+    fn transform_verbatim(&mut self, attrs: Attributes<'a>) -> Option<Event<'a>> {
         let lang = match attrs.get("lang") {
             Some(lang) => lang.to_string(),
             None => return Some(Event::Start(Container::Verbatim, attrs)),
@@ -200,6 +187,63 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'
         self.event_queue.push(Event::End(html.clone()));
         self.event_queue.push(Event::Str(res.into()));
         Some(Event::Start(html, Attributes::new()))
+    }
+
+    fn transform_raw_inline(
+        &mut self,
+        format: &'a str,
+        attrs: Attributes<'a>,
+    ) -> Option<Event<'a>> {
+        if !has_highlighter(format) {
+            return Some(Event::Start(Container::RawInline { format }, attrs));
+        }
+
+        // Now lets eat it up!
+        let mut code = String::new();
+        loop {
+            match self.parent.next()? {
+                Event::End(Container::RawInline { format: end_format }) => {
+                    if format == end_format {
+                        break;
+                    }
+                }
+                Event::Str(text) => code.push_str(&text),
+                x => {
+                    panic!("Unexpected event: {x:?}");
+                }
+            }
+        }
+
+        let mut res = String::new();
+        Code::Inline {
+            code: &code,
+            lang: Some(format),
+        }
+        .push(&mut res);
+
+        let html = Container::RawBlock { format: "html" };
+
+        self.event_queue.push(Event::End(html.clone()));
+        self.event_queue.push(Event::Str(res.into()));
+        Some(Event::Start(html, Attributes::new()))
+    }
+}
+
+impl<'a, I: Iterator<Item = Event<'a>>> Iterator for InlineCodeSyntaxHighlight<'a, I> {
+    type Item = Event<'a>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if let Some(event) = self.event_queue.pop() {
+            return Some(event);
+        }
+
+        match self.parent.next()? {
+            Event::Start(Container::Verbatim, attrs) => self.transform_verbatim(attrs),
+            Event::Start(Container::RawInline { format }, attrs) => {
+                self.transform_raw_inline(format, attrs)
+            }
+            other => Some(other),
+        }
     }
 }
 
@@ -255,43 +299,25 @@ let square x = x * x
 
     #[test]
     fn test_highlight_inline_code() -> Result<()> {
-        // Text
-        // ..
-        // Code
-        // Text("rust end")
         let s = r"Inline `let x = 2;`{lang=rust} end";
         let res = convert(s)?;
-        assert!(res.starts_with(
-            r#"<p>Inline 
-<code class="highlight rust">"#
-        ));
+        assert!(res.starts_with("<p>Inline \n<code class=\"highlight rust\">"));
         assert!(res.ends_with(r#"</code> end</p>"#));
         Ok(())
     }
 
     #[test]
     fn test_highlight_raw_inline_code() -> Result<()> {
-        // Text
-        // ..
-        // Code
-        // Text("rust end")
         let s = r"Inline `let x = 2;`{=rust} end";
         let res = convert(s)?;
-        dbg!(&res);
-        assert!(res.starts_with(
-            r#"<p>Inline 
-<code class="highlight rust">"#
-        ));
+        println!("{}", &res);
+        assert!(res.starts_with("<p>Inline \n<code class=\"highlight rust\">"));
         assert!(res.ends_with(r#"</code> end</p>"#));
         Ok(())
     }
 
     #[test]
     fn test_highlight_inline_code_no_escape() -> Result<()> {
-        // Text
-        // ..
-        // Code
-        // Text("rust end")
         let s = r"`x->y`{lang=c}";
         let res = convert(s)?;
         assert_eq!(res, "<p>\n<code class=\"highlight c\">x<span class=\"punctuation accessor c\">-&gt;</span>y</code></p>");
@@ -300,10 +326,6 @@ let square x = x * x
 
     #[test]
     fn test_highlight_code_block_no_escape() -> Result<()> {
-        // Text
-        // ..
-        // Code
-        // Text("rust end")
         let s = r"```c
 x->y
 ```";
