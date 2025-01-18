@@ -261,7 +261,7 @@ bool tree_sitter_sdjot_external_scanner_scan(void *payload, TSLexer *lexer,
 To decide if we're going to close the paragraph early, we'll look ahead for any `:::`, and if so we'll close it without consuming any characters.
 This might not be the most efficient solution because we'll have to parse the `:::` again, but it gets the job done.
 
-The matched token should be stored in `lexer->result_symbol`{lang=c}:
+The matched token should be stored in `lexer->result_symbol`{=c}:
 
 ```c
 static bool parse_close_paragraph(TSLexer *lexer) {
@@ -284,7 +284,7 @@ So `:::` would be marked as `_close_paragraph` (which will be ignored by the out
 To prevent this, we turn `_close_paragraph` into a zero-width token by marking the end before advancing the lexer.
 
 How do we advance the lexer?
-We call `lexer->advance`{lang=c}:
+We call `lexer->advance`{=c}:
 
 ```c
 static uint8_t consume_chars(TSLexer *lexer, char c) {
@@ -886,7 +886,7 @@ emphasis: ($) => prec.left(seq("_", $._inline, "_")),
 _text: (_) => /[^\n]/,
 ```
 
-When we try to match a `_` then the grammar can match either `emphasis` or `_text` because `_` matches both `"_"`{lang=javascript} and `/[^\n]/`{lang=javascript}.
+When we try to match a `_` then the grammar can match either `emphasis` or `_text` because `_` matches both `"_"`{=javascript} and `/[^\n]/`{=javascript}.
 The issue seems to be that Tree-sitter doesn't recognize this as a conflict.
 
 If we instead add a fallback with a `_` string then Tree-sitter will treat it as a conflict:
@@ -1245,7 +1245,7 @@ What the callback does is inject the return value into the `span` element, like 
 <span CALLBACK_RESULT >highlight</span>
 ```
 
-So we'd like to return something like `"class=\"markup italic\""`{lang=rust}, using `attr` which is only a `usize` into `HIGHLIGHT_NAMES`:
+So we'd like to return something like `"class=\"markup italic\""`{=rust}, using `attr` which is only a `usize` into `HIGHLIGHT_NAMES`:
 
 ```rust
 renderer.render(highlights, code.as_bytes(), &|attr| {

@@ -70,7 +70,7 @@ These are the main annoyances I wanted to solve with this rewrite:
            >>= deIndexUrls
    ```
 
-   Even if you don't understand the `$`{lang=haskell} and `>>=`{lang=haskell}, I still think it's clear that we're finding files from the `static/` folder, sending them to `pandocCompiler` (to convert from markdown), to some templates and then de-indexing urls (to avoid links ending with `index.html`).
+   Even if you don't understand the `$`{=haskell} and `>>=`{=haskell}, I still think it's clear that we're finding files from the `static/` folder, sending them to `pandocCompiler` (to convert from markdown), to some templates and then de-indexing urls (to avoid links ending with `index.html`).
 
    Simple and clear!
 
@@ -285,9 +285,9 @@ At first my plan was to do this with the generalized preprocessing step, but the
 { :notice }
 ```
 
-That would call a `notice` parser, which in this case would create a `<aside>`{lang=html} tag instead of a `<blockquote>`{lang=html} tag, while preserving the parsed markdown.
+That would call a `notice` parser, which in this case would create a `<aside>`{hl=html} tag instead of a `<blockquote>`{hl=html} tag, while preserving the parsed markdown.
 
-While there are existing crates that adds code highlighting using [syntect], I wrote my own that wraps it in a `<code>`{lang=html} tag and supports inline code highlighting. For example "Inside row: `let x = 2;`{lang=rust}" is produced by:
+While there are existing crates that adds code highlighting using [syntect], I wrote my own that wraps it in a `<code>`{hl=html} tag and supports inline code highlighting. For example "Inside row: `let x = 2;`{=rust}" is produced by:
 
 ```md
 Inside row: `let x = 2;`rust
@@ -297,7 +297,7 @@ Inside row: `let x = 2;`rust
 
 I didn't spend that much time into improving the performance, but two things had a significant impact:
 
-The first thing is that if you use [syntect] and have custom syntaxes, you really should [compress `SyntaxSet`{lang=rust} to a binary format][syntect-compress].
+The first thing is that if you use [syntect] and have custom syntaxes, you really should [compress `SyntaxSet`{=rust} to a binary format][syntect-compress].
 
 The other thing was to parallelize rendering using [rayon][]. Rendering is the markdown parsing, applying templates and creating the output file. Rayon is great is this task is limited by CPU and it's very easy to use (if the code is structured correctly). This is for instance a simplified view of the rendering:
 
@@ -317,7 +317,7 @@ fn render(&self) -> Result<()> {
 }
 ```
 
-To parallelize this all we need to do is change `iter()`{lang=rust} into `par_iter()`{lang=rust}:
+To parallelize this all we need to do is change `iter()`{=rust} into `par_iter()`{=rust}:
 
 ```rust
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};

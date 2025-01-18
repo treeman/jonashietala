@@ -19,7 +19,7 @@ Create
 dd if=usbboot.img of=/dev/sdX bs=1M
 ```
 
-Be sure `/dev/sdX` is the usb, dd will wipe everything! Simple way is to `ls /dev`{lang=bash} before and after plugging in device.  Boot from bios (f2 or f10).
+Be sure `/dev/sdX` is the usb, dd will wipe everything! Simple way is to `ls /dev`{=bash} before and after plugging in device.  Boot from bios (f2 or f10).
 
 
 ## Make partitions

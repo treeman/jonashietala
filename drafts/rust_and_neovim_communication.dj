@@ -121,7 +121,7 @@ I couldn't find a channel to pass internal messages [like I use in Rust](#Channe
 
 I figured I'll solve this by storing all replies (identified by a message id) and the `call` function can just wait until a message with a matching id has been received.
 
-The `call` function that allows the `"ListUrls"`{lang=lua} call above to work looks like this:
+The `call` function that allows the `"ListUrls"`{=lua} call above to work looks like this:
 
 ```lua
 M.call = function(msg, cb)

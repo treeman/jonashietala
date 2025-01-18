@@ -117,7 +117,7 @@ I chose to use the [::before][before] pseudo-element on the `events` div to simu
    width: 1px;
 ```
 
-We also need to set the wrapper `.events`{lang=scss} to use relative positioning, otherwise the timeline will start from the top of the page, not the container:
+We also need to set the wrapper `.events`{=scss} to use relative positioning, otherwise the timeline will start from the top of the page, not the container:
 
 ```scss
 .events {
@@ -414,7 +414,7 @@ To save you some grief, I found that `align-items: baseline` does a better job t
 # Vertical spacing
 
 It feels a bit cramped so lets space things out.
-One way is to simply add a `margin-bottom: 1em;`{lang=scss} but that would add a useless space below the last event (that we'd have to remove another way).
+One way is to simply add a `margin-bottom: 1em;`{=scss} but that would add a useless space below the last event (that we'd have to remove another way).
 
 I think a cleaner way is to use [flexbox][] and `row-gap` to only specify spacing between elements:
 

@@ -296,7 +296,7 @@ Here they are:
 
 Yupp, I use numbers on home-row (and the low index, which is the next best key apart from the thumbs). They're laid out prioritizing lower digits, slightly de-emphasizing index fingers as they're responsible for two digits. Separating even from odd numbers made sense from an optimization aspect, but it also made it easier to learn.
 
-What makes this special is that the layer switch is smart, similar to CAPSWORD as the layer turns off on space (which I call NUMWORD). So if I want to write `if x == 3 do`{lang=elixir} then I type `if x == <NUMWORD>3 do` and the layer turns off after the space.
+What makes this special is that the layer switch is smart, similar to CAPSWORD as the layer turns off on space (which I call NUMWORD). So if I want to write `if x == 3 do`{=elixir} then I type `if x == <NUMWORD>3 do` and the layer turns off after the space.
 
 What about `k`, `j` and `G`? Those are for easy navigation with Vim. So `13k` means "13 lines above" and `127G` means "line number 127". Naturally, the layer turns itself off, so it doesn't interfere with my next commands. I use it all the time and it's fantastic.
 

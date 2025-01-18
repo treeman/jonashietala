@@ -74,13 +74,13 @@ Some common symbol sequences (like `->`, ` != `, or ` ``` `) exists as [combos][
 
 ![Numbers layer. The browner keys (like `J`) turn off [NUMWORD](#NUMWORD).](/images/cybershard-layout/_NUM.svg){embed=true}
 
-While I can activate the number layer persistently (using [leader sequences](#Leader-sequences)) I typically use [combos][num-sym-combos] for single digitis (like `0`), or [NUMWORD][] for larger numbers (like `1984`).
+While I can activate the number layer persistently (using [leader sequences](#Leader-sequences)) I typically use [combos](#Thumb-key-combos) for single digits (like `0`), or [NUMWORD][] for larger numbers (like `1984`).
 
 [NUMWORD][] makes the number layer smart, so it will deactivate when certain keys are pressed.
 It's used to type numbers in text or code and for relative movement in Neovim, where `17J` would move 17 lines down and then turn off the number layer.
 Jumping directly to a line in Neovim with `12G` is also made convenient.
 
-If I want to enter the layer without it turning off I can either use [leadere sequences](#Leader-sequences) to activate it persistently or hold the [NUMWORD][] [combo](#Combos-over-keyboard-halfs) (hold both thumbs).
+If I want to enter the layer without it turning off I can either use [leader sequences](#Leader-sequences) to activate it persistently or hold the [NUMWORD][] [combo](#Combos-over-keyboard-halfs) (hold both thumbs).
 The layer won't release until both thumb keys are released, so `Space` can be tapped with the left thumb without leaving the number layer.
 
 `@u` is there to easily activate macros in Neovim. For example `7@u` in the number layer would run the `u` macro 7 times and then turn off [NUMWORD][].
@@ -120,7 +120,7 @@ The keys on the right side is there just because and are rarely, if ever, used.
 
 ![Workspace layer. All keys have an implicit `Gui` modifier.](/images/cybershard-layout/_WNAV.svg){embed=true}
 
-This is used for all window and workspace management in [xmonad][]. Some common operations are also on the [navigation layer](#Navigation-layer).
+This is used for all window and workspace management in [xmonad][]. Some common operations are also on the [navigation layer](#Navigation-layers).
 [Auto shift](#Long-press) works and can used to send a window to another workspace (`Gui` + `Shift` + `2`).
 
 ## Windows layer
@@ -224,7 +224,7 @@ I have similar combos for the [function keys](#Function-keys).
 
 ![](/images/cybershard-layout/boot.svg){embed=true}
 
-whe keycode `QMK_BOOT` enters boot mode for the microcontroller connected via USB, making it easy to update the keymap on the keyboard.
+The keycode `QMK_BOOT` enters boot mode for the microcontroller connected via USB, making it easy to update the keymap on the keyboard.
 These two 5-key combos (one for each half) are almost impossible to trigger accidentally while being easily accessible.
 
 
@@ -292,8 +292,8 @@ The trackball is normally configured to move the mouse as a regular trackball.
 There are different modes that alters the behavior of the trackball:
 
 1. Lower the DPI when `Space` or `_` are held (the mouse moves slower when the [navigation layer](#Navigation-layers) or the [mouse layer](#Mouse-layer) are active).
-1. Raise the DPI when the [`MOD` combo](#Horizontal-combos) is held (the mouse moves faster).
-1. Scroll instead of moving the mouse when the [`SYM` combo](#Horizontal-combos) is held.
+1. Raise the DPI when the [`MOD` combo](#Neighbour-combos) is held (the mouse moves faster).
+1. Scroll instead of moving the mouse when the [`SYM` combo](#Neighbour-combos) is held.
 
 # More info
 

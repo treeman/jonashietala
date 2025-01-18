@@ -52,14 +52,14 @@ typing violation found at:
 │                                                                 ~
 ```
 
-(The type checker cannot yet resolve `event_time` to the`Time`{lang=elixir} struct, leaving it as `dynamic()` in the text above.)
+(The type checker cannot yet resolve `event_time` to the`Time`{=elixir} struct, leaving it as `dynamic()` in the text above.)
 
-The issue here as that `<` isn't overloaded for the `Time`{lang=elixir} struct (like it would be in for instance Rust) and will instead perform structural comparison.
+The issue here as that `<` isn't overloaded for the `Time`{=elixir} struct (like it would be in for instance Rust) and will instead perform structural comparison.
 
-You should use `Time.before?`{lang=elixir} instead of `<` (and `DateTime.before`{lang=elixir} for `DateTime` etc).
+You should use `Time.before?`{=elixir} instead of `<` (and `DateTime.before`{=elixir} for `DateTime` etc).
 
 ::: note
-As it happens for `Time`{lang=elixir} this doesn't seem to be an issue as the structure _happens_ to perform the comparisons in the same order as `Time.before?`{lang=elixir}, which this test verifies:
+As it happens for `Time`{=elixir} this doesn't seem to be an issue as the structure _happens_ to perform the comparisons in the same order as `Time.before?`{=elixir}, which this test verifies:
 
 ```elixir
 test "check_times" do
@@ -75,7 +75,7 @@ test "check_times" do
 end
 ```
 
-This is not the case for `DateTime`{lang=elixir}, which did cause a production bug in my home automation system, that my spouse complained about...
+This is not the case for `DateTime`{=elixir}, which did cause a production bug in my home automation system, that my spouse complained about...
 
 Remember this when you think about types: *type checking saves relationships*.
 :::
@@ -91,7 +91,7 @@ case Supervisor.start_child(supervisor, child_spec) do
     Logger.info("Got pid: #{inspect(pid)}")
 ```
 
-(There's a missing `r` in `:already_stated`{lang=elixir}.)
+(There's a missing `r` in `:already_stated`{=elixir}.)
 
 At the moment this doesn't produce an error but I really hope we'll reach this point sooner rather than later as I make these kinds of mistakes all the time.
 I think I catch most of these with tests but I'm sure some slip through.

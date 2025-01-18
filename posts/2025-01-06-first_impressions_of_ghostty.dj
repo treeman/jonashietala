@@ -115,7 +115,7 @@ I didn't know I needed this in my life.
 With [alacritty][] I have an annoying problem where I need to use a very different font size on my laptop and my desktop (`8` and `12`).
 This wasn't always the case and I think something may have changed in [alacritty][] but I'm not sure.
 
-[Ghostty][] doesn't have this problem and I can now use the same font settings across my machines (`font-size = 16`{lang=ghostty}).
+[Ghostty][] doesn't have this problem and I can now use the same font settings across my machines (`font-size = 16`{=ghostty}).
 
 # Ligature support
 

@@ -26,7 +26,7 @@ Dashes---and--some...
 No "spec"
 ```
 
-Inline `code` here `let x = 2;`{lang=rust}
+Inline `code` here `let x = 2;`{=rust}
 
 { #duplicate-heading }
 ## Second level header

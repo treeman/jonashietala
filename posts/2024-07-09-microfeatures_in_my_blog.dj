@@ -132,7 +132,7 @@ A. Syntax highlight for inline code elements.
 
    Highlighting code blocks is standard but I wonder, why don't we also highlight inline code?
 
-   It's something I added to be able to refer back to values like `"-NoHU"`{lang=lua}, `0`{lang=lua}, and `require("telescope.builtin").find_files()`{lang=lua} when explaining what happens inside a code block.
+   It's something I added to be able to refer back to values like `"-NoHU"`{=lua}, `0`{=lua}, and `require("telescope.builtin").find_files()`{=lua} when explaining what happens inside a code block.
    A sentence with color is much more pleasing than the colorless `"-NoHU"`, `0`, and `require("telescope.builtin").find_files()` don't you think?
 
 A. Ability to highlight lines.
@@ -196,7 +196,7 @@ The table of content is generated from the first two heading levels and it works
 ## Flex and gallery display for images
 
 I sometimes want to display two or more images next to each other.
-Instead of having images embedded like normal I place two or more images in a `<figure>`{lang=html} and use [flexbox][] to place them next to each other:
+Instead of having images embedded like normal I place two or more images in a `<figure>`{hl=html} and use [flexbox][] to place them next to each other:
 
 ::: Flex
 ![](/images/hextraction/fancy_board.jpg)

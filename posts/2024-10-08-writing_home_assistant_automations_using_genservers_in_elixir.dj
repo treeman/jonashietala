@@ -114,7 +114,7 @@ If we run this then Home Assistant will send us a message upon connection:
 ```
 
 This means we need to authenticate using a [long lived access token](https://community.home-assistant.io/t/how-to-get-long-lived-access-token/162159/6).
-Reading the [websocket API][] we should respond with an `"auth"`{lang="elixir"} message:
+Reading the [websocket API][] we should respond with an `"auth"`{=elixir} message:
 
 ```elixir
 defp handle_msg(%{"type" => "auth_required"}, state) do
@@ -147,7 +147,7 @@ And now we get another unhandled message, telling us our auth succeeded:
 
 After authenticating we can tell Home Assistant that we'd like to subscribe to all state changes in the system (so we can  write automations that trigger on a state change).
 
-I'm lazy so I send the subscription message when I'm handling (ignoring) the `"auth_ok"`{lang="elixir"} message:
+I'm lazy so I send the subscription message when I'm handling (ignoring) the `"auth_ok"`{=elixir} message:
 
 ```elixir
 defp handle_msg(%{"type" => "auth_ok"}, state) do
@@ -156,7 +156,7 @@ defp handle_msg(%{"type" => "auth_ok"}, state) do
 end
 ```
 
-With this up we'll get another acknowledgment that our subscribe command succeeded (matching `id: 1`{lang="elixir"}):
+With this up we'll get another acknowledgment that our subscribe command succeeded (matching `id: 1`{=elixir}):
 
 ```
 [warning] Unhandled message: %{"id" => 1, "result" => nil, "success" => true, "type" => "result"}
@@ -175,7 +175,7 @@ And we start receiving state changed messages:
 At this point I'd like to take a step and plan ahead a little.
 We have our state changed events but how should we send them to the automations we'll write?
 
-One option might be to let `WebSocketClient`{lang="elixir"} loop over all automations and call them directly:
+One option might be to let `WebSocketClient`{=elixir} loop over all automations and call them directly:
 
 ```elixir
 defp handle_msg(msg = %{"type" => "event"}, state) do
@@ -192,7 +192,7 @@ We'd have to keep the `automations` list updated and what about other services t
 
 Instead I opted to use [Phoenix.PubSub][], a publisher/subscriber service that can broadcast messages throughout your application.
 
-First we'll need to start an instance in our supervision tree (called `Haex.PubSub`{lang="elixir"}):
+First we'll need to start an instance in our supervision tree (called `Haex.PubSub`{=elixir}):
 
 {hl=5 path="lib/haex/application.ex"}
 ```elixir
@@ -228,7 +228,7 @@ defp handle_msg(%{"type" => "event", "event" => event}, state) do
 end
 ```
 
-If a service wants to receive the messages they'll subscribe to the `"state_changed"`{lang="elixir"} channel:
+If a service wants to receive the messages they'll subscribe to the `"state_changed"`{=elixir} channel:
 
 ```elixir
 Phoenix.PubSub.subscribe(Haex.PubSub, "state_changed")
@@ -296,8 +296,8 @@ GenServers represent different kind of "object oriented programming",
 very similar to the [Actor Model][].
 :::
 
-In the above example we subscribe to the `"time"`{lang="elixir"} channel and then receive a message with the `handle_info` callback.
-(The `"time"`{lang="elixir"} message is generated from a `"state_changed"`{lang="elixir"} message for the entity `sensor.time` that's updated every minute.)
+In the above example we subscribe to the `"time"`{=elixir} channel and then receive a message with the `handle_info` callback.
+(The `"time"`{=elixir} message is generated from a `"state_changed"`{=elixir} message for the entity `sensor.time` that's updated every minute.)
 
 # Let there be light
 
@@ -395,7 +395,7 @@ def handle_info({:time, time}, state) do
 end
 ```
 
-At line 3 we're using `send()` to send the message `:transition_sunrise`{lang="elixir"} to ourselves and at line 4 we're tracking inserting `:light_state`{lang="elixir"} as `{:sunrise, 0}`{lang="elixir"}, to let the GenServer keep track of what transition we should perform.
+At line 3 we're using `send()` to send the message `:transition_sunrise`{=elixir} to ourselves and at line 4 we're tracking inserting `:light_state`{=elixir} as `{:sunrise, 0}`{=elixir}, to let the GenServer keep track of what transition we should perform.
 
 This message is again handled by `handle_info`:
 
@@ -417,8 +417,8 @@ def handle_info(:transition_sunrise, state = %{light_state: {:sunrise, _}}) do
 end
 ```
 
-The function `set_sunrise_light` sets the light depending on `{:sunrise, sunrise_state}`{lang="elixir"} and returns `:done`{lang="elixir"} when we've set the last transition.
-Pay attention to line 10 where we send another `:transition_sunrise`{lang="elixir"} message but with a delay, continuing the recursion until we've set handled all transitions.
+The function `set_sunrise_light` sets the light depending on `{:sunrise, sunrise_state}`{=elixir} and returns `:done`{=elixir} when we've set the last transition.
+Pay attention to line 10 where we send another `:transition_sunrise`{=elixir} message but with a delay, continuing the recursion until we've set handled all transitions.
 
 I'm not thrilled about the implementation of `set_sunrise_light` but here it is:
 
@@ -462,7 +462,7 @@ It's fairly straightforward:
    PubSub.subscribe(Haex.PubSub, "state:" <> @entity)
    ```
 
-   (I use a simplified message instead of the raw `"state_changed"`{lang="elixir"} message we've seen before.)
+   (I use a simplified message instead of the raw `"state_changed"`{=elixir} message we've seen before.)
 
 2. Change the state if we're in a sunrise:
 
@@ -476,17 +476,17 @@ It's fairly straightforward:
    end
    ```
 
-We still have a `:transition_sunrise`{lang="elixir"} message that will arrive later but the fallback `handle_info` will ignore it.
+We still have a `:transition_sunrise`{=elixir} message that will arrive later but the fallback `handle_info` will ignore it.
 If we'll implement a snooze or restart for our sunrise this may become a problem.
 
 ## Refactoring into another GenServer
 
 What we've done so far works but the structure isn't ideal.
-The leftover `:transition_sunrise`{lang="elixir"} message bothers me and what if we want to implement another light transition,
+The leftover `:transition_sunrise`{=elixir} message bothers me and what if we want to implement another light transition,
 either for a bedtime routine or for another light?
 Then we'd have to re-implement a large portion of the automation, which isn't my idea of fun.
 
-We can break out the code into another GenServer, let's call it `LightTransition`{lang="elixir"},
+We can break out the code into another GenServer, let's call it `LightTransition`{=elixir},
 and we can let it keep track of the transitions and lets us focus on the more interesting parts of automation writing.
 
 This lets us start a sunrise with something like this:
@@ -520,7 +520,7 @@ We keep track of the service process id at line 15, which we can use to stop the
 GenServer.stop(state.transition)
 ```
 
-`LightTransition`{lang="elixir"} itself is fairly straightforward when we don't have to keep track of the transition state:
+`LightTransition`{=elixir} itself is fairly straightforward when we don't have to keep track of the transition state:
 
 ```elixir
 defmodule Haex.LightTransition do
@@ -553,7 +553,7 @@ defmodule Haex.LightTransition do
 end
 ```
 
-With this in place we can support pause and resume by using `Process.read_timer()`{lang="elixir"} and `Process.cancel_timer()`{lang="elixir"}:
+With this in place we can support pause and resume by using `Process.read_timer()`{=elixir} and `Process.cancel_timer()`{=elixir}:
 
 ```elixir
 @impl true
@@ -708,7 +708,7 @@ defp _eventually(func) do
 end
 ```
 
-Careful use of checkpoints in our tests, where we wait for a state to be fulfilled, is much preferable over sprinkling `Process.sleep()`{lang="elixir"} in our tests, hoping that the race conditions will go away.
+Careful use of checkpoints in our tests, where we wait for a state to be fulfilled, is much preferable over sprinkling `Process.sleep()`{=elixir} in our tests, hoping that the race conditions will go away.
 
 ## Capturing sent websocket messages
 
@@ -742,7 +742,7 @@ def ws_client() do
 end
 ```
 
-All `WebsocketClientCollector`{lang="elixir"} does is collect sent messages by process id and is able to return a list of them:
+All `WebsocketClientCollector`{=elixir} does is collect sent messages by process id and is able to return a list of them:
 
 ```elixir
 defmodule WebsocketClientCollector do
@@ -765,10 +765,10 @@ With this our test for the sunrise alarm should pass!
 ::: warn
 Beware that if we run tests in parallel the collector will receive messages from all tests and we need a way to separate them.
 
-If we use unique `entity_ids` for all test modules we could filter on that (even with `use ExUnit.Case, async: true`{lang="elixir"} tests in a module aren't run concurrently, but remember to clear messages between tests).
+If we use unique `entity_ids` for all test modules we could filter on that (even with `use ExUnit.Case, async: true`{=elixir} tests in a module aren't run concurrently, but remember to clear messages between tests).
 
 Or we could do what [Mox][] does and separate results by calling process id.
-This is the most robust but it's a more cumbersome to implement as we're using nested processes (the child process `LightTransition`{lang="elixir"} GenServer will call `Light.turn_on()`{lang="elixir"}, so we need to [explicitly allow][] it).
+This is the most robust but it's a more cumbersome to implement as we're using nested processes (the child process `LightTransition`{=elixir} GenServer will call `Light.turn_on()`{=elixir}, so we need to [explicitly allow][] it).
 :::
 
 [explicitly allow]: https://hexdocs.pm/mox/Mox.html#module-explicit-allowances

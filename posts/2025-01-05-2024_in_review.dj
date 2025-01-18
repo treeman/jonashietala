@@ -29,7 +29,7 @@ It's time for my [15th yearly review](/blog/tags/yearly_review).
 - The [Gleam programming language](https://gleam.run/) shows a lot of promise.
 
   My one gripe is the pain of manually encoding/decoding JSON (even with the various libraries).
-  Compared to for example Elixir dynamic encoding or Rust's `#[derive(Deserialize)]`{lang=rust} it just feels so bad that I've avoided Gleam for some projects.
+  Compared to for example Elixir dynamic encoding or Rust's `#[derive(Deserialize)]`{=rust} it just feels so bad that I've avoided Gleam for some projects.
   Shame on me?
 
 - CSS is alive and better than ever.
