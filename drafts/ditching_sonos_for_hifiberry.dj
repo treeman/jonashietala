@@ -247,20 +247,32 @@ With this all players in [Music Assistant][] are exposed to [Home Assistant][] a
     enqueue: replace
   ```
 
-# Voice control
+## Voice control
 
 # Expanding the setup
 
-It started out as a simple quest to replace a single Sonos speaker but [Music Assistant][] makes it so easy to expand the setup:
+It started out as a simple quest to replace a single Sonos speaker but since then I've expanded my smart speaker setup:
 
-- A squeezebox client for the living room speakers.
+- Music in the living room.
 
-  I hate modern smart TVs with a passion so to stream we use a computer running Linux.
-  We have a regular, dumb, amplifier with some speakers connected to the TV.
+  I hate modern smart TVs with a passion so to stream we use a computer running Linux, connected to a dumb amplifier with some speakers.
+  It works well but it makes it a bit more cumbersome to play music.
 
-  [Squeezelite][] turns the computer into a squeezebox client, transforming the setup into a smart player for [Music Assistant][] to stream music to.
+  By installing [Squeezelite][] the computer acts as a squeezebox client, effectively transforming it into a smart player for [Music Assistant][] and [Home Assistant][] to stream music to.
 
-- x
+- Control music on my desktop.
+
+  With [Squeezelite][] I can stream music to my main workstation too.
+
+  You may rightfully ask, why would I do such a thing?
+  Wouldn't it be better to install a native player of some kind?
+
+  Well, I'm lazy and with [Music Assistant][] I've got a setup with all my music in one place and I can't be bothered to setup yet another solution just because it's neater.
+
+- The Sonos still works.
+
+  While I was prepared to throw the Sonos in the trash the speaker works very well with [Music Assistant][], functionally reviving it.
+  Therefore we plan to move it to some other room, maybe the washing room.
 
 [Squeezelite]: https://github.com/ralph-irving/squeezelite
 [Music Assistant]: https://www.music-assistant.io/
