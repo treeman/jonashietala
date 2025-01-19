@@ -6,7 +6,7 @@ tags = ["Home Assistant", "Homelab"]
 # The woes of Sonos
 
 We've had a Sonos speaker in our kitchen for more than a decade.
-At first I was very happy with it; the speaker was easy to use, it integrated well with Spotify, and despite being a single fairly cheap the sound was pretty good.
+At first I was very happy with it; the speaker was easy to use, it integrated well with Spotify, and despite being a single fairly cheap speaker the sound was pretty good.
 
 But gradually the experience got worse:
 
@@ -267,11 +267,12 @@ It started out as a simple quest to replace a single Sonos speaker but since the
   You may rightfully ask, why would I do such a thing?
   Wouldn't it be better to install a native player of some kind?
 
-  Well, I'm lazy and with [Music Assistant][] I've got a setup with all my music in one place and I can't be bothered to setup yet another solution just because it's neater.
+  Well, I'm lazy and with [Music Assistant][] I've got a setup with all my music in one place and I can't be bothered to search for a local solution just because it might be neater.
+  This works and that's enough.
 
 - The Sonos still works.
 
-  While I was prepared to throw the Sonos in the trash the speaker works very well with [Music Assistant][], functionally reviving it.
+  While I was prepared to throw the Sonos in the trash the speaker works well with [Music Assistant][], functionally reviving it.
   Therefore we plan to move it to some other room, maybe the washing room.
 
 [Squeezelite]: https://github.com/ralph-irving/squeezelite

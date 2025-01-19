@@ -19,7 +19,7 @@ It was completely unexpected---but I'm all for it.
 All heroic journeys needs a plan; here's mine:
 
 1. Buy her a domain name (her `.com` surname was available).
-2. Migrate to [Fastmail][].
+2. Migrate her email [Fastmail][].
 3. Setup [Bitwarden][] as a password manager.
 4. Use a [YubiKey][] to secure the important services.
 
@@ -94,51 +94,53 @@ I've used [YubiKey][] for years and have a good experience with them so I'll con
 
 # The setup
 
-## Bitwarden
+Here's a few quick notes on how I set it up.
 
-1. Phone app
-2. Browser plugin on her computer
+## Password management with Bitwarden
 
-I manage her account.
+The first thing we did was setup [Bitwarden][] as the password manager for her.
+I chose the family plan so I can handle the billing.
+
+To give her access I installed [Bitwarden][] as:
+
+1. An app on her phone
+2. A browser plugin on her computer
+
+I also gave her a [YubiKey][] and registered it with [Bitwarden][] for additional security.
+As a backup I also registered my own [YubiKey][]s on her account, if she loses her key.
+
+Although it was a bit confusing for her I think she appreciates not having to remember a dozen different passwords and can simply remember one (stronger) password.
+We can also share passwords easily (news papers, Spotify, etc).
+
+The [YubiKey][] itself is very user friendly and she hasn't run into any usability issues.
 
 
-## Fastmail
+## Email on Fastmail
 
-Basic account that I manage (at this time it wasn't possible to migrate to a [Duo plan][]
+With the core security up and running the next step was to change her email:
 
-[Duo plan]: https://www.fastmail.help/hc/en-us/articles/8033939068815-2024-pricing-and-plan-updates
+1. Gave her an email address on [Fastmail][] with her own domain (`<firstname>@<lastname>.com`).
 
-- 
+   She has a basic account that I manage (there's a [Duo plan][] that I couldn't migrate to at this time).
 
-# Recovery plan
+1. I secured the account with our [YubiKey][]s and a generated password stored in [Bitwarden][].
+1. We bolstered the security of her old Hotmail account by generating a new password and registering our [YubiKey][]s.
+1. Forward all email from her old Hotmail address to her new address.
 
-## Veronica's email
 
-1. Password stored in her Bitwarden vault
-1. Secured by multiple YubiKeys (hers + several of mine)
-1. Recovery code stored in her Bitwarden
+## Notes on recovery and redundancy
 
-## Veronica's Bitwarden vault
+It's great to worry about weak phishing, weak passwords, and getting hacked.
+But for most people the much bigger risk is to forget your password or lose your second factor auth, and get locked out that way.
 
-1. Her password stored in my Bitwarden vault
-1. Secured by multiple YubiKeys (hers + several of mine)
-1. Recovery code written down and stored in my Bitwarden vault
-1. I'm her emergency contact and can gain access to her vault in 7 days
+To reduce the risk of losing access we have:
 
-## My Bitwarden vault
+* Multiple [YubiKey][]s for all accounts.
+* The recovery codes for all accounts are written down and secured.
+* My own accounts can recover her [Bitwarden][] and [Fastmail][] accounts via their built-in recovery functionality.
 
-1. Secured by multiple YubiKeys
-1. Recovery code written down
 
-# Advanced YubiKey usage for myself
-
-- Sign GPG key for commits
-- Encode/decode GPG messages. Sign?
-- ssh
-- static password on touch?
-  Root login for home computers?
-- 2nd factor for full disk encryption
-- OpenVPN with Yubikey?
+# Digital security is important
 
 [yubikey-cheatsheet]: https://debugging.works/blog/yubikey-cheatsheet/
 [Fastmail]: https://www.fastmail.com/
@@ -151,3 +153,4 @@ Basic account that I manage (at this time it wasn't possible to migrate to a [Du
 [gmail4]: https://news.ycombinator.com/item?id=32862713
 [Aegis Authenticator]: https://github.com/beemdevelopment/Aegis
 [2FA]: https://www.microsoft.com/en-us/security/business/security-101/what-is-two-factor-authentication-2fa
+[Duo plan]: https://www.fastmail.help/hc/en-us/articles/8033939068815-2024-pricing-and-plan-updates
