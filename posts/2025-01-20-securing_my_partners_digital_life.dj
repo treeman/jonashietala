@@ -25,8 +25,8 @@ All heroic journeys needs a plan; here's mine:
 
 ## Why a domain?
 
-It's very nice to have your own domain for your email if you ever want to change email providers.
-In our example Veronica has a `hotmail.com` address but she can't bring that with her if she moves to [Fastmail][].
+If you ever want (or need) to change email providers it's very nice to have your own domain.
+For instance, Veronica has a `hotmail.com` address but she can't bring that with her if she moves to [Fastmail][].
 
 Worse, what if she gets locked out of her Outlook account for some reason?
 It might happen if you forget your password, someone breaks into your account, or even by accident.
@@ -38,7 +38,7 @@ Some providers may be better but this is a systemic problem that can happen at a
 
 In almost all cases, your email is your key to the rest of your digital life.
 The email address is your username and to reset your password you use your email.
-*If you lose access to your email you lose everything*.
+{=If you lose access to your email you lose everything=}.
 
 When you control your domain, you can point the domain to a new email provider and continue with your life.
 
@@ -64,7 +64,7 @@ Paying for email gives you a couple of nice things:
 
 - A long-term viable business.
 
-  How do you run an email company if you don't earn money?\
+  How do you run an email company if you don't charge for it?\
   _(You sell out your users or you close your business.)_
 
 ## Why a password manager?
@@ -80,21 +80,22 @@ To take digital security to the next level you should use [two-factor authentica
 2FA is an extra "thing" in addition to your password you need to be able to login.
 It could be a code sent to your phone over SMS (insecure), to your email (slightly better), a code from a 2FA app on your phone such as [Aegis Authenticator][] (good), or from a hardware token (most secure).
 
-It's easy to think that I went with a [YubiKey][] because it's the most secure option; but the reason is that a [YubiKey][] is  more convenient than a 2FA app.
+It's easy to think that I went with a [YubiKey][] because it's the most secure option; but the biggest reason is that a [YubiKey][] is  more convenient than a 2FA app.
 
 With a 2FA app you have to whip out your phone, open the 2FA app, locate the correct site, and then copy the TOTP code into the website (quickly, before the code changes).
-It's honestly not that convenient, even for someone like me who has used this setup for years.
+It's honestly not that convenient, even for someone like me who's used this setup for years.
 
 With a [YubiKey][] you plug it into a USB port and press it when it flashes.
 Or on the phone you can use NFC.
 NFC is slightly more annoying compared to plugging it in as you need to move/hold it in a specific spot, yet it's still preferable to having to jump between apps on the phone.
 
 There are hardware keys other than [YubiKey][] of course.
-I've used [YubiKey][] for years and have a good experience with them so I'll continue with them.
+I've used [YubiKey][] for years and have a good experience.
+Don't fix what isn't broken.
 
 # The setup
 
-Here's a few quick notes on how I set it up.
+Here's a few quick notes on how I setup her new accounts:
 
 ## Password management with Bitwarden
 
@@ -106,11 +107,11 @@ To give her access I installed [Bitwarden][] as:
 1. An app on her phone
 2. A browser plugin on her computer
 
-I also gave her a [YubiKey][] and registered it with [Bitwarden][] for additional security.
-As a backup I also registered my own [YubiKey][]s on her account, if she loses her key.
+I gave her a [YubiKey][] and registered it with [Bitwarden][] for additional security.
+As a backup I also registered my own [YubiKey][]s on her account; if she loses her key we still have others she can use.
 
 Although it was a bit confusing for her I think she appreciates not having to remember a dozen different passwords and can simply remember one (stronger) password.
-We can also share passwords easily (news papers, Spotify, etc).
+We can also share passwords easily via [Bitwarden][] (for news papers, Spotify, etc).
 
 The [YubiKey][] itself is very user friendly and she hasn't run into any usability issues.
 
@@ -130,28 +131,26 @@ With the core security up and running the next step was to change her email:
 With this done she has a secure email account with an email address that she owns.
 
 As is proper she's been changing her contact information and changing email address in her other services.
-It's a slow process but I can't be too critical---I think I still have a few services that use my old Gmail address even though I migrated to my own domain more than a decade ago.
+It's a slow process but I can't be too critical---I still have a few services that use my old Gmail address even though I migrated to my own domain more than a decade ago.
 
 ## Notes on recovery and redundancy
 
 It's great to worry about weak phishing, weak passwords, and getting hacked.
 But for most people the much bigger risk is to forget your password or lose your second factor auth, and get locked out that way.
 
-To reduce the risk of losing access we have:
+To reduce the risk of losing access to her accounts we have:
 
 * Multiple [YubiKey][]s for all accounts.
 * The recovery codes for all accounts are written down and secured.
 * My own accounts can recover her [Bitwarden][] and [Fastmail][] accounts via their built-in recovery functionality.
 
-
 # Perfect is the enemy of good
 
 Some go further than we've done here, others do less, and I think that's fine.
 It's important to not compare yourself with others too much;
-even small security measures---such as making sure you've got a strong password for your email account---makes a big difference in practice.
+even small security measures makes a big difference in practice.
 
-Not doing anything at all because you feel overwhelmed is worse than doing something, even if small.
-Spending a little time on your digital security is definitely worth doing because losing access to your online accounts can be disastrous.
+Not doing anything at all because you feel overwhelmed is worse than doing something, even something simple as making sure you're using a strong password for your email account.
 
 [Fastmail]: https://www.fastmail.com/
 [Bitwarden]: https://bitwarden.com/
