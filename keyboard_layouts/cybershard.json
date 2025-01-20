@@ -94,6 +94,16 @@
   "layers": {
     "default": [
       {
+        "keys": ["G(SE_DOT)"],
+        "title": "Gui .",
+        "class": "mod_implicit"
+      },
+      {
+        "keys": ["G(SE_COMM)"],
+        "title": "Gui ,",
+        "class": "mod_implicit"
+      },
+      {
         "keys": ["_______", "xxxxxxx"],
         "title": "",
         "class": "blank"
@@ -437,16 +447,6 @@
       {
         "keys": ["MT_SPC"],
         "class": "active_layer"
-      },
-      {
-        "keys": ["G(SE_DOT)"],
-        "title": "Gui .",
-        "class": "mod_implicit"
-      },
-      {
-        "keys": ["G(SE_COMM)"],
-        "title": "Gui ,",
-        "class": "mod_implicit"
       },
       {
         "keys": ["G(SE_J)"],
