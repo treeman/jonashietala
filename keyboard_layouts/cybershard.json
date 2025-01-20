@@ -167,6 +167,10 @@
         "class": "layer_down"
       },
       {
+        "keys": ["KC_SPC"],
+        "title": "Space"
+      },
+      {
         "keys": ["MT_SPC"],
         "title": "Space",
         "hold_title": "NAV",

@@ -148,6 +148,13 @@ The [dead keys][] add diacritic to any letter. For example, to get `é` you can 
 
 I typically use [long press](#Long-press) for shift and [combos][] for other modifiers, this layer is a fallback for when those aren't enough (the layer is mostly used for `Right Alt`).
 
+## Gaming layer
+
+![A simple gaming layer.](/images/cybershard-layout/_GAME.svg){embed=true}
+
+I'm not a heavy gamer by any means but this layer allows me to play Core Keeper with my kid.
+By necessity this layer disables [auto shift][].
+
 # Combos
 
 [Combos][qmk-combos] is another fantastic tool that I (ab)use a lot. Simply put it allows you to press multiple keys at once and acts as another key---very useful for smaller layouts.
@@ -350,6 +357,10 @@ There are different modes that alters the behavior of the trackball:
   1. Removed mouse button combos from the right-side and place them on a separate layer instead (to keep the shift combo in the regular place).
 
   1. Add `Gui` + `,`/`.` for [xmonad][] master window management to the [navigation layer](#Navigation-layers), moving `Ctrl` + `A` to the home-row once again.
+
+: 2025-01-20
+
+  Added the [gaming layer](#Gaming-layer).
 
 :::
 
