@@ -19,7 +19,7 @@ It was completely unexpected---but I'm all for it.
 All heroic journeys needs a plan; here's mine:
 
 1. Buy her a domain name (her `.com` surname was available).
-2. Migrate her email [Fastmail][].
+2. Migrate her email to [Fastmail][].
 3. Setup [Bitwarden][] as a password manager.
 4. Use a [YubiKey][] to secure the important services.
 
@@ -127,6 +127,10 @@ With the core security up and running the next step was to change her email:
 1. We bolstered the security of her old Hotmail account by generating a new password and registering our [YubiKey][]s.
 1. Forward all email from her old Hotmail address to her new address.
 
+With this done she has a secure email account with an email address that she owns.
+
+As is proper she's been changing her contact information and changing email address in her other services.
+It's a slow process but I can't be too critical---I think I still have a few services that use my old Gmail address even though I migrated to my own domain more than a decade ago.
 
 ## Notes on recovery and redundancy
 
@@ -140,9 +144,15 @@ To reduce the risk of losing access we have:
 * My own accounts can recover her [Bitwarden][] and [Fastmail][] accounts via their built-in recovery functionality.
 
 
-# Digital security is important
+# Perfect is the enemy of good
 
-[yubikey-cheatsheet]: https://debugging.works/blog/yubikey-cheatsheet/
+Some go further than we've done here, others do less, and I think that's fine.
+It's important to not compare yourself with others too much;
+even small security measures---such as making sure you've got a strong password for your email account---makes a big difference in practice.
+
+Not doing anything at all because you feel overwhelmed is worse than doing something, even if small.
+Spending a little time on your digital security is definitely worth doing because losing access to your online accounts can be disastrous.
+
 [Fastmail]: https://www.fastmail.com/
 [Bitwarden]: https://bitwarden.com/
 [YubiKey]: https://www.yubico.com/products/yubikey-5-overview/
