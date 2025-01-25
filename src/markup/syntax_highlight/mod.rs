@@ -205,7 +205,7 @@ enum HighlighterType<'a> {
     Treesitter(TreesitterHighlighter<'a>),
 }
 
-impl<'a> HighlighterType<'a> {
+impl HighlighterType<'_> {
     fn find(lang_id: &str) -> Option<Self> {
         if let Some(x) = TreesitterHighlighter::find(lang_id) {
             return Some(Self::Treesitter(x));
@@ -222,7 +222,7 @@ struct Highlighter<'a> {
     highlighter: HighlighterType<'a>,
 }
 
-impl<'a> Highlighter<'a> {
+impl Highlighter<'_> {
     fn create(lang_id: &str) -> Option<Self> {
         HighlighterType::find(lang_id).map(|highlighter| Self {
             lang_id: lang_id.to_string(),

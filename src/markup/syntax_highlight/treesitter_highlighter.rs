@@ -10,7 +10,7 @@ pub struct TreesitterHighlighter<'a> {
     config: &'a HighlightConfiguration,
 }
 
-impl<'a> TreesitterHighlighter<'a> {
+impl TreesitterHighlighter<'_> {
     pub fn find(lang_id: &str) -> Option<Self> {
         CONFIGS.get(lang_id).map(|config| Self { config })
     }

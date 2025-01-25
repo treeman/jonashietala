@@ -180,7 +180,7 @@ impl Project {
     }
 
     pub fn id(&self) -> Cow<str> {
-        return Cow::Borrowed(self.title.as_str());
+        Cow::Borrowed(self.title.as_str())
     }
 
     pub fn project_ref(&self) -> ProjectRef {
@@ -322,7 +322,7 @@ impl Game {
     }
 
     pub fn id(&self) -> Cow<str> {
-        return Cow::Borrowed(self.title.as_str());
+        Cow::Borrowed(self.title.as_str())
     }
 
     pub fn game_ref(&self) -> GameRef {

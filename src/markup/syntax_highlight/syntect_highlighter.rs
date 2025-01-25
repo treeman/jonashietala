@@ -16,7 +16,7 @@ pub struct SyntectHighlighter<'a> {
     syntax: &'a SyntaxReference,
 }
 
-impl<'a> SyntectHighlighter<'a> {
+impl SyntectHighlighter<'_> {
     pub fn find(original: &str) -> Option<Self> {
         if original.is_empty() {
             return None;

@@ -9,7 +9,7 @@ pub struct Figure<'a> {
     pub link: bool,
 }
 
-impl<'a> Figure<'a> {
+impl Figure<'_> {
     pub fn push_html(&self, s: &mut String) {
         push_open_tag(s, "figure", self.class);
         s.push('\n');
