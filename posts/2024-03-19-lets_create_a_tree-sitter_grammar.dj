@@ -1325,7 +1325,7 @@ A. Syntect gives better highlighting for some languages (like Rust and C).
 
 A. The highlighter library feels a bit immature.
 
-   A newer library broke the highlight groups I got from some grammars and I don't see any support for how to add a language specific class to `span` for injected languages.
+   A newer version broke the highlight groups I got from some grammars and I don't see any support for how to add a language specific class to `span` for injected languages.
 
 Because of these issues I'll evaluate what highlighter to use on a case-by-case basis, with Syntect as the default choice.
 

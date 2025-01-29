@@ -143,7 +143,6 @@ static HIGHLIGHT_NAMES: &[&str] = &[
     "markup.symbol",
     "markup.todo",
     "module",
-    "nospell",
     "number",
     "number.float",
     "operator",
@@ -152,7 +151,6 @@ static HIGHLIGHT_NAMES: &[&str] = &[
     "punctuation.bracket",
     "punctuation.delimiter",
     "punctuation.special",
-    "spell",
     "string",
     "string.escape",
     "string.special",
@@ -201,7 +199,7 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             HighlightConfiguration::new(
                 tree_sitter_djot::language(),
                 "djot",
-                tree_sitter_djot::HIGHLIGHTS_QUERY,
+                include_str!("../../../queries/djot.scm"),
                 tree_sitter_djot::INJECTIONS_QUERY,
                 "",
             )
