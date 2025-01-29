@@ -295,6 +295,24 @@ Badum Badum
 int i = 2;
 ```
 
+```djot_inline
+_emphasis_ and {=highlighted=}
+
+![](/images/configura14/octree1.png)
+
+![FTL is such an amazing game](/images/ftl_start.png)
+
+![FTL is such an amazing game][blog]
+
+Here's a [span]{.wtf #wtf wtf="val" anotther=2}
+```
+
+```toml
+title = "Customizing Neovim"
+tags = ["Lua", "Neovim"]
+series = "extending_neovim_for_my_blog"
+```
+
 {hl="38,13" linenum=1}
 ````djot
 ---toml
@@ -314,17 +332,7 @@ let x = 2;
 ##### Header 5 (h6)
 ###### Header 6 (h7)
 
-{=highlighted=}
-
-{+insert +}
-
-{-delete-}
-
-:symbol:
-
-^superscript^
-
-~subscript~
+_emphasis_ and *strong* {=highlighted=} {+insert +} {-delete-} :symbol: ^superscript^ ~subscript~
 
 Here's a [wtf]{.wtf #wtf wtf="val" anotther=2}
 
@@ -356,9 +364,9 @@ With a footnote.[^wtf]
 | Left aligned |  Centered  | Right aligned |
 |:-------------|:----------:|--------------:|
 | First row    |    Data    |          Data |
-| Second row   | *Cell* 1 |          1111 |
-| Third row    | *Cell* 2 |          3333 |
-| Fourth row   | *Cell* 3 |          6789 |
+| Second row   |   *Cell* 1 |          1111 |
+| Third row    |   *Cell* 2 |          3333 |
+| Fourth row   |   *Cell* 3 |          6789 |
 ^ With table caption
 
 [blog](/blogxxxxx) and auto <https://google.com> \
