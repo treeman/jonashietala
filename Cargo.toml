@@ -88,4 +88,4 @@ tree-sitter-lua = { git = "https://github.com/tree-sitter-grammars/tree-sitter-l
 tree-sitter-ghostty = { git = "https://github.com/treeman/tree-sitter-ghostty" }
 btree-range-map = "0.7.2"
 serde_repr = "0.1.19"
-git2 = "0.19.0"
+git2 = "0.20.0"
