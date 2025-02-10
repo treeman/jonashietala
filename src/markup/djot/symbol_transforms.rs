@@ -104,7 +104,7 @@ impl SymbolTransform {
 }
 
 fn create_post_stats_graph<'a>(attrs: &Attributes) -> Result<Vec<Event<'a>>> {
-    let before_date_filter = if let Some(date) = attrs.get("before_date") {
+    let before_date_filter = if let Some(date) = attrs.get_value("before_date") {
         Some(NaiveDate::parse_from_str(
             date.to_string().as_str(),
             "%Y-%m-%d",
@@ -115,7 +115,7 @@ fn create_post_stats_graph<'a>(attrs: &Attributes) -> Result<Vec<Event<'a>>> {
 
     let graph = PostStatsGraph {
         before_date: before_date_filter,
-        caption: attrs.get("caption").map(|x| x.to_string()),
+        caption: attrs.get_value("caption").map(|x| x.to_string()),
     }
     .generate()?;
 

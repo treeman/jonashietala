@@ -80,7 +80,7 @@ fn should_embed(src: &str, link_type: &SpanLinkType, attrs: &Attributes<'_>) -> 
         return false;
     }
 
-    if let Some(embed) = attrs.get("embed").map(|x| x.to_string()) {
+    if let Some(embed) = attrs.get_value("embed").map(|x| x.to_string()) {
         return embed == "true";
     }
 
