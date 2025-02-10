@@ -1,0 +1,77 @@
+---toml
+title = "VORON mods"
+tags = ["3D printing", "VORON"]
+---
+
+TODO image comparing the old / new
+
+I've had my [VORON Trident][trident] for almost a year and I've run it for XXX hours.
+Overall I'm happy with the printer but I've been itching to make some more mods to it.
+Having finally finished the [VORON 0][] I now have a backup printer I can use to rescue myself if I screw up.
+
+The mods I installed were:
+
+1. [Inverted electronics][]
+1. Replaced Stealthburner with the [A4T-toolhead][]
+
+   I migrated from Tap to the [Beacon probe][].
+   The toolhead also required me to replace the stock front idlers with the [Beefy idlers][].
+
+1. Moved to an umbilical setup
+
+   I used the [Nighthawk36 toolhead][] and moved the XY-endstops so I could remove the drag chains.
+
+1. Beacon-friendly purge bucket mod
+
+Okay, I admit; the biggest reason for the change is that it's fun to build and tinker...
+To my defense the improvements are pretty nice.
+
+# Inverted electronics
+
+# The A4T-toolhead
+
+I've been wanting to replace the Stealthburner toolhead a long time.
+It's pretty but the cooling for PLA is quite bad and I don't feel it's super convenient to get access to the filament path.
+
+But what to choose?
+There are quite a few interesting toolheads I considered:
+
+- [XOL][]
+- [Dragon Burner][]
+- [Archetype][]
+- [A4T-toolhead][]
+
+I eventually settled on the [A4T-toolhead][] because it's supposed to have even better cooling compared to [XOL][].
+
+## Assembly
+
+## The Beacon probe
+
+## Filament sensor
+
+## Filament cutter
+
+# Move the Y-endstop and remove the drag chains
+
+The X-endstop fit nicely on the toolhead but the LDO Trident kit I bought came with an XY-endstop PCB mounted on the XY rail.
+It works well but it requires a drag chain to the XY-carriage.
+
+# What's next?
+
+I've really been wanting multi color support and I've been waiting for [ERCF][] to be ready for ages.
+But I'll probably skip [ERCF][] in favor of the [Box Turtle][] instead as it seems easier to get working.
+
+[Nitehawk36]: https://lab4450.com/product/ldo-nitehawk36-toolhead/
+[XOL]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/tree/main
+[Dragon Burner]: https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner
+[ERCF]: https://github.com/Enraged-Rabbit-Community/ERCF_v2
+[VORON 0]: #
+[A4T-toolhead]: https://github.com/Armchair-Heavy-Industries/A4T
+[Inverted electronics]: https://mods.vorondesign.com/details/pXkXHVIUbqSWqQKJISczw
+[Beefy idlers]: https://github.com/clee/VoronBFI
+[Nighthawk36 toolhead]: https://lab4450.com/product/ldo-nitehawk36-toolhead/
+[Beacon probe]: https://lab4450.com/product/original-beacon-3d-surface-scanner/
+[Archetype]: https://docs.armchairheavyindustries.com/docs/archetype
+[trident]: /series/voron_trident
+
+[Box Turtle]: https://github.com/ArmoredTurtle/BoxTurtle
