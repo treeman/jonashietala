@@ -145,13 +145,13 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-fn site_bucket() -> Result<Bucket> {
+fn site_bucket() -> Result<Box<Bucket>> {
     let credentials = Credentials::default()?;
     let bucket = Bucket::new(SITE_BUCKET, REGION.clone(), credentials)?.with_path_style();
     Ok(bucket)
 }
 
-fn file_bucket() -> Result<Bucket> {
+fn file_bucket() -> Result<Box<Bucket>> {
     let credentials = Credentials::default()?;
     let bucket = Bucket::new(FILE_BUCKET, REGION.clone(), credentials)?;
     Ok(bucket)

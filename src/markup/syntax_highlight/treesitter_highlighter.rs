@@ -26,12 +26,11 @@ impl TreesitterHighlighter<'_> {
             res
         })?;
 
-        // This isn't very nice... How to generate strings dynamically from inside a Fn closure
-        // that returns a byte slice?
-        // Not very easily.
         let mut renderer = HtmlRenderer::new();
-        renderer.render(highlights, code.as_bytes(), &|attr| {
-            CLASSES[attr.0].as_bytes()
+        renderer.render(highlights, code.as_bytes(), &|attr, res| {
+            // Uses `CLASSES` pre-generated names because the old API required us to
+            // return a byte slice here, and now I can't be bothered to change it.
+            res.extend_from_slice(CLASSES[attr.0].as_bytes());
         })?;
 
         let mut res: Vec<Cow<str>> = renderer.lines().map(Into::into).collect();
