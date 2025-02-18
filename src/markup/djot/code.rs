@@ -30,12 +30,12 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for CodeBlockSyntaxHighlight<'a
         };
 
         let lang = parse_code_spec(lang);
-        let path = attrs.get("path").map(|x| x.to_string());
-        let highlight_lines = attrs.get("hl").map(|x| {
+        let path = attrs.get_value("path").map(|x| x.to_string());
+        let highlight_lines = attrs.get_value("hl").map(|x| {
             parse_line_highlight_spec(x.to_string().as_str())
                 .expect("Error parsing `hl` code block attribute")
         });
-        let linenum_start = attrs.get("linenum").map(|x| {
+        let linenum_start = attrs.get_value("linenum").map(|x| {
             x.to_string()
                 .parse::<u32>()
                 .expect("Error parsing `linenum` not a number")
@@ -79,7 +79,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> InlineCodeSyntaxHighlight<'a, I> {
     }
 
     fn transform_verbatim(&mut self, attrs: Attributes<'a>) -> Option<Event<'a>> {
-        let lang = match attrs.get("hl") {
+        let lang = match attrs.get_value("hl") {
             Some(lang) => lang.to_string(),
             None => return Some(Event::Start(Container::Verbatim, attrs)),
         };

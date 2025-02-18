@@ -32,44 +32,43 @@ syntect = { version = "5.0.0", default-features = false, features = [
   "plist-load",
 ] }
 tempfile = "3.3.0"
-clap = { version = "4.5.1", features = ["derive"] }
-scraper = "0.19"
+clap = { version = "4.5.28", features = ["derive"] }
+scraper = "0.22"
 url = "2.2.2"
-axum = "0.7.4"
+axum = "0.8.1"
 tokio = { version = "1", features = ["full"] }
-tower-http = { version = "0.5.2", features = ["fs", "trace"] }
+tower-http = { version = "0.6.2", features = ["fs", "trace"] }
 tracing = "0.1.34"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 hotwatch = "0.5.0"
 grass = "0.13.2"
 rayon = "1.9"
-colored = "2.0.0"
-thiserror = "1.0"
-itertools = { version = "0.12.1", features = ["use_alloc"] }
+colored = "3.0.0"
+thiserror = "2.0"
+itertools = { version = "0.14.0", features = ["use_alloc"] }
 reqwest = { version = "0.11", features = ["json", "blocking"] }
 futures = "0.3.21"
 atom_syndication = "0.12.2"
 fs_extra = "1.2.0"
 itemref-derive = { version = "0.1.0", path = "src/itemref-derive" }
-rust-s3 = "0.33.0"
+rust-s3 = "0.35.1"
 md5 = "0.7.0"
 new_mime_guess = "4.0.1"
 xml-rs = "0.8.19"
 sxd-xpath = "0.4.2"
 sxd-document = "0.3.2"
-jotdown = "0.4.1"
-tokio-websockets = { version = "0.8.2", features = ["server", "openssl"] }
+jotdown = "0.7.0"
+tokio-websockets = { version = "0.11.2", features = ["server", "openssl"] }
 futures-util = "0.3.30"
 serde_json = "1.0.113"
-tokio-tungstenite = "0.21.0"
+tokio-tungstenite = "0.26.1"
 pulldown-cmark-escape = "0.10.0"
-axum-server = "0.6.0"
+axum-server = "0.7.1"
 toml-frontmatter = "0.1.0"
 # Note that all tree-sitter grammars needs to depend on the same tree-sitter version!
 # Really annoying...
-# tree-sitter-highlight = "^0.22.5"
-tree-sitter = "0.24.7"
-tree-sitter-highlight = "0.24.7"
+tree-sitter = "0.25.1"
+tree-sitter-highlight = "0.25.1"
 # Syntect has better Rust highlighting
 # tree-sitter-rust = "0.20.4"
 tree-sitter-sdjot = { git = "https://github.com/treeman/tree-sitter-sdjot.git" }
@@ -86,6 +85,8 @@ tree-sitter-toml = { git = "https://github.com/treeman/tree-sitter-toml" }
 tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter-query.git", rev = "f767fb0ac5e711b6d44c5e0c8d1f349687a86ce0" }
 tree-sitter-lua = { git = "https://github.com/tree-sitter-grammars/tree-sitter-lua" }
 tree-sitter-ghostty = { git = "https://github.com/treeman/tree-sitter-ghostty" }
+# TODO better but doesn't expose the highlights
+# tree-sitter-ghostty = { git = "https://github.com/bezhermoso/tree-sitter-ghostty" }
 btree-range-map = "0.7.2"
 serde_repr = "0.1.19"
-git2 = "0.19.0"
+git2 = "0.20.0"

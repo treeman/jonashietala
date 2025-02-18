@@ -1,4 +1,4 @@
-use jotdown::{Attributes, Container, Event, LinkType, SpanLinkType};
+use jotdown::{AttributeKind, Attributes, Container, Event, LinkType, SpanLinkType};
 
 pub struct TransformHeaders<'a, I: Iterator<Item = Event<'a>>> {
     parent: I,
@@ -55,7 +55,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for TransformHeaders<'a, I> {
             LinkType::Span(SpanLinkType::Inline),
         );
         let mut link_attrs = Attributes::new();
-        link_attrs.insert("class", "heading-ref".into());
+        link_attrs.push((AttributeKind::Pair { key: "class" }, "heading-ref".into()));
 
         self.event_queue.push(Event::End(heading.clone()));
         self.event_queue.push(Event::End(link.clone()));

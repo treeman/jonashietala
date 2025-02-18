@@ -108,7 +108,7 @@ impl DivTransform {
             Self::Warn => wrap_content(content.into_iter(), "aside", Some("warn")),
             Self::Important => wrap_content(content.into_iter(), "aside", Some("important")),
             Self::Update => {
-                let date = match attrs.get("date") {
+                let date = match attrs.get_value("date") {
                     Some(date) => format!(r#" <span class="date">{date}</span>"#),
                     None => "".into(),
                 };
@@ -294,7 +294,7 @@ where
     let html = Container::RawBlock { format: "html" };
 
     let extra_class = attrs
-        .get("class")
+        .get_value("class")
         .map(|x| x.to_string())
         .unwrap_or("".into());
 

@@ -21,7 +21,7 @@ use crate::paths::FilePath;
 
 pub struct SyncOpts<'a> {
     pub dir: &'a AbsPath,
-    pub bucket: Bucket,
+    pub bucket: Box<Bucket>,
     pub delete: bool,
     pub print_urls: bool,
 }
@@ -198,7 +198,7 @@ async fn sync_ref(bucket: &Bucket, x: SyncRef) -> Result<()> {
 async fn upload(bucket: &Bucket, data: UploadData) -> Result<()> {
     let key = &data.file_path.rel_path.0;
     let ty = new_mime_guess::from_path(key).first_or_text_plain();
-    let bucket = bucket_with_headers(bucket, key.as_str());
+    let bucket = bucket_with_headers(bucket, key.as_str())?;
 
     let content = if let Some(x) = data.content {
         x
@@ -216,13 +216,13 @@ async fn upload(bucket: &Bucket, data: UploadData) -> Result<()> {
 }
 
 async fn delete(bucket: &Bucket, key: String) -> Result<()> {
-    let bucket = bucket_with_headers(bucket, &key);
+    let bucket = bucket_with_headers(bucket, &key)?;
     bucket.delete_object(&key).await?;
     info!("Deleted: {key}");
     Ok(())
 }
 
-fn bucket_with_headers(bucket: &Bucket, path: &str) -> Bucket {
+fn bucket_with_headers(bucket: &Bucket, path: &str) -> Result<Bucket> {
     let mut headers = HeaderMap::new();
     headers.insert(
         HeaderName::from_static("x-amz-acl"),
@@ -238,7 +238,8 @@ fn bucket_with_headers(bucket: &Bucket, path: &str) -> Bucket {
         );
     }
 
-    bucket.clone().with_extra_headers(headers)
+    let res = bucket.clone().with_extra_headers(headers)?;
+    Ok(res)
 }
 
 #[cfg(test)]
