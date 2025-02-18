@@ -1,0 +1,189 @@
+---toml
+title = "I'll give up Neovim when you pry it from my cold, dead hands"
+tags = ["Neovim", "Life Hacking"]
+favorite = true
+---
+
+I recently came upon a horror story where a developer was [forced to switch editor from Neovim to Cursor][]
+and I felt I had to write a little to cleanse myself of the disgust I felt.
+
+# Two different ways of approaching an editor
+
+I think that there's two opposing ways of thinking about the tool that is an editor:
+
+A. Refuse to personalize anything and only use the basic features
+
+   "_An editor is a simple tool I use to get the job done._"
+
+B. Get stuck in configuration hell and spend tons of time tweaking minor things
+
+   "_An editor is a highly personalized tool that works the way I want._"
+
+These are the extreme ends of the spectrum to make a point and most developers will fall somewhere in between.
+
+It's not a static proposition; I've had periods in my life where I've used the same Vim configuration for years and other times I've spent more time rewriting my Neovim config than doing useful things.
+
+::: note
+I don't differentiate between text editors and IDEs as I don't find the distinction very meaningful.
+They're all just editors.
+:::
+
+## Freedom of choice is important
+
+> Freedom of choice is more to be treasured than any possession earth can give.
+> ^ David O. McKay
+
+Some developers want zero configuration while others want to configure their editor so it's _just_ right.
+Either way is fine and I've met excellent developers from both sides.
+
+But removing the power of choice is a _horrible_ idea as you're forcing developers to work in a way they're not comfortable with, not productive with, or simply don't like.
+You're bound to make some of the developers miserable or see them leave (usually the best ones who can easily find another job).
+
+To explain how important an editor might be to some people, I give you this story about Stephen Hendry---one of the most successful Snooker players ever---and how important his cue was to him:
+
+> In all the years I’ve been playing I’ve never considered changing my cue. It was the first cue I ever bought, aged 13, picked from a cabinet in a Dunfermline snooker centre just because I liked the Rex Williams signature on it.
+>
+> I saved £40 to buy it. It’s a cheap bit of wood and it’s been the butt of other players’ jokes for ages. Alex Higgins said it was ‘only good for holdin’ up f*g tomatoes!’
+>
+> But I insist on sticking with it. And I’ve won a lot of silverware, including seven World Championship trophies, with it. It’s a one-piece which I carry in a wooden, leather-bound case that’s much more expensive than the cue it houses.
+>
+> But in 2003, at Glasgow airport after a flight from Bangkok, it emerges through the rubber flaps on the carousel and even at twenty yards I can see that both case and cue are broken. Snapped almost clean in two, the whole thing now resembling some form of shepherd’s crook. The cue comes to where I’m standing, and I pick it up, the broken end dangling down forlornly.
+>
+> I could weep. Instead, I laugh.
+>
+> ‘Well,’ I say to my stunned-looking friend John, ‘that’s my career over.’
+> ^ Stephen Hendry, [The Mirror][]
+
+# Small improvements leads to large long-term gains
+
+> Kaizen isn't about massive overhauls or overnight success. Instead, it focuses on small, continuous improvements that add up to significant long-term gains.
+> ^ [What is Kaizen? A Guide to Continuous Improvement][]
+
+I firmly believe that even small improvements are worth it as they add up over time (also see [compound interest][] and how it relates to financial investments).
+
+An editor is a great example where even small improvements may have a big effect for the simple reason that you spend _so_ much time in your editor.
+I've spent _hours_ almost every day inside (neo)vim since I started using it 15+ years ago.
+
+Even simple things like quickly changing text inside brackets (`ci[`) instead of selecting text with your mouse might save hundreds of hours during a programming career---and that's just one example.
+
+Naturally, as a developer you can find small but worthwhile improvements in other areas too, for instance:
+
+* Learning the programming languages and libraries you use a little better
+
+* Customizing [your keyboard][] and [keyboard layout][]
+
+  This is more for comfort and health than speed but that makes it even more important, not less.
+
+* Increasing your typing speed
+
+  Some people dismiss typing speed as they say they're limited by their thinking, not typing.
+  But the benefit of typing faster (and more fluidly) isn't really the overall time spent typing vs thinking;
+  it's so you can continue thinking with as little interruption as possible.
+
+  On some level you want to reduce the time typing in this chain:
+
+  > think... edit, think... edit, think...
+
+  It's also why the Vim way of editing is so good---it's based on making small edits and to return quickly to normal (thinking) mode.
+
+Some people ask how can you afford to spend time practicing Vim commands or to configure your editor as it takes away time from work?
+
+But I ask you: with a programming career of several decades and tens of thousands of hours to spend in front of your computer, how can you afford *not* to?
+
+
+# Neovim is versatile
+
+During the years I've done different things:
+
+- Studied at the University and then started working as a developer.
+- Used many different programming languages and paradigms.
+- Changed domains many times (games, grammars & language design, graphics programming, web development, ...)
+- [Switched keyboard][] and [keyboard layout][] [multiple times][].
+- Been blogging and [wrote a book][].
+
+The one constant through all of this has been Neovim.
+Neovim may not have the best language specific integrations but it does everything well and the benefit of having the same setup for everything you do is not to be underestimated.
+It pairs nicely with the idea of adding up small improvements over time; every small improvement that I add to my Neovim workflow will stay with me no matter what I work with.
+
+::: note
+I did use Emacs at work for years because their proprietary language only had an Emacs integration and I didn't have the time nor energy to create one for Neovim.
+While [Evil][] made the experience survivable I realized then that I absolutely hate having my work setup be different from my setup at home.
+
+People weren't overjoyed with being unable to choose their own editor and I've heard rumors that there's now an extension for Visual Studio.
+:::
+
+# Neovim is easily extensible
+
+> Neovim: a Personalized Development Environment
+>
+> ^ TJ DeVries [A different take on editing code](https://www.youtube.com/watch?v=QMVIJhC9Veg)
+
+I've always felt that Vimscript is the worst part of Vim.
+Maybe that's a weird statement as the scriptability of Vim is one if it's strengths;
+and to be fair, simple things are very nice:
+
+```vim
+nnoremap j gj
+set expandtab
+```
+
+But writing complex things in Vimscript is simply not a great experience.
+
+One of the major benefits of Neovim is the addition of Lua as a first-class scripting language.
+Yes, Lua isn't perfect and it's often too verbose but it's _so_ much better than Vimscript.
+Lua is the main reason that the Neovim plugin ecosystem is currently a lot more vibrant than in Vim.
+
+Making it easier to write plugins is of course a boon, but the real benefit is in how it makes it even easier to make more complex customization for yourself.
+Just plop down some Lua in the configuration files you already have and you're done.
+(Emacs worked this out to an even greater extent decades ago.)
+
+One way I use this customizability is to [help me when I'm blogging][]:
+
+::: plus
+* A custom picker to search and display blog posts
+* Autocomplete tags, post urls, and more
+* LSP-like functionality to display warnings and jump between posts
+* Use treesitter to convert links, autoformat lists, and jump around
+:::
+
+Maybe you don't need to create something this big but even small things such as disabling autoformat for certain file types in specific folders can be incredibly useful.
+
+Approachability should not be underestimated.
+
+::: note
+While plugins in Lua is understandably the focus today, Neovim can still use plugins written in Vimscript and 99% of your old Vim configuration will still work in Neovim.
+:::
+
+# Neovim won't go anywhere
+
+> The old is expected to stay longer than the young in proportion to their age.
+> ^ Nassim Nicholas Taleb, “Antifragile”
+
+The last big benefit with Neovim I'll highlight---and why I feel fine with investing even more time into Neovim---is that Neovim will most likely continue to exist and thrive for years if not decades to come.
+
+While Vim has---after an impressive 30 years of development---recently [entered maintenance mode][], activity in Neovim has steadily increased since the fork from Vim more than a decade ago.
+The amount of [high quality plugins][], interest in [Google trends][], and [GitHub activity][] have all been trending upwards.
+Neovim was also the most desired editor according to the [latest Stackoverflow developer survey][] and the overall buzz and excitement in the community is at an all-time high.
+
+With the self-reinforced behavior and benefits of investing into a versatile and flexible editor with a huge plugin ecosystem such as Neovim I see no reason for the trend to taper off anytime soon.
+
+Neovim will probably never be as popular as something like VSCode but as an open source project backed by excited developers, Neovim will probably be around long after VSCode has been discontinued for The Next Big Thing.
+
+[What is Kaizen? A Guide to Continuous Improvement]: https://www.learnleansigma.com/continuous-improvement/kaizen-small-changes-big-results/
+[compound interest]: https://www.investopedia.com/terms/c/compoundinterest.asp
+[your keyboard]: /blog/2024/11/26/building_my_ultimate_keyboard/
+[wrote a book]: /series/making-cryptobook/
+[Switched keyboard]: /blog/2024/11/26/building_my_ultimate_keyboard/
+[multiple times]: /blog/2024/11/26/the_current_cybershard_layout/
+[keyboard layout]: /series/t-34/
+[Evil]: https://github.com/emacs-evil/evil
+[help me when I'm blogging]: /series/extending_neovim_for_my_blog/
+[entered maintenance mode]: https://thenewstack.io/vim-after-bram-a-core-maintainer-on-how-theyve-kept-it-going/
+[Google trends]: https://trends.google.com/trends/explore?date=today%205-y&q=neovim
+[GitHub activity]: https://star-history.com/#neovim/neovim&Date
+[high quality plugins]: https://neovimcraft.com/
+[latest Stackoverflow developer survey]: https://survey.stackoverflow.co/2024/technology#2-integrated-development-environment
+
+[forced to switch editor from Neovim to Cursor]: https://www.reddit.com/r/neovim/comments/1iqvv60/my_workplace_mandated_cursor/
+
+[The Mirror]: https://www.mirror.co.uk/sport/other-sports/snooker/stephen-hendry-reveals-pre-match-13186275
