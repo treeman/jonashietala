@@ -295,7 +295,7 @@ Badum Badum
 int i = 2;
 ```
 
-```djot_inline
+```djot
 _emphasis_ and {=highlighted=}
 
 ![](/images/configura14/octree1.png)
@@ -418,5 +418,14 @@ End gallery. Ooh so pretty! :)
 # Embed YouTube
 
 http://www.youtube.com/watch?v=eoKDyhxCVm0
+
+[abc][]
+
+xyz
+
+[abc]: http://www.youtube.com/watch?v=eoKDyhxCVm0
+
+ok
+
 
 

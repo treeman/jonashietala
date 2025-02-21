@@ -3,11 +3,15 @@ title = "Let's build a VORON 0"
 tags = ["Some tag"]
 ---
 
+:table-of-content:
+
 # Why another printer?
 
 # Why a VORON 0?
 
-# Waiting to build
+# The kit
+
+## Lots of delays
 
 I ordered a VORON 0 from [Lecktor][] in February and it took roughly 4 months before I got the _first_ shipment of parts and it wasn't until the end of 2024 that I had received all the parts needed to complete the build.
 
@@ -21,7 +25,7 @@ While I can't complain about the quality of parts, with the massive delays I reg
 
 So what do you do when you can't start the build?
 
-Of course, you print parts!
+You print parts!
 
 ![A box of some of the printed parts for the build.](/images/voron_0/box_of_parts.jpg)
 
@@ -33,6 +37,14 @@ This time I wanted to make a colorful printer and I came up with this mix of fil
 - [Formfutura EasyFil ABS Light Green](https://www.3djake.com/formfutura/easyfiltm-abs-light-green)
 - [Formfutura EasyFil ABS Light Blue](https://www.3djake.com/formfutura/easyfiltm-abs-light-blue)
 - [Formfutura EasyFil ABS Magenta](https://www.3djake.com/formfutura/easyfiltm-abs-magenta)
+
+## Adjustments made from the kit
+
+* [Dragon Burner][] toolhead instead of the mini stealthburner
+* A Rapido instead the Dragon hotend that came with the kit
+* Added a Nevermore filter
+* Replaced the SKR Mini E3 V2 with the V3
+
 
 # The build
 
@@ -116,8 +128,45 @@ Just remember to preload the extrusion with extra M3 nuts when you assemble the 
 
 [tophat exhaust][]
 
+## Panels
+
 ## Wiring
 
+a. Mains
+a. Raspberry Pi
+a. Chamber thermistor
+a. Filament sensor
+a. Custom umbilical setup
+
+# Klipper setup
+
+I followed the [VORON documentation][] and chose Mainsail as I've been happy with it on my Trident.
+I'm not going to describe everything and only call out some issues I had or extra steps I had to take.
+
+## MCU firmware
+
+The [VORON documentation][] assumes USB communication so the default firmware instructions didn't work for me.
+
+According to [BigTreeTech's documentation][] if you communicate over USART2 (the TFT port) then you need to compile the firmware with `Communication interface` set to `Serial (on USART2 PA3/PA2)`.
+You then need to use this klipper configuration:
+
+```
+[mcu]
+serial: /dev/ttyAMA0
+restart_method: command
+```
+
+::: warn
+It took a long time for me to figure out as I had a display connected via USB, so I thought the display was the MCU and got stuck at a `Your Klipper version is: xxx MCU(s) which should be updated: xxx` error.
+:::
+
+## Filament runout
+
+## Chamber thermistor
+
+<https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/issues/632>
+
+## Nevermore filter
 
 # Unsorted
 
@@ -131,3 +180,6 @@ Just remember to preload the extrusion with extra M3 nuts when you assemble the 
 [Galileo 2]: https://github.com/JaredC01/Galileo2
 [Nevermore V4]: https://github.com/nevermore3d/Nevermore_Micro
 [tophat exhaust]: https://svelte.printables.com/model/886969-voron-02-filtered-tophat-exhaust
+[VORON documentation]: https://docs.vorondesign.com/build/software/#software-installation
+
+[BigTreeTech's documentation]: https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/blob/master/firmware/V3.0/Klipper/README.md
