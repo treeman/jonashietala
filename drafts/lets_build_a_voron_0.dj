@@ -50,29 +50,36 @@ This time I wanted to make a colorful printer and I came up with this mix of fil
 
 ![](/images/voron_0/office_overview2.jpg)
 
-## Frame and stuff
+I won't do as detailed of a build log as I did when [building the VORON Trident][] but I tried to take some pictures.
+Scroll on!
 
-![](/images/voron_0/assembly_start.jpg)
+## Frames and bed
 
-![](/images/voron_0/frame.jpg)
+![The linear Y-rails](/images/voron_0/assembly_start.jpg)
 
-## Kirigami
+![The kit comes with the [Kirigami bed mod][].](/images/voron_0/kirigami_assemblqu.jpg)
 
-![](/images/voron_0/kirigami_assemblqu.jpg)
+![The frame with A/B motors.](/images/voron_0/frame.jpg)
 
-![](/images/voron_0/plate_upside_down.jpg)
+![Building the bottom of the printer with feet, power supply, and disply.](/images/voron_0/plate_upside_down.jpg)
 
-## X-carriage mod
+## MGN9 instead of MGN7 X-axis
+
+After I assembled the X-axis I noticed a problem:
 
 ![The carriage collides with the stock A drive](/images/voron_0/wrong_drive2.jpg)
+
+The reason is that the kit comes with MGN9 rails for the X-axis instead of the standard MGN7 rails.
+This required me to print modified A/B drives, X-carriage, and alignment tools.
 
 ![The carriage passes the modded B drive](/images/voron_0/wrong_drive1.jpg)
 
 ## Belts
 
-![](/images/voron_0/belt_routing.jpg)
+![Starting to install the belt.](/images/voron_0/belt_routing.jpg)
 
-![](/images/voron_0/in_progress.jpg)
+![The belt is *tight*.](/images/voron_0/in_progress.jpg)
+
 
 ## Dragon Burner toolhead
 
@@ -132,11 +139,46 @@ Just remember to preload the extrusion with extra M3 nuts when you assemble the 
 
 ## Wiring
 
-a. Mains
-a. Raspberry Pi
-a. Chamber thermistor
-a. Filament sensor
-a. Custom umbilical setup
+### Power
+
+### Raspberry Pi
+
+![The Raspberry Pi only has two cables; power and communication over the GPIO pins and a display via USB.](/images/voron_0/pi_zero.jpg)
+
+![The Pi communicates and gets power over the TFT connection on the MCU.](/images/voron_0/tft_connection.jpg)
+
+### Toolhead
+
+The kit came with a toolhead board and breakout board for an umbilical setup:
+
+![The toolhead board.\
+I didn't use the x-endstop.](/images/voron_0/toolhead_board.jpg)
+
+![The breakout board.](/images/voron_0/umbilical_breakout_board.jpg)
+
+I did run into an issue where the polarity of the fans on the toolhead board did not match the polarity of the fans on the MCU, leading to some frustration where the fans refused to spin.
+I ended up swapping the polarity using the cables from the breakout board to the MCU.
+
+### Chamber thermistor
+
+The MCU only has two thermistor ports and they're used for the hotend and bed thermistors.
+For the chamber thermistor (that's integrated into the breakout board) I use the MOSI pin on the SPI1 8-pin header:
+
+![The chamber thermistor connected to MOSI and ground on the SPI1 header.](/images/voron_0/chamber_thermistor.jpg)
+
+### SKR mini E3 v3
+
+I got an SKR mini E3 v2 with the kit but I replaced it with the v3 for two reasons:
+
+1. An extra `FAN` output, used for the Nevermore Filter
+2. A filament runout sensor
+
+There's not much to say about the extra `FAN` output but the filament runout sensor has 3 pins, while VORON 0.2 style runout sensor has 3 pins.
+I reused the prepared y-endstop I got with the kit, scratched away some of the plastic to make the 2-pin connection fit the 3-pins on the MCU (the +5V pin isn't needed):
+
+TODO
+
+### Neopixels
 
 # Klipper setup
 
@@ -164,15 +206,20 @@ It took a long time for me to figure out as I had a display connected via USB, s
 
 ## Chamber thermistor
 
-<https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/issues/632>
+According to [this comment][chamber] this is the config to use the SPI header for a thermistor:
+
+```
+[temperature_sensor chamber_temp]
+sensor_type: Generic 3950
+sensor_pin: PA7
+pullup_resistor: 10000
+```
+
+It works!
 
 ## Nevermore filter
 
 # Unsorted
-
-![](/images/voron_0/first_shipment.jpg)
-
-![](/images/voron_0/wrong_wire.jpg)
 
 [Lecktor]: https://lecktor.com/en/
 [3DJake]: https://www.3djake.com/
@@ -181,5 +228,7 @@ It took a long time for me to figure out as I had a display connected via USB, s
 [Nevermore V4]: https://github.com/nevermore3d/Nevermore_Micro
 [tophat exhaust]: https://svelte.printables.com/model/886969-voron-02-filtered-tophat-exhaust
 [VORON documentation]: https://docs.vorondesign.com/build/software/#software-installation
-
 [BigTreeTech's documentation]: https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/blob/master/firmware/V3.0/Klipper/README.md
+[chamber]: https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/issues/632#issuecomment-1383618898
+[building the VORON Trident]: /series/voron_trident/
+[Kirigami bed mod]: https://github.com/christophmuellerorg/voron_0_kirigami_bed/
