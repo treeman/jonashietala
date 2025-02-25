@@ -7,7 +7,30 @@ tags = ["Some tag"]
 
 # Why another printer?
 
+I really like my [VORON Trident][trident] and it'll be my main printer for the foreseeable future but a second printer would do two big things for me:
+
+A. Act as a backup printer if my Trident breaks.
+
+   A printer made partially of printed parts is great as you can easily repair it...
+   But only if you have a working printer to print the parts.
+
+   It would also be very annoying if I disassemble the printer because I want to mod it and realize I've forgotten to print a part I needed.
+
+B. Building printers are _really fun_.
+
+   The [Let's build a VORON Trident][trident] project is one of my most fun and rewarding projects I've done.
+
 # Why a VORON 0?
+
+These properties makes the VORON 0 an ideal secondary printer for me:
+
+a. Build it yourself
+b. Very moddable
+c. A truly open source printer
+d. It's tiny
+e. Prints ABS/ASA well (used for printer parts)
+
+It would be very fun to build a VORON 2.4 (or even a VORON Phoenix) but I really don't have space for them.
 
 # The kit
 
@@ -50,7 +73,7 @@ This time I wanted to make a colorful printer and I came up with this mix of fil
 
 ![](/images/voron_0/office_overview2.jpg)
 
-I won't do as detailed of a build log as I did when [building the VORON Trident][] but I tried to take some pictures.
+I won't do as detailed of a build log as I did when [building the VORON Trident][trident] but I tried to take some pictures.
 Scroll on!
 
 ## Frames and bed
@@ -96,8 +119,6 @@ I think it looks really good.](/images/voron_0/dragonburner_front.jpg)
 I opted for the [Rapido 2][] instead of the [Dragon][] that came with the kit because the [Dragon][] has problems printing PLA.
 ](/images/voron_0/dragonburner_back.jpg)
 
-[Rapido 2]: https://www.3djake.com/phaetus/rapido-plus-hotend-2-hf
-[Dragon]: https://www.3djake.com/phaetus/dragon-hotend-uhf
 
 ![I was a bit confused on how to route the wires as there was very little space when mounting the toolhead on the carriage.
 Routing the wires close to the fans, clipping off the ears of the fans, and holding together it with cable ties in this way worked for me.](/images/voron_0/dragonburner_cable_back.jpg)
@@ -137,9 +158,17 @@ Just remember to preload the extrusion with extra M3 nuts when you assemble the 
 
 ## Panels
 
+![With the panel and spool holder at the back.](/images/voron_0/backplate.jpg)
+
+![With the tophat and door installed.](/images/voron_0/panels_tophat.jpg)
+
+I'm slightly annoyed with the small gaps and holes the printer has (mainly between the tophat and the panels at the bottom half).
+
 ## Wiring
 
 ### Power
+
+![](/images/voron_0/bottom_wiring.jpg)
 
 ### Raspberry Pi
 
@@ -176,7 +205,8 @@ I got an SKR mini E3 v2 with the kit but I replaced it with the v3 for two reaso
 There's not much to say about the extra `FAN` output but the filament runout sensor has 3 pins, while VORON 0.2 style runout sensor has 3 pins.
 I reused the prepared y-endstop I got with the kit, scratched away some of the plastic to make the 2-pin connection fit the 3-pins on the MCU (the +5V pin isn't needed):
 
-TODO
+![The filament runout sensor connected to `E0-stop`.\
+Yes it's not the right connector but where there's a will there's a way.](/images/filament_runout_sensor.jpg)
 
 ### Neopixels
 
@@ -204,6 +234,13 @@ It took a long time for me to figure out as I had a display connected via USB, s
 
 ## Filament runout
 
+```
+[filament_switch_sensor Filament_Runout_Sensor]
+pause_on_runout: True
+runout_gcode: PAUSE
+switch_pin: PC15
+```
+
 ## Chamber thermistor
 
 According to [this comment][chamber] this is the config to use the SPI header for a thermistor:
@@ -215,11 +252,43 @@ sensor_pin: PA7
 pullup_resistor: 10000
 ```
 
-It works!
+Works for me™
+
+## Display
+
+It's [easy to flash the display][] directly from the Raspberry Pi although the first firmware I built was too large.
+There are option features you can remove but I removed too many so the configuration for the buttons wasn't accepted.
+These were the settings that ended up working for me:
+
+```
+[*] Support GPIO "bit-banging" devices
+[*] Support LCD devices
+[ ] Support thermocouple MAX sensors
+[ ] Support adxl accelerometers
+[ ] Support lis2dw and lis3dh 3-axis accelerometers
+[ ] Support MPU accelerometers
+[*] Support HX711 and HX717 ADC chips
+[ ] Support ADS 1220 ADC chip
+[ ] Support ldc1612 eddy current sensor
+[ ] Support angle sensors
+[*] Support software based I2C "bit-banging"
+[*] Support software based SPI "bit-banging"
+```
 
 ## Nevermore filter
 
 # Unsorted
+
+# What's next?
+
+With a [VORON 0][] finally up and running I can now start working on some significant mods for my [Trident][trident]!
+This is the tentative plan right now:
+
+1. Install the [Inverted electronics][] mod
+1. Replace Stealthburner with another toolhead, most likely [A4T-toolhead][]
+1. Build a [BoxTurtle][] for multiple color support
+
+But we'll see when I manage to get to it. I'm not in a rush and I should take a little break and play with my [VORON 0][] first.
 
 [Lecktor]: https://lecktor.com/en/
 [3DJake]: https://www.3djake.com/
@@ -230,5 +299,12 @@ It works!
 [VORON documentation]: https://docs.vorondesign.com/build/software/#software-installation
 [BigTreeTech's documentation]: https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/blob/master/firmware/V3.0/Klipper/README.md
 [chamber]: https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/issues/632#issuecomment-1383618898
-[building the VORON Trident]: /series/voron_trident/
+[trident]: /series/voron_trident/
+[easy to flash the display]: https://forum.vorondesign.com/threads/voron-0-display-not-flashing.1641/
 [Kirigami bed mod]: https://github.com/christophmuellerorg/voron_0_kirigami_bed/
+[Inverted electronics]: https://mods.vorondesign.com/details/pXkXHVIUbqSWqQKJISczw
+[A4T-toolhead]: https://github.com/Armchair-Heavy-Industries/A4T
+[VORON 0]: https://vorondesign.com/voron0.2
+[Rapido 2]: https://www.3djake.com/phaetus/rapido-plus-hotend-2-hf
+[Dragon]: https://www.3djake.com/phaetus/dragon-hotend-uhf
+[BoxTurtle]: https://www.3djake.com/ldo-motors/boxturtle-v10
