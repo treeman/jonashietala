@@ -3,6 +3,8 @@ title = "Let's build a VORON 0"
 tags = ["Some tag"]
 ---
 
+![](/images/voron_0/its_alive.jpg)
+
 :table-of-content:
 
 # Why another printer?
@@ -67,6 +69,7 @@ This time I wanted to make a colorful printer and I came up with this mix of fil
 * A Rapido instead the Dragon hotend that came with the kit
 * Added a Nevermore filter
 * Replaced the SKR Mini E3 V2 with the V3
+* Did not bother with the neopixels LED strips
 
 
 # The build
@@ -164,11 +167,18 @@ Just remember to preload the extrusion with extra M3 nuts when you assemble the 
 
 I'm slightly annoyed with the small gaps and holes the printer has (mainly between the tophat and the panels at the bottom half).
 
+::: note
+I later changed some of the parts related to the top hat to match the colorscheme better.
+:::
+
 ## Wiring
 
-### Power
+Wiring was simpler than for the [Trident][trident] but it was harder to make the wiring pretty.
+Thank god I could cover it up.
 
-![](/images/voron_0/bottom_wiring.jpg)
+![The underside of the printer with the power, 5V converter, display, and Z-motor.](/images/voron_0/bottom_wiring.jpg)
+
+![Back of the printer with the Raspberry Pi and MCU.](/images/voron_0/back_wiring.jpg)
 
 ### Raspberry Pi
 
@@ -207,8 +217,6 @@ I reused the prepared y-endstop I got with the kit, scratched away some of the p
 
 ![The filament runout sensor connected to `E0-stop`.\
 Yes it's not the right connector but where there's a will there's a way.](/images/filament_runout_sensor.jpg)
-
-### Neopixels
 
 # Klipper setup
 
@@ -275,9 +283,9 @@ These were the settings that ended up working for me:
 [*] Support software based SPI "bit-banging"
 ```
 
-## Nevermore filter
-
 # Unsorted
+
+# Other setup things
 
 # What's next?
 
