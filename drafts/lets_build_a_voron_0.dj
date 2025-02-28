@@ -3,9 +3,13 @@ title = "Let's build a VORON 0"
 tags = ["Some tag"]
 ---
 
-![](/images/voron_0/its_alive.jpg)
+![](/images/voron_0/completed_front.jpg)
 
 :table-of-content:
+
+About 1.5 years ago I ventured into 3D printing by [building a VORON Trident][trident].
+It was a very fun project and I've also used the printer quite a bit.
+I've therefore built another printer, this time opting for the cute [VORON 0][].
 
 # Why another printer?
 
@@ -27,23 +31,44 @@ B. Building printers are _really fun_.
 These properties makes the VORON 0 an ideal secondary printer for me:
 
 a. Build it yourself
-b. Very moddable
-c. A truly open source printer
-d. It's tiny
-e. Prints ABS/ASA well (used for printer parts)
 
-It would be very fun to build a VORON 2.4 (or even a VORON Phoenix) but I really don't have space for them.
+   Building a printer is a fun project in itself.
 
-# The kit
+b. Prints ABS/ASA well
+
+   Necessary for printer parts.
+
+c. Very moddable and truly open source
+
+e. It's tiny
+
+   ![The VORON 0 to the left and the VORON Trident 250 to the right.
+     It's hard to appreciate how small the VORON 0 really is, which is perfect for me.](/images/voron_0/zero_and_trident.jpg)
+
+   It would be very fun to build a VORON 2.4 (or even a VORON Phoenix) but I really don't have space for them.
+
+# Getting the parts
+
+I opted to buy a kit instead of self-sourcing the parts as it's usually cheaper and requires a lot less work, even if you replace some parts.
+
+This is what I ended up getting:
+
+* A VORON 0 kit from [Lecktor][]
+
+* Parts for a [Dragon Burner][] toolhead
+
+* Added a [Nevermore V4][] active carbon filter
+
+* Later on, I replaced the SKR Mini E3 V2 that came with the kit with the V3
 
 ## Lots of delays
 
-I ordered a VORON 0 from [Lecktor][] in February and it took roughly 4 months before I got the _first_ shipment of parts and it wasn't until the end of 2024 that I had received all the parts needed to complete the build.
+I ordered a VORON 0 from [Lecktor][] in February 2024 and it took roughly 4 months before I got the _first_ shipment of parts and it wasn't until the end of 2024 that I had received all the parts needed to complete the build.
 
-The wait was annoying...
+The wait was _annoying_...
 
 ::: warn
-While I can't complain about the quality of parts, with the massive delays I regret ordering from [Lecktor][] and I would've been happier with an LDO kit from [3DJake][], like I was first considering.
+While I can't complain about the quality of parts, with the massive delays I regret ordering from [Lecktor][] and in hindsight I should've ordered an LDO kit from [3DJake][], like I was first considering.
 :::
 
 ## Printing parts myself
@@ -52,7 +77,7 @@ So what do you do when you can't start the build?
 
 You print parts!
 
-![A box of some of the printed parts for the build.](/images/voron_0/box_of_parts.jpg)
+![A box of some of the printed parts for the build (and many I later threw away).](/images/voron_0/box_of_parts.jpg)
 
 There's something very satisfying with printing parts you then build a printer with.
 
@@ -63,14 +88,7 @@ This time I wanted to make a colorful printer and I came up with this mix of fil
 - [Formfutura EasyFil ABS Light Blue](https://www.3djake.com/formfutura/easyfiltm-abs-light-blue)
 - [Formfutura EasyFil ABS Magenta](https://www.3djake.com/formfutura/easyfiltm-abs-magenta)
 
-## Adjustments made from the kit
-
-* [Dragon Burner][] toolhead instead of the mini stealthburner
-* A Rapido instead the Dragon hotend that came with the kit
-* Added a Nevermore filter
-* Replaced the SKR Mini E3 V2 with the V3
-* Did not bother with the neopixels LED strips
-
+I think they made the printer look great.
 
 # The build
 
@@ -132,17 +150,17 @@ Routing the wires close to the fans, clipping off the ears of the fans, and hold
 
 For the extruder I opted for the standalone version of [Galileo 2][].
 I've [used Galileo 2 on the Trident](/blog/2024/02/27/lets_build_a_voron_more_mods#Galileo-2) but I hated the push down latch it uses in the Stealthburner configuration.
-The latch eventually broke by pulling out a heat-set insert so I went back to the Clockwork 2 on the Trident and rebuilt the Galileo for the VORON 0 instead.
-
-The build was really fast and simple---compared to Stealthburner it's night and day.
+The latch eventually broke by pulling out a heat-set insert so I went back to the Clockwork 2 on the Trident, giving me the parts to rebuilt the Galileo for the VORON 0 in a standalone configuration.
 
 ![The parts for Galileo 2. There will be left-overs from the Stealthburner variant.](/images/voron_0/galileo_standalone.jpg)
 
-## Filters
+The build was really fast and simple---compared to the Stealthburner variant it's night and day.
+I didn't even think to take a break for pictures.
 
-Of course, I need to have activated carbon filter and an exhaust fan with a HEPA filter in the printer.
+## Nevermore filter
 
-### Nevermore
+Since I want to be able to print ABS I feel I need to have an activated carbon filter.
+I wanted to have an exhaust fan with a HEPA filter as well, but I'll leave that to a mod in the future.
 
 The [Nevermore V4][] is an activated carbon filter that fits well in the VORON 0.
 
@@ -155,13 +173,13 @@ Just remember to preload the extrusion with extra M3 nuts when you assemble the 
 (I've heard LDO has nuts you can insert after... Sounds great.)
 :::
 
-### Exhaust
-
-[tophat exhaust][]
-
 ## Panels
 
 ![With the panel and spool holder at the back.](/images/voron_0/backplate.jpg)
+
+::: warn
+Please ignore the filament path in this picture, it'll interfere with the rear belt when routed behind the umbilical cable.
+:::
 
 ![With the tophat and door installed.](/images/voron_0/panels_tophat.jpg)
 
@@ -265,8 +283,8 @@ Works for me™
 ## Display
 
 It's [easy to flash the display][] directly from the Raspberry Pi although the first firmware I built was too large.
-There are option features you can remove but I removed too many so the configuration for the buttons wasn't accepted.
-These were the settings that ended up working for me:
+There are optional features you can remove but I removed too many so the configuration for the buttons wasn't accepted.
+These were the features that ended up working for me:
 
 ```
 [*] Support GPIO "bit-banging" devices
@@ -283,9 +301,27 @@ These were the settings that ended up working for me:
 [*] Support software based SPI "bit-banging"
 ```
 
-# Unsorted
+## Sensorless homing
+
+I was nervous setting up sensorless homing, fearing that without a physical switch the printer might decide to burn the motor against the edge or something. (I really have no idea how it works, hence my fear.)
+
+In the end it was straightforward.
+The [VORON 0 example firmware][] was already configured for sensorless homing and the only things I had to do was:
+
+1. Physically jump the `X-DIAG` and `Y-DIAG` pins on the board
+2. Tweak the `driver_SGTHRS` values (I landed on `85` down from `255`)
+
+And now I have sensorless homing working consistently.
+
+What confused me was that the [sensorless homing guide][] and the [homing macros][] it links to were slightly different from the [VORON 0 example firmware][] and it wasn't clear if I had to make all the changes or not.
 
 # Other setup things
+
+Even after building the printer and setting up Klipper there's still things left before the printer can print reliably;
+bed leveling, slicer configuration, and [print tuning][].
+It felt slightly overwhelming when I---a complete 3D printer beginner---went through these steps for the first time.
+
+I could still tune a lot more but with the standard SuperSlicer VORON 0 configuration and my existing filament settings the printer already gets pretty good results.
 
 # What's next?
 
@@ -316,3 +352,7 @@ But we'll see when I manage to get to it. I'm not in a rush and I should take a 
 [Rapido 2]: https://www.3djake.com/phaetus/rapido-plus-hotend-2-hf
 [Dragon]: https://www.3djake.com/phaetus/dragon-hotend-uhf
 [BoxTurtle]: https://www.3djake.com/ldo-motors/boxturtle-v10
+[VORON 0 example firmware]: https://github.com/VoronDesign/Voron-0/tree/Voron0.2r1/Firmware
+[sensorless homing guide]: https://docs.vorondesign.com/tuning/sensorless.html
+[homing macros]: https://github.com/EricZimmerman/Voron02/blob/PreKlippain/macros/helpers/homing.cfg
+[print tuning]: https://ellis3dp.com/Print-Tuning-Guide/
