@@ -315,6 +315,12 @@ And now I have sensorless homing working consistently.
 
 What confused me was that the [sensorless homing guide][] and the [homing macros][] it links to were slightly different from the [VORON 0 example firmware][] and it wasn't clear if I had to make all the changes or not.
 
+## mcu shutdown: Timer too close
+
+https://forum.vorondesign.com/threads/error-mcu-mcu-shutdown-timer-too-close.543/
+
+Remove crowsnest https://github.com/mainsail-crew/gb-crowsnest/blob/main/setup/uninstall.md
+
 # Other setup things
 
 Even after building the printer and setting up Klipper there's still things left before the printer can print reliably;
