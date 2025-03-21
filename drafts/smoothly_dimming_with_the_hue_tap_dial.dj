@@ -1,7 +1,13 @@
 ---toml
-title = "Writing automations over mqtt using the Hue Tap Dial"
-tags = ["Some tag"]
+title = "Writing automations via MQTT using the Hue Tap Dial"
+tags = ["Elixir", "Home automation"]
 ---
+
+x
+
+1. I use Zigbee2mqtt as the Zigbee to MQTT bridge.
+1. The lights I control are Philips Hue and other lights may use other attributes.
+1. I use [a custom automation engine][elixir_engine] written in Elixir.
 
 # The direct zigbee binding is good but not great
 
@@ -66,7 +72,7 @@ defmodule Haex.MqttHandler do
 end
 ```
 
-Then in our automation (which in [my automation system][] is a regular GenServer) we can subscribe to the events the Tap Dial creates:
+Then in our automation (which in [my automation system][elixir_engine] is a regular GenServer) we can subscribe to the events the Tap Dial creates:
 
 ```elixir
 defmodule Automation.TapDialExample do
@@ -349,19 +355,20 @@ The window light and lava lamp are on timers so we don't have to do anything spe
 Here are the functions I plan for the tap dial in the room:
 
 - *Rotate*: Dim brightness of ceiling light (direct binding)
-- *Click 1*: Toggle ceiling light on/off
-- *Click 2*: Toggle Isidor's night light on/off
-- *Click 3*: Toggle Loke's night light on/off
-- *Click 4*: Each click goes through different colors for the ceiling light
 - *Hold any*: Turns off the ceiling light (direct binding)
-- *Hold 2*: Loop through the hue of Isidor's night light
-- *Hold 3*: Loop through the hue of Loke's night light
+- *Click 1*: Toggle ceiling light on/off
 - *Double click 1*: Max brightness (cleaning mode), double click again to turn off
+- *Click 2*: Toggle Isidor's night light on/off
+- *Hold 2*: Loop through the hue of Isidor's night light
+- *Click 3*: Toggle Loke's night light on/off
+- *Hold 3*: Loop through the hue of Loke's night light
+- *Click 4*: Each click goes through different colors for the ceiling light
+- *Double click 4*: Reset ceiling light to normal circadian operation
 
 While I normally wouldn't use direct bindings together with hold functionality (as it will always turn off the ceiling light), in this case I think it's fine.
 
 https://community.home-assistant.io/t/philips-tap-dial-switch-with-double-tap-and-4-dial-actions/618988/111
 
 [Phoenix PubSub]: https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html
-[my automation system]: /blog/2024/10/08/writing_home_assistant_automations_using_genservers_in_elixir/
+[elixir_engine]: /blog/2024/10/08/writing_home_assistant_automations_using_genservers_in_elixir/
 [here's the information]: https://www.zigbee2mqtt.io/devices/9290024688.html

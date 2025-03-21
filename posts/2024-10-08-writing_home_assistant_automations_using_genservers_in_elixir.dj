@@ -1,6 +1,6 @@
 ---toml
 title = "Writing Home Assistant automations using Genservers in Elixir"
-tags = ["Home Assistant", "Elixir"]
+tags = ["Home Assistant", "Elixir", "Home automation"]
 favorite = true
 ---
 
