@@ -8,12 +8,13 @@ tags = ["Some tag"]
 :table-of-content:
 
 About 1.5 years ago I ventured into 3D printing by [building a VORON Trident][trident].
-It was a very fun project and I've also used the printer quite a bit.
-I've therefore built another printer, this time opting for the cute [VORON 0][].
+It was a very fun project and I've even used the printer quite a bit.
+
+Naturally, I had to build another one and this time I opted for the cute [VORON 0][].
 
 # Why another printer?
 
-I really like my [VORON Trident][trident] and it'll be my main printer for the foreseeable future but a second printer would do two big things for me:
+I really like my [VORON Trident][trident] and it'll continue to be my main printer for the foreseeable future but a second printer would do two important things for me:
 
 A. Act as a backup printer if my Trident breaks.
 
@@ -24,28 +25,24 @@ A. Act as a backup printer if my Trident breaks.
 
 B. Building printers are _really fun_.
 
-   The [Let's build a VORON Trident][trident] project is one of my most fun and rewarding projects I've done.
+   [Building the VORON Trident][trident] is one of my most fun and rewarding projects I've done.
 
 # Why a VORON 0?
 
 These properties makes the VORON 0 an ideal secondary printer for me:
 
-a. Build it yourself
+a. You need to assemble the VORON 0 yourself (a feature not a bug)
 
-   Building a printer is a fun project in itself.
-
-b. Prints ABS/ASA well
-
-   Necessary for printer parts.
+b. Prints ABS/ASA well (for printer parts)
 
 c. Very moddable and truly open source
 
 e. It's tiny
 
    ![The VORON 0 to the left and the VORON Trident 250 to the right.
-     It's hard to appreciate how small the VORON 0 really is, which is perfect for me.](/images/voron_0/zero_and_trident.jpg)
+     It's really small, which is perfect for me as I have a limited amount of space.](/images/voron_0/zero_and_trident.jpg)
 
-   It would be very fun to build a VORON 2.4 (or even a VORON Phoenix) but I really don't have space for them.
+   It would be very fun to build a VORON 2.4 (or even a VORON Phoenix) but I really don't have space for more printers.
 
 # Getting the parts
 
@@ -57,7 +54,7 @@ This is what I ended up getting:
 
 * Parts for a [Dragon Burner][] toolhead
 
-* Added a [Nevermore V4][] active carbon filter
+* Parts for a [Nevermore V4][] active carbon filter
 
 * Later on, I replaced the SKR Mini E3 V2 that came with the kit with the V3
 
@@ -99,24 +96,24 @@ Scroll on!
 
 ## Frames and bed
 
-![The linear Y-rails](/images/voron_0/assembly_start.jpg)
+![The linear Y-rails.](/images/voron_0/assembly_start.jpg)
 
 ![The kit comes with the [Kirigami bed mod][].](/images/voron_0/kirigami_assemblqu.jpg)
 
 ![The frame with A/B motors.](/images/voron_0/frame.jpg)
 
-![Building the bottom of the printer with feet, power supply, and disply.](/images/voron_0/plate_upside_down.jpg)
+![Building the bottom of the printer with feet, power supply, and display.](/images/voron_0/plate_upside_down.jpg)
 
 ## MGN9 instead of MGN7 X-axis
 
 After I assembled the X-axis I noticed a problem:
 
-![The carriage collides with the stock A drive](/images/voron_0/wrong_drive2.jpg)
+![The carriage collides with the stock A drive.](/images/voron_0/wrong_drive2.jpg)
 
 The reason is that the kit comes with MGN9 rails for the X-axis instead of the standard MGN7 rails.
-This required me to print modified A/B drives, X-carriage, and alignment tools.
+This required me to reprint modified A/B drives, X-carriage, and alignment tools.
 
-![The carriage passes the modded B drive](/images/voron_0/wrong_drive1.jpg)
+![The carriage passes the modded B drive.](/images/voron_0/wrong_drive1.jpg)
 
 ## Belts
 
@@ -313,9 +310,11 @@ The [VORON 0 example firmware][] was already configured for sensorless homing an
 
 And now I have sensorless homing working consistently.
 
-What confused me was that the [sensorless homing guide][] and the [homing macros][] it links to were slightly different from the [VORON 0 example firmware][] and it wasn't clear if I had to make all the changes or not.
+What confused me was that the [sensorless homing guide][] and the [homing macros][] it links to were slightly different from the [VORON 0 example firmware][] and it wasn't clear if I had to make all the changes or not. (I did not.)
 
 # Some random issues I encountered
+
+It's never smooth sailing.
 
 - I got the `mcu shutdown: Timer too close` error a few times.
 
@@ -323,7 +322,7 @@ What confused me was that the [sensorless homing guide][] and the [homing macros
 
 - The filament sensor had some consistency issues.
 
-  Some extra tape seemed to fix it.
+  Some extra tape on the bearing seemed to fix it.
 
 - The filament keeps getting stuck in the extruder after unload.
 
@@ -333,13 +332,10 @@ What confused me was that the [sensorless homing guide][] and the [homing macros
 
   Super frustrating and I was about to give up when I noticed I had loaded ABS filament instead of PLA...
 
-# Other setup things
+# Initial thoughts on the printer
 
-Even after building the printer and setting up Klipper there's still things left before the printer can print reliably;
-bed leveling, slicer configuration, more klipper configuration, and [print tuning][].
-It felt slightly overwhelming when I---a complete 3D printer beginner---went through these steps for the first time but this time if wasn't nearly as bad.
-
-I could still tune a lot more but with the standard SuperSlicer VORON 0 configuration and my existing filament settings the printer already gets pretty good results.
+- It's very loud
+- The cooling from the Dragon Burner is great
 
 # What's next?
 
