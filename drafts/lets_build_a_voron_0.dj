@@ -315,17 +315,29 @@ And now I have sensorless homing working consistently.
 
 What confused me was that the [sensorless homing guide][] and the [homing macros][] it links to were slightly different from the [VORON 0 example firmware][] and it wasn't clear if I had to make all the changes or not.
 
-## mcu shutdown: Timer too close
+# Some random issues I encountered
 
-https://forum.vorondesign.com/threads/error-mcu-mcu-shutdown-timer-too-close.543/
+- I got the `mcu shutdown: Timer too close` error a few times.
 
-Remove crowsnest https://github.com/mainsail-crew/gb-crowsnest/blob/main/setup/uninstall.md
+  I don't know what I did but it only happened a couple of times at beginning.
+
+- The filament sensor had some consistency issues.
+
+  Some extra tape seemed to fix it.
+
+- The filament keeps getting stuck in the extruder after unload.
+
+  I'm still having issues but forgetting to tighten the nozzle and using a too short PTFE tube didn't help.
+
+- I had trouble getting the filament to stick to bed.
+
+  Super frustrating and I was about to give up when I noticed I had loaded ABS filament instead of PLA...
 
 # Other setup things
 
 Even after building the printer and setting up Klipper there's still things left before the printer can print reliably;
 bed leveling, slicer configuration, more klipper configuration, and [print tuning][].
-It felt slightly overwhelming when I---a complete 3D printer beginner---went through these steps for the first time.
+It felt slightly overwhelming when I---a complete 3D printer beginner---went through these steps for the first time but this time if wasn't nearly as bad.
 
 I could still tune a lot more but with the standard SuperSlicer VORON 0 configuration and my existing filament settings the printer already gets pretty good results.
 
