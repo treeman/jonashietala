@@ -1,6 +1,7 @@
 ---toml
 title = "Let's build a VORON 0"
 tags = ["3D printing", "VORON"]
+favorite = true
 ---
 
 ![](/images/voron_0/completed_front.jpg)
@@ -98,7 +99,7 @@ Scroll on!
 
 ![The linear Y-rails.](/images/voron_0/assembly_start.jpg)
 
-![The kit comes with the [Kirigami bed mod][].](/images/voron_0/kirigami_assemblqu.jpg)
+![The kit comes with the [Kirigami bed mod](https://github.com/christophmuellerorg/voron_0_kirigami_bed/).](/images/voron_0/kirigami_assemblqu.jpg)
 
 ![The frame with A/B motors.](/images/voron_0/frame.jpg)
 
@@ -373,20 +374,17 @@ But we'll see when I manage to get to it. I'm not in a rush and I should take a 
 [Dragon Burner]: https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner
 [Galileo 2]: https://github.com/JaredC01/Galileo2
 [Nevermore V4]: https://github.com/nevermore3d/Nevermore_Micro
-[tophat exhaust]: https://svelte.printables.com/model/886969-voron-02-filtered-tophat-exhaust
 [VORON documentation]: https://docs.vorondesign.com/build/software/#software-installation
 [BigTreeTech's documentation]: https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/blob/master/firmware/V3.0/Klipper/README.md
 [chamber]: https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/issues/632#issuecomment-1383618898
 [trident]: /series/voron_trident/
 [easy to flash the display]: https://forum.vorondesign.com/threads/voron-0-display-not-flashing.1641/
-[Kirigami bed mod]: https://github.com/christophmuellerorg/voron_0_kirigami_bed/
 [Inverted electronics]: https://mods.vorondesign.com/details/pXkXHVIUbqSWqQKJISczw
 [A4T-toolhead]: https://github.com/Armchair-Heavy-Industries/A4T
 [VORON 0]: https://vorondesign.com/voron0.2
-[Rapido 2]: https://www.3djake.com/phaetus/rapido-plus-hotend-2-hf
-[Dragon]: https://www.3djake.com/phaetus/dragon-hotend-uhf
 [BoxTurtle]: https://www.3djake.com/ldo-motors/boxturtle-v10
 [VORON 0 example firmware]: https://github.com/VoronDesign/Voron-0/tree/Voron0.2r1/Firmware
 [sensorless homing guide]: https://docs.vorondesign.com/tuning/sensorless.html
 [homing macros]: https://github.com/EricZimmerman/Voron02/blob/PreKlippain/macros/helpers/homing.cfg
-[print tuning]: https://ellis3dp.com/Print-Tuning-Guide/
+[Rapido 2]: https://www.phaetus.com/products/rapido2
+[Dragon]: https://www.phaetus.com/products/dragon-hotend-hf
