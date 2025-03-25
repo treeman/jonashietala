@@ -1,6 +1,6 @@
 ---toml
 title = "Let's build a VORON 0"
-tags = ["Some tag"]
+tags = ["3D printing", "VORON"]
 ---
 
 ![](/images/voron_0/completed_front.jpg)
@@ -314,7 +314,7 @@ What confused me was that the [sensorless homing guide][] and the [homing macros
 
 # Some random issues I encountered
 
-It's never smooth sailing.
+In typical 3D printer fashion, you'll always run into various issues, for example:
 
 - I got the `mcu shutdown: Timer too close` error a few times.
 
@@ -330,23 +330,43 @@ It's never smooth sailing.
 
 - I had trouble getting the filament to stick to bed.
 
-  Super frustrating and I was about to give up when I noticed I had loaded ABS filament instead of PLA...
+  Super frustrating to be honest.
+  I re-calibrated the z offset and thumb screws a bunch of times and (right now) it seems to work fairly well.
+  Even though you're not supposed to need automatic bed leveling for a printer this small, I can't help but miss the "just works" feeling I have with the Trident.
 
 # Initial thoughts on the printer
 
-- It's very loud
-- The cooling from the Dragon Burner is great
+![A model I printed for one of my kids. It came out really well.](/images/voron_0/dino_print.jpg)
+
+I haven't printed that much with the printer yet but I have some positive things to say about it:
+
+::: plus
+- It looks very good and was very fun to build.
+- The small footprint is great and a surprising amount of prints fits on the small build volume.
+- The print quality is very good. The extra cooling from the [Dragon Burner][] is great when printing PLA (which I use a lot).
+:::
+
+But I have some negative things to say too:
+
+::: dash
+- It's loud. The 5V fan close to the Raspberry Pi is _horribly_ loud but the print movement is also too loud for my taste.
+- It's poorly insulated. For example there are gaps between the top hat and the rest of the printer that I don't see a good way to cover up.
+:::
+
+Overall though I'm very happy with it.
+I wouldn't recommend it as a first printer or to someone who just wants a tool that works out of the box,
+but for people like me who wanted to build a backup/secondary printer I think it's _great_.
 
 # What's next?
 
-With a [VORON 0][] finally up and running I can now start working on some significant mods for my [Trident][trident]!
+With a secondary printer finally up and running I can now start working on some significant mods for my [Trident][trident]!
 This is the tentative plan right now:
 
-1. Install the [Inverted electronics][] mod
-1. Replace Stealthburner with another toolhead, most likely [A4T-toolhead][]
-1. Build a [BoxTurtle][] for multiple color support
+1. Install the [Inverted electronics][] mod.
+1. Replace Stealthburner with another toolhead, most likely [A4T-toolhead][].
+1. Build a [BoxTurtle][] for multi-color support.
 
-But we'll see when I manage to get to it. I'm not in a rush and I should take a little break and play with my [VORON 0][] first.
+But we'll see when I manage to get to it. I'm not in a rush and I should take a little break and play with my [VORON 0][] and perhaps work on my other dozen or so projects that lie dormant.
 
 [Lecktor]: https://lecktor.com/en/
 [3DJake]: https://www.3djake.com/
