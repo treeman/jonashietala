@@ -335,6 +335,12 @@ In typical 3D printer fashion, you'll always run into various issues, for exampl
   I re-calibrated the z offset and thumb screws a bunch of times and (right now) it seems to work fairly well.
   Even though you're not supposed to need automatic bed leveling for a printer this small, I can't help but miss the "just works" feeling I have with the Trident.
 
+  {date="2025-03-27"}
+  ::: update
+  I absolutely recommend anyone to follow Elli's [First Layer Squish][] guide after you've tried to calibrate your bed screws and z endstop.
+  It's much easier to see any minor inconsistencies visually than with the paper test and you'll get much better bed adhesion (and prints) if you just take your time to tune in a good first layer squish.
+  :::
+
 # Initial thoughts on the printer
 
 ![A model I printed for one of my kids. It came out really well.](/images/voron_0/dino_print.jpg)
@@ -388,3 +394,4 @@ But we'll see when I manage to get to it. I'm not in a rush and I should take a 
 [homing macros]: https://github.com/EricZimmerman/Voron02/blob/PreKlippain/macros/helpers/homing.cfg
 [Rapido 2]: https://www.phaetus.com/products/rapido2
 [Dragon]: https://www.phaetus.com/products/dragon-hotend-hf
+[First Layer Squish]: https://ellis3dp.com/Print-Tuning-Guide/articles/first_layer_squish.html
