@@ -134,6 +134,14 @@ I went with it because it's quite popular, it has good cooling (I print a bunch 
 I don't care about LEDs so I inserted an opaque magenta part instead.
 I think it looks really good.](/images/voron_0/dragonburner_front.jpg)
 
+::: warn
+Some friendly people over at the [VORON forum](https://forum.vorondesign.com/) and the Discord were quick to point out that I had installed the hotend fan wrong.
+The fan is supposed to blow air towards the hotend, not away from it.
+
+![The hotend fan now correctly installed.
+The sticker on this particular fan should be pointing inwards and shouldn't be visible.](/images/voron_0/nevermore_fan_ok.jpg)
+:::
+
 ![The back of the Dragon Burner.
 I opted for the [Rapido 2][] instead of the [Dragon][] that came with the kit because the [Dragon][] has problems printing PLA.
 ](/images/voron_0/dragonburner_back.jpg)
