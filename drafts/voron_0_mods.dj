@@ -1,0 +1,90 @@
+---toml
+title = "VORON 0 mods"
+tags = ["3D printing", "VORON"]
+---
+
+# Mods
+
+## Hepa filter
+
+<https://www.printables.com/model/746595-voron-02-bag-hepa-carbon-filter/files>
+<https://noctua.at/en/products/fan/nf-a4x10-5v>
+
+New HEPA filter:
+<https://mods.vorondesign.com/details/tgFNVfEZGqjWbxWIt8ss2A>
+<https://vi.aliexpress.com/item/32788652288.html?gatewayAdapt=glo2vnm>
+<https://vi.aliexpress.com/w/wholesale-Carbon-Infused-Filter-Pad.html>
+<https://www.printables.com/model/878785-voron-0-top-back-panel-hepa-filter-by-jnp-mount/files>
+
+## Upper rear panel
+
+<https://www.printables.com/model/840122-upper-rear-panel-with-voron-logo-for-voron-0>
+
+## Another magnetic backplate (nah)
+
+<https://www.printables.com/model/938887-voron-02-magnetic-backplate/files>
+
+## Ventilated back plate
+
+<https://www.printables.com/model/699883-voron-v02-ventilated-rear-panel-printable-on-voron/comments>
+
+## Ventilated + hinged back panel
+
+<https://www.printables.com/model/536169-voron-v0-hinged-rear-panel-hex-mesh>
+
+## Full size panels
+
+330 mm high
+212 mm width
+3 parts 3 mm thick
+
+<https://www.printables.com/model/583082-voron-02-fullsize-zeropanel-mod-stock-frame-full-p/files>
+<https://github.com/adooze/ZeroPanels_for_Stock_V0.2>
+
+### Colorscheme
+
+All corners top back: magenta
+
+Lower back right: blue 1
+Lower front right: green 2 (1 top hinge, 1 bottom hinge)
+Top front right: blue 3 (1 top hinge, 1 bottom hinge, 1 clip)
+
+Lower back left: green 1
+Lower front left: blue 2
+Top front left: green 3
+
+4 magenta clip
+2 magenta mid clip
+
+4 green clip
+1 green top hinge
+1 green bottom hinge
+1 green mid clip
+
+4 blue clip
+1 blue top hinge
+1 blue bottom hinge
+1 green mid clip
+
+Handle: magenta
+
+Rear panel: magenta/black
+
+## Fan on top of MCU (maybe...)
+
+<https://www.printables.com/model/565377-voron-02-lower-rear-panel-with-mcu-fan-on-right-si>
+(Fits 8010/8015 fans, but no noctua)
+
+## Led strips (if they fit)
+
+<https://www.printables.com/model/637053-voron-0-ledstrip-holder>
+
+## Foldable spool holder
+
+<https://www.printables.com/model/311233-voron-01-foldable-spool-holder>
+<https://www.printables.com/model/542953-locking-foldable-spool-holder-for-voron-v02-0-v0-0>
+
+## Modesty mesh
+
+<https://mods.vorondesign.com/details/zQkxgPQUJw3HY5IHALTYA>
+

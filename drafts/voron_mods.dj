@@ -45,11 +45,17 @@ I eventually settled on the [A4T-toolhead][] because it's supposed to have even 
 
 ## Assembly
 
+<https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md>
+
 ## The Beacon probe
 
 ## Filament sensor
 
+2x 5.5mm balls for filament sensor
+
 ## Filament cutter
+
+<https://github.com/SouthAsh1/A4T-AFC>>
 
 # Move the Y-endstop and remove the drag chains
 
