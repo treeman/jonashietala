@@ -53,7 +53,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedDot<'a, I> {
             .map(String::from)
             .unwrap_or_else(|| src.to_string());
 
-        let svg = match generate_dot(&rel_src) {
+        let svg = match generate_dot(&RelPath(rel_src.clone().into())) {
             Ok(x) => x,
             Err(err) => {
                 warn!("Couldn't convert dot `{src}`: {err}");

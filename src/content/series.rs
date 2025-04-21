@@ -1,7 +1,7 @@
 use crate::context::LoadContext;
 use crate::item::Item;
 use crate::markup::{find_markup_files, Html, Markup, MarkupLookup, ParseContext, RawMarkupFile};
-use crate::paths::{AbsPath, FilePath};
+use crate::paths::{AbsPath, FilePath, RelPath};
 use crate::{content::PostItem, context::RenderContext, item::TeraItem, site_url::SiteUrl};
 use chrono::{NaiveDate, Utc};
 use eyre::{eyre, Result};
@@ -10,6 +10,7 @@ use rayon::iter::{IntoParallelRefMutIterator, ParallelIterator};
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::cmp::Reverse;
+use std::collections::HashSet;
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 use tera::Context;
 use tracing::warn;
@@ -76,6 +77,7 @@ pub struct SeriesItem {
     pub url: SiteUrl,
     pub description: Html,
     pub markup_lookup: Option<MarkupLookup>,
+    pub embedded_files: HashSet<RelPath>,
     pub post_note: Option<Html>,
     pub posts: BTreeSet<Reverse<PostRef>>,
     pub homepage: bool,
@@ -118,6 +120,7 @@ impl SeriesItem {
             url,
             description: markup.html,
             markup_lookup: markup.markup_lookup,
+            embedded_files: markup.embedded_files,
             post_note,
             posts: BTreeSet::new(),
             homepage: markup.markup_meta.homepage.unwrap_or(false),

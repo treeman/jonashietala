@@ -9,7 +9,7 @@ use crate::markup::{find_markup_files, Html, MarkupLookup, ParseContext, RawMark
 use crate::{
     context::RenderContext,
     item::{Item, TeraItem},
-    paths::{AbsPath, FilePath},
+    paths::{AbsPath, FilePath, RelPath},
     site_url::SiteUrl,
 };
 
@@ -33,6 +33,7 @@ pub struct StandaloneItem {
     pub content: Html,
     pub is_draft: bool,
     pub markup_lookup: Option<MarkupLookup>,
+    pub embedded_files: HashSet<RelPath>,
 }
 
 impl PartialEq for StandaloneItem {
@@ -79,6 +80,7 @@ impl StandaloneItem {
             content: markup.html,
             is_draft: markup.markup_meta.is_draft,
             markup_lookup: markup.markup_lookup,
+            embedded_files: markup.embedded_files,
         })
     }
 }

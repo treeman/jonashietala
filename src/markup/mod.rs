@@ -1,5 +1,5 @@
 mod djot;
-mod dot;
+pub mod dot;
 mod embed_youtube;
 mod graphs;
 mod markdown;

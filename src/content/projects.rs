@@ -5,24 +5,26 @@ use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::cmp::{Ordering, Reverse};
 use std::collections::BTreeMap;
+use std::collections::HashSet;
 use tera::Context;
 
 use crate::context::{LoadContext, RenderContext};
 use crate::item::TeraItem;
 use crate::markup::find_markup_files;
 use crate::markup::{Html, MarkupFile, MarkupLookup, ParseContext, RawMarkupFile};
-use crate::paths::{AbsPath, FilePath};
+use crate::paths::{AbsPath, FilePath, RelPath};
 use crate::site_url::SiteUrl;
 
 #[derive(Debug)]
 pub struct ProjectsItem {
     prematter: Html,
-    markup_lookup: Option<MarkupLookup>,
     path: AbsPath,
     pub title: String,
     pub url: SiteUrl,
     pub projects: BTreeMap<ProjectRef, Project>,
     pub games: BTreeMap<GameRef, Game>,
+    pub markup_lookup: Option<MarkupLookup>,
+    pub embedded_files: HashSet<RelPath>,
 }
 
 impl ProjectsItem {
@@ -55,6 +57,7 @@ impl ProjectsItem {
             url: Self::url(),
             prematter: markup.html,
             markup_lookup: markup.markup_lookup,
+            embedded_files: markup.embedded_files,
             path: markup.path,
             title,
             projects,
@@ -149,12 +152,12 @@ pub struct ProjectRef {
 
 #[derive(Debug)]
 pub struct Project {
-    title: String,
-    link: Option<String>,
-    year: u32,
-    path: AbsPath,
-    descr: Html,
-    markup_lookup: Option<MarkupLookup>,
+    pub title: String,
+    pub link: Option<String>,
+    pub year: u32,
+    pub path: AbsPath,
+    pub descr: Html,
+    pub markup_lookup: Option<MarkupLookup>,
     pub homepage: bool,
 }
 

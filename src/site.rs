@@ -34,6 +34,7 @@ use crate::context::LoadContext;
 use crate::feed::SiteFeed;
 use crate::git::LatestCommits;
 use crate::item::Item;
+use crate::markup::dot;
 use crate::markup::markup_lookup::MarkupLookup;
 use crate::paths;
 use crate::paths::AbsPath;
@@ -344,6 +345,7 @@ enum PathEvent {
     Template,
     Font,
     Image,
+    Dot,
     #[allow(dead_code)]
     Homepage,
     Project,
@@ -373,6 +375,8 @@ impl PathEvent {
             Self::Font
         } else if path.rel_path.starts_with("images/") {
             Self::Image
+        } else if path.rel_path.starts_with("graphviz/") {
+            Self::Dot
         } else if path.rel_path == "projects.dj" || path.rel_path.starts_with("projects/") {
             Self::Project
         } else if unknown_change_msg(&path.rel_path) {
@@ -639,6 +643,7 @@ impl Site {
             PathEvent::Template => self.rebuild_template(path.abs_path())?,
             PathEvent::Font => self.rebuild_copy(path, true)?,
             PathEvent::Image => self.rebuild_img(path)?,
+            PathEvent::Dot => self.rebuild_dot(path)?,
             PathEvent::Homepage => self.rebuild_homepage()?,
             PathEvent::Project => self.rebuild_projects(path.abs_path())?,
             PathEvent::Unknown => warn!("Unknown write: {path}"),
@@ -940,25 +945,69 @@ impl Site {
     }
 
     fn rebuild_img(&mut self, path: FilePath) -> Result<()> {
-        // NOTE when changing multiple images (such as generating keyboard layout images)
-        // this may rebuild the post multiple times.
-        let changed_posts = self
-            .content
-            .posts
-            .values()
-            .filter(|post| post.embedded_files.contains(&path.rel_path))
-            .map(|post| post.path.clone())
-            .collect::<Vec<_>>();
-
-        // TODO should check series and standalones as well
-
-        for change in changed_posts {
-            self.rebuild_post(change.clone())?;
-        }
-
+        self.rebuild_embedded_change(&path)?;
         self.rebuild_copy(path, false)?;
         self.notify_refresh()?;
         Ok(())
+    }
+
+    fn rebuild_dot(&mut self, path: FilePath) -> Result<()> {
+        dbg!(&path);
+        self.rebuild_embedded_change(&path)?;
+        // TODO need to copy too
+        dot::regenerate_dot(&path.rel_path)?;
+        self.notify_refresh()?;
+        Ok(())
+    }
+
+    fn rebuild_embedded_change(&mut self, changed_file: &FilePath) -> Result<()> {
+        for change in self.filter_changed_posts(changed_file) {
+            self.rebuild_post(change.clone())?;
+        }
+        if self.is_projects_changed(changed_file) {
+            self.rebuild_projects(changed_file.abs_path())?;
+        }
+        for change in self.filter_changed_standalones(changed_file) {
+            self.rebuild_standalone(change.clone())?;
+        }
+        for change in self.filter_changed_series(changed_file) {
+            self.rebuild_series(change.clone())?;
+        }
+        Ok(())
+    }
+
+    fn filter_changed_posts(&self, changed_file: &FilePath) -> HashSet<AbsPath> {
+        self.content
+            .posts
+            .values()
+            .filter(|post| post.embedded_files.contains(&changed_file.rel_path))
+            .map(|post| post.path.clone())
+            .collect()
+    }
+
+    fn is_projects_changed(&self, changed_file: &FilePath) -> bool {
+        self.content
+            .projects
+            .embedded_files
+            .contains(&changed_file.rel_path)
+    }
+
+    fn filter_changed_standalones(&self, changed_file: &FilePath) -> HashSet<AbsPath> {
+        self.content
+            .standalones
+            .iter()
+            .filter(|post| post.embedded_files.contains(&changed_file.rel_path))
+            .map(|post| post.path.clone())
+            .collect()
+    }
+
+    fn filter_changed_series(&self, changed_file: &FilePath) -> HashSet<AbsPath> {
+        self.content
+            .series
+            .values()
+            .filter(|post| post.embedded_files.contains(&changed_file.rel_path))
+            .map(|post| post.path.clone())
+            .collect()
     }
 
     fn rebuild_all(&mut self) -> Result<()> {

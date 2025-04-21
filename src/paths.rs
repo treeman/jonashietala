@@ -36,7 +36,7 @@ pub fn list_files(dir: AbsPath) -> Vec<FilePath> {
     file_iter(dir).map(|e| e.path).collect()
 }
 
-#[derive(Debug, Eq, PartialEq, Clone)]
+#[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd, Hash)]
 pub struct FilePath {
     pub base: Utf8PathBuf,
     pub rel_path: RelPath,
@@ -80,7 +80,7 @@ impl Display for FilePath {
 }
 
 /// Deref etc aren't implemented to avoid mixing with absolute paths.
-#[derive(Debug, Eq, PartialEq, Clone)]
+#[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd)]
 pub struct RelPath(pub Utf8PathBuf);
 
 impl<T> PartialEq<T> for RelPath
@@ -110,7 +110,7 @@ impl RelPath {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Clone, PartialOrd, Ord)]
+#[derive(Debug, Eq, PartialEq, Clone, PartialOrd, Ord, Hash)]
 pub struct AbsPath(pub Utf8PathBuf);
 
 impl AbsPath {
