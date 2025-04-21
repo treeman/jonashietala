@@ -1,0 +1,7 @@
+---toml
+title = "Homelab"
+---
+
+This page attempts to document my homelab setup that play around with, use as a learning platform, and sometimes even host useful things on.
+
+![](graphviz/test.dot)

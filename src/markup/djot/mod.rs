@@ -3,6 +3,7 @@ mod changelog;
 mod code;
 mod div_transforms;
 mod drop_offset;
+mod embed_dot;
 mod embed_svg;
 mod embed_youtube;
 mod lookup_register;
@@ -19,6 +20,7 @@ use self::code::{CodeBlockSyntaxHighlight, InlineCodeSyntaxHighlight};
 pub use self::div_transforms::DivTransform;
 use self::div_transforms::DivTransforms;
 use self::drop_offset::DropOffset;
+use self::embed_dot::EmbedDot;
 use self::embed_svg::EmbedSvg;
 use self::embed_youtube::EmbedYoutube;
 use self::lookup_register::LookupRegister;
@@ -42,7 +44,7 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
         context.markup_meta_line_count,
     )));
 
-    let mut embedded_files = HashSet::new();
+    let embedded_files = Rc::new(RefCell::new(HashSet::new()));
 
     let transformed = Parser::new(djot).into_offset_iter();
 
@@ -52,7 +54,8 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
 
     let transformed = TransformHeaders::new(transformed);
     let transformed = AutoFigures::new(transformed);
-    let transformed = EmbedSvg::new(transformed, &mut embedded_files);
+    let transformed = EmbedSvg::new(transformed, embedded_files.clone());
+    let transformed = EmbedDot::new(transformed, embedded_files.clone());
     let transformed = EmbedYoutube::new(transformed, true);
     let transformed = CodeBlockSyntaxHighlight::new(transformed);
     let transformed = InlineCodeSyntaxHighlight::new(transformed);
@@ -65,6 +68,10 @@ pub fn djot_to_html(djot: &str, context: ParseContext) -> Result<HtmlParseRes> {
 
     let lookup = Rc::try_unwrap(lookup)
         .expect("Should be able to unwrap lookup")
+        .into_inner();
+
+    let embedded_files = Rc::try_unwrap(embedded_files)
+        .expect("Should be able to unwrap embedded_files")
         .into_inner();
 
     body = insert_toc(&body, &lookup).to_string();
