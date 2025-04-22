@@ -102,7 +102,7 @@ mod tests {
     #[test]
     fn test_embed_dot() -> Result<()> {
         let s = "![](/graphviz/test.dot)";
-        assert_eq!(convert(s)?, r#""#);
+        assert!(convert(s)?.contains("svg"));
         Ok(())
     }
 }
