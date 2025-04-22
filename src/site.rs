@@ -621,7 +621,7 @@ impl Site {
         let path = self.file_path_from_std(path)?;
 
         match PathEvent::from_path(&path) {
-            PathEvent::Font => self.rebuild_copy(path, true)?,
+            PathEvent::Font => self.rebuild_copy(&path, true)?,
             PathEvent::Image => self.rebuild_img(path)?,
             _ => {}
         }
@@ -641,7 +641,7 @@ impl Site {
             PathEvent::Standalone => self.rebuild_standalone(path.abs_path())?,
             PathEvent::Series => self.rebuild_series(path.abs_path())?,
             PathEvent::Template => self.rebuild_template(path.abs_path())?,
-            PathEvent::Font => self.rebuild_copy(path, true)?,
+            PathEvent::Font => self.rebuild_copy(&path, true)?,
             PathEvent::Image => self.rebuild_img(path)?,
             PathEvent::Dot => self.rebuild_dot(path)?,
             PathEvent::Homepage => self.rebuild_homepage()?,
@@ -932,7 +932,7 @@ impl Site {
         self.notify_refresh()
     }
 
-    fn rebuild_copy(&mut self, path: FilePath, notify: bool) -> Result<()> {
+    fn rebuild_copy(&mut self, path: &FilePath, notify: bool) -> Result<()> {
         info!("Copy changed: {path}");
         util::copy_file(
             &path.abs_path(),
@@ -945,17 +945,20 @@ impl Site {
     }
 
     fn rebuild_img(&mut self, path: FilePath) -> Result<()> {
+        self.rebuild_copy(&path, false)?;
         self.rebuild_embedded_change(&path)?;
-        self.rebuild_copy(path, false)?;
         self.notify_refresh()?;
         Ok(())
     }
 
     fn rebuild_dot(&mut self, path: FilePath) -> Result<()> {
-        dbg!(&path);
+        let res = dot::regenerate_dot(&path.rel_path)?;
+        let file_path = FilePath {
+            base: self.opts.input_dir.0.clone(),
+            rel_path: res.path,
+        };
+        self.rebuild_copy(&file_path, false)?;
         self.rebuild_embedded_change(&path)?;
-        // TODO need to copy too
-        dot::regenerate_dot(&path.rel_path)?;
         self.notify_refresh()?;
         Ok(())
     }

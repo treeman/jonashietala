@@ -144,9 +144,9 @@ async fn read_line(reader: &mut BufReader<ReadHalf<'_>>) -> Result<String> {
     Ok(s)
 }
 
-async fn handle_nvim_reply<'a>(
+async fn handle_nvim_reply(
     msg: Result<NeovimResponse, RecvError>,
-    writer: &mut BufWriter<WriteHalf<'a>>,
+    writer: &mut BufWriter<WriteHalf<'_>>,
 ) -> Result<()> {
     let msg = msg?;
     debug!("Sending: {msg:?}");

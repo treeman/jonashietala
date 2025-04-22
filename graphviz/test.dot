@@ -1,5 +1,5 @@
 digraph G {
     "Welcome" -> "To"
     "To" -> "Web"
-    "To" -> "GraphViz!"
+    "To" -> "bah"
 }

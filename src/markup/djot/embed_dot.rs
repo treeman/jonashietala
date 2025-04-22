@@ -67,7 +67,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedDot<'a, I> {
 
         let html = Container::RawBlock { format: "html" };
         self.event_queue.push(Event::End(html.clone()));
-        self.event_queue.push(Event::Str(svg.into()));
+        self.event_queue.push(Event::Str(svg.content.into()));
         Some(Event::Start(html, Attributes::new()))
     }
 }
