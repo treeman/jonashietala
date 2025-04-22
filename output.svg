@@ -7,12 +7,7 @@
 <svg width="202pt" height="202pt"
  viewBox="0.00 0.00 202.00 202.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 198)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13,18H14A1,1 0 0,1 15,19H22V21H15A1,1 0 0,1 14,22H10A1,1 0 0,1 9,21H2V19H9A1,1 0 0,1 10,18H11V16H8A1,1 0 0,1 7,15V3A1,1 0 0,1 8,2H16A1,1 0 0,1 17,3V15A1,1 0 0,1 16,16H13V18M13,6H14V4H13V6M9,4V6H11V4H9M9,8V10H11V8H9M9,12V14H11V12H9Z" /></svg>
 <title>G</title>
-<!-- png -->
-<g id="node1" class="node switch">
-<title>png</title>
-<image xlink:href="images/icons/switch.png" width="194px" height="194px" preserveAspectRatio="xMinYMin meet" x="0" y="-194"/>
-<text text-anchor="middle" x="97" y="-91.95" font-family="Times,serif" font-size="14.00">x</text>
-</g>
 </g>
 </svg>

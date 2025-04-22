@@ -1,5 +1,4 @@
 digraph G {
-    "Welcome" -> "To"
-    "To" -> "Web"
-    "To" -> "bah"
+  bgcolor="transparent";
+  png [ shape=none, label="x", image="images/icons/switch.png", class="switch"]
 }

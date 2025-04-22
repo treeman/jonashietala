@@ -51,5 +51,9 @@ fn svg_path(src: &RelPath) -> RelPath {
 fn convert_to_svg(dot: &str) -> Result<String> {
     let g: Graph = parse(dot).map_err(|err| eyre!("Error parsing dot: {err}"))?;
     let graph_svg = exec(g, &mut PrinterContext::default(), vec![Format::Svg.into()])?;
-    Ok(String::from_utf8(graph_svg)?)
+    Ok(convert_nodes_to_icons(dot, String::from_utf8(graph_svg)?))
+}
+
+fn convert_nodes_to_icons(dot: &str, svg: String) -> String {
+    svg
 }

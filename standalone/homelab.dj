@@ -4,4 +4,36 @@ title = "Homelab"
 
 This page attempts to document my homelab setup that play around with, use as a learning platform, and sometimes even host useful things on.
 
+# Network
+
+- router
+
+  - switch storage
+
+    - ap tvättstugan
+    - ap vindan
+    - ap vardagsrum
+
+      - highgarden
+
+    - switch office
+
+      - ap kontoret
+      - trident
+      - solar
+      - winterfell
+
+    - lannisport
+    - heatpump
+
+Notable wifi devices:
+
+- zero 3d printer
+- regular printer
+- various smart devices
+
 ![](graphviz/test.dot)
+
+![](/images/dot_test.svg){embed=true}
+
+# Zigbee smart devices
