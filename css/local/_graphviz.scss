@@ -1,7 +1,29 @@
 .graph {
-  fill: var(--color-text);
+  /* fill: var(--color-text); */
+  /* stroke: var(--color-text); */
 
+  text,
   image {
     fill: var(--color-text);
+  }
+
+  ellipse {
+    stroke: var(--color-text);
+  }
+
+  path {
+    fill: var(--color-text);
+  }
+
+  .edge {
+    path,
+    polygon {
+      fill: var(--color-text);
+      stroke: var(--color-text);
+    }
+  }
+
+  .cluster > polygon {
+    stroke: var(--color-text);
   }
 }

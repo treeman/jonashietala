@@ -4,6 +4,8 @@ title = "Homelab"
 
 This page attempts to document my homelab setup that play around with, use as a learning platform, and sometimes even host useful things on.
 
+![](/images/dot_test.svg){embed=true}
+
 # Network
 
 - router
@@ -33,7 +35,5 @@ Notable wifi devices:
 - various smart devices
 
 ![](graphviz/test.dot)
-
-![](/images/dot_test.svg){embed=true}
 
 # Zigbee smart devices
