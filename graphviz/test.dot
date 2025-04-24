@@ -1,4 +1,88 @@
 digraph G {
+  layout="fdp";
+  rankdir="LR";
   bgcolor="transparent";
-  png [ shape=none, label="x", image="images/icons/switch.png", class="switch"]
+  router [label="router", class="router"]
+
+  switch_office [label="switch | 192.168.1.38", class="switch" ]
+  ap_office [label="ap | 192.168.1.21", class="ap" ]
+  ap_vardagsrum [label="ap | 192.168.1.31" ]
+  ap_vindan [label="ap | 192.168.1.11" ]
+  ap_washing_room [label="ap | 192.168.1.41", image="images/icons/switch.svg" ]
+
+  edge [dir="none"]
+
+  router -> switch_storage
+
+  switch_storage -> switch_office
+  switch_storage -> heat_pump
+  switch_storage -> ap_vindan
+  switch_storage -> ap_washing_room
+  switch_storage -> switch_vardagsrum
+  switch_storage -> lannisport
+
+  switch_vardagsrum -> ap_vardagsrum
+  switch_vardagsrum -> highgarden
+
+  switch_office -> ap_office
+  switch_office -> trident
+  switch_office -> solaredge
+  switch_office -> winterfell
+
+  subgraph cluster_office {
+    label="My office";
+    rank=same;
+    style=dotted;
+    switch_office
+    trident
+    ap_office
+    winterfell
+    // zero
+    // printer
+  };
+
+  subgraph cluster_storage {
+    label="Storage room";
+    rank=same;
+    style=dotted;
+    router
+    switch_storage
+    lannisport
+    heat_pump
+  };
+
+  subgraph cluster_vardagsrum {
+    label="Living room";
+    rank=same;
+    style=dotted;
+    switch_vardagsrum
+    ap_vardagsrum
+    highgarden
+  };
+
+  subgraph cluster_washingroom {
+    label="Washing room";
+    rank=same;
+    style=dotted;
+    // sonos
+    ap_washing_room
+  };
+
+  subgraph cluster_vindan {
+    label="Attic";
+    rank=same;
+    style=dotted;
+    // sonos
+    ap_vindan
+  };
+
+  subgraph cluster_ute {
+    label="Outside";
+    rank=same;
+    style=dotted;
+    // sonos
+    solaredge
+  };
+
+  // png [ shape=none, label="x", class="switch"]
 }
