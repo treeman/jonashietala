@@ -4,6 +4,141 @@ title = "Homelab"
 
 This page attempts to document my homelab setup that play around with, use as a learning platform, and sometimes even host useful things on.
 
+# VLAN and IP addresses
+
+10.0.0.0/8 (any 10.x.x.x)
+
+10.`vlan`.`group`.x
+
+## VLANs
+
+| ID  | Name | Rules |
+|:----|:------------|:---|
+|   1 | Internal services | Internal services can access other VLANs |
+|  10 | Public services | Blocked from accessing other things |
+|  20 | Trusted | My desktop/laptop, access everything |
+|  50 | Management | Can configure switches etc (not sure how that works?) |
+| 100 | User devices | Access internal services + utilities + internet |
+| 200 | IoT connected | Access only internet |
+| 210 | IoT restricted | Access nothing |
+| 220 | Utilities | Access only internet |
+| 250 | Guest | Access internet + utilities |
+
+## Subgroups
+
+
+## 10 based
+
+10.`vlan`.`group`.x
+
+| IP  | Description |
+|:----|:------------|:---|
+
+x
+
+| VLAN  | IP | Descr |
+|:----|:------------|:---|
+|  10 |                 | Public services |
+|     | 10.x.1.x | Services on the `lannisport` server |
+
+x
+
+| 10.1.x.x | Internal services | Access IoT + Utilities + internal services + internet |
+|  10 | Public services | Access only internet |
+|  20 | Trusted | Access everything |
+|  50 | Management | Can configure switches etc (not sure how that works?) |
+| 100 | User devices | Access internal services + utilities + internet |
+| 200 | IoT connected | Access only internet |
+| 210 | IoT restricted | Access nothing |
+| 220 | Utilities | Access only internet |
+| 250 | Guest | Access internet + utilities |
+
+
+### Vlans
+
+
+### Wifi
+
+* User devices
+* Trusted
+* IoT connected
+* IoT restricted
+* Guest
+
+### Default groups
+
+| ID  | Description |
+|:----|:------------|
+|  0  | Router/gateway or default |
+|     | 10.`vlan`.0.1 | router/gateway |
+|     | 10.20.0.2 | winterfell |
+|     | 10.20.0.3 | dreadfort |
+| 255 | DHCP clients |
+
+### Device groups
+
+| ID  | Description |
+|:----|:------------|
+|  1  | lannisport |
+|     | 10.1.1.1 | lannisport |
+|     | 10.1.1.`x` | internal services on lannisport |
+|     | 10.10.1.`x` | public services on lannisport |
+|  2  | Pi kubernetes cluster |
+|     | 10.1.2.`x` | internal services on lannisport |
+|     | 10.10.2.`x` | public services on lannisport |
+
+### User devices groups
+
+| ID  | Description |
+|:----|:------------|
+|  10 | Gaming |
+|     | 10.200.10.1 | Steam deck |
+|     | 10.200.10.1 | Nintendo switch |
+|  21 | Jonas devices |
+|     | 10.100.21.1 | Jonas Fairphone |
+|  22 | Veronicas devices |
+|     | 10.100.22.1 | Veronica phone |
+|     | 10.100.22.2 | Veronica laptop |
+|     | 10.250.22.2 | Veronica work laptop |
+|  30 | Plattor |
+|     | 10.100.30.1 | Platta 1 |
+|  40 | Homelab devices |
+|     | 10.100.40.1 | Kitchen dashboard |
+
+### Network equipment groups
+
+| ID  | Description |
+|:----|:------------|
+|  0  | Routers |
+|  1  | Switches |
+|     | 10.50.1.1 | Switch 1 |
+|     | 10.50.1.2 | Switch 2 |
+|  2  | Access points |
+|     | 10.50.2.1 | AP 1 |
+|     | 10.50.2.2 | AP 2 |
+
+### IoT groups
+
+| ID  | Description |
+|:----|:------------|
+|  1  | Media players |
+|     | 10.220.1.1 | Kitchen |
+|  2  | 2D printers |
+|     | 10.220.2.1 | Office printer |
+|  3  | 3D printers |
+|     | 10.200.3.1 | Trident |
+|     | 10.200.3.2 | Zero |
+|  10 | Energy IoT |
+|     | 10.200.10.1 | Sauna Shelly |
+|     | 10.210.10.1 | Tibber pulse |
+|  20 | IoT Appliances |
+|     | 10.200.20.1 | Sauna |
+|     | 10.200.20.2 | Heatpump |
+|  21 | Kitchen Appliances |
+|     | 10.200.21.1 | Spis |
+|  30 | Cameras |
+|     | 10.210.30.1 | Camera 1 |
+
 # Network
 
 - router
@@ -37,3 +172,4 @@ Notable wifi devices:
 ![](/images/dot_test.svg){embed=true}
 
 # Zigbee smart devices
+
