@@ -3,88 +3,80 @@ title = "VORON 0 mods"
 tags = ["3D printing", "VORON"]
 ---
 
-# Mods
+# HEPA filter
 
-## Hepa filter
+![](/images/voron_0_mods/zero_back_open_with_filter.jpg)
 
-<https://www.printables.com/model/746595-voron-02-bag-hepa-carbon-filter/files>
-<https://noctua.at/en/products/fan/nf-a4x10-5v>
+With the [Nevermore Micro V4][] I had active carbon filtering but I also wanted a HEPA filter that would also provide negative air pressure to the printer.
+I found the [Hepa filter by JNP][] for the VORON 0.1 and a [mount for the VORON 0.2][] that I installed.
 
-New HEPA filter:
-<https://mods.vorondesign.com/details/tgFNVfEZGqjWbxWIt8ss2A>
-<https://vi.aliexpress.com/item/32788652288.html?gatewayAdapt=glo2vnm>
-<https://vi.aliexpress.com/w/wholesale-Carbon-Infused-Filter-Pad.html>
-<https://www.printables.com/model/878785-voron-0-top-back-panel-hepa-filter-by-jnp-mount/files>
+For the fans I used two [Noctua NF-A4x10 FLX][] fans and I spliced them together with the Nevermore filter, allowing the MCU to control all the filter fans together.
+It might have been better to buy the 5V versions and connect them to the 5V output to have them always on, but by then I had already ordered the 12V version.
 
-## Upper rear panel
+# Back meshed panel
 
-<https://www.printables.com/model/840122-upper-rear-panel-with-voron-logo-for-voron-0>
+![](/images/voron_0_mods/zero_back_meshed.jpg)
 
-## Another magnetic backplate (nah)
+The small 5V fan for the Raspberry Pi was super loud and I wanted to replace it with something.
+Because the Raspberry Pi Zero doesn't get that hot I removed the fan and replaced the back panel with [a meshed variant][].
 
-<https://www.printables.com/model/938887-voron-02-magnetic-backplate/files>
+# Modesty mesh
 
-## Ventilated back plate
+![](/images/voron_0_mods/side_mesh.jpg)
 
-<https://www.printables.com/model/699883-voron-v02-ventilated-rear-panel-printable-on-voron/comments>
+The wiring is _super_ ugly and I stumbled upon the [modesty mesh][] that hides the wires well from the sides.
 
-## Ventilated + hinged back panel
+# Full size panels
 
-<https://www.printables.com/model/536169-voron-v0-hinged-rear-panel-hex-mesh>
+TODO picture of the panels
 
-## Full size panels
+One thing that bothered me with the stock VORON 0.2 was the gaps between the tophat and the side panels and front door.
+I went looking for a mod with fill-sized panels and found the [ZeroPanels mod][].
 
-330 mm high
-212 mm width
-3 parts 3 mm thick
+Instead of magnets the printed parts clips into the extrusions pretty hard while still allowing you to pull them off when you want to.
+It works really well honestly.
 
-<https://www.printables.com/model/583082-voron-02-fullsize-zeropanel-mod-stock-frame-full-p/files>
-<https://github.com/adooze/ZeroPanels_for_Stock_V0.2>
+![The clips were slightly difficult to print but manageable.](/images/voron_0_mods/trident_print_zero_clip.jpg)
 
-### Colorscheme
+I was looking at the [BoxZero mod][] for a proper full-sized panels mod but I didn't want to tear apart the printer and rebuild the belt path so I simply replaced the stock panels with full sized ones.
+This does leave some air gaps at the back and front of the printer right next to the belt that I simply covered with some tape.
 
-All corners top back: magenta
+TODO picture of tape
 
-Lower back right: blue 1
-Lower front right: green 2 (1 top hinge, 1 bottom hinge)
-Top front right: blue 3 (1 top hinge, 1 bottom hinge, 1 clip)
+::: note
+The panels I bought were just _slightly_ too wide causing the side panels to bend a little and it made it hard to get a close seal for the front door.
+I had to file down the clips on the front door to avoid them from colliding with the side panel clips.
+:::
 
-Lower back left: green 1
-Lower front left: blue 2
-Top front left: green 3
+While the clips are good for panels you don't remove that often it's too much to use for the front door.
+They have some magnetic clips you can use but I'm honestly perplexed on how to use them for good effect.
 
-4 magenta clip
-2 magenta mid clip
+The standard VORON 0 handles don't consider the extra 3mm the foam tape adds, leaving a gap that severely reduces the pulling force of the magnets.
+Similarly the magnet clips included in ZeroPanels surprisingly have the same issue.
 
-4 green clip
-1 green top hinge
-1 green bottom hinge
-1 green mid clip
+For the door handle I used the stealth handle found in the [Voron 0.2 fullsize ZeroPanel mod][] that does take the foam tape into consideration.
 
-4 blue clip
-1 blue top hinge
-1 blue bottom hinge
-1 green mid clip
+TODO picture of door handle + clips
 
-Handle: magenta
+I had to have the extra magnets as the door wouldn't close tightly without them.
+There's a [variant of the clips for 6mm magnets][] in the pull requests that I used and for the outside I used the ZeroPanels holders for 10x3mm magnets.
+To bridge the foam tape offset I glued on an extra 3mm thick magnet on top.
 
-Rear panel: magenta/black
+TODO pictures of the extra magnets
 
-## Fan on top of MCU (maybe...)
 
-<https://www.printables.com/model/565377-voron-02-lower-rear-panel-with-mcu-fan-on-right-si>
-(Fits 8010/8015 fans, but no noctua)
-
-## Led strips (if they fit)
+## Led strips (if they fit)                                           E
 
 <https://www.printables.com/model/637053-voron-0-ledstrip-holder>
 
-## Foldable spool holder
 
-<https://www.printables.com/model/311233-voron-01-foldable-spool-holder>
-<https://www.printables.com/model/542953-locking-foldable-spool-holder-for-voron-v02-0-v0-0>
-
-## Modesty mesh
-
-<https://mods.vorondesign.com/details/zQkxgPQUJw3HY5IHALTYA>
-
+[Nevermore Micro V4]: https://github.com/nevermore3d/Nevermore_MicroP
+[Hepa filter by JNP]: https://mods.vorondesign.com/details/tgFNVfEZGqjWbxWIt8ss2A
+[mount for the VORON 0.2]: https://www.printables.com/model/878785-voron-0-top-back-panel-hepa-filter-by-jnp-mount
+[Noctua NF-A4x10 FLX]: https://noctua.at/en/products/fan/nf-a4x10-flx
+[a meshed variant]: https://www.printables.com/model/1190744-voron-02-back-panel
+[modesty mesh]: https://mods.vorondesign.com/details/zQkxgPQUJw3HY5IHALTYA
+[ZeroPanels mod]: https://github.com/zruncho3d/ZeroPanels
+[BoxZero mod]: https://github.com/zruncho3d/BoxZero
+[Voron 0.2 fullsize ZeroPanel mod]: https://www.printables.com/model/583082-voron-02-fullsize-zeropanel-mod-stock-frame-full-p/files
+[variant of the clips for 6mm magnets]: https://github.com/zruncho3d/ZeroPanels/pull/6

@@ -1,5 +1,5 @@
 ---toml
-title = "Ditching Sonos for HifiBerry and Music Assistant"
+title = "Ditching Sonos for Music Assistant"
 tags = ["Home Assistant", "Homelab"]
 ---
 
@@ -16,20 +16,19 @@ But gradually the experience got worse:
 1. The speaker lost WIFI connection, reconnecting after a while.
 1. Finally, the radio integration stopped working.
 
-Still it could be worse, at least our speaker wasn't [bricked](https://news.ycombinator.com/item?id=21895086) and we supposedly dodged a bunch of issues by never upgrading to the new app.
+It could be worse---at least our speaker wasn't [bricked](https://news.ycombinator.com/item?id=21895086) and we supposedly dodged a bunch of issues by never upgrading to the new app.
 
 
 # The new setup
 
 A. Use [Music Assistant][] as the central controller for streaming music, radio, and announcement sounds (such as the doorbell chime) to different players and speakers.
-A. Setup a [HifiBerry][] player that [Music Assistant][] can control.
+A. Setup an [Arylic A50+][] amplifier that [Music Assistant][] can control.
 
    Together with a pair of speakers it replaces the Sonos in the kitchen.
    The player can also be controlled directly by the Spotify app or Bluetooth.
 
 A. Connect [Music Assistant][] with [Home Assistant][] to control playback via our smart-home dashboard and automations.
-A. Use the [Home Assistant Voice Preview Edition][] to control the speakers via voice commands.
-A. Setup more squeezebox players for [Music Assistant][] to control.
+A. Setup more players for [Music Assistant][] to control.
 
    To for example remotely play music on the computer connected to the TV speakers in the living room (I'm not a fan of smart TVs).
 
@@ -41,15 +40,15 @@ A. Setup more squeezebox players for [Music Assistant][] to control.
 ![Image showing how [Music Assistant][] bridges different sources with different players.
 Taken from [this Home Assistant blog post][ma2].](/images/ma_how_it_worps.jpg)
 
-So you could have this kind of setup and let [Music Assistant][] connect them together in whatever way you wish, including multi-room setups:
+So you could have this kind of setup and let [Music Assistant][] connect them together in whatever way you wish, including multi-room setups (note that they only play in sync if the players are from the same ecosystem):
 
 {.center}
 | Provider |     | Player |
 |----------|------|--------------------------------|
 | Spotify (user 1)|     | Sonos (washing room) |
 | Spotify (user 2)   |     | Chromecast (TV) |
-| Radio |     |  Squeezebox player 1 (kitchen)|
-| Local storage |     | Squeezebox player 2 (living room) |
+| Radio |     |  Homeassistant player (kitchen)|
+| Local storage |     | Squeezebox player (living room) |
 
 ::: warn
 Careful to not get nerd sniped;
@@ -102,11 +101,11 @@ That's why I initially dismissed it but [Music Assistant][] is now a standalone 
 1. Add providers
 
    A provider is a source of music.
-   There's a bunch of them but for now I added Spotify and RadioBrowser:
+   There's a bunch of them but at the moment I only use a few:
 
    ![](/images/ma_spotify.png)
 
-   The Spotify provider should automatically sync all Spotify playlists into [Music Assistant][] and it allows you to search and play any song on Spotify.
+   The Spotify provider for example should automatically sync all Spotify playlists into [Music Assistant][] and allows you to search and play any song on Spotify.
 
    ::: tip
    Radio stations from RadioBrowser won't show up automatically.
@@ -115,11 +114,9 @@ That's why I initially dismissed it but [Music Assistant][] is now a standalone 
 
 1. Add players
 
-   For [Music Assistant][] to recognize the squeezebox players we'll setup later we need to enable the Slimproto provider:
+   We need players to play our music, here's what I currently use:
 
    ![](/images/ma_players.png)
-
-   This should automatically add any squeezebox players on the network to [Music Assistant][].
 
    ::: note
    Quite a few different providers are supported.
@@ -128,9 +125,32 @@ That's why I initially dismissed it but [Music Assistant][] is now a standalone 
    :::
 
 Open-source music management---particularly on Linux---has a reputation of being notoriously troublesome.
-But I've gotta say, [Music Assistant][] was simple to setup and it really does work well.
+But I've gotta say, [Music Assistant][] was simple to setup and it works well.
 
-# A HifiBerry player
+# Trying out different players
+
+## Sonos
+
+TODO a picture of the Sonos speakre
+
+Humorously the Sonos speaker works better with [Music Assistant][] than with the Sonos app as the radio stopped working via the Sonos app, while I could use [Music Assistant][] to play the radio on the Sonos speaker.
+
+The speaker still disconnects and stops playback at odd times but it's good enough to raise the mood in the washing room.
+
+## Squeezelite on Linux
+
+TODO a picture of our living room setup
+
+I hate modern smart TVs with a passion so to stream we use a computer running Linux, connected to a dumb amplifier with some speakers.
+It works well but it makes it a bit more cumbersome to play music.
+
+By installing [Squeezelite][] the computer acts as a squeezebox client, effectively transforming it into a smart player for [Music Assistant][] and [Home Assistant][] to stream music to.
+
+::: note
+I started out by doing this on my work desktop too but since then [Music Assistant][] has added the ability to stream via the web interface, much like if you visit <https://open.spotify.com/> in your browser.
+:::
+
+## A HifiBerry player
 
 ![The [HifiBerry AMP2][] on top of a Raspberry Pi 3, acting as the amplifier and smart music controller. All you need is to connect the passive speakers.](/images/hifiberry_pi.jpg)
 
@@ -138,150 +158,147 @@ I was fairly lost in what kind of amplifier and music player I should get.
 
 There's a lot of options out there but I was worried about paying a lot of money for something I wasn't sure it would integrate well into my smart home setup.
 
-In the end I settled on a [HifiBerry AMP2][] that would slot into a Raspberry Pi turning it onto an amplifier and a smart music controller.
-For simplicity I decided to start with their operating system [HifiBerryOS](https://www.hifiberry.com/hifiberryos/) that hopefully should "just work" and be open enough for me to manually fix things if needed.
+As I had a Raspberry Pi lying around I first tried the [HifiBerry AMP2][] that should transform the Pi into a capable amplifier and smart music controller.
+For simplicity I decided to start with their operating system [HifiBerryOS][] that hopefully should "just work" and be open enough for me to manually fix things if needed.
 
-The setup is also cheap enough that I can replace it with something else in the future without feeling to bad about it but so far my fears have been unfounded as the little device has done everything I wanted it to.
+While it works very well as a Spotify Connect device or to play over Bluetooth I had issues with it acting as a Squeezelite and Airplay client as the [volume was super low][] when I tried to stream to it from [Music Assistant][].
 
-## How to set it up
+I _think_ it's a software issue with [HifiBerryOS][] but I haven't had the energy to debug it or try other OS versions.
+Maybe I'll revisit it when I want to outfit another room with speakers.
 
-1. A squeezebox player
+::: warn
+I ran into an issue where the Spotify mobile app got stuck at "Connecting" when I tried to play to HifiBerry.
 
-  HifiBerry can act as a squeezebox player by enabling the Squeezelite extension and then enabling the Squeezelite source.
-  This should allow [Music Assistant][] to find and control the player.
+This [was an issue with a static DNS entry][dns].
+To [fix it][host-fix] I had to remove `ap-gew4.spotify.com` from `/etc/hosts` on the device.
 
-1. Spotify Connect
+[host-fix]: https://github.com/ashthespy/Vollibrespot/issues/13#issuecomment-2481246915
+[dns]: https://github.com/ashthespy/Vollibrespot/issues/13
+:::
 
-  The downside of many of these music players is that there's _so_ many options.
-  For Spotify for example you can:
 
-  - Setup HifiBerry as a Spotify Connect client.
-  - Run a Spotify daemon (via [spotifyd][]).
-  - Setup HifiBerry as a squeezebox client and use the Spotify plugin from the [Lyrion Music Server][].
-  - If you're on iPhone you can use Airplay.
+## [Arylic A50+][]
 
-  While we can already play Spotify from [Music Assistant][] via squeezebox I wanted to be able to play from the Spotify app on our phones too (replicating our old setup with Sonos).
+I was planning to use the HifiBerry to power two new speakers in the ceiling in the Kitchen to replace the Sonos we've had there.
+But the renovation was edging ever closer and I was feeling a bit stressed that it wasn't working properly so I caved in and bought another streaming amplifier.
 
-  Simply enabling the Spotify Connect source does just that.
+I bought the [Arylic A50+][] as it supposedly had a great [Home Assistant][] integration and it was still comparatively pretty cheap.
 
-  ::: warn
-  I ran into an issue where the Spotify mobile app got stuck at "Connecting" when I tried to play to HifiBerry.
+The device supports both Airplay and Squeezebox like the HifiBerry but again there were some issue with the volume being very low.
+I don't know if both devices just happen to have similar bugs, if there's a bug with [Music Assistant][], or if it's some weird compatibility issue.
 
-  This [was an issue with a static DNS entry][dns].
-  To [fix it][host-fix] I had to remove `ap-gew4.spotify.com` from `/etc/hosts` on the device.
+Upsetting.
 
-  [host-fix]: https://github.com/ashthespy/Vollibrespot/issues/13#issuecomment-2481246915
-  [dns]: https://github.com/ashthespy/Vollibrespot/issues/13
-  :::
+However, there's a workaround; if you go via [Home Assistant][] then [Music Assistant][] can use the Arylic as a player properly.
+You need the LinkPlay integration in [Home Assistant][] and then enable the [Home Assistant integration](#Home-Assistant-integration) in [Music Assistant][].
 
-1. More sources
+(I tried the same with the HifiBerry integration but for some reason the HifiBerry media player still didn't show up in [Music Assistant][].)
 
-  I also enabled the Bluetooth source so I can listen to podcasts streamed from my phone.
-  I don't have a need to stream music or radio from HifiBerry's web interface but they were useful as a debugging tool.
+::: important
+The Arylic has a bunch of other integrations such as Bluetooth and Spotify Connect.
+This is great as it allows my girlfriend to use Spotify on her phone to control the new speakers in the kitchen, exactly like how she used to control Sonos.
 
-# Home Assistant
+If the spouse approves of your smart home shenanigans then you know you've done a good job.
+:::
+
+# Home Assistant integration
 
 [Music Assistant][] naturally integrates well with [Home Assistant][].
 Setup is straightforward:
 
-1. Add the [Music Assistant][] integration:
+1. Add the [Music Assistant][] integration in [Home Assistant][]:
 
    ![](/images/ma_ha.png)
+
+   This will expose all players in [Music Assistant][] to [Home Assistant][] (such as the Squeezebox players running on Linux).
 
 1. Enable the [Home Assistant][] plugin in [Music Assistant][]:
 
    ![](/images/ma_plugins.png)
 
-With this all players in [Music Assistant][] are exposed to [Home Assistant][] and you can create automations and all that good stuff.
+   This will expose all media players in [Home Assistant][] to [Music Assistant][] (such as the Arylic or the [Home Assistant Voice Preview Edition][]).
 
-## How to...
+With this setup you can setup Home Assistant actions to start a particular radio station, add a media player card to start/stop playback, or simply give [Music Assistant][] access to more players.
 
-* Play a specific radio station?
+## In Home Assistant how do you...
+
+* Play the `P4 Norrbotten` radio station?
 
   ```yaml
   action: music_assistant.play_media
   target:
-    entity_id: media_player.bkitchen
+    entity_id: media_player.kitchen
   data:
     media_id: P4 Norrbotten
   ```
 
-* Play a track?
+* Play the `To Hell and Back` track?
 
   ```yaml
   action: music_assistant.play_media
   target:
-    entity_id: media_player.bkitchen
+    entity_id: media_player.kitchen
   data:
     media_id: To Hell and Back
     media_type: track
   ```
 
-* Play a playlist?
+* Play the `kpop` playlist?
 
   ```yaml
   action: music_assistant.play_media
   target:
-    entity_id: media_player.bkitchen
+    entity_id: media_player.kitchen
   data:
-    media_id: Work
+    media_id: kpop
     media_type: playlist
   ```
 
-* Play a playlist randomized?
+* Play the `kpop` playlist randomized?
 
   ```yaml
   action: media_player.shuffle_set
   target:
     entity_id:
-      - media_player.bkitchen
+      - media_player.kitchen
   data:
     shuffle: true
 
   action: music_assistant.play_media
   target:
-    entity_id: media_player.bkitchen
+    entity_id: media_player.kitchen
   data:
-    media_id: Work
+    media_id: kpop
     media_type: playlist
     enqueue: replace
   ```
 
-## Voice control
+# What's next?
 
-# Expanding the setup
+[Music Assistant][] is a fairly young open source project and there are features that I miss.
+With the web player recently released next on my wishlist is [an Android app][] that utilizes native volume controls and notifications.
 
-It started out as a simple quest to replace a single Sonos speaker but since then I've expanded my smart speaker setup:
+Maybe even a way to stream the Phone's sound as a source so I don't have to switch to Bluetooth when I want to listen to podcasts?
+But with my recent migration to [Audiobookshelf][] that might not be as crucial anymore.
 
-- Music in the living room.
+Still, I must admit, I'm stoked about finding a smarter way to control music throughout our house and I'm searching for any excuse to expand the setup in the future.
+Here are some ideas I have:
 
-  I hate modern smart TVs with a passion so to stream we use a computer running Linux, connected to a dumb amplifier with some speakers.
-  It works well but it makes it a bit more cumbersome to play music.
+- Speakers in the kid's room to play music or audio books before they go to sleep.
+- More music in my exercise space (it kind of works if I increase the volume of my office speakers, but it's not ideal).
+- A proper Hi Fi setup for true music enjoyment somewhere in the house.
 
-  By installing [Squeezelite][] the computer acts as a squeezebox client, effectively transforming it into a smart player for [Music Assistant][] and [Home Assistant][] to stream music to.
-
-- Control music on my desktop.
-
-  With [Squeezelite][] I can stream music to my main workstation too.
-
-  You may rightfully ask, why would I do such a thing?
-  Wouldn't it be better to install a native player of some kind?
-
-  Well, I'm lazy and with [Music Assistant][] I've got a setup with all my music in one place and I can't be bothered to search for a local solution just because it might be neater.
-  This works and that's enough.
-
-- The Sonos still works.
-
-  While I was prepared to throw the Sonos in the trash the speaker works well with [Music Assistant][], functionally reviving it.
-  Therefore we plan to move it to some other room, maybe the washing room.
+Despite some integration issues and us not using [Music Assistant][] to it's fullest potential it has still improved our setup in a major way.
 
 [Squeezelite]: https://github.com/ralph-irving/squeezelite
 [Music Assistant]: https://www.music-assistant.io/
-[HifiBerry]: https://www.hifiberry.com/
 [Home Assistant]: https://www.home-assistant.io/
 [Home Assistant Voice Preview Edition]: https://www.home-assistant.io/voice-pe/
-[Lyrion Music Server]: https://lyrion.org/
-[spotifyd]: https://github.com/Spotifyd/spotifyd
 [Install Music Assistant]: https://www.music-assistant.io/installation/
 [ma2]: https://www.home-assistant.io/blog/2024/05/09/music-assistant-2/
 [HifiBerry AMP2]: https://www.hifiberry.com/shop/boards/dealing-with-blocked-p5-holes-7/
+[Arylic A50+]: https://www.arylic.com/products/arylic-a50-wifi-bluetooth-multiroom-full-digital-hifi-amplifier-with-airplay-dlna-multiroom-control
+[volume was super low]: https://github.com/hifiberry/hifiberry-os/issues/529
+[HifiBerryOS]: https://www.hifiberry.com/hifiberryos/
+[an Android app]: https://github.com/orgs/music-assistant/discussions/1834
+[Audiobookshelf]: https://www.audiobookshelf.org/
