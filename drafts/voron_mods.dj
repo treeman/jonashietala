@@ -43,6 +43,14 @@ There are quite a few interesting toolheads I considered:
 
 I eventually settled on the [A4T-toolhead][] because it's supposed to have even better cooling compared to [XOL][].
 
+## What hotend to use?
+
+Tired of Rapido, want to try something new
+
+- Revo (have that, should probably try it)
+- Dragon HF (nah, because heat creep for PLA)
+- Dragon Ace & Dragon Ace Vulcano
+
 ## Assembly
 
 <https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md>

@@ -293,7 +293,7 @@ With this setup you can setup Home Assistant actions to start a particular radio
 # What's next?
 
 [Music Assistant][] is a fairly young open source project and there are features that I miss.
-With the web player recently released next on my wishlist is [an Android app][] that utilizes native volume controls and notifications.
+With the web player recently released next on my wishlist is [an Android app][] with native volume controls, notifications, and support for offline listening.
 
 Maybe even a way to stream the Phone's sound as a source so I don't have to switch to Bluetooth when I want to listen to podcasts?
 But with my recent migration to [Audiobookshelf][] that might not be as crucial anymore.
