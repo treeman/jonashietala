@@ -41,7 +41,7 @@ It works really well honestly.
 I was looking at the [BoxZero mod][] for a proper full-sized panels mod but I didn't want to tear apart the printer and rebuild the belt path so I simply replaced the stock panels with full sized ones.
 This does leave some air gaps at the back and front of the printer right next to the belt that I simply covered with some tape.
 
-TODO picture of tape
+![Some tape to cover the gaps around the belts.](/images/voron_0_mods/tape.jpg)
 
 ::: note
 The panels I bought were just _slightly_ too wide causing the side panels to bend a little and it made it hard to get a close seal for the front door.
@@ -56,13 +56,13 @@ Similarly the magnet clips included in ZeroPanels surprisingly have the same iss
 
 For the door handle I used the stealth handle found in the [Voron 0.2 fullsize ZeroPanel mod][] that does take the foam tape into consideration.
 
-TODO picture of door handle + clips
+![Three different magnet holders; at the top the Stealth handles holders that come out 3mm, in the middle the 6mm holder, and at the bottom the standard magnet holder.](/images/voron_0_mods/clips.jpg)
 
 I had to have the extra magnets as the door wouldn't close tightly without them.
 There's a [variant of the clips for 6mm magnets][] in the pull requests that I used and for the outside I used the ZeroPanels holders for 10x3mm magnets.
 To bridge the foam tape offset I glued on an extra 3mm thick magnet on top.
 
-TODO pictures of the extra magnets
+![Planning some extra magnets at the top.](/images/voron_0_mods/magnets_top.jpg)
 
 
 ## Led strips (if they fit)                                           E
