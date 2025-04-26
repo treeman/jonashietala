@@ -5,43 +5,74 @@ tags = ["3D printing", "VORON"]
 
 TODO image comparing the old / new
 
-I've had my [VORON Trident][trident] for almost a year and I've run it for XXX hours.
+I've had my [VORON Trident][trident] for XXX and I've run it for XXX hours.
 Overall I'm happy with the printer but I've been itching to make some more mods to it.
-Having finally finished the [VORON 0][] I now have a backup printer I can use to rescue myself if I screw up.
+Having finally finished the [VORON 0][] I now have a backup printer I can use to rescue myself when I screw up.
 
-The mods I installed were:
+I had two big goals with the mods:
 
-1. [Inverted electronics][]
-1. Replaced Stealthburner with the [A4T-toolhead][]
+1. Try out a new toolhead
+2. Prepare for a multicolor setup
 
-   I migrated from Tap to the [Beacon probe][].
-   The toolhead also required me to replace the stock front idlers with the [Beefy idlers][].
+I was thinking of using the [Box Turtle][] as AMS-style filament changer but I was using the [RockNRoll][] mod to give access to the electronics compartment by tilting the printer backwards.
+This isn't a great idea if you mount the turtle on top like I planned to do, I instead installed the [Inverted electronics][] mod.
 
-1. Moved to an umbilical setup
+For the new toolhead I opted for the [A4T-toolhead][], with some fun additions such as the [Nighthawk36 toolhead][] for an umbilical setup and the super fast [Beacon probe][].
 
-   I used the [Nighthawk36 toolhead][] and moved the XY-endstops so I could remove the drag chains.
 
-1. Beacon-friendly purge bucket mod
+# [Inverted electronics][]
 
-Okay, I admit; the biggest reason for the change is that it's fun to build and tinker...
-To my defense the improvements are pretty nice.
+I've been looking at the [Inverted electronics][] mod even before finishing my Trident printer.
+But it wasn't possible with the [Print It Forward][] service I used to build my first 3D printer and after it was completed I didn't feel the need to redo the wiring again.
 
-# Inverted electronics
+TODO
 
-# The A4T-toolhead
+# The [A4T-toolhead][]
 
 I've been wanting to replace the Stealthburner toolhead a long time.
-It's pretty but the cooling for PLA is quite bad and I don't feel it's super convenient to get access to the filament path.
+It's pretty but the cooling for PLA is quite bad and I it's not convenient to get access to the filament path.
 
 But what to choose?
 There are quite a few interesting toolheads I considered:
 
-- [XOL][]
 - [Dragon Burner][]
+
+  I use the [Dragon Burner][] in [my VORON 0][VORON 0] and using the same toolhead is boring.
+
 - [Archetype][]
+
+  A pretty fun toolhead and I was considering the [Mjölnir][] version.
+  It does require you to flip your XY joints to hang upside down and I couldn't find a filament sensor or filament cutter for it, so I ended up skipping it.
+
+- [Jabberwocky][]
+
+  An all-in-one toolhead solution that seems to have some quality of life features I think I'd really enjoy:
+
+  > Flip up Extruder. Probably an industry first, a tool-less easy to access toolhead design so that one can access the blade or the filament path for servicing and troubleshooting. This allows a user, in the event of hopefully a rare problem during a filament changing print the ability to access the filament path to clear it of issues and continue with a print job.
+
+  Sadly, the toolhead hasn't been released yet.
+
+- [XOL][]
+
+  XOL seems like a very well regarded and mature option with tons of support.
+  It boasts much better cooling for PLA, which is one of the main reasons I want to migrate away from the Stealthburner.
+  I would've gone with XOL if I hadn't discovered the next candidate in this list:
+
 - [A4T-toolhead][]
 
-I eventually settled on the [A4T-toolhead][] because it's supposed to have even better cooling compared to [XOL][].
+  A4T seems similar to XOL, while having even better cooling and a slightly simpler assembly.
+
+  It's a newer project so it's not as mature but I decided to try it anyway.
+
+## Changing the front idlers
+
+[Beefy idlers][]
+
+## XOL carriage
+
+## Assembly
+
+<https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md>
 
 ## What hotend to use?
 
@@ -50,10 +81,6 @@ Tired of Rapido, want to try something new
 - Revo (have that, should probably try it)
 - Dragon HF (nah, because heat creep for PLA)
 - Dragon Ace & Dragon Ace Vulcano
-
-## Assembly
-
-<https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md>
 
 ## The Beacon probe
 
@@ -65,10 +92,16 @@ Tired of Rapido, want to try something new
 
 <https://github.com/SouthAsh1/A4T-AFC>>
 
+## Mount
+
+[Nitehawk36][]
+
 # Move the Y-endstop and remove the drag chains
 
 The X-endstop fit nicely on the toolhead but the LDO Trident kit I bought came with an XY-endstop PCB mounted on the XY rail.
 It works well but it requires a drag chain to the XY-carriage.
+
+# Nozzle scrubber
 
 # What's next?
 
@@ -87,5 +120,8 @@ But I'll probably skip [ERCF][] in favor of the [Box Turtle][] instead as it see
 [Beacon probe]: https://lab4450.com/product/original-beacon-3d-surface-scanner/
 [Archetype]: https://docs.armchairheavyindustries.com/docs/archetype
 [trident]: /series/voron_trident
-
 [Box Turtle]: https://github.com/ArmoredTurtle/BoxTurtle
+[RockNRoll]: /blog/2024/02/27/lets_build_a_voron_more_mods/#RockNRoll
+[Print It Forward]: https://pif.voron.dev/
+[Jabberwocky]: https://github.com/TheKittieKatt/Information-Insights/tree/main/Beta%20Testing%20Results/Jabberwocky
+[Mjölnir]: https://docs.armchairheavyindustries.com/docs/archetype/components/ducts/mjolnir
