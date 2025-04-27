@@ -1,13 +1,7 @@
 ---toml
-title = "Writing automations via MQTT using the Hue Tap Dial"
+title = "Automating the Hue Tap Dial Switch in Elixir via MQTT"
 tags = ["Elixir", "Home automation"]
 ---
-
-x
-
-1. I use Zigbee2mqtt as the Zigbee to MQTT bridge.
-1. The lights I control are Philips Hue and other lights may use other attributes.
-1. I use [a custom automation engine][elixir_engine] written in Elixir.
 
 # The direct zigbee binding is good but not great
 
@@ -15,10 +9,10 @@ I'm a huge fan of using direct bindings in Zigbee to directly pair switches to l
 This way the interaction is much snappier, not having to go through:
 
 ```
-device -> mqtt -> controller -> mqtt -> device
+device -> zigbee2mqtt -> controller -> zigbee2mqtt -> device
 ```
 
-And can instead go:
+And instead go:
 
 ```
 device -> device
@@ -26,23 +20,40 @@ device -> device
 
 It also works if my server is down, which is a huge plus for important functionality such as turning on the light in the middle of the night when one of the kids have soiled the bed.
 
-The Tap Dial can be bound to lights easily (without having to use strange workarounds) and dimming the lights with the dial feels very smooth and nice.
+The [Hue Tap Dial][] can be bound to lights and dimming the lights with the dial feels very smooth and nice.
 You can also use the dial to turn on and off the light, like a regular dimmer switch anywhere.
 
 Unfortunately, if you want to bind the dimmer it also binds the hold of _all_ of the four buttons to turn off the light, practically blocking the hold functionality if you use direct binding.
-There's also no way to bind a button press to turn on or toggle the light---dimming and hold to turn off is what you get.
+There's also no way to directly bind a button press to turn on or toggle the light---dimming and hold to turn off is what you get.
 
-# Communicating with mqtt in Elixir
+To add more functionality you have to use something external; a Hue Bridge or Home Assistant works, but I wanted to use Elixir.
+
+::: note
+I ue [a custom automation engine][elixir_engine] written in Elixir where automations are regular GenServers.
+:::
+
+# Communicating with MQTT in Elixir
+
+The first thing we need to do is figure out how to receive MQTT messages and how to send updates to Zigbee devices.
+
+::: note
+I use [Zigbee2MQTT][] as the Zigbee to MQTT bridge and [mosquitto][] as my MQTT server.
+Messages may look different if you're using another setup.
+:::
 
 ## Connecting and subscribing to changes
 
-https://hexdocs.pm/tortoise311/0.12.1/introduction.html
+I found the [tortoise311][] library that implements an MQTT client and I thought it was quite nice.
+
+First we'll start a `Tortoise311.Connection` in our Supervisor tree:
 
 ```elixir
 {Tortoise311.Connection,
  [
+   # Remember to generate a unique if you want to connect multiple clients
+   # to the same MQTT service.
    client_id: :my_unique_client_id,
-   server: {Tortoise311.Transport.Tcp, host: "lannisport", port: 1883},
+   server: {Tortoise311.Transport.Tcp, host: "hostname-running-mqtt", port: 1883},
    handler: {Haex.MqttHandler, []},
    # Subscribe to all events under `zigbee2mqtt`
    subscriptions: [{"zigbee2mqtt/+", 0}]
@@ -50,14 +61,17 @@ https://hexdocs.pm/tortoise311/0.12.1/introduction.html
 ```
 
 ::: note
-The `zigbee2mqtt` base topic is configurable in zigbee2mqtt and you may need to tweak it for your setup.
+The `zigbee2mqtt` base topic is configurable in Zigbee2MQTT and you may need to tweak it for your setup.
 :::
 
-I'll use [Phoenix PubSub][] to easily propagate changes to our Tap Dial automation:
+And add [Phoenix PubSub][] allowing us to easily propagate changes to our automation:
 
 ```elixir
 {Phoenix.PubSub, name: Haex.PubSub},
 ```
+
+When starting `Tortoise311.Connection` above we configured it to call the `Haex.MqttHandler` whenever an MQTT message we're subscribing to is received.
+Here we'll simply forward any message through our PubSub, making it easy for anyone to subscribe to any message, wherever they are:
 
 ```elixir
 defmodule Haex.MqttHandler do
@@ -94,7 +108,7 @@ defmodule Automation.TapDialExample do
 end
 ```
 
-If setup correctly we'll see the messages the dial sends us:
+If everything is setup correctly we should see messages like these when we operate the Tap Dial:
 
 {path="shortened output"}
 ```
@@ -114,11 +128,11 @@ payload #=> %{
 
 ## Sending updates
 
-To send an update we send a json payload to the topic `"zigbee2mqtt/My hue light/set"`{=elixir}.
-The payloads are different for each device, [here's the information][] for the light I want to control.
+To send an update (to for example toggle a light) we should send a json payload to the topic `"zigbee2mqtt/My hue light/set"`{=elixir}.
+It might look something like this:
 
 ```elixir
-defp set(payload) do
+def set(payload) do
   Tortoise311.publish(
     # Important that this id matches the `client_id` we sent to Tortoise311.Connection
     :my_unique_client_id,
@@ -129,13 +143,17 @@ defp set(payload) do
 end
 ```
 
+::: note
+The payloads and capabilities are different for each device; [here's the information][] for the Hue light I want to control in this example.
+:::
+
 # Button presses
 
-With the mqtt communication done, we can start making things happen.
+With the MQTT communication done, we can start writing some automations.
 
 ## Normal press
 
-Here's how we can toggle the light on/off when we click the first button on the dial:
+Here's how we can toggle the light on/off when we click the first button on the dial in our GenServer:
 
 ```elixir
 def handle_info({:mqtt, _topic, %{"action" => "button_1_press_release"}}, state) do
@@ -144,9 +162,12 @@ def handle_info({:mqtt, _topic, %{"action" => "button_1_press_release"}}, state)
 end
 ```
 
+(Remember that we subscribed to the `"zigbee2mqtt/My tap dial"`{=elixir} topic during `init`.)
+
 ## Hold
 
-You can also hold a button and here's how to start moving through the hues of a light when you hold down a button.
+You can also hold a button, which generates a `hold` and a `hold_release` event.
+Here's how to use them to start moving through the hues of a light when you hold down a button and stop when you release it.
 
 ```elixir
 def handle_info({:mqtt, _topic, %{"action" => "button_3_hold"}}, state) do
@@ -162,8 +183,8 @@ end
 
 ## Double clicking
 
-How about double clicking?
-You could track the timestamp of the presses in the GenServer state, something like this:
+How about double clicking?\
+You could track the timestamp of the presses in the GenServer state and check the duration between them to determine if it's a double click or not; maybe something like this:
 
 ```elixir
 def handle_info({:mqtt, _topic, %{"action" => "button_2_press_release"}}, state) do
@@ -173,9 +194,11 @@ def handle_info({:mqtt, _topic, %{"action" => "button_2_press_release"}}, state)
 
   if state[:last_press] &&
        DateTime.diff(now, state[:last_press], :millisecond) < double_click_limit do
+    # If we double clicked.
     set(%{color: %{hue: 60}})
     {:noreply, Map.delete(state, :last_press)}
   else
+    # If we single clicked.
     set(%{color: %{hue: 180}})
     {:noreply, Map.put(state, :last_press, now)}
   end
@@ -183,8 +206,9 @@ end
 ```
 
 This however executes an action on the first and second click.
-To get around that we could add a timeout for the first press by sending us a delayed message, with the downside of introducing a small delay for single clicks:
+To get around that we could add a timeout for the first press by sending ourselves a delayed message, with the downside of introducing a small delay for single clicks:
 
+{hl="23,35"}
 ```elixir
 def handle_info({:mqtt, _topic, %{"action" => "button_2_press_release"}}, state) do
   double_click_limit = 350
@@ -282,9 +306,9 @@ set(%{brightness_step: speed, transition: 0.4})
 It's surprisingly decent.
 
 There's also an `action_time` attribute that's sent, signifying how long the action took.
-I tried to incorporate it into the dimmer calculation but I didn't manage to integrate it in a way where I felt an improvement.
+I tried to incorporate it into the dimmer calculation but I didn't manage to integrate it in a way that felt like an improvement.
 
-As an alternative we can try to use the `brightness_step_*` actions:
+As an alternative implementation we can try to use the `brightness_step_*` actions:
 
 ```elixir
 def handle_info(
@@ -310,7 +334,7 @@ end
 This implementation lets the tap dial itself provide the amount of steps (with a slight increase) and I do think it feels better than the `dial_rotate_*` implementation.
 
 Note that this won't completely turn off the light and it'll stop at brightness `1`.
-We can instead use `brightness_step_onoff: step`{=elixir} to allow the dimmer to turn on and off the light too.
+We can instead provide `brightness_step_onoff: step`{=elixir} to allow the dimmer to turn on and off the light too.
 
 ::: warn
 When I first implemented this the dimming was really choppy and felt awful,
@@ -328,7 +352,8 @@ I guess the only way to _really_ fix this is to bind the dial to the light direc
 
 One of the reasons I wanted a custom implementation was to be able to do other things with the rotary dial.
 
-For example maybe I'd like to alter the hue of light?
+For example, maybe I'd like to alter the hue of light by rotating?
+All we have to do is to set the hue instead of the brightness:
 
 ```elixir
 set(%{hue_step: step * 0.75, transition: 0.4})
@@ -352,6 +377,7 @@ These are the lights we can control in the room:
 (Yes, I need to get a lava light for Isidor too. They're awesome!)
 
 The window light and lava lamp are on timers so we don't have to do anything special with them, but there's a lot we can do with the other lights.
+
 Here are the functions I plan for the tap dial in the room:
 
 - *Rotate*: Dim brightness of ceiling light (direct binding)
@@ -372,3 +398,7 @@ https://community.home-assistant.io/t/philips-tap-dial-switch-with-double-tap-an
 [Phoenix PubSub]: https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html
 [elixir_engine]: /blog/2024/10/08/writing_home_assistant_automations_using_genservers_in_elixir/
 [here's the information]: https://www.zigbee2mqtt.io/devices/9290024688.html
+[Hue Tap Dial]: https://www.philips-hue.com/sv-se/p/hue-tap-dial-switch/8719514440999
+[tortoise311]: https://hexdocs.pm/tortoise311/0.12.1/introduction.html
+[Zigbee2MQTT]: https://www.zigbee2mqtt.io/
+[mosquitto]: https://github.com/eclipse-mosquitto/mosquitto
