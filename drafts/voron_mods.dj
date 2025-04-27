@@ -61,14 +61,16 @@ There are quite a few interesting toolheads I considered:
 - [A4T-toolhead][]
 
   A4T seems similar to XOL, while having even better cooling and a slightly simpler assembly.
-
   It's a newer project so it's not as mature but I decided to try it anyway.
 
 ## Changing the front idlers
 
 [Beefy idlers][]
 
-## XOL carriage
+## [XOL carriage][]
+
+I used TAP before so now I needed a new carriage.
+I decided to go with the [XOL carriage][] because why not?
 
 ## Assembly
 
@@ -76,11 +78,17 @@ There are quite a few interesting toolheads I considered:
 
 ## What hotend to use?
 
-Tired of Rapido, want to try something new
+I've been using the Rapido 1 & 2 for both of my printers but I've had a weird issue where it from time to time gets clogged when I print with PLA (both with the Stealthburner and Dragon Burner, with the doors open).
 
-- Revo (have that, should probably try it)
-- Dragon HF (nah, because heat creep for PLA)
-- Dragon Ace & Dragon Ace Vulcano
+So I wanted to try something new.
+I already have an unused Revo (from the LDO VORON Trident kit) and an unused Dragon HF (from the VORON 0 kit).
+I've been skeptical of the proprietary nozzles of the Revo and that the Dragon HF has a reputation of heat creep with PLA.
+
+But it's time to try them out.
+With a [meltzone extender][] and the cooling in A4T the Dragon HF shouldn't have heat creep problems.
+Since the A4T was designed around the Dragon HF I suppose it should be a solid first choice.
+
+The Revo seems fairly low-maintenance but I'll try it in the VORON 0 instead.
 
 ## The Beacon probe
 
@@ -102,6 +110,8 @@ The X-endstop fit nicely on the toolhead but the LDO Trident kit I bought came w
 It works well but it requires a drag chain to the XY-carriage.
 
 # Nozzle scrubber
+
+<https://www.printables.com/model/882364-new-version-adjustable-gantry-mounted-nozzle-seal>
 
 # What's next?
 
@@ -125,3 +135,5 @@ But I'll probably skip [ERCF][] in favor of the [Box Turtle][] instead as it see
 [Print It Forward]: https://pif.voron.dev/
 [Jabberwocky]: https://github.com/TheKittieKatt/Information-Insights/tree/main/Beta%20Testing%20Results/Jabberwocky
 [Mjölnir]: https://docs.armchairheavyindustries.com/docs/archetype/components/ducts/mjolnir
+[XOL carriage]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md
+[meltzone extender]: https://trianglelab.net/products/zs%C2%AE-mze%E2%84%A2-melt-zone-extender?VariantsId=11381
