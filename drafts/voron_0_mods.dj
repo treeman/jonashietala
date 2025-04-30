@@ -5,9 +5,6 @@ tags = ["3D printing", "VORON"]
 
 I recently completed [my VORON 0 build][v0] and I was determined to leave it as-is for a while and to start modding [my VORON Trident][trident]...
 
-But I felt I _had_ to mod it a little.
-Specifically, I was bothered by the lack of HEPA filter and the gaps between on the sides and in the front.
-
 So before embarking om my larger Trident modding journey I decided to work on the VORON 0 just a little bit more.
 
 # HEPA filter
@@ -41,6 +38,7 @@ Not at all necessary but they make the printer a little prettier.
 
 TODO picture of the panels
 
+One thing that bothered me with the stock VORON 0.2 was the gaps between the tophat and the side panels and front door.
 I went looking for a mod with fill-sized panels and found the [ZeroPanels mod][].
 
 Instead of magnets the printed parts clips into the extrusions pretty hard while still allowing you to pull them off when you want to.
@@ -67,14 +65,14 @@ There's a [variant of the clips for 6mm magnets][] in the pull requests that I u
 
 For the outside I used the standard [ZeroPanels][ZeroPanels mod] holders for 10x3mm magnets, allowing the magnets close really tightly against each other.
 
+TODO a better picture of the magnets on the clips
+
+TODO a better picture of the magnets on the door
+
 ::: warn
 The panels I bought were just _slightly_ too wide causing the side panels to bend a little and it made it hard to get a close seal for front and side panels.
 I had to file down the clips on the front door to avoid them from colliding with the side panel clips, and I had to add extra clips and magnets for the panels to close tightly against the foam tape.
 :::
-
-TODO a better picture of the magnets on the clips
-
-TODO a better picture of the magnets on the door
 
 
 ![Planning some extra magnets at the top.](/images/voron_0_mods/magnets_top.jpg)
