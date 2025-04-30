@@ -3,6 +3,13 @@ title = "VORON 0 mods"
 tags = ["3D printing", "VORON"]
 ---
 
+I recently completed [my VORON 0 build][v0] and I was determined to leave it as-is for a while and to start modding [my VORON Trident][trident]...
+
+But I felt I _had_ to mod it a little.
+Specifically, I was bothered by the lack of HEPA filter and the gaps between on the sides and in the front.
+
+So before embarking om my larger Trident modding journey I decided to work on the VORON 0 just a little bit more.
+
 # HEPA filter
 
 ![](/images/voron_0_mods/zero_back_open_with_filter.jpg)
@@ -11,20 +18,24 @@ With the [Nevermore Micro V4][] I had active carbon filtering but I also wanted 
 I found the [Hepa filter by JNP][] for the VORON 0.1 and a [mount for the VORON 0.2][] that I installed.
 
 For the fans I used two [Noctua NF-A4x10 FLX][] fans and I spliced them together with the Nevermore filter, allowing the MCU to control all the filter fans together.
-It might have been better to buy the 5V versions and connect them to the 5V output to have them always on, but by then I had already ordered the 12V version.
+It might have been better to buy the 5V versions and connect them to the 5V output to have them always on, but by then I had already ordered the other version.
+Oh well.
 
 # Back meshed panel
 
 ![](/images/voron_0_mods/zero_back_meshed.jpg)
 
 The small 5V fan for the Raspberry Pi was super loud and I wanted to replace it with something.
-Because the Raspberry Pi Zero doesn't get that hot I removed the fan and replaced the back panel with [a meshed variant][].
+Because the Raspberry Pi Zero doesn't get that hot I removed the fan and replaced the back panel with [a meshed variant][], which I hope should provide enough airflow to keep the electronics cool.
+
+(There are other variants with integrated fans if I realize this wasn't enough.)
 
 # Modesty mesh
 
 ![](/images/voron_0_mods/side_mesh.jpg)
 
 The wiring is _super_ ugly and I stumbled upon the [modesty mesh][] that hides the wires well from the sides.
+Not at all necessary but 
 
 # Full size panels
 
@@ -65,11 +76,6 @@ To bridge the foam tape offset I glued on an extra 3mm thick magnet on top.
 ![Planning some extra magnets at the top.](/images/voron_0_mods/magnets_top.jpg)
 
 
-## Led strips (if they fit)                                           E
-
-<https://www.printables.com/model/637053-voron-0-ledstrip-holder>
-
-
 [Nevermore Micro V4]: https://github.com/nevermore3d/Nevermore_MicroP
 [Hepa filter by JNP]: https://mods.vorondesign.com/details/tgFNVfEZGqjWbxWIt8ss2A
 [mount for the VORON 0.2]: https://www.printables.com/model/878785-voron-0-top-back-panel-hepa-filter-by-jnp-mount
@@ -80,3 +86,5 @@ To bridge the foam tape offset I glued on an extra 3mm thick magnet on top.
 [BoxZero mod]: https://github.com/zruncho3d/BoxZero
 [Voron 0.2 fullsize ZeroPanel mod]: https://www.printables.com/model/583082-voron-02-fullsize-zeropanel-mod-stock-frame-full-p/files
 [variant of the clips for 6mm magnets]: https://github.com/zruncho3d/ZeroPanels/pull/6
+[v0]: /blog/2025/03/25/lets_build_a_voron_0
+[trident]: /series/voron_trident

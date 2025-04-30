@@ -16,37 +16,35 @@ This post walks through how I set it all up and I'll end up with an example of h
 
 ::: tip
 In the [post about my automation engine][elixir_engine] I demonstrated how I controlled lights from Elixir via [Home Assistant][] states and actions.
-But for the devices that supports it it's better to communicate directly over [MQTT][] as you'll get better latency and more features.
+For the devices that supports it, it's better to communicate directly over [MQTT][] as you'll get better latency and more features.
+Since then I've converted over most of my automations to be based on [MQTT][].
 :::
 
 # The direct zigbee binding is good but not great
 
 I'm a huge fan of using direct bindings in Zigbee to directly pair switches to lights.
-This way the interaction is much snappier, not having to go through:
+This way the interaction is much snappier; instead of going through:
 
 ```
-device -> zigbee2mqtt -> controller -> zigbee2mqtt -> device
+device 1 -> zigbee2mqtt -> controller -> zigbee2mqtt -> device 2
 ```
 
-And instead go:
+The communication can instead go:
 
 ```
-device -> device
+device 1 -> device 2
 ```
 
-It also works if my server is down, which is a huge plus for important functionality such as turning on the light in the middle of the night when one of the kids have soiled the bed.
+It works if my server is down, which is a huge plus for important functionality such as turning on the light in the middle of the night when one of the kids have soiled the bed.
+That's _not_ the time you want to debug your homelab setup!
 
-The [Hue Tap Dial][] can be bound to lights and dimming the lights with the dial feels very smooth and nice.
+The [Hue Tap Dial][] can be bound to lights with [Zigbee2MQTT][] and dimming the lights with the dial feels very smooth and nice.
 You can also use the dial to turn on and off the light, like a regular dimmer switch anywhere.
 
 Unfortunately, if you want to bind the dimmer it also binds the hold of _all_ of the four buttons to turn off the light, practically blocking the hold functionality if you use direct binding.
 There's also no way to directly bind a button press to turn on or toggle the light---dimming and hold to turn off is what you get.
 
-To add more functionality you have to use something external; a Hue Bridge or Home Assistant works, but I wanted to use Elixir.
-
-::: note
-I use [a custom automation engine][elixir_engine] written in Elixir where automations are regular GenServers.
-:::
+To add more functionality you have to use something external; a Hue Bridge or [Home Assistant][] with a Zigbee dongle works, but I wanted to use Elixir.
 
 # Communicating with MQTT in Elixir
 
@@ -89,7 +87,7 @@ I'll also add [Phoenix PubSub][] to the Supervisor, which we'll use to propagate
 ```
 
 When starting `Tortoise311.Connection` above we configured it to call the `Haex.MqttHandler` whenever an MQTT message we're subscribing to is received.
-Here we'll simply forward any message through our PubSub, making it easy for anyone to subscribe to any message, wherever they are:
+Here we'll simply forward any message to our PubSub, making it easy for anyone to subscribe to any message, wherever they are:
 
 ```elixir
 defmodule Haex.MqttHandler do
@@ -144,17 +142,19 @@ payload #=> %{
 }
 ```
 
-## Sending updates
+## Controlling devices
 
-To send an update (to for example toggle a light) we should send a json payload to a topic such as `"zigbee2mqtt/My hue light/set"`{=elixir}.
-It might look something like this:
+To change the state of a device we should send a json payload to the "set" topic.
+For example, to turn off a light named `My hue light` we should send the payload `{"state": "OFF"}`{=json} to `zigbee2mqtt/My hue light/set`.
+
+Here's a function to send payloads to our light:
 
 ```elixir
 def set(payload) do
   Tortoise311.publish(
-    # Important that this id matches the `client_id` we gave to Tortoise311.Connection.
+    # Important that this id matches the `client_id`
+    # we gave to Tortoise311.Connection.
     :my_unique_client_id,
-    # `My hue light` is the zigbee2mqtt id of the light we want to control.
     "zigbee2mqtt/My hue light/set",
     Jason.encode!(payload)
   )
@@ -280,6 +280,11 @@ end
 
 You can generalize this concept to triple presses and beyond by keeping a list of timestamps instead of the singular one we use in `:last_press`{=elixir},
 but I personally haven't found a good use-case for them.
+
+::: note
+You might be able to utilize [Process.cancel_timer/2][] as an alternative to the [make_ref/0][] approach I'm using.
+In theory it's the better approach as you don't need to process "old" messages but {-I'm too lazy to rewrite it-} I leave that as an exercise to the reader.
+:::
 
 # Dimming
 
@@ -484,7 +489,7 @@ TapDialController.start_link(
       # allowing us to manually control the light.
       LightController.set_manual_override(@ceiling_light, true)
       # This function steps through different light states for the ceiling light
-      # (hue 0..300 with 60 intervals).
+      # (hue 0..300 with 60 intervals) and stores it in `state`.
       next_scene(state)
     end
   }
@@ -672,3 +677,5 @@ end
 [mosquitto]: https://github.com/eclipse-mosquitto/mosquitto
 [Home Assistant]: https://www.home-assistant.io/
 [MQTT]: https://mqtt.org/
+[Process.cancel_timer/2]: https://hexdocs.pm/elixir/Process.html#cancel_timer/2
+[make_ref/0]: https://hexdocs.pm/elixir/Kernel.html#make_ref/0
