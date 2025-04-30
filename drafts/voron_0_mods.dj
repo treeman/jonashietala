@@ -35,13 +35,12 @@ Because the Raspberry Pi Zero doesn't get that hot I removed the fan and replace
 ![](/images/voron_0_mods/side_mesh.jpg)
 
 The wiring is _super_ ugly and I stumbled upon the [modesty mesh][] that hides the wires well from the sides.
-Not at all necessary but 
+Not at all necessary but they make the printer a little prettier.
 
 # Full size panels
 
 TODO picture of the panels
 
-One thing that bothered me with the stock VORON 0.2 was the gaps between the tophat and the side panels and front door.
 I went looking for a mod with fill-sized panels and found the [ZeroPanels mod][].
 
 Instead of magnets the printed parts clips into the extrusions pretty hard while still allowing you to pull them off when you want to.
@@ -50,16 +49,11 @@ It works really well honestly.
 ![The clips were slightly difficult to print but manageable.](/images/voron_0_mods/trident_print_zero_clip.jpg)
 
 I was looking at the [BoxZero mod][] for a proper full-sized panels mod but I didn't want to tear apart the printer and rebuild the belt path so I simply replaced the stock panels with full sized ones.
-This does leave some air gaps at the back and front of the printer right next to the belt that I simply covered with some tape.
+This does leave some air gaps at the back and front of the printer right next to the belt that I simply covered with some tape:
 
 ![Some tape to cover the gaps around the belts.](/images/voron_0_mods/tape.jpg)
 
-::: note
-The panels I bought were just _slightly_ too wide causing the side panels to bend a little and it made it hard to get a close seal for the front door.
-I had to file down the clips on the front door to avoid them from colliding with the side panel clips.
-:::
-
-While the clips are good for panels you don't remove that often it's too much to use for the front door.
+While the clips are good for panels you don't remove that often, they're too much to use for the front door.
 They have some magnetic clips you can use but I'm honestly perplexed on how to use them for good effect.
 
 The standard VORON 0 handles don't consider the extra 3mm the foam tape adds, leaving a gap that severely reduces the pulling force of the magnets.
@@ -69,9 +63,19 @@ For the door handle I used the stealth handle found in the [Voron 0.2 fullsize Z
 
 ![Three different magnet holders; at the top the Stealth handles holders that come out 3mm, in the middle the 6mm holder, and at the bottom the standard magnet holder.](/images/voron_0_mods/clips.jpg)
 
-I had to have the extra magnets as the door wouldn't close tightly without them.
-There's a [variant of the clips for 6mm magnets][] in the pull requests that I used and for the outside I used the ZeroPanels holders for 10x3mm magnets.
-To bridge the foam tape offset I glued on an extra 3mm thick magnet on top.
+There's a [variant of the clips for 6mm magnets][] in the pull requests that I used by pushing in two 3x2mm magnets and super gluing one 10x3mm magnet on top, so it sticks out the 3mm extra distance the foam tape adds. (Yes, maybe just the 10x3mm magnet would be enough).
+
+For the outside I used the standard [ZeroPanels][ZeroPanels mod] holders for 10x3mm magnets, allowing the magnets close really tightly against each other.
+
+::: warn
+The panels I bought were just _slightly_ too wide causing the side panels to bend a little and it made it hard to get a close seal for front and side panels.
+I had to file down the clips on the front door to avoid them from colliding with the side panel clips, and I had to add extra clips and magnets for the panels to close tightly against the foam tape.
+:::
+
+TODO a better picture of the magnets on the clips
+
+TODO a better picture of the magnets on the door
+
 
 ![Planning some extra magnets at the top.](/images/voron_0_mods/magnets_top.jpg)
 
