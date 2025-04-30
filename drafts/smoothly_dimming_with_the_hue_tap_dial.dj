@@ -14,6 +14,11 @@ At first I tried to rely on my existing [Home Assistant][] connection but I real
 
 This post walks through how I set it all up and I'll end up with an example of how I control multiple Zigbee lights from one dial via Elixir.
 
+::: tip
+In the [post about my automation engine][elixir_engine] I demonstrated how I controlled lights from Elixir via [Home Assistant][] states and actions.
+But for the devices that supports it it's better to communicate directly over [MQTT][] as you'll get better latency and more features.
+:::
+
 # The direct zigbee binding is good but not great
 
 I'm a huge fan of using direct bindings in Zigbee to directly pair switches to lights.
