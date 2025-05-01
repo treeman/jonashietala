@@ -151,7 +151,6 @@ pub struct ProjectRef {
 pub struct Project {
     title: String,
     link: Option<String>,
-    year: u32,
     path: AbsPath,
     descr: Html,
     markup_lookup: Option<MarkupLookup>,
@@ -171,7 +170,6 @@ impl Project {
         Ok(Self {
             title: markup.markup_meta.title,
             link: markup.markup_meta.link,
-            year: markup.markup_meta.year,
             path: markup.path,
             descr: markup.html,
             homepage: markup.markup_meta.homepage.unwrap_or(false),
@@ -215,7 +213,6 @@ impl PartialEq for Project {
 pub struct PartialProject {
     pub title: String,
     pub link: Option<String>,
-    pub year: u32,
     pub path: AbsPath,
     pub homepage: bool,
 }
@@ -230,7 +227,6 @@ impl PartialProject {
         Ok(Self {
             title: markup.markup_meta.title,
             link: markup.markup_meta.link,
-            year: markup.markup_meta.year,
             path: markup.path,
             homepage: markup.markup_meta.homepage.unwrap_or(false),
         })
@@ -241,7 +237,7 @@ impl PartialProject {
 pub struct ProjectContext<'a> {
     title: Cow<'a, str>,
     link: Option<&'a str>,
-    year: u32,
+    // year: u32,
     descr: &'a str,
 }
 
@@ -261,7 +257,7 @@ impl<'a> From<&'a Project> for ProjectContext<'a> {
         Self {
             title: html_escape::encode_text(&project.title),
             link: project.link.as_deref(),
-            year: project.year,
+            // year: project.year,
             descr: &project.descr.0,
         }
     }
@@ -271,7 +267,6 @@ impl<'a> From<&'a Project> for ProjectContext<'a> {
 pub struct ProjectMetadata {
     title: String,
     link: Option<String>,
-    year: u32,
     homepage: Option<bool>,
 }
 

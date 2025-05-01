@@ -341,7 +341,6 @@ impl From<PartialProjectsItem> for ProjectsInfo {
 pub struct ProjectInfo {
     pub title: String,
     pub link: Option<String>,
-    pub year: u32,
     pub path: String,
     pub homepage: bool,
 }
@@ -351,7 +350,6 @@ impl From<PartialProject> for ProjectInfo {
         Self {
             title: project.title,
             link: project.link,
-            year: project.year,
             path: project.path.to_string(),
             homepage: project.homepage,
         }

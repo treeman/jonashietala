@@ -2,7 +2,7 @@
 title = "My ultimate keyboard"
 year = 2024
 link = "/blog/2024/11/26/building_my_ultimate_keyboard/"
-homepage = false
+homepage = true
 ---
 
 ![](/images/cosmos/cybershard.jpg)

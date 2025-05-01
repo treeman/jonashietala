@@ -1,6 +1,7 @@
 ---toml
 title = "Why I still blog after 15 years"
 tags = ["Blog"]
+recommended = true
 favorite = true
 ---
 
