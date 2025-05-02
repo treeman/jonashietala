@@ -3,7 +3,7 @@ use eyre::Result;
 use itemref_derive::ItemRef;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
-use std::cmp::{Ordering, Reverse};
+use std::cmp::Ordering;
 use std::collections::BTreeMap;
 use tera::Context;
 
