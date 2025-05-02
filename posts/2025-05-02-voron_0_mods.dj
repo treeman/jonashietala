@@ -1,6 +1,7 @@
 ---toml
-title = "VORON 0 mods"
+title = "Some VORON 0 mods"
 tags = ["3D printing", "VORON"]
+favorite = true
 ---
 
 I recently completed [my VORON 0 build][v0] and I was determined to leave it as-is for a while and to start modding [my VORON Trident][trident]...

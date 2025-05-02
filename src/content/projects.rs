@@ -144,7 +144,7 @@ struct ProjectsContext<'a> {
 pub struct ProjectRef {
     pub id: String,
     #[order]
-    pub path: Reverse<AbsPath>,
+    pub path: AbsPath,
 }
 
 #[derive(Debug)]
@@ -184,7 +184,7 @@ impl Project {
     pub fn project_ref(&self) -> ProjectRef {
         ProjectRef {
             id: self.id().to_string(),
-            path: Reverse(self.path.clone()),
+            path: self.path.clone(),
         }
     }
 }
@@ -197,7 +197,7 @@ impl PartialOrd for Project {
 
 impl Ord for Project {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.path.cmp(&other.path)
+        other.path.cmp(&self.path)
     }
 }
 
@@ -237,7 +237,6 @@ impl PartialProject {
 pub struct ProjectContext<'a> {
     title: Cow<'a, str>,
     link: Option<&'a str>,
-    // year: u32,
     descr: &'a str,
 }
 
@@ -257,7 +256,6 @@ impl<'a> From<&'a Project> for ProjectContext<'a> {
         Self {
             title: html_escape::encode_text(&project.title),
             link: project.link.as_deref(),
-            // year: project.year,
             descr: &project.descr.0,
         }
     }
