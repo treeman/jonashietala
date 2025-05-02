@@ -36,7 +36,7 @@ Not at all necessary but they make the printer a little prettier.
 
 # Full size panels
 
-TODO picture of the panels
+![](/images/voron_0_mods/zero_with_mods.jpg)
 
 One thing that bothered me with the stock VORON 0.2 was the gaps between the tophat and the side panels and front door.
 I went looking for a mod with fill-sized panels and found the [ZeroPanels mod][].
@@ -65,18 +65,12 @@ There's a [variant of the clips for 6mm magnets][] in the pull requests that I u
 
 For the outside I used the standard [ZeroPanels][ZeroPanels mod] holders for 10x3mm magnets, allowing the magnets close really tightly against each other.
 
-TODO a better picture of the magnets on the clips
-
-TODO a better picture of the magnets on the door
+![Extra magnets at the top of the printer to get a proper seal.](/images/voron_0_mods/magnets_top.jpg)
 
 ::: warn
 The panels I bought were just _slightly_ too wide causing the side panels to bend a little and it made it hard to get a close seal for front and side panels.
 I had to file down the clips on the front door to avoid them from colliding with the side panel clips, and I had to add extra clips and magnets for the panels to close tightly against the foam tape.
 :::
-
-
-![Planning some extra magnets at the top.](/images/voron_0_mods/magnets_top.jpg)
-
 
 [Nevermore Micro V4]: https://github.com/nevermore3d/Nevermore_MicroP
 [Hepa filter by JNP]: https://mods.vorondesign.com/details/tgFNVfEZGqjWbxWIt8ss2A
