@@ -45,6 +45,8 @@ A. A filament cutter and filament sensor in the toolhead.
 
 A. [Install a nozzle scrubber](#Nozzle-scrubber)
 
+  To automatically clean the nozzle and for a place to park during filament changes.
+
 # [Inverted electronics][]
 
 I've been looking at the [Inverted electronics][] mod even before finishing my Trident printer.
@@ -127,20 +129,6 @@ Maybe there are some benefits/trade-offs here but I really don't know---I just p
 
 # Building the [A4T-toolhead][]
 
-## What hotend to use?
-
-I've been using the Rapido 1 & 2 for both of my printers but I've had a weird issue where it from time to time gets clogged when I print with PLA (both with the Stealthburner and Dragon Burner, with the doors open).
-
-So I wanted to try something new.
-I already have an unused Revo (from the LDO VORON Trident kit) and an unused Dragon HF (from the VORON 0 kit).
-I've been skeptical of the proprietary nozzles of the Revo and that the Dragon HF has a reputation of heat creep with PLA.
-
-But it's time to try them out.
-With a [meltzone extender][] and the cooling in A4T the Dragon HF shouldn't have heat creep problems.
-Since the A4T was designed around the Dragon HF I suppose it should be a solid first choice.
-
-The Revo seems fairly low-maintenance, maybe I'll try it in the VORON 0 instead.
-
 ## LED harness
 
 ## Fans
@@ -150,17 +138,31 @@ The Revo seems fairly low-maintenance, maybe I'll try it in the VORON 0 instead.
 
 ## Hotend
 
-## Extruder with a filament sensor
+I've been using the Rapido 1 & 2 for both of my printers but I've had a weird issue where it from time to time gets clogged when I print with PLA (both with the Stealthburner and Dragon Burner, with the doors open).
 
-2x 5.5mm balls for filament sensor
+So I wanted to try something new.
+I already have an unused Revo (from the LDO VORON Trident kit) and an unused Dragon HF (from the VORON 0 kit).
+I've been skeptical of the proprietary nozzles of the Revo and that the Dragon HF has a reputation of heat creep with PLA.
+
+But it's time to try them out.
+With a [meltzone extender][] and the cooling in A4T the Dragon HF shouldn't have heat creep problems.
+Since the A4T was designed around the Dragon HF I suppose I need to give it a try.
+
+The Revo seems fairly low-maintenance, maybe I'll try it in the VORON 0 instead.
 
 ## The [A4T-AFC][] filament cutter
 
 [A4T-AFC]: https://github.com/SouthAsh1/A4T-AFC
 
+## Extruder
+
+2x 5.5mm balls for filament sensor
+
 ## [Nitehawk36][] toolhead board
 
 ## [Beacon probe][]
+
+## Wiring
 
 ## Installation
 
@@ -168,13 +170,18 @@ TODO a nice picture
 
 # Nozzle scrubber
 
-<https://www.printables.com/model/882364-new-version-adjustable-gantry-mounted-nozzle-seal>
+I've been wanting a nozzle scrubber [since I built my Trident][purge-bucket] but with VORON Tap I lost too much Y-movement to be able to fit one.
+By moving to [Beacon][Beacon probe] I could reclaim some Y-movement to be able to fit a nozzle scrubber.
+
+I found [this version on Printables][nozzle-seal] that includes a Beacon-friendly nozzle scrubber and a place to park your nozzle during filament changes (for when I get my multi-color setup).
 
 # What's next?
 
 I've really been wanting multi color support and I've been waiting for [ERCF][] to be ready for ages.
 But I'll probably skip [ERCF][] in favor of the [Box Turtle][] instead as it seems easier to get working.
 
+[nozzle-seal]: https://www.printables.com/model/882364-new-version-adjustable-gantry-mounted-nozzle-seal
+[purge-bucket]: http://localhost:8080/blog/2024/02/27/lets_build_a_voron_more_mods/#Purge-bucket-CNC-Tap
 [Nitehawk36]: https://lab4450.com/product/ldo-nitehawk36-toolhead/
 [XOL]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/tree/main
 [Dragon Burner]: https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner
