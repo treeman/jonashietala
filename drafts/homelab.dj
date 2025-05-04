@@ -1,0 +1,100 @@
+---toml
+title = "Homelab"
+tags = ["Some tag"]
+---
+
+This page attempts to document my homelab setup that play around with, use as a learning platform, and sometimes even host useful things on.
+
+# VLANs and IP addresses
+
+I use the `10.0.0.0/8` (any 10.x.x.x) range of IP addresses for my home network.
+
+To introduce some organization to the scheme I separate the address space as:
+
+> 10.`vlan`.`group`.x
+
+Where `vlan` is the VLAN id and `group` is another subgroup to group devices depending on server, device type, or similar.
+
+For example the IP `10.200.3.1` means that it's a device in the "IoT connected" VLAN (200) and the "3D printer" group (3), so we can quickly see that it's a 3D printer that's only allowed to connect to the internet.
+
+## VLANs
+
+| ID  | Name | Access rules |
+|:----|:------------|:----|
+|   0 | Management | Network gear |
+|   1 | Internal services | IoT + Utilities + Services + Internet |
+|  10 | Public services | Internet |
+|  20 | Trusted* | Everything |
+| 100 | User devices* | Internal services + Utilities + Internet |
+| 200 | IoT connected* | Internet |
+| 210 | IoT restricted* | Nothing |
+| 220 | Utilities* | Internet |
+| 250 | Guest* | Internet + Utilities |
+
+(\*) Has their own WIFI SSID.
+
+## Groups
+
+| Standard groups (any) |
+|:----|:---|:------------|
+|  10.`vlan`.0.1  | Gateway |
+| 10.`vlan`.255.`x` | DHCP clients |
+| Network gear (0) |
+|:----|:------------|
+|  10.0.0.`x` | Routers |
+|  10.0.1.`x` | Switches |
+|  10.0.2.`x` | Access points |
+| Service providers (1, 10) |
+|:----|:---|:------------|
+|  10.`vlan`.1.`x`  |  lannisport services | |
+| 10.`vlan`.2.`x` | Kubernetes services |
+| User devices (20, 100, 250) |
+|:----|:---|:------------|
+|  10.`vlan`.10.`x` | Gaming |
+|  10.`vlan`.21.`x` | Jonas devices |
+|  10.`vlan`.22.`x` | Veronicas devices |
+|  10.`vlan`.30.`x` | Plattor |
+|  10.`vlan`.40.`x` | Homelab devices |
+| IoT (200, 210, 220) |
+|:----|:------------|
+|  10.`vlan`.1.`x`  | Media players |
+|  10.`vlan`.2.`x`  | 2D printers |
+|  10.`vlan`.3.`x`  | 3D printers |
+|  10.`vlan`.10.`x` | Energy IoT |
+|  10.`vlan`.20.`x` | IoT Appliances |
+|  10.`vlan`.21.`x` | Kitchen Appliances |
+|  10.`vlan`.30.`x` | Cameras |
+
+
+# Network
+
+- router
+
+  - switch storage
+
+    - ap tvättstugan
+    - ap vindan
+    - ap vardagsrum
+
+      - highgarden
+
+    - switch office
+
+      - ap kontoret
+      - trident
+      - solar
+      - winterfell
+
+    - lannisport
+    - heatpump
+
+Notable wifi devices:
+
+- zero 3d printer
+- regular printer
+- various smart devices
+
+![](graphviz/test.dot)
+
+# Zigbee smart devices
+
