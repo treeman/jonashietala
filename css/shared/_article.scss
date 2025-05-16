@@ -770,25 +770,39 @@ article {
   .event:is(.family) .marker {
     fill: var(--melange_b_red);
   }
-
   .event:is(.life) .marker {
     fill: var(--melange_b_yellow);
   }
-
   .event:is(.hobbies) .marker {
     fill: var(--melange_c_yellow);
   }
-
   .event:is(.projects) .marker {
     fill: var(--melange_b_blue);
   }
-
   .event:is(.work) .marker {
     fill: var(--melange_b_green);
   }
-
   .event:is(.programming) .marker {
     fill: var(--melange_b_magenta);
+  }
+
+  .event:is(.smartwatch) .marker {
+    fill: var(--melange_b_blue);
+  }
+  .event:is(.smartband) .marker {
+    fill: var(--melange_b_green);
+  }
+  .event:is(.oura) .marker {
+    fill: var(--melange_b_yellow);
+  }
+  .event:is(.whoop) .marker {
+    fill: var(--melange_c_yellow);
+  }
+  .event:is(.eightsleep) .marker {
+    fill: var(--melange_b_magenta);
+  }
+  .event:is(.hrtracker) .marker {
+    fill: var(--melange_b_red);
   }
 }
 .timeline.blog-tech-stack {
@@ -849,8 +863,18 @@ article {
   }
 
   // Aligned to the right.
-  .timeline .event:is(.programming, .work, .projects),
-  .timeline.blog-tech-stack .event:nth-child(even) {
+  .timeline
+    .events
+    .event:is(
+      .programming,
+      .work,
+      .projects,
+      .fitnessdevice,
+      .oura,
+      .whoop,
+      .eightsleep
+    ),
+  .timeline.blog-tech-stack .events .event:nth-child(even) {
     // This is enough to move everything over to the side.
     flex-direction: row-reverse;
 

@@ -1,0 +1,187 @@
+---toml
+title = "Why I'm back to trying out Whoop"
+tags = ["Eight Sleep", "New Stuff", "Biohacking"]
+---
+
+# A brief history of my experiences with smart devices
+
+I'm not an elite athlete, not even close;
+I'm just a programmer who struggles to stay active.
+As I also like to play with tech I've tried out various smart devices in the hopes that they can help me to live a healthier life.
+
+Here's the devices I've used, in purchase order:
+
+::: timeline
+: Fitbit, before 2020 .smartband
+
+  I had some smartband from Fitbit that I liked.
+  When that bugged out I bought the Fitbit Versa, with a square display.
+
+: Oura ring, 2020 .oura
+
+  I wanted to track my sleep better, so I bought a ring.
+  It worked well.
+
+: Garmin Vivomove, 2020 .smartband
+
+  The Fitbit kept disconnecting, so I abandoned it for a Garmin band.
+
+: Oura ring Gen 3, 2021 .oura
+
+  I had to recharge the ring all the time so I upgraded to the newer version.
+
+: Polar Verity Sense, 2022 .hrtracker
+
+  I can't track my BJJ (Brazilian Jiu-Jitsu) training with a watch or a ring,
+  so I bought a heart rate monitor you put on the bicep.
+  It works.
+
+: Fossil Gen 6 Wellness Edition, 2022 .smartwatch
+
+  Maybe I should try a _real_ smartwatch with lots of smart features...?
+  I use Android so maybe a watch with WearOS is good?
+
+  (Jokes on me, WearOS was garbage and having to charge the watch every day is a nightmare.
+   I went back to the Garmin smartband really quickly.)
+
+: Whoop 4.0, 2023-2024 .whoop
+
+  I used [Whoop][] for a year.
+  Tracking BJJ with a device in my underwear is so next level.
+  I can also wear it during weight lifting---say goodbye Oura!
+
+: Garmin Instinct 2X Solar, 2024 .smartwatch
+
+  Charging the devices got annoying, maybe there's a better alternative?
+  Yes---you charge the Garmin Instinct once a month and it has a _flashlight_.
+
+  Seriously, you haven't truly lived before you've had a flashlight on your watch---it's glorious.
+  (Jokes aside, it's awesome.)
+
+: Eight Sleep Pod 4, 2024 .eightsleep
+
+  Sleep is important so [I tried (and returned) a ludicrously expensive smart mattress][].
+
+: Whoop MG, 2025 .whoop
+
+  I was feeling down and I needed something to help me get back to prioritizing fitness and health,
+  and I just happened to check back on [Whoop][] just when Whoop MG was released...
+
+  So I threw financial responsibility out the window and ordered the MG on release day.
+:::
+
+Right now I'm using the [Garmin Instinct 2X Solar][] as a "stay off my phone" device and [Whoop][] as my fitness and health tracker.
+For some people a smartwatch may fulfill both roles, but that's not possible for me as BJJ is my main source of exercise.
+I could pair the Polar with my Garmin watch, but then I'd still have to juggle two devices and for me the [Whoop][] is a much more helpful device than the Garmin anyway.
+
+# The point is to change behaviours
+
+The entire point of all of these smart devices is to help me change my behaviours (in a positive way).
+It doesn't matter if the device is the most beautiful device God has created;
+if it doesn't help me do things differently then it's a failure.
+
+Here are two examples:
+
+1. My first Fitbit smartband was great.
+
+   It's true that it was quite limited in what it could do.\
+   Yes, it disconnected from my phone _all the time_ and it was super annoying.\
+   And sure, the tracking of steps/calories/steps/etc was wildly inaccurate.
+
+   However, it presented the daily steps/calories/steps as bars on the screen---bars that I should fill over the course of the day---and that caused me to change my behaviours and to move more than I'd have done otherwise.
+
+2. The Garmin Instinct is useful, but not as a fitness or health device.
+
+   I think the watch is very nice;
+   it's got a fantastic battery life,
+   it's not bothering me when I sleep,
+   I don't have to reach for my phone to see if I have any notifications,
+   and the flashlight is _amazing_.
+
+   > It’s just super effin’ functional and useful day-to-day, with just as much utility as the flashlight on your phone (if not more, since your hands are still free).
+   >
+   > ^ [DCRainmaker](https://www.dcrainmaker.com/2023/05/flashlight-multiband-everyone.html)
+
+   The Garmin also has lots of various measurements (and much more accurate than my old Fitbit);
+   I can see the daily steps,
+   I can follow how my "body battery" is doing,
+   I can track runs very well (although I don't run),
+   and I can follow my stress and heart rate throughout the days...
+
+   But that doesn't _do_ anything for me.
+   I have all these bars and graphs and circles on the watch that I should fill to meet my daily step count for example, but I just don't.
+
+   The Garmin app is also not designed in a way to help me get motivated.
+   Maybe it's more geared towards athletes that already train hard every day,
+   instead of middle-aged programmers who need that extra push to get out there?
+
+   For whatever reason, as a device to improve my fitness and health, the Garmin is a failure.
+
+# Why I left Whoop last year
+
+About a year ago I chose to not renew my Whoop subscription and I [made a post on Reddit][] explaining why.
+
+Here's a quick summary:
+
+::: dash
+* If I had the Whoop in my boxers it thinks I'm sleeping when I sit in front of the computer or lie in the sofa.
+
+* No custom insights for the journal (which is otherwise a great feature).
+
+* The UI for the strength trainer portion of the app sucked.
+
+* It's too expensive if all it provides is tracking for BJJ.
+:::
+
+## Has anything changed?
+
+Unfortunately, there's still no custom insights available.
+
+TODO (Still detects me as sleeping with it in the boxers.)
+
+I still dislike the strength trainer with a passion.
+You can however start a Weightlifting activity and add the exercises after the training.
+This is _much_ more manageable for me and it'll still calculate muscular load for you.
+
+I've also come to realize that after 10 months with just the Garmin,
+while the watch was providing all the stats, it wasn't helping me improve my fitness or health in the
+way Whoop used to do.
+This is the main reason why I was willing to try Whoop once more.
+
+# Whoop screwed over their customers
+
+It was an interesting feeling to visit [r/whoop][] after having placed my order
+and see it overrun by people extremely upset about how Whoop was treating their existing subscribers.
+
+I agree that Whoop displayed some real corporate bullshit by telling people to pay an upgrade fee despite claiming for years that upgrades would be free (then walking back on the upgrade fee somewhat),
+claiming that the 6-month subscription requirement for new hardware was "a mistake on their blog",
+and by breaking compatibility with the 4.0 bands.
+
+Some people claim that Whoop broke the band compatibility intentionally but as I've experienced the same at work I think incompetence is more likely.
+
+> "I don't want to be constrained by the old design!"
+>
+> ^ Programmer, before corporate disaster
+
+It sucks but corporations screwing us over in various ways is more or less expected.
+This whole situation gave me some regrets for ordering the Whoop so quickly.
+
+# How Whoop helps me
+
+::: plus
+:::
+
+# What I'd like to see from Whoop
+
+* Custom journal entries and insights.
+
+  The journal is one of the killer features of Whoop.
+  It can help you identify factors that help or harm your recovery by correlating your behaviour with their recovery score.
+
+* x
+
+
+[Whoop]: https://www.whoop.com
+[I tried (and returned) a ludicrously expensive smart mattress]: /blog/2024/10/05/trying_and_returning_the_eight_sleep_pod_4/
+[made a post on Reddit]: https://www.reddit.com/r/whoop/comments/1e1hzbe/today_i_cancelled_my_whoop_subscription_let_me/
+[r/whoop]: https://www.reddit.com/r/whoop
