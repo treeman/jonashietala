@@ -790,7 +790,7 @@ article {
     fill: var(--melange_b_blue);
   }
   .event:is(.smartband) .marker {
-    fill: var(--melange_b_green);
+    fill: var(--melange_b_cyan);
   }
   .event:is(.oura) .marker {
     fill: var(--melange_b_yellow);
@@ -803,6 +803,9 @@ article {
   }
   .event:is(.hrtracker) .marker {
     fill: var(--melange_b_red);
+  }
+  .event:is(.withings) .marker {
+    fill: var(--melange_b_green);
   }
 }
 .timeline.blog-tech-stack {
@@ -872,7 +875,8 @@ article {
       .fitnessdevice,
       .oura,
       .whoop,
-      .eightsleep
+      .eightsleep,
+      .hrtracker
     ),
   .timeline.blog-tech-stack .events .event:nth-child(even) {
     // This is enough to move everything over to the side.

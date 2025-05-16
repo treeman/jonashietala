@@ -30,6 +30,10 @@ Here's the devices I've used, in purchase order:
 
   I had to recharge the ring all the time so I upgraded to the newer version.
 
+: Withings Body+, 2022 .withings
+
+  I wanted to track my weight so I bought a smart scale.
+
 : Polar Verity Sense, 2022 .hrtracker
 
   I can't track my BJJ (Brazilian Jiu-Jitsu) training with a watch or a ring,
@@ -159,7 +163,7 @@ and by breaking compatibility with the 4.0 bands.
 
 Some people claim that Whoop broke the band compatibility intentionally but as I've experienced the same at work I think incompetence is more likely.
 
-> "I don't want to be constrained by the old design!"
+> I don't want to be constrained by the old design!
 >
 > ^ Programmer, before corporate disaster
 
@@ -168,12 +172,77 @@ This whole situation gave me some regrets for ordering the Whoop so quickly.
 
 # Thoughts on Whoop in 2025
 
-* Strain/Recovery/Sleep
-* Whoop age
-* BP / ECG
-* Journaling and insights
-* The new straps and Whoop body
-* Pricing
+## Sleep/Recovery/Strain
+
+I still really like the Sleep/Recovery/Strain presentation.
+
+Maybe it's "just" pretty UI but I find Whoop's presentation much more helpful than the rawer presentation that Garmin has.
+
+I've always liked to look at sleep information ever since I started wearing an Oura ring and
+Whoop's (recently redesigned) presentation is very good as it focuses on actionable metrics:
+
+::: flex
+![](/images/whoop/whoop_sleep.png)
+![](/images/whoop/garmin_sleep.png)
+
+Whoop to the left focuses on metrics that I can change
+while Garmin to the right focuses on sleep stages that I have no idea how to influence.
+:::
+
+::: flex
+![](/images/whoop/whoop_strain.png)
+![](/images/whoop/whoop_recovery.png)
+
+The strain and recovery views (mostly) focuses on actionable targets.
+:::
+
+I also like the Whoop app when you open it up:
+
+::: flex
+![](/images/whoop/whoop_start.png)
+![](/images/whoop/garmin_start.png)
+
+Whoop's landing page to the left is more useful to be than Garmin's on the right.
+:::
+
+It's a shame that you can't customize it more
+(for example to place the Sleep consistency metric above the fold and de-prioritize the coach)
+but overall I think it's well designed and gives me a good overview.
+
+## Body weight
+
+While I've had a Withings smart scale for a while I didn't have a chance to try the integration with Whoop as I canceled my subscription before it was announced.
+
+What can I say, it's nice to have it integrated into one app.
+
+## Steps
+
+> I’m assuming they will likely never count steps because it directly contradicts their messaging and brand for strain. It would send a mixed message to the consumer, in my opinion. I can’t see this happening.
+> ^ [Reddit user](https://old.reddit.com/r/whoop/comments/plt9jp/will_whoop_ever_count_steps/hccx5tk/)
+
+Surprise, [Whoop added step counting](https://www.whoop.com/us/en/thelocker/start-tracking-steps-with-whoop/)
+during the time I was away.
+
+> While step counting in isolation is not a good proxy for cardiovascular fitness, a growing and more recent body of scientific research has shown that roughly 8,000 steps per day can reduce the risk of many diseases and conditions.
+> ^ [Steps: The newest metric that matters on WHOOP](https://www.whoop.com/us/en/thelocker/start-tracking-steps-with-whoop/)
+
+Even though it may not be as accurate as the step counting on Garmin it's nice to have more metrics in a single app,
+but it's not anything revolutionary.
+
+## Journaling and insights
+
+## Whoop age
+
+## Blood pressure and ECG
+
+## The new straps and Whoop body
+
+The boxers: less steps and worse sleep detection.
+
+## Pricing
+
+Whoop outdid themselves and the MG took something expensive and made it much more expensive.
+While I don't regret going with the more expensive option the "Peak" plan (without Blood pressure and ECG) probably makes more sense for most people.
 
 # I see no real Whoop competitor
 
