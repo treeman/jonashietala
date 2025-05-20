@@ -1,13 +1,26 @@
 ---toml
-title = "Why I'm back to trying out Whoop"
+title = "Why I'm back to Whoop (for now)"
 tags = ["Eight Sleep", "New Stuff", "Biohacking"]
 ---
 
+I recently started to subscribe to [Whoop][] again after I canceled it around a year ago.
+I was partly dissatisfied with my [Garmin watch][Garmin Instinct 2X Solar] as a fitness and health tracker and I also wanted a new tech device to tinker with.
+
+The plan was to write a short post about what I like and don't like about [Whoop][] but as usual I'm struggling with writing shorter posts.
+
+> If I had more time I would write a shorter letter.
+> ^ Attributed to Blaise Pascal
+
+The TLDR is that [Whoop][] is still expensive, still imperfect, but it's 
+the most helpful smart device I've used,
+and the best way to track your heart rate while hugging adults wearing spandex is with a [Whoop][] in your underwear.
+
 # A brief history of my experiences with smart devices
 
-I'm not an elite athlete, not even close;
+I'm not an elite athlete, not even close; 
 I'm just a programmer who struggles to stay active.
-As I also like to play with tech I've tried out various smart devices in the hopes that they can help me to live a healthier life.
+As I also like to play with tech I've tried out various smart devices in the hopes that they can help me to live a healthier life
+(with various levels of success).
 
 Here's the devices I've used, in purchase order:
 
@@ -15,16 +28,16 @@ Here's the devices I've used, in purchase order:
 : Fitbit, before 2020 .smartband
 
   I had some smartband from Fitbit that I liked.
-  When that bugged out I bought the Fitbit Versa, with a square display.
+  When that bugged out I bought the [Fitbit Versa][], with a square display.
 
 : Oura ring, 2020 .oura
 
-  I wanted to track my sleep better, so I bought a ring.
+  I wanted to track my sleep better, so I bought [a ring][Oura].
   It worked well.
 
 : Garmin Vivomove, 2020 .smartband
 
-  The Fitbit kept disconnecting, so I abandoned it for a Garmin band.
+  The Fitbit kept disconnecting, so I abandoned it for a [Garmin band][Garmin Vivomove].
 
 : Oura ring Gen 3, 2021 .oura
 
@@ -32,17 +45,17 @@ Here's the devices I've used, in purchase order:
 
 : Withings Body+, 2022 .withings
 
-  I wanted to track my weight so I bought a smart scale.
+  I wanted to track my weight so I bought [a smart scale][body+].
 
 : Polar Verity Sense, 2022 .hrtracker
 
-  I can't track my BJJ (Brazilian Jiu-Jitsu) training with a watch or a ring,
-  so I bought a heart rate monitor you put on the bicep.
+  I can't track my Submission Grappling training with a watch or a ring,
+  so I bought [a heart rate monitor][Polar Verity Sense] you put on the bicep.
   It works.
 
 : Fossil Gen 6 Wellness Edition, 2022 .smartwatch
 
-  Maybe I should try a _real_ smartwatch with lots of smart features...?
+  Maybe I should try a _real_ [smartwatch][Fossil Gen 6] with lots of smart features...?
   I use Android so maybe a watch with WearOS is good?
 
   (Jokes on me, WearOS was garbage and having to charge the watch every day is a nightmare.
@@ -51,13 +64,13 @@ Here's the devices I've used, in purchase order:
 : Whoop 4.0, 2023-2024 .whoop
 
   I used [Whoop][] for a year.
-  Tracking BJJ with a device in my underwear is so next level.
+  Tracking Submission Grappling with a device in my underwear is so next level.
   I can also wear it during weight lifting---say goodbye Oura!
 
 : Garmin Instinct 2X Solar, 2024 .smartwatch
 
   Charging the devices got annoying, maybe there's a better alternative?
-  Yes---you charge the Garmin Instinct once a month and it has a _flashlight_.
+  Yes---you charge the [Garmin Instinct][Garmin Instinct 2X Solar] once a month and it has a _flashlight_.
 
   Seriously, you haven't truly lived before you've had a flashlight on your watch---it's glorious.
   (Jokes aside, it's awesome.)
@@ -75,24 +88,26 @@ Here's the devices I've used, in purchase order:
 :::
 
 Right now I'm using the [Garmin Instinct 2X Solar][] as a "stay off my phone" device and [Whoop][] as my fitness and health tracker.
-For some people a smartwatch may fulfill both roles, but that's not possible for me as BJJ is my main source of exercise.
+For some people a smartwatch may fulfill both roles, but that's not possible for me as Submission Grappling is my main source of exercise.
 I could pair the Polar with my Garmin watch, but then I'd still have to juggle two devices and for me the [Whoop][] is a much more helpful device than the Garmin anyway.
 
 # The point is to change behaviours
 
-The entire point of all of these smart devices is to help me change my behaviours (in a positive way).
-It doesn't matter if the device is the most beautiful device God has created;
-if it doesn't help me do things differently then it's a failure.
+While it's fun to look at statistics and graphs, the point of me buying all of these smart devices is to help me change my behaviours (in a positive way).
+It doesn't matter if the device is super accurate or produces the most beautiful graphs God has created;
+if it doesn't help me do things differently then the device is a failure.
 
 Here are two examples:
 
 1. My first Fitbit smartband was great.
 
    It's true that it was quite limited in what it could do.\
-   Yes, it disconnected from my phone _all the time_ and it was super annoying.\
-   And sure, the tracking of steps/calories/steps/etc was wildly inaccurate.
+   The tracking of steps/calories/steps/etc was wildly inaccurate.\
+   It also disconnected from my phone _all the time_ and it was super annoying.
 
    However, it presented the daily steps/calories/steps as bars on the screen---bars that I should fill over the course of the day---and that caused me to change my behaviours and to move more than I'd have done otherwise.
+
+   (This is a feature in most smartwatches today but nothing I've tried captured the feeling as well as my very first Fitbit device.)
 
 2. The Garmin Instinct is useful, but not as a fitness or health device.
 
@@ -114,6 +129,7 @@ Here are two examples:
 
    But that doesn't _do_ anything for me.
    I have all these bars and graphs and circles on the watch that I should fill to meet my daily step count for example, but I just don't.
+   Maybe my neanderthal brain needs more colors or something.
 
    The Garmin app is also not designed in a way to help me get motivated.
    Maybe it's more geared towards athletes that already train hard every day,
@@ -134,21 +150,24 @@ Here's a quick summary:
 
 * The UI for the strength trainer portion of the app sucked.
 
-* It's too expensive if all it provides is tracking for BJJ.
+* It's too expensive if all it provides is tracking for Submission Grappling.
 :::
 
 ## Has anything changed?
 
-Unfortunately, Whoop still thinks I'm sleeping when I'm sitting with it in my boxers and custom insights is nowhere to be found.
+::: dash
+- Whoop still thinks I'm sleeping when I'm sitting with the Whoop in my boxers.
+- Custom insights are nowhere to be found.
+:::
 
-I still dislike the strength trainer with a passion.
+::: plus
+- I still dislike the strength trainer with a passion.
 You can however start a Weightlifting activity and add the exercises after the training.
 This is _much_ more manageable for me and it'll still calculate muscular load for you.
-
-I've also come to realize that after 10 months with just the Garmin,
-while the watch was providing all the stats, it wasn't helping me improve my fitness or health in the
+- I've also come to realize that after 10 months with just the Garmin it wasn't helping me improve my fitness or health in the
 way Whoop used to do.
 This is the main reason why I was willing to try Whoop once more.
+:::
 
 # Whoop screwed over their customers
 
@@ -166,17 +185,15 @@ Some people claim that Whoop broke the band compatibility intentionally but as I
 > ^ Programmer, before corporate disaster
 
 It sucks but corporations screwing us over in various ways is more or less expected.
-This whole situation gave me some regrets for ordering the Whoop so quickly.
+This whole situation made me regret resubscribing to Whoop so quickly.
 
 # Thoughts on Whoop in 2025
 
-## Sleep/Recovery/Strain
-
-I still really like the Sleep/Recovery/Strain presentation.
+## The app UI is even better
 
 Maybe it's "just" pretty UI but I find Whoop's presentation much more helpful than the rawer presentation that Garmin has.
 
-I've always liked to look at sleep information ever since I started wearing an Oura ring and
+For example I've always liked to look at sleep information ever since I started wearing an Oura ring and
 Whoop's (recently redesigned) presentation is very good as it focuses on actionable metrics:
 
 ::: flex
@@ -187,81 +204,136 @@ Whoop to the left focuses on metrics that I can change
 while Garmin to the right focuses on sleep stages that I have no idea how to influence.
 :::
 
-::: flex
-![](/images/whoop/whoop_strain.png)
-![](/images/whoop/whoop_recovery.png)
-
-The strain and recovery views (mostly) focuses on actionable targets.
-:::
-
-I also like the Whoop app when you open it up:
+I also think Whoop is immediately more useful than Garmin's when you open it up:
 
 ::: flex
 ![](/images/whoop/whoop_start.png)
 ![](/images/whoop/garmin_start.png)
 
-Whoop's landing page to the left is more useful to be than Garmin's on the right.
+Whoop's landing page to the left and Garmin's on the right.
 :::
 
-It's a shame that you can't customize it more
-(for example to place the Sleep consistency metric above the fold and de-prioritize the coach)
-but overall I think it's well designed and gives me a good overview.
+::: flex
+![](/images/whoop/strain_recovery.png)
+![](/images/whoop/hours_needed.png)
 
-## Body weight
+I'm a sucker for pretty graphs and Whoop has a lot of them.
+:::
 
-While I've had a Withings smart scale for a while I didn't have a chance to try the integration with Whoop as I canceled my subscription before it was announced.
+I have some gripes with the UI---I would like to be able to customize the home screen more for example---but overall I think Whoop's app is a lot
+better designed and more useful than any alternative I've tried.
 
-What can I say, it's nice to have it integrated into one app.
+::: note
+It's been a few years since I last used Oura but from what I remember their app is also very good.
+Just a shame that their exercise tracking is unusable.
+:::
 
-## Steps
+## Whoop in the boxers
 
-> I’m assuming they will likely never count steps because it directly contradicts their messaging and brand for strain. It would send a mixed message to the consumer, in my opinion. I can’t see this happening.
-> ^ [Reddit user](https://old.reddit.com/r/whoop/comments/plt9jp/will_whoop_ever_count_steps/hccx5tk/)
+As I mentioned before, Whoop still thinks that I'm sleeping when I sit with Whoop in the boxers.
+Either before I go to bed, after I go to bed, and sometimes it thinks I'm napping when I'm sitting during the day.
 
-Surprise, [Whoop added step counting](https://www.whoop.com/us/en/thelocker/start-tracking-steps-with-whoop/)
-during the time I was away.
+Very annoying.
 
-> While step counting in isolation is not a good proxy for cardiovascular fitness, a growing and more recent body of scientific research has shown that roughly 8,000 steps per day can reduce the risk of many diseases and conditions.
-> ^ [Steps: The newest metric that matters on WHOOP](https://www.whoop.com/us/en/thelocker/start-tracking-steps-with-whoop/)
+But they're still a killer feature for me because it's the best way to track Submission Grappling.
+Whoop is less accurate than the [Polar Verity Sense][] on the biceps or a chest strap,
+but a biceps band or a chest strap sometimes gets in the way,
+while I've never noticed the Whoop in my boxers.
 
-Even though it may not be as accurate as the step counting on Garmin it's nice to have more metrics in a single app,
-but it's not anything revolutionary.
+![Submission grappling. A version of hugging where you try to strangle each other.](/images/whoop/jones_sub.png)
 
-## Journaling and insights
+The Whoop 5.0 / MG also fits the 4.0 boxers well---lucky me as I have a bunch of the older 4.0 boxers.
+I've gotta admit, I like their boxers and I kept using them even after I canceled my subscription.
+
+::: flex
+![](/images/whoop/boxer_4.0.jpg)
+![](/images/whoop/boxer_mg.jpg)
+
+The Whoop MG in the 4.0 boxers to the left and the MG in the new boxers to the right.
+:::
+
+## ECG
+
+The ECG feature is why I went with Whoop MG instead of Whoop 5.0.
+
+::: flex
+![](/images/whoop/ecg2.png)
+![](/images/whoop/ecg1.png)
+
+Outputs from Whoop's ECG feature.
+It's a little difficult to take an ECG as you need to stay very still---you can see where I moved too much in the top-right picture.
+:::
+
+While I've never had any problems with my heart I've had a couple of episodes where I've been very worried that I something was happening.
+I had some chest pain and wasn't feeling very well so I hurried to the hospital to get it checked out.
+
+They never found anything and the pain I had was likely "something muscular" but the experience has left me worried.
+
+If the ECG and background "Irregular Heart Rhytm" detection makes me relax a little (or if they do detect something) then I figured it's worth the price jump from the 5.0 to the MG.
+
+::: important
+Despite Whoop *MG* hinting at *M*edical *G*rade I don't think it's _actually_ medical grade as they make it clear that the ECG and background AFib detection doesn't provide a medical diagnosis.
+Maybe they've come up with another marketing sleight of hand...
+:::
 
 ## Whoop age
 
-## Blood pressure and ECG
+## More measures
 
-## The new straps and Whoop body
+Whoop also comes with more "raw" measures that I glance at from time to time:
 
-The boxers: less steps and worse sleep detection.
+- Body weight and body composition
+
+  Whoop now syncs with my Withings smart scale and I do need to lose weight; it's nice to have it in the Whoop app so I don't have to open up Withing's app just to see my weight trend.
+
+- Steps
+
+  Again, I have (more accurate) step tracking in Garmin but it's nice to have it all in one app.
+  I try to hit a reasonable step goal and step counting---even if inaccurate---has made me try to move around more.
+
+- VO~2~ MAX
+
+  It seems like an important metric but I'm [not sure about it's accuracy][vo2] and it hasn't caused me to change any behaviours.
+
+  [vo2]: https://www.youtube.com/watch?v=7zcXM1IYtqU
+
+- Blood pressure
+
+  I calibrated the blood pressure insights but I'm not sure how useful it is for me.
+  Maybe it can act as an early indicator that my health is deteriorating but so far it's just a pretty statistic.
+
+## Journaling and insights
+
+The journal that correlates your behaviours with your recovery scores is just such an amazing feature.
+This feature alone could even carry a device such as Whoop by itself...
+
+If it wasn't for the fact that the usefulness tapers off hard as soon as you learn how the various behaviours affect your body.
+At the end of my last subscription I even turned off the journal as it didn't provide any new information and filling it in only became a chore.
+
+Right now I use it but I only track a handful of behaviours that I want to remind myself of.
+However, I'll probably turn off the journal in a few months when the newness wears off again.
 
 ## Pricing
 
 Whoop outdid themselves and the MG took something expensive and made it much more expensive.
-While I don't regret going with the more expensive option the "Peak" plan (without Blood pressure and ECG) probably makes more sense for most people.
+While I don't regret going with the more expensive option,
+the "Peak" plan (without Blood pressure and ECG) probably makes more sense for most people.
+(And truthfully, most people would likely be fine with just a smartwatch anyway.)
 
-# I see no real Whoop competitor
+# Conclusion
 
-Whoop has a unique combination of features
+Despite its faults the Whoop is still my favorite smart device for fitness and health.
+I've tried to find alternatives but nothing has been as convenient or as helpful (or as expensive) as the Whoop.
 
-1. A well-designed app that helps me improve my health and fitness
-1. Always on, even during weight lifting or BJJ
-1. The journaling insights
-1. Tracks muscular load
+But maybe in a year I've moved on to try something else.
 
-# What I'd like to see from Whoop
-
-* Custom journal entries and insights.
-
-  The journal is one of the killer features of Whoop.
-  It can help you identify factors that help or harm your recovery by correlating your behaviour with their recovery score.
-
-* x
-
+::: tip
+I've heard that some people sync the raw data from a ring, smartwatch, and heart rate monitor with an app, separating the data collection and data processing.
+I haven't tried that route yet.
+:::
 
 [Whoop]: https://www.whoop.com
 [I tried (and returned) a ludicrously expensive smart mattress]: /blog/2024/10/05/trying_and_returning_the_eight_sleep_pod_4/
 [made a post on Reddit]: https://www.reddit.com/r/whoop/comments/1e1hzbe/today_i_cancelled_my_whoop_subscription_let_me/
 [r/whoop]: https://www.reddit.com/r/whoop
+[Garmin Instinct 2X Solar]: https://www.garmin.com/en-US/p/884585/
