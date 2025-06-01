@@ -148,7 +148,7 @@ Here are two examples:
 
 About a year ago I chose to not renew my Whoop subscription and I [made a post on Reddit][] explaining why.
 
-Here's a quick summary:
+Here's a quick summary of my issues with [Whoop][]:
 
 * If I had the Whoop in my boxers it thinks I'm sleeping when I sit in front of the computer or lie in the sofa.\
   (This is still a big issue.)
@@ -157,90 +157,63 @@ Here's a quick summary:
   (Still nothing.)
 
 * The UI for the strength trainer portion of the app sucked.\
-  (You can now add exercises after.)
+  (You can now add exercises after the training---a big step forward.)
 
 * It's too expensive if all it provides is tracking for Submission Grappling.\
-  (I've been missing other things.)
+  (I realized I'm missing some of the other stuff.)
 
-The main reason I'm willing to try [Whoop][] again is that after 10 months with only the
-[Garmin][Garmin Instinct 2X Solar]
-I realized that
-the watch simply wasn't helping me improve my fitness or health
-nearly
+## What made me change my mind?
 
-## Did I change my mind about these points?
+When I quit [Whoop][] I was in a pretty good place in my life; I was feeling good, I was training consistently, and
+I didn't need external stimuli to keep going.
 
-::: dash
-- Whoop still thinks I'm sleeping when I'm sitting with the Whoop in my boxers.
-- Custom insights are nowhere to be found.
-:::
+But things have been different recently.
+I've been [struggling with depression][], haven't been able to get back to a regular training routine,
+and I feel that I need all help I can get to get back on track.
 
-::: plus
-- I still dislike the strength trainer with a passion.
-You can however start a Weightlifting activity and add the exercises after the training.
-This is _much_ more manageable for me and it'll still calculate muscular load for you.
-- I've also come to realize that after 10 months with only the Garmin watch it wasn't helping me improve my fitness or health in the
-way Whoop used to do.
-This is the main reason why I was willing to try Whoop once more.
-:::
+During the 10 months without [Whoop][] I relied on [my Garmin watch][Garmin Instinct 2X Solar]
+and I realized that the watch simply wasn't helping me to improve my fitness or health the way I wanted from a smart device.
 
-::: dash
-* If I had the Whoop in my boxers it thinks I'm sleeping when I sit in front of the computer or lie in the sofa.
+I looked at alternatives but in the end I couldn't find an alternative that matched [Whoop][]'s feature set, so here I am.
 
-* No custom insights for the journal.
-
-* The UI for the strength trainer portion of the app sucked.
-
-* It's too expensive if all it provides is tracking for Submission Grappling.
-:::
-
-## Did I change my mind about these points?
-
-::: dash
-- Whoop still thinks I'm sleeping when I'm sitting with the Whoop in my boxers.
-- Custom insights are nowhere to be found.
-:::
-
-::: plus
-- I still dislike the strength trainer with a passion.
-You can however start a Weightlifting activity and add the exercises after the training.
-This is _much_ more manageable for me and it'll still calculate muscular load for you.
-- I've also come to realize that after 10 months with only the Garmin watch it wasn't helping me improve my fitness or health in the
-way Whoop used to do.
-This is the main reason why I was willing to try Whoop once more.
+::: important
+Please don't think that any smart device can replace professional help.
+I use these devices as a complement to, not in place of, a therapist and a coach.
 :::
 
 # Whoop screwed over their customers
 
 It was an interesting feeling to visit [r/whoop][] after having placed my order
-and see it overrun by people extremely upset about how Whoop was treating their existing subscribers.
+and see it overrun by people extremely upset about how [Whoop][] was treating their existing subscribers.
 
-I agree that Whoop displayed some real corporate bullshit by telling people to pay an upgrade fee despite claiming for years that upgrades would be free (then walking back on the upgrade fee somewhat),
+I agree that [Whoop][] displayed some real corporate bullshit by telling people to pay an upgrade fee despite claiming for years that upgrades would be free (then walking back on the upgrade fee somewhat),
 claiming that the 6-month subscription requirement for new hardware was "a mistake on their blog",
 and by breaking compatibility with the 4.0 bands.
 
-Some people claim that Whoop broke the band compatibility intentionally but as I've experienced the same at work I think incompetence is more likely.
+Some people claim that [Whoop][] broke the band compatibility intentionally but as I've experienced the same at work I think incompetence is more likely.
 
 > I don't want to be constrained by the old design!
 >
 > ^ Programmer, before corporate disaster
 
 It sucks but corporations screwing us over in various ways is more or less expected.
-This whole situation made me regret resubscribing to Whoop so quickly.
+This whole situation made me regret resubscribing to [Whoop][] immediately, before letting the dust settle.
 
 # Thoughts on Whoop in 2025
+
+Here are my first impressions after using the [Whoop MG][Whoop] for almost a month after resubscribing.
 
 ## Battery life is excellent
 
 Some people don't mind charging their devices a few times a week but I personally loath it.
-With the new [Whoop][] and its battery life of ~2 weeks I can finally leave the battery pack when I go on my 1 week work trips and it's _super nice_.
+With the new [Whoop][] and its battery life of ~2 weeks I can finally leave the battery pack when I go on my one week work trips and it's _super nice_.
 
 ## The app UI is great
 
 Maybe it's "just" pretty UI but I find Whoop's presentation much more helpful than the rawer presentation that Garmin has.
 
-For example I've always liked to look at sleep information ever since I started wearing an Oura ring and
-Whoop's (recently redesigned) presentation is very good as it focuses on actionable metrics:
+For example I've always liked to look at sleep information ever since I started wearing an [Oura ring][Oura] and
+[Whoop][]'s (recently redesigned) presentation is very good as it focuses on actionable metrics:
 
 ::: flex
 ![](/images/whoop/whoop_sleep.png)
@@ -270,7 +243,7 @@ I have some gripes with the UI---I would like to be able to customize the home s
 better designed and more useful than any alternative I've tried.
 
 ::: note
-It's been a few years since I last used Oura but from what I remember their app is also very good---just a shame that their exercise tracking is unusable.
+It's been a few years since I last used [Oura][] but from what I remember their app is also very good---just a shame that their exercise tracking is unusable for strength training and Submission Grappling.
 :::
 
 ## Whoop in the boxers
@@ -297,8 +270,8 @@ I've gotta admit, I like their boxers and I kept using them even after I cancele
 The Whoop MG in the 4.0 boxers to the left and the MG in the new boxers to the right.
 :::
 
-I was skeptical to their new design with the "pods" but I think they're an improvement as it's a lot easier to add/remove the Whoop while wearing the boxers,
-and if you remove it they're just like regular boxers.
+I was skeptical to their new design with the "pods" but I think they're an improvement as it's a lot easier to add/remove the device while wearing the boxers,
+and if you remove the pod they're just like regular boxers.
 The holders on my old 4.0 boxers have started to peel away and started to chafe but I think there's less of a risk with the new design.
 
 ## ECG
@@ -313,10 +286,8 @@ Outputs from Whoop's ECG feature.
 It's a little difficult to take an ECG as you need to stay very still---you can see where I moved too much in the top-right picture.
 :::
 
-While I've never had any problems with my heart I've had a couple of episodes where I've been very worried that I something was happening.
-I had some chest pain and wasn't feeling very well so I hurried to the hospital to get it checked out.
-
-They never found anything and the pain I had was likely "something muscular" but the experience has left me worried.
+I've had a couple of episodes with chest pain where I've hurried to the hospital to get a check-up.
+They never showed anything out of the ordinary (it was ruled as "something muscular") but the experience has left me worried.
 
 If the ECG and background "Irregular Heart Rhytm" detection makes me relax a little (or if they do detect something) then I figured it's worth the price jump from the 5.0 to the MG.
 
@@ -332,22 +303,20 @@ Maybe it's a marketing sleight of hand that they chose "MG" instead of "Medical 
 ![](/images/whoop/age2.png)
 
 My "Whoop age" right after it unlocked after 3 weeks.
+You can see that I've been exercising way to little and that I'm slightly overweight.
 :::
 
 I've seen Reddit warriors call the Whoop age metric a "gimmick" and dismiss it as just a combination of metrics available elsewhere.
 
 But for me---a middle-aged programmer dad who's struggling to exercise consistently---the Whoop age metric is a fantastic addition to Whoop as it gives me a pretty _and actionable_ way to improve my overall health.
 
-You can see it pretty clearly in the images above:
-I haven't been exercising enough and I'm slightly overweight.
-
-I already know that I need to lose weight and exercise more, but sometimes you need someone else to hit you with the reality before you actually internalize the problem.
+I already know that I need to lose weight and exercise more, but sometimes you need someone else to hit you with the reality before you internalize the problem and start doing something about it.
 
 ::: important
 Aging faster might not matter that much _right now_, but later in life feeling a few years younger instead of older can have a massive effect for your quality of life.
 :::
 
-It's way too early to tell how useful the Whoop age metric will be months from now but my first impression is very positive.
+It's too early to tell how useful the Whoop age metric ultimately ends up being but my first impression is very positive.
 
 ## More measures
 
@@ -355,7 +324,7 @@ Whoop also comes with more "raw" measures that I glance at from time to time:
 
 - Body weight and body composition
 
-  Whoop now syncs with my Withings smart scale and I do need to lose weight; it's nice to have it in the Whoop app so I don't have to open up Withing's app just to see my weight trend.
+  Whoop now syncs with my [Withings smart scale][body+] and I do need to lose weight; it's nice to have it in the Whoop app so I don't have to open up Withing's app just to see my weight trend.
 
 - Steps
 
@@ -365,6 +334,7 @@ Whoop also comes with more "raw" measures that I glance at from time to time:
 - VO~2~ MAX
 
   It seems like an important metric but I'm [not sure about it's accuracy][vo2] and it hasn't caused me to change any behaviours.
+  (I also need to calibrate it with a 15 minutes run. I haven't been on a run the last decade...)
 
   [vo2]: https://www.youtube.com/watch?v=7zcXM1IYtqU
 
@@ -375,8 +345,8 @@ Whoop also comes with more "raw" measures that I glance at from time to time:
 
 ## Journaling and insights
 
-The journal that correlates your behaviours with your recovery scores is an amazing feature.
-_In theory_ this feature alone could carry a device such as Whoop by itself...
+The journal that correlates your behaviours with your recovery scores is an amazing feature and
+_in theory_ this feature alone could carry a device such as Whoop by itself...
 
 If it wasn't for the fact that the usefulness tapers off hard as soon as you learn how the various behaviours affect your body.
 At the end of my last subscription I even turned off the journal as it didn't provide any new information and filling it in only became a chore.
@@ -386,24 +356,25 @@ However, I'll probably turn off the journal in a few months when the newness wea
 
 ## Bands
 
-![A 4.0 band together with my Whoop MG using a [3d printed adapter][whoop 5.0 / MG adapter].](/images/whoop/whoop_4_arm.jpg)
-
 It was a really shitty move by [Whoop][] to break backwards compatibility with the old bands.
 Granted, I don't care that much about appearance so I never bought a lot of bands but I still want to switch between bands when they get wet after shower.
 
 Where corporations fails the 3D printer community steps up to save the day.
 You can 3D print a [whoop 5.0 / MG adapter][] to continue using your existing bands:
 
-![A [3D printed adapter][whoop 5.0 / MG adapter] making a 4.0 band compatible with a 5.0/MG device.](/images/whoop/woop_4_adapter.jpg)
+![A 4.0 band together with my Whoop MG.](/images/whoop/whoop_4_arm.jpg)
 
-It's not as secure as a proper 5.0/MG band and the old 4.0 battery doesn't fit but it works well enough for regular usage (I don't dare to swim with it though).
+![A [3D printed adapter][whoop 5.0 / MG adapter] making the 4.0 clasp compatible with a 5.0/MG device.](/images/whoop/woop_4_adapter.jpg)
 
-I'll probably buy another band anyway so I have another ECG-compatible clasp, possibly a colorful [SportFlex][] band for when I swim with the kids.
+It's not as secure as a proper 5.0/MG band and the old 4.0 battery doesn't fit but it works well enough for regular usage (I don't dare to swim with it).
+
+I'll probably buy another band anyway so I have another ECG-compatible clasp; possibly a colorful [SportFlex][] band for when I swim with the kids.
 
 [SportFlex]: https://shop.whoop.com/en-eu/products/mg-sportflex-band/?sku=810114363560
 
 ::: tip
 [Whoop][] could've avoided so much backlash if they had given out an adapter to everyone who upgraded...
+
 The 5.0/MG release has quite a few lessons of things not to do when you release a new product.
 :::
 
@@ -412,20 +383,19 @@ The 5.0/MG release has quite a few lessons of things not to do when you release 
 Whoop outdid themselves and the MG took something already expensive and made it even more expensive.
 While I don't regret going with the more expensive option,
 the "Peak" plan (without Blood pressure and ECG) probably makes more sense for most people.
-(And truthfully, most people would likely be fine with just a smartwatch anyway.)
 
-Still, it's not deal breaker for me personally.
+Still, if [Whoop][] can help me improve my fitness or health---even in a small way---the cost is worth it for me.
 
 # Conclusion
 
-Despite its faults and corporate bullshit, the Whoop is still my favorite smart device for fitness and health.
+Despite its faults and corporate bullshit, the [Whoop][] is still my favorite smart device for fitness and health.
 I've tried to find alternatives but nothing has been as convenient or as helpful (or as expensive) as the Whoop.
 
-But maybe in a year I've moved on to try something else.
+But the jury is still out on how helpful [Whoop][] will be for me this time and in a year I may have moved on to try something else.
 
 ::: tip
 I've heard that some people sync the raw data from a ring, smartwatch, and heart rate monitor with an app, separating the data collection and data processing.
-I haven't tried that route yet.
+I haven't tried that route yet but it sounds intriguing.
 :::
 
 [Whoop]: https://www.whoop.com
@@ -443,3 +413,4 @@ I haven't tried that route yet.
 [Polar bicep/chest straps]: https://www.polar.com/en/all-sensors
 {% [4.0 band to 5.0/mg adapater]: https://makerworld.com/en/models/1429739-whoop-4-0-band-to-5-0-mg-adapter#profileId-1486488 %}
 [whoop 5.0 / MG adapter]: https://makerworld.com/en/models/1449870-whoop-5-0-mg-adapter?from=search#profileId-1510220
+[struggling with depression]: /blog/2023/03/14/battling_burnout
