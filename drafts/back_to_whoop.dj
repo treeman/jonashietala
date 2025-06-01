@@ -1,6 +1,6 @@
 ---toml
 title = "Why I'm back to Whoop (for now)"
-tags = ["Eight Sleep", "New Stuff", "Biohacking"]
+tags = ["Whoop", "New Stuff", "Biohacking"]
 ---
 
 I recently started to subscribe to [Whoop][] again after I canceled it around a year ago.
@@ -11,13 +11,13 @@ The plan was to write a short post about what I like and don't like about [Whoop
 > If I had more time I would write a shorter letter.
 > ^ Attributed to Blaise Pascal
 
-The TLDR is that [Whoop][] is still expensive, still imperfect;
+The TLDR is that [Whoop][] is still expensive and imperfect;
 yet it's the most helpful smart device I've used
 and a [Whoop][] in your underwear is the best way to track your heart rate while hugging spandex-wearing adults.
 
 # A brief history of my experiences with smart devices
 
-I'm not an elite athlete, not even close; 
+I'm not an elite athlete, not even close;
 I'm just a programmer who struggles to stay active.
 As I also like to play with tech I've tried out various smart devices in the hopes that they can help me to live a healthier life
 (with various levels of success).
@@ -52,7 +52,7 @@ Here's the devices I've used, in purchase order:
 
   I can't track my Submission Grappling training with a watch or a ring,
   so I bought [a heart rate monitor][Polar Verity Sense] you put on the bicep.
-  It works.
+  It was okay.
 
 : Fossil Gen 6 Wellness Edition, 2022 .smartwatch
 
@@ -60,7 +60,7 @@ Here's the devices I've used, in purchase order:
   I use Android so maybe a watch with WearOS is good?
 
   Jokes on me, WearOS was garbage and having to charge the watch every day is a nightmare.
-   I went back to the Garmin really quickly.
+   I went back to the Garmin.
 
 : Garmin vivosmart 5, 2023-2024 .smartwatch
 
@@ -68,9 +68,8 @@ Here's the devices I've used, in purchase order:
 
 : Whoop 4.0, 2023-2024 .whoop
 
-  I used [Whoop][] for a year.
-  Tracking Submission Grappling with a device in my underwear is so next level.
-  I can also wear it during weight lifting---say goodbye Oura!
+  The battery of my [Oura][] was failing again so I tried [Whoop][] for a year.
+  Tracking Submission Grappling with a device in my underwear is so next level!
 
 : Garmin Instinct 2X Solar, 2024- .smartwatch
 
@@ -87,19 +86,20 @@ Here's the devices I've used, in purchase order:
 : Whoop MG, 2025 .whoop
 
   I was feeling down and I needed something to help me get back to prioritizing fitness and health,
-  and I just happened to check back on [Whoop][] just when Whoop MG was released...
+  and I just happened to check back on [Whoop][] right when Whoop MG was released...
 
   So I threw financial responsibility out the window and ordered the MG on release day.
 :::
 
 Gosh, I've been good about not changing my phone that often but I didn't realize I've wasted so much time and money on smart devices...
 
-Anyway I'm currently using the [Garmin Instinct 2X Solar][] as a "stay off my phone" device and [Whoop][] as my fitness and health tracker,
-ignoring the Garmin's health and fitness tracking features except for sometimes glancing at the steps on the watch.
+Anyway, I'm currently using the [Garmin Instinct 2X Solar][] as a "don't glance at my phone" device and [Whoop][] as my fitness and health tracker,
+ignoring the Garmin's health and fitness tracking features.
 
 # The point is to change behaviours
 
-While it's fun to look at statistics and graphs, the point of me buying all of these smart devices is to help me change my behaviours (in a positive way).
+While it's fun to play with new things,
+the main point of these smart devices is to (hopefully) help me change my behaviours in a positive way.
 It doesn't matter if the device is super accurate or produces the most beautiful graphs God has created;
 if it doesn't help me do things differently then the device is a failure.
 
@@ -107,15 +107,15 @@ Here are two examples:
 
 1. My first Fitbit smartband was great.
 
-   It's true that it was quite limited in what it could do.\
-   The tracking of steps/calories/steps/etc was wildly inaccurate.\
-   It also disconnected from my phone _all the time_ and it was super annoying.
+   It's true that it was quite limited in what it could do,
+   the tracking of steps/calories/steps/etc was wildly inaccurate,
+   and it disconnected from my phone _all the time_ making notifications completely unreliable.
 
-   However, it presented the daily steps/calories/steps as bars on the screen---bars that I should fill over the course of the day---and that caused me to change my behaviours and to move more than I'd have done otherwise.
+   However, it presented the daily steps/calories/steps as pretty bars on the screen---bars that I should fill over the course of the day---and that caused me to move more than I'd have done otherwise.
 
    (This is a feature in most smartwatches today but nothing I've tried captured the feeling as well as my very first Fitbit device.)
 
-2. The Garmin Instinct is useful, but not as a fitness or health device.
+2. The [Garmin Instinct][Garmin Instinct 2X Solar] is useful, but not as a fitness or health device.
 
    I think the watch is very nice;
    it's got a fantastic battery life,
@@ -123,22 +123,23 @@ Here are two examples:
    I don't have to reach for my phone to see if I have any notifications,
    and the flashlight is _amazing_.
 
-   > It’s just super effin’ functional and useful day-to-day, with just as much utility as the flashlight on your phone (if not more, since your hands are still free).
+   > It [the flashlight] is just super effin’ functional and useful day-to-day, with just as much utility as the flashlight on your phone (if not more, since your hands are still free).
    >
    > ^ [DCRainmaker](https://www.dcrainmaker.com/2023/05/flashlight-multiband-everyone.html)
 
-   The Garmin also has lots of various measurements (and much more accurate than my old Fitbit);
-   I can see the daily steps,
-   I can follow how my "body battery" is doing,
-   I can track walks or runs very well (although I don't run),
+   The Garmin also has lots of various measurements (and with much more accuracy than my old Fitbit);
+   I can see the daily steps;
+   I can follow how my "body battery" is doing;
+   I can track walks or runs very well (although I don't run);
    and I can follow my stress and heart rate throughout the day...
 
    But that doesn't _do_ anything for me.
-   I have all these bars and graphs and circles on the watch that I should fill to meet my daily step count for example, but I just don't.
+   I have all these bars and graphs and circles on the watch that I should fill to meet my daily step count for example... But I just don't.
    Maybe my neanderthal brain needs more colors or something.
 
    The Garmin app is also not designed in a way to help me get motivated.
-   Maybe it's more geared towards athletes that already train hard every day,
+   Maybe it's more geared towards runners
+   or athletes that already train hard every day,
    instead of middle-aged programmers who need that extra push to get out there?
 
    For whatever reason, as a device to improve my fitness and health, the Garmin is a failure.
@@ -148,6 +149,40 @@ Here are two examples:
 About a year ago I chose to not renew my Whoop subscription and I [made a post on Reddit][] explaining why.
 
 Here's a quick summary:
+
+* If I had the Whoop in my boxers it thinks I'm sleeping when I sit in front of the computer or lie in the sofa.\
+  (This is still a big issue.)
+
+* No custom insights for the journal.\
+  (Still nothing.)
+
+* The UI for the strength trainer portion of the app sucked.\
+  (You can now add exercises after.)
+
+* It's too expensive if all it provides is tracking for Submission Grappling.\
+  (I've been missing other things.)
+
+The main reason I'm willing to try [Whoop][] again is that after 10 months with only the
+[Garmin][Garmin Instinct 2X Solar]
+I realized that
+the watch simply wasn't helping me improve my fitness or health
+nearly
+
+## Did I change my mind about these points?
+
+::: dash
+- Whoop still thinks I'm sleeping when I'm sitting with the Whoop in my boxers.
+- Custom insights are nowhere to be found.
+:::
+
+::: plus
+- I still dislike the strength trainer with a passion.
+You can however start a Weightlifting activity and add the exercises after the training.
+This is _much_ more manageable for me and it'll still calculate muscular load for you.
+- I've also come to realize that after 10 months with only the Garmin watch it wasn't helping me improve my fitness or health in the
+way Whoop used to do.
+This is the main reason why I was willing to try Whoop once more.
+:::
 
 ::: dash
 * If I had the Whoop in my boxers it thinks I'm sleeping when I sit in front of the computer or lie in the sofa.
@@ -200,7 +235,7 @@ This whole situation made me regret resubscribing to Whoop so quickly.
 Some people don't mind charging their devices a few times a week but I personally loath it.
 With the new [Whoop][] and its battery life of ~2 weeks I can finally leave the battery pack when I go on my 1 week work trips and it's _super nice_.
 
-## The app UI is the best
+## The app UI is great
 
 Maybe it's "just" pretty UI but I find Whoop's presentation much more helpful than the rawer presentation that Garmin has.
 
@@ -235,8 +270,7 @@ I have some gripes with the UI---I would like to be able to customize the home s
 better designed and more useful than any alternative I've tried.
 
 ::: note
-It's been a few years since I last used Oura but from what I remember their app is also very good.
-Just a shame that their exercise tracking is unusable.
+It's been a few years since I last used Oura but from what I remember their app is also very good---just a shame that their exercise tracking is unusable.
 :::
 
 ## Whoop in the boxers
@@ -265,7 +299,7 @@ The Whoop MG in the 4.0 boxers to the left and the MG in the new boxers to the r
 
 I was skeptical to their new design with the "pods" but I think they're an improvement as it's a lot easier to add/remove the Whoop while wearing the boxers,
 and if you remove it they're just like regular boxers.
-The holders on my old 4.0 boxers have started to peel away and started to chafe but there's no risk for that with the new design.
+The holders on my old 4.0 boxers have started to peel away and started to chafe but I think there's less of a risk with the new design.
 
 ## ECG
 
@@ -292,6 +326,28 @@ Maybe it's a marketing sleight of hand that they chose "MG" instead of "Medical 
 :::
 
 ## Whoop age
+
+::: flex
+![](/images/whoop/age1.png)
+![](/images/whoop/age2.png)
+
+My "Whoop age" right after it unlocked after 3 weeks.
+:::
+
+I've seen Reddit warriors call the Whoop age metric a "gimmick" and dismiss it as just a combination of metrics available elsewhere.
+
+But for me---a middle-aged programmer dad who's struggling to exercise consistently---the Whoop age metric is a fantastic addition to Whoop as it gives me a pretty _and actionable_ way to improve my overall health.
+
+You can see it pretty clearly in the images above:
+I haven't been exercising enough and I'm slightly overweight.
+
+I already know that I need to lose weight and exercise more, but sometimes you need someone else to hit you with the reality before you actually internalize the problem.
+
+::: important
+Aging faster might not matter that much _right now_, but later in life feeling a few years younger instead of older can have a massive effect for your quality of life.
+:::
+
+It's way too early to tell how useful the Whoop age metric will be months from now but my first impression is very positive.
 
 ## More measures
 
@@ -330,13 +386,30 @@ However, I'll probably turn off the journal in a few months when the newness wea
 
 ## Bands
 
-TODO
+![A 4.0 band together with my Whoop MG using a [3d printed adapter][whoop 5.0 / MG adapter].](/images/whoop/whoop_4_arm.jpg)
 
-<https://makerworld.com/en/models/1429739-whoop-4-0-band-to-5-0-mg-adapter#profileId-1486488>
+It was a really shitty move by [Whoop][] to break backwards compatibility with the old bands.
+Granted, I don't care that much about appearance so I never bought a lot of bands but I still want to switch between bands when they get wet after shower.
+
+Where corporations fails the 3D printer community steps up to save the day.
+You can 3D print a [whoop 5.0 / MG adapter][] to continue using your existing bands:
+
+![A [3D printed adapter][whoop 5.0 / MG adapter] making a 4.0 band compatible with a 5.0/MG device.](/images/whoop/woop_4_adapter.jpg)
+
+It's not as secure as a proper 5.0/MG band and the old 4.0 battery doesn't fit but it works well enough for regular usage (I don't dare to swim with it though).
+
+I'll probably buy another band anyway so I have another ECG-compatible clasp, possibly a colorful [SportFlex][] band for when I swim with the kids.
+
+[SportFlex]: https://shop.whoop.com/en-eu/products/mg-sportflex-band/?sku=810114363560
+
+::: tip
+[Whoop][] could've avoided so much backlash if they had given out an adapter to everyone who upgraded...
+The 5.0/MG release has quite a few lessons of things not to do when you release a new product.
+:::
 
 ## Pricing
 
-Whoop outdid themselves and the MG took something expensive and made it much more expensive.
+Whoop outdid themselves and the MG took something already expensive and made it even more expensive.
 While I don't regret going with the more expensive option,
 the "Peak" plan (without Blood pressure and ECG) probably makes more sense for most people.
 (And truthfully, most people would likely be fine with just a smartwatch anyway.)
@@ -368,3 +441,5 @@ I haven't tried that route yet.
 [Garmin Venu Sq]: https://www.garmin.com/sv-SE/p/707174/
 [Polar Verity Sense]: https://www.polar.com/en/products/accessories/polar-verity-sense
 [Polar bicep/chest straps]: https://www.polar.com/en/all-sensors
+{% [4.0 band to 5.0/mg adapater]: https://makerworld.com/en/models/1429739-whoop-4-0-band-to-5-0-mg-adapter#profileId-1486488 %}
+[whoop 5.0 / MG adapter]: https://makerworld.com/en/models/1449870-whoop-5-0-mg-adapter?from=search#profileId-1510220
