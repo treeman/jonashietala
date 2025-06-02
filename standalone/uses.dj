@@ -143,10 +143,12 @@ I have the variant with the AMD Ryzen™ 5 7640U processor and matte display but
   Because I get almost 30 days of battery life with this one.
   I hate charging things all the time.
 
-- A [VORON Trident][] 3D printer.
+- A [Whoop][] to [track my overall health and fitness][].
+
+- A [VORON Trident][] and a [VORON 0][] 3D printer.
 
   For when I want to do something creative away from the computer.
-  Check out the [in-depth build log][VORON Trident] I made.
+  Check out the [in-depth build log][VORON Trident] of the Trident I made.
 
 [Neovim]: https://neovim.io/
 [neovim-config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
@@ -186,3 +188,6 @@ I have the variant with the AMD Ryzen™ 5 7640U processor and matte display but
 [Habit loop tracker]: https://loophabits.org/
 [Framework Laptop 13]: https://frame.work/se/en/products/laptop-diy-13-gen-amd/configuration/new
 [Cybershard]: /blog/2024/11/26/building_my_ultimate_keyboard/
+[VORON 0]: /blog/2025/03/25/lets_build_a_voron_0
+[Whoop]: https://www.whoop.com
+[track my overall health and fitness]: /blog/2025/06/02/why_im_back_to_whoop_for_now
