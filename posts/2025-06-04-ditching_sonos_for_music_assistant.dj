@@ -1,6 +1,7 @@
 ---toml
 title = "Ditching Sonos for Music Assistant"
-tags = ["Home Assistant", "Homelab"]
+tags = ["Home Assistant", "Music Assistant", "Homelab", "Home automation"]
+favorite = true
 ---
 
 ::: epigraph
@@ -8,10 +9,14 @@ tags = ["Home Assistant", "Homelab"]
 > ^ Sean Boots [Rule number one: Avoid vendor lock-in][]
 :::
 
-I've always wondered how best to setup smart sound systems around the house that you can control from one location, such as your phone.
-To get a working setup it seems you have to embrace vendor lock-in; with committing to an entire ecosystem such as [Sonos][], or by relying on a service like Spotify and buying amplifiers that supports their particular integration (such as [Spotify Connect][]).
+I've always wondered how to setup a sound systems around the house that you can control from your devices, such as your phone.
+To get a working setup it seemed you had to embrace vendor lock-in;
+either by committing to an entire ecosystem such as [Sonos][],
+or by relying on a service like Spotify and buying amplifiers that supports their particular integration (such as [Spotify Connect][]).
 
-When we wanted to replace our Sonos speaker I tried to do some research and I've found a very promising alternative: it's called [Music Assistant][] and it's great.
+When I wanted to replace and upgrade our old Sonos speaker I did som research and I found a promising alternative: it's called [Music Assistant][] and it's great.
+
+![The [Music Assistant][] dashboard.](/images/music_assistant/ma_dashboard.png)
 
 # The woes of Sonos
 
@@ -20,13 +25,13 @@ At first I was very happy with it; the speaker was easy to use, it integrated we
 
 But gradually the experience got worse:
 
-1. The speaker sometimes didn't start playing songs via Spotify.
+1. The speaker sometimes refused to play songs via Spotify.
 1. We couldn't connect to the speaker via the Sonos app (having to unplug the speaker and pray to the Sonos god that it would be enough to fix it).
 1. Playback randomly paused.
 1. The speaker lost WIFI connection, reconnecting after a while.
-1. Finally, the radio integration stopped working.
+1. Finally, the radio integration stopped working altogether (this is critical for my girlfriend who always listens to the radio).
 
-It could be worse---at least our speaker wasn't [bricked](https://news.ycombinator.com/item?id=21895086) and we supposedly dodged a bunch of issues by never upgrading to the new app.
+It could be worse---at least our speaker wasn't [bricked](https://news.ycombinator.com/item?id=21895086) and we (supposedly) dodged a bunch of other issues by never upgrading to the new app.
 
 
 # The new setup
@@ -39,17 +44,15 @@ A. Setup an [Arylic A50+][] amplifier that [Music Assistant][] can control.
 A. Connect [Music Assistant][] with [Home Assistant][] to control playback via our smart-home dashboard and automations.
 A. Setup more players for [Music Assistant][] to control.
 
-   So that [Music Assistant][] can stream music to the Linux computer connected to the TV speakers in the living room.
-
 
 # What is [Music Assistant][] and why is it awesome?
 
-[Music Assistant][] is a music management service that acts as a hub that connects different providers and players, letting you control your music from one central location.
+[Music Assistant][] is a service that acts as a hub that connects different providers and players, letting you control the sound in your home from one central location.
 
 ![Image showing how [Music Assistant][] bridges different sources with different players.
 Taken from [this Home Assistant blog post][ma2].](/images/music_assistant/ma_how_it_worps.jpg)
 
-So you could have this kind of setup and let [Music Assistant][] connect them together in whatever way you wish, including multi-room setups (note that they only play in sync if the players are from the same ecosystem, such as Airplay or Squeezebox):
+So you could have this kind of setup and let [Music Assistant][] connect them together in whatever way you wish, including multi-room setups (if the players are from the same ecosystem, such as Airplay or Squeezebox):
 
 {.center}
 | Provider |     | Player |
@@ -68,8 +71,8 @@ with room presence detection you could have the music follow you automatically a
 Here's a few reasons why I think [Music Assistant][] is awesome:
 
 ::: plus
-* Freedom from the limitations of one ecosystem, now and in the future.
-* Can mix and match music from local storage, Spotify, and other providers.
+* Freedom from the limitations of one ecosystem.
+* Can mix and match music from local storage and Spotify in the same playlist.
 * One place to control all your speakers of varying types and connections.
 * [Integrates well with Home Assistant][ma2].
 :::
@@ -137,7 +140,8 @@ That's why I initially dismissed it but [Music Assistant][] is now a standalone 
    :::
 
 Open-source music management---particularly on Linux---has a reputation of being notoriously troublesome.
-But I've gotta say, [Music Assistant][] was simple to setup and it works well.
+But I've gotta say, [Music Assistant][] was simple to setup and it works well (except issues with some players that I'll get to shortly).
+
 
 # Trying out different players
 
@@ -148,17 +152,16 @@ Here's a few options I've tried:
 
 ## Sonos
 
-TODO a better picture
+![The Sonos speaker has found new life in our washing room.](/images/music_assistant/sonos.jpg)
 
-![](/images/music_assistant/sonos.jpg)
+It's pretty funny, the Sonos speaker works better with [Music Assistant][] than with the Sonos app.
+The radio completely stopped working via the Sonos app, while I can use [Music Assistant][] to play the radio on the Sonos speaker.
 
-It's pretty funny, the Sonos speaker works better with [Music Assistant][] than with the Sonos app as the radio stopped working via the Sonos app, while I could use [Music Assistant][] to play the radio on the Sonos speaker.
-
-The speaker still disconnects and stops playback at odd times but it's good enough to raise the mood in the washing room.
+The speaker might still disconnect or stop playback at odd times but it's good enough to raise the mood in the washing room.
 
 ## Squeezelite on Linux
 
-TODO a picture of our living room setup
+![Our living room setup with a TV, game consoles, speakers, a dumb amplifier, and a computer running Void Linux.](/images/music_assistant/living_room_speakers.jpg)
 
 I hate modern smart TVs with a passion so to stream we use a computer running Linux, connected to a dumb amplifier with some speakers.
 It works well but it makes it a bit more cumbersome to play music.
@@ -176,12 +179,12 @@ I started out by doing this on my work desktop too but since then [Music Assista
 As I had a Raspberry Pi lying around it made sense to try the [HifiBerry AMP2][] that transforms the Pi into a surprisingly capable amplifier and smart music controller.
 For simplicity I decided to start with their operating system [HifiBerryOS][] that hopefully should "just work" and be open enough for me to manually fix things if needed.
 
-While it works very well as a Spotify Connect device or to play over Bluetooth I had issues with it acting as a Squeezelite and Airplay client as the [volume was super low][] when I tried to stream to it from [Music Assistant][].
+While it works very well as a Spotify Connect device or to play over Bluetooth I had issues with it acting as a Squeezelite or Airplay client as the [volume was super low][] when I tried to stream to it from [Music Assistant][].
 
-I _think_ it's a software issue with [HifiBerryOS][] but I haven't had the energy to debug it or try other OS versions.
+It _might_ be a software issue with [HifiBerryOS][] but I haven't had the energy to debug it or try other OS versions.
 Maybe I'll revisit it when I want to outfit another room with speakers.
 
-::: warn
+::: tip
 I ran into an issue where the Spotify mobile app got stuck at "Connecting" when I tried to play to HifiBerry.
 
 This [was an issue with a static DNS entry][dns].
@@ -196,22 +199,20 @@ To [fix it][host-fix] I had to remove `ap-gew4.spotify.com` from `/etc/hosts` on
 
 ![](/images/music_assistant/arylic.jpg)
 
-I was planning to use the HifiBerry to power two new speakers in the ceiling in the Kitchen to replace the Sonos had there.
-But I was feeling stressed as I had to have a working setup in time for the Kitchen renovation, which was coming up very soon.
-
-So I bought the [Arylic A50+][], hoping that it would work better with [Music Assistant][].
-It should integrate well with [Home Assistant][] and it was still relatively cheap as amplifiers go.
+I was planning to use the HifiBerry to power two new speakers in the ceiling in the kitchen to replace the Sonos.
+But I got stressed out by the [HifiBerry not working properly](#A-HifiBerry-player) and the kitchen renovation was looming ever closer so I bought the [Arylic A50+][], hoping that it would work better with [Music Assistant][].
 
 The device supports both Airplay and Squeezebox like the HifiBerry but again there were some issue with the volume being very low.
 I don't know if both devices just happen to have similar bugs, if there's a bug with [Music Assistant][], or if it's some weird compatibility issue.
 
-Sigh.
+_Sigh._
 
-But there's another way to make it work; if you go via [Home Assistant][] then [Music Assistant][] can use the Arylic as a player properly.
+But there's another way to make it work;
+the Arylic has an excellent [Home Assistant][] integration and if you go that way
+then [Music Assistant][] can use the Arylic as a player properly.
 You need the LinkPlay integration in [Home Assistant][] and then enable the [Home Assistant integration](#Home-Assistant-integration) in [Music Assistant][].
-It would've been better without another dependency but it seems to work well.
 
-(I tried the same with the HifiBerry integration but for some reason the HifiBerry media player didn't show up in [Music Assistant][].)
+(I tried the same with the HifiBerry integration but for some reason the HifiBerry media player exposed from Home Assistant didn't show up in [Music Assistant][].)
 
 ::: important
 The Arylic has a bunch of other integrations such as Bluetooth and Spotify Connect.
@@ -222,7 +223,7 @@ If the spouse approves of your smart home shenanigans then you know you've done 
 
 # Home Assistant integration
 
-[Music Assistant][] naturally integrates well with [Home Assistant][].
+[Music Assistant][] integrates well with [Home Assistant][].
 Setup is straightforward:
 
 1. Add the [Music Assistant][] integration in [Home Assistant][]:
@@ -239,7 +240,7 @@ Setup is straightforward:
 
 With this setup you can setup Home Assistant actions to start a particular radio station, add a media player card to start/stop playback, or simply give [Music Assistant][] access to more players.
 
-## From Home Assistant how do you...
+## In Home Assistant how do you...
 
 * Play the `P4 Norrbotten` radio station?
 
@@ -292,13 +293,25 @@ With this setup you can setup Home Assistant actions to start a particular radio
     enqueue: replace
   ```
 
+You get the new `music_assistant.play_media` action but otherwise you control the media players just as the other media player entities in [Home Assistant][].
+
+# It's not perfect
+
+[Music Assistant][] is a fairly young open source project so minor bugs are to be expected.
+There are also two larger feature that I miss:
+
+* I'd like to have access to my library even when I'm away from home.
+  Maybe [an Android app][] with native volume controls, notifications, and support for offline listening?
+
+* A better widget for [Home Assistant][].
+
+  ![The mini media player card.](/images/music_assistant/mini_media_player.png)
+
+  For basic sound controls in the kitchen I use the [Mini Media Player][] card
+  but I'd like a better way to filter through playlists and music via the [Home Assistant][] Lovelace UI.
+  I currently embed the [Music Assistant][] dashboard itself via an iframe but the UI is a bit too clunky for the size of my tablet.
+
 # What's next?
-
-[Music Assistant][] is a fairly young open source project and there are features that I miss.
-With the web player recently released next on my wishlist is [an Android app][] with native volume controls, notifications, and support for offline listening.
-
-Maybe even a way to stream the Phone's sound as a source so I don't have to switch to Bluetooth when I want to listen to podcasts?
-But with my recent migration to [Audiobookshelf][] that might not be as crucial anymore.
 
 Still, I must admit, I'm stoked about finding a smarter way to control music throughout our house and I'm searching for an excuse to expand the setup in the future.
 Here are some ideas I have:
@@ -320,7 +333,8 @@ Despite some integration issues and us not using [Music Assistant][] to it's ful
 [volume was super low]: https://github.com/hifiberry/hifiberry-os/issues/529
 [HifiBerryOS]: https://www.hifiberry.com/hifiberryos/
 [an Android app]: https://github.com/orgs/music-assistant/discussions/1834
-[Audiobookshelf]: https://www.audiobookshelf.org/
 [Sonos]: https://www.sonos.com/
 [Spotify Connect]: https://connect.spotify.com/
 [Rule number one: Avoid vendor lock-in]: https://sboots.ca/2021/05/12/rule-number-one-avoid-vendor-lock-in/
+[Mini Media Player]: https://github.com/kalkih/mini-media-player
+[Hue Tap Dial]: https://www.philips-hue.com/sv-se/p/hue-tap-dial-switch/8719514440999
