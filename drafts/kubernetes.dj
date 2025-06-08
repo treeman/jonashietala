@@ -3,6 +3,8 @@ title = "Kubernetes"
 tags = ["Some tag"]
 ---
 
+Adrenalin + kortison
+
 # Prepare the nodes
 
 1. Download Raspberry Pi OS 64 Lite
@@ -28,7 +30,42 @@ Install RKE2:
 
 <https://docs.rke2.io/install/ha>
 
-# Initial node setup
+# Install Longhorn
+
+# Setup local-path storage
+
+# Setup services
+
+1. `mqtt`:Longhorn
+1. `Actualbudget`: Longhorn
+
+## Home automation setup
+
+- Postgres
+- haex
+- Home Assistant
+- mqtt
+- zigbee2mqtt
+- Music Assistant
+
+## Other services
+
+- Grafana
+- influxdb
+- unifi controller
+- freshrss
+- reddit-top-rss
+- actualbudget
+- newt (expose to pangolin)
+- tailscale
+- traefik / ingress controller
+
+## Lannisport worker
+
+- Jellyfin
+- Stash
+
+# Node setup
 
 Raspberry Pi 5:
 - Control + Longhorn
@@ -38,6 +75,12 @@ Raspberry Pi 5:
 - Worker + local-path
 - Worker + local-path
 
+Raspberry Pi 4 (maybe):
+- Worker
+
 Lannsport proxmox:
 - Worker with GPU
+
+Where to have Zigbee dongle?
+Maybe just pick one Pi and set it up?
 
