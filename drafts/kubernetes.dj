@@ -1,0 +1,43 @@
+---toml
+title = "Kubernetes"
+tags = ["Some tag"]
+---
+
+# Prepare the nodes
+
+1. Download Raspberry Pi OS 64 Lite
+2. Install on NVMe
+3. Partition:
+
+   - 128 GB installation drive
+   - Rest for persistent storage
+4. Reboot and make sure it boots from SSD
+5. Setup final static IP
+6. Setup `cmdline.txt` and `config.txt`: <https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/>
+
+   - `cgroup` things that Kubernetes requires
+   - Enable PCIe Gen 3.0 speeds
+
+# Install Kubernetes
+
+Install RKE2:
+<https://docs.rke2.io/>
+
+- Install the first server node
+- Need to figure out a fixed registration address, maybe with <https://kube-vip.io/>
+
+<https://docs.rke2.io/install/ha>
+
+# Initial node setup
+
+Raspberry Pi 5:
+- Control + Longhorn
+- Control + Longhorn
+- Control + Longhorn
+- Worker + Longhorn
+- Worker + local-path
+- Worker + local-path
+
+Lannsport proxmox:
+- Worker with GPU
+

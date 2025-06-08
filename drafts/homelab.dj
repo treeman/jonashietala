@@ -35,6 +35,8 @@ For example the IP `10.200.3.1` means that it's a device in the "IoT connected" 
 
 ## Groups
 
+TODO steam deck and Energy IoT cashes!!
+
 | Standard groups (any) |
 |:----|:---|:------------|
 |  10.`vlan`.0.1  | Gateway |
@@ -50,7 +52,6 @@ For example the IP `10.200.3.1` means that it's a device in the "IoT connected" 
 | 10.`vlan`.2.`x` | Kubernetes services |
 | User devices (20, 100, 250) |
 |:----|:---|:------------|
-|  10.`vlan`.10.`x` | Gaming |
 |  10.`vlan`.21.`x` | Jonas devices |
 |  10.`vlan`.22.`x` | Veronicas devices |
 |  10.`vlan`.30.`x` | Plattor |
@@ -64,6 +65,7 @@ For example the IP `10.200.3.1` means that it's a device in the "IoT connected" 
 |  10.`vlan`.20.`x` | IoT Appliances |
 |  10.`vlan`.21.`x` | Kitchen Appliances |
 |  10.`vlan`.30.`x` | Cameras |
+|  10.`vlan`.40.`x` | Gaming |
 
 ## Devices
 
