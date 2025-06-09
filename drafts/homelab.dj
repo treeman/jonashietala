@@ -35,8 +35,6 @@ For example the IP `10.200.3.1` means that it's a device in the "IoT connected" 
 
 ## Groups
 
-TODO steam deck and Energy IoT cashes!!
-
 | Standard groups (any) |
 |:----|:---|:------------|
 |  10.`vlan`.0.1  | Gateway |
@@ -52,10 +50,15 @@ TODO steam deck and Energy IoT cashes!!
 | 10.`vlan`.2.`x` | Kubernetes services |
 | User devices (20, 100, 250) |
 |:----|:---|:------------|
-|  10.`vlan`.21.`x` | Jonas devices |
-|  10.`vlan`.22.`x` | Veronicas devices |
-|  10.`vlan`.30.`x` | Plattor |
-|  10.`vlan`.40.`x` | Homelab devices |
+|  10.`vlan`.4.`x` | Jonas devices |
+|  10.`vlan`.25.`x` | Veronicas devices |
+|  10.`vlan`.22.`x` | Loke devices |
+|  10.`vlan`.10.`x` | Isidor devices |
+|  10.`vlan`.2.`x` | Freja devices |
+| Shared devices (100, 250) |
+|:----|:---|:------------|
+|  10.`vlan`.100.`x` | Homelab devices |
+|  10.`vlan`.110.`x` | Plattor |
 | IoT (200, 210, 220) |
 |:----|:------------|
 |  10.`vlan`.1.`x`  | Media players |
@@ -75,6 +78,10 @@ TODO steam deck and Energy IoT cashes!!
 | 10.1.1.2 | handmaids (on lannisport) |
 | 10.1.1.3 | media (on lannisport) |
 | 10.1.1.4 | media2 (on lannisport) |
+| 10.1.2.1 | `rke2master` Kubernetes entry point |
+| 10.1.2.2 | `rke2rpi5a` |
+| 10.1.2.3 | `rke2rpi5b` |
+| 10.1.2.4 | `rke2rpi5c` |
 | 10.100.21.1 | Jonas phone |
 | 10.100.21.2 | Jonas remarkable |
 | 10.100.22.1 | Veronicas phone |

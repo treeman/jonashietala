@@ -3,7 +3,8 @@ title = "Kubernetes"
 tags = ["Some tag"]
 ---
 
-Adrenalin + kortison
+- 2.5 en gång, i helg både morgon och kväll
+- Adrenalin + kortison
 
 # Prepare the nodes
 
@@ -13,6 +14,7 @@ Adrenalin + kortison
 
    - 128 GB installation drive
    - Rest for persistent storage
+   - Disable swap
 4. Reboot and make sure it boots from SSD
 5. Setup final static IP
 6. Setup `cmdline.txt` and `config.txt`: <https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/>
@@ -22,6 +24,11 @@ Adrenalin + kortison
 
 # Install Kubernetes
 
+1. Setup 1 server node
+2. Install kube-vip
+3. Setup the other 2 server nodes
+4. Add worker nodes
+
 Install RKE2:
 <https://docs.rke2.io/>
 
@@ -30,9 +37,25 @@ Install RKE2:
 
 <https://docs.rke2.io/install/ha>
 
-# Install Longhorn
+On-Prem RKE2 api-server HA with Kube-VIP:
+<https://gist.github.com/danieleagle/5138a97ec08145ed52f5188f3a80a9ce>
 
-# Setup local-path storage
+<https://github.com/bcdurden/rke2-kube-vip>
+
+# Storage
+
+## Setup local-path storage
+
+Used for highly performance sensitive services such as databases\
+Services that rely on SQLite might also need to run there?
+
+- Postgres
+- Influxdb
+
+## Install Longhorn
+
+Used for everything else where performance isn't critical.
+Excellent because it's replicated.
 
 # Setup services
 
@@ -68,18 +91,22 @@ Install RKE2:
 # Node setup
 
 Raspberry Pi 5:
+
 - Control + Longhorn
 - Control + Longhorn
 - Control + Longhorn
 - Worker + Longhorn
-- Worker + local-path
+- Worker + local-path (with Zigbee dongle)
 - Worker + local-path
 
 Raspberry Pi 4 (maybe):
+
 - Worker
 
 Lannsport proxmox:
-- Worker with GPU
+
+- Worker with GPU + local-path
+- Extra Longhorn deployment
 
 Where to have Zigbee dongle?
 Maybe just pick one Pi and set it up?
