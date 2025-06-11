@@ -83,6 +83,8 @@ If you can connect NVMe drives via USB (they're really cheap) the installation p
 
    Make sure to update the hostname and ssh credentials.
 
+   I chose the hostnames  `kube-pi5a`, `kube-pi5a`, etc for the IP addresses `10.1.2.2`, `10.1.2.3`, etc. (`10.1.2.1` is reserved for the virtual IP for the whole cluster).
+
 1. Add another partition using `gparted` (or similar).
 
    I first resized the main partition to 128 GB and then I added a new partition for the persistent storage.
@@ -95,7 +97,8 @@ There are lots of guides detailing additional steps to enable booting from the N
 
 ## Prepare for Kubernetes
 
-We're not quite ready to install Kubernetes yet as we need to do some things first:
+We're not quite ready to install Kubernetes just yet.
+There's some more setup we need to do before we can jump into the installation.
 
 1. Assign static IP
 
@@ -130,7 +133,7 @@ We're not quite ready to install Kubernetes yet as we need to do some things fir
 
    (Maybe I should've used a label for the data partition too but I forgot to add it.)
 
-1. Add `cgroup` flags
+1. [Add `cgroup` flags][part2_bootstrap]
 
    Edit `/boot/firmware/cmdline.txt` and add:
 
@@ -139,11 +142,7 @@ We're not quite ready to install Kubernetes yet as we need to do some things fir
    cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1
    ```
 
-   I already had `root=LABEL=writable`
-
-   <https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/>
-
-1. Force Gen 3.0 speeds for the NVMe drives
+1. [Force Gen 3.0 speeds][part2_bootstrap] for the NVMe drives
 
    Edit `/boot/firmware/config.txt` and add `dtparam` like so:
 
@@ -154,15 +153,26 @@ We're not quite ready to install Kubernetes yet as we need to do some things fir
    dtparam=pciex1_gen=3
    ```
 
-   <https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/>
-
 Just reboot and do this 5 times more :)
 
 You can write a script to do it but I did it manually, it wasn't _that_ bad.
 
+[part2_bootstrap]: https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/
+
 ---
 
-# Install Kubernetes
+# What Kubernetes distribution to choose?
+
+One of the things that contributes to perceived complexity of Kubernetes is the amount of choices you have.
+Following that theme there's a bunch of distributions you can install; [k3s][], [minikube][], [RKE2][], [Talos Linux][], etc etc.
+
+After looking around a bit in the end my choice was between [k3s][] and [RKE2][].
+[k3s][] is the more lightweight distribution and has more tutorials, while [RKE2][] seems like the better choice security wise.
+I was going to go with [RKE2][] but I was a bit worried that it wasn't as lightweight as [k3s][] and it was a little harder to find guides for it, so I ended up with [k3s][].
+
+I'm a little bummed out that I couldn't use [Talos Linux][] but on the other hand, being able to ssh into the nodes and poke around is a big plus for a Kubernetes beginner such as myself.
+
+# Install k3s
 
 Need to ensure that the user on the Pis can execute sudo commands without entering a password
 
@@ -350,3 +360,9 @@ Maybe just pick one Pi and set it up?
 [about the MINI RACK]: https://www.youtube.com/watch?v=y1GCIwLm3is
 [3d-printed-rack]: https://www.printables.com/model/1170708-modular-1010-inch-rack
 [OPNsense]: https://opnsense.org/
+[Void Linux]: https://voidlinux.org/
+[Ubuntu server]: https://ubuntu.com/download/server
+[Talos Linux]: https://www.talos.dev/
+[RKE2]: https://docs.rke2.io/
+[minikube]: https://minikube.sigs.k8s.io/docs/
+[k3s]: https://minikube.sigs.k8s.io/docs/
