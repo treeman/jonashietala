@@ -78,10 +78,11 @@ For example the IP `10.200.3.1` means that it's a device in the "IoT connected" 
 | 10.1.1.2 | handmaids (on lannisport) |
 | 10.1.1.3 | media (on lannisport) |
 | 10.1.1.4 | media2 (on lannisport) |
-| 10.1.2.1 | `rke2master` Kubernetes entry point |
-| 10.1.2.2 | `rke2rpi5a` |
-| 10.1.2.3 | `rke2rpi5b` |
-| 10.1.2.4 | `rke2rpi5c` |
+| 10.1.2.1 | `kube-master` Kubernetes entry point |
+| 10.1.2.2 | `kube-pi5a` |
+| 10.1.2.3 | `kube-pi5b` |
+| 10.1.2.4 | `kube-pi5c` |
+| 10.1.2.100-250 | Service load balancing |
 | 10.100.21.1 | Jonas phone |
 | 10.100.21.2 | Jonas remarkable |
 | 10.100.22.1 | Veronicas phone |

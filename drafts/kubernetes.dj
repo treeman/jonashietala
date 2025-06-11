@@ -3,48 +3,258 @@ title = "Kubernetes"
 tags = ["Some tag"]
 ---
 
-- 2.5 en gång, i helg både morgon och kväll
-- Adrenalin + kortison
+{=Building a Kubernetes cluster for my Homelab=}
 
-# Prepare the nodes
+<https://iamsafts.com/posts/homelab-intro/>
 
-1. Download Raspberry Pi OS 64 Lite
-2. Install on NVMe
-3. Partition:
+Price wise it probably would've been a smarter choice to play around with Kubernetes in the Proxmox server I already have running, or maybe to base it on a few mini-PCs.
+But I figured that I wanted to try out Kubernetes for _real_ with a bunch of real computers and I
 
-   - 128 GB installation drive
-   - Rest for persistent storage
-   - Disable swap
-4. Reboot and make sure it boots from SSD
-5. Setup final static IP
-6. Setup `cmdline.txt` and `config.txt`: <https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/>
+I decided to build my Kubernetes cluster using six Raspberry Pi 5s.
 
-   - `cgroup` things that Kubernetes requires
-   - Enable PCIe Gen 3.0 speeds
+{=Preparing the Raspberry Pis=}
+
+# Hardware
+
+![My 6 Raspberry Pis](/images/kubernetes/pi_hanging.jpg)
+
+It's probably disappointing to hear that I didn't put a ton of thought into the hardware as I maybe should've.
+I emailed a little with Sergios Aftsidis who [did a more serious analysis](https://iamsafts.com/posts/rpi_k8s/part1_hardware/) and he recommended me to consider 1TB NVMe drives over 500GB for Longhorn, and at least the 8 GB versions of the Raspberry Pi 5.
+
+That sounded good to me and I ended up with six 8GB Pi 5 and six [PNY CS2230 M.2 NVMe SSD 1TB][] (because I wanted to buy from Inet and they seemed like good options).
+
+If the hardware ends up limiting me I can always add more powerful nodes to the cluster in the future.
+
+::: note
+With just the Pis I can't really move my [Jellyfin][] service to the cluster as they don't have a good enough GPU for the transcoding needs I have.
+I might spin up a node in my Proxmox server for that purpose but I haven't decided yet.
+:::
+
+[Jellyfin]: https://jellyfin.org/
+
+# Building a mini rack
+
+![My cute computers are hanging in a 3D printed mini rack.](/images/kubernetes/kube_rack_front.jpg)
+
+What actually sparked this side-quest of building a Kubernetes setup for my Homelab was watching Jeff Geerling's video [about the MINI RACK][].
+It's a totally silly reason but I like building neat looking things and a [MINI RACK][] would be a perfect way of cleaning up my Homelab devices scattered around the house.
+
+Except that I built a rack for new devices... But that's a tale for another day.
+
+I went searching and sure enough you [can 3D print the entire rack][3d-printed-rack]!
+Including the screws! (Although you have to be a little nuts to do that. Or lazy.)
+
+To mount the Pis I used the [Server Mark III for Raspbery Pi 5][] model.
+They didn't fit the 10" rack perfectly and with the setup I went for I could squeeze a Raspberry Pi 4 there (mostly for looks).
+It's too tight to add a 7th Pi with an NVMe drive so I'm not really sure what to do with it but for now I'll let it hang around.
+
+
+TODO images on the power supply for the Pis
+
+
+# Breathing life into the Pis
+
+Before installing Kubernetes you have to install an Operating System to run it on.
+I also had to install it onto the NVMe card and do it without having to attach a screen or something.
+
+I was worried it would be very complicated but it was pretty simple.
+
+## What OS to run?
+
+Decisions, decisions.\
+What operating system to choose?\
+Should I go with [Void Linux][], the OS I run on my own machines?\
+Maybe a [Raspberry Pi OS][] that should already be configured properly for the device?\
+[Ubuntu server][] because a lot of tutorials I reference use it?\
+Or even [Talos Linux][] which is a pre-packaged OS for Kubernetes?
+
+While I really like the idea of [Talos Linux][] Raspberry Pi 5 isn't officially supported and it takes over the when NVMe drive, while I wanted to separate out a storage partition for Longhorn and local-path storage.
+
+So I took the easy route of choosing [Ubuntu server][] this time.
+I don't think the OS matters that much; all it will do is run Kubernetes anyway.
+
+## Install Ubuntu on NVMe drive
+
+![An USB to NVMe device may save you a lot of time.](/images/kubernetes/nvme_usb.jpg)
+
+If you can connect NVMe drives via USB (they're really cheap) the installation process is straightforward:
+
+1. Flash Ubuntu Server LTS using `rpi-imager` on NVMe drive.
+
+   Make sure to update the hostname and ssh credentials.
+
+1. Add another partition using `gparted` (or similar).
+
+   I first resized the main partition to 128 GB and then I added a new partition for the persistent storage.
+
+1. Insert the NVMe drive into the Pi and you should be able to `ssh` into it.
+
+::: note
+There are lots of guides detailing additional steps to enable booting from the NVMe drive but I personally didn't have to do them.
+:::
+
+## Prepare for Kubernetes
+
+We're not quite ready to install Kubernetes yet as we need to do some things first:
+
+1. Assign static IP
+
+   Kubernetes requires you to assign static IP addresses to all nodes.
+   I use [OPNsense][] and I simply added a DHCP static mapping for each device.
+
+1. Allow user to run `sudo` without password prompt
+
+   (This is needed for `k3sup` later on.)
+
+   {path="/etc/sudoers"}
+   ```
+   your-username ALL=(ALL) NOPASSWD:ALL
+   ```
+
+1. Update packages
+
+   Maybe not required but I think it's good form to try to stay up-to-date.
+
+   ```
+   sudo apt update; sudo apt upgrade
+   ```
+
+1. Edit `/etc/fstab` to mount the new data partition to `/mnt/data`:
+
+   {path="/etc/fstab"}
+   ```
+   LABEL=system-boot       /boot/firmware  vfat    defaults        0       1
+   LABEL=writable          /               ext4    defaults        0       1
+   /dev/nvme0n1p3          /mnt/data       ext4    defaults        0       1
+   ```
+
+   (Maybe I should've used a label for the data partition too but I forgot to add it.)
+
+1. Add `cgroup` flags
+
+   Edit `/boot/firmware/cmdline.txt` and add:
+
+   {path="/boot/firmware/cmdline.txt"}
+   ```
+   cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1
+   ```
+
+   I already had `root=LABEL=writable`
+
+   <https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/>
+
+1. Force Gen 3.0 speeds for the NVMe drives
+
+   Edit `/boot/firmware/config.txt` and add `dtparam` like so:
+
+   {path="/boot/firmware/config.txt"}
+   ```
+   [all]
+   # Force PCIe Gen 3.0 speeds
+   dtparam=pciex1_gen=3
+   ```
+
+   <https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/>
+
+Just reboot and do this 5 times more :)
+
+You can write a script to do it but I did it manually, it wasn't _that_ bad.
+
+---
 
 # Install Kubernetes
 
-1. Setup 1 server node
-2. Install kube-vip
-3. Setup the other 2 server nodes
-4. Add worker nodes
+Need to ensure that the user on the Pis can execute sudo commands without entering a password
 
-Install RKE2:
-<https://docs.rke2.io/>
+1. Edit `/etc/sudoers` and add `tree ALL=(ALL) NOPASSWD:ALL`
 
-- Install the first server node
-- Need to figure out a fixed registration address, maybe with <https://kube-vip.io/>
+See Jim's Garage script
 
-<https://docs.rke2.io/install/ha>
+<https://www.youtube.com/watch?v=6k8BABDXeZI&t=695s>
+<https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/K3S-Deploy>
 
-On-Prem RKE2 api-server HA with Kube-VIP:
-<https://gist.github.com/danieleagle/5138a97ec08145ed52f5188f3a80a9ce>
+# Rancher to manage Kubernetes
 
-<https://github.com/bcdurden/rke2-kube-vip>
+<https://www.youtube.com/watch?v=hT2_O2Yd_wE>
+<https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/Rancher-Deployment>
+
+1. Install helm: `xbps-install -Suy kubernetes-helm`
+
+   ```
+   curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+   chmod 700 get_helm.sh
+   ./get_helm.sh
+   ```
+
+1. Add Rancher helm repo
+
+   ```
+   helm repo add rancher-alpha https://releases.rancher.com/server-charts/alpha
+   kubectl create namespace cattle-system
+   ```
+
+1. Install cert-manager
+
+   ```
+   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.0/cert-manager.crds.yaml
+   helm repo add jetstack https://charts.jetstack.io
+   helm repo update
+   helm install cert-manager jetstack/cert-manager \
+      --namespace cert-manager \
+      --create-namespace \
+      --version v1.18.0
+   kubectl get pods --namespace cert-manager
+   ```
+
+1. Install Rancher
+
+   This didn't work:
+
+   ```
+   helm install rancher rancher-latest/rancher \
+      --namespace cattle-system \
+      --set hostname=rancher.my.org \
+      --set bootstrapPassword=admin
+   ```
+
+   ```
+   Error: INSTALLATION FAILED: chart requires kubeVersion: < 1.33.0-0 which is incompatible with Kubernetes v1.33.1+k3s1
+   ```
+
+   So instead I [used a workaround](https://github.com/rancher/rancher/issues/43092#issuecomment-2423135070)
+
+   ```
+   mkdir tmp
+   cd tmp
+   helm fetch rancher-latest/rancher --untar
+   sed -i "/kubeVersion/d" Chart.yaml
+   helm install rancher . --namespace cattle-system --set hostname=rancher.hietala.xyz --set bootstrapPassword=admin
+   ```
+
+   Confirm:
+
+   ```
+   kubectl -n cattle-system rollout status deploy/rancher
+   kubectl -n cattle-system get deploy rancher
+   ```
+
+1. Expose Rancher via load balancer
+
+   See status using (first no external IP, after command it exists):
+
+   ```
+   kubectl get svc -n cattle-system
+   ```
+
+   ```
+   kubectl expose deployment rancher --name=rancher-lb --port=443 --type=LoadBalancer -n cattle-system
+   ```
 
 # Storage
 
 ## Setup local-path storage
+
+<https://github.com/rancher/local-path-provisioner>
 
 Used for highly performance sensitive services such as databases\
 Services that rely on SQLite might also need to run there?
@@ -53,6 +263,27 @@ Services that rely on SQLite might also need to run there?
 - Influxdb
 
 ## Install Longhorn
+
+1. install some packages such as the [iscsi_tcp module][] ?
+
+<https://harrytang.xyz/blog/how-to-longhorn-k8s>
+
+<https://www.youtube.com/watch?v=ps0NKd59UkE>
+<https://github.com/JamesTurland/JimsGarage/blob/main/Kubernetes/Longhorn/longhorn-K3S.sh>
+
+Dependencies and stuff:
+
+```
+sudo apt install
+    python3-pip
+    git
+    apt-transport-https
+    curl
+    avahi-daemon
+    nfs-common
+    linux-modules-extra-raspi
+
+```
 
 Used for everything else where performance isn't critical.
 Excellent because it's replicated.
@@ -111,3 +342,11 @@ Lannsport proxmox:
 Where to have Zigbee dongle?
 Maybe just pick one Pi and set it up?
 
+[iscsi_tcp module]: https://askubuntu.com/questions/1373309/missing-iscsi-tcp-kernel-module-in-ubuntu-21-10-for-raspberry-pi-arm64
+[PNY CS2230 M.2 NVMe SSD 1TB]: https://www.inet.se/produkt/4305547/pny-cs2230-m-2-nvme-ssd-1tb
+[Raspberry Pi OS]: https://www.raspberrypi.com/software/
+[Server Mark III for Raspbery Pi 5]: https://www.printables.com/model/685991-raspberry-pi-server-mark-iii-for-raspbery-pi-5
+[MINI RACK]: https://mini-rack.jeffgeerling.com/
+[about the MINI RACK]: https://www.youtube.com/watch?v=y1GCIwLm3is
+[3d-printed-rack]: https://www.printables.com/model/1170708-modular-1010-inch-rack
+[OPNsense]: https://opnsense.org/
