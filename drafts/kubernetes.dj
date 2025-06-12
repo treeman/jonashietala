@@ -174,14 +174,253 @@ I'm a little bummed out that I couldn't use [Talos Linux][] but on the other han
 
 # Install k3s
 
-Need to ensure that the user on the Pis can execute sudo commands without entering a password
+To install [k3s][] I mainly referenced [this video][k3s-deploy-video] from [Jim's Garage][] and he's got a [k3s deploy script][] that I started out with.
 
-1. Edit `/etc/sudoers` and add `tree ALL=(ALL) NOPASSWD:ALL`
+::: warning
+While I modified and ran the script some of the commands failed, giving me all sorts of headache.
+It was partly due to me running [Void Linux][] instead of Ubuntu on my desktop and partly because
+my nodes weren't [prepared properly][].
 
-See Jim's Garage script
+I think it might be wise to run the commands manually to make sure they execute correctly.
+:::
 
-<https://www.youtube.com/watch?v=6k8BABDXeZI&t=695s>
-<https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/K3S-Deploy>
+[k3s-deploy-video]: https://www.youtube.com/watch?v=6k8BABDXeZI
+
+## Install [k3sup][] and kubectl
+
+We're going to need `kubectl` and [k3sup][] on the machine we're going to install our cluster from (meaning, my computer).
+
+Install [k3sup][]:
+
+```bash
+curl -sLS https://get.k3sup.dev | sh
+sudo install k3sup /usr/local/bin/
+```
+
+```fish-shell
+$ k3sup version
+ _    _____
+| | _|___ / ___ _   _ _ __
+| |/ / |_ \/ __| | | | '_ \
+|   < ___) \__ \ |_| | |_) |
+|_|\_\____/|___/\__,_| .__/
+                     |_|
+
+bootstrap K3s over SSH in < 60s 🚀
+👏 Say thanks for k3sup and sponsor Alex via GitHub: https://github.com/sponsors/alexellis
+
+Version: 0.13.9
+Git Commit: a1700f64dcffd249890b13cf6d97f4c120a53e08
+```
+
+I installed `kubectl` via the package manager on Void Linux:
+
+```bash
+sudo xbps-install -Suy kubectl
+```
+
+```fish-shell
+$ kubectl version
+Client Version: v1.33.1
+Kustomize Version: v5.6.0
+Error from server (NotFound): the server could not find the requested resource
+```
+
+## Install policycoreutils
+
+The script installs `policycoreutils` on each node (although to be honest, I didn't try it without so I don't know if it's truly necessary).
+
+```bash
+NEEDRESTART_MODE=a apt-get install policycoreutils -y
+```
+
+[k3sup]: https://github.com/alexellis/k3sup
+
+## Boostrap the first master node
+
+```bash
+# K3S Version
+k3sVersion="v1.33.1+k3s1"
+
+# IP addresse of the node
+master1=10.1.2.2
+
+# Set the virtual IP address (VIP)
+vip=10.1.2.1
+
+# Interface used on remotes
+interface=eth0
+
+# User of remote machines
+user=tree
+
+# Do the installation
+mkdir ~/.kube
+k3sup install \
+  --ip $master1 \
+  --user $user \
+  --tls-san $vip \
+  --cluster \
+  --k3s-version $k3sVersion \
+  --k3s-extra-args "--disable traefik --disable servicelb --flannel-iface=$interface --node-ip=$master1" \
+  --merge \
+  --sudo \
+  --local-path $HOME/.kube/config \
+  --context k3s-ha
+```
+
+A couple of things to note here:
+
+* We're going to setup a high availability cluster and we're later going to setup [kube-vip][] to provide a virtual IP address for the whole cluster (the `$vip`{=bash} variable).
+* For [k3sup][] to work the user must be able to run passwordless `sudo` commands (or run as root user, then we don't need the `--sudo` parameter).
+* I used the latest version of [k3s][]: `v1.33.1+k3s1` but that gave me some problems installing Rancher with helm. A slightly older version might have been better.
+* We disable [Traefik][] as we'll set that up later and we'll disable ServiceLB too as we'll use [kube-vip][] and [metallb][] for load balancing.
+* The `~/.kube/config` file will be used to authenticate to the cluster.
+  When the above command failed for me I had to remove it before I could run it again.
+
+It should hopefully finish okay, which you can verify with `kubectl`:
+
+```fish-shell
+$ kubectl get nodes
+NAME        STATUS   ROLES                       AGE   VERSION
+kube-pi5a   Ready    control-plane,etcd,master   23h   v1.33.1+k3s1
+```
+
+## Install [kube-vip][]
+
+With our first Kubernetes node up and running we can add [kube-vip][] as a service on the cluster itself, which will provide the virtual IP address for cluster itself.
+This is neat as we don't have to have any extra hardware or software "in front" of the cluster to act as an entry point.
+
+This way the cluster can use a single IP address even when some of the nodes shuts down.
+It feels a bit magical to me but people smarter than me have found a way.
+
+First create the RBAC settings (permissions):
+
+```bash
+kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
+```
+
+We need need to create a beautiful yaml file at `/var/lib/rancher/k3s/server/manifests/kube-vip.yaml` on our master node.
+[kube-vip][] has an [example of how to generate it][] but I simply used Jim's file:
+
+```bash
+curl -sO https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/K3S-Deploy/kube-vip
+cat kube-vip | sed 's/$interface/'$interface'/g; s/$vip/'$vip'/g' > $HOME/kube-vip.yaml
+```
+
+You can verify the file afterwards but the main difference is that it pins [kube-vip][] to version `v0.8.2` and sets up our interface (`eth0`) and virtual IP (`10.1.2.1`) that we set previously.
+
+## Setup the rest of the nodes
+
+We can now setup the rest of the nodes and join them to our master node:
+
+```bash
+# The other two master nodes
+master2=10.1.2.3
+master3=10.1.2.4
+masters=($master2 $master3)
+
+for newnode in "${masters[@]}"; do
+  k3sup join \
+    --ip $newnode \
+    --user $user \
+    --sudo \
+    --k3s-version $k3sVersion \
+    --server \
+    --server-ip $master1 \
+    --k3s-extra-args "--disable traefik --disable servicelb --flannel-iface=$interface --node-ip=$newnode" \
+    --server-user $user
+done
+```
+
+Hopefully everything completes as it should and we should now have 3 nodes:
+
+```fish-shell
+$ kubectl get nodes
+NAME        STATUS   ROLES                       AGE   VERSION
+kube-pi5a   Ready    control-plane,etcd,master   23h   v1.33.1+k3s1
+kube-pi5b   Ready    control-plane,etcd,master   23h   v1.33.1+k3s1
+kube-pi5c   Ready    control-plane,etcd,master   23h   v1.33.1+k3s1
+```
+
+Adding workers is similar:
+
+```bash
+# The worker IPs
+worker1=10.1.2.5
+worker2=10.1.2.6
+
+for newagent in "${workers[@]}"; do
+  k3sup join \
+    --ip $newagent \
+    --user $user \
+    --sudo \
+    --k3s-version $k3sVersion \
+    --server-ip $master1
+done
+```
+
+```fish-shell
+$ kubectl get nodes
+NAME        STATUS   ROLES                       AGE   VERSION
+kube-pi5a   Ready    control-plane,etcd,master   24h   v1.33.1+k3s1
+kube-pi5b   Ready    control-plane,etcd,master   23h   v1.33.1+k3s1
+kube-pi5c   Ready    control-plane,etcd,master   23h   v1.33.1+k3s1
+kube-pi5d   Ready    <none>                      23h   v1.33.1+k3s1
+kube-pi5e   Ready    <none>                      23h   v1.33.1+k3s1
+```
+
+## Setup load balancer
+
+[kube-vip cloud provider][]
+
+```bash
+# Step 7: Install kube-vip as network LoadBalancer - Install the kube-vip Cloud Provider
+kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
+```
+
+[metallb][]
+
+```bash
+#Loadbalancer IP range
+lbrange=10.1.2.100-10.1.2.250
+
+# Step 8: Install Metallb
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
+# Download ipAddressPool and configure using lbrange above
+curl -sO https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/K3S-Deploy/ipAddressPool
+cat ipAddressPool | sed 's/$lbrange/'$lbrange'/g' > $HOME/ipAddressPool.yaml
+kubectl apply -f $HOME/ipAddressPool.yaml
+```
+
+## Test by deploying nginx
+
+We'll start nginx and expose it to using our load balancer:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/inlets/inlets-operator/master/contrib/nginx-sample-deployment.yaml -n default
+kubectl expose deployment nginx-1 --port=80 --type=LoadBalancer -n default
+```
+
+After a while you should be able to see the pod running:
+
+```fish-shell
+$ kubectl get pods
+NAME                       READY   STATUS    RESTARTS   AGE
+nginx-1-647677fc66-2jzj6   1/1     Running   0          23h
+```
+
+```fish-shell
+$ kubectl get svc
+NAME         TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+kubernetes   ClusterIP      10.43.0.1      <none>        443/TCP        24h
+nginx-1      LoadBalancer   10.43.20.159   10.1.2.100    80:31508/TCP   23h
+```
+
+Here we see that nginx has been assigned the external IP `10.1.2.100`, which is the first IP address in the loadbalancer range.
+If I visit it in the browser I'm greeted with the "Welcome to nginx!" message and I have my very first service operational.
+Yay!
 
 # Rancher to manage Kubernetes
 
@@ -366,3 +605,22 @@ Maybe just pick one Pi and set it up?
 [RKE2]: https://docs.rke2.io/
 [minikube]: https://minikube.sigs.k8s.io/docs/
 [k3s]: https://minikube.sigs.k8s.io/docs/
+[Jim's Garage]: https://www.youtube.com/@Jims-Garage
+[k3s deploy script]: https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/K3S-Deploy
+[prepared properly]: /drafts/kubernetes/#Prepare-for-Kubernetes
+[kube-vip]: https://kube-vip.io/
+[example of how to generate it]: https://kube-vip.io/docs/installation/daemonset/#arp-example-for-daemonset
+
+With our first Kubernetes node up and running we can add kube-vip as a service on the cluster itself, which will provide the virtual IP address for cluster itself. This is neat as we don’t have to have any extra hardware or software “in front” of the cluster to act as an entry point.
+
+This way the cluster can use a single IP address even when some of the nodes shuts down. It feels a bit magical to me but people smarter than me have found a way.
+
+First create the RBAC settings (permissions):
+
+kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
+
+We need need to create a beautiful yaml file at /var
+
+[kube-vip cloud provider]: https://github.com/kube-vip/kube-vip-cloud-provider
+[metallb]: https://metallb.io/
+[Traefik]: https://traefik.io/traefik/
