@@ -370,33 +370,73 @@ kube-pi5d   Ready    <none>                      23h   v1.33.1+k3s1
 kube-pi5e   Ready    <none>                      23h   v1.33.1+k3s1
 ```
 
+::: note
+I do have six Raspberry Pis I want to create my cluster with.
+However, I hit a small snag and had to use one of the NVMe disks for my Proxmox server so I did the initial setup using 5 Pis instead of 6.
+It's fine as you can easily add more workers with the above command at a later time.
+:::
+
 ## Setup load balancer
 
-[kube-vip cloud provider][]
+Finally, we'll setup a load balancer.
+You should be able to use [kube-vip][] as a load balancer too but Jim's script installs [metallb][] and it seems like a popular solution so why not?
+
+::: note
+Jim's script now installs the [kube-vip cloud provider][]:
 
 ```bash
-# Step 7: Install kube-vip as network LoadBalancer - Install the kube-vip Cloud Provider
 kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
 ```
 
-[metallb][]
+But I'm not sure why as it uses [metallb][] for load balancing.
+Is it an oversight or am I missing something?
+:::
+
+Let's install [metallb][]:
 
 ```bash
-#Loadbalancer IP range
-lbrange=10.1.2.100-10.1.2.250
-
-# Step 8: Install Metallb
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
-# Download ipAddressPool and configure using lbrange above
-curl -sO https://raw.githubusercontent.com/JamesTurland/JimsGarage/main/Kubernetes/K3S-Deploy/ipAddressPool
-cat ipAddressPool | sed 's/$lbrange/'$lbrange'/g' > $HOME/ipAddressPool.yaml
-kubectl apply -f $HOME/ipAddressPool.yaml
 ```
+
+And setup an IP range for the load balancer to use:
+
+{path="ipAddressPool"}
+```yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.1.2.100-10.1.2.250
+```
+
+```bash
+kubectl apply -f ipAddressPool
+```
+
+And we should be done!
+Can we verify it?
+
+```fish-shell
+$ kubectl get pods -n metallb-system
+NAME                       READY   STATUS    RESTARTS   AGE
+controller-c76b688-dntdl   1/1     Running   0          36h
+speaker-7zf8t              1/1     Running   0          36h
+speaker-l82mt              1/1     Running   0          36h
+speaker-q2876              1/1     Running   0          36h
+speaker-sbc4g              1/1     Running   0          36h
+speaker-x4cxt              1/1     Running   0          36h
+```
+
+Sometimes is running. I guess that's a good thing.
 
 ## Test by deploying nginx
 
-We'll start nginx and expose it to using our load balancer:
+To make sure things are working correctly we can try to start a service and see if we can access it.
+Jim's script uses nginx and exposes it via the load balancer like so:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/inlets/inlets-operator/master/contrib/nginx-sample-deployment.yaml -n default
@@ -424,12 +464,16 @@ Yay!
 
 # Rancher to manage Kubernetes
 
-<https://www.youtube.com/watch?v=hT2_O2Yd_wE>
-<https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/Rancher-Deployment>
+![Rancher offers a view of the nodes and their usage, among a bunch of other things.](/images/kubernetes/rancher_nodes.png)
 
-1. Install helm: `xbps-install -Suy kubernetes-helm`
+One thing I've been missing with my old homelab setup where I `ssh` to my server and run containers via `docker compose` is a nice dashboard.
+As I'm already using [k3s][] and plan on using [Longhorn][], it makes sense to try out [Rancher][] as it's made by the same team.
 
-   ```
+By complete coincidence there's also a [Jim's Garage][] video about [deploying Rancher][] and an [accompanying readme][] with instructions on how to install it.
+
+1. Install helm:
+
+   ```bash
    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
    chmod 700 get_helm.sh
    ./get_helm.sh
@@ -437,14 +481,14 @@ Yay!
 
 1. Add Rancher helm repo
 
-   ```
+   ```bash
    helm repo add rancher-alpha https://releases.rancher.com/server-charts/alpha
    kubectl create namespace cattle-system
    ```
 
 1. Install cert-manager
 
-   ```
+   ```bash
    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.0/cert-manager.crds.yaml
    helm repo add jetstack https://charts.jetstack.io
    helm repo update
@@ -459,7 +503,7 @@ Yay!
 
    This didn't work:
 
-   ```
+   ```bash
    helm install rancher rancher-latest/rancher \
       --namespace cattle-system \
       --set hostname=rancher.my.org \
@@ -470,14 +514,18 @@ Yay!
    Error: INSTALLATION FAILED: chart requires kubeVersion: < 1.33.0-0 which is incompatible with Kubernetes v1.33.1+k3s1
    ```
 
-   So instead I [used a workaround](https://github.com/rancher/rancher/issues/43092#issuecomment-2423135070)
+   So instead I [used a workaround](https://github.com/rancher/rancher/issues/43092#issuecomment-2423135070) that removes the `kubeVersion` requirement from
+   the Rancher chart file:
 
-   ```
+   ```bash
    mkdir tmp
    cd tmp
    helm fetch rancher-latest/rancher --untar
    sed -i "/kubeVersion/d" Chart.yaml
-   helm install rancher . --namespace cattle-system --set hostname=rancher.hietala.xyz --set bootstrapPassword=admin
+   helm install rancher . \
+      --namespace cattle-system \
+      --set hostname=rancher.hietala.xyz \
+      --set bootstrapPassword=admin
    ```
 
    Confirm:
@@ -624,3 +672,7 @@ We need need to create a beautiful yaml file at /var
 [kube-vip cloud provider]: https://github.com/kube-vip/kube-vip-cloud-provider
 [metallb]: https://metallb.io/
 [Traefik]: https://traefik.io/traefik/
+[deploying Rancher]: https://www.youtube.com/watch?v=hT2_O2Yd_wE
+[accompanying readme]: https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/Rancher-Deployment
+[Longhorn]: https://longhorn.io/
+[Rancher]: https://ranchermanager.docs.rancher.com/v2.6
