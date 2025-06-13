@@ -4,18 +4,6 @@ tags = ["Kubernetes", "Homelab"]
 series = "kubernetes"
 ---
 
-
-# Node setup
-
-Raspberry Pi 5:
-
-- Control + Longhorn
-- Control + Longhorn
-- Control + Longhorn
-- Worker + Longhorn
-- Worker + local-path
-- Worker + local-path
-
 # Setup local-path storage
 
 <https://github.com/rancher/local-path-provisioner>

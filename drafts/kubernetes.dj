@@ -1,6 +1,7 @@
 ---toml
-title = "Kubernetes"
-tags = ["Some tag"]
+title = "Spinning up services"
+tags = ["Kubernetes", "Homelab"]
+series = "kubernetes"
 ---
 
 :table-of-content:
@@ -158,6 +159,11 @@ Also try to move some other services?
 
 # GitOps with Fleet
 
+# HA Postgres
+
+<https://ryan-schachte.com/blog/ha_postgres_zolando/>
+<https://dev.to/dm8ry/how-to-deploy-a-high-availability-ha-postgres-cluster-in-kubernetes-79>
+
 # Moving my home automation services to Kubernetes
 
 - Postgres
@@ -174,11 +180,6 @@ Also try to move some other services?
 Might consider an extra Longhorn node too.
 
 {% Should we also have the Zigbee dongle on this node or connected to a Pi? %}
-
-# HA Postgres
-
-<https://ryan-schachte.com/blog/ha_postgres_zolando/>
-<https://dev.to/dm8ry/how-to-deploy-a-high-availability-ha-postgres-cluster-in-kubernetes-79>
 
 # Setup services
 

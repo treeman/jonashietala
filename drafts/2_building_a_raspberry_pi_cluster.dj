@@ -1,8 +1,19 @@
 ---toml
-title = "Building a Raspberry Pi cluster"
+title = "Assembling a Raspberry Pi cluster"
 tags = ["Kubernetes", "Homelab"]
 series = "kubernetes"
 ---
+
+# Node layout
+
+<https://iamsafts.com/posts/rpi_k8s/part1_hardware/#highly-available-fast-storage-version-ha>
+
+- Control + Longhorn
+- Control + Longhorn
+- Control + Longhorn
+- Worker + Longhorn
+- Worker + local-path
+- Worker + local-path
 
 # Hardware
 
@@ -40,120 +51,9 @@ It's too tight to add a 7th Pi with an NVMe drive so I'm not really sure what to
 
 TODO images on the power supply for the Pis
 
-
-# Breathing life into the Pis
-
-Before installing Kubernetes you have to install an Operating System to run it on.
-I also had to install it onto the NVMe card and do it without having to attach a screen or something.
-
-I was worried it would be very complicated but it was pretty simple.
-
-## What OS to run?
-
-Decisions, decisions.\
-What operating system to choose?\
-Should I go with [Void Linux][], the OS I run on my own machines?\
-Maybe a [Raspberry Pi OS][] that should already be configured properly for the device?\
-[Ubuntu server][] because a lot of tutorials I reference use it?\
-Or even [Talos Linux][] which is a pre-packaged OS for Kubernetes?
-
-While I really like the idea of [Talos Linux][] Raspberry Pi 5 isn't officially supported and it takes over the when NVMe drive, while I wanted to separate out a storage partition for Longhorn and local-path storage.
-
-So I took the easy route of choosing [Ubuntu server][] this time.
-I don't think the OS matters that much; all it will do is run Kubernetes anyway.
-
-## Install Ubuntu on NVMe drive
-
-![An USB to NVMe device may save you a lot of time.](/images/kubernetes/nvme_usb.jpg)
-
-If you can connect NVMe drives via USB (they're really cheap) the installation process is straightforward:
-
-1. Flash Ubuntu Server LTS using `rpi-imager` on NVMe drive.
-
-   Make sure to update the hostname and ssh credentials.
-
-   I chose the hostnames  `kube-pi5a`, `kube-pi5a`, etc for the IP addresses `10.1.2.2`, `10.1.2.3`, etc. (`10.1.2.1` is reserved for the virtual IP for the whole cluster).
-
-1. Add another partition using `gparted` (or similar).
-
-   I first resized the main partition to 128 GB and then I added a new partition for the persistent storage.
-
-1. Insert the NVMe drive into the Pi and you should be able to `ssh` into it.
-
-::: note
-There are lots of guides detailing additional steps to enable booting from the NVMe drive but I personally didn't have to do them.
-:::
-
-## Prepare for Kubernetes
-
-We're not quite ready to install Kubernetes just yet.
-There's some more setup we need to do before we can jump into the installation.
-
-1. Assign static IP
-
-   Kubernetes requires you to assign static IP addresses to all nodes.
-   I use [OPNsense][] and I simply added a DHCP static mapping for each device.
-
-1. Allow user to run `sudo` without password prompt
-
-   (This is needed for `k3sup` later on.)
-
-   {path="/etc/sudoers"}
-   ```
-   your-username ALL=(ALL) NOPASSWD:ALL
-   ```
-
-1. Update packages
-
-   Maybe not required but I think it's good form to try to stay up-to-date.
-
-   ```
-   sudo apt update; sudo apt upgrade
-   ```
-
-1. Edit `/etc/fstab` to mount the new data partition to `/mnt/data`:
-
-   {path="/etc/fstab"}
-   ```
-   LABEL=system-boot       /boot/firmware  vfat    defaults        0       1
-   LABEL=writable          /               ext4    defaults        0       1
-   /dev/nvme0n1p3          /mnt/data       ext4    defaults        0       1
-   ```
-
-   (Maybe I should've used a label for the data partition too but I forgot to add it.)
-
-1. [Add `cgroup` flags][part2_bootstrap]
-
-   Edit `/boot/firmware/cmdline.txt` and add:
-
-   {path="/boot/firmware/cmdline.txt"}
-   ```
-   cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1
-   ```
-
-1. [Force Gen 3.0 speeds][part2_bootstrap] for the NVMe drives
-
-   Edit `/boot/firmware/config.txt` and add `dtparam` like so:
-
-   {path="/boot/firmware/config.txt"}
-   ```
-   [all]
-   # Force PCIe Gen 3.0 speeds
-   dtparam=pciex1_gen=3
-   ```
-
-Just reboot and do this 5 times more :)
-
-You can write a script to do it but I did it manually, it wasn't _that_ bad.
-
-[part2_bootstrap]: https://iamsafts.com/posts/rpi_k8s/part2_bootstrap/
 [PNY CS2230 M.2 NVMe SSD 1TB]: https://www.inet.se/produkt/4305547/pny-cs2230-m-2-nvme-ssd-1tb
-[Raspberry Pi OS]: https://www.raspberrypi.com/software/
 [Server Mark III for Raspbery Pi 5]: https://www.printables.com/model/685991-raspberry-pi-server-mark-iii-for-raspbery-pi-5
 [MINI RACK]: https://mini-rack.jeffgeerling.com/
 [about the MINI RACK]: https://www.youtube.com/watch?v=y1GCIwLm3is
 [3d-printed-rack]: https://www.printables.com/model/1170708-modular-1010-inch-rack
-[OPNsense]: https://opnsense.org/
-[Void Linux]: https://voidlinux.org/
-[Ubuntu server]: https://ubuntu.com/download/server
 [Talos Linux]: https://www.talos.dev/
