@@ -1,0 +1,55 @@
+---toml
+title = "Storage on Kubernetes"
+tags = ["Kubernetes", "Homelab"]
+series = "kubernetes"
+---
+
+
+# Node setup
+
+Raspberry Pi 5:
+
+- Control + Longhorn
+- Control + Longhorn
+- Control + Longhorn
+- Worker + Longhorn
+- Worker + local-path
+- Worker + local-path
+
+# Setup local-path storage
+
+<https://github.com/rancher/local-path-provisioner>
+
+Used for highly performance sensitive services such as databases\
+Services that rely on SQLite might also need to run there?
+
+- Postgres
+- Influxdb
+
+# Install Longhorn
+
+1. install some packages such as the [iscsi_tcp module][] ?
+
+<https://harrytang.xyz/blog/how-to-longhorn-k8s>
+
+<https://www.youtube.com/watch?v=ps0NKd59UkE>
+<https://github.com/JamesTurland/JimsGarage/blob/main/Kubernetes/Longhorn/longhorn-K3S.sh>
+
+Dependencies and stuff:
+
+```
+sudo apt install
+    python3-pip
+    git
+    apt-transport-https
+    curl
+    avahi-daemon
+    nfs-common
+    linux-modules-extra-raspi
+
+```
+
+Used for everything else where performance isn't critical.
+Excellent because it's replicated.
+
+[iscsi_tcp module]: https://askubuntu.com/questions/1373309/missing-iscsi-tcp-kernel-module-in-ubuntu-21-10-for-raspberry-pi-arm64

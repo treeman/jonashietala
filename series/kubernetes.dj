@@ -1,0 +1,15 @@
+---toml
+title = "Let's build a Kubernetes cluster"
+completed = false
+img = "/images/kubernetes/kube_rack_front.jpg"
+homepage = false
+---
+
+This series documents my journey on building and using a bare metal Kubernetes cluster to run my homelab services on.
+
+I go from being completely clueless about Kubernetes to building a high availability Kubernetes cluster
+where I run homelabbing services such as [Home Assistant][] and [Jellyfin][].
+The cluster is mostly comprised of Raspberry Pis but it's also joined by a node running in Proxmox that provides GPU passthrough for speedier transcoding.
+
+[Jellyfin]: https://jellyfin.org/
+[Home Assistant]: https://www.home-assistant.io/

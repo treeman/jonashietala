@@ -67,7 +67,13 @@ impl PartialOrd for PostRefOrder {
 
 impl Ord for PostRefOrder {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        (self.is_draft, self.created).cmp(&(other.is_draft, other.created))
+        if self.id == other.id {
+            std::cmp::Ordering::Equal
+        } else if self.is_draft && other.is_draft {
+            (self.id).cmp(&(other.id))
+        } else {
+            (self.is_draft, self.created).cmp(&(other.is_draft, other.created))
+        }
     }
 }
 
