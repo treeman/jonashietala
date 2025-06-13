@@ -178,6 +178,7 @@ Might consider an extra Longhorn node too.
 # HA Postgres
 
 <https://ryan-schachte.com/blog/ha_postgres_zolando/>
+<https://dev.to/dm8ry/how-to-deploy-a-high-availability-ha-postgres-cluster-in-kubernetes-79>
 
 # Setup services
 
