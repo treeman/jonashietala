@@ -431,7 +431,7 @@ speaker-sbc4g              1/1     Running   0          36h
 speaker-x4cxt              1/1     Running   0          36h
 ```
 
-Sometimes is running. I guess that's a good thing.
+Something is running. I guess that's a good thing.
 
 ## Test by deploying nginx
 
@@ -471,81 +471,140 @@ As I'm already using [k3s][] and plan on using [Longhorn][], it makes sense to t
 
 By complete coincidence there's also a [Jim's Garage][] video about [deploying Rancher][] and an [accompanying readme][] with instructions on how to install it.
 
-1. Install helm:
+## Install helm
 
-   ```bash
-   curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-   chmod 700 get_helm.sh
-   ./get_helm.sh
-   ```
+I'll install [Rancher][] using [Helm][], so [let's install it][]:
 
-1. Add Rancher helm repo
+```bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
 
-   ```bash
-   helm repo add rancher-alpha https://releases.rancher.com/server-charts/alpha
-   kubectl create namespace cattle-system
-   ```
+```fish-shell
+$ helm version
+version.BuildInfo{Version:"v3.18.2", GitCommit:"04cad4610054e5d546aa5c5d9c1b1d5cf68ec1f8", GitTreeState:"clean", GoVersion:"go1.24.3"}
+```
 
-1. Install cert-manager
+## Install cert-manager
 
-   ```bash
-   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.0/cert-manager.crds.yaml
-   helm repo add jetstack https://charts.jetstack.io
-   helm repo update
-   helm install cert-manager jetstack/cert-manager \
-      --namespace cert-manager \
-      --create-namespace \
-      --version v1.18.0
-   kubectl get pods --namespace cert-manager
-   ```
+Next, we'll [install cert-manager][]:
 
-1. Install Rancher
+```bash
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.0/cert-manager.crds.yaml
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install cert-manager jetstack/cert-manager \
+   --namespace cert-manager \
+   --create-namespace \
+   --version v1.18.0
+```
 
-   This didn't work:
+And verify installation:
 
-   ```bash
-   helm install rancher rancher-latest/rancher \
-      --namespace cattle-system \
-      --set hostname=rancher.my.org \
-      --set bootstrapPassword=admin
-   ```
+```fish-shell
+$ kubectl get pods --namespace cert-manager
+NAME                                       READY   STATUS    RESTARTS   AGE
+cert-manager-788d58b76f-7wws8              1/1     Running   0          2d
+cert-manager-cainjector-5f6f659459-znprj   1/1     Running   0          2d
+cert-manager-webhook-75d4c8db8b-97djk      1/1     Running   0          2d
+```
 
-   ```
-   Error: INSTALLATION FAILED: chart requires kubeVersion: < 1.33.0-0 which is incompatible with Kubernetes v1.33.1+k3s1
-   ```
+## Install Rancher
 
-   So instead I [used a workaround](https://github.com/rancher/rancher/issues/43092#issuecomment-2423135070) that removes the `kubeVersion` requirement from
-   the Rancher chart file:
+Now we can finally install [Rancher][].
+First, the repo:
 
-   ```bash
-   mkdir tmp
-   cd tmp
-   helm fetch rancher-latest/rancher --untar
-   sed -i "/kubeVersion/d" Chart.yaml
-   helm install rancher . \
-      --namespace cattle-system \
-      --set hostname=rancher.hietala.xyz \
-      --set bootstrapPassword=admin
-   ```
+```bash
+helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
+```
 
-   Confirm:
+It's apparently good style to use a namespace:
 
-   ```
-   kubectl -n cattle-system rollout status deploy/rancher
-   kubectl -n cattle-system get deploy rancher
-   ```
+```bash
+kubectl create namespace cattle-system
+```
 
-1. Expose Rancher via load balancer
+The next step should be to install it, making sure to use the domain you want to use for your homelab:
 
-   See status using (first no external IP, after command it exists):
+```bash
+helm install rancher rancher-latest/rancher \
+   --namespace cattle-system \
+   --set hostname=rancher.hietala.xyz \
+   --set bootstrapPassword=admin
+```
 
-   ```
-   kubectl get svc -n cattle-system
-   ```
+However,
+I got a version incompatibility error:
 
-   ```
-   kubectl expose deployment rancher --name=rancher-lb --port=443 --type=LoadBalancer -n cattle-system
-   ```
+```
+Error: INSTALLATION FAILED: chart requires kubeVersion: < 1.33.0-0 which is incompatible with Kubernetes v1.33.1+k3s1
+```
+
+This didn't go away even if I used the alpha version of [Rancher][] with `https://releases.rancher.com/server-charts/alpha` or updated [Helm][] to the latest version.
+
+One solution would be to downgrade Kubernetes to an older version...
+But that sounds annoying.
+
+I instead
+[found a workaround](https://github.com/rancher/rancher/issues/43092#issuecomment-2423135070)
+that removes the `kubeVersion` requirement from the [Rancher][] chart and then installs it:
+
+```bash
+mkdir tmp
+cd tmp
+helm fetch rancher-latest/rancher --untar
+sed -i "/kubeVersion/d" Chart.yaml
+helm install rancher . \
+   --namespace cattle-system \
+   --set hostname=rancher.hietala.xyz \
+   --set bootstrapPassword=admin
+```
+
+Yeah, it may explode in your face but it seems to have worked this time.
+
+This can take a while so we can wait and confirm the deployment with:
+
+```bash
+kubectl -n cattle-system rollout status deploy/rancher
+kubectl -n cattle-system get deploy rancher
+```
+
+## Expose Rancher via load balancer
+
+But how do we access [Rancher][]?
+
+```fish-shell
+$ kubectl get svc -n cattle-system
+NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+imperative-api-extension   ClusterIP      10.43.134.212   <none>        6666/TCP         2d
+rancher                    ClusterIP      10.43.151.31    <none>        80/TCP,443/TCP   2d
+rancher-webhook            ClusterIP      10.43.38.150    <none>        443/TCP          2d
+```
+
+There's no external IP we can access?
+
+Like we did [with nginx last time](#Test-by-deploying-nginx) we need to expose the service via the load balancer:
+
+```bash
+kubectl expose deployment rancher --name=rancher-lb --port=443 --type=LoadBalancer -n cattle-system
+```
+
+This time we exposed a new service on port `443` so it secures the connection and it also generates a self-signed certificate for us.
+
+See:
+
+{hl=5}
+```fish-shell
+$ kubectl get svc -n cattle-system
+NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+imperative-api-extension   ClusterIP      10.43.134.212   <none>        6666/TCP         2d
+rancher                    ClusterIP      10.43.151.31    <none>        80/TCP,443/TCP   2d
+rancher-lb                 LoadBalancer   10.43.118.11    10.1.2.101    443:31413/TCP    2d
+rancher-webhook            ClusterIP      10.43.38.150    <none>        443/TCP          2d
+```
+
+Excellent.
 
 # Storage
 
@@ -676,3 +735,6 @@ We need need to create a beautiful yaml file at /var
 [accompanying readme]: https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/Rancher-Deployment
 [Longhorn]: https://longhorn.io/
 [Rancher]: https://ranchermanager.docs.rancher.com/v2.6
+[let's install it]: https://helm.sh/docs/intro/install/
+[Helm]: https://helm.sh/
+[install cert-manager]: https://cert-manager.io/docs/installation/helm/
