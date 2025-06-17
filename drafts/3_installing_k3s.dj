@@ -98,7 +98,7 @@ There's some more setup we need to do before we can jump into the installation.
 
 1. [Add `cgroup` flags][part2_bootstrap]
 
-   Edit `/boot/firmware/cmdline.txt` and add:
+   Edit `/boot/firmware/cmdline.txt` and add this on the same line:
 
    {path="/boot/firmware/cmdline.txt"}
    ```

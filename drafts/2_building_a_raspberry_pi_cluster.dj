@@ -17,7 +17,7 @@ series = "kubernetes"
 
 # Hardware
 
-![My 6 Raspberry Pis](/images/kubernetes/pi_hanging.jpg)
+![My 6 Raspberry Pis, color coded with the kind of node it represents (yellow for masters, green for workers with `node-path` storage, and blue for the worker with Longhorn).](/images/kubernetes/pi_hanging.jpg)
 
 It's probably disappointing to hear that I didn't put a ton of thought into the hardware as I maybe should've.
 I emailed a little with Sergios Aftsidis who [did a more serious analysis](https://iamsafts.com/posts/rpi_k8s/part1_hardware/) and he recommended me to consider 1TB NVMe drives over 500GB for Longhorn, and at least the 8 GB versions of the Raspberry Pi 5.
@@ -35,7 +35,8 @@ I might spin up a node in my Proxmox server for that purpose but I haven't decid
 
 # Building a mini rack
 
-![My cute computers are hanging in a 3D printed mini rack.](/images/kubernetes/kube_rack_front.jpg)
+![My cute computers are hanging in a 3D printed mini rack.
+This picture contains an extra Raspberry Pi that I didn't use in the end.](/images/kubernetes/kube_rack_front.jpg)
 
 What actually sparked this side-quest of building a Kubernetes setup for my Homelab was watching Jeff Geerling's video [about the MINI RACK][].
 It's a totally silly reason but I like building neat looking things and a [MINI RACK][] would be a perfect way of cleaning up my Homelab devices scattered around the house.
@@ -49,7 +50,12 @@ To mount the Pis I used the [Server Mark III for Raspbery Pi 5][] model.
 They didn't fit the 10" rack perfectly and with the setup I went for I could squeeze a Raspberry Pi 4 there (mostly for looks).
 It's too tight to add a 7th Pi with an NVMe drive so I'm not really sure what to do with it but for now I'll let it hang around.
 
-TODO images on the power supply for the Pis
+![](/images/kubernetes/rack_side.jpg)
+
+![](/images/kubernetes/rack_back.jpg)
+
+![I moved the cluster into the storage space so I don't have to listen to the fans when the spin up.
+I should also make something for the router and switches lying around, perhaps integrate them into the minirack too?](/images/kubernetes/rack_on_shelf.jpg)
 
 [PNY CS2230 M.2 NVMe SSD 1TB]: https://www.inet.se/produkt/4305547/pny-cs2230-m-2-nvme-ssd-1tb
 [Server Mark III for Raspbery Pi 5]: https://www.printables.com/model/685991-raspberry-pi-server-mark-iii-for-raspbery-pi-5
