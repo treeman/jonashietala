@@ -208,6 +208,10 @@ kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 
 We need need to create a beautiful yaml file at /var
 
+# Backups
+
+<https://itnext.io/simple-backups-for-small-kubernetes-clusters-1203c835fd97?gi=396276fced65>
+
 [deploying Rancher]: https://www.youtube.com/watch?v=hT2_O2Yd_wE
 [accompanying readme]: https://github.com/JamesTurland/JimsGarage/tree/main/Kubernetes/Rancher-Deployment
 [Longhorn]: https://longhorn.io/
