@@ -316,10 +316,11 @@ truly_random() ->
 ```
 
 We now load the `librslib` library, declare `truly_random` as a NIF with `-nifs(..)` and add a function placeholder that will be replaced when the library loads.
-librs
-> Please note that we need to use the same name `librs` in both the Erlang module and in `rustler::init!`, otherwise `init()` will silently fail and you'll get an `undefined function` error.
+
+::: note
+Please note that we need to use the same name `librs` in both the Erlang module and in `rustler::init!`, otherwise `init()` will silently fail and you'll get an `undefined function` error.
 To tease out the error we can skip `on_load` and call `init()` manually from Gleam.
-{ :notice }
+:::
 
 With the Erlang code in place what's left is to call the Erlang function from Gleam:
 
