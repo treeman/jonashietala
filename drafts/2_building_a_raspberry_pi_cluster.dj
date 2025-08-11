@@ -33,29 +33,56 @@ I might spin up a node in my Proxmox server for that purpose but I haven't decid
 
 [Jellyfin]: https://jellyfin.org/
 
-# Building a mini rack
-
-![My cute computers are hanging in a 3D printed mini rack.
-This picture contains an extra Raspberry Pi that I didn't use in the end.](/images/kubernetes/kube_rack_front.jpg)
+# The MINI RACK
 
 What actually sparked this side-quest of building a Kubernetes setup for my Homelab was watching Jeff Geerling's video [about the MINI RACK][].
 It's a totally silly reason but I like building neat looking things and a [MINI RACK][] would be a perfect way of cleaning up my Homelab devices scattered around the house.
 
-Except that I built a rack for new devices... But that's a tale for another day.
+(Except that I built a rack for new devices... But that's a tale for another day.)
 
 I went searching and sure enough you [can 3D print the entire rack][3d-printed-rack]!
-Including the screws! (Although you have to be a little nuts to do that. Or lazy.)
+Including the screws! (Although you have to be a little nuts to do that.)
 
 To mount the Pis I used the [Server Mark III for Raspbery Pi 5][] model.
 They didn't fit the 10" rack perfectly and with the setup I went for I could squeeze a Raspberry Pi 4 there (mostly for looks).
-It's too tight to add a 7th Pi with an NVMe drive so I'm not really sure what to do with it but for now I'll let it hang around.
+It's too tight to add a 7th Pi with an NVMe drive so I'm not really sure what to do with it.
 
-![](/images/kubernetes/rack_side.jpg)
+![My cute computers are hanging in a 3D printed mini rack.
+This picture contains an extra Raspberry Pi that I didn't use in the end.](/images/kubernetes/kube_rack_front.jpg)
 
-![](/images/kubernetes/rack_back.jpg)
+Although the Pis have WIFI I bought a really cheap switch for the networking.
+It makes a bit more sense to do it over wiring and besides, it looks cooler this way.
 
-![I moved the cluster into the storage space so I don't have to listen to the fans when the spin up.
-I should also make something for the router and switches lying around, perhaps integrate them into the minirack too?](/images/kubernetes/rack_on_shelf.jpg)
+To power the devices I first bought a Satechi USB-C 200W GaN charger with 6 outputs.
+That was a mistake as the 2 rightmost ports only provide 20W of power, while the Pis may burst to 25W.
+It also cuts off power a short while when you plug in a new device, causing the other Pis to reboot...
+
+So I bought a bunch of regular chargers and found a 10" rack mounted power strip to mount them with:
+
+![The chargers powering the Raspberry Pis.](/images/kubernetes/rack_back.jpg)
+
+::: warn
+The chargers I bought are just slightly underpowered and I get this warning when I `ssh` to the devices:
+
+```
+This power supply is not capable of supplying 5A; power to peripherals
+will be restricted
+```
+
+It should hopefully not impact the normal operation but it means I can't power demanding things via the USB ports.
+:::
+
+There's a reason people mostly post pictures of the front of their racks.
+The rear is usually very ugly and messy, which is clear if you view it from the side:
+
+![The rack with the chargers is deeper than you'd think.](/images/kubernetes/rack_side.jpg)
+
+Meh. Out of sight out of mind.
+
+![I moved the cluster into the storage space next to my old homelab server and some random networking gear.
+](/images/kubernetes/rack_on_shelf.jpg)
+
+TODO power usage
 
 [PNY CS2230 M.2 NVMe SSD 1TB]: https://www.inet.se/produkt/4305547/pny-cs2230-m-2-nvme-ssd-1tb
 [Server Mark III for Raspbery Pi 5]: https://www.printables.com/model/685991-raspberry-pi-server-mark-iii-for-raspbery-pi-5
