@@ -34,7 +34,8 @@ preventing you from installing what _you_ want.
 (They claim it's "for security" but it's obvious they're doing this to protect their income stream. Apple takes a ridiculous 30% cut from all sales in their walled garden
 and Google hates the ability to strip out their ads.)
 
-I like the idea of a "dumb phone" but I unfortunately need and want apps on my phone (I consider banking apps, health tracking apps, authentication apps, and manga readers essential to surviving in the modern world).
+I like the idea of a "dumb phone" but I unfortunately need and want apps on my phone
+(I consider banking and authentication apps essential to surviving in the modern world, and sometimes you _must_ have an Android or iOS phone).
 A "degoogled" Android-compatible operating system is the answer I see, with [GrapheneOS][] as the exceptional standout.
 
 The big dragons recognize this as for example Samsung [removes bootloader unlocking][] and the [EU age verification app may ban Android systems not licensed by Google][].
