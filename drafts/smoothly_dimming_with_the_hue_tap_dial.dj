@@ -5,7 +5,7 @@ tags = ["Elixir", "Home automation"]
 
 TODO picture of the tap dial
 
-I recently bought a couple of [Hue Tap Dial][] switches to our house to enhance our smart home.
+I recently bought a couple of [Hue Tap Dial][] switches for our house to enhance our smart home.
 We have quite a few smart lights and I figured [the tap dial][Hue Tap Dial]---with it's multiple buttons and rotary dial---would be a good fit.
 
 Since I've been moving away from standard Home Assistant automations to [my own automation engine in Elixir][elixir_engine] I had to figure out how best to integrate the tap dial.
@@ -17,7 +17,7 @@ This post walks through how I set it all up and I'll end up with an example of h
 ::: tip
 In the [post about my automation engine][elixir_engine] I demonstrated how I controlled lights from Elixir via [Home Assistant][] states and actions.
 For the devices that supports it, it's better to communicate directly over [MQTT][] as you'll get better latency and more features.
-Since then I've converted over most of my automations to be based on [MQTT][].
+Since then I've converted over most of my automations to be [MQTT][] based.
 :::
 
 # The direct zigbee binding is good but not great
@@ -39,7 +39,7 @@ It works if my server is down, which is a huge plus for important functionality 
 That's _not_ the time you want to debug your homelab setup!
 
 The [Hue Tap Dial][] can be bound to lights with [Zigbee2MQTT][] and dimming the lights with the dial feels very smooth and nice.
-You can also use the dial to turn on and off the light, like a regular dimmer switch anywhere.
+You can also rotate the dial to turn on and off the light, like a normal dimmer switch.
 
 Unfortunately, if you want to bind the dimmer it also binds the hold of _all_ of the four buttons to turn off the light, practically blocking the hold functionality if you use direct binding.
 There's also no way to directly bind a button press to turn on or toggle the light---dimming and hold to turn off is what you get.
@@ -48,7 +48,7 @@ To add more functionality you have to use something external; a Hue Bridge or [H
 
 # Communicating with MQTT in Elixir
 
-The first thing we need to do is figure out how to receive MQTT messages and how to send updates to Zigbee devices.
+The first thing we need to do is figure out is how to receive MQTT messages and how to send updates to Zigbee devices.
 
 ::: note
 I use [Zigbee2MQTT][] as the Zigbee to MQTT bridge and [mosquitto][] as my MQTT server.
@@ -59,7 +59,7 @@ Messages may look different if you're using another setup.
 
 I found the [tortoise311][] library that implements an MQTT client and it was quite pleasant to use.
 
-First we'll start a `Tortoise311.Connection` in our Supervisor tree:
+First we'll start a `Tortoise311.Connection` in our main Supervisor tree:
 
 ```elixir
 {Tortoise311.Connection,
@@ -283,7 +283,7 @@ but I personally haven't found a good use-case for them.
 
 ::: note
 You might be able to utilize [Process.cancel_timer/2][] as an alternative to the [make_ref/0][] approach I'm using.
-In theory it's the better approach as you don't need to process "old" messages but {-I'm too lazy to rewrite it-} I leave that as an exercise to the reader.
+In theory I guess it's the better approach as you don't need to process obsolete messages but {-I'm too lazy to rewrite it-} I leave that as an exercise to the reader.
 :::
 
 # Dimming
@@ -383,7 +383,7 @@ I guess the only way to _really_ fix this is to bind the dial to the light direc
 One of the reasons I wanted a custom implementation was to be able to do other things with the rotary dial.
 
 For example, maybe I'd like to alter the hue of light by rotating?
-All we have to do is to set the hue instead of the brightness:
+All we have to do is set the hue instead of the brightness:
 
 ```elixir
 set(%{hue_step: step * 0.75, transition: 0.4})
@@ -401,8 +401,7 @@ rotate: fn step ->
 
   # Clamp volume to not accidentally set a very loud or silent volume.
   volume =
-    # HAStates stores the current states in memory whenever a state is changed,
-    # so we don't have to ask for it all the time.
+    # HAStates stores the current states in memory whenever a state is changed.
     (HAStates.get_attribute(kitchen_player_ha(), :volume_level, 0.2) + volume_step)
     |> Math.clamp(0.05, 0.6)
 
@@ -437,7 +436,7 @@ The window light isn't controlled by the tap dial and there are other automation
 I'm opting to use direct binding because of two reasons:
 
 1. Direct binding allows us to dim the light even if the smart home server is down.
-2. Despite my efforts, my dimming automation has some latency issues.
+2. Despite my efforts, the dimming automation has some latency issues.
 
 Even though it overrides the hold functionality I think direct binding for lights is the way to go.
 
