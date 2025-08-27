@@ -391,7 +391,28 @@ set(%{hue_step: step * 0.75, transition: 0.4})
 
 (This produces a very cool effect!)
 
-Other ideas include changing the volume or scrolling through scenes.
+Another idea is to change the volume by rotating.
+Here's the code that I use to control the volume of our kitchen speakers (via Home Assistant, not MQTT):
+
+```elixir
+rotate: fn step ->
+  # A step of 8 translates to a volume increase of 3%
+  volume_step = step / 8 * 3 / 100
+
+  # Clamp volume to not accidentally set a very loud or silent volume.
+  volume =
+    # HAStates stores the current states in memory whenever a state is changed,
+    # so we don't have to ask for it all the time.
+    (HAStates.get_attribute(kitchen_player_ha(), :volume_level, 0.2) + volume_step)
+    |> Math.clamp(0.05, 0.6)
+
+  # Calls the `media_player.volume_set` action.
+  MediaPlayer.set_volume(kitchen_player_ha(), volume)
+  # Prevents a possible race condition where we use the old volume level
+  # stored in memory for the next rotation.
+  HAStates.override_attribute(kitchen_player_ha(), :volume_level, volume)
+end
+```
 
 # A use-case: the boys bedroom
 
@@ -403,12 +424,13 @@ These are the lights we can control in the room:
 
 - A ceiling light with color ambiance
 - A window light with white ambiance
+- A floor lamp with white ambiance
 - Night lights for both Loke and Isidor, with color ambiance
-- A lava light for Loke, connected to a smart plug
+- A lava lamp for Loke, connected to a smart plug
 
 (Yes, I need to get a lava light for Isidor too. They're awesome!)
 
-The window light and lava lamp are on timers (in other automations) so I don't want to have manual controls for them but there's a lot we can do with the other lights.
+The window light isn't controlled by the tap dial and there are other automations that controls circadian lighting for most of the lights.
 
 ## Use Zigbee direct binding
 
@@ -426,12 +448,14 @@ These are the functions for the tap dial in the boys room:
 - *Rotate*: Dim brightness of ceiling light (direct binding)
 - *Hold any*: Turns off the ceiling light (direct binding)
 - *Click 1*: Toggle ceiling light on/off
-- *Double click 1*: Max brightness (cleaning mode), double click again to turn off
-- *Click 2*: Toggle Isidor's night light on/off
-- *Hold 2*: Loop through the hue of Isidor's night light
-- *Click 3*: Toggle Loke's night light on/off
-- *Hold 3*: Loop through the hue of Loke's night light
-- *Click 4*: Each click goes through different colors for the ceiling light
+- *Double click 1*: Toggle max brightness for ceiling light on/off
+- *Click 2*: Each click goes through different colors for the ceiling light 
+- *Click 3*: Toggle floor lamp on/off
+- *Double click 3*: Toggle Isidor's night light on/off
+- *Hold 3*: Loop through the hue of Isidor's night light
+- *Click 4*: Toggle Loke's lava lamp on/off
+- *Double click 4*: Toggle Loke's night light on/off
+- *Hold 4*: Loop through the hue of Loke's night light
 
 There's many different ways you can design the interactions and I may switch it up in the future, but for now this works well.
 
@@ -448,49 +472,61 @@ For example, here's how the tap dial in the boys room is defined:
 
 ```elixir
 TapDialController.start_link(
-  device: @tap_dial,
+  device: boys_room_tap_dial(),
   scene: 0,
+  rotate: fn _step ->
+    # This disables the existing circadian automation.
+    # I found that manually disabling it is more reliable than trying to
+    # detect external changes over MQTT as messages may be delayed and arrive out of order.
+    LightController.set_manual_override(boys_room_ceiling_light(), true)
+  end,
   button_1: %{
     click: fn ->
-      Mqtt.set(@ceiling_light, %{state: "TOGGLE"})
+      Mqtt.set(boys_room_ceiling_light(), %{state: "TOGGLE"})
     end,
     double_click: fn ->
       # This function compares the current light status and sets it to 100%
       # or reverts back to circadian lighting (if setup for the light).
-      HueLights.toggle_max_brightness(@ceiling_light)
+      HueLights.toggle_max_brightness(boys_room_ceiling_light())
     end
   },
   button_2: %{
-    click: fn ->
-      Mqtt.set(@isidor_sleep_light, %{state: "TOGGLE", brightness: 54})
-    end,
-    hold: fn ->
-      Mqtt.set(@isidor_sleep_light, %{hue_move: 40, color: %{saturation: 100}})
-    end,
-    hold_release: fn ->
-      Mqtt.set(@isidor_sleep_light, %{hue_move: 0})
-    end
-  },
-  button_3: %{
-    click: fn ->
-      Mqtt.set(@loke_sleep_light, %{state: "TOGGLE", brightness: 54})
-    end,
-    hold: fn ->
-      Mqtt.set(@loke_sleep_light, %{hue_move: 40, color: %{saturation: 100}})
-    end,
-    hold_release: fn ->
-      Mqtt.set(@loke_sleep_light, %{hue_move: 0})
-    end
-  },
-  button_4: %{
     click: fn state ->
       # The light controller normally uses circadian lighting to update
       # the light. Setting manual override pauses circadian lighting,
       # allowing us to manually control the light.
-      LightController.set_manual_override(@ceiling_light, true)
+      LightController.set_manual_override(boys_room_ceiling_light(), true)
       # This function steps through different light states for the ceiling light
       # (hue 0..300 with 60 intervals) and stores it in `state`.
       next_scene(state)
+    end
+  },
+  button_3: %{
+    click: fn ->
+      Mqtt.set(boys_room_floor_light(), %{state: "TOGGLE"})
+    end,
+    double_click: fn ->
+      Mqtt.set(isidor_sleep_light(), %{state: "TOGGLE"})
+    end,
+    hold: fn ->
+      Mqtt.set(isidor_sleep_light(), %{hue_move: 40, color: %{saturation: 100}})
+    end,
+    hold_release: fn ->
+      Mqtt.set(isidor_sleep_light(), %{hue_move: 0})
+    end
+  },
+  button_4: %{
+    click: fn ->
+      Mqtt.set(loke_lava_lamp(), %{state: "TOGGLE", brightness: 254})
+    end,
+    double_click: fn ->
+      Mqtt.set(loke_sleep_light(), %{state: "TOGGLE"})
+    end,
+    hold: fn ->
+      Mqtt.set(loke_sleep_light(), %{hue_move: 40, color: %{saturation: 100}})
+    end,
+    hold_release: fn ->
+      Mqtt.set(loke_sleep_light(), %{hue_move: 0})
     end
   }
 )
@@ -531,8 +567,8 @@ defmodule Haex.Mqtt.TapDialController do
   end
 
   @impl true
-  def handle_info({:mqtt, _topic, %{"action" => action}}, state) do
-    case parse_action(action) do
+  def handle_info({:mqtt, _topic, payload}, state) do
+    case parse_action(payload) do
       {:button, button, fun} ->
         # We specify handlers with `button_3: %{}` specs.
         case fetch_button_handler(button, state) do
@@ -544,17 +580,22 @@ defmodule Haex.Mqtt.TapDialController do
             {:noreply, state}
         end
 
+      {:rotate, step} ->
+        case fetch_rotate_handler(state) do
+          {:ok, cb} ->
+            call_handler(cb, step, state)
+
+          :not_found ->
+            {:noreply, state}
+        end
+
       :skip ->
         {:noreply, state}
     end
   end
 
-  def handle_info({:mqtt, _topic, _payload}, state) do
-    {:noreply, state}
-  end
-
   def handle_info({:execute_single_press, ref, cb}, state) do
-    # Rely on the same `make_ref()` to only execute the callback for the last action.
+    # Only execute the callback for the last action.
     if state[:click_ref] == ref do
       call_handler(cb, Map.delete(state, :click_ref))
     else
@@ -575,7 +616,7 @@ defmodule Haex.Mqtt.TapDialController do
             DateTime.diff(now, state[:last_press], :millisecond) < state.double_click_timeout
 
         if valid_double_click? do
-          # Execute a double click.
+          # Execute a double click immediately.
           state =
             state
             |> Map.delete(:last_press)
@@ -633,12 +674,47 @@ defmodule Haex.Mqtt.TapDialController do
         {:noreply, handler.(state)}
 
       x ->
-        Logger.error("Unsupported cb arity `#{x}` for #{state.device} tap dial")
+        Logger.error(
+          "Unsupported cb arity `#{x}` for #{state.device} tap dial expecting 0 or 1 args"
+        )
+
         {:noreply, state}
     end
   end
 
-  defp parse_action(action) do
+  defp call_handler(nil, _arg1, state) do
+    {:noreply, state}
+  end
+
+  defp call_handler(handler, arg1, state) do
+    case Function.info(handler)[:arity] do
+      1 ->
+        handler.(arg1)
+        {:noreply, state}
+
+      2 ->
+        {:noreply, handler.(arg1, state)}
+
+      x ->
+        Logger.error(
+          "Unsupported cb arity `#{x}` for #{state.device} tap dial  expecting 1 or 2 args"
+        )
+
+        {:noreply, state}
+    end
+  end
+
+  defp parse_action(%{"action" => "brightness_step_" <> dir, "action_step_size" => step}) do
+    step =
+      case dir do
+        "up" -> step
+        "down" -> -step
+      end
+
+    {:rotate, step}
+  end
+
+  defp parse_action(%{"action" => action}) do
     case Regex.run(~r/button_(\d)_(\w+)/, action, capture: :all_but_first) do
       [button, "press_release"] ->
         {:button, String.to_integer(button), &handle_press_release/2}
@@ -654,6 +730,11 @@ defmodule Haex.Mqtt.TapDialController do
     end
   end
 
+  defp parse_action(_action) do
+    Logger.debug("Skip fallback tap dial action: #{inspect(action)}")
+    :skip
+  end
+
   defp fetch_button_handler(button, state) do
     spec = state["button_#{button}" |> String.to_atom()]
 
@@ -663,10 +744,16 @@ defmodule Haex.Mqtt.TapDialController do
       :not_found
     end
   end
+
+  defp fetch_rotate_handler(state) do
+    if spec = state[:rotate] do
+      {:ok, spec}
+    else
+      :not_found
+    end
+  end
 end
 ```
-
-
 
 [Phoenix PubSub]: https://hexdocs.pm/phoenix_pubsub/Phoenix.PubSub.html
 [elixir_engine]: /blog/2024/10/08/writing_home_assistant_automations_using_genservers_in_elixir/
