@@ -1,5 +1,5 @@
 ---toml
-title = "GrapheneOS is awesome"
+title = "I'll only buy devices with GrapheneOS"
 tags = ["GrapheneOS"]
 ---
 
@@ -35,7 +35,7 @@ preventing you from installing what _you_ want.
 and Google hates the ability to strip out their ads.)
 
 I like the idea of a "dumb phone" but I unfortunately need and want apps on my phone
-(I consider banking and authentication apps essential to surviving in the modern world, and sometimes you _must_ have an Android or iOS phone).
+(I consider banking and authentication apps essential to surviving in the modern world, and sometimes you _must_ run an Android or iOS app).
 A "degoogled" Android-compatible operating system is the answer I see, with [GrapheneOS][] as the exceptional standout.
 
 The big dragons recognize this as for example Samsung [removes bootloader unlocking][] and the [EU age verification app may ban Android systems not licensed by Google][].
@@ -174,7 +174,7 @@ Shocking.
 :::
 
 With the right software your device works for you, not against you.
-It's not a lot to ask for, yet in the modern day that's very rare indeed, and it's why I'll only be buying devices supported by [GrapheneOS][] for the foreseeable future.
+It's not a lot to ask for, yet in the modern day that's very rare indeed, and it's why I'll only be buying mobile devices supported by [GrapheneOS][] for the foreseeable future.
 
 [LineageOS]: https://www.lineageos.org/
 [GrapheneOS]: https://grapheneos.org/
