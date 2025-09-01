@@ -3,7 +3,7 @@ title = "Automating the Hue Tap Dial Switch in Elixir via MQTT"
 tags = ["Elixir", "Home automation"]
 ---
 
-TODO picture of the tap dial
+![](/images/hue_tap_dial.jpg)
 
 I recently bought a couple of [Hue Tap Dial][] switches for our house to enhance our smart home.
 We have quite a few smart lights and I figured [the tap dial][Hue Tap Dial]---with it's multiple buttons and rotary dial---would be a good fit.
@@ -448,7 +448,7 @@ These are the functions for the tap dial in the boys room:
 - *Hold any*: Turns off the ceiling light (direct binding)
 - *Click 1*: Toggle ceiling light on/off
 - *Double click 1*: Toggle max brightness for ceiling light on/off
-- *Click 2*: Each click goes through different colors for the ceiling light 
+- *Click 2*: Each click goes through different colors for the ceiling light
 - *Click 3*: Toggle floor lamp on/off
 - *Double click 3*: Toggle Isidor's night light on/off
 - *Hold 3*: Loop through the hue of Isidor's night light
