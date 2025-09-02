@@ -49,6 +49,10 @@ article.post {
     margin-block-start: var(--space-2xs);
   }
 
+  header {
+    @include overflow-bleed-right;
+  }
+
   header > h2.series {
     @include large-link-underline-highlight(var(--color-highlight-series));
     margin-block-end: var(--space-xs);

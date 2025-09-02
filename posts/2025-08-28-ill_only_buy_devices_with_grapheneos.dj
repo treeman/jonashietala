@@ -1,6 +1,7 @@
 ---toml
 title = "I'll only buy devices with GrapheneOS"
 tags = ["GrapheneOS"]
+favorite = true
 ---
 
 ::: epigraph
@@ -139,12 +140,20 @@ If I only looked at hardware I might have gotten the [Fairphone 5][] as I like t
 I also like the idea of a smaller phone and a Flip phone would've been great.
 Or maybe a really cheap phone (or tablet) as I don't care that much about performance and could save some money.
 
-But alas, [GrapheneOS][] only support Pixel devices (for now).
+But alas, [GrapheneOS][] only support Pixel devices ([for now][]).
 There's a handful of phones to choose from but only a single tablet.
 
 I guess the best way to degoogle right now is to buy from Google...
 So I got the Pixel 9a for myself and the Pixel Tablet for our family.
 (Admittedly, they've been pretty great.)
+
+{date="2025-09-02"}
+::: update
+GrapheneOS supports so few devices because there's simply so few devices that are both highly secure and support alternate operating systems.
+Some of these requirements are [outlined in their FAQ][] and it's an illuminating read.
+
+Fairphone for example [significantly lagg behind on security updates][] (among other things).
+:::
 
 # Software is more important than hardware
 
@@ -195,3 +204,6 @@ It's not a lot to ask for, yet in the modern day that's very rare indeed, and it
 [EU age verification app may ban Android systems not licensed by Google]: https://www.reddit.com/r/degoogle/comments/1mau7yl/eu_age_verification_app_to_ban_any_android_system/?share_id=iR05aexja3cz3w-ITsqz1
 [Fairphone 4]: https://shop.fairphone.com/fairphone-4
 [shoves ads into their wallet app]: https://daringfireball.net/2025/06/more_on_apples_trust-eroding_f1_the_movie_wallet_ad
+[for now]: https://grapheneos.social/@GrapheneOS/115102564799343519
+[outlined in their FAQ]: https://grapheneos.org/faq#future-devices
+[significantly lagg behind on security updates]: https://discuss.grapheneos.org/d/24134-devices-lacking-standard-privacysecurity-patches-and-protections-arent-private
