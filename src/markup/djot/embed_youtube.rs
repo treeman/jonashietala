@@ -32,7 +32,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedYoutube<'a, I> {
         };
 
         let text = match self.parent.peek()? {
-            Event::Str(ref text) => text,
+            Event::Str(text) => text,
             _ => return Some(start),
         };
 
@@ -60,7 +60,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedYoutube<'a, I> {
 mod tests {
     use super::*;
     use eyre::Result;
-    use jotdown::{html, Parser, Render};
+    use jotdown::{Parser, Render, html};
 
     fn convert(s: &str, embed_thumbnail: bool) -> Result<String> {
         let parser = Parser::new(s);
@@ -94,7 +94,7 @@ http://www.youtube.com/watch?v=eoKDyhxCVm0
 After";
         assert_eq!(
             convert(s, false)?.trim_end(),
-"<p>Before</p>\n<a href=\"https://www.youtube.com/watch?v=eoKDyhxCVm0\">https://www.youtube.com/watch?v=eoKDyhxCVm0</a>\n<p>After</p>"
+            "<p>Before</p>\n<a href=\"https://www.youtube.com/watch?v=eoKDyhxCVm0\">https://www.youtube.com/watch?v=eoKDyhxCVm0</a>\n<p>After</p>"
         );
 
         Ok(())

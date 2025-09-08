@@ -169,11 +169,11 @@ pub struct ConstantInfo {
     pub url: String,
 }
 
-#[derive(Debug, Serialize)]
-pub struct UrlInfo {
-    pub title: String,
-    pub url: String,
-}
+// #[derive(Debug, Serialize)]
+// pub struct UrlInfo {
+//     pub title: String,
+//     pub url: String,
+// }
 
 #[derive(Debug, Serialize, PartialEq, Eq, Clone)]
 pub struct SeriesInfo {

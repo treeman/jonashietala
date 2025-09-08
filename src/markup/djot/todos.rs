@@ -1,5 +1,5 @@
-use crate::markup::markup_lookup::{Element, MarkupLookup, TodoTag};
 use crate::markup::ParseContext;
+use crate::markup::markup_lookup::{Element, MarkupLookup, TodoTag};
 use jotdown::{Attributes, Container, Event};
 use std::cell::RefCell;
 use std::iter::Peekable;
@@ -38,7 +38,7 @@ impl<'a, I: Iterator<Item = (Event<'a>, Range<usize>)>> Iterator for TransformTo
         };
 
         let (text, text_range) = match self.parent.peek()? {
-            (Event::Str(ref text), range) => (text.to_string(), range.clone()),
+            (Event::Str(text), range) => (text.to_string(), range.clone()),
             _ => return Some(start),
         };
 
@@ -108,7 +108,7 @@ mod tests {
     use super::*;
     use crate::markup::markup_lookup::{Element, ElementLookup, PosRange, TodoTag};
     use eyre::Result;
-    use jotdown::{html, Parser, Render};
+    use jotdown::{Parser, Render, html};
 
     fn convert(s: &str) -> Result<(String, MarkupLookup)> {
         let lookup = Rc::new(RefCell::new(MarkupLookup::new(s, 0)));

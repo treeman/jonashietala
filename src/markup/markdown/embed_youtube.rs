@@ -26,7 +26,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedYoutube<'a, I> {
         };
 
         let text = match self.parent.peek()? {
-            Event::Text(ref text) => text,
+            Event::Text(text) => text,
             _ => return Some(start),
         };
 
@@ -50,7 +50,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for EmbedYoutube<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use pulldown_cmark::{html, Options, Parser};
+    use pulldown_cmark::{Options, Parser, html};
 
     fn convert(s: &str, embed_thumbnail: bool) -> String {
         let parser = Parser::new_ext(s, Options::all());
@@ -82,7 +82,7 @@ http://www.youtube.com/watch?v=eoKDyhxCVm0
 After";
         assert_eq!(
             convert(s, false).trim_end(),
-"<p>Before</p>\n<a href=\"https://www.youtube.com/watch?v=eoKDyhxCVm0\">https://www.youtube.com/watch?v=eoKDyhxCVm0</a>\n<p>After</p>"
+            "<p>Before</p>\n<a href=\"https://www.youtube.com/watch?v=eoKDyhxCVm0\">https://www.youtube.com/watch?v=eoKDyhxCVm0</a>\n<p>After</p>"
         );
     }
 }

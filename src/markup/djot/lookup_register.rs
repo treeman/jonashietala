@@ -1,8 +1,8 @@
+use crate::markup::MarkupLookup;
+use crate::markup::ParseContext;
 use crate::markup::markup_lookup::{
     Element, Heading, Img, ImgRef, Link, LinkDef, LinkRef, RawElementLookup,
 };
-use crate::markup::MarkupLookup;
-use crate::markup::ParseContext;
 use jotdown::{Container, Event, LinkType, SpanLinkType};
 use std::cell::RefCell;
 use std::ops::Range;
@@ -238,7 +238,7 @@ mod tests {
     use crate::markup::markup_lookup::{ElementLookup, HeadingLookup, LinkDefLookup, PosRange};
     use jotdown::Parser;
 
-    fn gen(s: &str) -> MarkupLookup {
+    fn generate(s: &str) -> MarkupLookup {
         let lookup = Rc::new(RefCell::new(MarkupLookup::new(s, 0)));
         let parser = Parser::new(s).into_offset_iter();
         let transformed = LookupRegister::new(parser, s, lookup.clone(), ParseContext::default());
@@ -248,9 +248,11 @@ mod tests {
 
     #[test]
     fn test_heading_lookup() {
-        let lookup = gen("# h1 (x)
+        let lookup = generate(
+            "# h1 (x)
 
-text");
+text",
+        );
         let heading = Heading {
             id: "h1-x".into(),
             level: 1,
@@ -279,7 +281,7 @@ text");
 
     #[test]
     fn test_inline_link_lookup() {
-        let lookup = gen("before [text here](/url) after");
+        let lookup = generate("before [text here](/url) after");
 
         let element = ElementLookup {
             element: Element::Link(Link {
@@ -296,7 +298,7 @@ text");
 
     #[test]
     fn test_unresolved_link_lookup() {
-        let lookup = gen("before [text here][tag] after");
+        let lookup = generate("before [text here][tag] after");
 
         assert_eq!(
             lookup.at_pos(7),
@@ -312,9 +314,11 @@ text");
 
     #[test]
     fn test_explicit_ref_link_lookup() {
-        let lookup = gen("[text here][tag]
+        let lookup = generate(
+            "[text here][tag]
 
-[tag]: /url");
+[tag]: /url",
+        );
 
         assert_eq!(
             lookup.at_pos(7),
@@ -356,9 +360,11 @@ text");
 
     #[test]
     fn test_collapsed_ref_link_lookup() {
-        let lookup = gen("[tag][]
+        let lookup = generate(
+            "[tag][]
 
-[tag]: /url");
+[tag]: /url",
+        );
 
         assert_eq!(
             lookup.at_pos(2),
@@ -400,7 +406,7 @@ text");
 
     #[test]
     fn test_inline_img_lookup() {
-        let lookup = gen("![img text](/img.png)");
+        let lookup = generate("![img text](/img.png)");
 
         assert_eq!(
             lookup.at_pos(0),
@@ -418,7 +424,7 @@ text");
 
     #[test]
     fn test_unresolved_img_lookup() {
-        let lookup = gen("![text here][tag]");
+        let lookup = generate("![text here][tag]");
 
         assert_eq!(
             lookup.at_pos(0),
@@ -434,9 +440,11 @@ text");
 
     #[test]
     fn test_explicit_ref_img_lookup() {
-        let lookup = gen("![text here][tag]
+        let lookup = generate(
+            "![text here][tag]
 
-[tag]: /img.png");
+[tag]: /img.png",
+        );
 
         assert_eq!(
             lookup.at_pos(0),

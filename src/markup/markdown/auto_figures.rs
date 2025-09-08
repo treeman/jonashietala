@@ -1,8 +1,8 @@
 use itertools::{Itertools, MultiPeek};
-use pulldown_cmark::{html::push_html, Event, Tag, TagEnd};
+use pulldown_cmark::{Event, Tag, TagEnd, html::push_html};
 use tracing::warn;
 
-use crate::markup::markdown::attrs::{parse_attrs, Attrs};
+use crate::markup::markdown::attrs::{Attrs, parse_attrs};
 use crate::markup::markdown::html::{Figure, Img};
 
 pub struct AutoFigures<'a, I: Iterator<Item = Event<'a>>> {
@@ -44,7 +44,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
         match self.parent.peek()? {
             Event::End(TagEnd::Paragraph) => {}
             // Capture an optional { width=600px } tag
-            Event::Text(ref text) => {
+            Event::Text(text) => {
                 if let Some(parsed_attrs) =
                     parse_attrs(text).expect("Should be able to parse attrs")
                 {
@@ -117,7 +117,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for AutoFigures<'a, I> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use pulldown_cmark::{html, Options, Parser};
+    use pulldown_cmark::{Options, Parser, html};
 
     fn convert(s: &str) -> String {
         let parser = Parser::new_ext(s, Options::all());

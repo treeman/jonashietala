@@ -37,7 +37,7 @@ pub fn markdown_to_html_feed(markdown: &str) -> FeedHtml {
     FeedHtml(parse_markdown_to_feed(&preprocess(markdown)))
 }
 
-fn preprocess(s: &str) -> Cow<str> {
+fn preprocess(s: &str) -> Cow<'_, str> {
     parse_fenced_blocks(s)
 }
 

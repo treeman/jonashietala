@@ -25,9 +25,9 @@ use futures::future::join_all;
 use lazy_static::lazy_static;
 use paths::AbsPath;
 use reqwest::Client;
-use s3::creds::Credentials;
 use s3::Bucket;
 use s3::Region;
+use s3::creds::Credentials;
 use site::{Site, SiteOptions};
 use std::collections::HashSet;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
@@ -180,7 +180,7 @@ async fn check_external_links() -> Result<()> {
     let mut links = HashSet::new();
     for file in files.values() {
         for link in file.links.iter() {
-            if let HrefUrl::External(ref url) = link {
+            if let HrefUrl::External(url) = link {
                 if url.scheme() != "mailto" {
                     links.insert(url);
                 }
@@ -188,7 +188,7 @@ async fn check_external_links() -> Result<()> {
         }
 
         for link in file.imgs.iter() {
-            if let ImgUrl::External(ref url) = link {
+            if let ImgUrl::External(url) = link {
                 links.insert(url);
             }
         }

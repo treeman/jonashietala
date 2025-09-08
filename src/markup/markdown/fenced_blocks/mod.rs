@@ -26,7 +26,7 @@ lazy_static! {
     .unwrap();
 }
 
-pub fn parse_fenced_blocks(s: &str) -> Cow<str> {
+pub fn parse_fenced_blocks(s: &str) -> Cow<'_, str> {
     BLOCK.replace_all(s, |caps: &Captures| -> String {
         parse_block(
             caps.name("id").unwrap().as_str(),

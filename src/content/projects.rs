@@ -177,7 +177,7 @@ impl Project {
         })
     }
 
-    pub fn id(&self) -> Cow<str> {
+    pub fn id(&self) -> Cow<'_, str> {
         Cow::Borrowed(self.title.as_str())
     }
 
@@ -314,7 +314,7 @@ impl Game {
         })
     }
 
-    pub fn id(&self) -> Cow<str> {
+    pub fn id(&self) -> Cow<'_, str> {
         Cow::Borrowed(self.title.as_str())
     }
 

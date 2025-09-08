@@ -2,7 +2,7 @@
 
 use crate::site::BASE_SITE_URL;
 use camino::{Utf8Path, Utf8PathBuf};
-use eyre::{eyre, Result};
+use eyre::{Result, eyre};
 use std::borrow::Cow;
 use url::Url;
 
@@ -64,7 +64,7 @@ impl SiteUrl {
         self.url.path()
     }
 
-    pub fn href(&self) -> Cow<str> {
+    pub fn href(&self) -> Cow<'_, str> {
         let stripped = self
             .url
             .as_str()

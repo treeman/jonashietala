@@ -17,7 +17,7 @@ pub trait Item: Send + Sync + Debug {
 
     fn source_file(&self) -> Option<&AbsPath>;
 
-    fn id(&self) -> Cow<str> {
+    fn id(&self) -> Cow<'_, str> {
         self.url().href()
     }
 }

@@ -1,12 +1,12 @@
 use camino::Utf8Path;
 use eyre::Result;
 use git2::Repository;
+use hotwatch::Event;
+use hotwatch::EventKind;
 use hotwatch::notify::event::AccessKind;
 use hotwatch::notify::event::AccessMode;
 use hotwatch::notify::event::ModifyKind;
 use hotwatch::notify::event::RenameMode;
-use hotwatch::Event;
-use hotwatch::EventKind;
 use lazy_static::lazy_static;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use serde::Serialize;
@@ -24,12 +24,12 @@ use tokio::sync::broadcast::Sender;
 use tracing::{debug, error, info, warn};
 use url::Url;
 
-use crate::content::load_series;
-use crate::content::set_post_prev_next;
 use crate::content::PostRef;
 use crate::content::SeriesArchiveItem;
 use crate::content::SeriesItem;
 use crate::content::SeriesRef;
+use crate::content::load_series;
+use crate::content::set_post_prev_next;
 use crate::context::LoadContext;
 use crate::feed::SiteFeed;
 use crate::git::LatestCommits;
@@ -44,8 +44,8 @@ use crate::server::diagnostics;
 use crate::server::messages::{NeovimResponse, WebEvent};
 use crate::{
     content::{
-        load_posts, load_standalones, post_archives, tags_archives, ArchiveItem, HomepageItem,
-        JsItem, PostItem, ProjectsItem, SassItem, StandaloneItem, Tag, TagListItem,
+        ArchiveItem, HomepageItem, JsItem, PostItem, ProjectsItem, SassItem, StandaloneItem, Tag,
+        TagListItem, load_posts, load_standalones, post_archives, tags_archives,
     },
     context::RenderContext,
     site_url::SiteUrl,
@@ -154,10 +154,10 @@ impl SiteContent {
 
     pub fn insert_post(&mut self, post: PostItem) -> Option<PostItem> {
         let post_ref = post.post_ref();
-        if post.is_draft {
-            if let Some(drafts) = self.drafts.as_mut() {
-                drafts.insert(post_ref.clone());
-            }
+        if post.is_draft
+            && let Some(drafts) = self.drafts.as_mut()
+        {
+            drafts.insert(post_ref.clone());
         }
         let prev_post = self.posts.insert(post_ref.clone(), post);
         set_post_prev_next(&mut self.posts);
@@ -558,7 +558,7 @@ impl Site {
         Ok(())
     }
 
-    fn render_ctx(&self) -> RenderContext {
+    fn render_ctx(&self) -> RenderContext<'_> {
         RenderContext {
             parent_context: &self.context,
             tera: &self.templates,
@@ -567,7 +567,7 @@ impl Site {
         }
     }
 
-    fn load_ctx(&self) -> LoadContext {
+    fn load_ctx(&self) -> LoadContext<'_> {
         LoadContext {
             opts: &self.opts,
             latest_commits: &self.latest_commits,
@@ -730,16 +730,16 @@ impl Site {
             if prev_post.series != updated.series {
                 // Series was changed...
                 // 1. Remove post from previous series
-                if let Some(ref series_ref) = prev_post.series {
-                    if let Some(series) = self.content.series.get_mut(series_ref) {
-                        series.posts.remove(&Reverse(prev_post.post_ref()));
-                    }
+                if let Some(ref series_ref) = prev_post.series
+                    && let Some(series) = self.content.series.get_mut(series_ref)
+                {
+                    series.posts.remove(&Reverse(prev_post.post_ref()));
                 }
                 // 2. Add post to series
-                if let Some(series_ref) = &updated.series {
-                    if let Some(series) = self.content.series.get_mut(series_ref) {
-                        series.posts.insert(Reverse(post_ref.clone()));
-                    }
+                if let Some(series_ref) = &updated.series
+                    && let Some(series) = self.content.series.get_mut(series_ref)
+                {
+                    series.posts.insert(Reverse(post_ref.clone()));
                 }
                 // 3. Update series ref in `self` ?
             }
@@ -991,10 +991,10 @@ impl Site {
         if let Some(x) = self.content.find_standalone_by_path(path) {
             return Some(Cow::Borrowed(x.url()));
         }
-        if let Ok(file_path) = self.file_path(path) {
-            if file_path.rel_path.0.starts_with("projects") {
-                return Some(Cow::Owned(ProjectsItem::url()));
-            }
+        if let Ok(file_path) = self.file_path(path)
+            && file_path.rel_path.0.starts_with("projects")
+        {
+            return Some(Cow::Owned(ProjectsItem::url()));
         }
         // TODO should support images, fonts, css, js
         None
@@ -1096,7 +1096,7 @@ mod tests {
     use super::*;
     use crate::item::TeraItem;
     use crate::tests::*;
-    use crate::util::{parse_html_files, ParsedFiles};
+    use crate::util::{ParsedFiles, parse_html_files};
     use camino::Utf8Path;
     use camino::Utf8PathBuf;
     use colored::Colorize;
@@ -1207,16 +1207,20 @@ mod tests {
         assert!(!test_site.output_path("drafts/a_draft/index.html").exists());
         assert!(!test_site.output_path("hidden/index.html").exists());
 
-        assert!(!test_site
-            .read_file_to_string("index.html")?
-            .contains("Drafts"));
+        assert!(
+            !test_site
+                .read_file_to_string("index.html")?
+                .contains("Drafts")
+        );
 
-        assert!(!test_site
-            .find_post("2022-01-31-test_post.dj")
-            .unwrap()
-            .markup
-            .content()
-            .contains("Drafts"));
+        assert!(
+            !test_site
+                .find_post("2022-01-31-test_post.dj")
+                .unwrap()
+                .markup
+                .content()
+                .contains("Drafts")
+        );
 
         Ok(())
     }
@@ -1228,9 +1232,11 @@ mod tests {
         }
         .build()?;
 
-        assert!(test_site
-            .find_post("posts/2023-01-31-new_post.markdown")
-            .is_none());
+        assert!(
+            test_site
+                .find_post("posts/2023-01-31-new_post.markdown")
+                .is_none()
+        );
 
         test_site.create_file(
             "posts/2023-01-31-new_post.markdown",
@@ -1244,12 +1250,14 @@ My created post
 "#,
         )?;
 
-        assert!(test_site
-            .find_post("2023-01-31-new_post.markdown")
-            .unwrap()
-            .markup
-            .content()
-            .contains("My created post"));
+        assert!(
+            test_site
+                .find_post("2023-01-31-new_post.markdown")
+                .unwrap()
+                .markup
+                .content()
+                .contains("My created post")
+        );
 
         let homepage = test_site.output_content("index.html")?;
         assert!(homepage.contains("New post title"));
@@ -1266,12 +1274,16 @@ My created draft
 "#,
         )?;
 
-        assert!(test_site
-            .output_content("drafts/index.html")?
-            .contains("New draft title"));
-        assert!(test_site
-            .output_content("drafts/my_draft/index.html")?
-            .contains("My created draft"));
+        assert!(
+            test_site
+                .output_content("drafts/index.html")?
+                .contains("New draft title")
+        );
+        assert!(
+            test_site
+                .output_content("drafts/my_draft/index.html")?
+                .contains("My created draft")
+        );
 
         test_site.create_file(
             "standalone/my_static.markdown",
@@ -1322,13 +1334,17 @@ My created static
 
         test_site.rename_file("drafts/new_draft.dj", "posts/2023-01-31-now_post.dj")?;
 
-        assert!(test_site
-            .output_content("drafts/new_draft/index.html")
-            .is_err());
+        assert!(
+            test_site
+                .output_content("drafts/new_draft/index.html")
+                .is_err()
+        );
 
-        assert!(test_site
-            .output_content("blog/2023/01/31/now_post/index.html")
-            .is_ok());
+        assert!(
+            test_site
+                .output_content("blog/2023/01/31/now_post/index.html")
+                .is_ok()
+        );
 
         Ok(())
     }
@@ -1342,19 +1358,25 @@ My created static
 
         test_site.create_test_file("posts/2022-01-31-post_to_demote.dj")?;
 
-        assert!(test_site
-            .output_content("blog/2022/01/31/post_to_demote/index.html")
-            .is_ok());
+        assert!(
+            test_site
+                .output_content("blog/2022/01/31/post_to_demote/index.html")
+                .is_ok()
+        );
 
         test_site.rename_file("posts/2022-01-31-post_to_demote.dj", "drafts/demoted.dj")?;
 
-        assert!(test_site
-            .output_content("blog/2022/01/31/post_to_demote/index.html")
-            .is_err());
+        assert!(
+            test_site
+                .output_content("blog/2022/01/31/post_to_demote/index.html")
+                .is_err()
+        );
 
-        assert!(test_site
-            .output_content("drafts/demoted/index.html")
-            .is_ok());
+        assert!(
+            test_site
+                .output_content("drafts/demoted/index.html")
+                .is_ok()
+        );
 
         Ok(())
     }
@@ -1366,21 +1388,25 @@ My created static
         }
         .build()?;
 
-        assert!(test_site
-            .find_post("2022-01-31-test_post.dj")
-            .unwrap()
-            .markup
-            .content()
-            .contains("☃︎"));
+        assert!(
+            test_site
+                .find_post("2022-01-31-test_post.dj")
+                .unwrap()
+                .markup
+                .content()
+                .contains("☃︎")
+        );
 
         test_site.change_file("posts/2022-01-31-test_post.dj", "☃︎", "💩")?;
 
-        assert!(test_site
-            .find_post("2022-01-31-test_post.dj")
-            .unwrap()
-            .markup
-            .content()
-            .contains('💩'));
+        assert!(
+            test_site
+                .find_post("2022-01-31-test_post.dj")
+                .unwrap()
+                .markup
+                .content()
+                .contains('💩')
+        );
 
         Ok(())
     }
@@ -1392,15 +1418,19 @@ My created static
         }
         .build()?;
 
-        assert!(test_site
-            .output_content("drafts/a_draft/index.html")?
-            .contains("My draft text"));
+        assert!(
+            test_site
+                .output_content("drafts/a_draft/index.html")?
+                .contains("My draft text")
+        );
 
         test_site.change_file("drafts/a_draft.markdown", "My draft text", "DRAFT TEXT")?;
 
-        assert!(test_site
-            .output_content("drafts/a_draft/index.html")?
-            .contains("DRAFT TEXT"));
+        assert!(
+            test_site
+                .output_content("drafts/a_draft/index.html")?
+                .contains("DRAFT TEXT")
+        );
 
         Ok(())
     }
@@ -1424,9 +1454,11 @@ My created static
             "First series post",
         )?;
 
-        assert!(test_site
-            .output_content("archive/index.html")?
-            .contains("First series post"));
+        assert!(
+            test_site
+                .output_content("archive/index.html")?
+                .contains("First series post")
+        );
 
         let myseries_content = test_site.output_content("series/myseries/index.html")?;
         assert!(!myseries_content.contains("Feb post 1"));
@@ -1457,15 +1489,21 @@ My new series
         )?;
 
         // Can render even without a post.
-        assert!(test_site
-            .output_content("series/index.html")?
-            .contains("New series"));
-        assert!(test_site
-            .output_content("series/new_series/index.html")?
-            .contains("New series"));
-        assert!(test_site
-            .output_content("index.html")?
-            .contains("New series"));
+        assert!(
+            test_site
+                .output_content("series/index.html")?
+                .contains("New series")
+        );
+        assert!(
+            test_site
+                .output_content("series/new_series/index.html")?
+                .contains("New series")
+        );
+        assert!(
+            test_site
+                .output_content("index.html")?
+                .contains("New series")
+        );
 
         // Create a new post with series.
         test_site.create_file(
@@ -1480,15 +1518,21 @@ My new series post
 "#,
         )?;
 
-        assert!(test_site
-            .output_content("series/new_series/index.html")?
-            .contains("New post in series"));
-        assert!(test_site
-            .output_content("blog/2024/04/26/series_post/index.html")?
-            .contains("New series"));
-        assert!(test_site
-            .output_content("series/index.html")?
-            .contains("blog/2024/04/26/series_post"));
+        assert!(
+            test_site
+                .output_content("series/new_series/index.html")?
+                .contains("New post in series")
+        );
+        assert!(
+            test_site
+                .output_content("blog/2024/04/26/series_post/index.html")?
+                .contains("New series")
+        );
+        assert!(
+            test_site
+                .output_content("series/index.html")?
+                .contains("blog/2024/04/26/series_post")
+        );
 
         // Remove post removes it from series.
         //
@@ -1506,27 +1550,39 @@ My new series post
         }
         .build()?;
 
-        assert!(test_site
-            .output_content("series/index.html")?
-            .contains("My series"));
-        assert!(test_site
-            .output_content("blog/2022/02/01/feb_post/index.html")?
-            .contains("My series"));
-        assert!(test_site
-            .output_content("blog/2022/02/02/feb_post2/index.html")?
-            .contains("My series"));
+        assert!(
+            test_site
+                .output_content("series/index.html")?
+                .contains("My series")
+        );
+        assert!(
+            test_site
+                .output_content("blog/2022/02/01/feb_post/index.html")?
+                .contains("My series")
+        );
+        assert!(
+            test_site
+                .output_content("blog/2022/02/02/feb_post2/index.html")?
+                .contains("My series")
+        );
 
         test_site.change_file("series/myseries.dj", "My series", "New series title")?;
 
-        assert!(test_site
-            .output_content("series/index.html")?
-            .contains("New series title"));
-        assert!(test_site
-            .output_content("blog/2022/02/01/feb_post/index.html")?
-            .contains("New series title"));
-        assert!(test_site
-            .output_content("blog/2022/02/02/feb_post2/index.html")?
-            .contains("New series title"));
+        assert!(
+            test_site
+                .output_content("series/index.html")?
+                .contains("New series title")
+        );
+        assert!(
+            test_site
+                .output_content("blog/2022/02/01/feb_post/index.html")?
+                .contains("New series title")
+        );
+        assert!(
+            test_site
+                .output_content("blog/2022/02/02/feb_post2/index.html")?
+                .contains("New series title")
+        );
 
         Ok(())
     }
