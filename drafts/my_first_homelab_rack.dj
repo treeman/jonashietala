@@ -1,0 +1,37 @@
+---toml
+title = "My first homelab rack"
+tags = ["Some tag"]
+---
+
+# What I had
+
+# What I bought
+
+* Rack <https://www.dustinhome.se/product/5010977470/12u-adjustable-depth-open-frame-4-post-server-rack>
+  ~3.5k
+* Server case <https://www.density.sk/cx3702-rackmount-case-3u/> + rails?
+  ~5k
+* Motherboard <https://www.asrock.com/MB/Intel/B760M%20Pro%20RS/index.asp>
+  ~1k
+* CPU
+  ~1.5k
+* RAM
+  ~2k
+* SFX or SFX-L PSU
+  ~1.5k
+* CPU fan <https://noctua.at/en/nh-d9l>
+* Case cooling fan <https://noctua.at/en/nf-a12x25-pwm>
+  fans: ~1k
+
+Total: 3.5+5+1+1.5+2+1.5+1 = 15.5k (!!)
+
+Also need some rack shelves...
+
+# My needs/wants
+
+1. Video transcoding
+1. Run virtualization with various services
+1. Support 10 drives
+1. Upgrade path to 10 Gb networking (later)
+1. As many NVME M.2 drives that fits
+

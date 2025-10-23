@@ -1,8 +1,8 @@
 use crate::util;
 use camino::{Utf8Path, Utf8PathBuf};
 use colored::Colorize;
-use eyre::eyre;
 use eyre::Result;
+use eyre::eyre;
 use lazy_static::lazy_static;
 use regex::Regex;
 use syntect::parsing::SyntaxReference;

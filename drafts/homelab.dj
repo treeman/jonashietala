@@ -70,6 +70,8 @@ For example the IP `10.200.3.1` means that it's a device in the "IoT connected" 
 |  10.`vlan`.30.`x` | Cameras |
 |  10.`vlan`.40.`x` | Gaming |
 
+10.250.10.1
+
 ## Devices
 
 | IP  | Name | Description |

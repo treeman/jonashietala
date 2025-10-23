@@ -47,6 +47,10 @@ A. [Install a nozzle scrubber](#Nozzle-scrubber).
 
   To automatically clean the nozzle and for a place to park during filament changes.
 
+# Replacing the POM nuts
+
+![](/images/jw_mods/pom_nuts.jpg)
+
 # [Inverted electronics][]
 
 I've been looking at the [Inverted electronics][] mod even before finishing my Trident printer.
@@ -55,13 +59,9 @@ and after the printer was completed I didn't feel the need to redo the wiring ag
 
 ![Wiring before ripping it all out.](/images/jw_mods/electronics_before.jpg)
 
-TODO picture of all wiring removed
+![Underside of the printer with the inverted rails installed.](/images/jw_mods/inverted_under.jpg)
 
-TODO picture of holders installed
-
-TODO picture of components installed
-
-TODO picture of wiring redone
+<https://www.printables.com/model/1218789-nitehawk-36-usb-adapter-mount-for-voron-din-clip>
 
 # Why the [Jabberwocky][]?
 

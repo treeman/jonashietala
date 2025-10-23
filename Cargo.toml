@@ -85,6 +85,9 @@ tree-sitter-toml = { git = "https://github.com/treeman/tree-sitter-toml" }
 tree-sitter-query = { git = "https://github.com/tree-sitter-grammars/tree-sitter-query.git", rev = "f767fb0ac5e711b6d44c5e0c8d1f349687a86ce0" }
 tree-sitter-lua = { git = "https://github.com/tree-sitter-grammars/tree-sitter-lua" }
 tree-sitter-ghostty = { git = "https://github.com/treeman/tree-sitter-ghostty" }
+# tree-sitter-fennel = { git = "https://github.com/alexmozaidze/tree-sitter-fennel" }
+tree-sitter-fennel = { git = "https://github.com/treeman/tree-sitter-fennel" }
+
 # TODO better but doesn't expose the highlights
 # tree-sitter-ghostty = { git = "https://github.com/bezhermoso/tree-sitter-ghostty" }
 btree-range-map = "0.7.2"

@@ -1,0 +1,739 @@
+---toml
+title = "Packing Neovim with Fennel"
+tags = ["Lua", "Fennel", "Neovim"]
+---
+
+![I've got lots of stuff to do but I ended up rewriting my Neovim config instead.](/images/new_config_meme.jpg)
+
+> ... anyone can do any amount of work, provided it isn't the work he is supposed to be doing at that moment.
+> ^ Robert Benchley, in Chips off the Old Benchley, 1949
+
+Veronica doesn't want to listen to me excitedly telling her about why [Fennel][] is nicer than Lua; how I spent a hundred lines of code (together with [a plugin][lze]) to replicate existing [lazy.nvim][] functionality; or ...
+
+::: warn
+This post will contain wild Lisp code and random Neovim references.
+Please consult the [Fennel safety manual][] and your nearest [Neovim :help station][] for assistance.
+:::
+
+[Neovim :help station]: https://neovim.io/doc/user/helphelp.html
+[Fennel safety manual]: https://fennel-lang.org/reference
+
+# The grand plan
+
+1. Rewrite (most) of the config in Fennel.
+1. Migrate from [lazy.nvim][] to [vim.pack][] (including lazy loading).
+1. Go through and add, remove, update, or replace some plugins.
+
+And of course, make a way too big blog post about it.
+
+## Why Fennel?
+
+## Why [vim.pack][]?
+
+I'm an expert procrastinator.
+
+# Structuring the config
+
+If you've got a small configuration having it all inside a single `init.lua` is probably fine.
+Somehow I've managed gather almost 6k lines of Lua code under `~/.config/nvim` so this isn't an option for me.
+
+I first wanted to separate the configuration into `core`/`plugin` split, where non-plugin configuration happens in `core` and plugin configuration lives under `plugin`.
+However, to support lazy loading with a single call to [vim.pack.add][] I decided to go back to letting the files under `plugin/` return plugin specs, like [lazy.nvim][] does for you.
+
+With Fennel support under `fnl/` this is how my configuration is structured:
+
+```
+init.lua                ; Minimal bootstrap to load Fennel files
+fnl                     ; All Fennel source in the `fnl/` folder
+├── config
+│   ├── init.fnl        ; Loaded by `init.lua` and loads the rest
+│   ├── colorscheme.fnl
+│   ├── keymaps.fnl
+│   ├── lsp.fnl         ; Config may reference plugins
+│   └── ...
+├── macros.fnl          ; Custom Fennel macros goes here
+└── plugins
+    ├── init.fnl        ; Loads everything under `plugins/`
+    ├── appearance.fnl
+    ├── coding.fnl
+    └── ...
+lua                     ; Lua stuff is still loaded transparently
+ftplugin
+└── djot.lua            ; nvim-thyme doesn't load `ftplugin/`
+```
+
+It's not a perfect system as I'd ideally want the `plugins/` to only add packages while I would configure the plugins in `config/`.
+But some plugins use lazy loading making it more convenient to do it together with the plugin spec.
+
+# Bootstrapping Fennel
+
+There are a handful of different plugins that allows you to easily write your Neovim config in Fennel.
+I ended up choosing [nvim-thyme][] because it's fast (it hooks into `require` and only compiles on-demand) and [nvim-thyme][] allows you to mix Fennel and Lua source files.
+
+::: tip
+[nvim-thyme][] compiles Fennel sources to Lua files and adds them to Neovim's runtimepath.
+This is how it allows you to seamlessly mix Fennel and Lua, where some parts may be written in Fennel and others in Lua.
+On my machine they're located at `~/.cache/nvim/thyme/compile/lua/`.
+:::
+
+[nvim-thyme][] contains installation instructions for [lazy.nvim][] and it references a bootstrapping function to run `git` to manually clone packages.
+But we're going to use [vim.pack][] and it makes it a bit cleaner:
+
+{path="init.lua"}
+```lua
+vim.pack.add({
+	-- Fennel environment and compiler.
+	"https://github.com/aileot/nvim-thyme",
+	"https://git.sr.ht/~technomancy/fennel",
+	-- Gives us some pleasant fennel macros.
+	"https://github.com/aileot/nvim-laurel",
+	-- Enables lazy loading of plugins.
+	"https://github.com/BirdeeHub/lze",
+}, { confirm = false })
+```
+
+(I added [lze][] to my bootstrapping too as I'll use it later [when adding lazy loading support][], it was simpler having it in the boostrap.)
+
+[nvim-thyme][] also instructs us to override `require()` calls (so it can compile on demand) and
+to setup the cache path (where it'll store the compiled Lua files):
+
+{path="init.lua"}
+```lua
+-- Override package loading so thyme can hook into `require` calls
+-- and generate lua code if the required package is a fennel file.
+table.insert(package.loaders, function(...)
+    return require("thyme").loader(...)
+end)
+
+-- Setup the compile cache path that thyme requires.
+local thyme_cache_prefix = vim.fn.stdpath("cache") .. "/thyme/compiled"
+vim.opt.rtp:prepend(thyme_cache_prefix)
+```
+
+And now we're ready to write the rest of the config with Fennel!
+
+{path="init.lua"}
+```lua
+-- Load the rest of the config with transparent fennel support.
+require("config")
+```
+
+Now we can continue with Fennel `fnl/config.fnl` or `fnl/config/init.fnl`.
+
+
+
+{path="fnl/config/init.fnl"}
+```fennel
+;; Load all plugins
+(require :plugins)
+
+;; Load the other config files
+(require :config.colorscheme)
+(require :config.keymaps)
+(require :config.lsp)
+;; etc...
+```
+
+::: note
+Keep in mind that we don't have to stay with Fennel all the time.\
+`(require :config.lsp)`{=fennel} can load either `fnl/config/lsp.fnl` or `lua/config/lsp.lua`.
+:::
+
+# Building a convenient plugin management system
+
+I wanted to migrate to [vim.pack][] but it's missing a few key features from [lazy.nvim][]:
+
+* It can't automatically require all files under a directory.
+* There's no lazy loading support.
+* It can't run build scripts (such as `make` after install or update).
+
+I could've given up and gone back to [lazy.nvim][] but that just wouldn't do.
+It's not terribly hard to build it ourselves.
+
+## Source pack specs from files
+
+What I want is to be able to create a file under `plugins/`, have it return a [vim.pack.Spec][] and have it automatically added. This is similar to the [structured plugins][] approach of [lazy.nvim][].
+
+To build this I first list all files under `plugins/` like so:
+
+{path="fnl/plugins/init.fnl"}
+```fennel
+;; List all files, with absolute paths.
+(local paths (-> (vim.fn.stdpath "config")
+                 (.. "/fnl/plugins/*")
+                 (vim.fn.glob)
+                 (vim.split "\n")))
+```
+
+This uses Fennel's [-> threading macro][], Fennel's version of the pipe operator.
+It's one of my favorite features of Elixir and was stoked to discover that Fennel has it too.
+(Fennel actually has even more power with the `->>`, `-?>`, and `-?>>` operators!)
+
+Now we need to loop through and transform the paths to relative paths and evaluate the files to get our specs.
+I'm using [accumulate][] instead of [collect][] as we'll soon extend it:
+
+[collect]: https://fennel-lang.org/reference#icollect-collect-table-comprehension-macros
+[accumulate]: https://fennel-lang.org/reference#accumulate-iterator-accumulation
+
+{path="fnl/plugins/init.fnl"}
+```fennel
+;; Make the paths relative to plugins and remove extension, e.g. "plugins/snacks"
+;; and require those packages to get our pack specs.
+(local specs (accumulate [acc [] _ abs_path (ipairs paths)]
+               (do
+                 (local path (string.match abs_path "(plugins/[^./]+)%.fnl$"))
+                 (if (and path (not= path "plugins/init"))
+                     (do
+                       (local mod_res (require path))
+                       (table.insert acc mod_res))
+                       acc)
+                     acc))))
+```
+
+Now we can populate `specs` from files under `plugins/`, for example like this that returns a single spec:
+
+{path="fnl/plugins/misc.fnl"}
+```fennel
+{:src "https://github.com/romainl/vim-cool"}
+```
+
+::: note
+Fennel's table syntax felt a bit weird for me at first.
+The above code translates to this Lua:
+
+```lua
+return { src = "https://github.com/romainl/vim-cool" }
+```
+:::
+
+But I also want to be able to return multiple specs, such as this:
+
+{path="fnl/plugins/deps.fnl"}
+```fennel
+[{:src "https://github.com/nvim-lua/popup.nvim"}
+ {:src "https://github.com/nvim-lua/plenary.nvim"}]
+```
+
+To support this we can match on the return value to see if it's a list, and then loop and insert each spec in the list, otherwise we do as before:
+
+{path="fnl/plugins/init.fnl" hl="7..14"}
+```fennel
+(local specs (accumulate [acc [] _ abs_path (ipairs paths)]
+               (do
+                 (local path (string.match abs_path "(plugins/[^./]+)%.fnl$"))
+                 (if (and path (not= path "plugins/init"))
+                     (do
+                       (local mod_res (require path))
+                       (case mod_res
+                         ;; Flatten return if we return a list of specs.
+                         [specs]
+                         (each [_ spec (ipairs mod_res)]
+                           (table.insert acc spec))
+                         ;; Can return a string or a single spec.
+                         _
+                         (table.insert acc mod_res))
+                       acc)
+                     acc))))
+```
+
+Now all that's left is to call [vim.pack.add][] with our list of specs and our plugins are now added automatically.
+
+{path="fnl/plugins/init.fnl"}
+```fennel
+(vim.pack.add specs {:confirm false})
+```
+
+## Lazy loading with [lze][]
+
+[lze][] is a pretty nice and simple plugin to add lazy-loading to [vim.pack][].
+
+We've already added it as a dependency in our `init.lua` so all we need to do is modify the `load` parameter to `vim.pack.add` like so:
+
+{path="fnl/plugins/init.fnl"}
+```fennel
+;; Override loader when adding to let lze handle lazy loading
+;; when specified via the `data` attribute.
+(vim.pack.add specs {:load (fn [p]
+                             (local spec (or p.spec.data {}))
+                             (set spec.name p.spec.name)
+                             (local lze (require :lze))
+                             (lze.load spec))
+                     :confirm false})
+```
+
+Now we can specify lazy loading via the `data` parameter in our specs:
+
+{path="fnl/plugins/misc.fnl"}
+```fennel
+{:src "https://github.com/romainl/vim-cool"
+ :data {:event ["BufReadPost" "BufNewFile"]}}
+```
+
+Wrapping things in `:data` all the time get olds fast so let's simplify things a bit.
+
+## Simplified specifications
+
+The idea here is to transform the specs before we call [vim.pack.add][].
+
+We can do it easily when we collect our specs by calling the `transform_spec` function:
+
+{path="fnl/plugins/init.fnl" hl="10,12"}
+```fennel
+(local specs (accumulate [acc [] _ abs_path (ipairs paths)]
+               (do
+                 (local path (string.match abs_path "(plugins/[^./]+)%.fnl$"))
+                 (if (and path (not= path "plugins/init"))
+                     (do
+                       (local mod_res (require path))
+                       (case mod_res
+                         [specs]
+                         (each [_ spec (ipairs mod_res)]
+                           (table.insert acc (transform_spec spec)))
+                         _
+                         (table.insert acc (transform_spec mod_res)))
+                       acc)
+                     acc))))
+```
+
+I want `transform_spec` to transform this:
+
+```fennel
+{:src "https://github.com/romainl/vim-cool"
+ :event ["BufReadPost" "BufNewFile"]}
+```
+
+Into this:
+
+```fennel
+{:src "https://github.com/romainl/vim-cool"
+ :data {:event ["BufReadPost" "BufNewFile"]}}
+```
+
+By storing keys other than `src`, `name`, and `version` under a `data` table.
+This is what I came up with:
+
+{path="fnl/plugins/init.fnl"}
+```fennel
+(λ transform_spec [spec]
+  "Transform a vim.pack spec and move lze arguments into `data`"
+  (case spec
+    {}
+    (do
+      ;; Split keys to vim.pack and rest into `data`.
+      (local pack_args {})
+      (local data_args {})
+      (each [k v (pairs spec)]
+        (if (vim.list_contains [:src :name :version] k)
+            (tset pack_args k v)
+            (tset data_args k v)))
+      (set pack_args.data data_args)
+      pack_args)
+    ;; Bare strings are valid vim.pack specs too.
+    other
+    other))
+```
+
+Another quality of life feature I'd like is to make it simpler to call `setup` functions.
+[lazy.nvim][] again does this well and it's pretty convenient.
+
+For example, this is how it looks like with [lze][] to add an `after` hook and call a `setup` function:
+
+```fennel
+{:src "https://github.com/A7Lavinraj/fyler.nvim"
+ :on_require :fyler
+ :after (λ []
+          (local fyler (require :fyler))
+          (fyler.setup {:icon_provider "nvim_web_devicons"
+                        :default_explorer false}))}
+```
+
+What if we could instead do:
+
+```fennel
+{:src "https://github.com/A7Lavinraj/fyler.nvim"
+ :on_require :fyler
+ :setup {:icon_provider "nvim_web_devicons" :default_explorer false}}]
+```
+
+But this is just data and we can transform the second case to the first one fairly easily.
+In the `transform_spec` function:
+
+{path="fnl/plugins/init.fnl" hl="14..19"}
+```fennel
+(λ transform_spec [spec]
+  "Transform a vim.pack spec and move lze arguments into `data`
+   and create an `after` hook if `setup` is specified."
+  (case spec
+    {}
+    (do
+      ;; Split keys to vim.pack and rest into `data`.
+      (local pack_args {})
+      (local data_args {})
+      (each [k v (pairs spec)]
+        (if (vim.list_contains [:src :name :version] k)
+            (tset pack_args k v)
+            (tset data_args k v)))
+      ;; Generate an `:after` hook if `:setup` is specified.
+      (when spec.setup
+        (tset data_args :after
+              (λ []
+                (local pkg (require spec.on_require))
+                (pkg.setup spec.setup))))
+      (set pack_args.data data_args)
+      pack_args)
+    ;; Bare strings are valid vim.pack specs too.
+    other
+    other))
+```
+
+The one issue is how to figure out the package name to require (since it may differ from the path).
+I chose to use the `on_require` argument that [lze][] uses as the keyword so it can lazy load on require (on `(require :fyler)`{=fennel} for example).
+
+And just to prevent me from making mistakes, I added some sanity checks:
+
+{path="fnl/plugins/init.fnl" hl="2..7"}
+```fennel
+(when spec.setup
+  (when (not spec.on_require)
+    (error (.. "`:setup` specified without `on_require`: "
+               (vim.inspect spec))))
+  (when spec.after
+    (error (.. "`:setup` specified together with `after`: "
+               (vim.inspect spec))))
+  (tset data_args :after
+        (λ []
+          (local pkg (require spec.on_require))
+          (pkg.setup spec.setup))))
+```
+
+
+## Build scripts via PackChanged events
+
+There's one last feature I really want from [lazy.nvim][] and that's to automatically run build scripts after a package is installed or updated.
+
+I basically want to specify this in my specs:
+
+```fennel
+{:src "https://github.com/eraserhd/parinfer-rust"
+ :build ["cargo" "build" "--release"]}
+```
+
+The recommended way to trigger on package events is to use [PackChanged][]:
+
+{path="fnl/plugins/init.fnl"}
+```fennel
+(require-macros :macros)
+(augroup! :my-plugins (au! :PackChanged pack_changed))
+```
+
+`pack_changed` checks for the `build` parameter in spec and sends it to [vim.system][] to execute (with some prints if things go wrong):
+
+```fennel
+(λ pack_changed [event]
+  "Handle pack changed events and issue build commands."
+  (local spec event.data.spec)
+  (local build spec.data.build)
+  (local path event.data.path)
+  ;; We don't want to execute scripts for delete events
+  ;; and only if we've configured `build` in our spec.
+  (when (and (vim.list_contains [:update :install] event.data.kind) build)
+    (vim.notify (.. "Run `" (vim.inspect build) "` for " spec.name))
+    (vim.system build {:cwd path}
+                (λ [exit_obj]
+                  (when (= exit_obj.code 0)
+                    ;; If I use vim.notify here it errors with
+                    ;; vim/_editor.lua:0: E5560: nvim_echo must not be called in a fast event context
+                    (print (vim.inspect build) "failed in" path
+                           (vim.inspect exit_obj)))))))
+```
+
+You can probably make something better here but it gets the job done.
+
+::: note
+Remember that the `build` parameter [gets moved](#Simplified-specifications) to the `data` attribute.
+:::
+
+# Some Fennel examples
+
+You've already seen how Fennel code looks like but what about configuration with Fennel?
+One of the negative things of moving my configuration from Vimscript to Lua was that simple things such as settings options or simple keymaps became a bit more verbose.
+
+So how does Fennel compare for the simpler, more declarative stuff?
+
+## Options
+
+```vim
+set relativenumber
+set clipboard^=unnamed,unnamedplus
+set backupdir=~/.vim/backup
+let mapleader=" "
+```
+
+```lua
+vim.opt.relativenumber = true
+vim.opt.clipboard:append({ "unnamed", "unnamedplus" })
+vim.opt.backupdir = vim.fn.expand("~/.config/nvim/backup")
+vim.g.mapleader = [[ ]]
+```
+
+```fennel
+(set! :relativenumber true)
+(set! :clipboard + ["unnamed" "unnamedplus"])
+(set! :backupdir (vim.fn.expand "~/.config/nvim/backup"))
+(g! :mapleader " ")
+```
+
+With [nvim-laurel][] macros I think Fennel is decent.
+Slightly better than Lua but not as convenient as Vimscript.
+
+[nvim-laurel]: https://github.com/aileot/nvim-laurel
+
+## Keymaps
+
+```lua
+local map = vim.keymap.set
+map("n", "<localleader>D", vim.lsp.buf.declaration,
+  { silent = true, buffer = buffer, desc = "Declaration" }
+)
+map("n", "<leader>ep", function() find_org_file("projects") end,
+  { desc = "Org projects" }
+)
+```
+
+```fennel
+(bmap! :n "<localleader>D" vim.lsp.buf.declaration
+       {:silent true :desc "Declaration"})
+(map! :n "<leader>ep" #(find_org_file "projects")
+      {:desc "Org projects"})
+```
+
+Not a huge difference to be honest.
+I like the `#(do_the_thing)` shorthand for anonymous functions fennel has though.
+
+## Overriding highlight groups
+
+One example that was a big step up with Fennel is overriding highlight groups.
+I'm using [melange][] which is a fantastic and underrated color scheme but I've collected a fair bit of overrides for it.
+
+In Lua you use [nvim\_set\_hl][] to add an override, for example like this:
+
+```lua
+vim.api.nvim_set_hl(0, "@symbol.elixir", { link = "@label" })
+```
+
+When you do this 100 times this is _annoying_ so I made an override table to accomplish the job:
+
+```lua
+local overrides = {
+  { name = "@symbol.elixir", val = { link = "@label" } },
+  { name = "@string.special.symbol.elixir", val = { link = "@label" } },
+  { name = "@constant.elixir", val = { link = "Constant" } },
+  -- And around 100 other overrides...
+}
+
+for _, v in pairs(overrides) do
+  vim.api.nvim_set_hl(0, v.name, v.val)
+end
+```
+
+In Fennel with the [hi!][] macro this all becomes as simple as:
+
+```fennel
+(hi! "@symbol.elixir" {:link "@label"})
+(hi! "@string.special.symbol.elixir" {:link "@label"})
+(hi! "@constant.elixir" {:link "Constant"})
+;; etc
+```
+
+## Plugin specs
+
+One thing I like more in Lua compared to Fennel is how readable tables are.
+The Fennel formatter [fnlfmt][] might be partly to blame as it has a tendency to use very little whitespace. Regardless, I prefer this Lua code:
+
+```lua
+return {
+  "https://github.com/stevearc/conform.nvim",
+  { src = "https://github.com/mason-org/mason.nvim", dep_of = "mason-lspconfig.nvim" },
+  { src = "https://github.com/neovim/nvim-lspconfig", dep_of = "mason-lspconfig.nvim" },
+  "https://github.com/mason-org/mason-lspconfig.nvim",
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
+}
+```
+
+Over this corresponding Fennel code:
+
+```fennel
+["https://github.com/stevearc/conform.nvim"
+ {:src "https://github.com/mason-org/mason.nvim" :dep_of :mason-lspconfig.nvim}
+ {:src "https://github.com/neovim/nvim-lspconfig" :dep_of :mason-lspconfig.nvim}
+ "https://github.com/mason-org/mason-lspconfig.nvim"
+ {:src "https://github.com/nvim-treesitter/nvim-treesitter" :version :main}]
+```
+
+To me the Lua code is for some reason easier to read.
+
+Similarly I don't have a problem with this [lazy.nvim][] spec:
+
+```lua
+return {
+  "folke/snacks.nvim",
+  priority = 1000,
+  lazy = false,
+  opts = {
+    indent = {
+      indent = {
+        enabled = true,
+        char = "┆",
+      },
+      scope = {
+        enabled = true,
+        only_current = true,
+      },
+    },
+    scroll = {
+      animate = {
+        duration = { step = 15, total = 150 },
+      },
+    },
+    explorer = {},
+  },
+}
+```
+
+But with this new Fennel spec I use---even though it's simpler in some ways---it's harder for me to quickly see what table the keys belong to:
+
+```fennel
+{:src "https://github.com/folke/snacks.nvim"
+ :on_require :snacks
+ :lazy false
+ :setup {:indent {:indent {:enabled true :char "┆"}
+                  :scope {:enabled true :only_current true}}
+         :scroll {:animate {:duration {:step 15 :total 150}}}
+         :explorer {}}}
+```
+
+Maybe it's something you'll get used to; or it's something I can tweak using better syntax highlighting, formatting settings, or something else.
+
+::: note
+A big plus with the setup I use is that I can mix Funnel and Lua, so if I want to I could specify the plugin specs in Lua and have the more "codey" parts in Fennel.
+:::
+
+# Notable plugin updates
+
+## Native undotree
+
+I've been using the [undotree][undotree-plugin] a long time and it's excellent.
+[This feature][nvim-undotree] was [recently merged into Neovim](https://github.com/neovim/neovim/pull/35627).
+
+[undotree-plugin]: https://github.com/jiaoshijie/undotree
+[nvim-undotree]: https://neovim.io/doc/user/plugins.html#_builtin-plugin:-undotree
+
+```fennel
+;; It's optional so we need to use packadd to activate the plugin:
+(vim.cmd "packadd nvim.undotree")
+;; Then we can add a keymap to open it:
+(map! :n "<leader>u" #(: (require :undotree) :open {:command "topleft 30vnew"}))
+```
+
+## Simplified LSP config
+
+Neovim routinely gets shit on for LSPs being so hard to setup.
+Yes, it could probably be easier but Neovim has recently made some changes and it's not nearly as involved as it used to be.
+
+Here's how my base config looks like:
+
+{path="fnl/config/lsp.fnl"}
+```fennel
+(require-macros :macros)
+
+;; Convenient way of installing LSPs and other tools.
+(local mason (require :mason))
+(mason.setup)
+
+;; Convenient way of automatically enabling LSPs installed via Mason.
+(local mason-lspconfig (require :mason-lspconfig))
+(mason-lspconfig.setup {:automatic_enable true})
+
+(vim.diagnostic.config {:virtual_text false
+                        :severity_sort true
+                        :float {:scope "cursor"}})
+
+(vim.lsp.inlay_hint.enable true)
+
+;; The expert LSP isn't included in lspconfig yet, no biggie.
+(vim.lsp.config "expert"
+                {:cmd ["expert"]
+                 :root_markers ["mix.exs" ".git"]
+                 :filetypes ["elixir" "eelixir" "heex"]})
+
+(vim.lsp.enable "expert")
+
+;; These are default bindings in Neovim but they don't open the diagnostic floats immediately.
+;; Calling them manually does though...
+(map! "n" "]d" vim.diagnostic.goto_next {:silent true :desc "Next diagnostic"})
+(map! "n" "[d" vim.diagnostic.goto_prev {:silent true :desc "Prev diagnostic"})
+
+(augroup! :my-lsps
+          (au! :LspAttach
+               (λ [_]
+                 (bmap! :n "<localleader>D" vim.lsp.buf.declaration
+                        {:silent true :desc "Declaration"})
+                 (bmap! :n "<localleader>l"
+                        #(vim.diagnostic.open_float {:focusable false})
+                        {:silent true :desc "Diagnostics"})
+                ;; etc
+```
+
+If you don't want to change the keymaps (Neovim comes with defaults that I personally dislike) or customize specific LSPs then there's not that much left.
+Mason is also totally optional and if you want to build your LSPs from source
+
+## Automatically install and enable treesitter grammars
+
+Another thing that has changed since my last config overhaul is [nvim-treesitter][] being rewritten and is now a much simpler plugin. (The new version lives on the [main branch][main-treesitter] and the old archived one on `master`.)
+
+
+That's fine but it no longer supports automatically installing grammars or activating them automatically.
+I think I saw a plugin for that somewhere but here's some Fennel code that sets it up:
+
+{path="fnl/config/treesitter.fnl"}
+```fennel
+(require-macros :macros)
+
+(local nvim-treesitter (require :nvim-treesitter))
+
+;; Ignore auto install for these filetypes:
+(local ignored_ft [])
+
+(augroup! :treesitter
+          (au! :FileType
+               (λ [args]
+                 (local bufnr args.buf)
+                 (local ft args.match)
+                 ;; Auto install grammars unless explicitly ignored.
+                 (when (not (vim.list_contains ignored_ft ft))
+                   (: (nvim-treesitter.install ft) :await
+                      (λ []
+                        ;; Enable highlight only if there's an installed grammar.
+                        (local installed (nvim-treesitter.get_installed))
+                        (when (and (vim.api.nvim_buf_is_loaded bufnr)
+                                   (vim.list_contains installed ft))
+                          (vim.treesitter.start bufnr))))))))
+```
+
+## [fyler.nvim][]
+
+## blink.nvim
+
+## fff.nvim
+
+## snacks picker
+
+[hi!]: https://github.com/aileot/nvim-laurel/blob/main/docs/reference.md#highlight
+[scructured plugins]: https://lazy.folke.io/usage/structuring
+[vim.pack.Spec]: https://neovim.io/doc/user/pack.html#vim.pack.Spec
+[-> threading macro]: https://fennel-lang.org/reference#------and---threading-macros
+[vim.pack.add]: https://neovim.io/doc/user/pack.html#vim.pack.add()
+[PackChanged]: https://neovim.io/doc/user/pack.html#PackChanged
+[vim.system]: https://neovim.io/doc/user/lua.html#vim.system()
+[melange]: https://github.com/savq/melange-nvim
+[main-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter/tree/main

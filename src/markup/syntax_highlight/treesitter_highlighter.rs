@@ -270,6 +270,17 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
+        (
+            "fennel",
+            HighlightConfiguration::new(
+                tree_sitter_fennel::language(),
+                "fennel",
+                include_str!("../../../queries/fennel/highlights.scm"),
+                include_str!("../../../queries/fennel/injections.scm"),
+                include_str!("../../../queries/fennel/locals.scm"),
+            )
+            .unwrap(),
+        ),
         // Not as good as syntect atm.
         // (
         //     "lua",
@@ -301,7 +312,7 @@ mod tests {
         assert_eq!(
             highlighter.highlight("let x = 2;").unwrap(),
             "<span class=\"keyword\">let</span> <span class=\"variable\">x</span> <span class=\"punctuation delimiter\">=</span> <span class=\"number\">2</span>;\n"
-            );
+        );
     }
 
     #[test]
