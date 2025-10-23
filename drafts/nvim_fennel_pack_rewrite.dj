@@ -82,13 +82,13 @@ But we're going to use [vim.pack][] and it makes it a bit cleaner:
 {path="init.lua"}
 ```lua
 vim.pack.add({
-	-- Fennel environment and compiler.
-	"https://github.com/aileot/nvim-thyme",
-	"https://git.sr.ht/~technomancy/fennel",
-	-- Gives us some pleasant fennel macros.
-	"https://github.com/aileot/nvim-laurel",
-	-- Enables lazy loading of plugins.
-	"https://github.com/BirdeeHub/lze",
+  -- Fennel environment and compiler.
+  "https://github.com/aileot/nvim-thyme",
+  "https://git.sr.ht/~technomancy/fennel",
+  -- Gives us some pleasant fennel macros.
+  "https://github.com/aileot/nvim-laurel",
+  -- Enables lazy loading of plugins.
+  "https://github.com/BirdeeHub/lze",
 }, { confirm = false })
 ```
 
@@ -102,7 +102,7 @@ to setup the cache path (where it'll store the compiled Lua files):
 -- Override package loading so thyme can hook into `require` calls
 -- and generate lua code if the required package is a fennel file.
 table.insert(package.loaders, function(...)
-    return require("thyme").loader(...)
+  return require("thyme").loader(...)
 end)
 
 -- Setup the compile cache path that thyme requires.
@@ -120,8 +120,6 @@ require("config")
 
 Now we can continue with Fennel `fnl/config.fnl` or `fnl/config/init.fnl`.
 
-
-
 {path="fnl/config/init.fnl"}
 ```fennel
 ;; Load all plugins
@@ -138,6 +136,19 @@ Now we can continue with Fennel `fnl/config.fnl` or `fnl/config/init.fnl`.
 Keep in mind that we don't have to stay with Fennel all the time.\
 `(require :config.lsp)`{=fennel} can load either `fnl/config/lsp.fnl` or `lua/config/lsp.lua`.
 :::
+
+We should also remember to call `setup` for [nvim-thyme][] to define some user commands.
+It's recommended to do on `VimEnter`, so I guess I'll do that then:
+
+{path="fnl/config/autocmds.fnl"}
+```fennel
+(require-macros :macros)
+
+(augroup! :my-autocmds
+          (au! :VimEnter #(: (require :thyme) :setup))
+```
+
+(This code uses macros from [nvim-laurel][] to make it a little easier, and I use them throughout my config.)
 
 # Building a convenient plugin management system
 
@@ -418,33 +429,42 @@ I basically want to specify this in my specs:
  :build ["cargo" "build" "--release"]}
 ```
 
-The recommended way to trigger on package events is to use [PackChanged][]:
+The recommended way to trigger on package events is to use [PackChanged][].
+I initially wrote this too in Fennel but I later moved it into the `init.lua` bootstrap as it sometimes didn't capture the events if done later:
 
-{path="fnl/plugins/init.fnl"}
-```fennel
-(require-macros :macros)
-(augroup! :my-plugins (au! :PackChanged pack_changed))
-```
+{path="fnl/init.lua"}
+```lua
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function(event)
+    -- Ignore `delete` events.
+    if not vim.list_contains({ "update", "install" }, event.data.kind) then
+      return
+    end
 
-`pack_changed` checks for the `build` parameter in spec and sends it to [vim.system][] to execute (with some prints if things go wrong):
+    local spec = event.data.spec
 
-```fennel
-(λ pack_changed [event]
-  "Handle pack changed events and issue build commands."
-  (local spec event.data.spec)
-  (local build spec.data.build)
-  (local path event.data.path)
-  ;; We don't want to execute scripts for delete events
-  ;; and only if we've configured `build` in our spec.
-  (when (and (vim.list_contains [:update :install] event.data.kind) build)
-    (vim.notify (.. "Run `" (vim.inspect build) "` for " spec.name))
-    (vim.system build {:cwd path}
-                (λ [exit_obj]
-                  (when (= exit_obj.code 0)
-                    ;; If I use vim.notify here it errors with
-                    ;; vim/_editor.lua:0: E5560: nvim_echo must not be called in a fast event context
-                    (print (vim.inspect build) "failed in" path
-                           (vim.inspect exit_obj)))))))
+    if not spec.data then
+      return
+    end
+
+    local path = event.data.path
+    local build = spec.data.build
+
+    if build then
+      vim.notify("Run `" .. vim.inspect(build) .. "` for " .. spec.name, vim.log.levels.INFO)
+
+      vim.system(build, { cwd = path }, function(exit_obj)
+        if exit_obj.code ~= 0 then
+          -- vim.notify here errors with
+          -- vim/_editor.lua:0: E5560: nvim_echo must not be called in a fast event context
+          -- Simply printing is fine I guess, it doesn't have to be the prettiest solution.
+          print(vim.inspect(build), "failed in", path, vim.inspect(exit_obj))
+        end
+      end)
+    end
+  end,
+  group = vim.api.nvim_create_augroup("init.lua", { clear = true }),
+})
 ```
 
 You can probably make something better here but it gets the job done.
@@ -545,6 +565,40 @@ In Fennel with the [hi!][] macro this all becomes as simple as:
 ;; etc
 ```
 
+## Autocommands
+
+Here are some autocommands to enable [cursorline][] only in the currently active window (while skipping buffers such as the dashboard):
+
+```lua
+local group = augroup("my-autocmds", { clear = true })
+autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
+  group = group,
+  callback = function(x)
+    if string.len(x.file) > 0 then
+      vim.opt_local.cursorline = true
+    end
+  end,
+})
+autocmd("WinLeave", {
+  group = group,
+  callback = function()
+    vim.opt_local.cursorline = false
+  end,
+})
+```
+
+```fennel
+(augroup! :my-autocmds
+          (au! [:VimEnter :WinEnter :BufWinEnter]
+               #(do
+                  (when (> (string.len $1.file) 0)
+                    (let! :opt_local :cursorline true))
+                  false))
+          (au! :WinLeave #(do
+                            (let! :opt_local :cursorline false)
+                            false)))
+```
+
 ## Plugin specs
 
 One thing I like more in Lua compared to Fennel is how readable tables are.
@@ -556,7 +610,13 @@ return {
   { src = "https://github.com/mason-org/mason.nvim", dep_of = "mason-lspconfig.nvim" },
   { src = "https://github.com/neovim/nvim-lspconfig", dep_of = "mason-lspconfig.nvim" },
   "https://github.com/mason-org/mason-lspconfig.nvim",
-  { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
+  {
+    src = "https://github.com/nvim-treesitter/nvim-treesitter",
+    version = "main",
+    after = function()
+      vim.cmd("TSUpdate")
+    end,
+  },
 }
 ```
 
@@ -567,7 +627,9 @@ Over this corresponding Fennel code:
  {:src "https://github.com/mason-org/mason.nvim" :dep_of :mason-lspconfig.nvim}
  {:src "https://github.com/neovim/nvim-lspconfig" :dep_of :mason-lspconfig.nvim}
  "https://github.com/mason-org/mason-lspconfig.nvim"
- {:src "https://github.com/nvim-treesitter/nvim-treesitter" :version :main}]
+ {:src "https://github.com/nvim-treesitter/nvim-treesitter"
+  :version :main
+  :after #(vim.cmd "TSUpdate")}
 ```
 
 To me the Lua code is for some reason easier to read.
