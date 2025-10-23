@@ -194,3 +194,27 @@
     "assert" "collectgarbage" "dofile" "error" "getmetatable" "ipairs" "load" "loadfile" "next"
     "pairs" "pcall" "print" "rawequal" "rawget" "rawlen" "rawset" "require" "select" "setmetatable"
     "tonumber" "tostring" "type" "warn" "xpcall" "module" "setfenv" "loadstring" "unpack"))
+
+(table_pair
+  key: (string) @label)
+
+;; nvim-laurel: (let! :bo ...), etc.
+(list
+  . (symbol) @_call
+  (#eq? @_call "let!")
+  . (string
+      (string_content) @module)
+  (#any-of? @module
+    "g"
+    "b"
+    "w"
+    "t"
+    "v"
+    "env"
+    "o"
+    "go"
+    "bo"
+    "wo"
+    "opt"
+    "opt_local"
+    "opt_global"))

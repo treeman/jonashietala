@@ -588,3 +588,13 @@ pre {
 .number {
   color: var(--melange_c_magenta);
 }
+.boolean {
+  color: var(--melange_c_magenta);
+}
+.highlight.fennel .string {
+  .punctuation,
+  .variable,
+  .operator {
+    color: var(--melange_b_blue);
+  }
+}

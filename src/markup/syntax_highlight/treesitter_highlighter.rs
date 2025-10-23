@@ -37,6 +37,10 @@ impl TreesitterHighlighter<'_> {
         if self.config.language_name == "djot" {
             strip_empty_end_djot(&mut res);
         }
+        // Ugly workaround for comments not being recognized
+        if self.config.language_name == "fennel" {
+            mark_fennel_comments(&mut res);
+        }
 
         Ok(res.join(""))
     }
@@ -54,6 +58,21 @@ fn strip_empty_end_djot(res: &mut Vec<Cow<str>>) {
             }
         }
     }
+}
+
+fn mark_fennel_comments(res: &mut Vec<Cow<str>>) {
+    for line in res {
+        if FENNEL_COMMENT.is_match(line) {
+            let wrapped = format!("<span class=\"comment\">{}</span>", &line);
+            let x = line.to_mut();
+            x.clear();
+            x.push_str(&wrapped);
+        }
+    }
+}
+
+lazy_static! {
+    static ref FENNEL_COMMENT: Regex = Regex::new(r#"^\s*;"#).unwrap();
 }
 
 static HIGHLIGHT_NAMES: &[&str] = &[
