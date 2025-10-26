@@ -369,7 +369,7 @@ What if we could instead do:
 But this is just data and we can transform the second case to the first one fairly easily.
 In the `transform_spec` function:
 
-{path="fnl/plugins/init.fnl" hl="14..19"}
+{path="fnl/plugins/init.fnl" hl="15..24"}
 ```fennel
 (λ transform_spec [spec]
   "Transform a vim.pack spec and move lze arguments into `data`
@@ -384,12 +384,17 @@ In the `transform_spec` function:
         (if (vim.list_contains [:src :name :version] k)
             (tset pack_args k v)
             (tset data_args k v)))
-      ;; Generate an `:after` hook if `:setup` is specified.
-      (when spec.setup
-        (tset data_args :after
-              (λ []
-                (local pkg (require spec.on_require))
-                (pkg.setup spec.setup))))
+
+      (λ after [args]
+        ;; Call `setup()` functions if needed.
+        (when spec.setup
+          (local pkg (require spec.on_require))
+          (pkg.setup spec.setup))
+        ;; Load user specified `after` if it exists.
+        (when spec.after
+          (spec.after args)))
+
+      (set data_args.after after)
       (set pack_args.data data_args)
       pack_args)
     ;; Bare strings are valid vim.pack specs too.
@@ -402,19 +407,16 @@ I chose to use the `on_require` argument that [lze][] uses as the keyword so it 
 
 And just to prevent me from making mistakes, I added some sanity checks:
 
-{path="fnl/plugins/init.fnl" hl="2..7"}
+{path="fnl/plugins/init.fnl" hl="1..5"}
 ```fennel
-(when spec.setup
-  (when (not spec.on_require)
-    (error (.. "`:setup` specified without `on_require`: "
-               (vim.inspect spec))))
-  (when spec.after
-    (error (.. "`:setup` specified together with `after`: "
-               (vim.inspect spec))))
-  (tset data_args :after
-        (λ []
-          (local pkg (require spec.on_require))
-          (pkg.setup spec.setup))))
+;; `:setup` needs to know what package to require,
+;; therefore we use `:on_require`
+(when (and spec.setup (not spec.on_require))
+  (error (.. "`:setup` specified without `on_require`: "
+             (vim.inspect spec))))
+
+(λ after [args]
+  ;; ...
 ```
 
 
@@ -430,48 +432,61 @@ I basically want to specify this in my specs:
 ```
 
 The recommended way to trigger on package events is to use [PackChanged][].
-I initially wrote this too in Fennel but I later moved it into the `init.lua` bootstrap as it sometimes didn't capture the events if done later:
 
-{path="fnl/init.lua"}
-```lua
-vim.api.nvim_create_autocmd("PackChanged", {
-  callback = function(event)
-    -- Ignore `delete` events.
-    if not vim.list_contains({ "update", "install" }, event.data.kind) then
-      return
-    end
-
-    local spec = event.data.spec
-
-    if not spec.data then
-      return
-    end
-
-    local path = event.data.path
-    local build = spec.data.build
-
-    if build then
-      vim.notify("Run `" .. vim.inspect(build) .. "` for " .. spec.name, vim.log.levels.INFO)
-
-      vim.system(build, { cwd = path }, function(exit_obj)
-        if exit_obj.code ~= 0 then
-          -- vim.notify here errors with
-          -- vim/_editor.lua:0: E5560: nvim_echo must not be called in a fast event context
-          -- Simply printing is fine I guess, it doesn't have to be the prettiest solution.
-          print(vim.inspect(build), "failed in", path, vim.inspect(exit_obj))
-        end
-      end)
-    end
-  end,
-  group = vim.api.nvim_create_augroup("init.lua", { clear = true }),
-})
+```fennel
+;; Before `vim.pack.add` to capture changes.
+(augroup! :plugin_init (au! :PackChanged pack_changed))
 ```
 
-You can probably make something better here but it gets the job done.
+```fennel
+(λ pack_changed [event]
+  (when (vim.list_contains [:update :install] event.data.kind)
+    ;; This is ugly, but `?.` will prevent crashing.
+    ;; It's nested this way because the `build` parameter gets
+    ;; moved into to `data` key in specs.
+    (local build (?. event :data :spec :data :build))
+    (when build
+      (run_build_script build event))))
+  ;; Return false to not remove the autocommand.
+  false)
+```
 
-::: note
-Remember that the `build` parameter [gets moved](#Simplified-specifications) to the `data` attribute.
-:::
+```fennel
+(λ run_build_script [build event]
+  (local path event.data.path)
+  (vim.notify (.. "Run `" (vim.inspect build) "` for " event.data.spec.name)
+              vim.log.levels.INFO)
+  (vim.system build {:cwd path}
+              (λ [exit_obj]
+                (when (not= exit_obj.code 0)
+                  ;; If I use `vim.notify` it errors with:
+                  ;; vim/_editor.lua:0: E5560: nvim_echo must not be called in a fast event context
+                  ;; Simply printing is fine I guess, it doesn't have to be the prettiest solution.
+                  (print (vim.inspect build) "failed in" path
+                         (vim.inspect exit_obj))))))
+```
+
+This will now allow us to run build scripts like `cargo build --release` or `make` after a package is installed or updated.
+
+But what about user commands or requiring a package? For example with [nvim-treesitter][] you'd want to run `:TSUpdate`?
+
+```fennel
+{:src "https://github.com/nvim-treesitter/nvim-treesitter"
+ :version :main
+ :build #(vim.cmd "TSUpdate")}
+```
+
+1. Allow build to be a function
+2. Show the error of our ways
+3. Create an `after_build` hook
+
+This works for build scripts such as running `make` or `cargo build --release` but it's not able to require the package (since [lze][] hasn't loaded the package yet).
+
+```fennel
+{:src "https://github.com/nvim-treesitter/nvim-treesitter"
+ :version :main
+ :after_build #(vim.cmd "TSUpdate")}
+```
 
 # Some Fennel examples
 
