@@ -118,7 +118,7 @@ And now we're ready to write the rest of the config with Fennel!
 require("config")
 ```
 
-Now we can continue with Fennel `fnl/config.fnl` or `fnl/config/init.fnl`.
+Now we can continue with Fennel `fnl/config.fnl` or `fnl/config/init.fnl`:
 
 {path="fnl/config/init.fnl"}
 ```fennel
@@ -137,18 +137,75 @@ Keep in mind that we don't have to stay with Fennel all the time.\
 `(require :config.lsp)`{=fennel} can load either `fnl/config/lsp.fnl` or `lua/config/lsp.lua`.
 :::
 
-We should also remember to call `setup` for [nvim-thyme][] to define some user commands.
-It's recommended to do on `VimEnter`, so I guess I'll do that then:
+There's one last thing we should do to make the bootstrap complete: we should call `:ThymeCacheClear` when `nvim-laurel` or `nvim-thyme` changes.
+The recommended way is to use the [PackChanged][] event, with something like this:
 
-{path="fnl/config/autocmds.fnl"}
-```fennel
-(require-macros :macros)
+{path="fnl/config/init.fnl"}
+```lua
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function(event)
+    local name = event.data.spec.name
 
-(augroup! :my-autocmds
-          (au! :VimEnter #(: (require :thyme) :setup))
+    if name == "nvim-thyme" or name == "nvim-laurel" then
+      require("thyme").setup()
+      vim.cmd("ThymeCacheClear")
+    end
+  end,
+  group = vim.api.nvim_create_augroup("init.lua", { clear = true }),
+})
 ```
 
-(This code uses macros from [nvim-laurel][] to make it a little easier, and I use them throughout my config.)
+But if we for example force an update for `nvim-laurel` (by deleting it with [vim.pack.del][] and restart) we get this error:
+
+```
+Error in /home/tree/code/nvim-conf/init.lua..PackChanged Autocommands for "*":
+Lua callback: /home/tree/code/nvim-conf/init.lua:12: module 'thyme' not found:
+        no field package.preload['thyme']
+        cache_loader: module 'thyme' not found
+        cache_loader_lib: module 'thyme' not found
+        no file './thyme.lua'
+        ...
+```
+
+There is no order guarantee for the packages and so `PackChanged` for `nvim-laurel` may run before `thyme` has been loaded.
+I worked around this with a variable that I check after `vim.pack.add`, which will guarantee that all packages have been added before we try to require a package:
+
+{path="fnl/config/init.fnl" hl="1,8,23..29"}
+```lua
+local rebuild_thyme = false
+
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function(event)
+    local name = event.data.spec.name
+
+    if name == "nvim-thyme" or name == "nvim-laurel" then
+      rebuild_thyme = true
+    end
+  end,
+  group = vim.api.nvim_create_augroup("init.lua", { clear = true }),
+})
+
+vim.pack.add(...)
+
+table.insert(package.loaders, function(...)
+  return require("thyme").loader(...)
+end)
+
+local thyme_cache_prefix = vim.fn.stdpath("cache") .. "/thyme/compiled"
+vim.opt.rtp:prepend(thyme_cache_prefix)
+
+require("thyme").setup()
+
+-- Rebuild thyme cache after `vim.pack.add` to avoid dependency issues
+-- and to make sure all packages are loaded.
+if rebuild_thyme then
+  vim.cmd("ThymeCacheClear")
+end
+```
+
+::: note
+[nvim-thyme][] recommends `require("thyme").setup()`{=lua} to be done in `VimEnter` for speed reasons but I haven't noticed any slowdown so I'll just keep it in `init.lua` for simplicity.
+:::
 
 # Building a convenient plugin management system
 
@@ -159,7 +216,6 @@ I wanted to migrate to [vim.pack][] but it's missing a few key features from [la
 * It can't run build scripts (such as `make` after install or update).
 
 I could've given up and gone back to [lazy.nvim][] but that just wouldn't do.
-It's not terribly hard to build it ourselves.
 
 ## Source pack specs from files
 
@@ -210,7 +266,7 @@ Now we can populate `specs` from files under `plugins/`, for example like this t
 
 ::: note
 Fennel's table syntax felt a bit weird for me at first.
-The above code translates to this Lua:
+`:src`{=fennel} is the same as `"src"`{=fennel} and the above code translates to this Lua:
 
 ```lua
 return { src = "https://github.com/romainl/vim-cool" }
@@ -247,7 +303,7 @@ To support this we can match on the return value to see if it's a list, and then
                      acc))))
 ```
 
-Now all that's left is to call [vim.pack.add][] with our list of specs and our plugins are now added automatically.
+Now all that's left is to call [vim.pack.add][] with our list of specs and our plugins are now automatically added from files under `plugins/`:
 
 {path="fnl/plugins/init.fnl"}
 ```fennel
@@ -280,7 +336,7 @@ Now we can specify lazy loading via the `data` parameter in our specs:
  :data {:event ["BufReadPost" "BufNewFile"]}}
 ```
 
-Wrapping things in `:data` all the time get olds fast so let's simplify things a bit.
+It relies on wrapping configuration under `data` but that's annoying, so let's simplify things a little.
 
 ## Simplified specifications
 
@@ -405,7 +461,7 @@ In the `transform_spec` function:
 The one issue is how to figure out the package name to require (since it may differ from the path).
 I chose to use the `on_require` argument that [lze][] uses as the keyword so it can lazy load on require (on `(require :fyler)`{=fennel} for example).
 
-And just to prevent me from making mistakes, I added some sanity checks:
+And just to prevent me from making mistakes, I added a sanity check:
 
 {path="fnl/plugins/init.fnl" hl="1..5"}
 ```fennel
@@ -419,7 +475,6 @@ And just to prevent me from making mistakes, I added some sanity checks:
   ;; ...
 ```
 
-
 ## Build scripts via PackChanged events
 
 There's one last feature I really want from [lazy.nvim][] and that's to automatically run build scripts after a package is installed or updated.
@@ -431,12 +486,15 @@ I basically want to specify this in my specs:
  :build ["cargo" "build" "--release"]}
 ```
 
-The recommended way to trigger on package events is to use [PackChanged][].
+Again, we'll use rely on [PackChanged][] for this:
 
 ```fennel
 ;; Before `vim.pack.add` to capture changes.
 (augroup! :plugin_init (au! :PackChanged pack_changed))
 ```
+
+The above code uses macros from [nvim-laurel][] to define an autocommand that calls the `pack_changed` function.
+That function will then run the build script when the package is updated or installed:
 
 ```fennel
 (λ pack_changed [event]
@@ -450,6 +508,8 @@ The recommended way to trigger on package events is to use [PackChanged][].
   ;; Return false to not remove the autocommand.
   false)
 ```
+
+To run the scripts I use [vim.system][] with some simple printing:
 
 ```fennel
 (λ run_build_script [build event]
@@ -467,8 +527,10 @@ The recommended way to trigger on package events is to use [PackChanged][].
 ```
 
 This will now allow us to run build scripts like `cargo build --release` or `make` after a package is installed or updated.
+It's a bit too basic as there's no visible progress bar for long running builds (Rust, I'm looking at you!) but it works well enough I guess.
 
-But what about user commands or requiring a package? For example with [nvim-treesitter][] you'd want to run `:TSUpdate`?
+But what about user commands or requiring a package? For example with [nvim-treesitter][] you'd want to run `:TSUpdate` after an update.
+Something like this:
 
 ```fennel
 {:src "https://github.com/nvim-treesitter/nvim-treesitter"
@@ -476,15 +538,110 @@ But what about user commands or requiring a package? For example with [nvim-tree
  :build #(vim.cmd "TSUpdate")}
 ```
 
-1. Allow build to be a function
-2. Show the error of our ways
-3. Create an `after_build` hook
+Let's try it by allowing functions in the `build` parameter (and bare strings because why not):
 
-This works for build scripts such as running `make` or `cargo build --release` but it's not able to require the package (since [lze][] hasn't loaded the package yet).
+{path="fnl/plugins/init.fnl" hl="6..11,14..17"}
+```fennel
+(λ pack_changed [event]
+  (when (vim.list_contains [:update :install] event.data.kind)
+    (set_pack_changed event.data.spec.name event)
+    (local build (?. event :data :spec :data :build))
+    (when build
+      (case (type build)
+        ;; We can specify either "make" or ["make"]
+        "string" (run_build_script [build] event)
+        "table" (run_build_script build event)
+        ;; Run a callback instead
+        "function" (call_build_cb build event))))
+  false)
 
+(λ call_build_cb [build event]
+  (vim.notify (.. "Call build hook for " event.data.spec.name)
+              vim.log.levels.INFO)
+  (build event))
+```
+
+If we run this though it doesn't work:
+
+```
+Error in /home/tree/code/nvim-conf/init.lua..PackChanged Autocommands for "*":
+Lua callback: vim/_editor.lua:0: /home/tree/code/nvim-conf/init.lua..PackChanged Autocommands for "*"..script nvim_exec2() called
+at PackChanged Autocommands for "*":0, line 1: Vim:E492: Not an editor command: TSUpdate
+```
+
+The problem is that `PackChanged` is run before the pack is loaded.
+Maybe we could work around this by calling [packadd][] ourselves but that would shortcut lazy loading.
+In this instance we'd like to run `TSUpdate` after the pack is loaded but only if it's been updated or installed so we don't run it after every restart.
+
+What I did was introduce an `after_build` parameter to the spec that should do this:
+
+{hl=3}
 ```fennel
 {:src "https://github.com/nvim-treesitter/nvim-treesitter"
  :version :main
+ :after_build #(vim.cmd "TSUpdate")}
+```
+
+Then in `plugins/init.fnl` I use a local variable `packs_changed` that's updated on [PackChanged][] like so:
+
+{path="fnl/plugins/init.fnl" hl="1..8,12"}
+```fennel
+;; Capture packs that are updated or installed.
+(g! :packs_changed {})
+
+(λ set_pack_changed [name event]
+  ;; Maybe there's an easier way of updating a global...?
+  (var packs vim.g.packs_changed)
+  (tset packs name event)
+  (g! :packs_changed packs))
+
+(λ pack_changed [event]
+  (when (vim.list_contains [:update :install] event.data.kind)
+    (set_pack_changed event.data.spec.name event)
+    (local build (?. event :data :spec :data :build))
+    (when build
+      (case (type build)
+        "string" (run_build_script [build] event)
+        "table" (run_build_script build event)
+        "function" (call_build_cb build event))))
+  false)
+```
+
+Then we'll call `after_build` from the `after` hook we setup before:
+
+{path="fnl/plugins/init.fnl" hl="9..10,14..17"}
+```fennel
+(λ transform_spec [spec]
+  (case spec
+    {}
+    (do
+      ;; Split keys to vim.pack and rest into `data`.
+      ;; ...
+
+      (λ after [args]
+        (local pack_changed_event (. vim.g.packs_changed args.name))
+        (set_pack_changed args.name false)
+        (when spec.setup
+          (local pkg (require spec.on_require))
+          (pkg.setup spec.setup))
+        ;; Run `after_build` scripts if a `PackChanged` event
+        ;; was run with `install` or `update`.
+        (when (and spec.after_build pack_changed_event)
+          (spec.after_build args))
+        (when spec.after
+          (spec.after args)))
+
+      (set data_args.after after)
+      (set pack_args.data data_args)
+      pack_args)
+    other
+    other))
+```
+
+With this we can finally specify build actions such as these:
+
+```fennel
+{:build ["cargo" "build" "--release"]
  :after_build #(vim.cmd "TSUpdate")}
 ```
 
@@ -814,3 +971,4 @@ I think I saw a plugin for that somewhere but here's some Fennel code that sets 
 [vim.system]: https://neovim.io/doc/user/lua.html#vim.system()
 [melange]: https://github.com/savq/melange-nvim
 [main-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter/tree/main
+[packadd]: https://neovim.io/doc/user/repeat.html#%3Apackadd
