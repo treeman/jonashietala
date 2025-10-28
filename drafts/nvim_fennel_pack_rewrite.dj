@@ -13,22 +13,6 @@ That's a big benefit to having a blog: so I have an outlet for rambling about my
 
 I know that Veronica won't be impressed by another Neovim config rewrite (even when done in Lisp!) so I'll simply write a big blog post about it.
 
-{% Cause if she has to hear about me rewriting my Neovim config _again_ and why this time it's a good idea because I did it in Lisp %}
-
-
-
-{% My partner Veronica is great at many things and she'll listen to most of my bullshit. %}
-
-{% The purpose of my blog is for me to be ab && %}
-
-{% The reason I have a blog is to %}
-
-{% One of the reasons I have a blog is as an outlet for my weird projects or things I happen to fixate on. %}
-
-{% My partner Veronica---blessed with an ungodly amount of patience---just isn't %}
-
-{% Veronica doesn't want to listen to me excitedly telling her about why [Fennel][] is nicer than Lua; how I spent a hundred lines of code (together with [a plugin][lze]) to replicate existing [lazy.nvim][] functionality; or ... %}
-
 ::: warn
 This post will contain wild Lisp code and random Neovim references.
 Please consult the [Fennel safety manual][] and your nearest [Neovim :help station][] for assistance.
@@ -40,33 +24,41 @@ Please consult the [Fennel safety manual][] and your nearest [Neovim :help stati
 
 I wanted to rewrite my Neovim configuration in [Fennel][] (a Lisp that compiles to Lua) and while doing so I wanted to migrate from [lazy.nvim][] to Neovim's new built-in package manager [vim.pack][].
 
-This included bootstrapping [Fennel][] compilation for Neovim; replicating missing features from [lazy.nvim][] such as running build scripts and lazy loading; fixing breaking changes with some plugins; and trying out some new exciting plugins.
+This included bootstrapping [Fennel][] compilation for Neovim; replicating missing features from [lazy.nvim][] such as running build scripts and lazy loading; modernizing my LSP and treesitter config; and trying out some new interesting plugins.
+
+Please see [my new Neovim config here][].
 
 ## Why Fennel?
 
-* I haven't played around with a new programming language since forever
-* [Fennel][] has some nice quality of life features I like such as destructuring, the pipe operator, and macros
+Lua has been a fantastic boon to Neovim and it's a significant improvement over Vimscript, yet I can't help but raise an eyebrow when I hear people describe Lua as a _great_ language.
+It's definitely great at being a simple and fast embeddable language but the language itself leaves me wanting more.
+
+[Fennel][] doesn't solve all issues as some of Lua's quirks bleeds through but it should make it a little bit nicer.
+I particularly like the destructuring;
+more functional programming constructs;
+macros for convenient DSL;
+and the amazing pipe operator.
+
+But the biggest reason is that I'm simply a bit bored and trying out new programming languages is fun.
 
 ## Why [vim.pack][]?
 
 > I don't rewrite my config often. But when I do, I do it properly.
 > ^ Ancient Neovim wisdom
 
-I'm an expert procrastinator.
+Folke, maker of many popular plugins such as [lazy.nvim][] and [snacks.nvim][], recently had a ~5 month break from working on his plugins.
+Of course, they continued working and anyone working on open source projects can (and should) take a break whenever they want.
 
-* Removal of a major dependency
+But it exemplifies that core Neovim features will likely be better maintained than standalone plugins and should probably be preferred (if they provide the features you need).
 
-  Folke recently had a vacation and his many plugins were left without activity for months.
-  This made me realize that I should probably try to reduce the [buss factor][] of my setup---at least for the biggest dependencies, and what's bigger than the package manager itself?
-
-* Fun to try out new things
+While [Neovim's built-in plugin manager][] is a work in progress and still a bit too simplistic for my needs I wanted to try it out.
 
 # Structuring the config
 
 If you've got a small configuration having it all inside a single `init.lua` is probably fine.
-Somehow I've managed gather almost 6k lines of Lua code under `~/.config/nvim` so this isn't an option for me.
+Somehow I've gathered almost 6k lines of Lua code under `~/.config/nvim` so showing it all in one file isn't that appealing.
 
-I first wanted to separate the configuration into `core`/`plugin` split, where non-plugin configuration happens in `core` and plugin configuration lives under `plugin`.
+I first wanted to separate the configuration into a `core`/`plugin` split, where non-plugin configuration happens in `core` and plugin configuration lives under `plugin`.
 However, to support lazy loading with a single call to [vim.pack.add][] I decided to go back to letting the files under `plugin/` return plugin specs, like [lazy.nvim][] does for you.
 
 With Fennel support under `fnl/` this is how my configuration is structured:
@@ -97,7 +89,7 @@ But some plugins use lazy loading making it more convenient to do it together wi
 # Bootstrapping Fennel
 
 There are a handful of different plugins that allows you to easily write your Neovim config in Fennel.
-I ended up choosing [nvim-thyme][] because it's fast (it hooks into `require` and only compiles on-demand) and [nvim-thyme][] allows you to mix Fennel and Lua source files.
+I ended up choosing [nvim-thyme][] because it's fast (it hooks into `require` and only compiles on-demand) and it allows you to mix Fennel and Lua source files.
 
 ::: tip
 [nvim-thyme][] compiles Fennel sources to Lua files and adds them to Neovim's runtimepath.
@@ -106,7 +98,7 @@ On my machine they're located at `~/.cache/nvim/thyme/compile/lua/`.
 :::
 
 [nvim-thyme][] contains installation instructions for [lazy.nvim][] and it references a bootstrapping function to run `git` to manually clone packages.
-But we're going to use [vim.pack][] and it makes it a bit cleaner:
+But we're going to use [vim.pack][] and it makes the bootstrap a bit cleaner:
 
 {path="init.lua"}
 ```lua
@@ -134,7 +126,7 @@ table.insert(package.loaders, function(...)
   return require("thyme").loader(...)
 end)
 
--- Setup the compile cache path that thyme requires.
+-- Setup the compile cache path for thyme.
 local thyme_cache_prefix = vim.fn.stdpath("cache") .. "/thyme/compiled"
 vim.opt.rtp:prepend(thyme_cache_prefix)
 ```
@@ -169,7 +161,7 @@ Keep in mind that we don't have to stay with Fennel all the time.\
 There's one last thing we should do to make the bootstrap complete: we should call `:ThymeCacheClear` when `nvim-laurel` or `nvim-thyme` changes.
 The recommended way is to use the [PackChanged][] event, with something like this:
 
-{path="fnl/config/init.fnl"}
+{path="init.lua"}
 ```lua
 vim.api.nvim_create_autocmd("PackChanged", {
   callback = function(event)
@@ -182,9 +174,11 @@ vim.api.nvim_create_autocmd("PackChanged", {
   end,
   group = vim.api.nvim_create_augroup("init.lua", { clear = true }),
 })
+
+vim.pack.add(...)
 ```
 
-But if we for example force an update for `nvim-laurel` (by deleting it with [vim.pack.del][] and restart) we get this error:
+But if we for example force an update for `nvim-laurel` (by deleting it with `vim.pack.del({"nvim-laurel"})`{=lua} and restart Neovim) we get this error:
 
 ```
 Error in /home/tree/code/nvim-conf/init.lua..PackChanged Autocommands for "*":
@@ -248,7 +242,7 @@ I could've given up and gone back to [lazy.nvim][] but that just wouldn't do.
 
 ## Source pack specs from files
 
-What I want is to be able to create a file under `plugins/`, have it return a [vim.pack.Spec][] and have it automatically added. This is similar to the [structured plugins][] approach of [lazy.nvim][].
+I want to be able to create a file under `plugins/`, have it return a [vim.pack.Spec][], and have it automatically added. This is similar to the [structured plugins][] approach of [lazy.nvim][].
 
 To build this I first list all files under `plugins/` like so:
 
@@ -266,7 +260,7 @@ It's one of my favorite features of Elixir and was stoked to discover that Fenne
 (Fennel actually has even more power with the `->>`, `-?>`, and `-?>>` operators!)
 
 Now we need to loop through and transform the paths to relative paths and evaluate the files to get our specs.
-I'm using [accumulate][] instead of [collect][] as we'll soon extend it:
+(I'm using [accumulate][] instead of [collect][] as we'll soon add to it):
 
 [collect]: https://fennel-lang.org/reference#icollect-collect-table-comprehension-macros
 [accumulate]: https://fennel-lang.org/reference#accumulate-iterator-accumulation
@@ -302,7 +296,7 @@ return { src = "https://github.com/romainl/vim-cool" }
 ```
 :::
 
-But I also want to be able to return multiple specs, such as this:
+But I also want to be able to return multiple specs:
 
 {path="fnl/plugins/deps.fnl"}
 ```fennel
@@ -341,7 +335,7 @@ Now all that's left is to call [vim.pack.add][] with our list of specs and our p
 
 ## Lazy loading with [lze][]
 
-[lze][] is a pretty nice and simple plugin to add lazy-loading to [vim.pack][].
+[lze][] is a nice and simple plugin to add lazy-loading to [vim.pack][].
 
 We've already added it as a dependency in our `init.lua` so all we need to do is modify the `load` parameter to `vim.pack.add` like so:
 
@@ -1008,3 +1002,5 @@ If you use [nvim-treesitter-textobjects][] (which you should) remember to migrat
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects/tree/main
 [Neovim :help station]: https://neovim.io/doc/user/helphelp.html
 [Fennel safety manual]: https://fennel-lang.org/reference
+[Neovim's built-in plugin manager]: https://neovim.io/doc/user/pack.html#vim.pack
+[my new Neovim config here]: https://github.com/treeman/nvim-conf
