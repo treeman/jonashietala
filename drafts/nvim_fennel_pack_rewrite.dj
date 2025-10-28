@@ -8,29 +8,58 @@ tags = ["Lua", "Fennel", "Neovim"]
 > ... anyone can do any amount of work, provided it isn't the work he is supposed to be doing at that moment.
 > ^ Robert Benchley, in Chips off the Old Benchley, 1949
 
-Veronica doesn't want to listen to me excitedly telling her about why [Fennel][] is nicer than Lua; how I spent a hundred lines of code (together with [a plugin][lze]) to replicate existing [lazy.nvim][] functionality; or ...
+My partner Veronica is amazing as she'll listen to my bullshit and random whims (or at least, pretend to).
+That's a big benefit to having a blog: so I have an outlet for rambling about my weird projects and random fixations and spare Veronica's sanity a little.
+
+I know that Veronica won't be impressed by another Neovim config rewrite (even when done in Lisp!) so I'll simply write a big blog post about it.
+
+{% Cause if she has to hear about me rewriting my Neovim config _again_ and why this time it's a good idea because I did it in Lisp %}
+
+
+
+{% My partner Veronica is great at many things and she'll listen to most of my bullshit. %}
+
+{% The purpose of my blog is for me to be ab && %}
+
+{% The reason I have a blog is to %}
+
+{% One of the reasons I have a blog is as an outlet for my weird projects or things I happen to fixate on. %}
+
+{% My partner Veronica---blessed with an ungodly amount of patience---just isn't %}
+
+{% Veronica doesn't want to listen to me excitedly telling her about why [Fennel][] is nicer than Lua; how I spent a hundred lines of code (together with [a plugin][lze]) to replicate existing [lazy.nvim][] functionality; or ... %}
 
 ::: warn
 This post will contain wild Lisp code and random Neovim references.
 Please consult the [Fennel safety manual][] and your nearest [Neovim :help station][] for assistance.
 :::
 
-[Neovim :help station]: https://neovim.io/doc/user/helphelp.html
-[Fennel safety manual]: https://fennel-lang.org/reference
+:table-of-content:
 
-# The grand plan
+# The rewrite
 
-1. Rewrite (most) of the config in Fennel.
-1. Migrate from [lazy.nvim][] to [vim.pack][] (including lazy loading).
-1. Go through and add, remove, update, or replace some plugins.
+I wanted to rewrite my Neovim configuration in [Fennel][] (a Lisp that compiles to Lua) and while doing so I wanted to migrate from [lazy.nvim][] to Neovim's new built-in package manager [vim.pack][].
 
-And of course, make a way too big blog post about it.
+This included bootstrapping [Fennel][] compilation for Neovim; replicating missing features from [lazy.nvim][] such as running build scripts and lazy loading; fixing breaking changes with some plugins; and trying out some new exciting plugins.
 
 ## Why Fennel?
 
+* I haven't played around with a new programming language since forever
+* [Fennel][] has some nice quality of life features I like such as destructuring, the pipe operator, and macros
+
 ## Why [vim.pack][]?
 
+> I don't rewrite my config often. But when I do, I do it properly.
+> ^ Ancient Neovim wisdom
+
 I'm an expert procrastinator.
+
+* Removal of a major dependency
+
+  Folke recently had a vacation and his many plugins were left without activity for months.
+  This made me realize that I should probably try to reduce the [buss factor][] of my setup---at least for the biggest dependencies, and what's bigger than the package manager itself?
+
+* Fun to try out new things
 
 # Structuring the config
 
@@ -857,7 +886,7 @@ A big plus with the setup I use is that I can mix Funnel and Lua, so if I want t
 ## Native undotree
 
 I've been using the [undotree][undotree-plugin] a long time and it's excellent.
-[This feature][nvim-undotree] was [recently merged into Neovim](https://github.com/neovim/neovim/pull/35627).
+[This feature][nvim-undotree] was [recently merged into Neovim](https://github.com/neovim/neovim/pull/35627):
 
 [undotree-plugin]: https://github.com/jiaoshijie/undotree
 [nvim-undotree]: https://neovim.io/doc/user/plugins.html#_builtin-plugin:-undotree
@@ -888,24 +917,13 @@ Here's how my base config looks like:
 (local mason-lspconfig (require :mason-lspconfig))
 (mason-lspconfig.setup {:automatic_enable true})
 
+;; Show diagnostics as virtual lines on the current line.
 (vim.diagnostic.config {:virtual_text false
                         :severity_sort true
-                        :float {:scope "cursor"}})
+                        :virtual_lines { :current_line true })
 
+;; I like inlay hints.
 (vim.lsp.inlay_hint.enable true)
-
-;; The expert LSP isn't included in lspconfig yet, no biggie.
-(vim.lsp.config "expert"
-                {:cmd ["expert"]
-                 :root_markers ["mix.exs" ".git"]
-                 :filetypes ["elixir" "eelixir" "heex"]})
-
-(vim.lsp.enable "expert")
-
-;; These are default bindings in Neovim but they don't open the diagnostic floats immediately.
-;; Calling them manually does though...
-(map! "n" "]d" vim.diagnostic.goto_next {:silent true :desc "Next diagnostic"})
-(map! "n" "[d" vim.diagnostic.goto_prev {:silent true :desc "Prev diagnostic"})
 
 (augroup! :my-lsps
           (au! :LspAttach
@@ -918,15 +936,27 @@ Here's how my base config looks like:
                 ;; etc
 ```
 
+I also use [nvim-lspconfig][] but it doesn't do anything magical (anymore).
+It's basically a [collection of LSP configs][], so I don't have to fill my config with things like this:
+
+```fennel
+(vim.lsp.config "expert"
+                {:cmd ["expert"]
+                 :root_markers ["mix.exs" ".git"]
+                 :filetypes ["elixir" "eelixir" "heex"]})
+
+(vim.lsp.enable "expert")
+```
+
 If you don't want to change the keymaps (Neovim comes with defaults that I personally dislike) or customize specific LSPs then there's not that much left.
-Mason is also totally optional and if you want to build your LSPs from source
+[Mason][] is also totally optional and if you want to manage your LSPs outside of Neovim you can totally do that.
+The only thing missing is autocomplete, which [blink.cmp][] provides out of the box.
 
 ## Automatically install and enable treesitter grammars
 
-Another thing that has changed since my last config overhaul is [nvim-treesitter][] being rewritten and is now a much simpler plugin. (The new version lives on the [main branch][main-treesitter] and the old archived one on `master`.)
+Another thing that has changed since my last config overhaul is [nvim-treesitter][] being rewritten and is now a much simpler plugin. The new version lives on the [main branch][main-treesitter] and the old archived one on `master` and it contains a bunch of breaking changes.
 
-
-That's fine but it no longer supports automatically installing grammars or activating them automatically.
+For example, it no longer supports installing and activating grammars automatically.
 I think I saw a plugin for that somewhere but here's some Fennel code that sets it up:
 
 {path="fnl/config/treesitter.fnl"}
@@ -954,13 +984,14 @@ I think I saw a plugin for that somewhere but here's some Fennel code that sets 
                           (vim.treesitter.start bufnr))))))))
 ```
 
-## [fyler.nvim][]
+If you use [nvim-treesitter-textobjects][] (which you should) remember to migrate to the `main` branch there too.
 
-## blink.nvim
+## Some new fun plugins
 
-## fff.nvim
-
-## snacks picker
+* [fyler.nvim][]
+* [blink.nvim][]
+* [snacks.nvim][] picker
+* Project wide query replace?
 
 [hi!]: https://github.com/aileot/nvim-laurel/blob/main/docs/reference.md#highlight
 [scructured plugins]: https://lazy.folke.io/usage/structuring
@@ -972,3 +1003,8 @@ I think I saw a plugin for that somewhere but here's some Fennel code that sets 
 [melange]: https://github.com/savq/melange-nvim
 [main-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter/tree/main
 [packadd]: https://neovim.io/doc/user/repeat.html#%3Apackadd
+[collection of LSP configs]: https://github.com/neovim/nvim-lspconfig/tree/master/lsp
+[Mason]: https://github.com/mason-org/mason.nvim
+[nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects/tree/main
+[Neovim :help station]: https://neovim.io/doc/user/helphelp.html
+[Fennel safety manual]: https://fennel-lang.org/reference
