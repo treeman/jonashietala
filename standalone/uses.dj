@@ -14,14 +14,15 @@ For more lists like this, check out <https://github.com/wesbos/awesome-uses>.
 
 I do all my development, writing and note taking inside [Neovim][].
 I've been using Vim (and later Neovim when I wanted async code) since 15 years ago, and I don't see myself ever switching away.
-I have quite a few plugins and tweaks, here's a list of some notable ones:
+I've quite a few plugins and tweaks, here's a list of some notable ones:
 
-- [lazy.nvim][] as the plugin manager.
-- [telescope.nvim][] for fuzzy finding all the things.
-- [nvim-cmp][] as a completion engine.
+- [nvim-thyme][] to compile [Fennel][] to Lua.
+- [vim.pack][] as the plugin manager and [lze][] for lazy loading.
+- [snacks.nvim][] picker for fuzzy finding all the things.
+- [blink.cmp][] as a completion engine.
 - [conform.nvim][] to format files on save.
 - [nvim-treesitter][] for better syntax highlighting and [nvim-treesitter-textobjects][] for jumping between parts of the code.
-- [neogit][], [vim-fugitive][], and [gitsigns.nvim][] general git handling.
+- [neogit][], [mini-git][], and [gitsigns.nvim][] general git handling.
 - Basic LSP setup with [nvim-lspconfig][], [mason.nvim][] and [mason-lspconfig.nvim][].
 
 See [my config files][neovim-config] for more.
@@ -36,8 +37,7 @@ This allows me to use four splits on my main monitor instead of three, giving me
 
 ![Four splits on my main monitor. It's nice.](/images/uses/neovim_wide2.png)
 
-I don't use a desktop environment and I rely on [xmonad][] as my tiling window manager to spam [alacritty][] terminals powered by [fish][] or [firefox][] instances all over the place.
-I sometimes use [neovide][] as a [Neovim][] GUI, as it has nicer scaling and some cursor effects that makes it a little easier to follow the cursor when it's moving around windows a lot.
+I don't use a desktop environment and I rely on [xmonad][] as my tiling window manager to spam [ghostty][] terminals powered by [fish][] or [firefox][] instances all over the place.
 
 As for the OS, I run [Void Linux][] on all my machines at home ([Arch Linux][] on the [Steam Deck][] though).
 
@@ -118,21 +118,15 @@ I have the variant with the AMD Ryzen™ 5 7640U processor and matte display but
 
 - I try to use [Todoist][] to track my tasks and todos, but sometimes I keep them in my personal wiki folder instead.
 
-- After trying out _tons_ of habit trackers I've settled on [Habit loop tracker][] to help me add and continue the habits I want to have.
-
 # Other hardware & Gadgets
 
 - For note-taking I use the [reMarkable 2][].
 
   I don't use it for anything fancy, it's just nice to sometimes write notes or plan things "on paper". The writing experience really does feel good on it.
 
-- My phone is the [Fairphone 4][].
+- My phone is the Pixel 9a running [GrapheneOS][].
 
-  It's a great phone and I love being able to super quickly replace the battery.
-  But honestly, I should use it less (don't we all?) so I've tried to remove all but the most essential apps.
-
-  I've installed [CalyxOS][] with [microG][] for a de-Googled experience.
-  I can can warmly recommend it, [CalyxOS][] is great.
+  [GrapheneOS][] is an excellent way to de-Google your life, add extra security, and regain your freedom of your mobile life.
 
 - A [Garmin Instinct 2X Solar][] smartwatch to keep track of time and give me notifications.
 
@@ -151,10 +145,9 @@ I have the variant with the AMD Ryzen™ 5 7640U processor and matte display but
   Check out the [in-depth build log][VORON Trident] of the Trident I made.
 
 [Neovim]: https://neovim.io/
-[neovim-config]: https://github.com/treeman/dotfiles/tree/master/.config/nvim
-[Ferris]: https://github.com/pierrechevalier83/ferris
+[neovim-config]: https://github.com/treeman/nvim-conf
 [neovide]: https://github.com/neovide/neovide
-[alacritty]: https://alacritty.org/
+[ghostty]: https://ghostty.org/
 [iosevka]: /iosevka
 [fish]: https://fishshell.com/
 [xmonad]: https://xmonad.org/
@@ -181,7 +174,6 @@ I have the variant with the AMD Ryzen™ 5 7640U processor and matte display but
 [vim-fugitive]: https://github.com/tpope/vim-fugitive
 [microG]: https://calyxos.org/docs/guide/microg/
 [CalyxOS]: https://calyxos.org/
-[Kensington SlimBlade Trackball]: https://www.kensington.com/p/products/ergonomic-desk-accessories/ergonomic-input-devices/slimblade-trackball/
 [Blue Microphone Snowball iCE]: https://www.logitechg.com/en-us/products/streaming-gear/snowball-ice-usb-microphone.html
 [Garmin Instinct 2X Solar]: https://www.garmin.com/sv-SE/p/884585/pn/010-02805-00
 [VORON Trident]: /series/voron_trident
@@ -191,3 +183,11 @@ I have the variant with the AMD Ryzen™ 5 7640U processor and matte display but
 [VORON 0]: /blog/2025/03/25/lets_build_a_voron_0
 [Whoop]: https://www.whoop.com
 [track my overall health and fitness]: /blog/2025/06/02/why_im_back_to_whoop_for_now
+[vim.pack]: https://neovim.io/doc/user/pack.html#vim.pack
+[snacks.nvim]: https://github.com/folke/snacks.nvim
+[blink.cmp]: https://github.com/Saghen/blink.cmp
+[mini-git]: https://github.com/nvim-mini/mini-git
+[nvim-thyme]: https://github.com/aileot/nvim-thyme
+[Fennel]: https://fennel-lang.org/
+[lze]: https://github.com/BirdeeHub/lze
+[GrapheneOS]: https://grapheneos.org/

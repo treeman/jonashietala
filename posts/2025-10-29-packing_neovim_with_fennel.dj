@@ -1,6 +1,7 @@
 ---toml
 title = "Packing Neovim with Fennel"
 tags = ["Lua", "Fennel", "Neovim"]
+favorite = true
 ---
 
 ![I've got lots of stuff to do but I ended up rewriting my Neovim config instead.](/images/new_config_meme.jpg)
@@ -26,7 +27,7 @@ I wanted to rewrite my Neovim configuration in [Fennel][] (a Lisp that compiles 
 
 This included bootstrapping [Fennel][] compilation for Neovim; replicating missing features from [lazy.nvim][] such as running build scripts and lazy loading; modernizing my LSP and treesitter config; and trying out some new interesting plugins.
 
-Please see [my new Neovim config here][].
+Please see [my new Neovim config here][src].
 
 ## Why Fennel?
 
@@ -113,7 +114,7 @@ vim.pack.add({
 }, { confirm = false })
 ```
 
-(I added [lze][] to my bootstrapping too as I'll use it later [when adding lazy loading support][], it was simpler having it in the boostrap.)
+(I added [lze][] to my bootstrapping too as I'll use it later [when adding lazy loading support](#Lazy-loading-with-lze), it was simpler having it in the bootstrap.)
 
 [nvim-thyme][] also instructs us to override `require()` calls (so it can compile on demand) and
 to setup the cache path (where it'll store the compiled Lua files):
@@ -1079,6 +1080,11 @@ It's nicer for sure but it's nothing revolutionary.
 
 Then again, it's the little things in life that matters.
 
+{.center}
+:::
+[Link to my new Neovim config on GitHub][src]
+:::
+
 [Fennel safety manual]: https://fennel-lang.org/reference
 [Fennel]: https://fennel-lang.org/
 [Mason]: https://github.com/mason-org/mason.nvim
@@ -1095,7 +1101,6 @@ Then again, it's the little things in life that matters.
 [lze]: https://github.com/BirdeeHub/lze
 [main-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter/tree/main
 [melange]: https://github.com/savq/melange-nvim
-[my new Neovim config here]: https://github.com/treeman/nvim-conf
 [nvim-lspconfig]: https://github.com/neovim/nvim-lspconfig
 [nvim-thyme]: https://github.com/aileot/nvim-thyme
 [nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects/tree/main
@@ -1121,3 +1126,4 @@ Then again, it's the little things in life that matters.
 [grug-far.nvim]: https://github.com/MagicDuck/grug-far.nvim
 [search-replace.nvim]: https://github.com/roobert/search-replace.nvim
 [replacer.nvim]: https://github.com/gabrielpoca/replacer.nvim
+[src]: https://github.com/treeman/nvim-conf
