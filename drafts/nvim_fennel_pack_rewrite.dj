@@ -47,11 +47,11 @@ But the biggest reason is that I'm simply a bit bored and trying out new program
 > ^ Ancient Neovim wisdom
 
 Folke, maker of many popular plugins such as [lazy.nvim][] and [snacks.nvim][], recently had a ~5 month break from working on his plugins.
-Of course, they continued working and anyone working on open source projects can (and should) take a break whenever they want.
+Of course, they continued to work and anyone working on open source projects can (and should) take a break whenever they want.
 
 But it exemplifies that core Neovim features will likely be better maintained than standalone plugins and should probably be preferred (if they provide the features you need).
 
-While [Neovim's built-in plugin manager][] is a work in progress and still a bit too simplistic for my needs I wanted to try it out.
+While [Neovim's built-in plugin manager][vim.pack] is a work in progress and still a bit too simplistic for my needs I wanted to try it out.
 
 # Structuring the config
 
@@ -255,15 +255,13 @@ To build this I first list all files under `plugins/` like so:
                  (vim.split "\n")))
 ```
 
-This uses Fennel's [-> threading macro][], Fennel's version of the pipe operator.
+This uses Fennel's `->` [threading macro][], Fennel's version of the pipe operator.
 It's one of my favorite features of Elixir and was stoked to discover that Fennel has it too.
 (Fennel actually has even more power with the `->>`, `-?>`, and `-?>>` operators!)
 
 Now we need to loop through and transform the paths to relative paths and evaluate the files to get our specs.
-(I'm using [accumulate][] instead of [collect][] as we'll soon add to it):
+(I'm using [accumulate][] to explicitly build a list instead of [collect][] as we'll soon expand on it):
 
-[collect]: https://fennel-lang.org/reference#icollect-collect-table-comprehension-macros
-[accumulate]: https://fennel-lang.org/reference#accumulate-iterator-accumulation
 
 {path="fnl/plugins/init.fnl"}
 ```fennel
@@ -434,7 +432,7 @@ For example, this is how it looks like with [lze][] to add an `after` hook and c
  :after (λ []
           (local fyler (require :fyler))
           (fyler.setup {:icon_provider "nvim_web_devicons"
-                        :default_explorer false}))}
+                        :default_explorer true}))}
 ```
 
 What if we could instead do:
@@ -442,7 +440,7 @@ What if we could instead do:
 ```fennel
 {:src "https://github.com/A7Lavinraj/fyler.nvim"
  :on_require :fyler
- :setup {:icon_provider "nvim_web_devicons" :default_explorer false}}]
+ :setup {:icon_provider "nvim_web_devicons" :default_explorer true}}]
 ```
 
 But this is just data and we can transform the second case to the first one fairly easily.
@@ -481,8 +479,9 @@ In the `transform_spec` function:
     other))
 ```
 
-The one issue is how to figure out the package name to require (since it may differ from the path).
-I chose to use the `on_require` argument that [lze][] uses as the keyword so it can lazy load on require (on `(require :fyler)`{=fennel} for example).
+How to figure out the package name to require (since it may differ from the path)?
+[lazy.nvim][] has a bunch of rules to try to figure this out automatically but I chose to be explicit.
+[lze][] uses the `on_require` argument so it can load on a require call (on `(require :fyler)`{=fennel} for example), which seems like a good idea to reuse.
 
 And just to prevent me from making mistakes, I added a sanity check:
 
@@ -509,7 +508,7 @@ I basically want to specify this in my specs:
  :build ["cargo" "build" "--release"]}
 ```
 
-Again, we'll use rely on [PackChanged][] for this:
+Again, we'll rely on [PackChanged][] for this:
 
 ```fennel
 ;; Before `vim.pack.add` to capture changes.
@@ -517,27 +516,28 @@ Again, we'll use rely on [PackChanged][] for this:
 ```
 
 The above code uses macros from [nvim-laurel][] to define an autocommand that calls the `pack_changed` function.
-That function will then run the build script when the package is updated or installed:
+That function will then run `pack_changed` when the package is updated or installed:
 
 ```fennel
 (λ pack_changed [event]
   (when (vim.list_contains [:update :install] event.data.kind)
-    ;; This is ugly, but `?.` will prevent crashing.
-    ;; It's nested this way because the `build` parameter gets
-    ;; moved into to `data` key in specs.
-    (local build (?. event :data :spec :data :build))
-    (when build
-      (run_build_script build event))))
+    (execute_build event.data))
   ;; Return false to not remove the autocommand.
   false)
+
+(λ execute_build [pack]
+   ;; `?.` will prevent crashing if any field is nil.
+  (local build (?. pack :spec :data :build))
+  (when build
+    (run_build_script build pack)))
 ```
 
 To run the scripts I use [vim.system][] with some simple printing:
 
 ```fennel
-(λ run_build_script [build event]
-  (local path event.data.path)
-  (vim.notify (.. "Run `" (vim.inspect build) "` for " event.data.spec.name)
+(λ run_build_script [build pack]
+  (local path pack.path)
+  (vim.notify (.. "Run `" (vim.inspect build) "` for " pack.spec.name)
               vim.log.levels.INFO)
   (vim.system build {:cwd path}
               (λ [exit_obj]
@@ -550,10 +550,10 @@ To run the scripts I use [vim.system][] with some simple printing:
 ```
 
 This will now allow us to run build scripts like `cargo build --release` or `make` after a package is installed or updated.
-It's a bit too basic as there's no visible progress bar for long running builds (Rust, I'm looking at you!) but it works well enough I guess.
+It's a bit too basic as there's no visible progress bar for long running builds (Rust, I'm looking at you!) and it doesn't handle build errors that well but it works well enough I guess.
 
-But what about user commands or requiring a package? For example with [nvim-treesitter][] you'd want to run `:TSUpdate` after an update.
-Something like this:
+But what about user commands or requiring a package? For example with [nvim-treesitter][] you'd want to run `:TSUpdate` after an update,
+something like this:
 
 ```fennel
 {:src "https://github.com/nvim-treesitter/nvim-treesitter"
@@ -563,25 +563,21 @@ Something like this:
 
 Let's try it by allowing functions in the `build` parameter (and bare strings because why not):
 
-{path="fnl/plugins/init.fnl" hl="6..11,14..17"}
+{path="fnl/plugins/init.fnl" hl="4..9,11..13"}
 ```fennel
-(λ pack_changed [event]
-  (when (vim.list_contains [:update :install] event.data.kind)
-    (set_pack_changed event.data.spec.name event)
-    (local build (?. event :data :spec :data :build))
-    (when build
-      (case (type build)
-        ;; We can specify either "make" or ["make"]
-        "string" (run_build_script [build] event)
-        "table" (run_build_script build event)
-        ;; Run a callback instead
-        "function" (call_build_cb build event))))
-  false)
+(λ execute_build [pack]
+  (local build (?. pack :spec :data :build))
+  (when build
+    (case (type build)
+      ;; We can specify either "make" or ["make"]
+      "string" (run_build_script [build] pack)
+      "table" (run_build_script build pack)
+      ;; Run a callback instead.
+      "function" (call_build_cb build pack))))
 
-(λ call_build_cb [build event]
-  (vim.notify (.. "Call build hook for " event.data.spec.name)
-              vim.log.levels.INFO)
-  (build event))
+(λ call_build_cb [build pack]
+  (vim.notify (.. "Call build hook for " pack.spec.name) vim.log.levels.INFO)
+  (build pack))
 ```
 
 If we run this though it doesn't work:
@@ -596,7 +592,11 @@ The problem is that `PackChanged` is run before the pack is loaded.
 Maybe we could work around this by calling [packadd][] ourselves but that would shortcut lazy loading.
 In this instance we'd like to run `TSUpdate` after the pack is loaded but only if it's been updated or installed so we don't run it after every restart.
 
-What I did was introduce an `after_build` parameter to the spec that should do this:
+::: note
+Yeah I know that [nvim-treesitter][] shouldn't be lazy loaded anyway so it might be a bad example.
+:::
+
+What I did was introduce an `after_build` parameter to the spec that's run after load if a `PackChanged` event was seen before:
 
 {hl=3}
 ```fennel
@@ -607,26 +607,22 @@ What I did was introduce an `after_build` parameter to the spec that should do t
 
 Then in `plugins/init.fnl` I use a local variable `packs_changed` that's updated on [PackChanged][] like so:
 
-{path="fnl/plugins/init.fnl" hl="1..8,12"}
+{path="fnl/plugins/init.fnl" hl="1..8,13"}
 ```fennel
 ;; Capture packs that are updated or installed.
 (g! :packs_changed {})
 
 (λ set_pack_changed [name event]
-  ;; Maybe there's an easier way of updating a global...?
+  ;; Maybe there's an easier way of updating a table global...?
   (var packs vim.g.packs_changed)
   (tset packs name event)
   (g! :packs_changed packs))
 
 (λ pack_changed [event]
   (when (vim.list_contains [:update :install] event.data.kind)
-    (set_pack_changed event.data.spec.name event)
-    (local build (?. event :data :spec :data :build))
-    (when build
-      (case (type build)
-        "string" (run_build_script [build] event)
-        "table" (run_build_script build event)
-        "function" (call_build_cb build event))))
+    (local pack event.data)
+    (set_pack_changed pack.spec.name event)
+    (execute_build pack))
   false)
 ```
 
@@ -664,14 +660,35 @@ Then we'll call `after_build` from the `after` hook we setup before:
 With this we can finally specify build actions such as these:
 
 ```fennel
-{:build ["cargo" "build" "--release"]
+{:build "make"
+ :build ["cargo" "build" "--release"]
  :after_build #(vim.cmd "TSUpdate")}
 ```
+
+::: important
+While the build system mostly works, once in a while it'll break and fail to run the build scripts.
+Maybe there was a weird build error or something.
+For these cases I have a `:BuildPacks`{=fennel} user command that runs `build` and `after_build` for all packs like so:
+
+{path="fnl/plugins/init.fnl"}
+```fennel
+(command! :BuildPacks
+          (λ []
+            (each [_ pack (ipairs (vim.pack.get))]
+              (execute_build pack)
+              (local after_build (?. pack :spec :data :after_build))
+              (when after_build
+                (execute_after_build after_build pack.spec.name)))))
+```
+
+I really hope that proper build script support will land in core Neovim one day so I can rid myself of my crappy implementation.
+It makes me feel icky.
+:::
 
 # Some Fennel examples
 
 You've already seen how Fennel code looks like but what about configuration with Fennel?
-One of the negative things of moving my configuration from Vimscript to Lua was that simple things such as settings options or simple keymaps became a bit more verbose.
+One of the negative things of moving my configuration from Vimscript to Lua was that simple things such as settings options or simple keymaps is more verbose.
 
 So how does Fennel compare for the simpler, more declarative stuff?
 
@@ -680,7 +697,7 @@ So how does Fennel compare for the simpler, more declarative stuff?
 ```vim
 set relativenumber
 set clipboard^=unnamed,unnamedplus
-set backupdir=~/.vim/backup
+set backupdir=~/.config/nvim/backup
 let mapleader=" "
 ```
 
@@ -713,6 +730,12 @@ map("n", "<localleader>D", vim.lsp.buf.declaration,
 map("n", "<leader>ep", function() find_org_file("projects") end,
   { desc = "Org projects" }
 )
+map("n", "]t", function()
+  require("trouble").next({ skip_groups = true, jump = true })
+end, {
+  desc = "Trouble next",
+  silent = true,
+})
 ```
 
 ```fennel
@@ -720,17 +743,22 @@ map("n", "<leader>ep", function() find_org_file("projects") end,
        {:silent true :desc "Declaration"})
 (map! :n "<leader>ep" #(find_org_file "projects")
       {:desc "Org projects"})
+(map! :n "]t" #(do
+                 (local trouble (require :trouble))
+                 (trouble.next {:skip_groups true :jump true}))
+      {:silent true :desc "Trouble next"})
 ```
 
 Not a huge difference to be honest.
-I like the `#(do_the_thing)` shorthand for anonymous functions fennel has though.
+I like the `#(do_the_thing)` shorthand for anonymous functions fennel has.
+Having to (sometimes) split up `require` and method calls on separate lines in Fennel is annoying.
 
 ## Overriding highlight groups
 
 One example that was a big step up with Fennel is overriding highlight groups.
 I'm using [melange][] which is a fantastic and underrated color scheme but I've collected a fair bit of overrides for it.
 
-In Lua you use [nvim\_set\_hl][] to add an override, for example like this:
+In Lua you use [nvim\_set\_hl][nvimsethl] to add an override, for example like this:
 
 ```lua
 vim.api.nvim_set_hl(0, "@symbol.elixir", { link = "@label" })
@@ -751,13 +779,12 @@ for _, v in pairs(overrides) do
 end
 ```
 
-In Fennel with the [hi!][] macro this all becomes as simple as:
+In [Fennel][] with the [hi!][] macro this all becomes as simple as:
 
 ```fennel
 (hi! "@symbol.elixir" {:link "@label"})
 (hi! "@string.special.symbol.elixir" {:link "@label"})
 (hi! "@constant.elixir" {:link "Constant"})
-;; etc
 ```
 
 ## Autocommands
@@ -869,21 +896,21 @@ But with this new Fennel spec I use---even though it's simpler in some ways---it
          :explorer {}}}
 ```
 
-Maybe it's something you'll get used to; or it's something I can tweak using better syntax highlighting, formatting settings, or something else.
+Maybe it's something you'll get used to?
 
 ::: note
-A big plus with the setup I use is that I can mix Funnel and Lua, so if I want to I could specify the plugin specs in Lua and have the more "codey" parts in Fennel.
+A big plus with the setup I use is that I can mix Funnel and Lua, so if I get tired of the [Fennel][] tables I could keep them in Lua and have the more "codey" parts in Fennel.
 :::
 
 # Notable plugin updates
 
+Neovim is moving quickly and I've had a bit of catching up to do in the plugin department.
+I won't bore you with an exhaustive list; just a few highlights.
+
 ## Native undotree
 
-I've been using the [undotree][undotree-plugin] a long time and it's excellent.
+I've been using [undotree][undotree-plugin] a long time and it's excellent.
 [This feature][nvim-undotree] was [recently merged into Neovim](https://github.com/neovim/neovim/pull/35627):
-
-[undotree-plugin]: https://github.com/jiaoshijie/undotree
-[nvim-undotree]: https://neovim.io/doc/user/plugins.html#_builtin-plugin:-undotree
 
 ```fennel
 ;; It's optional so we need to use packadd to activate the plugin:
@@ -895,7 +922,7 @@ I've been using the [undotree][undotree-plugin] a long time and it's excellent.
 ## Simplified LSP config
 
 Neovim routinely gets shit on for LSPs being so hard to setup.
-Yes, it could probably be easier but Neovim has recently made some changes and it's not nearly as involved as it used to be.
+Yes, it could probably be easier but Neovim has recently made some changes to streamline LSP configuration and it's not nearly as involved as it used to be.
 
 Here's how my base config looks like:
 
@@ -912,6 +939,7 @@ Here's how my base config looks like:
 (mason-lspconfig.setup {:automatic_enable true})
 
 ;; Show diagnostics as virtual lines on the current line.
+;; It's pretty cool actually, you should try it out.
 (vim.diagnostic.config {:virtual_text false
                         :severity_sort true
                         :virtual_lines { :current_line true })
@@ -922,7 +950,8 @@ Here's how my base config looks like:
 (augroup! :my-lsps
           (au! :LspAttach
                (λ [_]
-                 (bmap! :n "<localleader>D" vim.lsp.buf.declaration
+                 (local snacks (require :snacks))
+                 (bmap! :n "<localleader>D" snacks.picker.lsp_declarations
                         {:silent true :desc "Declaration"})
                  (bmap! :n "<localleader>l"
                         #(vim.diagnostic.open_float {:focusable false})
@@ -982,25 +1011,113 @@ If you use [nvim-treesitter-textobjects][] (which you should) remember to migrat
 
 ## Some new fun plugins
 
-* [fyler.nvim][]
-* [blink.nvim][]
-* [snacks.nvim][] picker
-* Project wide query replace?
+1. [fyler.nvim][], edit a file explorer like a buffer
 
-[hi!]: https://github.com/aileot/nvim-laurel/blob/main/docs/reference.md#highlight
-[scructured plugins]: https://lazy.folke.io/usage/structuring
-[vim.pack.Spec]: https://neovim.io/doc/user/pack.html#vim.pack.Spec
-[-> threading macro]: https://fennel-lang.org/reference#------and---threading-macros
-[vim.pack.add]: https://neovim.io/doc/user/pack.html#vim.pack.add()
-[PackChanged]: https://neovim.io/doc/user/pack.html#PackChanged
-[vim.system]: https://neovim.io/doc/user/lua.html#vim.system()
-[melange]: https://github.com/savq/melange-nvim
-[main-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter/tree/main
-[packadd]: https://neovim.io/doc/user/repeat.html#%3Apackadd
-[collection of LSP configs]: https://github.com/neovim/nvim-lspconfig/tree/master/lsp
-[Mason]: https://github.com/mason-org/mason.nvim
-[nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects/tree/main
-[Neovim :help station]: https://neovim.io/doc/user/helphelp.html
+  [oil.nvim][] is a great plugin that allows you to manage files by simply editing text.
+  [fyler.nvim][] takes it to the next level by combining it with a tree-style file explorer.
+
+  ::: tip
+  You may wonder, how in the world does it work?
+
+  It's both smart and simple: the plugins use unique identifiers together with Neovim's conceal feature to hide them.
+  If you go into an [oil.nvim][] or [fyler.nvim][] buffer and remove the conceal with `:set conceallevel=0` you can see this for yourself:
+
+  ```
+  /00008 drafts
+    /00037 my_first_homelab_rack.dj
+    /00038 nvim_fennel_pack_rewrite.dj
+    /00041 leftie.dj
+  ```
+
+  So if I would rename `leftie` to `rightie` in the buffer above and save:
+
+  ```
+  /00041 rightie.dj
+  ```
+
+  The plugin would see the `/00041` identifier and recognize the rename.
+  :::
+
+1. [blink.cmp][], faster autocomplete
+
+  I've been using [nvim-cmp][] as my completion plugin but I migrated to [blink.cmp][] as it's faster and more actively maintained.
+  It's too bad that it broke [my custom nvim-cmp source for my blog][] but it wasn't too hard to migrate.
+
+1. [snacks.nvim][], a better picker
+
+  [telescope.nvim][] has been a solid picker but it's no longer actively developed and the [snacks.nvim][]
+  is the replacement I settled on.
+
+  I tried [fff.nvim][] for file picking but surprisingly it felt really slow compared to [snacks.nvim][].
+  [fzf-lua][] is another great alternative that I haven't given enough attention to.
+
+1. [grug-far.nvim][], global query replace
+
+  I've been happy with Neovim's regular `%s/foo/bar` for single files (aided by [search-replace.nvim][] for easy population).
+  But query replace in multiple files has always felt lacking.
+  I used to use [telescope.nvim][] to populate the quickfix window and then use [replacer.nvim][] to make it editable, updating multiple files.
+
+  It worked but was a bit annoying so now I'm trying [grug-far.nvim][] as a more "over engineered" solution.
+  I haven't used it that long to say for sure but I'm hopeful.
+
+  ::: note
+  Yes, LSP backed rename exists and it's great. But sometimes you want to operate on text.
+  :::
+
+# Ending thougths
+
+It would be better to gradually evolve your Neovim config over time instead of doing these large rewrites.
+But afterwards it feels pretty good as I can once more try to claim with a straight face that I know what's in my configuration and what it's doing.
+
+The [vim.pack][] migration was more painful than I had expected.
+It's still an experimental nightly feature and it's missing a lot of nice features that [lazy.nvim][] has.
+I'll keep using [vim.pack][] as I think I've gotten it to a state of good enough but I'm looking forward to [vim.pack][] becoming more feature complete.
+
+[Fennel][] is fun to write in and I will keep using it where I can.
+To be honest though, for basic configuration I was expecting [Fennel][] to make a bigger difference than it did.
+It's nicer for sure but it's nothing revolutionary.
+
+Then again, it's the little things in life that matters.
+
 [Fennel safety manual]: https://fennel-lang.org/reference
-[Neovim's built-in plugin manager]: https://neovim.io/doc/user/pack.html#vim.pack
+[Fennel]: https://fennel-lang.org/
+[Mason]: https://github.com/mason-org/mason.nvim
+[Neovim :help station]: https://neovim.io/doc/user/helphelp.html
+[PackChanged]: https://neovim.io/doc/user/pack.html#PackChanged
+[accumulate]: https://fennel-lang.org/reference#accumulate-iterator-accumulation
+[blink.cmp]: https://github.com/Saghen/blink.cmp
+[collect]: https://fennel-lang.org/reference#icollect-collect-table-comprehension-macros
+[collection of LSP configs]: https://github.com/neovim/nvim-lspconfig/tree/master/lsp
+[fnlfmt]: https://git.sr.ht/~technomancy/fnlfmt
+[fyler.nvim]: https://github.com/A7Lavinraj/fyler.nvim
+[hi!]: https://github.com/aileot/nvim-laurel/blob/main/docs/reference.md#highlight
+[lazy.nvim]: https://github.com/folkqe/lazy.nvim
+[lze]: https://github.com/BirdeeHub/lze
+[main-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter/tree/main
+[melange]: https://github.com/savq/melange-nvim
 [my new Neovim config here]: https://github.com/treeman/nvim-conf
+[nvim-lspconfig]: https://github.com/neovim/nvim-lspconfig
+[nvim-thyme]: https://github.com/aileot/nvim-thyme
+[nvim-treesitter-textobjects]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects/tree/main
+[nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter
+[packadd]: https://neovim.io/doc/user/repeat.html#%3Apackadd
+[snacks.nvim]: https://github.com/folke/snacks.nvim
+[structured plugins]: https://lazy.folke.io/usage/structuring
+[threading macro]: https://fennel-lang.org/reference#------and---threading-macros
+[vim.pack.Spec]: https://neovim.io/doc/user/pack.html#vim.pack.Spec
+[vim.pack.add]: https://neovim.io/doc/user/pack.html#vim.pack.add()
+[vim.pack]: https://neovim.io/doc/user/pack.html#vim.pack
+[vim.system]: https://neovim.io/doc/user/lua.html#vim.system()
+[nvimsethl]: https://neovim.io/doc/user/api.html#nvim_set_hl()
+[cursorline]: https://neovim.io/doc/user/options.html#'cursorline'
+[undotree-plugin]: https://github.com/jiaoshijie/undotree
+[nvim-undotree]: https://neovim.io/doc/user/plugins.html#_builtin-plugin:-undotree
+[oil.nvim]: https://github.com/stevearc/oil.nvim
+[nvim-cmp]: https://github.com/hrsh7th/nvim-cmp
+[my custom nvim-cmp source for my blog]: /blog/2024/05/26/autocomplete_with_nvim-cmp/
+[telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
+[fff.nvim]: https://github.com/dmtrKovalenko/fff.nvim
+[fzf-lua]: https://github.com/ibhagwan/fzf-lua
+[grug-far.nvim]: https://github.com/MagicDuck/grug-far.nvim
+[search-replace.nvim]: https://github.com/roobert/search-replace.nvim
+[replacer.nvim]: https://github.com/gabrielpoca/replacer.nvim
