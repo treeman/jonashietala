@@ -754,6 +754,26 @@ Not a huge difference to be honest.
 I like the `#(do_the_thing)` shorthand for anonymous functions fennel has.
 Having to (sometimes) split up `require` and method calls on separate lines in Fennel is annoying.
 
+{date="2025-10-29"}
+::: update
+[A comment on Reddit][] pointed out that you can simplify `require` and method calls with a macro:
+
+```fennel
+(fn m [m func ...]
+  "Call a function on a module"
+  (assert-compile (sym? m) "expected module name")
+  (assert-compile (sym? func) "expected function name")
+  `((. (require ,(tostring m)) ,(tostring func)) ,...))
+```
+
+And then use it like so:
+
+```fennel
+(map! :n "]t" #(m trouble next {:skip_groups true :jump true})
+      {:silent true :desc "Trouble next"})
+```
+:::
+
 ## Overriding highlight groups
 
 One example that was a big step up with Fennel is overriding highlight groups.
@@ -1127,3 +1147,4 @@ Then again, it's the little things in life that matters.
 [search-replace.nvim]: https://github.com/roobert/search-replace.nvim
 [replacer.nvim]: https://github.com/gabrielpoca/replacer.nvim
 [src]: https://github.com/treeman/nvim-conf
+[A comment on Reddit]: https://www.reddit.com/r/neovim/comments/1oj1unx/packing_neovim_with_fennel/nm04511/
