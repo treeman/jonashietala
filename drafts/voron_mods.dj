@@ -3,15 +3,15 @@ title = "3D printer repairing and modding"
 tags = ["3D printing", "VORON"]
 ---
 
-TODO image comparing the old / new
-
 :table-of-content:
 
-I've had my [VORON Trident][trident] for XXX and I've run it for XXX hours.
+![](/images/jw_mods/modded_front.jpg)
+
+I've had my [VORON Trident][trident] for 2 years and I've run it for 2600 hours.
 Overall I'm happy with the printer but I've been itching to make some more mods to it.
 Having finally finished the [VORON 0][] ([with mods][zero_mods]) I now have a backup printer I can use to rescue myself when I screw up.
 
-With the Trident starting to crap out with [a leadscrew starting to grind down again][], the chamber thermistor stopped working, and PLA clogging up the Rapido hotend _again_ it was time for a bit of a rebuild.
+As the printer was starting to crap out with [a leadscrew starting to grind down again][], the chamber thermistor stopped working, and PLA clogging up the Rapido hotend _again_ it was time for a bit of a rebuild.
 
 ::: warn
 Even my [VORON 0][] ran into an issue where the bed stopped heating up.
@@ -24,32 +24,33 @@ So much for having a backup printer!
 
 Besides fixing the printer I also wanted to prepare for a multi-color solution such as the [Box Turtle][] and install make some quality of life changes.
 
-A. Replace the problematic leadscrew with a replacement part I received from LDO last time and maybe the POM nuts on the other leadscrews.
+A. Replace the problematic leadscrew with a replacement part I received from LDO last time and also replace the POM nuts on the other leadscrews.
 
 A. [Install the Inverted electronics](#Inverted-electronics) mod.
 
    I've been using the [RockNRoll][] mod to give access to the electronics compartment by tilting the printer backwards.
    The [Inverted electronics][] mod allows me to lift the bottom plate to access the electronics compartment and it's almost a must if I'm going to install a [Box Turtle][] on top of the printer.
 
-A. Replace the Stealthburner with the [Jabberwocky][].
+A. Replace the Stealthburner with the [Jabberwocky][] toolhead.
 
   This introduced a series of mods:
 
   a. Move to an umbilical setup with the [Nitehawk36][] toolboard.
 
-  a. ([Relocate the Y-endstop](#Relocate-the-Y-endstop) to get rid of the Y drag chain.)
+  a. Use [sensorless homing][] to get rid of the Y drag chain.
 
-  a. Use the [Beacon probe][Beacon] instead of TAP.
+  a. Replace TAP with the [Beacon probe][Beacon].
 
   a. Finally, [install the Jabberwocky](#Installation).
 
-A. [Install a nozzle scrubber](#Nozzle-scrubber).
-
-  To automatically clean the nozzle and for a place to park during filament changes.
-
 # Replacing the POM nuts
 
-![](/images/jw_mods/pom_nuts.jpg)
+I've had issues before where one of the [POM nuts were ground down][] and I felt it was happening again.
+The printer didn't completely fail like before but it was sometimes getting really bad first layers in that same corner and the Z probe was occasionally failing to configure Z tilt.
+
+I replaced all three POM nuts together with the whole lead screw (I got a new one sent to me by LDO the first time it failed but I hadn't installed it yet).
+
+![Dust on the lead screw and all three nuts show signs of damage, although the leftmost is clearly worse off.](/images/jw_mods/pom_nuts.jpg)
 
 # [Inverted electronics][]
 
@@ -61,7 +62,27 @@ and after the printer was completed I didn't feel the need to redo the wiring ag
 
 ![Underside of the printer with the inverted rails installed.](/images/jw_mods/inverted_under.jpg)
 
-<https://www.printables.com/model/1218789-nitehawk-36-usb-adapter-mount-for-voron-din-clip>
+![Installing the first components on the rails.](/images/jw_mods/inverted_power.jpg)
+
+![The electronics are reinstalled and up and running.
+This is not the final configuration, just a snapshot of when I got it running.](/images/jw_mods/inverted_wiring.jpg)
+
+::: note
+I had forgotten to print out [a holder for the Nitehawk 36 USB][] but I had to get the printer up and running to print one.
+:::
+
+![The electronics with cables cleaned up a little.](/images/jw_mods/final_electronics.jpg)
+
+Overall it was surprisingly easy to reinstall all the electronics.
+It was made easier by the move to umbilical and a single USB cable to the toolhead as it removed quite a bit of wiring:
+
+![Heap of things I removed from the printer when moving to umbilical and sensorless homing.](/images/jw_mods/removed_wiring.jpg)
+
+One issue I had with the mod is that the cutouts for the Z motors were a bit large, with gaps where stray filament or heat can escape through.
+I tried to cover them up by placing some foam tape around the motors:
+
+![The Z motor mounts have a gap between them and the electronics cover.
+I tried to fill them in with foam tape from below.](/images/jw_mods/gaps_foam.jpg)
 
 # Why the [Jabberwocky][]?
 
@@ -101,31 +122,20 @@ There are quite a few interesting toolheads I considered:
   > Flip up Extruder. Probably an industry first, a tool-less easy to access toolhead design so that one can access the blade or the filament path for servicing and troubleshooting. This allows a user, in the event of hopefully a rare problem during a filament changing print the ability to access the filament path to clear it of issues and continue with a print job.
   > ^ [Jabberwocky Beta test][], TheKittieKatt
 
-The [A4T-toolhead][] is interesting but I'd have to research different mods for a filament cutter whereas
-the (supposedly) easier maintenance and multi-color consistency of the [Jabberwocky][] really appealed to me.
+The [A4T-toolhead][] is interesting but the (supposedly) easier maintenance and multi-color
+consistency of the [Jabberwocky][] really appealed to me.
 
-# Preparing for umbilical
-
-For the umbilical setup I also had to move the Y-endstop and setup a holder for the umbilical cable.
-
-## Relocate the Y-endstop (skip?)
-
-It's easy to move the X-endstop to the toolhead but the LDO Trident kit I bought came with an XY-endstop PCB mounted on the XY rail.
-This means there's a single cable running through the Y drag chain that prevents me from removing it.
-
-The solution is to move the Y-endstop to the B motor mount so it doesn't have to move around.
-I used [this mod][y-relocation] to avoid having to reprint the B motor mount.
-
-## Umbilical cable holder
-
-2X Cable Gland PG7 M12 from lab
+::: note
+As I'm writing this I've already ordered parts for the A4T and I'll try that out soon enough.
+I just can't help myself.
+:::
 
 # Building the [Jabberwocky][]
 
 ::: warn
 Because _both_ of my printers were crapping out I had trouble getting some working parts for the build.
 The print quality is not great and I need to first get the [Jabberwocky][] up and running and then use it to reprint the bad parts.
-I'm not too pleased with the colorscheme either so I might change that too.
+I'm not too pleased with the colorscheme either so I'll change that too.
 :::
 
 ![The bottom of the extruder with a piece of filament sticking through.](/images/jw_mods/extruder_under_with_filament.jpg)
@@ -146,8 +156,8 @@ I rebuilt the toolhead but in the end I believe I just didn't have enough grip o
 Most of the wiring came as-is except for the cable between the [Beacon][] and the [Nitehawk36][].
 I got the [Nitehawk36][] side of the cable pre-made in the [Nitehawk36][] kit but I had to pin the [Beacon][] side myself.
 
-The colors of the wires in cable didn't have any meaning but there's a description on the PCB of both the [Nitehawk36][] and [Beacon][] so I just had to take care to match them.
-Also see the [Nitehawk36 documentation][] and the [Beacon documentation][].
+The colors of the wires in cable were all over the place but there's a description on the PCB of both the [Nitehawk36][] and [Beacon][] so I just had to take care to match them.
+I also referenced the [Nitehawk36 documentation][] and the [Beacon documentation][].
 
 ![The wire between the [Beacon][] and [Nitehawk36][].](/images/jw_mods/beacon_to_nh36_wire.jpg)
 
@@ -163,31 +173,47 @@ There was some filament in the hole (likely due to poor print tuning) and I mana
 As I didn't have a working printer when it broke I had to make it work without the filament cutter initially.
 Luckily I didn't break anything crucial...
 
-# Nozzle scrubber
+# Software setup
 
-I've been wanting a nozzle scrubber [since I built my Trident][purge-bucket] but with VORON Tap I lost too much Y-movement to be able to fit one.
-By moving to [Beacon][] I could reclaim some Y-movement to be able to fit a nozzle scrubber.
+I had to make some software changes but luckily they were quite straightforward:
 
-I found [this version on Printables][nozzle-seal] that includes a Beacon-friendly nozzle scrubber and a place to park your nozzle during filament changes (for when I get my multi-color setup).
+i. Use sensorless homing.
+
+  I just followed the [VORON documentation][sensorless homing].
+
+i. Setup the [Nitehawk36][] toolboard.
+
+  LDO has [setup instructions][] and the Jabberwocky GitHub contains [klipper settings][].
+
+i. Setup [Beacon][] for Z offset and mesh calibration.
+
+  Their [quickstart documentation][] was fast and easy.
+  I did not setup [Beacon Contact][]; maybe I'll get to it one day.
 
 # What's next?
 
-I've been wanting multi-color support and I've been waiting for [ERCF][] to be ready for ages.
-At this point I'll probably skip [ERCF][] in favor of the [Box Turtle][] instead as it seems easier to get working.
+![The printer is finally printing again!](/images/jw_mods/its_alive.jpg)
+
+After months of not having a working 3D printer I've gotten renewed energy to play around with the printer again.
+I've got some loose plans for some mods to make on this printer:
+
+* Reprint the [Jabberwocky][] and try to get the filament cutter up and running.
+* Build and test the [A4T-toolhead][].
+* Install a nozzle scrubber.
+* Build a [Box Turtle][].
+
+Why?
+Because it's fun to tinker of course!
 
 [Jabberwocky Beta test]: https://github.com/TheKittieKatt/Information-Insights/tree/main/Beta%20Testing%20Results/Jabberwocky
 [a leadscrew starting to grind down again]: /blog/2024/03/01/lets_build_a_voron_major_failure/
-[nozzle-seal]: https://www.printables.com/model/882364-new-version-adjustable-gantry-mounted-nozzle-seal
-[purge-bucket]: http://localhost:8080/blog/2024/02/27/lets_build_a_voron_more_mods/#Purge-bucket-CNC-Tap
 [Nitehawk36]: https://lab4450.com/product/ldo-nitehawk36-toolhead/
 [XOL]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/tree/main
 [Dragon Burner]: https://github.com/chirpy2605/voron/tree/main/V0/Dragon_Burner
-[ERCF]: https://github.com/Enraged-Rabbit-Community/ERCF_v2
 [VORON 0]: /blog/2025/03/25/lets_build_a_voron_0
 [zero_mods]: /blog/2025/05/02/voron_0_mods
 [A4T-toolhead]: https://github.com/Armchair-Heavy-Industries/A4T
 [Inverted electronics]: https://mods.vorondesign.com/details/pXkXHVIUbqSWqQKJISczw
-[Beefy Front Idlers]: https://github.com/clee/VoronBFI
 [Beacon]: https://lab4450.com/product/original-beacon-3d-surface-scanner/
 [Archetype]: https://docs.armchairheavyindustries.com/docs/archetype
 [trident]: /series/voron_trident
@@ -196,9 +222,12 @@ At this point I'll probably skip [ERCF][] in favor of the [Box Turtle][] instead
 [Print It Forward]: https://pif.voron.dev/
 [Jabberwocky]: https://github.com/kinematicdigit/Jabberwocky
 [Mjölnir]: https://docs.armchairheavyindustries.com/docs/archetype/components/ducts/mjolnir
-[XOL carriage]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md
-[meltzone extender]: https://trianglelab.net/products/zs%C2%AE-mze%E2%84%A2-melt-zone-extender?VariantsId=11381
-[y-relocation]: https://www.printables.com/model/324787-voron-v24-and-trident-y-endstop-relocation-mod
-[install compatible front idlers]: https://github.com/Armchair-Heavy-Industries/A4T?tab=readme-ov-file#front-idlers
 [Nitehawk36 documentation]: https://docs.ldomotors.com/en/Toolboard/nitehawk-36
 [Beacon documentation]: https://docs.beacon3d.com/usb_cables/
+[a holder for the Nitehawk 36 USB]: https://www.printables.com/model/1218789-nitehawk-36-usb-adapter-mount-for-voron-din-clip
+[POM nuts were ground down]: /blog/2024/03/01/lets_build_a_voron_major_failure/
+[setup instructions]: https://docs.ldomotors.com/en/Toolboard/nitehawk-36
+[klipper settings]: https://github.com/kinematicdigit/Jabberwocky/blob/main/Sample_Configs/JW_NH36_config.cfg
+[sensorless homing]: https://docs.vorondesign.com/tuning/sensorless.html
+[quickstart documentation]: https://docs.beacon3d.com/quickstart/
+[Beacon Contact]: https://docs.beacon3d.com/contact/

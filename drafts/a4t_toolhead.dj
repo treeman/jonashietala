@@ -1,0 +1,14 @@
+---toml
+title = "A4T toolhead"
+tags = ["3D printing", "VORON"]
+---
+
+
+[nozzle-seal]: https://www.printables.com/model/882364-new-version-adjustable-gantry-mounted-nozzle-seal
+[purge-bucket]: http://localhost:8080/blog/2024/02/27/lets_build_a_voron_more_mods/#Purge-bucket-CNC-Tap
+[ERCF]: https://github.com/Enraged-Rabbit-Community/ERCF_v2
+[Beefy Front Idlers]: https://github.com/clee/VoronBFI
+[XOL carriage]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md
+[meltzone extender]: https://trianglelab.net/products/zs%C2%AE-mze%E2%84%A2-melt-zone-extender?VariantsId=11381
+[y-relocation]: https://www.printables.com/model/324787-voron-v24-and-trident-y-endstop-relocation-mod
+[install compatible front idlers]: https://github.com/Armchair-Heavy-Industries/A4T?tab=readme-ov-file#front-idlers
