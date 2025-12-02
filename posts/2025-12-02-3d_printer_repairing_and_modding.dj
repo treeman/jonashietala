@@ -22,18 +22,18 @@ So much for having a backup printer!
 
 # The plan
 
-Besides fixing the printer I also wanted to prepare for a multi-color solution such as the [Box Turtle][] and install make some quality of life changes.
+Besides fixing the printer I also wanted to prepare for a multi-color solution such as the [Box Turtle][] and make some quality of life changes.
 
-A. Replace the problematic leadscrew with a replacement part I received from LDO last time and also replace the POM nuts on the other leadscrews.
+A. Replace the problematic leadscrew with a replacement part I received from LDO and replace the POM nuts on the other leadscrews.
 
 A. [Install the Inverted electronics](#Inverted-electronics) mod.
 
    I've been using the [RockNRoll][] mod to give access to the electronics compartment by tilting the printer backwards.
-   The [Inverted electronics][] mod allows me to lift the bottom plate to access the electronics compartment and it's almost a must if I'm going to install a [Box Turtle][] on top of the printer.
+   The [Inverted electronics][] mod would instead allow me to lift the bottom plate to access the electronics compartment and I want to do it before installing a [Box Turtle][] on top of the printer.
 
 A. Replace the Stealthburner with the [Jabberwocky][] toolhead.
 
-  This introduced a series of mods:
+  This introduced a series of changes:
 
   a. Move to an umbilical setup with the [Nitehawk36][] toolboard.
 
@@ -51,6 +51,9 @@ The printer didn't completely fail like before but it was sometimes getting real
 I replaced all three POM nuts together with the whole lead screw (I got a new one sent to me by LDO the first time it failed but I hadn't installed it yet).
 
 ![Dust on the lead screw and all three nuts show signs of damage, although the leftmost is clearly worse off.](/images/jw_mods/pom_nuts.jpg)
+
+This is apparently a common problem with some LDO kits that have coated lead screws.
+I still have two of the old ones that I may have to replace in the future.
 
 # [Inverted electronics][]
 
@@ -91,7 +94,7 @@ I've been wanting to replace the Stealthburner toolhead a long time:
 1. The cooling for PLA is quite bad.
 1. PLA has a tendency to clog (seems like a decently common problem with Rapido and Stealthburner).
 1. Resolving a clog when it happens is a pain in the ass.
-1. It lacks a filament sensor and a cutter (necessary for multi-color).
+1. It lacks a filament sensor and a cutter (for multi-color).
 
 But what to choose?
 There are quite a few interesting toolheads I considered:
@@ -125,7 +128,7 @@ There are quite a few interesting toolheads I considered:
 The [A4T-toolhead][] is interesting but the (supposedly) easier maintenance and multi-color
 consistency of the [Jabberwocky][] really appealed to me.
 
-::: note
+::: update
 As I'm writing this I've already ordered parts for the A4T and I'll try that out soon enough.
 I just can't help myself.
 :::
@@ -135,6 +138,8 @@ I just can't help myself.
 ::: warn
 Because _both_ of my printers were crapping out I had trouble getting some working parts for the build.
 The print quality is not great and I need to first get the [Jabberwocky][] up and running and then use it to reprint the bad parts.
+
+There's also been quite a lot of revisions to the printed parts that might fix some of the issues I encountered.
 I'm not too pleased with the colorscheme either so I'll change that too.
 :::
 
@@ -177,15 +182,15 @@ Luckily I didn't break anything crucial...
 
 I had to make some software changes but luckily they were quite straightforward:
 
-i. Use sensorless homing.
+A. Use sensorless homing.
 
   I just followed the [VORON documentation][sensorless homing].
 
-i. Setup the [Nitehawk36][] toolboard.
+A. Setup the [Nitehawk36][] toolboard.
 
   LDO has [setup instructions][] and the Jabberwocky GitHub contains [klipper settings][].
 
-i. Setup [Beacon][] for Z offset and mesh calibration.
+A. Setup [Beacon][] for Z offset and mesh calibration.
 
   Their [quickstart documentation][] was fast and easy.
   I did not setup [Beacon Contact][]; maybe I'll get to it one day.
@@ -202,8 +207,8 @@ I've got some loose plans for some mods to make on this printer:
 * Install a nozzle scrubber.
 * Build a [Box Turtle][].
 
-Why?
-Because it's fun to tinker of course!
+... Or maybe something else?
+Who knows!
 
 [Jabberwocky Beta test]: https://github.com/TheKittieKatt/Information-Insights/tree/main/Beta%20Testing%20Results/Jabberwocky
 [a leadscrew starting to grind down again]: /blog/2024/03/01/lets_build_a_voron_major_failure/
