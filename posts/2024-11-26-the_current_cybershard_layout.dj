@@ -148,11 +148,17 @@ The [dead keys][] add diacritic to any letter. For example, to get `é` you can 
 
 I typically use [long press](#Long-press) for shift and [combos][] for other modifiers, this layer is a fallback for when those aren't enough (the layer is mostly used for `Right Alt`).
 
-## Gaming layer
+## Gaming
 
-![A simple gaming layer.](/images/cybershard-layout/_GAME.svg){embed=true}
+![My gaming layer.](/images/cybershard-layout/_GAME.svg){embed=true}
 
-I'm not a heavy gamer by any means but this layer allows me to play Core Keeper with my kid.
+![`GAME2`, the right half of a QWERTY keyboard.](/images/cybershard-layout/_GAME2.svg){embed=true}
+
+![`GNUM`, numbers on the left-hand side.](/images/cybershard-layout/_GNUM.svg){embed=true}
+
+![`GFUN`, function keys on the left-hand side.](/images/cybershard-layout/_GFUN.svg){embed=true}
+
+I'm not a heavy gamer by any means but this setup allows me to play some games well enough.
 By necessity this layer disables [auto shift][].
 
 # Combos
@@ -360,7 +366,11 @@ There are different modes that alters the behavior of the trackball:
 
 : 2025-01-20
 
-  Added the [gaming layer](#Gaming-layer).
+  Added the [gaming layer](#Gaming).
+
+: 2025-12-22
+
+  Expanded the [gaming setup](#Gaming) with more than one layer to be more complete, giving access to most of a regular keyboard.
 
 :::
 
@@ -384,8 +394,6 @@ There are different modes that alters the behavior of the trackball:
 [t-34]: /blog/2021/06/03/the-t-34-keyboard-layout/
 {title="The current T-34 layout"}
 [t-34-curr]: /blog/2022/09/06/the_current_t-34_keyboard_layout
-{title="Numbers and symbols"}
-[num-sym-combos]: #Numbers-and-symbols
 {title="QMK source code"}
 [src]: https://github.com/treeman/qmk_firmware/tree/master/keyboards/cybershard
 

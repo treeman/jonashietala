@@ -187,6 +187,27 @@
         "class": "layer_down"
       },
       {
+        "keys": ["GM_SPC"],
+        "title": "Space",
+        "hold_title": "GNUM",
+        "class": "layer_down"
+      },
+      {
+        "keys": ["GM2"],
+        "title": "GAME2",
+        "class": "layer1"
+      },
+      {
+        "keys": ["GM_FUN"],
+        "title": "GFUN",
+        "class": "layer1"
+      },
+      {
+        "keys": ["ENT_CHAT"],
+        "title": "Enter\nChat",
+        "class": "special"
+      },
+      {
         "keys": ["WIN_ALT"],
         "title": "WIN",
         "class": "layer_down"
@@ -244,6 +265,11 @@
       {
         "keys": ["KC_LCTL"],
         "title": "Ctrl",
+        "class": "mod_down"
+      },
+      {
+        "keys": ["KC_LALT"],
+        "title": "Alt",
         "class": "mod_down"
       },
       {
