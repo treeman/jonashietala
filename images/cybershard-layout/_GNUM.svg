@@ -339,14 +339,18 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap active_layer">
       <rect x="253" y="226"
             width="54" height="54"
-            rx="5" fill="#f7f0ea" class="outer border"/>
+            rx="5" fill="#f79581" class="outer border"/>
       <rect x="259" y="230"
             width="42" height="42"
-            rx="5" fill="#fff7f1" class="inner border"/>
+            rx="5" fill="#ff9a85" class="inner border"/>
 
+<text x="280" y="251" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="280" dy="0">Space</tspan>
+</text>
+<text x="280" y="278.2" text-anchor="middle" class="sub">GNUM</text>
 </g>
     <g class="keycap blank">
       <rect x="361" y="226"

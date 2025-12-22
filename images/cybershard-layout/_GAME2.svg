@@ -342,14 +342,17 @@
             rx="5" fill="#fff7f1" class="inner border"/>
 
 </g>
-    <g class="keycap blank">
+    <g class="keycap active_layer">
       <rect x="199" y="212.5"
             width="54" height="54"
-            rx="5" fill="#f7f0ea" class="outer border"/>
+            rx="5" fill="#f79581" class="outer border"/>
       <rect x="205" y="216.5"
             width="42" height="42"
-            rx="5" fill="#fff7f1" class="inner border"/>
+            rx="5" fill="#ff9a85" class="inner border"/>
 
+<text x="226" y="237.5" text-anchor="middle" dominant-baseline="middle" class="main">
+<tspan x="226" dy="0">GAME2</tspan>
+</text>
 </g>
     <g class="keycap blank">
       <rect x="253" y="226"

@@ -660,6 +660,24 @@
         "class": "blank"
       }
     ],
+    "_GAME2": [
+      {
+        "keys": ["GM2"],
+        "class": "active_layer"
+      }
+    ],
+    "_GNUM": [
+      {
+        "keys": ["GM_SPC"],
+        "class": "active_layer"
+      }
+    ],
+    "_GFUN": [
+      {
+        "keys": ["GM_FUN"],
+        "class": "active_layer"
+      }
+    ],
     "_NUM": [
       {
         "keys": [
