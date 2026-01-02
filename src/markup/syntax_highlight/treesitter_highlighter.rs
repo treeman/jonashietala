@@ -1,8 +1,8 @@
 use eyre::Result;
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::borrow::Cow;
 use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashSet};
 use tracing::warn;
 use tree_sitter_highlight::{HighlightConfiguration, Highlighter, HtmlRenderer};
 
@@ -12,6 +12,10 @@ pub struct TreesitterHighlighter<'a> {
 
 impl TreesitterHighlighter<'_> {
     pub fn find(lang_id: &str) -> Option<Self> {
+        if IGNORE_MISSING_WARNINGS.contains(lang_id) {
+            return None;
+        }
+
         CONFIGS.get(lang_id).map(|config| Self { config })
     }
 
@@ -20,7 +24,7 @@ impl TreesitterHighlighter<'_> {
 
         let highlights = highlighter.highlight(self.config, code.as_bytes(), None, |lang| {
             let res = CONFIGS.get(lang);
-            if res.is_none() {
+            if res.is_none() && !IGNORE_MISSING_WARNINGS.contains(lang) {
                 warn!("Couldn't find treesitter grammar for `{lang}` to inject");
             }
             res
@@ -197,6 +201,8 @@ lazy_static! {
             .unwrap();
     static ref EMPTY_SPAN: Regex =
         Regex::new(r#"<span class="[^"]*">(<span class="[^"]+"></span>)*</span>"#).unwrap();
+    static ref IGNORE_MISSING_WARNINGS: HashSet<&'static str> =
+        HashSet::from(["comment", "vim", "latex", "luap"]);
 }
 
 fn init_configurations() -> HashMap<String, HighlightConfiguration> {

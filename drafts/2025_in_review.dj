@@ -1,0 +1,109 @@
+---toml
+title = "2025 in review"
+tags = ["Yearly Review"]
+---
+
+It's time for a [yearly review](/blog/tags/yearly_review) again. Time flies.
+
+# Nerdy things I enjoyed
+
+* I read a few books this year.
+
+  The whole [Dungeon Crawler Carl][] series was absolutely amazing and it quickly jumped up to one of my favorite series of all time.
+
+  > I can't be held accountable for everything I've ever said to a stripper.
+  > ^ Princess Donut
+
+* Board games are great.
+
+  I still don't play nearly as much as I'd like to but my kids are quickly growing up and to my eternal joy they're all interested in board games!
+  Isidor (8) has been loving [Radlands][], Loke (5) likes [Chronicles of Avel][], and Freja (3) loves [Dragon's Breath][].
+  My personal favorite is [Luthier][] and I think it might be my absolute favorite game right now.
+
+* Computer games have made a small comeback.
+
+  As my kids have been gaming more I've regained a little bit of interest in gaming too.
+  I've been playing a little [Core Keeper][] and [Beyond All Reason][] with Isidor and it felt really fun.
+
+* [Migrated my Neovim config to Fennel][].
+
+  Eh, it was fun to play with a new language.
+
+# Things I accomplished
+
+* I [wrote 12 blog posts][], not great, not terrible.
+
+* I managed to push back my fantasy writing ambitions to the future.
+
+  It's important as I tend to get stuck on things, preventing me from making progress in other parts.
+  I really don't have the time or energy to try to write a fantasy book _right now_, but making my brain see that wasn't easy.
+
+* 2025 was the first full year running my company.
+
+  I'm still consulting for the same company I started out with and I enjoy it.
+  It feels good to say that I haven't blown it completely just yet.
+
+* [Switched to GrapheneOS][].
+
+  I took a big step forward in de-Googling and to increase my personal security by moving to [GrapheneOS][].
+  I'm super happy about it.
+
+* [Built my second 3D-printer][], a VORON 0.
+
+  ![My VORON 0.](/images/voron_0_mods/zero_with_mods.jpg)
+
+  It's good! It's fun! And I'm already planning my next printer...
+
+* We [migrated away from Sonos][] in our Kitchen.
+
+  We got tired of buggy vendor lock-in and now we use my own [Music Assistant][] based setup.
+  If things break we can now blame me instead of Sonos.
+
+* I built my server first rack to host a new homelab server.
+
+  ![A server rack with homelab stuff.](/images/first_rack/rack_ugly_cables.jpg)
+
+  I still need to cleanup the cables and write a blog post about it.
+
+# Tentative plans/goals/wishes for 2026
+
+1. Go on some roller coasters with the family.
+
+   We're planning to go to Liseberg in Göteborg and I know the kids will love it.
+
+1. Lose weight and build muscle.
+
+   I've been having a rough year training and health wise.
+   Not being able to get a consistent strength training routine, inconsistent sleep, and [spouts of depression][] has made me gain too much weight again.
+
+   Getting it sorted should (must) be a high priority this year.
+
+1. Get our own training space for our martial arts club.
+
+   I've been wanting to get our own place for quite a while and I feel that we need to make it happen sooner rather than later.
+
+1. Develop a company product MVP.
+
+   While I enjoy the consulting work I do at the moment my goal is to one day have a project of my own that can earn me money.
+   I have a couple of ideas I want to pursue and I was going to do it in 2025 but I didn't get far enough for that.
+
+1. Migrate my homelab to the recently built server and expand on it.
+
+   I have this newly built server that's just sitting idle.
+   I need to migrate my old services to it and I've got ideas for lots of stuff I want to put there.
+
+[Dungeon Crawler Carl]: https://www.penguinrandomhouse.com/series/43C/dungeon-crawler-carl/
+[Luthier]: https://boardgamegeek.com/boardgame/371330/luthier
+[Radlands]: https://boardgamegeek.com/boardgame/329082/radlands
+[Chronicles of Avel]: https://boardgamegeek.com/boardgame/347137/chronicles-of-avel
+[Dragon's Breath]: https://boardgamegeek.com/boardgame/235655/dragons-breath
+[Beyond All Reason]: https://www.beyondallreason.info/
+[Core Keeper]: https://store.steampowered.com/app/1621690/Core_Keeper/
+[Migrated my Neovim config to Fennel]: /blog/2025/10/29/packing_neovim_with_fennel/
+[wrote 12 blog posts]: /blog/2025/
+[Built my second 3D-printer]: /blog/2025/03/25/lets_build_a_voron_0/
+[Switched to GrapheneOS]: /blog/2025/08/28/ill_only_buy_devices_with_grapheneos/
+[GrapheneOS]: https://grapheneos.org/
+[migrated away from Sonos]: /blog/2025/06/04/ditching_sonos_for_music_assistant/
+[Music Assistant]: https://www.music-assistant.io/
+[spouts of depression]: /blog/2023/03/14/battling_burnout/

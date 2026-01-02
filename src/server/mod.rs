@@ -8,7 +8,7 @@ pub mod messages;
 use crate::paths::AbsPath;
 use crate::server::messages::NeovimResponse;
 use crate::site::{Site, SiteOptions};
-use axum::{routing::get_service, Router};
+use axum::{Router, routing::get_service};
 use axum_server::Server;
 use eyre::Result;
 use futures_util::{SinkExt, StreamExt};
@@ -21,7 +21,7 @@ use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader, BufWriter};
 use tokio::net::tcp::ReadHalf;
 use tokio::net::tcp::WriteHalf;
 use tokio::net::{TcpListener, TcpStream};
-use tokio::sync::broadcast::{self, error::RecvError, Receiver, Sender};
+use tokio::sync::broadcast::{self, Receiver, Sender, error::RecvError};
 use tokio_tungstenite::{accept_async, tungstenite::Message};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::{debug, error, info};
@@ -149,9 +149,10 @@ async fn handle_nvim_reply<'a>(
     writer: &mut BufWriter<WriteHalf<'a>>,
 ) -> Result<()> {
     let msg = msg?;
-    debug!("Sending: {msg:?}");
+    // info!("Sending: {msg:?}");
     let json = serde_json::to_string(&msg)?;
     writer.write_all(json.as_bytes()).await?;
+    writer.write_u32(0x0006).await?;
     writer.write_all("\n".as_bytes()).await?;
     writer.flush().await?;
     Ok(())

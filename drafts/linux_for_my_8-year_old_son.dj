@@ -1,0 +1,299 @@
+---toml
+title = "A PC with Linux for my 8-year old son"
+tags = ["Linux", "CachyOS", "Gaming", "Computer"]
+---
+
+![](/images/cachyos_installed.jpg)
+
+# Background
+
+As a reward for selling things via [Panda försäljningen][] our 8-year old kid received a computer.
+On one hand it's a bit too early but on the other hand we want to encourage his entrepreneurship and the increased money awareness that follows.
+
+It's fine. I'd rather see him playing games than watch TV shows or crap on YouTube and as a bonus maybe he doesn't have to fight over [the Steam Deck][] with his brother as much.
+
+The computer arrived so let's try to make the best of it.
+
+## Specs
+
+I didn't build the machine so here's the hardware I had to work with:
+
+* AMD Ryzen 5 8400F
+* NVIDIA GeForce RTX 3050 6GB
+* 16GB RAM
+* 1TB NVMe disk
+* Some Wifi PCI module
+* A monitor and keyboard + mouse
+
+It was supposed to come with 32GB ram but it was downgraded to 16GB, likely due to [out of control RAM prices][].
+I also upgraded the NVMe drive from 512GB to a 1TB I had lying around,
+keeping Windows on it so I can go back if I really need to.
+
+# Why not Windows?
+
+I abandoned Windows for my personal machines more than 15 years ago so of course I'm biased towards Linux.
+But this isn't a computer for me; it's a computer for my kid who only has gaming on his mind.
+
+While gaming on Linux has improved to an incredible degree, some games still have issues and others with invasive anti-cheat such as Fortnite refuse to play, so if I would _only_ look at maximizing the amount of games to play I would choose Windows.
+
+However, I don't want the computer to *only* be about gaming.
+I want it to be a tool he can grow into by experimenting with and learning different things in a reasonably safe environment.
+And here I don't think Windows is a good choice for a few reasons:
+
+1. Windows is anti-user.
+
+   I don't think Windows provides a nice experience for kids (or grandmas).
+   This might sound crazy to someone who's used Windows their whole lives but I think you simply get used to the weirdness and quirkiness.
+
+   > Windows rebooting during a meeting or coding session?\
+   > Fine, I can take it.
+   >
+   > Rebooting during one of Isidor's precious gaming sessions?\
+   > God, help me.
+
+1. Ads are awful and Windows is pushing ads.
+
+   I think ads are actively harmful for adults and especially for kids, yet Microsoft is pushing ads natively in Windows.
+
+2. AI crap is invading Windows.
+
+   Microsoft is continuing the enshittification by forcing AI features everywhere.
+   Windows Recall for example is an [absolute privacy nightmare][] that I don't want on my kid's computer.
+
+A counterargument to the points above is that you can turn off the reboots, the ads, and AI features.
+Sure, I get that.
+The big problem is that Windows is anti-user and I don't trust Microsoft to develop Windows in my kid's best interest.
+
+Maybe an update will silently enable them again,
+or maybe they'll develop a new shitty feature that's enabled by default?
+Perhaps they'll push weird AI features I don't want and can't disable, such as the Copilot AI that was [forced on LG TVs and couldn't be removed][]?
+
+Nah, I'll pass.
+
+I might have made a different choice 10 years ago but today Linux gives a better user experience while respecting the user.
+
+# CachyOS: The Linux distro I went with
+
+The Linux Distro landscape is a choose-your-own-adventure where it can provide the best and worst experience depending on where you go.
+
+I was considering distros like [Linux Mint][], [Debian][], [Arch Linux][], [Void Linux][] (which I use), or [Bazzite][].
+After [reading about CachyOS on Hacker News][] it seemed like the way to go:
+
+1. Gaming is easy to setup (including drivers!)
+2. It's not an immutable distro (= easier to tweak)
+3. Based on [Arch Linux][] with their [amazing wiki][]
+
+And I'm really happy with the choice, I'm even considering if I should migrate my own computer away from [Void Linux][] to [CachyOS][] one day.
+
+## Easy installation
+
+Installation was very easy---just flash the ISO onto a USB and you're good to go.
+
+I appreciate that the installer selects sensible defaults;
+Swedish timezone, Swedish locale, Swedish keyboard, easily formats your drive etc.
+KDE Plasma is a fantastic window manager and it's _much_ better than the Windows UI.
+
+::: note
+I had one issue with the installation where formatting the drive failed and after that the CachyOS installer no longer recognized the drive.
+This persisted even after a reboot and the installer refused to install on the drive.
+
+I fixed it by reflashing the USB with the newer version (`251209` vs `251129`) and by choosing the EXT4 filesystem instead of BTRFS.
+:::
+
+## Drivers just work
+
+I've spent _so_ much time in my life on trying to make various things work on Linux so I was a bit worried that I would get stuck somewhere.
+But things just worked out of the box.
+
+Drivers---especially NVIDIA drivers---are notoriously finicky yet it just worked.
+Same with audio and Wifi.
+
+_We've come so far!_
+
+## Occasionally doesn't wake from sleep
+
+The monitor sometimes doesn't turn on after waking up from sleep.
+Sometimes it wakes up again after I unplug the HDMI cable and put it back in but other times we have to reboot the PC.
+
+Sleep mode is historically an area where Linux has had lots of problems and unfortunately it seems the trouble continues for us.
+
+# All about the games
+
+Gaming, the final boss of Windows migration.
+How well does it work on Linux?
+
+[CachyOS][] has a gaming meta package that makes it very easy to get started.
+I simply installed it via the GUI and was ready to install games in no time.
+
+## Gaming via Steam
+
+![[Worms W.M.D][], one of Isidor's current favorite games.](/images/worms_wmd.jpg)
+
+The easiest way to game on Linux is probably via Steam.
+The user experience is basically the same as [on the Steam Deck][]: you install the game, occasionally  force a Proton override, press play, and enjoy.
+
+All the games we've tried so far play very well, for example:
+[Teardown][],
+[Cities: Skylines][],
+[Core Keeper][],
+[Parkitect][],
+[World of Goo][],
+[Worms W.M.D][],
+[Northgard: Definite Edition][],
+[Timberborn][],
+[Tempest Rising][],
+[9-Bit Armies][],
+and more.
+
+Many of these games are a bit too difficult for him at the moment though, I kind of went overboard.
+His favorite is [Worms W.M.D][] and he's added a relative as a friend and chats with him when they play against each other. Voice calls via Steam works well.
+
+## Gaming via [Lutris][]
+
+TODO Minecraft screenshot
+
+Not all games exist on Steam and [Lutris][] is a good way to install some of them.
+
+I used [Lutris][] to install both the Java and Bedrock edition of Minecraft.
+I think the Java Edition is the "better" one and I've setup a local server for us to play together, but I also installed the Bedrock edition so he can play with his friends that play on Switch.
+
+Isidor is curious about RTS games so I installed StarCraft & StarCraft II via Battle.net.
+The games themselves work great but Battle.net is quite laggy.
+
+## Native games
+
+TODO BAR screenshot
+
+There are of course games you can run natively.
+[CachyOS][] promoted [Hedgewars][] in their GUI so I installed that.
+Even though Isidor prefers Worms, Hedgewars runs well.
+
+I also stumbled upon [Beyond All Reason][] (BAR), a ridiculously impressive RTS game given that's open source and free to play.
+BAR features great graphics, huge battles, simulated projectiles, and it runs like a dream!
+BAR has quickly become one of Isidor's favorite games, which I attribute to the excellent controls.
+
+::: tip
+UI in RTS games is a fascinating topic and I recommend the thought provoking blog post [Fight your opponent, not the UI][] on the subject.
+:::
+
+# Other things
+
+Gaming is important but there are a few other things I configured.
+
+## Web browsing
+
+While I don't think Isidor will (or should) browse the web much yet I think it's prudent to set it up properly before that time comes.
+
+[CachyOS][] installs Firefox as the default browser, which is great.
+To kill ads I installed [uBlock origin][] and I also run [Adguard Home][] on my router where I block social media on his computer.
+
+I don't like that my kids freely watch YouTube as there's way too much crap on YouTube to poison their brains.
+I've been meaning to migrate everything to [Jellyfin][] where I could download "approved" channels/videos but I haven't gotten there yet.
+As a compromise I installed [Unhook][] to get rid of recommendations and shorts from YouTube.
+
+Finally, I replaced Google with a [Kagi Family account][] for search.
+
+::: note
+I had to change the DHCPv4 settings for the Wifi to "automatic (only addresses)" (or similar, the OS is in Swedish) and manually add my DNS server to be able to block websites using [Adguard Home][].
+:::
+
+## Music
+
+Isidor has been absolutely enthralled by the music from Kpop Demon Hunters and he really wanted to listen to it on his own computer.
+
+Simple solutions are the best so I setup desktop shortcuts to [Music Assistant][] and Spotify via Firefox.
+
+## Coding with Sonic Pi
+
+I went to the [Goatmire Elixir 2025][] conference where Sam Aaron [gave a talk bout teaching programming by creating music](https://www.youtube.com/watch?v=1pB0_PU520E)
+and it was the most inspiring talk from an excellent conference.
+
+I want to introduce programming to my kids one day so I decided to install [Sonic Pi][], the tool Sam created
+to do just that.
+
+Unfortunately, I had a bunch of problems getting it installed.
+
+There's a [sonic-pi repository][] on the Arch User Repository.
+I used the AUR helper yay to install it and the dependencies:
+
+```fish
+sudo pacman -S --needed git base-devel
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+```
+
+And then install with:
+
+```fish
+yay -S sonic-pi
+```
+
+After a while it installs but crashes at `pw-jack not found`.
+I fixed that by installing `pipewire-jack` (replacing `jack2`):
+
+```fish
+sudo pacman -S pipewire-jack
+```
+
+Then I could launch [Sonic Pi][] but I didn't get any sound.
+That was solved by launching `pavucontrol`, setting the headphone output as the default, disabling the HDMI output, and rebooting.
+
+Now I get sound but for some reason [it does not recognize the Enter key][], making it impossible to use properly.
+
+_This_ is the vintage Linux experience I have so very vivid memories about...
+
+{% It's truly a shame as Isidor is showing some interest in music and this would've been a great way to introduce him to programming. %}
+{% I'll have to dedicate some time to see if I can find a workaround or hack. %}
+
+{% > The things I do for love... %}
+{% > ^ Jaime Lannister %}
+
+# What does Isidor think?
+
+Isidor is super happy with the computer, but he would probably feel the same way with Windows too.
+He doesn't know what Linux is but he's able to navigate around and do what he wants.
+
+I'm sure though that not being able to run Fortnite will become a big deal one day.
+I hope I can distract him with other games, or maybe to make him understand that he can't have everything under the sun.
+
+Famous last words.
+
+[Panda försäljningen]: https://pandaforsaljningen.se/
+[the Steam Deck]: /blog/2023/10/24/the_killer_features_of_the_steam_deck/
+[out of control RAM prices]: https://www.jeffgeerling.com/blog/2025/ram-shortage-comes-us-all
+[absolute privacy nightmare]: https://www.techradar.com/computing/computing-security/windows-recall-sounds-like-a-privacy-nightmare-heres-why-im-worried
+[forced on LG TVs and couldn't be removed]: https://www.techpowerup.com/344075/microsoft-copilot-ai-comes-to-lg-tvs-and-cant-be-deleted
+[reading about CachyOS on Hacker News]: https://news.ycombinator.com/item?id=46095585
+[amazing wiki]: https://wiki.archlinux.org/title/Main_page
+[CachyOS]: https://cachyos.org/
+[Void Linux]: https://voidlinux.org/
+[Arch Linux]: https://archlinux.org/
+[Debian]: https://www.debian.orqg/
+[Linux Mint]: https://linuxmint.com/
+[Bazzite]: https://bazzite.gg/
+[on the Steam Deck]: /blog/2023/10/24/the_killer_features_of_the_steam_deck/#Killer-feature-2-The-steam-library
+[Teardown]: https://store.steampowered.com/app/1167630/Teardown/
+[Cities: Skylines]: https://store.steampowered.com/app/255710/Cities_Skylines/
+[Core Keeper]: https://store.steampowered.com/app/1621690/Core_Keeper/
+[Parkitect]: https://store.steampowered.com/app/453090/Parkitect/
+[World of Goo]: https://store.steampowered.com/app/22000/World_of_Goo/
+[Worms W.M.D]: https://store.steampowered.com/app/327030/Worms_WMD/
+[Northgard: Definite Edition]: https://store.steampowered.com/app/466560/Northgard_Definitive_Edition/
+[Lutris]: https://lutris.net/
+[Hedgewars]: https://www.hedgewars.org/
+[Beyond All Reason]: https://www.beyondallreason.info/
+[uBlock origin]: https://ublockorigin.com/
+[Adguard Home]: https://adguard.com/en/adguard-home/overview.html
+[Unhook]: https://unhook.app/
+[Jellyfin]: https://jellyfin.org/
+[Music Assistant]: https://www.music-assistant.io/
+[Kagi Family account]: https://help.kagi.com/kagi/plans/family-plan.html
+[Goatmire Elixir 2025]: https://goatmire.com/
+[Sonic Pi]: https://sonic-pi.net/
+[it does not recognize the Enter key]: https://github.com/sonic-pi-net/sonic-pi/issues/2561
+[Fight your opponent, not the UI]: https://zero-k.info/mediawiki/Cold_Takes/3_-_Fight_your_opponent,_not_the_UI
+[9-Bit Armies]: https://store.steampowered.com/app/1439750/9Bit_Armies_A_Bit_Too_Far/
+[Tempest Rising]: https://store.steampowered.com/app/1486920/Tempest_Rising/
+[Timberborn]: https://store.steampowered.com/app/1062090/Timberborn/
+[sonic-pi repository]: https://aur.archlinux.org/packages/sonic-pi
