@@ -1,6 +1,6 @@
 ---toml
 title = "Let's build a VORON: Noise"
-tags = ["3D printing", "VORON"]
+tags = ["3D printing", "VORON Trident"]
 series = "voron_trident"
 ---
 
@@ -28,7 +28,7 @@ The fans will fit as they are and I only made some small tweaks:
 
 The connection looks like this:
 
-![The fans are connected to the PCB splitter using low-noise adapters.  
+![The fans are connected to the PCB splitter using low-noise adapters.
 It's important to move the jumper for the PCB FAN connector.](/images/trident/noctua_wiring.jpg)
 
 I altered the extension cables that came with the kit because it leaves the fans intact and I can control the speed using the included low-noise adapters (I used the ultra-low-noise adapters).

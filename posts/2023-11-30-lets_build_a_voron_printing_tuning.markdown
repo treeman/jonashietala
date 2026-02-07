@@ -1,6 +1,6 @@
 ---
 title: "Let's build a VORON: Printing & Tuning"
-tags: ["3D printing", "VORON", "New Stuff"]
+tags: ["3D printing", "VORON Trident", "New Stuff"]
 series: voron_trident
 ---
 

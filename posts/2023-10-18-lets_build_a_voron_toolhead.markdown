@@ -1,6 +1,6 @@
 ---
 title: "Let's build a VORON: Toolhead"
-tags: ["3D printing", "VORON"]
+tags: ["3D printing", "VORON Trident"]
 series: voron_trident
 ---
 
@@ -186,7 +186,7 @@ It's really fascinating to assemble things like the belt system and the toolhead
 [specific cable cover]: https://github.com/VoronDesign/Voron-Hardware/blob/master/Stealthburner_Toolhead_PCB/STLs/cable_cover_pcb_with_thermistor.stl
 [ldo-build-faq]: https://docs.ldomotors.com/en/voron/voron-trident/build-faq
 [trident-manual]: https://raw.githubusercontent.com/VoronDesign/Voron-Trident/main/Manual/Assembly_Manual_Trident.pdf
-[tap-manual]: https://github.com/VoronDesign/Voron-Tap/blob/main/Manual/Assembly_Manual_Tap.pdf 
+[tap-manual]: https://github.com/VoronDesign/Voron-Tap/blob/main/Manual/Assembly_Manual_Tap.pdf
 [tap-errata]: https://github.com/VoronDesign/Voron-Tap/blob/main/Manual/R8_errata.md
 [sb-manual]: https://github.com/VoronDesign/Voron-Stealthburner/blob/main/Manual/Assembly_Manual_SB.pdf
 [ldo-sb-revised]: https://www.ldomotion.com/p/guide/18295873486194241

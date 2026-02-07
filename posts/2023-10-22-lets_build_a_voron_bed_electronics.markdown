@@ -1,6 +1,6 @@
 ---
 title: "Let's build a VORON: Bed & electronics"
-tags: ["3D printing", "VORON"]
+tags: ["3D printing", "VORON Trident"]
 series: voron_trident
 ---
 
