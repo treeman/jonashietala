@@ -1,0 +1,135 @@
+---toml
+title = "Nevermore Stealthmax v2"
+tags = ["3D printing", "VORON Trident"]
+---
+
+<https://github.com/nevermore3d/Stealthmax_V2/tree/main>
+
+# Parts
+
+To build the filter I bought the [Nevermore StealthMax V2 kit][] from [onetwo3d.co.uk][] and I [bought printed parts from jb3d][].
+I dislike buying printed parts but the filter is too big to print on a 250mm bed. Sad.
+
+![Printed parts I had to buy.](/images/nevermore_stealthmax_v2/printed_parts.jpg)
+
+The printed parts were good though, better than what I could've produced.
+
+# Assembly
+
+The documentation is a work in progress and you have to refer to the CAD to see how to assemble it.
+The electronics however came with good documentation.
+
+## Electronics
+
+![The fan and electronics mounted into the flow chamber.](/images/nevermore_stealthmax_v2/electronics.jpg)
+
+::: tip
+It's easier to flash the Raspberry Pi before mounting and connecting it.
+And make sure to use the correct version (`pico` or `pico w`).
+:::
+
+![There's a sensor on top of the fan in the main chamber.](/images/nevermore_stealthmax_v2/chamber.jpg)
+
+## Vent flap & servo
+
+It was a bit difficult to figure out how to install the vent from the CAD but in the end I think I figured it out.
+
+![The vent flap is held together with a regular screw to the left and a small screw that came with the servo.
+The two-part flap is held together with a piece of filament.](/images/nevermore_stealthmax_v2/servo_vent_installation.jpg)
+
+![The small screw that connects the servo with the flap.](/images/nevermore_stealthmax_v2/flap_loctite.jpg)
+
+::: important
+Don't forget to tighten the servo screw with loctite!
+:::
+
+![The built-in supports were really hard to remove.
+I instead used the "organic" supports that broke off very cleanly.](/images/nevermore_stealthmax_v2/organic_supports.jpg)
+
+## General assembly
+
+![The bottom of the main chamber.](/images/nevermore_stealthmax_v2/underside_chamber.jpg)
+
+![Two handles should be installed with pieces of filament, underneath the Carbon and HEPA container lid.](/images/nevermore_stealthmax_v2/lid_handles.jpg)
+
+![Underside of the carbon and HEPA filter container.](/images/nevermore_stealthmax_v2/underside_hepa.jpg)
+
+TODO image of the container filled with carbon
+
+![The filter hangs on the frame with two 3x25mm screws.](/images/nevermore_stealthmax_v2/frame_mounted.jpg)
+
+![The ptfe tube coming through the mounting piece.](/images/nevermore_stealthmax_v2/mount_exhaust.jpg)
+
+::: note
+There's lots of gunk on my panels.
+Maybe proof that my previous filtering was inadequate?
+:::
+
+![Filter is mounted with 3x25mm screws through the mounting piece.](/images/nevermore_stealthmax_v2/mounted_front.jpg)
+
+![Assembly completed.](/images/nevermore_stealthmax_v2/assembly_finished.jpg)
+
+
+## Broken pieces
+
+I broke quite a few pieces during the assembly (but luckily not any of the big pieces I cannot reprint).
+
+I was going to install the pixel holder as I got LEDs with the kit, but after breaking it several times I just installed the regular boring variant.
+
+![The pixel holder broke in this way multiple times.](/images/nevermore_stealthmax_v2/nevermore_broken_pixel_holder.jpg)
+
+![If felt like these clips broke every time I tried to insert or remove them.](/images/nevermore_stealthmax_v2/broken_things.jpg)
+
+I don't know if it's a print calibration issue on my end but the printed parts I bought had the same issue.
+
+# Vent servo software setup
+
+There were no notes on how to configure the vent servo in the documentation but I managed to figure it out.
+
+As a baseline I started with a min/max pulse width:
+
+```
+vent_servo_pulse_width_min: 0.001
+vent_servo_pulse_width_max: 0.002
+```
+
+Then we can start moving the servo with this command:
+
+```
+NEVERMORE_VENT_SERVO_SET PERCENT=0.5 HOLD_FOR=0.1
+```
+
+We should find the edges for when the servo opens and closes.
+For me the flap was open at 55% and closed at 70%.
+
+Then we should reconfigure the min/max pulse ranges so that 0% means open and 100% means closed.
+This is a linear system so we use this formula:
+
+```
+range_start + range_width * percentage
+```
+
+For me it looks like this:
+
+```
+# 0.001 + (0.002 - 0.001) * 0.55 = 0.00155
+vent_servo_pulse_width_min: 0.00155
+# 0.001 + (0.002 - 0.001) * 0.70 = 0.00170
+vent_servo_pulse_width_max: 0.00170
+```
+
+So now I close the vent with:
+
+```
+NEVERMORE_VENT_SERVO_SET PERCENT=1 HOLD_FOR=0.1
+```
+
+and open it with:
+
+```
+NEVERMORE_VENT_SERVO_SET PERCENT=0 HOLD_FOR=0.1
+```
+
+[Nevermore StealthMax V2 kit]: https://www.onetwo3d.co.uk/product/nevermore-stealthmax-v2-kit/
+[onetwo3d.co.uk]: https://www.onetwo3d.co.uk/
+[bought printed parts from jb3d]: https://jb3d.uk/product/nevermore-stealthmax-2

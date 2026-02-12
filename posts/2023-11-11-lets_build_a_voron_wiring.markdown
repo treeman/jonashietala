@@ -1,6 +1,6 @@
 ---
 title: "Let's build a VORON: Wiring"
-tags: ["3D printing", "VORON"]
+tags: ["3D printing", "VORON Trident"]
 series: voron_trident
 favorite: true
 ---
@@ -81,7 +81,7 @@ But the cable that I got doesn't fit:
 
 ![The hotend cable has "pin" type connectors.](/images/trident/wrong_hotend_cable.jpg)
 
-![What I want is "U" type connectors.  
+![What I want is "U" type connectors.
 (I later found them on Amazon as "fork spade" terminals.)](/images/trident/right_cable_connector.jpg)
 
 My suspicion is that I got the wrong cable because the [V2.4 wiring guide][] specifies that the cable goes into `HE0` and `SSR` goes to `BED_OUT`, while the Trident has it reversed.
@@ -112,7 +112,7 @@ The major things are done, but there are more things that needs to be fixed.
 
 I got a cute little PCB for connecting two LED strips in the kit.
 
-![It's neat. I like it.  
+![It's neat. I like it.
 (I later moved the LED wire so it goes down in the front instead of behind the belts.)](/images/trident/led_pcb.jpg)
 
 ![I wasn't sure how to mount the LEDs, so I added a wire cover below the LED strips to give it a platform to attach on.](/images/trident/leds_mounted.jpg)
@@ -216,7 +216,7 @@ The movement isn't as smooth as in [NERO 3D's video][solve the gantry racking], 
 
 > I did this with the motors and everything connected, which is NOT recommended as it may damage the components.
 > At one point I saw the display flashing and thought "huh, that's weird", but clueless as I am the implications didn't register at that time.
-> 
+>
 > Yeah I know that NERO 3D said to watch out for it in the gantry racking video, but it had slipped my mind.
 > Now I'm really worried that I've screwed myself over in a major way.
 { :notice }
@@ -255,7 +255,7 @@ I wish I hadn't clipped away the tab, so I could zip tie the cables to it.](/ima
 
 # It's all coming together
 
-![All the wiring is in place.  
+![All the wiring is in place.
 (You may notice an unconnected cable in the upper right, it's for the Nevermore filter I haven't built yet).](/images/trident/full_wiring.jpg)
 
 I may clean it up a bit after I've verified that things work.
@@ -269,7 +269,7 @@ With everything prepared I closed my hands, curled my toes, and clenched my ass 
 
 And the lights are glowing! *Huzzah!*
 
-![The lights are glowing, and there's no smoke from the Octopus.  
+![The lights are glowing, and there's no smoke from the Octopus.
 I disconnected the hotend and Raspberry as a safety measure before turning it on.](/images/trident/octopus_lights.jpg)
 
 ![The Raspberry Pi also has some lights when turned on.](/images/trident/pi_lights.jpg)

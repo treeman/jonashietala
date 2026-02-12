@@ -1,14 +1,97 @@
 ---toml
 title = "A4T toolhead"
-tags = ["3D printing", "VORON"]
+tags = ["3D printing", "VORON Trident"]
 ---
 
+![The A4T toolhead.](/images/a4t/a4t_hand.jpg)
 
+I [recently modded my 3D printer][] by adding the [Jabberwocky toolhead][].
+The happiness was short lived as I was getting lots of extrusion issues that I couldn't resolve.
+
+It was likely a combination of poor print quality (as both of my printers were having issues) and me using older print files. I could probably resolve them by reprinting the toolhead, but as I had already bought the parts for an [A4T][] I decided to replace the Jabberwocky instead.
+
+# Front idlers and XOL carriage
+
+The [A4T][] is a wider toolhead and [it will collide][install compatible front idlers] with the standard VORON Trident front idlers.
+I decided to replace them with the popular [Beefy Front Idlers][]:
+
+![The Beefy Front Idlers.](/images/a4t/bfi.jpg)
+
+I did have issues fitting the M5 bolt I had into the idlers and there's a note about it in the assembly manual:
+
+::: warning
+BHCS FITMENT
+
+Some M5 BHCS have a
+slightly larger head and don't
+fit properly. This is a known
+issue and should be fixed in a
+future version of BFI.
+:::
+
+This caused a buildup of dust, likely from the belts:
+
+![Dust buildup on the front-right idler.](/images/a4t/bfi_dust.jpg)
+
+Instead of ordering pins to fix this I ordered the [Vitalii3D CNC Front Idlers][].
+It's an upgrade I was planning to try anyway so I figured I might as well do it now.
+
+TODO image of CNC idlers once installed
+
+I also had to install a compatible carriage and I went with the standard [XOL carriage][]:
+
+![The XOL carriage is installed on the rails.](/images/a4t/xol_carriage.jpg)
+
+![Clips for the belts.](/images/a4t/xol_carriage_clips.jpg)
+
+Not a huge fan of the belt clips to be honest.
+It was really difficult to match the belt tension as I couldn't adjust them by pulling out the belts once installed in the clips.
+
+# Building the A4T
+
+The build was quite straightforward.
+I was worried about the my print quality but everything seemed to work well enough.
+The LEDs were a bit tight but I wasn't too interested in LEDs anyway as I didn't have see-through filament at home, and I didn't want to wait two weeks more.
+
+I chose [WW-BMG][] as the extruder and was straightforward to build.
+
+![The WW-BMG extruder assembled.](/images/a4t/wwbmg.jpg)
+
+I had a Dragon HF lying around that I decided to use, together with the mandatory [meltzone extender][].
+
+![The A4T lying on the bed so I can re-crimp wires.](/images/a4t/a4t_bed.jpg)
+
+By far the most annoying thing with the build was crimping these tiny JST-PH2.0 connectors for the [Nitehawk-36][].
+I had to redo them a bunch of times as I was constantly failing to get a good connection.
+
+TODO replace image with CNC idlers
+
+![The A4T is printing!](/images/a4t/a4t_printiNg.jpg)
+
+# Initial thoughts
+
+I've only had the A4T running for a few weeks so I can't give a final verdict but so far I'm impressed.
+
+::: plus
++ The extrusion related issues I've seen with the Stealthburner and Jabberwocky on the same printer are gone.
++ I used to get clogs with the Rapido + Stealthburner all the time but so far I've been spared.
++ It's got excellent cooling.
++ WW-BMG has so far been gripping filament noticeably better than the Clockwork 2 and Galileo 2 I've used before.
+:::
+
+The next steps for this printer is to install a filament cutter, a multi-color system, upgrade the filtration system, and then (maybe) rebuild it into a [DoomCube][].
+But I also got parts for a new [Micron+][] so we'll see when/if I get to them.
+
+[Nitehawk-36]: https://docs.ldomotors.com/en/Toolboard/nitehawk-36
 [nozzle-seal]: https://www.printables.com/model/882364-new-version-adjustable-gantry-mounted-nozzle-seal
-[purge-bucket]: http://localhost:8080/blog/2024/02/27/lets_build_a_voron_more_mods/#Purge-bucket-CNC-Tap
-[ERCF]: https://github.com/Enraged-Rabbit-Community/ERCF_v2
 [Beefy Front Idlers]: https://github.com/clee/VoronBFI
 [XOL carriage]: https://github.com/Armchair-Heavy-Industries/Xol-Toolhead/blob/main/docs/xol_carriage_assembly.md
 [meltzone extender]: https://trianglelab.net/products/zs%C2%AE-mze%E2%84%A2-melt-zone-extender?VariantsId=11381
-[y-relocation]: https://www.printables.com/model/324787-voron-v24-and-trident-y-endstop-relocation-mod
 [install compatible front idlers]: https://github.com/Armchair-Heavy-Industries/A4T?tab=readme-ov-file#front-idlers
+[recently modded my 3D printer]: /blog/2025/12/02/3d_printer_repairing_and_modding/
+[Jabberwocky toolhead]: https://github.com/kinematicdigit/Jabberwocky
+[A4T]: https://github.com/Armchair-Heavy-Industries/A4T
+[Vitalii3D CNC Front Idlers]: https://www.onetwo3d.co.uk/product/vitalii3d-cnc-front-idlers-for-voron-trident/
+[WW-BMG]: https://github.com/Armchair-Heavy-Industries/A4T/blob/main/STL/WW-BMG%20for%20A4T/README.md
+[DoomCube]: https://github.com/FrankenVoron/Doomcube-Trident/tree/main
+[Micron+]: https://github.com/PrintersForAnts/Micron

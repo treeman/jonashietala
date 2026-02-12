@@ -1,6 +1,6 @@
 ---
 title: "Let's build a VORON: Build start"
-tags: ["3D printing", "VORON", "New Stuff"]
+tags: ["3D printing", "VORON Trident", "New Stuff"]
 series: voron_trident
 favorite: true
 ---
@@ -120,7 +120,7 @@ My partners little brother came to the rescue and found a NLGI 1 grease (as reco
 That's great, but I also don't have a syringe so I ended up removing the carriage and applying grease that way.
 To my surprise they were full of small balls that had a tendency to jump out at me.
 
-![The balls jumped out on me. I hope I found them all?  
+![The balls jumped out on me. I hope I found them all?
 (No, I later found some missing balls...)](/images/trident/tiny_balls.jpg)
 
 At first I applied a bunch of grease on the balls as well, but then carriage moved really slowly over the rails, so in the end I applied a little grease only in the middle.
@@ -129,7 +129,7 @@ They still don't move as smoothly as they did when I opened the boxes, I hope it
 
 # Best part of the build so far
 
-![This is Loke's hand.  
+![This is Loke's hand.
 I don't want to publish pictures of my kids, so this is what you get.](/images/trident/build_loke.jpg)
 
 So far the best part has been that both of my boys (5 and 3 years) have been helping me out, and they've been really enjoying being there and helping me tighten some screws.
