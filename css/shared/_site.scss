@@ -142,6 +142,9 @@ body > footer {
   .lower {
     @include font-size("s");
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
 
     a {
       text-decoration: underline;
