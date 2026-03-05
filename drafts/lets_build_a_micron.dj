@@ -3,7 +3,16 @@ title = "Let's build a Micron+"
 tags = ["3D Printing", "Micron+"]
 ---
 
-![](/images/micron/micron_assembly_progress.jpg)
+![Working on my next 3D printer. Yes, the AB motors are the wrong way.](/images/micron/micron_assembly_progress.jpg)
+
+# Stuff
+
+* [LDO Micron+ kit][]
+* [LDO Colony Clacker][] door kit
+* [neXtG Fiber Hotend][] (no hotend included in the LDO kit)
+* [Beacon probe][] (best quality of life upgrade IMO)
+* Chamber thermistor and bed fans (standard but not included in the LDO kit)
+* Polymaker Polylite ASA [Yellow][] & [Teal][] for printed parts
 
 # Frame assembly
 
@@ -53,7 +62,17 @@ tags = ["3D Printing", "Micron+"]
 
 ![](/images/micron/micron_with_gantry.jpg)
 
+At this point I noticed that I installed the AB motors the wrong way.
+I had to remove the belts, the gantry, flip the motors, and assemble them again.
+Fun times.
+
 # Anthead toolhead
 
 ![](/images/micron/anthead_with_hotend_fan.jpg)
 
+[neXtG Fiber Hotend]: https://www.3djake.com/dropeffect/nextg-fiber-hotend?sai=18446
+[LDO Colony Clacker]: https://myrigs3d.com/products/ldo-colony-clacker-kit-for-micron?_pos=1&_sid=5e9ee0496&_ss=r
+[LDO Micron+ kit]: https://myrigs3d.com/collections/printer-for-ants/products/ldo-micron-3d-printer-kit-micron-plus-180
+[Beacon probe]: https://myrigs3d.com/products/original-beacon-3d-surface-scanner?_pos=1&_sid=3afca056e&_ss=r
+[Yellow]: https://www.3djake.com/polymaker/polylite-asa-yellow
+[Teal]: https://www.3djake.com/polymaker/polylite-asa-teal
