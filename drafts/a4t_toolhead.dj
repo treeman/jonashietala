@@ -68,6 +68,19 @@ TODO replace image with CNC idlers
 
 ![The A4T is printing!](/images/a4t/a4t_printiNg.jpg)
 
+# Lots of other issues
+
+* Driver overloaded or something
+* Power between Octopus and Pi is borked
+* Sometimes fails to home (x movement gets stuck)
+* Loses connection to Nitehawk
+* Loses connection to Beacon
+
+```
+TMC 'stepper_x' reports error: DRV_STATUS: 40110060 s2vsb=1(ShortToSupply_B!) ola=1(OpenLoad_A!) cs_actual=17 stealth=1
+Once the underlying issue is corrected, use the
+```
+
 # Initial thoughts
 
 I've only had the A4T running for a few weeks so I can't give a final verdict but so far I'm impressed.
