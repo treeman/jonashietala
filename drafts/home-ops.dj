@@ -3,6 +3,32 @@ title = "home-ops"
 tags = ["Kubernetes", "Homelab"]
 ---
 
+Chapters:
+
+a. Talos nodes on Proxmox with Terraform
+
+   Terraform, Cilium, until we can get `kubectl` online.
+
+a. Secrets handling
+
+   SOPS + age, and Sealed Secrets
+
+a. GitOps with ArgoCD
+
+a. cert-manager + external DNS
+
+   Make https work with ArgoCD
+
+a. Application with database
+
+   local-path, cloudnative-pg, backups, and miniflux
+
+a. SSO with Authentik
+
+   Also kubectl support + Headlamp
+
+* * *
+
 # TODO
 
 * Rancher Dashboard
