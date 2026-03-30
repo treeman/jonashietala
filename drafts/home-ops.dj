@@ -1,0 +1,787 @@
+---toml
+title = "home-ops"
+tags = ["Kubernetes", "Homelab"]
+---
+
+# TODO
+
+* Rancher Dashboard
+* Monitoring, Grafana + Loki + Prometheus
+* [Spegel][] or a registry mirror/pull-through cache
+
+- Recreate setup during blog post rewrite
+- Observability: Grafana + Loki
+
+## Done
+
+1. Storage: local path (done)
+2. Better secrets setup (SOPS + age + sealed secrets)
+3. Cilium (CNI + kube-proxy replacement + LB + Gateway API) (done)
+   cert-manager for TLS setup
+   Maybe this for namecheap: <https://github.com/kelvie/cert-manager-webhook-namecheap>?
+5. Postgres backup (done)
+1. External DNS adds to router
+
+# Chapters
+
+1. Bootstrap nodes to Proxmox
+2. Create Kubernetes cluster
+3. Manage kubernetes with GitOps
+4. Migrate services
+
+   * Postgres [CloudNativePG][], with timescaledb
+   * Grafana + Loki + monitoring
+   * mqtt + zigbee2mqtt (hardware and node taints)
+   * Home Assistant (use Postgres instead of SQLite)
+   * haex (from git repo)
+
+# Bootstrap
+
+```fish
+cargo install just
+xbps-install -S just
+```
+
+Use [just][] to run commands.
+
+## Terraform
+
+<https://docs.siderolabs.com/talos/v1.12/platform-specific-installations/virtualized-platforms/proxmox>
+
+Need to have a special image with `qemu-guest-agent` support.
+
+<https://factory.talos.dev/>
+
+`https://factory.talos.dev/image/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515/v1.12.5/metal-amd64.iso`
+
+talos terraform provider, but the documentation isn't particularly helpful.
+Found these examples: <https://github.com/siderolabs/terraform-provider-talos/tree/main/examples>
+and this blog post: <https://olav.ninja/talos-cluster-on-proxmox-with-terraform>
+
+How to list config of an already existing node?
+
+```
+pvesh get /nodes/dorne/qemu/105/config
+```
+
+Failed test:
+
+```
+resource "proxmox_virtual_environment_vm" "talos_cp1" {
+  name        = "talos-cp1-test"
+  description = "Managed by Terraform"
+  tags        = ["terraform", "talos"]
+  node_name   = var.proxmox_node_name
+  on_boot     = true
+
+  agent {
+    enabled = true
+  }
+
+  cpu {
+    cores = 4
+    type = "x86-64-v2-AES"
+  }
+
+  memory {
+    dedicated = 4096
+    floating = 4096
+  }
+
+  network_device {
+    bridge = "vmbr0"
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    file_id = proxmox_virtual_environment_download_file.talos_image.id
+    file_format = "raw"
+    interface = "scsi0"
+    size = 20
+    ssd = true
+  }
+
+  operating_system {
+    type = "l26"
+  }
+
+  initialization {
+    datastore_id = "local-lvm"
+    ip_config {
+      ipv4 {
+        address = "${var.talos_cp1_ip}/24"
+        gateway = var.default_gateway
+      }
+    }
+  }
+}
+```
+
+## Errors
+
+```
+proxmox_virtual_environment_vm.controller[0]: Creating...
+╷
+│ Error: creating custom disk: fish: Unexpected end of string, quotes are not balanced
+│ /bin/bash -c 'export TRY_SUDO_USE_SUDO=0; set -e; _try_sudo_check(){ if [ -z "${_try_sudo_cached:-}" ];
+then _try_sudo_use_sudo="${TRY_SUDO_USE_SUDO:-0}"; _try_sudo_cached=1; fi; }; try_sudo(){ _try_sudo_check; if
+ [ "$_try_sudo_use_sudo" = "1" ]; then sudo "$@"; else "$@"; fi; };
+file_id=local:iso/talos-v1.12.4-nocloud-amd64.img; file_format=raw; datastore_id_target=local-lvm; vm_id=112;
+ disk_options=aio=io_uring,backup=1,iothread=1,ssd=1,discard=on,cache=none,replicate=1; disk_interface=scsi0;
+ source_image=$(try_sudo /usr/sbin/pvesm path $file_id); imported_disk=$(try_sudo /usr/sbin/qm disk import
+$vm_id $source_image $datastore_id_target -format $file_format | grep unused0 | cut -d : -f 3 | cut -d \'"'"'
+ -f 1); disk_id=${datastore_id_target}:$imported_disk,$disk_options; try_sudo /usr/sbin/qm set $vm_id
+-${disk_interface} $disk_id'
+│
+```
+
+Shouldn't use `fish` as the login shell
+
+```
+proxmox terraform ╷ │ Error: resizing disk: All attempts fail: │ #1: task "UPID:dorne:0016FBC6:2304690D:69BE4B00:resize:112:root@pam:" failed to complete with exit code: disk 'scsi0' does not exist
+```
+
+Update from proxmox 8 -> 9.1.6
+
+<https://github.com/rgl/terraform-proxmox-talos/blob/main/talos.tf>
+
+## Ansible
+
+<https://github.com/alexpdp7/alexpdp7/tree/master/personal_infra/playbooks/roles/talos>
+<https://github.com/jdefreeuw/talos-ansible>
+
+## Other
+
+* Talos
+
+<https://github.com/onedr0p/home-ops>
+<https://github.com/onedr0p/cluster-template>
+<https://github.com/khuedoan/homelab>
+
+[just]: https://just.systems/man/en/
+[CloudNativePG]: https://cloudnative-pg.io/
+
+# Jinja templating for HA
+
+<https://github.com/mirkolenz/makejinja/tree/main/tests/data>
+
+# GitOps argocd
+
+```
+k create namespace argocd
+```
+
+Also need to bootstrap metallb
+
+## Bootstraps
+
+### Metallb
+
+Need an external ip, so bootstrap metallb:
+
+```
+helm repo add metallb https://metallb.github.io/metallb
+helm install metallb metallb/metallb --namespace metallb-system --set speaker.ignoreExcludeLB=true --create-namespace --version 0.15.3
+kubectl apply -f gitops/apps/metallb_config.yaml
+```
+
+Nginx test:
+
+
+```
+kubectl create deployment test-nginx --image=nginx
+kubectl expose deployment test-nginx --port=80 --type=LoadBalancer
+kubectl get svc test-nginx
+```
+
+Once an external IP appears, test it:
+
+```
+curl http://<external-ip>
+```
+
+Delete:
+
+```
+kubectl delete deployment test-nginx
+kubectl delete svc test-nginx
+```
+
+### Argo
+
+Install argo:
+
+```
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd -n argocd --create-namespace --version 7.8.23 --set server.service.type=LoadBalancer
+```
+
+```
+kubectl apply -f gitops/apps/argocd_config.yaml
+```
+
+```
+kubectl get svc argocd-server -n argocd
+```
+
+```
+kubectl get svc argocd-server -n argocd
+NAME            TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+argocd-server   LoadBalancer   10.109.227.206   10.1.4.102    80:31410/TCP,443:32673/TCP   2m29s
+```
+
+We have an external ip we can use
+
+
+```
+argocd admin initial-password -n argocd
+argocd login 10.1.4.102 --insecure
+argocd Gccount update-password
+```
+
+Login using `admin`
+W5J9wunoJw8nQYKD
+
+And now we can login at `http://<external-ip>` via the browser too!
+
+## Intilize GitOps
+
+```
+argocd repo add https://git.hietala.xyz/tree/home-ops.git --username admin --password 2cfbfa5cc8cb0ada21333c729d0379517ef7d1e0
+```
+
+```
+argocd repo list
+TYPE  NAME  REPO                                       INSECURE  OCI    LFS    CREDS  STATUS      MESSAGE  PROJECT
+git         https://git.hietala.xyz/tree/home-ops.git  false     false  false  false  Successful
+```
+
+Then bootstrap the "app of apps" setup, which will load everything in `apps/`:
+
+```
+kubectl apply -f gitops/app-of-apps.yaml
+```
+
+## Automatically update versions using Renovate
+
+Token with read/write permissions.
+
+```
+kubectl create secret generic renovate-token --namespace renovate --from-literal=RENOVATE_TOKEN=<token>
+```
+
+```
+kubectl get secret renovate-token -n renovate -o jsonpath='{.data.RENOVATE_TOKEN}' | base64 -d
+```
+
+Test:
+
+```
+kubectl create job -n renovate --from=cronjob/renovate renovate-manual
+```
+
+You can also see logs with:
+
+```
+tree@winterfell ~/c/home-ops> kubectl logs -n renovate -l job-name=renovate-manual -f
+```
+
+And there's also a nice UI for this.
+
+# New bootstrap with cilium
+
+```
+terraform apply
+```
+
+`talosctl -n 10.1.4.10 health` will stop at:
+
+```
+waiting for all k8s nodes to report ready: ...
+waiting for all k8s nodes to report ready: some nodes are not ready: [talos-cp1 talos-cp2 talos-cp3]
+```
+
+Should install gateway API before installing cilium:
+
+```
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+```
+
+Now install cilium:
+
+```
+helm install cilium cilium/cilium \
+  --namespace kube-system \
+  --version 1.17.2 \
+  --set kubeProxyReplacement=true \
+  --set k8sServiceHost=10.1.4.100 \
+  --set k8sServicePort=6443 \
+  --set l2announcements.enabled=true \
+  --set externalIPs.enabled=true \
+  --set gatewayAPI.enabled=true \
+  --set ipam.mode=kubernetes \
+  --set operator.replicas=1
+  --set securityContext.privileged=true
+```
+
+```
+kubectl apply -f gitops/apps/cilium_config.yaml
+```
+
+Needed to work with Talos:
+
+```yaml
+securityContext:
+  privileged: true
+```
+
+Can test with nginx, should work properly.
+
+Then setup argocd as before
+
+For the impatiant:
+
+```
+kubectl annotate applications -n argocd --all argocd.argoproj.io/refresh=hard
+```
+
+# Cert-manager
+
+```
+kubectl create namespace cert-manager
+kubectl create secret generic namecheap-credentials \
+  --namespace cert-manager \
+  --from-literal=apiKey=<your-api-key> \
+  --from-literal=apiUser=<your-namecheap-username>
+```
+
+Check with:
+
+```
+kubectl get certificate -n kube-system
+```
+
+# Storage
+
+Expose drives as `nfs` media? Simpler than Longhorn?
+
+# New and complete bootstrap
+
+```
+terraform apply
+just init_cluster_config
+
+# Nodes will not be ready
+# Gateway CRDs need to exist before we install cilium
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+helm install cilium cilium/cilium \
+  --namespace kube-system \
+  --version 1.19.2 \
+  --set kubeProxyReplacement=true \
+  --set k8sServiceHost=10.1.4.100 \
+  --set k8sServicePort=6443 \
+  --set l2announcements.enabled=true \
+  --set externalIPs.enabled=true \
+  --set gatewayAPI.enabled=true \
+  --set ipam.mode=kubernetes \
+  --set operator.replicas=1 \
+  --set securityContext.privileged=true
+
+# Need to wait until done
+kubectl rollout status daemonset/cilium -n kube-system
+# Then we can do
+kubectl apply -f gitops/bootstrap/cilium_config.yaml
+# Nodes will now become healthy
+talosctl -n 10.1.4.10 health
+
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd -n argocd --create-namespace --version 9.4.16 \
+  --set server.service.type=LoadBalancer \
+  --set server.service.annotations."io\.cilium/lb-ipam-ips"=10.1.4.102
+# See ip
+kubectl get svc argocd-server -n argocd
+argocd admin initial-password -n argocd
+# Username `admin`
+argocd login 10.1.4.102 --insecure
+argocd account update-password
+argocd repo add https://git.hietala.xyz/tree/home-ops.git --username admin --password <token>
+
+kubectl create namespace renovate
+kubectl create secret generic renovate-token --namespace renovate --from-literal=RENOVATE_TOKEN=<token>
+
+kubectl create namespace cert-manager
+kubectl create secret generic namecheap-credentials \
+  --namespace cert-manager \
+  --from-literal=apiKey=<your-api-key> \
+  --from-literal=apiUser=<your-namecheap-username>
+
+kubectl apply -f gitops/root.yaml
+```
+
+# Local path and postgres
+
+Setup local path
+
+```
+kubectl get storageclass
+NAME                   PROVISIONER                            RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-path (default)   cluster.local/local-path-provisioner   Delete          WaitForFirstConsumer   true                   7m7s
+```
+
+```
+# Get password
+kubectl get secret postgres-app -n cnpg-system -o jsonpath='{.data.password}' | base64 -d
+psql -h 10.1.4.103 -U app
+# Or
+PGPASSWORD=<password> psql -h 10.1.4.103 -U app
+# Or
+kubectl exec -n cnpg-system postgres-1 -- psql -U postgres
+# Allow app user to create database
+kubectl exec -n cnpg-system postgres-1 -- psql -U postgres -c "ALTER USER app CREATEDB;"
+# Login
+```
+
+## Backups
+
+
+```
+CNPG
+  └─► Garage (in-cluster, S3-compatible)
+        └─► NFS mount → vault/postgres on Proxmox ZFS
+                └─► Sanoid/Syncoid → secondary machine (future)
+                └─► Restic/Rclone → Backblaze B2
+```
+
+# Miniflux
+
+Still without proper secret handling:
+
+```
+kubectl create secret generic miniflux-pg -n cnpg-system \
+  --from-literal=username=miniflux \
+  --from-literal=password=abcd1234
+
+kubectl create namespace miniflux
+
+kubectl create secret generic miniflux -n miniflux \
+  --from-literal=database-url="postgresql://miniflux:abcd1234@postgres-rw.cnpg-system:5432/m niflux?sslmode=disable" \
+  --from-literal=admin-username="admin" \
+  --from-literal=admin-password="abcd1234"
+```
+
+# Secret management
+
+## SOPS and age
+
+Install `sops` and `age`.
+
+```
+mkdir -p ~/.config/sops/age
+age-keygen -o ~/.config/sops/age/keys.txt
+```
+
+(Store keys safely, I choose Bitwarden)
+
+```
+sops --encrypt talosconfig.yaml > talosconfig.encrypted.yaml
+sops --decrypt talosconfig.encrypted.yaml > talosconfig.yaml
+```
+
+Add `talosconfig.yaml` to gitignore.
+
+## Sealed secrets
+
+<https://www.arthurkoziel.com/encrypting-k8s-secrets-with-sealed-secrets/>
+
+Need to install the `kubeseal` binary:
+
+```fish
+set -x KUBESEAL_VERSION '0.36.1' # Set this to, for example, KUBESEAL_VERSION='0.23.0'
+curl -OL "https://github.com/bitnami-labs/sealed-secrets/releases/download/v$KUBESEAL_VERSION/kubeseal-$KUBESEAL_VERSION-linux-amd64.tar.gz"
+tar -xvzf kubeseal-$KUBESEAL_VERSION-linux-amd64.tar.gz kubeseal
+sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+```
+
+Get public key so we can encrypt things:
+
+```
+kubeseal --fetch-cert \
+         --controller-name=sealed-secrets-controller \
+         --controller-namespace=sealed-secrets \
+    > infrastructure/sealed-secrets-cert.pem
+```
+
+Create secret (uses downloaded cert):
+
+```
+kubectl create secret generic miniflux \
+  --namespace miniflux \
+  --from-literal=database-url="postgresql://miniflux:abcd1234@postgres-rw.cnpg-system:5432/miniflux?sslmode=disable" \
+  --from-literal=admin-username="admin" \
+  --from-literal=admin-password="abcd1234" \
+  --dry-run=client -o yaml \
+  | kubeseal --cert infrastructure/sealed-secrets-cert.pem \
+  --format yaml > gitops/apps/miniflux/miniflux-secret.yaml
+
+kubectl create secret generic miniflux-pg \
+  --namespace cnpg-system \
+  --from-literal=username="miniflux" \
+  --from-literal=password="abcd1234" \
+  --dry-run=client -o yaml \
+  | kubeseal --cert infrastructure/sealed-secrets-cert.pem \
+  --format yaml > gitops/apps/postgres/miniflux-pg-secret.yaml
+```
+
+```
+# View the created secret:
+kubectl get secret miniflux -n miniflux -o yaml
+# Decrypt the admin-username value:
+kubectl get secret miniflux -n miniflux -o jsonpath='{.data.admin-username}' | base64 -d
+admin
+```
+
+Can also create online using
+
+# Garage
+
+```
+# First have to port forward
+kubectl port-forward -n garage svc/garage 3903:3903
+# Then we can view status and use the API
+# https://garagehq.deuxfleurs.fr/documentation/reference-manual/admin-api/
+curl http://localhost:3903/health
+curl -H "Authorization: Bearer <token>" http://localhost:3903/v2/GetClusterStatus
+```
+
+TODO
+
+```
+Step 1 — Create S3 credentials and seal them (you run this
+once):
+S3_ACCESS_KEY=$(openssl rand -hex 10 | tr '[:lower:]'
+'[:upper:]')
+S3_SECRET_KEY=$(openssl rand -hex 20)
+
+kubectl create secret generic garage-s3 --namespace garage
+\
+  --from-literal=access-key="${S3_ACCESS_KEY}" \
+  --from-literal=secret-key="${S3_SECRET_KEY}" \
+  --dry-run=client -o yaml | kubeseal -o yaml >
+gitops/apps/garage/garage-s3-secret.yaml
+
+kubectl create secret generic postgres-backup-s3
+--namespace cnpg-system \
+  --from-literal=ACCESS_KEY_ID="${S3_ACCESS_KEY}" \
+  --from-literal=ACCESS_SECRET_KEY="${S3_SECRET_KEY}" \
+  --dry-run=client -o yaml | kubeseal -o yaml >
+gitops/apps/postgres/postgres-backup-secret.yaml
+
+Step 2 — Add an ArgoCD PostSync Job to Garage that
+idempotently creates the postgres-backups bucket and
+imports the S3 key using garage CLI.
+
+Step 3 — Add barmanObjectStore to the CNPG Cluster spec and
+ a ScheduledBackup resource.
+```
+
+Get Bearer token:
+
+```
+kubectl get secret -n garage garage-secrets -o jsonpath='{.data.GARAGE_ADMIN_TOKEN}' | base64 -d
+```
+
+Then check that the bucket `postgres-backups` exist:
+
+```
+kubectl port-forward -n garage svc/garage 3903:3903
+curl localhost:3903/v2/GetBucketInfo?globalAlias=postgres-backups -H "Authorization: Bearer <token>"
+```
+
+WAL 30 days + daily scheduled backups gives proper restoration capabilities.
+
+To verify:
+
+1. `kubectl get cluster postgres -n cnpg-system -o jsonpath='{.status.conditions}' | jq .`
+
+  ```json
+  {
+    "lastTransitionTime": "2026-03-27T13:20:11Z",
+    "message": "Continuous archiving is working",
+    "reason": "ContinuousArchivingSuccess",
+    "status": "True",
+    "type": "ContinuousArchiving"
+  }
+  ```
+
+2. Trigger manual backup
+
+  Install tool:
+
+  ```
+  curl -sSfL \
+    https://github.com/cloudnative-pg/cloudnative-pg/raw/main/hack/install-cnpg-plugin.sh | \
+    sudo sh -s -- -b /usr/local/bin
+  ```
+
+  ```
+  $ kubectl cnpg backup postgres -n cnpg-system
+  backup/postgres-20260329103904 created
+  ```
+
+3. Verify manual backup
+
+  ```
+  # See that backup is running:
+  kubectl get backup -n cnpg-system -w
+  # View logs
+  kubectl logs -n cnpg-system postgres-1 -c postgres -f | grep -i backup
+  ```
+
+4. Verify bucket objects/bytes are non-zero
+
+   ```
+   curl localhost:3903/v2/GetBucketInfo?globalAlias=postgres-backups -H "Authorization: Bearer <token>"
+   ```
+
+Create a new postgres cluster from backup (named `postgres-tmp`).
+
+```
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-tmp
+  namespace: cnpg-system
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  instances: 1
+  imageName: ghcr.io/inherent-design/cloudnative-pg-timescaledb:18
+  storage:
+    storageClass: local-path
+    size: 200Gi
+  postgresql:
+    shared_preload_libraries:
+      - timescaledb
+  env:
+    - name: AWS_DEFAULT_REGION
+      value: garage
+  bootstrap:
+    recovery:
+      source: primary
+  externalClusters:
+    - name: primary
+      barmanObjectStore:
+        serverName: postgres
+        endpointURL: http://garage.garage.svc.cluster.local:3900
+        destinationPath: s3://postgres-backups/
+        s3Credentials:
+          accessKeyId:
+            name: postgres-backup-s3
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: postgres-backup-s3
+            key: ACCESS_SECRET_KEY
+        wal:
+          compression: gzip
+```
+
+Same as the main cluster except it uses `externalClusters` as the source.
+
+Connect:
+
+```
+# View pod name
+kubectl get pods -n cnpg-system
+# Connect via the pod
+kubectl exec -it -n cnpg-system postgres-tmp-1 -- psql -U postgres
+```
+
+[Spegel]: https://spegel.dev/
+
+# Spegel setup
+
+# Authentik SSO + idp
+
+```
+set -x SECRET_KEY (openssl rand 60 | base64 -w 0
+set -x PG_PASSWORD (openssl rand 60 | base64 -w 0)
+
+ kubectl create secret generic authentik \
+  --namespace authentik \
+  --from-literal=secret-key="$SECRET_KEY" \
+  --from-literal=postgresql-password="$PG_PASSWORD" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets > gitops/apps/authentik/authentik-secret.yaml
+
+kubectl create secret generic authentik-pg \
+  --namespace cnpg-system \
+  --from-literal=username="authentik" \
+  --from-literal=password="$PG_PASSWORD" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets > gitops/apps/postgres/authentik-pg-secret.yaml
+```
+
+For miniflux:
+
+```
+kubectl create secret generic miniflux-authentik \
+                                    --namespace miniflux \
+                                    --from-literal=client-id="<id>" \
+                                    --from-literal=client-secret="<secret>" \
+                                    --dry-run=client -o yaml | \
+                                    kubeseal --format yaml \
+                                      --controller-name=sealed-secrets-controller \
+                                      --controller-namespace=sealed-secrets \
+                                    > gitops/apps/miniflux/miniflux-authentik-secret.yaml
+```
+
+For argocd:
+
+```
+kubectl create secret generic argocd-authentik-secret \
+  --namespace argocd \
+  --from-literal=dex.authentik.clientSecret="<secret>" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets \
+  > gitops/bootstrap/argocd-authentik-secret.yaml
+```
+
+# External DNS OPNSense
+
+Need an api key + secret from OPNsense.
+
+```
+kubectl create secret generic external-dns \
+  --namespace external-dns \
+  --from-literal=api-key="YOUR_API_KEY" \
+  --from-literal=api-secret="YOUR_API_SECRET" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets \
+  > gitops/apps/external-dns/external-dns-secret.yaml
+```
+
+# Headlamp
+
+```
+kubectl create secret generic headlamp-oidc \
+  --namespace headlamp \
+  --from-literal=OIDC_CLIENT_ID="<id>" \
+  --from-literal=OIDC_CLIENT_SECRET="<secret>" \
+  --from-literal=OIDC_ISSUER_URL="https://auth.hietala.xyz/application/o/kubernetes/" \
+  --from-literal=OIDC_SCOPES="openid profile email" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets \
+  > gitops/apps/headlamp/headlamp-secret.yaml
+  ```
