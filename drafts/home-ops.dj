@@ -785,3 +785,11 @@ kubectl create secret generic headlamp-oidc \
     --controller-namespace=sealed-secrets \
   > gitops/apps/headlamp/headlamp-secret.yaml
   ```
+
+
+```
+curl -LO https://github.com/int128/kubelogin/releases/latest/download/kubelogin_linux_amd64.zip
+unzip kubelogin_linux_amd64.zip
+sudo mv kubelogin /usr/local/bin/kubectl-oidc_login
+sudo chmod +x /usr/local/bin/kubectl-oidc_login
+```

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/tree/code/nvim-conf/fnl/**)",
+      "Read(//home/tree/code/nvim-conf/lua/**)",
+      "Read(//home/tree/code/nvim-conf/queries/**)",
+      "Read(//home/tree/code/nvim-conf/ftplugin/**)",
+      "Bash(find /home/tree/.local/share/nvim/lazy/nvim-treesitter -name djot*)",
+      "Bash(find /home/tree/.local/share/nvim/lazy/nvim-treesitter -name *.lua -path */ftplugin*)",
+      "Bash(nvim:*)"
+    ]
+  }
+}
