@@ -32,12 +32,18 @@ a. SSO with Authentik
 
 # TODO
 
+* Remove user/password for proxmox credentials and encrypt it with sops
+
 * Monitoring, Grafana + Loki + Prometheus
 * [Spegel][] or a registry mirror/pull-through cache
 * Volsync, when we need to backup file systems
 
 - Recreate setup during blog post rewrite
 - Observability: Grafana + Loki
+
+* * *
+
+# Terraform
 
 # Bootstrap
 
@@ -815,25 +821,20 @@ kubectl config set-credentials oidc \
   --exec-arg=oidc-login \
   --exec-arg=get-token \
   --exec-arg=--oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ \
-  --exec-arg=--oidc-client-id=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ \
-  --exec-arg=--oidc-client-secret=q9CVwPcVaM0SEj9SkNOZCBnBjUg8h73yBE3hyJSHx5sytOezNIMVEBCZFhCeyaTtuRULzmmEMxoBskfopjVOvhiozOVQARpPEojco7zVvu3O05qZbeS7BOpOVazmrSJj \
+  --exec-arg=--oidc-client-id=<id> \
+  --exec-arg=--oidc-client-secret=<secret> \
   --exec-arg=--oidc-extra-scope=profile \
   --exec-arg=--oidc-extra-scope=email
 
 kubectl config set-context oidc-context \
   --cluster=talos-dorne \
   --user=oidc
-
-kubectl oidc-login get-token \
-  --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ \
-  --oidc-client-id=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ \
-  --v=1 2>&1 | grep redirect
 ```
 
 Needs http://localhost:8000 to the redirect URIs
 
 ```
-kubectl oidc-login get-token --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ --oidc-client-id=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ 2>/dev/null
+kubectl oidc-login get-token --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ --oidc-client-id=<id> 2>/dev/null
 ```
 
 
@@ -849,8 +850,8 @@ kubectl oidc-login get-token --oidc-issuer-url=https://auth.hietala.xyz/applicat
 ```
 kubectl oidc-login get-token \
   --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ \
-  --oidc-client-id=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ \
-  --oidc-client-secret=q9CVwPcVaM0SEj9SkNOZCBnBjUg8h73yBE3hyJSHx5sytOezNIMVEBCZFhCeyaTtuRULzmmEMxoBskfopjVOvhiozOVQARpPEojco7zVvu3O05qZbeS7BOpOVazmrSJj \
+  --oidc-client-id=<id> \
+  --oidc-client-secret=<secret> \
   --force-refresh
 ```
 
@@ -866,8 +867,8 @@ return {
 ```
 kubectl create secret generic kubernetes-oidc \
   --namespace=kube-system \
-  --from-literal=OIDC_CLIENT_ID=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ \
-  --from-literal=OIDC_CLIENT_SECRET=q9CVwPcVaM0SEj9SkNOZCBnBjUg8h73yBE3hyJSHx5sytOezNIMVEBCZFhCeyaTtuRULzmmEMxoBskfopjVOvhiozOVQARpPEojco7zVvu3O05qZbeS7BOpOVazmrSJj \
+  --from-literal=OIDC_CLIENT_ID=<id> \
+  --from-literal=OIDC_CLIENT_SECRET=<secret> \
   --from-literal=OIDC_ISSUER_URL=https://auth.hietala.xyz/application/o/kubernetes/ \
   --from-literal=OIDC_SCOPES='openid profile email' \
   --dry-run=client -o yaml | \
