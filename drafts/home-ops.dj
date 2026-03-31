@@ -26,40 +26,18 @@ a. Application with database
 a. SSO with Authentik
 
    Also kubectl support + Headlamp
+   Hubble UI and proxy
 
 * * *
 
 # TODO
 
-* Rancher Dashboard
 * Monitoring, Grafana + Loki + Prometheus
 * [Spegel][] or a registry mirror/pull-through cache
+* Volsync, when we need to backup file systems
 
 - Recreate setup during blog post rewrite
 - Observability: Grafana + Loki
-
-## Done
-
-1. Storage: local path (done)
-2. Better secrets setup (SOPS + age + sealed secrets)
-3. Cilium (CNI + kube-proxy replacement + LB + Gateway API) (done)
-   cert-manager for TLS setup
-   Maybe this for namecheap: <https://github.com/kelvie/cert-manager-webhook-namecheap>?
-5. Postgres backup (done)
-1. External DNS adds to router
-
-# Chapters
-
-1. Bootstrap nodes to Proxmox
-2. Create Kubernetes cluster
-3. Manage kubernetes with GitOps
-4. Migrate services
-
-   * Postgres [CloudNativePG][], with timescaledb
-   * Grafana + Loki + monitoring
-   * mqtt + zigbee2mqtt (hardware and node taints)
-   * Home Assistant (use Postgres instead of SQLite)
-   * haex (from git repo)
 
 # Bootstrap
 
@@ -570,6 +548,15 @@ admin
 
 Can also create online using
 
+Save key in git:
+
+```
+kubectl get secret -n sealed-secrets -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml> sealed-secrets-key.yaml
+sops --encrypt sealed-secrets-key.yaml > sealed-secrets-key.encrypted.yaml
+```
+
+(Needs `.sops.yaml` rule)
+
 # Garage
 
 ```
@@ -818,4 +805,82 @@ curl -LO https://github.com/int128/kubelogin/releases/latest/download/kubelogin_
 unzip kubelogin_linux_amd64.zip
 sudo mv kubelogin /usr/local/bin/kubectl-oidc_login
 sudo chmod +x /usr/local/bin/kubectl-oidc_login
+```
+
+
+```
+kubectl config set-credentials oidc \
+  --exec-api-version=client.authentication.k8s.io/v1beta1 \
+  --exec-command=kubectl \
+  --exec-arg=oidc-login \
+  --exec-arg=get-token \
+  --exec-arg=--oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ \
+  --exec-arg=--oidc-client-id=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ \
+  --exec-arg=--oidc-client-secret=q9CVwPcVaM0SEj9SkNOZCBnBjUg8h73yBE3hyJSHx5sytOezNIMVEBCZFhCeyaTtuRULzmmEMxoBskfopjVOvhiozOVQARpPEojco7zVvu3O05qZbeS7BOpOVazmrSJj \
+  --exec-arg=--oidc-extra-scope=profile \
+  --exec-arg=--oidc-extra-scope=email
+
+kubectl config set-context oidc-context \
+  --cluster=talos-dorne \
+  --user=oidc
+
+kubectl oidc-login get-token \
+  --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ \
+  --oidc-client-id=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ \
+  --v=1 2>&1 | grep redirect
+```
+
+Needs http://localhost:8000 to the redirect URIs
+
+```
+kubectl oidc-login get-token --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ --oidc-client-id=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ 2>/dev/null
+```
+
+
+1. Go to Authentik UI → Customisation → Property Mappings → Create → Scope Mapping
+2. Set:
+  - Name: Kubernetes groups
+  - Scope name: profile
+  - Expression:
+  return {"groups": [g.name for g in request.user.ak_groups.all()]}
+3. Go to Providers → Kubernetes → Edit → Scoper and add Kubernetes groups
+
+
+```
+kubectl oidc-login get-token \
+  --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ \
+  --oidc-client-id=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ \
+  --oidc-client-secret=q9CVwPcVaM0SEj9SkNOZCBnBjUg8h73yBE3hyJSHx5sytOezNIMVEBCZFhCeyaTtuRULzmmEMxoBskfopjVOvhiozOVQARpPEojco7zVvu3O05qZbeS7BOpOVazmrSJj \
+  --force-refresh
+```
+
+Change scope mapping to:
+
+```python
+return {
+    "email": request.user.email,
+    "email_verified": True
+}
+```
+
+```
+kubectl create secret generic kubernetes-oidc \
+  --namespace=kube-system \
+  --from-literal=OIDC_CLIENT_ID=LGkQT500Ha7f9UEikEGffbVrkQnwGgtkeXcEv7aQ \
+  --from-literal=OIDC_CLIENT_SECRET=q9CVwPcVaM0SEj9SkNOZCBnBjUg8h73yBE3hyJSHx5sytOezNIMVEBCZFhCeyaTtuRULzmmEMxoBskfopjVOvhiozOVQARpPEojco7zVvu3O05qZbeS7BOpOVazmrSJj \
+  --from-literal=OIDC_ISSUER_URL=https://auth.hietala.xyz/application/o/kubernetes/ \
+  --from-literal=OIDC_SCOPES='openid profile email' \
+  --dry-run=client -o yaml | \
+  kubeseal --controller-namespace sealed-secrets --format yaml \
+  > gitops/apps/kubernetes/kubernetes-oicd-secret.yaml
+```
+
+Need metrics-server to see CPU/memory
+
+```
+kubectl top nodes
+NAME        CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+talos-cp1   116m         2%       2199Mi          67%
+talos-cp2   167m         4%       2877Mi          87%
+talos-cp3   398m         10%      2665Mi          81%
 ```
