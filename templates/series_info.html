@@ -11,6 +11,9 @@
           {% endif %}
         </div>
 
+        {% if serie.is_draft %}
+        <div class="draft">Draft</div>
+        {% endif %}
         {% if serie.completed %}
         <div class="status completed">completed</div>
         {% else %}

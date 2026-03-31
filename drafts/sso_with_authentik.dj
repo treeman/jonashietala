@@ -1,0 +1,234 @@
+---toml
+title = "SSO with Authentik"
+tags = ["Kubernetes", "Homelab"]
+series = "kube-homelab"
+---
+
+# Secret management
+
+## SOPS and age
+
+Install `sops` and `age`.
+
+```
+mkdir -p ~/.config/sops/age
+age-keygen -o ~/.config/sops/age/keys.txt
+```
+
+(Store keys safely, I choose Bitwarden)
+
+```
+sops --encrypt talosconfig.yaml > talosconfig.encrypted.yaml
+sops --decrypt talosconfig.encrypted.yaml > talosconfig.yaml
+```
+
+Add `talosconfig.yaml` to gitignore.
+
+## Sealed secrets
+
+<https://www.arthurkoziel.com/encrypting-k8s-secrets-with-sealed-secrets/>
+
+Need to install the `kubeseal` binary:
+
+```fish
+set -x KUBESEAL_VERSION '0.36.1' # Set this to, for example, KUBESEAL_VERSION='0.23.0'
+curl -OL "https://github.com/bitnami-labs/sealed-secrets/releases/download/v$KUBESEAL_VERSION/kubeseal-$KUBESEAL_VERSION-linux-amd64.tar.gz"
+tar -xvzf kubeseal-$KUBESEAL_VERSION-linux-amd64.tar.gz kubeseal
+sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+```
+
+Get public key so we can encrypt things:
+
+```
+kubeseal --fetch-cert \
+         --controller-name=sealed-secrets-controller \
+         --controller-namespace=sealed-secrets \
+    > infrastructure/sealed-secrets-cert.pem
+```
+
+Create secret (uses downloaded cert):
+
+```
+kubectl create secret generic miniflux \
+  --namespace miniflux \
+  --from-literal=database-url="postgresql://miniflux:abcd1234@postgres-rw.cnpg-system:5432/miniflux?sslmode=disable" \
+  --from-literal=admin-username="admin" \
+  --from-literal=admin-password="abcd1234" \
+  --dry-run=client -o yaml \
+  | kubeseal --cert infrastructure/sealed-secrets-cert.pem \
+  --format yaml > gitops/apps/miniflux/miniflux-secret.yaml
+
+kubectl create secret generic miniflux-pg \
+  --namespace cnpg-system \
+  --from-literal=username="miniflux" \
+  --from-literal=password="abcd1234" \
+  --dry-run=client -o yaml \
+  | kubeseal --cert infrastructure/sealed-secrets-cert.pem \
+  --format yaml > gitops/apps/postgres/miniflux-pg-secret.yaml
+```
+
+```
+# View the created secret:
+kubectl get secret miniflux -n miniflux -o yaml
+# Decrypt the admin-username value:
+kubectl get secret miniflux -n miniflux -o jsonpath='{.data.admin-username}' | base64 -d
+admin
+```
+
+Can also create online using
+
+Save key in git:
+
+```
+kubectl get secret -n sealed-secrets -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml> sealed-secrets-key.yaml
+sops --encrypt sealed-secrets-key.yaml > sealed-secrets-key.encrypted.yaml
+```
+
+(Needs `.sops.yaml` rule)
+
+# Authentik SSO + idp
+
+```
+set -x SECRET_KEY (openssl rand 60 | base64 -w 0
+set -x PG_PASSWORD (openssl rand 60 | base64 -w 0)
+
+ kubectl create secret generic authentik \
+  --namespace authentik \
+  --from-literal=secret-key="$SECRET_KEY" \
+  --from-literal=postgresql-password="$PG_PASSWORD" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets > gitops/apps/authentik/authentik-secret.yaml
+
+kubectl create secret generic authentik-pg \
+  --namespace cnpg-system \
+  --from-literal=username="authentik" \
+  --from-literal=password="$PG_PASSWORD" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets > gitops/apps/postgres/authentik-pg-secret.yaml
+```
+
+For miniflux:
+
+```
+kubectl create secret generic miniflux-authentik \
+                                    --namespace miniflux \
+                                    --from-literal=client-id="<id>" \
+                                    --from-literal=client-secret="<secret>" \
+                                    --dry-run=client -o yaml | \
+                                    kubeseal --format yaml \
+                                      --controller-name=sealed-secrets-controller \
+                                      --controller-namespace=sealed-secrets \
+                                    > gitops/apps/miniflux/miniflux-authentik-secret.yaml
+```
+
+For argocd:
+
+```
+kubectl create secret generic argocd-authentik-secret \
+  --namespace argocd \
+  --from-literal=dex.authentik.clientSecret="<secret>" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets \
+  > gitops/bootstrap/argocd-authentik-secret.yaml
+```
+
+# Headlamp
+
+```
+kubectl create secret generic headlamp-oidc \
+  --namespace headlamp \
+  --from-literal=OIDC_CLIENT_ID="<id>" \
+  --from-literal=OIDC_CLIENT_SECRET="<secret>" \
+  --from-literal=OIDC_ISSUER_URL="https://auth.hietala.xyz/application/o/kubernetes/" \
+  --from-literal=OIDC_SCOPES="openid profile email" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets \
+  > gitops/apps/headlamp/headlamp-secret.yaml
+```
+
+```
+curl -LO https://github.com/int128/kubelogin/releases/latest/download/kubelogin_linux_amd64.zip
+unzip kubelogin_linux_amd64.zip
+sudo mv kubelogin /usr/local/bin/kubectl-oidc_login
+sudo chmod +x /usr/local/bin/kubectl-oidc_login
+```
+
+```
+kubectl config set-credentials oidc \
+  --exec-api-version=client.authentication.k8s.io/v1beta1 \
+  --exec-command=kubectl \
+  --exec-arg=oidc-login \
+  --exec-arg=get-token \
+  --exec-arg=--oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ \
+  --exec-arg=--oidc-client-id=<id> \
+  --exec-arg=--oidc-client-secret=<secret> \
+  --exec-arg=--oidc-extra-scope=profile \
+  --exec-arg=--oidc-extra-scope=email
+
+kubectl config set-context oidc-context \
+  --cluster=talos-dorne \
+  --user=oidc
+```
+
+Needs http://localhost:8000 to the redirect URIs
+
+```
+kubectl oidc-login get-token --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ --oidc-client-id=<id> 2>/dev/null
+```
+
+
+1. Go to Authentik UI → Customisation → Property Mappings → Create → Scope Mapping
+2. Set:
+  - Name: Kubernetes groups
+  - Scope name: profile
+  - Expression:
+  return {"groups": [g.name for g in request.user.ak_groups.all()]}
+3. Go to Providers → Kubernetes → Edit → Scoper and add Kubernetes groups
+
+
+```
+kubectl oidc-login get-token \
+  --oidc-issuer-url=https://auth.hietala.xyz/application/o/kubernetes/ \
+  --oidc-client-id=<id> \
+  --oidc-client-secret=<secret> \
+  --force-refresh
+```
+
+Change scope mapping to:
+
+```python
+return {
+    "email": request.user.email,
+    "email_verified": True
+}
+```
+
+```
+kubectl create secret generic kubernetes-oidc \
+  --namespace=kube-system \
+  --from-literal=OIDC_CLIENT_ID=<id> \
+  --from-literal=OIDC_CLIENT_SECRET=<secret> \
+  --from-literal=OIDC_ISSUER_URL=https://auth.hietala.xyz/application/o/kubernetes/ \
+  --from-literal=OIDC_SCOPES='openid profile email' \
+  --dry-run=client -o yaml | \
+  kubeseal --controller-namespace sealed-secrets --format yaml \
+  > gitops/apps/kubernetes/kubernetes-oicd-secret.yaml
+```
+
+Need metrics-server to see CPU/memory
+
+```
+kubectl top nodes
+NAME        CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+talos-cp1   116m         2%       2199Mi          67%
+talos-cp2   167m         4%       2877Mi          87%
+talos-cp3   398m         10%      2665Mi          81%
+```

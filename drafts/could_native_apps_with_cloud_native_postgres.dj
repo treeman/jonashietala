@@ -1,0 +1,209 @@
+---toml
+title = "Apps with Postgres"
+tags = ["Kubernetes", "Homelab"]
+series = "kube-homelab"
+---
+
+# Local path and postgres
+
+Setup local path
+
+```
+kubectl get storageclass
+NAME                   PROVISIONER                            RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-path (default)   cluster.local/local-path-provisioner   Delete          WaitForFirstConsumer   true                   7m7s
+```
+
+```
+# Get password
+kubectl get secret postgres-app -n cnpg-system -o jsonpath='{.data.password}' | base64 -d
+psql -h 10.1.4.103 -U app
+# Or
+PGPASSWORD=<password> psql -h 10.1.4.103 -U app
+# Or
+kubectl exec -n cnpg-system postgres-1 -- psql -U postgres
+# Allow app user to create database
+kubectl exec -n cnpg-system postgres-1 -- psql -U postgres -c "ALTER USER app CREATEDB;"
+# Login
+```
+
+## Backups
+
+```
+CNPG
+  └─► Garage (in-cluster, S3-compatible)
+        └─► NFS mount → vault/postgres on Proxmox ZFS
+                └─► Sanoid/Syncoid → secondary machine (future)
+                └─► Restic/Rclone → Backblaze B2
+```
+
+# Miniflux
+
+Still without proper secret handling:
+
+```
+kubectl create secret generic miniflux-pg -n cnpg-system \
+  --from-literal=username=miniflux \
+  --from-literal=password=abcd1234
+
+kubectl create namespace miniflux
+
+kubectl create secret generic miniflux -n miniflux \
+  --from-literal=database-url="postgresql://miniflux:abcd1234@postgres-rw.cnpg-system:5432/m niflux?sslmode=disable" \
+  --from-literal=admin-username="admin" \
+  --from-literal=admin-password="abcd1234"
+```
+
+# Garage
+
+```
+# First have to port forward
+kubectl port-forward -n garage svc/garage 3903:3903
+# Then we can view status and use the API
+# https://garagehq.deuxfleurs.fr/documentation/reference-manual/admin-api/
+curl http://localhost:3903/health
+curl -H "Authorization: Bearer <token>" http://localhost:3903/v2/GetClusterStatus
+```
+
+TODO
+
+```
+Step 1 — Create S3 credentials and seal them (you run this
+once):
+S3_ACCESS_KEY=$(openssl rand -hex 10 | tr '[:lower:]'
+'[:upper:]')
+S3_SECRET_KEY=$(openssl rand -hex 20)
+
+kubectl create secret generic garage-s3 --namespace garage
+\
+  --from-literal=access-key="${S3_ACCESS_KEY}" \
+  --from-literal=secret-key="${S3_SECRET_KEY}" \
+  --dry-run=client -o yaml | kubeseal -o yaml >
+gitops/apps/garage/garage-s3-secret.yaml
+
+kubectl create secret generic postgres-backup-s3
+--namespace cnpg-system \
+  --from-literal=ACCESS_KEY_ID="${S3_ACCESS_KEY}" \
+  --from-literal=ACCESS_SECRET_KEY="${S3_SECRET_KEY}" \
+  --dry-run=client -o yaml | kubeseal -o yaml >
+gitops/apps/postgres/postgres-backup-secret.yaml
+
+Step 2 — Add an ArgoCD PostSync Job to Garage that
+idempotently creates the postgres-backups bucket and
+imports the S3 key using garage CLI.
+
+Step 3 — Add barmanObjectStore to the CNPG Cluster spec and
+ a ScheduledBackup resource.
+```
+
+Get Bearer token:
+
+```
+kubectl get secret -n garage garage-secrets -o jsonpath='{.data.GARAGE_ADMIN_TOKEN}' | base64 -d
+```
+
+Then check that the bucket `postgres-backups` exist:
+
+```
+kubectl port-forward -n garage svc/garage 3903:3903
+curl localhost:3903/v2/GetBucketInfo?globalAlias=postgres-backups -H "Authorization: Bearer <token>"
+```
+
+WAL 30 days + daily scheduled backups gives proper restoration capabilities.
+
+To verify:
+
+1. `kubectl get cluster postgres -n cnpg-system -o jsonpath='{.status.conditions}' | jq .`
+
+  ```json
+  {
+    "lastTransitionTime": "2026-03-27T13:20:11Z",
+    "message": "Continuous archiving is working",
+    "reason": "ContinuousArchivingSuccess",
+    "status": "True",
+    "type": "ContinuousArchiving"
+  }
+  ```
+
+2. Trigger manual backup
+
+  Install tool:
+
+  ```
+  curl -sSfL \
+    https://github.com/cloudnative-pg/cloudnative-pg/raw/main/hack/install-cnpg-plugin.sh | \
+    sudo sh -s -- -b /usr/local/bin
+  ```
+
+  ```
+  $ kubectl cnpg backup postgres -n cnpg-system
+  backup/postgres-20260329103904 created
+  ```
+
+3. Verify manual backup
+
+  ```
+  # See that backup is running:
+  kubectl get backup -n cnpg-system -w
+  # View logs
+  kubectl logs -n cnpg-system postgres-1 -c postgres -f | grep -i backup
+  ```
+
+4. Verify bucket objects/bytes are non-zero
+
+   ```
+   curl localhost:3903/v2/GetBucketInfo?globalAlias=postgres-backups -H "Authorization: Bearer <token>"
+   ```
+
+Create a new postgres cluster from backup (named `postgres-tmp`).
+
+```
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-tmp
+  namespace: cnpg-system
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  instances: 1
+  imageName: ghcr.io/inherent-design/cloudnative-pg-timescaledb:18
+  storage:
+    storageClass: local-path
+    size: 200Gi
+  postgresql:
+    shared_preload_libraries:
+      - timescaledb
+  env:
+    - name: AWS_DEFAULT_REGION
+      value: garage
+  bootstrap:
+    recovery:
+      source: primary
+  externalClusters:
+    - name: primary
+      barmanObjectStore:
+        serverName: postgres
+        endpointURL: http://garage.garage.svc.cluster.local:3900
+        destinationPath: s3://postgres-backups/
+        s3Credentials:
+          accessKeyId:
+            name: postgres-backup-s3
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: postgres-backup-s3
+            key: ACCESS_SECRET_KEY
+        wal:
+          compression: gzip
+```
+
+Same as the main cluster except it uses `externalClusters` as the source.
+
+Connect:
+
+```
+# View pod name
+kubectl get pods -n cnpg-system
+# Connect via the pod
+kubectl exec -it -n cnpg-system postgres-tmp-1 -- psql -U postgres
+```

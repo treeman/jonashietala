@@ -1,0 +1,91 @@
+---toml
+title = "Kubernetes homelab"
+img = "/images/extend_blog/find_posts.png"
+completed = false
+draft = true
+---
+
+a. Talos nodes on Proxmox with Terraform
+
+   Terraform, Cilium, until we can get `kubectl` online.
+
+a. Secrets handling
+
+   SOPS + age, and Sealed Secrets
+
+a. GitOps with ArgoCD
+
+   cert-manager + external DNS
+
+   Make https work with ArgoCD
+
+a. Application with database
+
+   local-path, cloudnative-pg, backups, and miniflux
+
+a. SSO with Authentik
+
+   Also kubectl support + Headlamp
+   Hubble UI and proxy
+
+# TODO
+
+* Remove user/password for proxmox credentials and encrypt it with sops
+
+* Monitoring, Grafana + Loki + Prometheus
+* [Spegel][] or a registry mirror/pull-through cache
+* Volsync, when we need to backup file systems
+
+- Recreate setup during blog post rewrite
+- Observability: Grafana + Loki
+
+# Bootstrap
+
+```fish
+cargo install just
+xbps-install -S just
+```
+
+Use [just][] to run commands.
+
+# Cert-manager
+
+```
+kubectl create namespace cert-manager
+kubectl create secret generic namecheap-credentials \
+  --namespace cert-manager \
+  --from-literal=apiKey=<your-api-key> \
+  --from-literal=apiUser=<your-namecheap-username>
+```
+
+Check with:
+
+```
+kubectl get certificate -n kube-system
+```
+
+# Storage
+
+Expose drives as `nfs` media? Simpler than Longhorn?
+
+# New and complete bootstrap
+
+```
+kubectl create namespace renovate
+kubectl create secret generic renovate-token --namespace renovate --from-literal=RENOVATE_TOKEN=<token>
+
+kubectl create namespace cert-manager
+kubectl create secret generic namecheap-credentials \
+  --namespace cert-manager \
+  --from-literal=apiKey=<your-api-key> \
+  --from-literal=apiUser=<your-namecheap-username>
+
+kubectl apply -f gitops/root.yaml
+```
+
+[Spegel]: https://spegel.dev/
+
+# Spegel setup
+
+[just]: https://just.systems/man/en/
+[CloudNativePG]: https://cloudnative-pg.io/

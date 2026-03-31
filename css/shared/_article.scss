@@ -88,7 +88,8 @@ article {
     margin-block-start: var(--space-3xs);
   }
 
-  .post-info .draft {
+  .post-info .draft,
+  .series-info .draft {
     color: var(--color-highlight);
     color: var(--melange_b_red);
     text-decoration: underline;

@@ -1,0 +1,209 @@
+---toml
+title = "Talos Linux on Proxmox with Terraform"
+tags = ["Kubernetes", "Homelab", "Terraform", "Talos Linux"]
+series = "kube-homelab"
+---
+
+Terraform, Cilium, until we can get `kubectl` online.
+
+
+<https://docs.siderolabs.com/talos/v1.12/platform-specific-installations/virtualized-platforms/proxmox>
+
+Need to have a special image with `qemu-guest-agent` support.
+
+<https://factory.talos.dev/>
+
+`https://factory.talos.dev/image/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515/v1.12.5/metal-amd64.iso`
+
+talos terraform provider, but the documentation isn't particularly helpful.
+Found these examples: <https://github.com/siderolabs/terraform-provider-talos/tree/main/examples>
+and this blog post: <https://olav.ninja/talos-cluster-on-proxmox-with-terraform>
+
+How to list config of an already existing node?
+
+```
+pvesh get /nodes/dorne/qemu/105/config
+```
+
+Failed test:
+
+```
+resource "proxmox_virtual_environment_vm" "talos_cp1" {
+  name        = "talos-cp1-test"
+  description = "Managed by Terraform"
+  tags        = ["terraform", "talos"]
+  node_name   = var.proxmox_node_name
+  on_boot     = true
+
+  agent {
+    enabled = true
+  }
+
+  cpu {
+    cores = 4
+    type = "x86-64-v2-AES"
+  }
+
+  memory {
+    dedicated = 4096
+    floating = 4096
+  }
+
+  network_device {
+    bridge = "vmbr0"
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    file_id = proxmox_virtual_environment_download_file.talos_image.id
+    file_format = "raw"
+    interface = "scsi0"
+    size = 20
+    ssd = true
+  }
+
+  operating_system {
+    type = "l26"
+  }
+
+  initialization {
+    datastore_id = "local-lvm"
+    ip_config {
+      ipv4 {
+        address = "${var.talos_cp1_ip}/24"
+        gateway = var.default_gateway
+      }
+    }
+  }
+}
+```
+
+## Errors
+
+```
+proxmox_virtual_environment_vm.controller[0]: Creating...
+╷
+│ Error: creating custom disk: fish: Unexpected end of string, quotes are not balanced
+│ /bin/bash -c 'export TRY_SUDO_USE_SUDO=0; set -e; _try_sudo_check(){ if [ -z "${_try_sudo_cached:-}" ];
+then _try_sudo_use_sudo="${TRY_SUDO_USE_SUDO:-0}"; _try_sudo_cached=1; fi; }; try_sudo(){ _try_sudo_check; if
+ [ "$_try_sudo_use_sudo" = "1" ]; then sudo "$@"; else "$@"; fi; };
+file_id=local:iso/talos-v1.12.4-nocloud-amd64.img; file_format=raw; datastore_id_target=local-lvm; vm_id=112;
+ disk_options=aio=io_uring,backup=1,iothread=1,ssd=1,discard=on,cache=none,replicate=1; disk_interface=scsi0;
+ source_image=$(try_sudo /usr/sbin/pvesm path $file_id); imported_disk=$(try_sudo /usr/sbin/qm disk import
+$vm_id $source_image $datastore_id_target -format $file_format | grep unused0 | cut -d : -f 3 | cut -d \'"'"'
+ -f 1); disk_id=${datastore_id_target}:$imported_disk,$disk_options; try_sudo /usr/sbin/qm set $vm_id
+-${disk_interface} $disk_id'
+│
+```
+
+Shouldn't use `fish` as the login shell
+
+```
+proxmox terraform ╷ │ Error: resizing disk: All attempts fail: │ #1: task "UPID:dorne:0016FBC6:2304690D:69BE4B00:resize:112:root@pam:" failed to complete with exit code: disk 'scsi0' does not exist
+```
+
+Update from proxmox 8 -> 9.1.6
+
+<https://github.com/rgl/terraform-proxmox-talos/blob/main/talos.tf>
+
+# Bootstap
+
+
+```
+terraform apply
+just init_cluster_config
+
+# Nodes will not be ready
+# Gateway CRDs need to exist before we install cilium
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+helm install cilium cilium/cilium \
+  --namespace kube-system \
+  --version 1.19.2 \
+  --set kubeProxyReplacement=true \
+  --set k8sServiceHost=10.1.4.100 \
+  --set k8sServicePort=6443 \
+  --set l2announcements.enabled=true \
+  --set externalIPs.enabled=true \
+  --set gatewayAPI.enabled=true \
+  --set ipam.mode=kubernetes \
+  --set operator.replicas=1 \
+  --set securityContext.privileged=true
+
+# Need to wait until done
+kubectl rollout status daemonset/cilium -n kube-system
+# Then we can do
+kubectl apply -f gitops/bootstrap/cilium_config.yaml
+# Nodes will now become healthy
+talosctl -n 10.1.4.10 health
+
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd -n argocd --create-namespace --version 9.4.16 \
+  --set server.service.type=LoadBalancer \
+  --set server.service.annotations."io\.cilium/lb-ipam-ips"=10.1.4.102
+# See ip
+kubectl get svc argocd-server -n argocd
+argocd admin initial-password -n argocd
+# Username `admin`
+argocd login 10.1.4.102 --insecure
+argocd account update-password
+argocd repo add https://git.hietala.xyz/tree/home-ops.git --username admin --password <token>
+```
+
+# New bootstrap with cilium
+
+```
+terraform apply
+```
+
+`talosctl -n 10.1.4.10 health` will stop at:
+
+```
+waiting for all k8s nodes to report ready: ...
+waiting for all k8s nodes to report ready: some nodes are not ready: [talos-cp1 talos-cp2 talos-cp3]
+```
+
+Should install gateway API before installing cilium:
+
+```
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+```
+
+Now install cilium:
+
+```
+helm install cilium cilium/cilium \
+  --namespace kube-system \
+  --version 1.17.2 \
+  --set kubeProxyReplacement=true \
+  --set k8sServiceHost=10.1.4.100 \
+  --set k8sServicePort=6443 \
+  --set l2announcements.enabled=true \
+  --set externalIPs.enabled=true \
+  --set gatewayAPI.enabled=true \
+  --set ipam.mode=kubernetes \
+  --set operator.replicas=1
+  --set securityContext.privileged=true
+```
+
+```
+kubectl apply -f gitops/apps/cilium_config.yaml
+```
+
+Needed to work with Talos:
+
+```yaml
+securityContext:
+  privileged: true
+```
+
+Can test with nginx, should work properly.
+
+Then setup argocd as before
+
+For the impatiant:
+
+```
+kubectl annotate applications -n argocd --all argocd.argoproj.io/refresh=hard
+```
+

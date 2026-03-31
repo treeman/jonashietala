@@ -1,10 +1,10 @@
 use crate::context::LoadContext;
 use crate::item::Item;
-use crate::markup::{find_markup_files, Html, Markup, MarkupLookup, ParseContext, RawMarkupFile};
+use crate::markup::{Html, Markup, MarkupLookup, ParseContext, RawMarkupFile, find_markup_files};
 use crate::paths::{AbsPath, FilePath};
 use crate::{content::PostItem, context::RenderContext, item::TeraItem, site_url::SiteUrl};
 use chrono::{NaiveDate, Utc};
-use eyre::{eyre, Result};
+use eyre::{Result, eyre};
 use itemref_derive::ItemRef;
 use rayon::iter::{IntoParallelRefMutIterator, ParallelIterator};
 use serde::{Deserialize, Serialize};
@@ -39,6 +39,9 @@ pub fn load_series(
             .get_mut(id.as_str())
             .ok_or_else(|| eyre!("Missing series `{id}`"))?;
 
+        if serie.draft && !context.opts.include_drafts {
+            continue;
+        }
         if series_posts.is_empty() {
             warn!("Series definition without post: `{}`", serie.id);
             continue;
@@ -54,6 +57,7 @@ pub fn load_series(
 
     Ok(series
         .into_values()
+        .filter(|serie| !serie.draft || context.opts.include_drafts)
         .map(|serie| (serie.series_ref(), serie))
         .collect())
 }
@@ -79,6 +83,7 @@ pub struct SeriesItem {
     pub post_note: Option<Html>,
     pub posts: BTreeSet<Reverse<PostRef>>,
     pub homepage: bool,
+    pub draft: bool,
 }
 
 impl SeriesItem {
@@ -121,6 +126,7 @@ impl SeriesItem {
             post_note,
             posts: BTreeSet::new(),
             homepage: markup.markup_meta.homepage.unwrap_or(false),
+            draft: markup.markup_meta.draft.unwrap_or(false),
         })
     }
 
@@ -198,6 +204,7 @@ pub struct SeriesContext<'a> {
     completed: bool,
     posts: Vec<PostRefContext<'a>>,
     post_note: Option<&'a str>,
+    is_draft: bool,
 }
 
 impl<'a> SeriesContext<'a> {
@@ -223,6 +230,7 @@ impl<'a> SeriesContext<'a> {
                 .map(|x| PostRefContext::from_ref(&x.0, ctx))
                 .collect(),
             post_note: series.post_note.as_deref(),
+            is_draft: series.draft,
         }
     }
 }
@@ -234,6 +242,7 @@ pub struct SeriesMetadata {
     post_note: Option<String>,
     img: String,
     homepage: Option<bool>,
+    draft: Option<bool>,
 }
 
 pub struct SeriesDirMetadata {

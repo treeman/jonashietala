@@ -1,0 +1,69 @@
+---toml
+title = "GitOps with ArgoCD"
+tags = ["Kubernetes", "Homelab", "GitOps"]
+series = "kube-homelab"
+---
+
+```
+argocd admin initial-password -n argocd
+argocd login 10.1.4.102 --insecure
+argocd Gccount update-password
+```
+
+```
+argocd repo add https://git.hietala.xyz/tree/home-ops.git --username admin --password <pass>
+```
+
+```
+argocd repo list
+TYPE  NAME  REPO                                       INSECURE  OCI    LFS    CREDS  STATUS      MESSAGE  PROJECT
+git         https://git.hietala.xyz/tree/home-ops.git  false     false  false  false  Successful
+```
+
+Then bootstrap the "app of apps" setup, which will load everything in `apps/`:
+
+```
+kubectl apply -f gitops/app-of-apps.yaml
+```
+
+# Renovate
+
+Token with read/write permissions.
+
+```
+kubectl create secret generic renovate-token --namespace renovate --from-literal=RENOVATE_TOKEN=<token>
+```
+
+```
+kubectl get secret renovate-token -n renovate -o jsonpath='{.data.RENOVATE_TOKEN}' | base64 -d
+```
+
+Test:
+
+```
+kubectl create job -n renovate --from=cronjob/renovate renovate-manual
+```
+
+You can also see logs with:
+
+```
+tree@winterfell ~/c/home-ops> kubectl logs -n renovate -l job-name=renovate-manual -f
+```
+
+And there's also a nice UI for this.
+
+# External DNS OPNSense
+
+Need an api key + secret from OPNsense.
+
+```
+kubectl create secret generic external-dns \
+  --namespace external-dns \
+  --from-literal=api-key="YOUR_API_KEY" \
+  --from-literal=api-secret="YOUR_API_SECRET" \
+  --dry-run=client -o yaml | \
+  kubeseal --format yaml \
+    --controller-name=sealed-secrets-controller \
+    --controller-namespace=sealed-secrets \
+  > gitops/apps/external-dns/external-dns-secret.yaml
+```
