@@ -124,7 +124,7 @@ My created post
             input_dir,
             ..
         } = self;
-        (input_dir.into_path(), output_dir.into_path())
+        (input_dir.keep(), output_dir.keep())
     }
 
     #[allow(dead_code)]
@@ -228,7 +228,7 @@ pub fn check_file<'a>(
 
     for link in links {
         match link {
-            HrefUrl::Internal(ref internal) => {
+            HrefUrl::Internal(internal) => {
                 let output_file = internal.output_file(output_dir);
 
                 // Just skip image links for now, handle errors in img check below.
@@ -260,7 +260,7 @@ pub fn check_file<'a>(
                     }
                 }
             }
-            HrefUrl::Fragment(ref fragment) => {
+            HrefUrl::Fragment(fragment) => {
                 if !file.fragments.contains(fragment) {
                     errors.push(GeneratedFileError::LocalFragmentNotFound(fragment));
                 }
@@ -274,7 +274,7 @@ pub fn check_file<'a>(
 
     for img in imgs {
         match img {
-            ImgUrl::Internal(ref internal) => {
+            ImgUrl::Internal(internal) => {
                 let output_file = internal.output_file(output_dir);
                 if !output_file.exists() {
                     errors.push(GeneratedFileError::LocalImgNotFound(

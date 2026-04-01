@@ -1,0 +1,450 @@
+---toml
+title = "Domains, certificates, and DNS"
+tags = ["Kubernetes", "Homelab", "GitOps"]
+series = "kube-homelab"
+series_sort = 5
+---
+
+Accessing services via raw IP addresses isn't that swell; I'm no Rain Man.
+
+It's time to setup subdomains for my `hietala.xyz` domain for internal use.
+We'll use the [Gateway API][] to setup routes, [cert-manager][] to give us `https` while dodging the self-signed browser warnings, and [ExternalDNS][] to setup DNS redirects.
+
+# HTTP Routing
+
+I believe the flow of resolving `http://argocd.hietala.xyz` to a service looks something like this:
+
+```
+DNS -> Gateway IP -> Cilium Gateway -> HTTPRoute -> Service -> Pod
+```
+
+We've previously accessed ArgoCD via an external IP, provided by a `Service`.
+
+My DNS is managed by OPNSense on my router and I can add an override in unbound for `argocd.hietala.xyz` to the Gateway IP.
+
+What's the IP?
+We haven't created the Gateway yet, so let's start there:
+
+{path="gitops/bootstrap/cilium_config.yaml"}
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: main
+  namespace: kube-system
+  annotations:
+    io.cilium/lb-ipam-ips: "10.1.4.101"
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  gatewayClassName: cilium
+```
+
+Note that I set the Gateway IP to `10.1.4.101` and an ArgoCD sync-wave to `3` to make sure the Gateway CRDs exist when bootstrapping. (Why `3` and not `2` or `1`? Because it has to sync after the certificate that we'll create later, which has sync wave `2`.)
+
+We also need to describe our routes. Here's one for `http`:
+
+{path="gitops/bootstrap/cilium_config.yaml"}
+```yaml
+# ...
+spec:
+  gatewayClassName: cilium
+  listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+```
+
+That we'll use in a `HTTPRoute` for our ArgoCD application that targets `argocd-server` at port 80:
+
+{path="gitops/bootstrap/argocd.yaml"}
+```yaml
+# Below the ArgoCD Appliaction setup
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  parentRefs:
+    - name: main
+      namespace: kube-system
+      sectionName: http
+  hostnames:
+    - argocd.hietala.xyz
+  rules:
+    - backendRefs:
+        - name: argocd-server
+          port: 80
+```
+
+With this synced and the DNS override to `10.1.4.101` we should be able to reach `http://argocd.hietala.xyz`.
+
+# Enabling SSL
+
+I also want `https://argocd.hietala.xyz` to "just work" and for that we'll add a `https` route to our Gateway:
+
+{path="gitops/bootstrap/cilium_config.yaml"}
+```yaml
+# ...
+spec:
+  gatewayClassName: cilium
+  listeners:
+    - name: https
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: hietala-xyz-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: http
+      # ...
+```
+
+And use the `https` route:
+
+{path="gitops/bootstrap/argocd.yaml" hl=10}
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  parentRefs:
+    - name: main
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - argocd.hietala.xyz
+  rules:
+    - backendRefs:
+        - name: argocd-server
+          port: 80
+```
+
+This doesn't work just yet as we need to create the `hietala-xyz-tls` cert.
+
+# Cert-manager
+
+[cert-manager][] seems like the standard way to manage certificates for Kubernetes.
+I don't want to expose my services to the internet which means I need a [DNS01 challenge][].
+[cert-manager][] doesn't have support for Namecheap (bummer) but there's an [open source webhook Namecheap provider][] out there.
+It hasn't been updated in a couple of years but I couldn't find an alternative...
+
+YOLO I guess?
+
+{path="gitops/apps/cert-manager/cert-manager.yaml"}
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://charts.jetstack.io
+    chart: cert-manager
+    targetRevision: v1.20.1
+    helm:
+      values: |
+        installCRDs: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-webhook-namecheap
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kelvie/cert-manager-webhook-namecheap.git
+    targetRevision: HEAD
+    path: deploy/cert-manager-webhook-namecheap
+    helm:
+      # Identifier that our issuer will use
+      values: |
+        groupName: acme.namecheap.com
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=false
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+Then a `ClusterIssuer` that uses the namecheap webhook:
+
+{path="gitops/apps/cert-manager/cert-manager.yaml"}
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+  annotations:
+    # Must come after the cert-manager applications.
+    argocd.argoproj.io/sync-wave: "0"
+    # If resources doesn't exist ArgoCD may complain.
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: homelab@hietala.xyz
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - dns01:
+          # Use the namecheap webhook
+          webhook:
+            groupName: acme.namecheap.com
+            solverName: namecheap
+            config:
+              # These are very sensitive!
+              # Store them in a Sealed Secret (create it!)
+              apiKeySecretRef:
+                name: namecheap-credentials
+                key: apiKey
+              apiUserSecretRef:
+                name: namecheap-credentials
+                key: apiUser
+```
+
+Make sure to use the staging issuer during testing to avoid rate limits.
+When you're done playing around you can switch to the production server at `https://acme-v02.api.letsencrypt.org/directory`. (I created a new `CluterIssuer` called `letsencrypt-prod` instead of replacing the url).
+
+Finally we need to create the `hietala-xyz-tls` certificate that uses the issuer:
+
+{path="gitops/apps/cert-manager/cert-manager.yaml"}
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hietala-xyz
+  # Must match the namespace of the Gateway
+  namespace: kube-system
+  annotations:
+    # References the issuer so must be synced after.
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  # Gateway references this certificate using this name.
+  secretName: hietala-xyz-tls
+  dnsNames:
+    - "*.hietala.xyz"
+    - "hietala.xyz"
+  issuerRef:
+    # Switch to production later.
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+```
+
+With all this setup we should be able to see that the certificate is created:
+
+```fish-shell
+$ kubectl get certificate -n kube-system
+
+NAME          READY   SECRET            AGE
+hietala-xyz   True    hietala-xyz-tls   4d20h
+```
+
+And that we can visit `https://argocd.hietala.xyz` without errors.
+
+(If not, then you have a bunch of debugging to do. Have fun!)
+
+::: tip
+Want to redirect `http` to `https`? Add this route:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: argocd-redirect
+  namespace: argocd
+spec:
+  parentRefs:
+    - name: main
+      namespace: kube-system
+      sectionName: http
+  hostnames:
+    - argocd.hietala.xyz
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+```
+
+In general though I skip the `http` route as I tell Firefox to always use `https`.
+ArgoCD is still accessible via it's external IP, or you can port-forward or proxy to it:
+
+```
+# Access via http://localhost:8001/api/v1/namespaces/argocd/services/argocd-server:80/proxy/
+kubectl proxy
+# Acess via localhost:8123
+kubectl port-forward svc/argocd-server -n argocd 8123:80
+```
+:::
+
+# Automating DNS overrides
+
+Most of the things are not setup in proper GitOps fashion
+but There's still one thing I have to do manually: I have add a DNS override to unbound (it's on my OPNSense router).
+Doing it once is fine, but multiple times is super annoying.
+
+![Some of my overrides in unbound. Can you see a pattern?](/images/kube/opnsense_unbound_overrides.png)
+
+A wildcard domain could work but I have lots of other services running outside of Kubernetes with other IP addresses, so I'd like a cleaner solution.
+
+That solution is [ExternalDNS][] which automatically adds (and removes) overrides for any existing Gateway `HTTPRoute`.
+There's a [webhook provider for OPNSense][] that we'll use.
+
+The manifest:
+
+{path="gitops/apps/external-dns/external-dns.yaml"}
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://kubernetes-sigs.github.io/external-dns/
+      chart: external-dns
+      targetRevision: 1.20.0
+      helm:
+        valueFiles:
+          - $values/gitops/apps/external-dns/values.yaml
+    - repoURL: https://git.hietala.xyz/tree/home-ops.git
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-dns
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+It loads `values.yaml`:
+
+{path="gitops/apps/external-dns/values.yaml"}
+```yaml
+provider:
+  name: webhook
+  webhook:
+    image:
+      repository: ghcr.io/crutonjohn/external-dns-opnsense-webhook
+      tag: v1.0.0
+    env:
+      - name: OPNSENSE_HOST
+        value: "https://router.hietala.xyz"
+      # Remember to create the `external-dns` sealed secret.
+      - name: OPNSENSE_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: external-dns
+            key: api-key
+      - name: OPNSENSE_API_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: external-dns
+            key: api-secret
+sources:
+  - gateway-httproute
+policy: sync
+domainFilters:
+  - hietala.xyz
+txtOwnerId: talos-dorne
+```
+
+Which sets up the OPNSense connecting using a new `external-dns` sealed secret, source routes from Gateway, and targets the `hietala.xyz` domain.
+
+I don't have to add manual overrides anymore, yay!
+
+# A little work, but it's worth it
+
+I feel like there's a few moving parts to this setup but once done supporting new apps is really easy.
+If I for example want to expose the `my-app` service under `my-app.hietala.xyz` all I need to add is this:
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: my-app
+  namespace: my-app
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: main
+      namespace: kube-system
+      sectionName: https
+  hostnames:
+    - my-app.hietala.xyz
+  rules:
+    - backendRefs:
+        - name: my-app
+          port: 80
+```
+
+Commit, push, and `https://my-app.hietala.xyz` is ready in a jiffy.
+
+::: note
+I encountered a bug in ArgoCD v3.3.5 where it'll get stuck syncing the routes with extra lines in the diff. I ended up with these extra lines to make it match what ArgoCD was expecting:
+
+{hl="4..10"}
+```yaml
+    - backendRefs:
+        - name: my-app
+          port: 80
+          group: ""
+          kind: Service
+          weight: 1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
+```
+:::
+
+[cert-manager]: https://cert-manager.io/
+[Gateway API]: https://gateway-api.sigs.k8s.io/
+[ExternalDNS]: https://github.com/kubernetes-sigs/external-dns
+[DNS01 challenge]: https://cert-manager.io/docs/configuration/acme/dns01/
+[open source webhook Namecheap provider]: https://github.com/kelvie/cert-manager-webhook-namecheap
+[webhook provider for OPNSense]: https://github.com/crutonjohn/external-dns-opnsense-webhook

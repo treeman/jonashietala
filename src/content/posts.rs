@@ -1,12 +1,13 @@
 use camino::Utf8Path;
 use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
-use eyre::{eyre, Result};
+use eyre::{Result, eyre};
 use itemref_derive::ItemRef;
 use lazy_static::lazy_static;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
+use std::cmp::Ordering;
 use std::collections::BTreeMap;
 use std::collections::HashSet;
 use std::fmt::Debug;
@@ -52,23 +53,32 @@ pub struct PostRef {
     pub order: PostRefOrder,
 }
 
-#[derive(Debug, Clone, Eq)]
+#[derive(Debug, Clone, Eq, Default)]
 pub struct PostRefOrder {
     pub id: String,
     pub is_draft: bool,
     pub created: NaiveDateTime,
+    pub series_id: Option<String>,
+    pub series_sort: Option<i32>,
 }
 
 impl PartialOrd for PostRefOrder {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
 impl Ord for PostRefOrder {
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+    fn cmp(&self, other: &Self) -> Ordering {
+        if self.series_id.is_some() && self.series_id == other.series_id {
+            match self.series_sort.cmp(&other.series_sort) {
+                Ordering::Equal => {}
+                other => return other,
+            }
+        }
+
         if self.id == other.id {
-            std::cmp::Ordering::Equal
+            Ordering::Equal
         } else if self.is_draft && other.is_draft {
             (self.id).cmp(&(other.id))
         } else {
@@ -103,6 +113,7 @@ pub struct PostItem {
     pub series_id: Option<String>,
     pub series: Option<SeriesRef>,
     pub is_draft: bool,
+    pub series_sort: Option<i32>,
 }
 
 impl PostItem {
@@ -147,6 +158,7 @@ impl PostItem {
             recommended: partial.recommended,
             favorite: partial.favorite,
             is_draft: partial.is_draft,
+            series_sort: markup.markup_meta.series_sort,
         })
     }
 
@@ -157,6 +169,8 @@ impl PostItem {
                 id: self.id().to_string(),
                 is_draft: self.is_draft,
                 created: self.created,
+                series_id: self.series_id.clone(),
+                series_sort: self.series_sort,
             },
         }
     }
@@ -270,13 +284,13 @@ impl PartialEq for PartialPostItem {
 }
 
 impl PartialOrd for PartialPostItem {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
 impl Ord for PartialPostItem {
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+    fn cmp(&self, other: &Self) -> Ordering {
         self.created.cmp(&other.created)
     }
 }
@@ -405,6 +419,7 @@ pub struct PostMetadata {
     pub series: Option<String>,
     pub recommended: Option<bool>,
     pub favorite: Option<bool>,
+    pub series_sort: Option<i32>,
 }
 
 #[derive(Debug)]
@@ -486,7 +501,7 @@ mod tests {
     use crate::tests::*;
     use crate::{context::RenderContext, site::SiteContext};
     use git2::Oid;
-    use scraper::{node::Element, Html, Selector};
+    use scraper::{Html, Selector, node::Element};
 
     #[test]
     fn test_post_from_string() -> Result<()> {
@@ -582,10 +597,99 @@ mod tests {
                         .unwrap()
                         .and_hms_opt(7, 7, 0)
                         .unwrap(),
+                    ..Default::default()
                 }
             }
         );
         Ok(())
+    }
+
+    #[test]
+    fn test_postref_order() {
+        // By creation date
+        assert_eq!(
+            PostRefOrder {
+                id: "a".into(),
+                is_draft: false,
+                created: "2025-01-11T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                ..Default::default()
+            }
+            .cmp(&PostRefOrder {
+                id: "b".into(),
+                is_draft: false,
+                created: "2025-01-22T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                ..Default::default()
+            }),
+            Ordering::Less
+        );
+        // Drafts come after non-drafts
+        assert_eq!(
+            PostRefOrder {
+                id: "a".into(),
+                is_draft: true,
+                created: "2000-01-11T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                ..Default::default()
+            }
+            .cmp(&PostRefOrder {
+                id: "b".into(),
+                is_draft: false,
+                created: "2025-01-22T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                ..Default::default()
+            }),
+            Ordering::Greater
+        );
+        // Drafts by id
+        assert_eq!(
+            PostRefOrder {
+                id: "a".into(),
+                is_draft: true,
+                created: "2000-01-11T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                ..Default::default()
+            }
+            .cmp(&PostRefOrder {
+                id: "b".into(),
+                is_draft: true,
+                created: "2025-01-22T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                ..Default::default()
+            }),
+            Ordering::Less
+        );
+        // Order series when both have sort order, if series matching
+        assert_eq!(
+            PostRefOrder {
+                id: "a".into(),
+                created: "2000-01-11T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                series_id: Some("x".into()),
+                series_sort: Some(2),
+                ..Default::default()
+            }
+            .cmp(&PostRefOrder {
+                id: "b".into(),
+                created: "2025-01-22T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                series_id: Some("x".into()),
+                series_sort: Some(1),
+                ..Default::default()
+            }),
+            Ordering::Greater
+        );
+        // Series not matching, ignore sort
+        assert_eq!(
+            PostRefOrder {
+                id: "a".into(),
+                created: "2000-01-11T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                series_id: Some("y".into()),
+                series_sort: Some(2),
+                ..Default::default()
+            }
+            .cmp(&PostRefOrder {
+                id: "b".into(),
+                created: "2025-01-22T12:00:00".parse::<NaiveDateTime>().unwrap(),
+                series_id: Some("x".into()),
+                series_sort: Some(1),
+                ..Default::default()
+            }),
+            Ordering::Less
+        );
     }
 
     #[test]

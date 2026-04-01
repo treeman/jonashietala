@@ -1,0 +1,10 @@
+---toml
+title = "Planning my Kubernetes Homelab"
+tags = ["Kubernetes", "Homelab"]
+series = "kube-homelab"
+series_sort = 1
+---
+
+If I'd have to describe my homelab setup via analogy I guess it would be similar to me a unicycle carrying plates with both of my hands, or maybe a leaking barrel with water that I try to patch up with silver tape.
+
+![](/images/kube/iceberg.png)

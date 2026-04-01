@@ -2,6 +2,7 @@
 title = "SSO with Authentik"
 tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
+series_sort = 11
 ---
 
 # Secret management
