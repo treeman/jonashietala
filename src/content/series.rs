@@ -50,8 +50,12 @@ pub fn load_series(
         serie.posts = series_posts;
 
         for post in serie.posts.iter() {
-            let post = posts.get_mut(&post.0).expect("Should have post");
-            post.series = Some(serie.series_ref());
+            match posts.get_mut(&post.0) {
+                Some(post) => post.series = Some(serie.series_ref()),
+                None => {
+                    warn!("Serie {} missing post: {}", serie.id, post.0.id);
+                }
+            }
         }
     }
 

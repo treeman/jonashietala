@@ -58,8 +58,6 @@ pub struct PostRefOrder {
     pub id: String,
     pub is_draft: bool,
     pub created: NaiveDateTime,
-    pub series_id: Option<String>,
-    pub series_sort: Option<i32>,
 }
 
 impl PartialOrd for PostRefOrder {
@@ -70,17 +68,14 @@ impl PartialOrd for PostRefOrder {
 
 impl Ord for PostRefOrder {
     fn cmp(&self, other: &Self) -> Ordering {
-        if self.series_id.is_some() && self.series_id == other.series_id {
-            match self.series_sort.cmp(&other.series_sort) {
-                Ordering::Equal => {}
-                other => return other,
-            }
+        if self.id == other.id {
+            return Ordering::Equal;
         }
 
         if self.id == other.id {
             Ordering::Equal
         } else if self.is_draft && other.is_draft {
-            (self.id).cmp(&(other.id))
+            self.id.cmp(&other.id)
         } else {
             (self.is_draft, self.created).cmp(&(other.is_draft, other.created))
         }
@@ -169,8 +164,6 @@ impl PostItem {
                 id: self.id().to_string(),
                 is_draft: self.is_draft,
                 created: self.created,
-                series_id: self.series_id.clone(),
-                series_sort: self.series_sort,
             },
         }
     }
@@ -406,8 +399,10 @@ impl<'a> PostRefContext<'a> {
     }
 
     pub fn from_ref(post_ref: &PostRef, ctx: &'a RenderContext) -> Self {
-        let post = ctx.content.get_post(post_ref).expect("Should have post");
-        Self::from_post(post)
+        match ctx.content.get_post(post_ref) {
+            Some(post) => Self::from_post(post),
+            None => panic!("Couldn't find post: {}", post_ref.id),
+        }
     }
 }
 
@@ -650,42 +645,6 @@ mod tests {
                 id: "b".into(),
                 is_draft: true,
                 created: "2025-01-22T12:00:00".parse::<NaiveDateTime>().unwrap(),
-                ..Default::default()
-            }),
-            Ordering::Less
-        );
-        // Order series when both have sort order, if series matching
-        assert_eq!(
-            PostRefOrder {
-                id: "a".into(),
-                created: "2000-01-11T12:00:00".parse::<NaiveDateTime>().unwrap(),
-                series_id: Some("x".into()),
-                series_sort: Some(2),
-                ..Default::default()
-            }
-            .cmp(&PostRefOrder {
-                id: "b".into(),
-                created: "2025-01-22T12:00:00".parse::<NaiveDateTime>().unwrap(),
-                series_id: Some("x".into()),
-                series_sort: Some(1),
-                ..Default::default()
-            }),
-            Ordering::Greater
-        );
-        // Series not matching, ignore sort
-        assert_eq!(
-            PostRefOrder {
-                id: "a".into(),
-                created: "2000-01-11T12:00:00".parse::<NaiveDateTime>().unwrap(),
-                series_id: Some("y".into()),
-                series_sort: Some(2),
-                ..Default::default()
-            }
-            .cmp(&PostRefOrder {
-                id: "b".into(),
-                created: "2025-01-22T12:00:00".parse::<NaiveDateTime>().unwrap(),
-                series_id: Some("x".into()),
-                series_sort: Some(1),
                 ..Default::default()
             }),
             Ordering::Less
