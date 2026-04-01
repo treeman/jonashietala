@@ -7,4 +7,84 @@ series_sort = 1
 
 If I'd have to describe my homelab setup via analogy I guess it would be similar to me a unicycle carrying plates with both of my hands, or maybe a leaking barrel with water that I try to patch up with silver tape.
 
-![](/images/kube/iceberg.png)
+So I decided to start from scratch and setup a Kubernetes cluster where I'll run my Homelab services.
+
+# Declarative and reproducible
+
+The most important thing is 
+
+# Hardware
+
+# Kubernetes, too complicated?
+
+![The Kubernetes iceberg.](/images/kube/iceberg.png)
+
+It's a fair question and the most common critique towards Kubernetes is that's just too complicated.
+Discussion threads online are filled with comments such as:
+
+> Kubernetes has to be most complex software I've ever tried to learn. I eventually gave up and decided to stick with simple single machine docker-compose deployments.
+> ^ [trinovantes][]
+
+> “Let’s use Kubernetes!” Now you have 8 problems
+> ^ [Itamar Turner-Trauring][]
+
+So why would I choose Kubernetes?
+
+Because, for whatever reason, Kubernetes is also very popular and for every comment complaining about complexity you have comments extolling it's virtues:
+
+> I was skeptical about Kubernetes but I now understand why it's popular. The alternatives are all based on kludgy shell/Python scripts or proprietary cloud products.
+> ^ [zelly][]
+
+> Kubernetes is the biggest quality-of-life improvement I've experienced in my career
+> ^ [anchochilis][]
+
+Having experienced the single machine docker-compose deployments, kludgy shell scripts, and proprietary cloud products I think I need to use Kubernetes myself to be able to form an opinion on it.
+
+And in some ways, isn't experimentation a core part homelabbing?
+
+
+# Tech stack
+
+Here's a rough list of things I'll setup and describe in this blog post series:
+
+* [Talos Linux][] for Kubernetes nodes.
+
+  The coolest way to run Kubernetes.
+  No SSH or extra things to worry about.
+
+* [Terraform][] to provision VMs on Proxmox and to initialize [Talos Linux][].
+* [Cilium][] as the CNI, load balancer, and Gateway API provider.
+
+  I opted for [Cilium][] as it's one dependency replacing kube-proxy, Metallb, and Traefik, which I was leaning towards at first.
+  Gateway API is the new thing you "should" use instead of ingress, and I wanted to try it out.
+
+* [ArgoCD][] for GitOps.
+
+  If it was purely for myself [FluxCD][] might have been the better, simpler, choice but we might use [ArgoCD][] at work and I don't want to deal with two separate systems at the moment.
+
+* [Renovate][] to keep dependencies up-to-date.
+
+* [CloudNativePG][] for Postgres on Kubernetes.
+
+  I'll include [timescaledb][] and WAL backups using [Garage][].
+
+* [Authentik][] as an identity provider and single sign on platform.
+
+  It's nice to not have to login manually everywhere.
+
+In the next part we'll start by creating VMs and getting a Kubernetes cluster up and running.
+
+[Talos Linux]: https://www.talos.dev/
+[Terraform]: https://developer.hashicorp.com/terraform
+[ArgoCD]: https://argo-cd.readthedocs.io/en/stable/
+[Authentik]: https://goauthentik.io/
+[Cilium]: https://cilium.io/
+[FluxCD]: https://fluxcd.io/
+[Renovate]: https://github.com/renovatebot/renovate
+[CloudNativePG]: https://cloudnative-pg.io/
+[timescaledb]: https://github.com/timescale/timescaledb
+[Garage]: https://garagehq.deuxfleurs.fr/
+[zelly]: https://news.ycombinator.com/item?id=23358373
+[Itamar Turner-Trauring]: https://pythonspeed.com/articles/dont-need-kubernetes/
+[trinovantes]: https://news.ycombinator.com/item?id=26271898
+[anchochilis]: https://news.ycombinator.com/item?id=26274107
