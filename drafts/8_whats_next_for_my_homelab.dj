@@ -2,7 +2,6 @@
 title = "What's next for my Homelab?"
 tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
-series_sort = 20
 ---
 
 ::: epigraph

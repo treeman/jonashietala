@@ -1,8 +1,7 @@
 ---toml
-title = "Apps with Postgres"
+title = "Apps with CloudNativePG"
 tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
-series_sort = 10
 ---
 
 # Local path and postgres

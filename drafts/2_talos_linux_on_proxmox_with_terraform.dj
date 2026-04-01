@@ -2,7 +2,6 @@
 title = "Talos Linux on Proxmox with Terraform"
 tags = ["Kubernetes", "Homelab", "Terraform", "Talos Linux"]
 series = "kube-homelab"
-series_sort = 2
 ---
 
 ![](/images/kube/talos_in_console.png)

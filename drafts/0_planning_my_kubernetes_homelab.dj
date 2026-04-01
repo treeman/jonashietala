@@ -2,7 +2,6 @@
 title = "Planning my Kubernetes Homelab"
 tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
-series_sort = 0
 ---
 
 If I'd have to describe my homelab setup via analogy I guess it would be similar to me a unicycle carrying plates with both of my hands, or maybe a leaking barrel with water that I try to patch up with silver tape.
@@ -42,8 +41,6 @@ Having experienced the single machine docker-compose deployments, kludgy shell s
 
 And in some ways, isn't experimentation a core part homelabbing?
 
-That said, the GitOps setup I have with Kubernetes is absolutely amazing and a great thing to have for a homelab.
-
 # Tech stack
 
 Here's a rough list of things I'll setup and describe in this blog post series:
@@ -72,6 +69,8 @@ Here's a rough list of things I'll setup and describe in this blog post series:
 * [Authentik][] as an identity provider and single sign on platform.
 
   It's nice to not have to login manually everywhere.
+
+Huh. Displayed like this it looks like a lot but fear not! It'll be worth it in the end.
 
 In the next part we'll start by creating VMs and getting a Kubernetes cluster up and running.
 
