@@ -2,7 +2,6 @@
 title = "Domains, certificates, and DNS"
 tags = ["Kubernetes", "Homelab", "GitOps"]
 series = "kube-homelab"
-series_sort = 5
 ---
 
 Accessing services via raw IP addresses isn't that swell; I'm no Rain Man.

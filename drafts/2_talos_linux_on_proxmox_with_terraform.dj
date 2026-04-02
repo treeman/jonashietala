@@ -720,6 +720,12 @@ data "talos_machine_configuration" "control_machine_config" {
 }
 ```
 
+# Bootstrap script
+
+TODO
+
+<https://github.com/casey/just>
+
 And with that we have a functional Kubernetes cluster that we can easily tear down and rebuild.
 
 [bpg/proxmox]: https://registry.terraform.io/providers/bpg/proxmox/latest
