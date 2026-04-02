@@ -108,7 +108,6 @@ pub struct PostItem {
     pub series_id: Option<String>,
     pub series: Option<SeriesRef>,
     pub is_draft: bool,
-    pub series_sort: Option<i32>,
 }
 
 impl PostItem {
@@ -153,7 +152,6 @@ impl PostItem {
             recommended: partial.recommended,
             favorite: partial.favorite,
             is_draft: partial.is_draft,
-            series_sort: markup.markup_meta.series_sort,
         })
     }
 
@@ -414,7 +412,6 @@ pub struct PostMetadata {
     pub series: Option<String>,
     pub recommended: Option<bool>,
     pub favorite: Option<bool>,
-    pub series_sort: Option<i32>,
 }
 
 #[derive(Debug)]

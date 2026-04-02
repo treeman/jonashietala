@@ -4,6 +4,12 @@ tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
 ---
 
+a. Local path storage
+a. Install postgres
+a. Connect miniflux
+a. Periodic backups
+a. Backups using garage
+
 # Local path and postgres
 
 Setup local path

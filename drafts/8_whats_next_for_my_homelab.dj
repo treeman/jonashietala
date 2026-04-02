@@ -30,7 +30,8 @@ Without my smart home services for example some of the lights in our house won't
 
 Before doing all this I should probably prioritize some infrastructure changes.
 First I'd like to get my second server up and running so I can have nodes on two physical machines.
-With the second machine up I really should create a proper backup system---my backup has been broken for a year now!
+With the second machine up I should setup [Longhorn][] and replace Postgres storage with it.
+I also need a proper backup system---my backup setup has been broken for a year now!
 
 I still got a couple of Raspberry Pis lying around that I should get integrated.\
 Maybe I could run Talos on them and include them in the cluster too?\
@@ -42,8 +43,10 @@ But why poke at my old apps when I can try out _new_ things?\
 ...
 
 No!
-One Kubernetes cluster is not enough, I need several!
-Time to go back to the drawing board and rewrite everything from scratch!
+One Kubernetes cluster is not enough, I need several!\
+Back to the drawing board and rework everything!
+
+_Craziness intensifies_
 
 ***
 
@@ -100,3 +103,4 @@ kubectl apply -f gitops/root.yaml
 [Immich]: https://immich.app/
 [Jellyfin]: https://jellyfin.org/
 [Audiobookshelf]: https://www.audiobookshelf.org/
+[Longhorn]: https://longhorn.io/

@@ -1,5 +1,5 @@
 ---toml
-title = "Planning my Kubernetes Homelab"
+title = "Planning my Kubernetes homelab"
 tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
 ---
@@ -8,11 +8,29 @@ If I'd have to describe my homelab setup via analogy I guess it would be similar
 
 So I decided to start from scratch and setup a Kubernetes cluster where I'll run my Homelab services.
 
-# Declarative and reproducible
+# Declarative, reproducible, and automated
 
-The most important thing is
+The big goal is to have everything declarative in a single git repository and to easily be able to bootstrap from nothing to a fully working setup.
 
-# Hardware
+I want to use [Infrastructure as Code][] to create the Kubernetes cluster and [GitOps][] to populate it with all my services automatically from the repo.
+A change should be as simple as making a change and pushing; I want to move away from having to `ssh` into the correct repo and manually do stuff.
+
+# Constraints
+
+The hardware I'm going to set this up on is a single machine running Proxmox.
+This will allow me to create multiple VMs to simulate a multi-node cluster but it will all run on a single machine.
+In the future I plan to expand the cluster across two Proxmox machines but I'll keep it on a single machine for this series.
+
+In practice this has two consequences:
+
+1. The VM creation code will be a little simpler.
+2. I'll use [local-path][] storage when setting up Postgres.
+
+For GitOps I'll be using a self-hosted instance of [Forgejo][] running in another VM on the same machine.
+I think I'll keep it outside the cluster as it's pretty nice that it survives a complete reset of the cluster.
+I may make it reproducible in the future but that's out of scope for this series.
+
+For internal DNS I have [unbound][] running on OPNSense on my router.
 
 # Kubernetes, too complicated?
 
@@ -29,7 +47,7 @@ Discussion threads online are filled with comments such as:
 
 So why would I choose Kubernetes?
 
-Because, for whatever reason, Kubernetes is also very popular and for every comment complaining about complexity you have comments extolling it's virtues:
+Because, for whatever reason, Kubernetes is very popular and for every comment complaining about complexity you have comments extolling it's virtues:
 
 > I was skeptical about Kubernetes but I now understand why it's popular. The alternatives are all based on kludgy shell/Python scripts or proprietary cloud products.
 > ^ [zelly][]
@@ -48,12 +66,12 @@ Here's a rough list of things I'll setup and describe in this blog post series:
 * [Talos Linux][] for Kubernetes nodes.
 
   The coolest way to run Kubernetes.
-  No SSH or extra things to worry about.
+  Lightweight and secure, what's not to like?
 
 * [Terraform][] to provision VMs on Proxmox and to initialize [Talos Linux][].
 * [Cilium][] as the CNI, load balancer, and Gateway API provider.
 
-  I opted for [Cilium][] as it's one dependency replacing kube-proxy, Metallb, and Traefik, which I was leaning towards at first.
+  I opted for [Cilium][] as it's one dependency replacing [kube-proxy][] (comes with Talos), [Metallb][], and [Traefik][], which I was leaning towards at first.
   Gateway API is the new thing you "should" use instead of ingress, and I wanted to try it out.
 
 * [ArgoCD][] for GitOps.
@@ -70,7 +88,7 @@ Here's a rough list of things I'll setup and describe in this blog post series:
 
   It's nice to not have to login manually everywhere.
 
-Huh. Displayed like this it looks like a lot but fear not! It'll be worth it in the end.
+Huh. Displayed like this it looks like a lot, but fear not! It'll be worth it in the end.
 
 In the next part we'll start by creating VMs and getting a Kubernetes cluster up and running.
 
@@ -88,3 +106,12 @@ In the next part we'll start by creating VMs and getting a Kubernetes cluster up
 [Itamar Turner-Trauring]: https://pythonspeed.com/articles/dont-need-kubernetes/
 [trinovantes]: https://news.ycombinator.com/item?id=26271898
 [anchochilis]: https://news.ycombinator.com/item?id=26274107
+[GitOps]: https://about.gitlab.com/topics/gitops/
+[Infrastructure as Code]: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/infrastructure-as-code
+[local-path]: https://github.com/rancher/local-path-provisioner
+[Longhorn]: https://longhorn.io/
+[Metallb]: https://metallb.io/
+[Traefik]: https://traefik.io/traefik
+[kube-proxy]: https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/
+[Forgejo]: https://forgejo.org/
+[unbound]: https://docs.opnsense.org/manual/unbound.html

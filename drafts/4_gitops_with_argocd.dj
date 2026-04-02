@@ -6,10 +6,124 @@ series = "kube-homelab"
 
 ![](/images/kube/argocd_apps.png)
 
+Now we're getting to the really fun stuff: GitOps.
+The act of writing beautifully crafted `.yaml` files and see your Kubernetes cluster get red and stall out is surely what life's all about.
+
+# Install ArgoCD
+
+We have our Kubernetes cluster and now we're going to bootstrap ArgoCD so it starts syncing from our git repository.
+Using helm:
+
+```fish
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd -n argocd --create-namespace --version 9.4.16 \
+  --set server.service.type=LoadBalancer \
+  --set server.service.annotations."io\.cilium/lb-ipam-ips"=10.1.4.102
+```
+
+This will install ArgoCD under the `argocd` namespace and assign a fixed IP to it (so it's easy for the `argocd` command to find it).
+
+ArgoCD will by default generate an admin password and you can get it with the `arcocd` tool:
+
+```fish
+# You can use the password to login to the web.
+argocd admin initial-password -n argocd
+# You can change the password like so:
+argocd login 10.1.4.102 --insecure
+argocd account update-password
+```
+
+And you should be able to login at `10.1.4.102`, the IP we fixed before.
+You can verify the IP with this command:
+
+```fish
+kubectl get svc argocd-server -n argocd
+```
+
+To get the ball rolling we need to add a repository.
+I use a self-hosted Forgejo instance internally at `git.hietala.xyz` but anything will do.
+You need an API token with read permissions:
+
+```fish
+argocd repo add https://git.hietala.xyz/tree/home-ops.git --username admin --password token
+```
+
+You can verify that the repo exists with `argocd repo list` or in the UI.
+
+TODO maybe encrypt it and source it?
+
+# Planning a file structure
+
+One of the benefits of ArgoCD is that you can create any kind of file structure.
+That's also one of it's problems: it's hard to know where to start.
+
+I found the blog post [How to Structure Your Argo CD Repositories Using Application Sets][]
+illuminating and even though their setup is way overkill for my homelab I simplified their ideas into something that works fell for me.
+
+The basic idea is this:
+
+```
+gitops
+├── root.yaml                 # Level 1: Loads all files from bootstrap
+├── bootstrap
+│   ├── argocd.yaml           # ArgoCD can manage itself
+│   ├── cilium_config.yaml    # We used this file when setting up Cilium
+│   ├── appset.yaml           # Level 2: Loads everything under apps
+│   └── ...
+└── apps                      # Level 3: All our apps
+    ├── authentik
+    │   └── ...
+    ├── miniflux
+    │   └── ...
+    └── ...
+```
+
+So ArgoCD will be bootstrapped with `root.yaml`, which will load everything under `bootstrap/`.
+This includes our Cilium config we used previously, ArgoCD itself (yes, it can update itself), and `appset.yaml` which will create apps of all subfolders under `apps/`.
+
+# App-of-apps and application sets
+
+`root.yaml` will be a master "app-of-apps" as it will be an `Application` that spawns other applications.
+It looks like this:
+
+{path="gitops/root.yaml"}
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: all-apps
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-100"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://git.hietala.xyz/tree/home-ops.git
+    targetRevision: master
+    path: gitops/bootstrap
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+You're going to see lots of yaml files like this, better get used to it.
+The important bits are the name `all-apps`, it should be synced before everyone else (the `sync-wave` thing) and should load everything under `gitops/bootstrap` from my `home-ops` repo.
+
+***
+
 ```
 argocd admin initial-password -n argocd
 argocd login 10.1.4.102 --insecure
-argocd Gccount update-password
+argocd account update-password
 ```
 
 ```
@@ -55,4 +169,11 @@ tree@winterfell ~/c/home-ops> kubectl logs -n renovate -l job-name=renovate-manu
 
 And there's also a nice UI for this.
 
+For the impatient:
+
+```
+kubectl annotate applications -n argocd --all argocd.argoproj.io/refresh=hard
+```
+
 [ExternalDNS]: https://github.com/kubernetes-sigs/external-dns
+[How to Structure Your Argo CD Repositories Using Application Sets]: https://codefresh.io/blog/how-to-structure-your-argo-cd-repositories-using-application-sets/

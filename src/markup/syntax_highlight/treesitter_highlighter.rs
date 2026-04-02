@@ -306,6 +306,17 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
+        (
+            "terraform",
+            HighlightConfiguration::new(
+                tree_sitter_hcl::LANGUAGE.into(),
+                "terraform",
+                include_str!("../../../queries/terraform/highlights.scm"),
+                include_str!("../../../queries/terraform/injections.scm"),
+                "",
+            )
+            .unwrap(),
+        ),
         // Not as good as syntect atm.
         // (
         //     "lua",

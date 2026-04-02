@@ -1725,6 +1725,7 @@ dependencies = [
  "tree-sitter-fishshell",
  "tree-sitter-ghostty",
  "tree-sitter-gleam",
+ "tree-sitter-hcl",
  "tree-sitter-highlight",
  "tree-sitter-lua",
  "tree-sitter-query",
@@ -3675,6 +3676,15 @@ source = "git+https://github.com/treeman/tree-sitter-gleam#7fe0310c152a56069dbb2
 dependencies = [
  "cc",
  "tree-sitter",
+]
+
+[[package]]
+name = "tree-sitter-hcl"
+version = "1.2.0"
+source = "git+https://github.com/tree-sitter-grammars/tree-sitter-hcl#64ad62785d442eb4d45df3a1764962dafd5bc98b"
+dependencies = [
+ "cc",
+ "tree-sitter-language",
 ]
 
 [[package]]

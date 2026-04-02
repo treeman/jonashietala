@@ -4,6 +4,11 @@ tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
 ---
 
+a. Install Authentik
+a. SSO miniflux + ArgoCD
+a. Kubernetes API oidc
+a. Headlamp
+
 # Authentik SSO + idp
 
 ```

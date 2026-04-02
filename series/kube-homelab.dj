@@ -1,6 +1,15 @@
 ---toml
-title = "Kubernetes homelab"
+title = "Modern Kubernetes homelab"
 img = "/images/kube/headlamp_map.png"
 completed = false
 draft = true
 ---
+
+A from-scratch walkthrough of my modern Kubernetes homelab setup with [Talos Linux][], automated with [Terraform][] and [GitOps][].
+It contains goodies such as [cloud native Postgres][], [single-sign-on][], and automated management of internal domains.
+
+[GitOps]: https://argo-cd.readthedocs.io/en/stable/
+[Talos Linux]: https://www.talos.dev/
+[Terraform]: https://developer.hashicorp.com/terraform
+[cloud native Postgres]: https://cloudnative-pg.io/
+[single-sign-on]: https://goauthentik.io/
