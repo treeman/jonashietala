@@ -1,0 +1,131 @@
+---toml
+title = "Just: command runner & documentation"
+tags = ["Kubernetes", "Homelab"]
+series = "kube-homelab"
+---
+
+123
+
+<https://news.ycombinator.com/item?id=42351101>
+
+<https://news.ycombinator.com/item?id=34315779>
+
+Other alternatives: <https://taskfile.dev/>
+
+<https://github.com/casey/just>
+
+This command:
+
+```fish
+helm repo add cilium https://helm.cilium.io/
+helm repo update
+helm install cilium cilium/cilium \
+  --namespace kube-system \
+  --version 1.19.2 \
+  --set kubeProxyReplacement=true \
+  --set k8sServiceHost=10.1.4.10 \
+  --set k8sServicePort=6443 \
+  --set l2announcements.enabled=true \
+  --set externalIPs.enabled=true \
+  --set gatewayAPI.enabled=true \
+  --set ipam.mode=kubernetes \
+  --set operator.replicas=1 \
+  --set securityContext.privileged=true
+```
+
+Yuck.
+
+You could do this with `make`, shell scripts, [Task][], or many other tools but I chose [Just][] because it felt a little nicer.
+
+If all I wanted was a simple bootstrap script I wouldn't bother writing a separate post about it,
+but I realized that [Just][] is an excellent way to add some sorely needed to documentation as well.
+
+For example, in the future I'll probably forget how the bootstrap process looks like.
+Fire up `just`:
+
+```fish-shell
+$ just
+just -l
+Available recipes:
+    bootstrap ...
+    secrets ...
+```
+
+```fish-shell
+$ just bootstrap
+just -l bootstrap
+Available recipes:
+    argocd                # Bootstrap ArgoCD
+    cilium                # Bootstrap Cilium
+    cluster               # Bootstrap VMs and talos cluster
+    create_cluster_config # Create talasconfig and kubeconfig
+    full                  # Bootstrap everything from zero
+    init_helm_repos       # Add helm repos
+    link_cluster_config   # Initialize ~/.talos/config and ~/.kube/config
+```
+
+So `just bootstrap full` would try to bootstrap everything. Sounds scary, so let's look at the code:
+
+{path="just/bootstrap.just"}
+```just
+[doc("Bootstrap everything from zero")]
+[working-directory('../infrastructure')]
+full:
+    just bootstrap::cluster
+    just bootstrap::cilium
+    just bootstrap::argocd
+```
+
+Where the cluster is bootstrapped like this:
+
+```just
+[doc("Bootstrap VMs and talos cluster")]
+[working-directory('../infrastructure')]
+cluster:
+    terraform init
+    terraform apply
+    just bootstrap::create_cluster_config
+
+[doc("Create talasconfig and kubeconfig")]
+[working-directory('../infrastructure')]
+create_cluster_config:
+    terraform output -raw talosconfig > talosconfig.yaml
+    terraform output -raw kubeconfig > kubeconfig.yaml
+    # We'll lookk at this in the next post
+    just secrets::encrypt_cluster_config
+```
+
+And Cilium like so:
+
+```just
+[doc("Bootstrap Cilium")]
+cilium: init_helm_repos wait_for_api
+    kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+    helm install cilium cilium/cilium \
+        --namespace kube-system \
+        --version 1.19.2 \
+        --set kubeProxyReplacement=true \
+        --set k8sServiceHost=10.1.4.100 \
+        --set k8sServicePort=6443 \
+        --set l2announcements.enabled=true \
+        --set externalIPs.enabled=true \
+        --set gatewayAPI.enabled=true \
+        --set ipam.mode=kubernetes \
+        --set operator.replicas=1 \
+        --set securityContext.privileged=true
+    kubectl rollout status daemonset/cilium -n kube-system
+    kubectl wait --for=condition=Ready nodes --all --timeout=300s
+    kubectl apply -f gitops/bootstrap/cilium_config.yaml
+```
+
+Note the two dependencies `init_helm_repos` and `wait_for_api`, which will run before Cilium is bootstrapped. `init_helm_repos` simply adds the Cilium helm repo and `wait_for_api` waits until the Kubernetes nodes are ready (although, not necessarily healthy according to `talosctl health`):
+
+```just
+[private]
+wait_for_api:
+    until kubectl get nodes; do sleep 5; done
+```
+
+[Task]: https://taskfile.dev/
+[Just]: https://just.systems/man/en/introduction.html
+
