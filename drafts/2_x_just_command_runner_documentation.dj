@@ -110,7 +110,9 @@ cilium: init_helm_repos wait_for_api
     kubectl apply -f gitops/bootstrap/cilium_config.yaml
 ```
 
-Here I've added the bootstrap commands from the last post and I've added some waits to try make the bootstrap process 
+Here I've added the bootstrap commands from the last post together with some waits to make the process work in script form.
+
+# Notes on the setup
 
 Note the two dependencies `init_helm_repos` and `wait_for_api`, which will run before Cilium is bootstrapped. `init_helm_repos` simply adds the Cilium helm repo and `wait_for_api` waits until the Kubernetes nodes are ready (although, not necessarily healthy according to `talosctl health`):
 

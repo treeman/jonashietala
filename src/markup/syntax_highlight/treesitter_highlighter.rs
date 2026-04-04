@@ -202,7 +202,7 @@ lazy_static! {
     static ref EMPTY_SPAN: Regex =
         Regex::new(r#"<span class="[^"]*">(<span class="[^"]+"></span>)*</span>"#).unwrap();
     static ref IGNORE_MISSING_WARNINGS: HashSet<&'static str> =
-        HashSet::from(["comment", "vim", "latex", "luap"]);
+        HashSet::from(["comment", "vim", "latex", "luap", "bash"]);
 }
 
 fn init_configurations() -> HashMap<String, HighlightConfiguration> {
@@ -325,6 +325,17 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
                 tree_sitter_just::HIGHLIGHTS_QUERY,
                 tree_sitter_just::INJECTIONS_QUERY,
                 tree_sitter_just::LOCALS_QUERY,
+            )
+            .unwrap(),
+        ),
+        (
+            "bash",
+            HighlightConfiguration::new(
+                tree_sitter_bash::LANGUAGE.into(),
+                "bash",
+                tree_sitter_bash::HIGHLIGHT_QUERY,
+                "",
+                "",
             )
             .unwrap(),
         ),
