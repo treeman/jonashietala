@@ -317,6 +317,17 @@ fn init_configurations() -> HashMap<String, HighlightConfiguration> {
             )
             .unwrap(),
         ),
+        (
+            "just",
+            HighlightConfiguration::new(
+                tree_sitter_just::LANGUAGE.into(),
+                "just",
+                tree_sitter_just::HIGHLIGHTS_QUERY,
+                tree_sitter_just::INJECTIONS_QUERY,
+                tree_sitter_just::LOCALS_QUERY,
+            )
+            .unwrap(),
+        ),
         // Not as good as syntect atm.
         // (
         //     "lua",

@@ -1727,6 +1727,7 @@ dependencies = [
  "tree-sitter-gleam",
  "tree-sitter-hcl",
  "tree-sitter-highlight",
+ "tree-sitter-just",
  "tree-sitter-lua",
  "tree-sitter-query",
  "tree-sitter-sdjot",
@@ -3697,6 +3698,16 @@ dependencies = [
  "streaming-iterator",
  "thiserror 2.0.18",
  "tree-sitter",
+]
+
+[[package]]
+name = "tree-sitter-just"
+version = "0.2.0"
+source = "git+https://github.com/casey/tree-sitter-just#5685543a6e64f66335e25518c9ae8ffa1dae3d01"
+dependencies = [
+ "cc",
+ "tree-sitter",
+ "tree-sitter-language",
 ]
 
 [[package]]

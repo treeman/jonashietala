@@ -4,21 +4,10 @@ tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
 ---
 
-123
-
-<https://news.ycombinator.com/item?id=42351101>
-
-<https://news.ycombinator.com/item?id=34315779>
-
-Other alternatives: <https://taskfile.dev/>
-
-<https://github.com/casey/just>
-
-This command:
+I wanted the bootstrap process to be simple; ideally a single command and it would be up and running.
+But that's not what we have right now; just look at this monstrosity:
 
 ```fish
-helm repo add cilium https://helm.cilium.io/
-helm repo update
 helm install cilium cilium/cilium \
   --namespace kube-system \
   --version 1.19.2 \
@@ -35,7 +24,8 @@ helm install cilium cilium/cilium \
 
 Yuck.
 
-You could do this with `make`, shell scripts, [Task][], or many other tools but I chose [Just][] because it felt a little nicer.
+I could place this in a README file, put it in a shell script, a Makefile, [Task][], or many other tools but I chose [Just][].
+[Just][] has some small quality of life features and it doesn't make me want to hurt myself when I look at it.
 
 If all I wanted was a simple bootstrap script I wouldn't bother writing a separate post about it,
 but I realized that [Just][] is an excellent way to add some sorely needed to documentation as well.
@@ -64,7 +54,7 @@ Available recipes:
     link_cluster_config   # Initialize ~/.talos/config and ~/.kube/config
 ```
 
-So `just bootstrap full` would try to bootstrap everything. Sounds scary, so let's look at the code:
+It seems `just bootstrap full` would try to bootstrap everything. Sounds scary, so let's look at the code:
 
 {path="just/bootstrap.just"}
 ```just
@@ -78,6 +68,7 @@ full:
 
 Where the cluster is bootstrapped like this:
 
+{path="just/bootstrap.just"}
 ```just
 [doc("Bootstrap VMs and talos cluster")]
 [working-directory('../infrastructure')]
@@ -91,12 +82,13 @@ cluster:
 create_cluster_config:
     terraform output -raw talosconfig > talosconfig.yaml
     terraform output -raw kubeconfig > kubeconfig.yaml
-    # We'll lookk at this in the next post
+    # We'll look at this in the next post
     just secrets::encrypt_cluster_config
 ```
 
 And Cilium like so:
 
+{path="just/bootstrap.just"}
 ```just
 [doc("Bootstrap Cilium")]
 cilium: init_helm_repos wait_for_api
@@ -118,13 +110,20 @@ cilium: init_helm_repos wait_for_api
     kubectl apply -f gitops/bootstrap/cilium_config.yaml
 ```
 
+Here I've added the bootstrap commands from the last post and I've added some waits to try make the bootstrap process 
+
 Note the two dependencies `init_helm_repos` and `wait_for_api`, which will run before Cilium is bootstrapped. `init_helm_repos` simply adds the Cilium helm repo and `wait_for_api` waits until the Kubernetes nodes are ready (although, not necessarily healthy according to `talosctl health`):
 
+{path="just/bootstrap.just"}
 ```just
 [private]
 wait_for_api:
     until kubectl get nodes; do sleep 5; done
 ```
+
+<https://news.ycombinator.com/item?id=42351101>
+
+<https://news.ycombinator.com/item?id=34315779>
 
 [Task]: https://taskfile.dev/
 [Just]: https://just.systems/man/en/introduction.html

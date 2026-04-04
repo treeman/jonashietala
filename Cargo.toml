@@ -88,6 +88,7 @@ tree-sitter-ghostty = { git = "https://github.com/treeman/tree-sitter-ghostty" }
 # tree-sitter-fennel = { git = "https://github.com/alexmozaidze/tree-sitter-fennel" }
 tree-sitter-fennel = { git = "https://github.com/treeman/tree-sitter-fennel" }
 tree-sitter-hcl = { git = "https://github.com/tree-sitter-grammars/tree-sitter-hcl" }
+tree-sitter-just = { git = "https://github.com/casey/tree-sitter-just" }
 
 # TODO better but doesn't expose the highlights
 # tree-sitter-ghostty = { git = "https://github.com/bezhermoso/tree-sitter-ghostty" }
