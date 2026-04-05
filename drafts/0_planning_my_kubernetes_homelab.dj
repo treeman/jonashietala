@@ -4,9 +4,24 @@ tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
 ---
 
-If I'd have to describe my homelab setup via analogy I guess it would be similar to me a unicycle carrying plates with both of my hands, or maybe a leaking barrel with water that I try to patch up with silver tape.
+If I'd have to describe my homelab setup via analogy I guess it would be similar to me on a unicycle carrying plates with both of my hands, or maybe a leaking barrel with water that I try to patch up with silver tape.
 
-So I decided to start from scratch and setup a Kubernetes cluster where I'll run my Homelab services.
+So I decided to start from scratch and see what I could come up with if I did a complete redesign.
+
+# What we'll build
+
+In the end we'll end up with a single command to create VMs 
+
+bootstrap a 3-node Kubernetes cluster
+
+# What I might add later
+
+I'll definitely add at least one more physical machine to the setup
+but I wanted to try to keep it simple at the start and scale up later.
+Similarly, [Longhorn][] is something I want but maybe not required from the very beginning?
+
+I wanted to keep this blog series to a reasonable length,
+but it's already past that point so maybe I'll throw in a post at the end about [Longhorn][], I haven't decided yet.
 
 # Declarative, reproducible, and automated
 
@@ -115,3 +130,4 @@ In the next part we'll start by creating VMs and getting a Kubernetes cluster up
 [kube-proxy]: https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/
 [Forgejo]: https://forgejo.org/
 [unbound]: https://docs.opnsense.org/manual/unbound.html
+[Longhorn]: https://longhorn.io/
