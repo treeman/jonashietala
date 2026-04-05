@@ -441,6 +441,17 @@ I encountered a bug in ArgoCD v3.3.5 where it'll get stuck syncing the routes wi
 ```
 :::
 
+***
+
+TODO
+
+```
+ kubectl get secret hietala-xyz-tls -n kube-system -o yaml | kubeseal \
+                                    --cert infrastructure/sealed-secrets-cert.pem \
+                                    --name hietala-xyz-tls \
+                                    -o yaml > gitops/apps/cert-manager/hietala-xyz-tls-sealed.yaml
+```
+
 [cert-manager]: https://cert-manager.io/
 [Gateway API]: https://gateway-api.sigs.k8s.io/
 [ExternalDNS]: https://github.com/kubernetes-sigs/external-dns

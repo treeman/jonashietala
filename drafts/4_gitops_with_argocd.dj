@@ -201,5 +201,18 @@ For the impatient:
 kubectl annotate applications -n argocd --all argocd.argoproj.io/refresh=hard
 ```
 
-[ExternalDNS]: https://github.com/kubernetes-sigs/external-dns
+See sync/health status:
+
+```
+kubectl get applications -n argocd
+```
+
 [How to Structure Your Argo CD Repositories Using Application Sets]: https://codefresh.io/blog/how-to-structure-your-argo-cd-repositories-using-application-sets/
+
+
+  kubectl run s3-fix --rm -i --restart=Never -n garage --image=amazon/aws-cli \
+    --env="AWS_ACCESS_KEY_ID=$(kubectl get secret postgres-backup-s3 -n cnpg-system -o jsonpath='{.data.ACCESS_KEY_ID}' | base64 -d)" \
+    --env="AWS_SECRET_ACCESS_KEY=$(kubectl get secret postgres-backup-s3 -n cnpg-system -o jsonpath='{.data.ACCESS_SECRET_KEY}' | base64 -d)" \
+    --env=AWS_DEFAULT_REGION=garage \
+    -- s3 rm s3://postgres-backups/postgres/base/20260404T110200/ --recursive \
+    --endpoint-url http://garage.garage.svc.cluster.local:3900
