@@ -15,11 +15,12 @@ We have our Kubernetes cluster and now we're going to bootstrap ArgoCD so it sta
 Using helm:
 
 ```fish
-helm repo add argo https://argoproj.github.io/argo-helm
-helm repo update
-helm install argocd argo/argo-cd -n argocd --create-namespace --version 9.4.16 \
-  --set server.service.type=LoadBalancer \
-  --set server.service.annotations."io\.cilium/lb-ipam-ips"=10.1.4.102
+helm install argocd \
+    --repo https://argoproj.github.io/argo-helm \
+    argo-cd \
+    --namespace argocd \
+    --create-namespace \
+    --version 9.4.16
 ```
 
 This will install ArgoCD under the `argocd` namespace and assign a fixed IP to it (so it's easy for the `argocd` command to find it).
