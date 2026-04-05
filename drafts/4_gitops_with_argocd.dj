@@ -49,6 +49,31 @@ You need an API token with read permissions:
 argocd repo add https://git.hietala.xyz/tree/home-ops.git --username admin --password token
 ```
 
+Declarative setup: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/
+
+```fish
+kubectl create secret generic home-ops-repo \
+  --namespace argocd \
+  --from-literal=type=git \
+  --from-literal=url=https://git.hietala.xyz/tree/home-ops.git \
+  --from-literal=username=admin \
+  --from-literal=password=2cfbfa5cc8cb0ada21333c729d0379517ef7d1e0 \
+  --dry-run=client -o yaml \
+  | kubeseal --cert infrastructure/sealed-secrets-cert.pem -o yaml \
+  > gitops/bootstrap/argocd-repo-secret.yaml
+```
+
+We also need to add the repository label to the generated file:
+
+```yaml
+template:
+  metadata:
+    name: home-ops-repo
+    namespace: argocd
+    labels:
+      argocd.argoproj.io/secret-type: repository
+```
+
 You can verify that the repo exists with `argocd repo list` or in the UI.
 
 TODO maybe encrypt it and source it?
