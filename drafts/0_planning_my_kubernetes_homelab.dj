@@ -10,7 +10,7 @@ So I decided to start from scratch and see what I could come up with if I did a 
 
 # What we'll build
 
-In the end we'll end up with a single command to create VMs 
+In the end we'll end up with a single command to create VMs
 
 bootstrap a 3-node Kubernetes cluster
 
