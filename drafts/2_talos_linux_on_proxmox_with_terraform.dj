@@ -125,10 +125,12 @@ It's a helpful tool as there are many parameters you can tweak to get the image 
 The settings I chose are:
 
 * Cloud server (we'll install on Proxmox)
-* I used version 1.12.5
+* I used version 1.12.6
 * Nocloud (again, Proxmox)
 * amd64
 * The `qemu-guest-agent` System extension (important for Proxmox)
+
+  Also `iscsi-tools` and `util-linux-tools` for Longhorn.
 
 You'll receive an image schematic ID, I got: `ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515`.
 
