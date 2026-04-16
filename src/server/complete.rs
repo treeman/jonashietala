@@ -125,7 +125,8 @@ lazy_static! {
 }
 
 fn img_completions(site: &Site) -> Vec<CompletionItem> {
-    site.list_imgs()
+    let mut items: Vec<CompletionItem> = site
+        .list_imgs()
         .map(|e| {
             CompletionItemBuilder::new_img(
                 e.path.rel_path,
@@ -134,7 +135,17 @@ fn img_completions(site: &Site) -> Vec<CompletionItem> {
             .expect("Completion builder failed")
             .into()
         })
-        .collect()
+        .collect();
+
+    items.sort_by(|a, b| {
+        let modified = |item: &CompletionItem| match &item.info {
+            Some(ContentInfo::Img(info)) => info.modified,
+            _ => 0,
+        };
+        modified(b).cmp(&modified(a))
+    });
+
+    items
 }
 
 fn url_completions(site: &Site) -> Vec<CompletionItem> {
