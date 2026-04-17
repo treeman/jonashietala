@@ -1,0 +1,135 @@
+---toml
+title = "More backups"
+tags = ["Kubernetes", "Homelab"]
+series = "kube-homelab"
+---
+
+
+```
+CNPG
+  └─► Garage (in-cluster, S3-compatible)
+        └─► NFS mount → vault/postgres on Proxmox ZFS
+                └─► Sanoid/Syncoid → secondary machine
+                └─► Kopia → Backblaze B2
+```
+
+# Sanoid + syncoid for ZFS backups
+
+1. Data is organized into ZFS datasets
+1. Sanoid creates ZFS snapshots
+1. Syncoid syncs the snapshots to secondary machine
+
+## Sanoid
+
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sanoid
+  namespace: zfs-backup
+spec:
+  schedule: "0 0 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: sanoid
+              image: eyeruleall/sanoid@sha256:f82d0ecc3cf6d0cce81c5d2bfc85acd5395dc82314604e7defac383321f798ce
+              command:
+                - sh
+                - -c
+                - |
+                  cat /etc/sanoid/sanoid.conf | ssh root@10.1.3.1 \
+                    'mkdir -p /tmp/sanoid && cat > /tmp/sanoid/sanoid.conf &&
+                     sanoid --take-snapshots --prune-snapshots --verbose --configdir /tmp/sanoid'
+              volumeMounts:
+                - name: zfs-backup-config
+                  mountPath: /etc/sanoid/sanoid.conf
+                  subPath: sanoid.conf
+                - name: zfs-backup-ssh-config
+                  mountPath: /root/.ssh/config
+                  subPath: config
+                - name: zfs-backup-ssh-config
+                  mountPath: /root/.ssh/known_hosts
+                  subPath: known_hosts
+                - name: ssh-key
+                  mountPath: /ssh
+                  readOnly: true
+          volumes:
+            - name: zfs-backup-config
+              configMap:
+                name: zfs-backup-config
+            - name: zfs-backup-ssh-config
+              configMap:
+                name: zfs-backup-ssh-config
+            - name: ssh-key
+              secret:
+                secretName: zfs-backup-ssh-key
+                defaultMode: 0400
+```
+
+{path="sanoid.conf"}
+```conf
+[vault/garage]
+use_template = production
+recursive = no
+
+[template_production]
+frequently = 0
+hourly = 0
+daily = 7
+weekly = 4
+monthly = 3
+autosnap = yes
+autoprune = yes
+```
+
+## Syncoid
+
+
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: syncoid-garage
+  namespace: zfs-backup
+spec:
+  schedule: "0 2 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: syncoid
+              image: eyeruleall/sanoid@sha256:f82d0ecc3cf6d0cce81c5d2bfc85acd5395dc82314604e7defac383321f798ce
+              command:
+                - syncoid
+                - --no-sync-snap
+                - root@10.1.3.1:vault/garage
+                - root@10.1.1.1:bank/garage
+              volumeMounts:
+                - name: zfs-backup-ssh-config
+                  mountPath: /root/.ssh/config
+                  subPath: config
+                - name: zfs-backup-ssh-config
+                  mountPath: /root/.ssh/known_hosts
+                  subPath: known_hosts
+                - name: ssh-key
+                  mountPath: /ssh
+                  readOnly: true
+          volumes:
+            - name: zfs-backup-ssh-config
+              configMap:
+                name: zfs-backup-ssh-config
+            - name: ssh-key
+              secret:
+                secretName: zfs-backup-ssh-key
+                defaultMode: 0400
+```
+
+# Syncing to Backblaze with Kopia

@@ -444,6 +444,7 @@ data "talos_machine_configuration" "control_machine_config" {
 
 Of note here is `cluster_endpoint` which for us will be the first control node IP. We'll change it later to a Virtual IP (VIP) to remove the issue if that one node goes down, but for now:
 
+{hl=3}
 ```terraform
 locals {
   node_ips                = [for node in var.nodes : node.ip]
@@ -470,7 +471,7 @@ data "talos_machine_configuration" "control_machine_config" {
 }
 ```
 
-Talos will boot fine without it but if I understand things correctly when Talos updates itself it'll use the official upstream image and will remove any extensions (such as the QEMU agent).
+Talos will boot fine without it but if I understand things correctly during updates it'll then use the official upstream image and will remove any extensions (such as the QEMU agent we need).
 
 Another thing we need to patch is to allow our control nodes to schedule workloads because we don't have any worker nodes:
 
@@ -499,7 +500,7 @@ resource "talos_machine_configuration_apply" "control_machine_config_apply" {
 }
 ```
 
-Note how we loop through the nodes and target them individually using their IPs and that we added a dependency to `proxmox_virtual_environment_vm.talos` to ensure that the VMs are created before we try to apply the configuration.
+Note how we loop through the nodes and target them individually using their IPs, and that we added a dependency to `proxmox_virtual_environment_vm.talos` to ensure that the VMs are created before we try to apply the configuration.
 
 If you `terraform apply` this then the VMs will spin up and the nodes will go from Maintenance mode but get stuck in Booting and will print something like:
 
@@ -510,7 +511,7 @@ please run `talosctl bootstrap` against one of the following IPs:
 (a bunch of other warnings and errors)
 ```
 
-Bootstrapping is done like this:
+With Terraform, bootstrapping is done like this:
 
 ```terraform
 resource "talos_machine_bootstrap" "bootstrap" {
@@ -526,7 +527,7 @@ resource "talos_machine_bootstrap" "bootstrap" {
 The nodes seems to be running fine and they all signal a Healthy Running state in the Proxmox console.
 But how do we access them?
 
-We setup configuration files:
+We need the Talos and Kubernetes configuration files:
 
 ```terraform
 resource "talos_cluster_kubeconfig" "kubeconfig" {
@@ -562,6 +563,8 @@ kubectl --kubeconfig ./kubeconfig.yaml get pods -A
 
 You can move them to `~/.talos/config` and `~/.kube/config`, or set `TALOSCONFIG` and `KUBECONFIG` to avoid specifying them all the time.
 
+At this point we have a functional cluster but first I want to change a few things.
+
 # Fun with networking
 
 Networking, the thing that keeps your average homelabber awake at night.
@@ -569,11 +572,12 @@ As if that's not enough, in true homelabber fashion we'll create some extra prob
 
 ## Setting up Cilium
 
-I wanted to use [Cilium][] for service routing and as a CNI which means we have to disable them on the Talos nodes. New `config_patches`:
+I wanted to use [Cilium][] for proxying and as the Container Network Interface (CNI) which means we have to disable them on the Talos nodes. New `config_patches`:
 
 ```terraform
 data "talos_machine_configuration" "control_machine_config" {
   config_patches = [
+    # Disables the Flannel, the default CNI for Talos
     yamlencode({
       cluster = {
         network = {
@@ -583,6 +587,7 @@ data "talos_machine_configuration" "control_machine_config" {
         }
       }
     }),
+    # Disables kube-proxy, the default proxy service
     yamlencode({
       cluster = {
         proxy = {
@@ -602,7 +607,7 @@ waiting for all k8s nodes to report ready: some nodes are not ready: [talos-cp1-
 ```
 
 This is to be expected as we haven't installed Cilium yet.
-First we need to manually install the Gateway CRDs as they need to exist before we install cilium:
+First we need to manually install the Gateway CRDs as they need to exist before we install cilium (because we want to use it for Gateway management later as well):
 
 ```fish
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
@@ -641,14 +646,14 @@ With this installed `talosctl health` should after a while return all OK again.
 ## Load balancing
 
 Let's try out a good old classic to see if it works: the nginx test.
-We'll use the `LoadBalancer` to get an IP we can access:
+We'll use `LoadBalancer` to get an external IP:
 
 ```fish
 kubectl run nginx --image=nginx --port=80
 kubectl expose pod nginx --type=LoadBalancer --port=80
 ```
 
-Get the external ip:
+Get the IP:
 
 ```fish-shell
 $ kubectl get svc nginx
@@ -657,7 +662,7 @@ nginx   LoadBalancer   10.107.132.202   <pending>     80:30952/TCP   2s
 ```
 
 Oh right, we haven't configured load balancing for Cilium yet.
-Time for our first Kubernetes manifests!
+Time for our first Kubernetes manifest!
 
 {path="cilium_config.yaml"}
 ```yaml
@@ -690,7 +695,7 @@ kubectl apply -f cilium_config.yaml
 
 After a while (yes, I hate waiting) `kubectl get svc nginx` should show an external IP that we can visit the browser to verify that yes, we have a running app!
 
-Mother always nagged on me that I should cleanup after myself.
+Mother always nagged on me that I should cleanup after myself:
 
 ```fish
 kubectl delete pod nginx
@@ -700,13 +705,13 @@ kubectl delete svc nginx
 ## Virtual IP
 
 Kubernetes is supposed to be a resilient thing but we've introduced a central point of failure by using the first control node as the endpoint.
-If that one node goes down then the entire cluster is now unreachable for us.
+If that one node goes down then the entire cluster is now unreachable.
 
 We'll fix that with a Virtual IP, where all control nodes will share a single IP.
 If one of them goes down then one of the other will take over.
-Magic I tell you.
+(How? Must be magic!)
 
-Let's designate a VIP:
+Anyway, let's designate a VIP:
 
 {path="variables.auto.tfvars"}
 ```terraform
@@ -754,7 +759,9 @@ We also need to update the Cilium install parameters to target the VIP:
 To see that it gets assigned we can use `talosctl get addresses`; one of the nodes should be assigned the VIP.
 If we regenerate kubeconfig it should also contain the VIP and not the node IPs, so if `kubectl` can reach the cluster then all is good.
 
-(At this point I like to destroy and then go through the bootstrap again, to make sure everything can be reconstructed without issues.)
+::: tip
+This is a good time to destroy and go through the bootstrap again, to make sure everything can be reconstructed without issues.
+:::
 
 ## Nameservers
 
@@ -777,8 +784,27 @@ data "talos_machine_configuration" "control_machine_config" {
 ```
 And with that we have a functional Kubernetes cluster that we can easily tear down and rebuild.
 
-Cilium can't yet route to services with their own TLS certificate properly:
-<https://github.com/cilium/cilium/issues/31352>
+::: note
+Cilium has been working well but with one caveat:
+as I'm writing this [Cilium can't yet route to services with their own TLS certificate properly][].
+This means I can't add a route for my domain that internally redirects to a service with their certificate, such as Proxmox.
+
+To make `proxmox.hietala.xyz` work I use [Caddy][] with this config:
+
+{path="Caddyfile"}
+```
+proxmox.hietala.xyz:80 {
+    reverse_proxy https://10.1.3.1:8006 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+    }
+}
+```
+
+Other services (with `http` endpoints) I use Cilium and I hope to be able to remove Caddy in the near future.
+Caddy is great but fewer dependencies is nice.
+:::
 
 [bpg/proxmox]: https://registry.terraform.io/providers/bpg/proxmox/latest
 [siderolabs/talos]: https://registry.terraform.io/providers/siderolabs/talos/latest
@@ -787,3 +813,5 @@ Cilium can't yet route to services with their own TLS certificate properly:
 [Talos Linux]: https://www.talos.dev/
 [from the documentation]: https://docs.siderolabs.com/talos/v1.12/getting-started/getting-started
 [Cilium]: https://cilium.io/
+[Cilium can't yet route to services with their own TLS certificate properly]: https://github.com/cilium/cilium/issues/31352
+[Caddy]: https://caddyserver.com/docs/quick-starts/reverse-proxy

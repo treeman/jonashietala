@@ -5,7 +5,7 @@ series = "kube-homelab"
 ---
 
 I wanted the bootstrap process to be simple; ideally a single command and it would be up and running.
-But that's not what we have right now; just look at this monstrosity:
+But that's not what we have right now; just look at this monstrosity from the previous post:
 
 ```fish
 helm install cilium cilium/cilium \
@@ -28,7 +28,7 @@ I could place this in a README file, put it in a shell script, a Makefile, [Task
 [Just][] has some small quality of life features and it doesn't make me want to hurt myself when I look at it.
 
 If all I wanted was a simple bootstrap script I wouldn't bother writing a separate post about it,
-but I realized that [Just][] is an excellent way to add some sorely needed to documentation as well.
+but I realized that [Just][] is an excellent way to add some sorely needed documentation as well.
 
 For example, in the future I'll probably forget how the bootstrap process looks like.
 Fire up `just`:
@@ -38,7 +38,11 @@ $ just
 just -l
 Available recipes:
     bootstrap ...
+    cluster ...
+    deps ...
+    garage ...
     secrets ...
+    util ...
 ```
 
 ```fish-shell
@@ -49,9 +53,12 @@ Available recipes:
     cilium                # Bootstrap Cilium
     cluster               # Bootstrap VMs and talos cluster
     create_cluster_config # Create talasconfig and kubeconfig
+    forgejo               # Install and configure Forgejo inside the LXC created by Terraform
     full                  # Bootstrap everything from zero
-    init_helm_repos       # Add helm repos
     link_cluster_config   # Initialize ~/.talos/config and ~/.kube/config
+    pbs                   # Install and configure PBS inside the LXC created by Terraform
+    sealed_secrets        # Install sealed secrets controller
+    ...
 ```
 
 It seems `just bootstrap full` would try to bootstrap everything. Sounds scary, so let's look at the code:
@@ -91,9 +98,12 @@ And Cilium like so:
 {path="just/bootstrap.just"}
 ```just
 [doc("Bootstrap Cilium")]
-cilium: init_helm_repos wait_for_api
+[working-directory('../gitops')]
+cilium: wait_for_api
     kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
-    helm install cilium cilium/cilium \
+    helm install cilium \
+        --repo https://helm.cilium.io/ \
+        cilium \
         --namespace kube-system \
         --version 1.19.2 \
         --set kubeProxyReplacement=true \
@@ -106,11 +116,15 @@ cilium: init_helm_repos wait_for_api
         --set operator.replicas=1 \
         --set securityContext.privileged=true
     kubectl rollout status daemonset/cilium -n kube-system
-    kubectl wait --for=condition=Ready nodes --all --timeout=300s
-    kubectl apply -f gitops/bootstrap/cilium_config.yaml
+    kubectl apply -f bootstrap/cilium_config.yaml
+    talosctl health -n 10.1.4.10 --wait-timeout 10m
 ```
 
 Here I've added the bootstrap commands from the last post together with some waits to make the process work in script form.
+
+::: tip
+The `--repo` flag makes `helm repo add cilium https://helm.cilium.io/` unnecessary.
+:::
 
 # Notes on the setup
 
@@ -120,8 +134,10 @@ Note the two dependencies `init_helm_repos` and `wait_for_api`, which will run b
 ```just
 [private]
 wait_for_api:
-    until kubectl get nodes; do sleep 5; done
+    until kubectl get nodes 2>/dev/null | grep -q "NotReady\|Ready"; do sleep 5; done
 ```
+
+TODO other things
 
 <https://news.ycombinator.com/item?id=42351101>
 

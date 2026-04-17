@@ -18,12 +18,18 @@ For example, I'd like to migrate:
 
 * [Home Assistant][], Zigbee, and my [Elixir automations][].
 * Monitoring stack with [Grafana][] and [Loki][].
-* [Jellyfin][]
-* [Immich][]
+* [Jellyfin][] (not sure, I might keep it separate for GPU passthrough).
+* [Immich][] (not sure, I might keep it separate for GPU passthrough).
 * [Audiobookshelf][]
 * and more
 
 These represent some new variations such as storing data on my ZFS pool, utilizing the graphics card, and interfacing with the Zigbee USB stick.
+
+* [Longhorn][]
+* Container repository or [Spegel][].
+* ZFS snapshot replication with Sanoid + Syncoid
+* Backblaze backup using Kopia
+* \*arr-stack
 
 And most importantly: some are critical applications that will mess up our lives if they don't work properly.
 Without my smart home services for example some of the lights in our house won't turn on...
