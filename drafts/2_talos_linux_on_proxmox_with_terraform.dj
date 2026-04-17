@@ -24,6 +24,17 @@ It's possible to add these to a CI but I like the faster feedback of running the
 There will also be some extra complexity and bootstrap commands as I want to use [Cilium][] for service routing, the Container Network Interface (CNI), and in the future for the Gateway API.
 (Is it worth it? I don't know, but I'm too committed to the setup to change it now.)
 
+::: note
+In this post we'll go through a setup of three control plane nodes on a single Proxmox host, without any worker nodes.
+It's a good starting point if you want to start playing with Kubernetes, but you may want to alter that in the future.
+
+As I'm writing this for example my cluster consists of 6 nodes (3 control plane, 3 workers), across 2 Proxmox hosts and two Raspberry Pis---and I'd like to add more.
+
+The good thing about a setup like this is that it's easy to change!
+A few configuration changes, `terraform apply`, and you're good to go.
+(Things gets a bit more annoying with baremetal machines such as the Raspberry Pi, but not much.)
+:::
+
 # Terraform
 
 A quick note about the file structure I'll use.
@@ -38,6 +49,11 @@ I'll separate the repository in two folders: one for infrastructure related file
 
 You can split up Terraform files and `terraform` will automatically source all `.tf` files, so you can organize it however you like.
 I like to separate the variable assignments into it's own file (`terraform` sources all `*.aut.tfvars` files) but it's not necessary either.
+
+::: tip
+I've gone through many refactoring phases and the code I'm running now looks a little bit different than what's the blog post.
+Don't be afraid to refactor!
+:::
 
 ## Providers
 
@@ -112,7 +128,7 @@ I'd like to validate that the Proxmox connection works but Terraform seems to re
 Let's continue.
 
 ::: note
-I'll be using more variables in the future but in the future to avoid unnecessary boilerplate I won't always list the `variable` blocks.
+I'll be using more variables in the future but to avoid unnecessary boilerplate I won't always list the `variable` blocks.
 Sometimes I'll just use a `var.endpoint` or `endpoint = "https://10.1.3.1:8006"` and the implication is that there's a `variable "endpoint" { ... }` block somewhere.
 Hiding them in `variables.tf` feels nice.
 :::
@@ -130,9 +146,9 @@ The settings I chose are:
 * amd64
 * The `qemu-guest-agent` System extension (important for Proxmox)
 
-  Also `iscsi-tools` and `util-linux-tools` for Longhorn.
+  Also `iscsi-tools` and `util-linux-tools` for [Longhorn][].
 
-You'll receive an image schematic ID, I got: `ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515`.
+You'll receive an image schematic ID, for example: `ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515`.
 
 You can download this to Proxmox manually but Terraform can automate that.
 
@@ -140,7 +156,7 @@ To make it easier to update I broke out it out to variables:
 
 {path="variables.auto.tfvars"}
 ```terraform
-talos_version          = "1.12.5"
+talos_version          = "1.12.6"
 talos_image_factory_id = "ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515"
 ```
 
@@ -158,7 +174,7 @@ resource "proxmox_virtual_environment_download_file" "talos_image" {
 }
 ```
 
-Note that `datastore_id` should match Proxmox storage that can contain images and `node_name` should match the name of the Proxmox node (Proxmox can manage multiple machines/nodes, my one is called `dorne`).
+Note that `datastore_id` should match Proxmox storage that can contain images and `node_name` should match the name of the Proxmox node (Proxmox can manage multiple machines/nodes, this one is called `dorne`).
 
 Now we can test that our Proxmox provider is wired correctly:
 
@@ -174,7 +190,7 @@ Let's execute the download:
 terraform apply
 ```
 
-And it should show up in the GUI.
+And it should show up in the Proxmox GUI.
 
 ## Creating a VM
 
@@ -234,7 +250,10 @@ resource "proxmox_virtual_environment_vm" "talos" {
 
   The raw image also enables cloud-init configuration (the `initialization` block), which allows us the set a fixed IP (`10.1.4.10`) and set the gateway (my router, at `10.0.0.1`).
 
-- I create it with 4 CPU cores and 4GB of memory.
+- I create it with 4 CPU cores, 4GB of memory, and an OS disk size of 20 GB.
+
+  This is fine to start with but you may run out of RAM or disk size when you start adding applications (like I did).
+  Bumping up to something like 8 GB RAM and 40 GB storage is probably a good idea.
 
 - There are some extra settings there like the cpu and operating system type that I had to have but I can't explain why.
 
@@ -334,6 +353,41 @@ resource "proxmox_virtual_environment_vm" "talos" {
 
 This should now create 3 VMs, with different hostnames and IPs.
 
+::: tip
+Extending to multiple Proxmox hosts is straightforward, we just need to specify `node_name` and make sure the datastore matches with what exists on the node.
+Something like this might get you started:
+
+```terraform
+locals {
+  lvm_datastore = {
+    dorne      = "local-lvm"
+    lannisport = "other-lvm"
+  }
+}
+
+resource "proxmox_virtual_environment_vm" "talos" {
+  for_each  = { for node in var.nodes : node.hostname => node }
+  name      = each.key
+  node_name = each.value.proxmox_node
+
+  initialization {
+    datastore_id = local.lvm_datastore[each.value.proxmox_node]
+  }
+}
+```
+
+You also need to [download the Talos image](#Downloading-the-Talos-image) on both nodes (make sure to choose a matching datastore, `local` matched both for me):
+
+```terraform
+resource "proxmox_download_file" "talos_image" {
+  for_each     = ["dorne", "lannisport"]
+  node_name    = each.key
+  datastore_id = "local"
+  # ...
+}
+```
+:::
+
 ## Configuring Talos
 
 Now we need to configure Talos Linux.
@@ -343,13 +397,13 @@ First some variables to make life a little easier:
 
 {path="variables.auto.tfvars"}
 ```terraform
-talos_version      = "1.12.5"
+talos_version      = "1.12.6"
 kubernetes_version = "1.35.2"
 cluster_name       = "talos-cluster"
 ```
 
 Then we'll need three configurations: machine secrets, client config, and the control machine config.
-All my three nodes will be control nodes but if you want to create worker nodes you need a specific config for those, but I'll skip that in this post.
+The three nodes will be control nodes but if you want to create worker nodes you need a specific config for those, but I'll skip that in this post.
 
 ```terraform
 resource "talos_machine_secrets" "machine_secrets" {
@@ -722,6 +776,9 @@ data "talos_machine_configuration" "control_machine_config" {
 }
 ```
 And with that we have a functional Kubernetes cluster that we can easily tear down and rebuild.
+
+Cilium can't yet route to services with their own TLS certificate properly:
+<https://github.com/cilium/cilium/issues/31352>
 
 [bpg/proxmox]: https://registry.terraform.io/providers/bpg/proxmox/latest
 [siderolabs/talos]: https://registry.terraform.io/providers/siderolabs/talos/latest

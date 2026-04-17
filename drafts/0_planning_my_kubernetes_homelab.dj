@@ -4,60 +4,53 @@ tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
 ---
 
+![The Kubernetes iceberg.](/images/kube/iceberg.png)
+
 If I'd have to describe my homelab setup via analogy I guess it would be similar to me on a unicycle carrying plates with both of my hands, or maybe a leaking barrel with water that I try to patch up with silver tape.
 
-So I decided to start from scratch and see what I could come up with if I did a complete redesign.
+I've also been Kubernetes-curious so I decided to completely redesign my homelab, centered around Kubernetes.
+It was a bit painful but at least it fulfilled my need for procrastination very well.
 
-# What we'll build
+# Overarching goals
 
-In the end we'll end up with a single command to create VMs
+I've got three goals with the setup:
 
-bootstrap a 3-node Kubernetes cluster
+1.  **Declarative, reproducible, and automated**
 
-# What I might add later
+    The big goal is to have everything declarative in a single git repository and to easily be able to bootstrap from nothing to a fully working setup.
 
-I'll definitely add at least one more physical machine to the setup
-but I wanted to try to keep it simple at the start and scale up later.
-Similarly, [Longhorn][] is something I want but maybe not required from the very beginning?
+    I want to use [Infrastructure as Code][] to create the Kubernetes cluster and [GitOps][] to populate it with all my services automatically from the repo.
+    It should be really easy to make a change; I want to move away from having to `ssh` into the correct repo and manually do stuff.
 
-I wanted to keep this blog series to a reasonable length,
-but it's already past that point so maybe I'll throw in a post at the end about [Longhorn][], I haven't decided yet.
+1. **Backups, backups, backups**
 
-# Declarative, reproducible, and automated
+  While a proper [GitOps][] setup means that infrastructure and configuration files are inherently backed up, a proper backup setup is still crucial.
 
-The big goal is to have everything declarative in a single git repository and to easily be able to bootstrap from nothing to a fully working setup.
+  Ask me how I know.\
+  No, please don't.
 
-I want to use [Infrastructure as Code][] to create the Kubernetes cluster and [GitOps][] to populate it with all my services automatically from the repo.
-A change should be as simple as making a change and pushing; I want to move away from having to `ssh` into the correct repo and manually do stuff.
+  I haven't had a {-proper-} working backup solution for years and this time I should include it from the start.
 
-# Constraints
+3. **Documentation**
 
-The hardware I'm going to set this up on is a single machine running Proxmox.
-This will allow me to create multiple VMs to simulate a multi-node cluster but it will all run on a single machine.
-In the future I plan to expand the cluster across two Proxmox machines but I'll keep it on a single machine for this series.
+  What if I could document my setup, so future me has a chance to understand what's happening?
+  Writing documentation is boring, so I'll write some blog posts instead.
 
-In practice this has two consequences:
-
-1. The VM creation code will be a little simpler.
-2. I'll use [local-path][] storage when setting up Postgres.
-
-For GitOps I'll be using a self-hosted instance of [Forgejo][] running in another VM on the same machine.
-I think I'll keep it outside the cluster as it's pretty nice that it survives a complete reset of the cluster.
-I may make it reproducible in the future but that's out of scope for this series.
-
-For internal DNS I have [unbound][] running on OPNSense on my router.
+I'm a bit skeptical that I can fulfill all three goals, but if I manage 2/3 or even 1/3 it's still a big win compared to my old setup.
 
 # Kubernetes, too complicated?
 
-![The Kubernetes iceberg.](/images/kube/iceberg.png)
+{% ![The Kubernetes iceberg.](/images/kube/iceberg.png) %}
 
-It's a fair question and the most common critique towards Kubernetes is that's just too complicated.
-Discussion threads online are filled with comments such as:
+It's a fair question and the most common critique towards Kubernetes is that's just too complicated (especially for a homelab).
+Discussions online are filled with comments such as:
 
 > Kubernetes has to be most complex software I've ever tried to learn. I eventually gave up and decided to stick with simple single machine docker-compose deployments.
 > ^ [trinovantes][]
 
-> “Let’s use Kubernetes!” Now you have 8 problems
+> “Let’s use Kubernetes!”\
+> Now you have 8 problems
+>
 > ^ [Itamar Turner-Trauring][]
 
 So why would I choose Kubernetes?
@@ -70,13 +63,16 @@ Because, for whatever reason, Kubernetes is very popular and for every comment c
 > Kubernetes is the biggest quality-of-life improvement I've experienced in my career
 > ^ [anchochilis][]
 
-Having experienced the single machine docker-compose deployments, kludgy shell scripts, and proprietary cloud products I think I need to use Kubernetes myself to be able to form an opinion on it.
+Having experienced the single machine docker-compose deployments, kludgy shell scripts, and proprietary cloud products; I think I need to use Kubernetes myself to be able to form an opinion on it.
 
 And in some ways, isn't experimentation a core part homelabbing?
 
 # Tech stack
 
-Here's a rough list of things I'll setup and describe in this blog post series:
+There are _many_ valid tech choices for this kind of setup and many of them are reasonable.
+I don't know if my choices are reasonable---most were chosen because they sounded cool, others because I just picked one.
+
+Here's list of some of the choices I made, which we'll setup in this series:
 
 * [Talos Linux][] for Kubernetes nodes.
 
@@ -97,9 +93,19 @@ Here's a rough list of things I'll setup and describe in this blog post series:
 
 * [CloudNativePG][] for Postgres on Kubernetes.
 
-  I'll include [timescaledb][] and WAL backups using [Garage][].
+  I'll also setup [timescaledb][], although we won't use it in this series.
+  It's just to prepare for the future migration of long-term statistics from [Home Assistant][].
 
-* [Authentik][] as an identity provider and single sign on platform.
+* [Longhorn][] on NVMEs for persistent storage.
+
+  Data is backed up using [VolSync][] and [Restic][].
+
+* [Sanoid][], [Syncoid][] and [Kopia][] for backup archive management.
+
+  Backups are snapshotted and stored in ZFS, which are also encrypted and shipped off-site to Backblaze for storage in the cloud.
+  Backups from [Longhorn][] and Postgres arrives on ZFS via [Garage][], a self-hosted S3 service.
+
+* [Authentik][] as an identity provider and single-sign-on platform.
 
   It's nice to not have to login manually everywhere.
 

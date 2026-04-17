@@ -1,0 +1,39 @@
+---toml
+title = "Talos Linux with nvme on Rpi5"
+tags = ["Talos Linux", "Raspberry Pi", "Homelab"]
+---
+
+Cloned `git@github.com:wheetazlab/talos-builder.git`
+
+Build image with:
+
+```bash
+export REGISTRY=git.hietala.xyz
+export REGISTRY_USERNAME=tree
+
+make checkouts
+make patches-pi5
+
+# Pin govulncheck: upstream uses @latest but v1.2.0 needs Go 1.25
+# while Talos tools image ships Go 1.24.9.
+sed -i 's|govulncheck@latest|govulncheck@v1.1.4|' checkouts/talos/Dockerfile
+
+# Remove rewrite-timestamp=true from image exporter — conflicts with the
+# implicit unpack=true that containerd image store adds to type=image output.
+sed -i 's|,rewrite-timestamp=true||' checkouts/talos/Makefile
+
+make kernel
+make kern_initramfs
+make installer-base
+make imager
+make overlay
+make installer
+make ASSET_TYPE=metal installer-pi5
+```
+
+Flash to nvme:
+
+```bash
+zstdcat checkouts/talos/_out/metal-arm64.raw.zst | sudo dd of=/dev/sdb bs=4M status=progress conv=fsync
+sync
+```

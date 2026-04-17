@@ -6,7 +6,6 @@ draft = true
 ---
 
 A from-scratch walkthrough of my modern Kubernetes homelab setup with [Talos Linux][], automated with [Terraform][] and [GitOps][].
-It contains goodies such as [cloud native Postgres][], [single-sign-on][], and automated management of internal domains.
 
 [GitOps]: https://argo-cd.readthedocs.io/en/stable/
 [Talos Linux]: https://www.talos.dev/
