@@ -163,7 +163,7 @@ argocd account bcrypt --password 'supersecret'
 argocd account bcrypt --password (date -u +"%Y-%m-%dT%H:%M:%SZ")
 ```
 
-# Planning a file structure
+# A file structure
 
 [ArgoCD][] is now installed but at this point I think it's good to take a step back before we steam ahead.
 
@@ -199,7 +199,7 @@ gitops
 I'm considering separating infrastructure and user workloads, but for now I'm fine with having everything in the `apps/` folder.
 When the number of applications grow that's where I'll probably end up.
 
-# App-of-apps and application sets
+## App-of-apps
 
 `root.yaml` will be a master "app-of-apps" as it will be an `Application` that spawns other applications.
 It looks like this:
@@ -236,32 +236,306 @@ You're going to see lots of yaml files like this, better get used to it.
 The important bits are the name `all-apps`, it should be synced before everyone else (`sync-wave: -100`) and should load everything under `gitops/bootstrap` from my `home-ops` repo.
 I'll be using pruning and self-healing to tell [ArgoCD][] to keep everything in sync.
 
-***
+This is the entrypoint and it's the last manual apply command we'll use, as it'll load everything else:
 
-```
-argocd admin initial-password -n argocd
-argocd login 10.1.4.102 --insecure
-argocd account update-password
+```fish
+kubectl apply -f root.yaml
 ```
 
-```
-argocd repo add https://git.hietala.xyz/tree/home-ops.git --username admin --password <pass>
+## Application sets
+
+Inside the `bootstrap/` folder lives, among other things, `bootstrap/appset.yaml` which is responsible for turning subfolders under `apps/` into applications and loading them.
+
+This is what I use and it's an adaption of the code from the [aforementioned blog post][How to Structure Your Argo CD Repositories Using Application Sets]:
+
+{path="gitops/bootstrap/appset.yaml"}
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appset
+  namespace: argocd
+spec:
+  # Use Go's engine so we can use basename/path
+  goTemplate: true
+  # The engine silently fails on missing keys by default
+  goTemplateOptions: ["missingkey=error"]
+  # Generate from all subfolders from my repo under apps/
+  generators:
+    - git:
+        repoURL: https://git.hietala.xyz/tree/home-ops.git
+        revision: master
+        directories:
+          - path: gitops/apps/*
+  template:
+    # The Application name will be folder + "-app"
+    # Creative, I know.
+    metadata:
+      name: "{{.path.basename}}-app"
+    spec:
+      project: default
+      # Describes the manifests of the applcation,
+      # which is everything under apps/<app-folder>/
+      source:
+        repoURL: https://git.hietala.xyz/tree/home-ops.git
+        targetRevision: master
+        path: "{{.path.path}}"
+      # Give the application it's own namespace
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{.path.basename}}"
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          # Needed for larger manifests
+          - ServerSideApply=true
+          # ArgoCD does a dry run to check for resource kinds
+          # it doesn't yet recognize. This breaks some things
+          # so turn it off.
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
 ```
 
-```
-argocd repo list
-TYPE  NAME  REPO                                       INSECURE  OCI    LFS    CREDS  STATUS      MESSAGE  PROJECT
-git         https://git.hietala.xyz/tree/home-ops.git  false     false  false  false  Successful
+I hope the comments make it clear how the above works.
+The end result is that everything under `apps/` will be loaded and organized under its own application.
+
+# Other bootstrap things
+
+## Manifests under bootstrap/
+
+Even though we manually apply some manifests during the bootstrap sequence, they can still be managed by ArgoCD after the fact.
+This is solved by simply placing the relevant files in `bootstrap/`, and they'll be managed going forward.
+
+These are what we've collected so far:
+
+1. Cilium
+
+   We installed Cilium using a `helm install` command.
+   Here's a (hopefully) corresponding example of a manifest that ArgoCD can manage:
+
+   {path="gitops/bootstrap/cilium.yaml"}
+   ```yaml
+   apiVersion: argoproj.io/v1alpha1
+   kind: Application
+   metadata:
+     name: cilium
+     namespace: argocd
+     annotations:
+       argocd.argoproj.io/sync-wave: "-1"
+     finalizers:
+       - resources-finalizer.argocd.argoproj.io
+   spec:
+     project: default
+     source:
+       repoURL: https://helm.cilium.io
+       chart: cilium
+       targetRevision: 1.19.2
+       helm:
+         values: |
+           kubeProxyReplacement: true
+           k8sServiceHost: 10.1.4.10
+           k8sServicePort: 6443
+           l2announcements:
+             enabled: true
+           externalIPs:
+             enabled: true
+           gatewayAPI:
+             enabled: true
+           ipam:
+             mode: kubernetes
+           operator:
+             replicas: 1
+           securityContext:
+             privileged: true
+     destination:
+       server: https://kubernetes.default.svc
+       namespace: kube-system
+     syncPolicy:
+       syncOptions:
+         - CreateNamespace=false
+       automated:
+         prune: true
+         selfHeal: true
+   ```
+
+   The duplication here is unfortunate but I couldn't find a way around it.
+
+   At least we can reuse `cilium_config.yaml` with the load balancer IP specifications that we created during cluster setup.
+   Just plop it under `bootstrap/` and we can move on.
+
+
+1. Gateway API
+
+   Before installing Cilium we also applied the Gateway CRDs using this command:
+
+   ```fish
+   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml
+   ```
+
+   This is the corresponding YAML manifest (smaller as we don't pass dozens of options):
+
+   {path="gitops/bootstrap/gateway_api.yaml"}
+   ```yaml
+   apiVersion: argoproj.io/v1alpha1
+   kind: Application
+   metadata:
+     name: gateway-api
+     namespace: argocd
+     annotations:
+       argocd.argoproj.io/sync-wave: "-2"
+     finalizers:
+       - resources-finalizer.argocd.argoproj.io
+   spec:
+     project: default
+     source:
+       repoURL: https://github.com/kubernetes-sigs/gateway-api.git
+       targetRevision: v1.2.1
+       path: config/crd/standard
+     destination:
+       server: https://kubernetes.default.svc
+       namespace: kube-system
+     syncPolicy:
+       automated:
+         prune: true
+         selfHeal: true
+   ```
+
+   Note that I specify sync-wave `-2` for the Gateway and `-1` for Cilium because the Gateway should sync before Cilium.
+
+1. Sealed Secrets
+
+   We continue in the same manner of converting Helm installations to manifests:
+
+  {path="gitops/bootstrap/sealed_secrets.yaml"}
+  ```yaml
+  apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    name: sealed-secrets
+    namespace: argocd
+    annotations:
+      argocd.argoproj.io/sync-wave: "-1"
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+  spec:
+    project: default
+    source:
+      repoURL: https://bitnami-labs.github.io/sealed-secrets
+      chart: sealed-secrets
+      targetRevision: 2.16.2
+      helm:
+        values: |
+          fullnameOverride: sealed-secrets-controller
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: sealed-secrets
+    syncPolicy:
+      syncOptions:
+        - CreateNamespace=true
+      automated:
+        prune: true
+        selfHeal: true
+  ```
+
+1. ArgoCD
+
+   In addition to the secrets used for the declarative setup ([repository](#Repository), [admin password](#Initial-admin-password)) ArgoCD can also manage itself:
+
+  {path="gitops/bootstrap/argocd.yaml"}
+  ```yaml
+  apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    name: argocd
+    namespace: argocd
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+  spec:
+    project: default
+    source:
+      repoURL: https://argoproj.github.io/argo-helm
+      chart: argo-cd
+      targetRevision: 9.4.16
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: argocd
+    syncPolicy:
+      syncOptions:
+        - CreateNamespace=false
+      automated:
+        prune: true
+        selfHeal: true
+  ```
+
+## Updated bootstrap sequence
+
+Here's how I automatically bootstrap [ArgoCD][], with [Just][] recipes:
+
+{path="just/bootstrap.just" hl=8}
+```just
+[doc("Bootstrap everything from zero")]
+[working-directory('../infrastructure')]
+full:
+    just bootstrap::cluster
+    just bootstrap::cilium
+    just secrets::restore_sealed_secrets_private_key
+    just bootstrap::sealed_secrets
+    just bootstrap::argocd
+
+[doc("Bootstrap ArgoCD")]
+[working-directory('../gitops')]
+argocd:
+    helm install argocd \
+        --repo https://argoproj.github.io/argo-helm \
+        argo-cd \
+        --namespace argocd \
+        --create-namespace \
+        --version 9.4.16
+    # Wait for ArgoCD to deploy
+    kubectl rollout status deployment/argocd-server -n argocd --timeout=300s
+    # Needed to be able to sync from repo.
+    kubectl apply -f bootstrap/argocd-repo-secret.yaml
+    # Admin password, must exist before ArgoCD manages argocd-secret.
+    kubectl apply -f bootstrap/argocd-secret.yaml
+    # Technically not needed as it'll get loaded on sync, this just speeds it up a little.
+    kubectl apply -f bootstrap/argocd.yaml --force-conflicts --server-side
+    # Sync everything else from the repo.
+    kubectl apply -f root.yaml
 ```
 
-Then bootstrap the "app of apps" setup, which will load everything in `apps/`:
-
-```
-kubectl apply -f gitops/app-of-apps.yaml
-```
 # Renovate
 
-![](/images/kube/renovate_bot.png)
+![A pull request generated by the Renovate bot.](/images/kube/renovate_bot.png)
+
+To complete our GitOps setup and to exercise our newfound capabilities let's setup the [Renovate][] service.
+It's purpose is to monitor git repositories and to create pull requests where it updates dependencies, see the above image for how it's created a PR to update itself.
+
+The singularity is here any second now.
+
+To get Renovate setup we need to create three things:
+
+1. A secret with a token that authenticates to the repository we want to watch
+1. A renovate configuration file at the root of the repository
+1. The Renovate manifest for the application itself
+
+## The secret
+
+## The configuration file
+
+{path="renovate.json"}
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "argocd": {
+    "fileMatch": ["gitops/apps/.+\\.yaml$"]
+  }
+}
+```
+
+## The manifest
 
 Token with read/write permissions.
 
