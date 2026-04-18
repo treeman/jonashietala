@@ -6,8 +6,8 @@ series = "kube-homelab"
 
 ![](/images/kube/argocd_apps.png)
 
-Now we're getting to the really fun stuff: GitOps.
-The act of writing beautifully crafted `.yaml` files and see your Kubernetes cluster get red and stall out is surely what life's all about.
+Now we're getting to the fun stuff: [GitOps][].
+The act of pushing beautifully crafted `.yaml` files and see your Kubernetes cluster get red and stall out is surely what life's all about.
 
 # Install ArgoCD
 
@@ -23,61 +23,145 @@ helm install argocd \
     --version 9.4.16
 ```
 
-This will install ArgoCD under the `argocd` namespace and assign a fixed IP to it (so it's easy for the `argocd` command to find it).
-
 ArgoCD will by default generate an admin password and you can get it with the `arcocd` tool:
 
 ```fish
 # You can use the password to login to the web.
 argocd admin initial-password -n argocd
-# You can change the password like so:
-argocd login 10.1.4.102 --insecure
-argocd account update-password
+# Make ArgoCD available at localhost:8123
+kubectl port-forward -n argocd svc/argocd-server 8123:80
 ```
 
-And you should be able to login at `10.1.4.102`, the IP we fixed before.
-You can verify the IP with this command:
+You can use the `argocd` CLI to manage ArgoCD but I'm going to prefer the declarative way.
+
+## Fixed IP
+
+You can use the port forward method above to access ArgoCD but having a fixed IP is nicer, especially if you want to use the `argocd` CLI (I actually don't use it).
+
+I use a separate service for the IP, which allows me to assign an IP outside of the Cilium load balance pool we setup previously (`10.1.4.101`--`10.1.4.255`).
+It looks like this:
+
+{path="gitops/bootstrap/argocd.yaml"}
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server-ip
+  namespace: argocd
+spec:
+  type: ClusterIP
+  externalIPs:
+    - 10.1.4.51
+  selector:
+    app.kubernetes.io/name: argocd-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+```
+
+It simply routes `10.1.4.51:80` to the IP of `argocd-server` and port 8080.
+We need to apply it:
 
 ```fish
-kubectl get svc argocd-server -n argocd
+kubectl apply -f gitops/bootstrap/argocd.yaml
 ```
 
-To get the ball rolling we need to add a repository.
-I use a self-hosted Forgejo instance internally at `git.hietala.xyz` but anything will do.
-You need an API token with read permissions:
+And you should see it assigned and able to visit it on the web:
 
-```fish
-argocd repo add https://git.hietala.xyz/tree/home-ops.git --username admin --password token
+```fish-shell
+$ kubectl get svc -n argocd argocd-server-ip
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+argocd-server-ip   ClusterIP   10.105.209.116   10.1.4.51     80/TCP    3d18h
 ```
 
-Declarative setup: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/
+## Repository
+
+I use a self-hosted Forgejo instance internally at `git.hietala.xyz` but you can use whatever you want.
+You need an API token with read permissions.
+
+ArgoCD documents a [declarative setup][] that we'll use.
+For repositories we need to create a secret:
 
 ```fish
 kubectl create secret generic home-ops-repo \
   --namespace argocd \
   --from-literal=type=git \
   --from-literal=url=https://git.hietala.xyz/tree/home-ops.git \
-  --from-literal=username=admin \
-  --from-literal=password=2cfbfa5cc8cb0ada21333c729d0379517ef7d1e0 \
+  --from-literal=username=<username> \
+  --from-literal=password=<token> \
   --dry-run=client -o yaml \
   | kubeseal --cert infrastructure/sealed-secrets-cert.pem -o yaml \
   > gitops/bootstrap/argocd-repo-secret.yaml
 ```
 
-We also need to add the repository label to the generated file:
+We also need to add the repository label to the generated file so it looks something like this:
 
+{path="gitops/bootstrap/argocd-repo-secret-yaml" hl="13..18"}
 ```yaml
-template:
-  metadata:
-    name: home-ops-repo
-    namespace: argocd
-    labels:
-      argocd.argoproj.io/secret-type: repository
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: home-ops-repo
+  namespace: argocd
+spec:
+  encryptedData:
+    password: ...
+    type: ...
+    url: ...
+    username: ...
+  template:
+    metadata:
+      name: home-ops-repo
+      namespace: argocd
+      labels:
+        argocd.argoproj.io/secret-type: repository
 ```
 
-You can verify that the repo exists with `argocd repo list` or in the UI.
+Apply it:
 
-TODO maybe encrypt it and source it?
+```fish
+kubectl apply -f gitops/bootstrap/argocd-repo-secret.yaml
+```
+
+And the repo should show up in the UI or `argocd repo list`.
+
+## Initial admin password
+
+Instead of letting ArgoCD generate a random password we can set the initial password explicitly.
+It's possible to do it either via the Helm chart or [the declarative way][].
+
+The secret should look like this:
+
+{path="gitops/bootstrap/argocd-secret-yaml"}
+```yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: argocd-secret
+  namespace: argocd
+spec:
+  encryptedData:
+    admin.password: ...
+    admin.passwordMtime: ...
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: argocd-secret
+        app.kubernetes.io/part-of: argocd
+      name: argocd-secret
+      namespace: argocd
+    type: Opaque
+```
+
+Where `password` and `passwordMtime` should be bcrypt hash. They can be generated using `argocd`:
+
+```fish
+# The password
+argocd account bcrypt --password 'supersecret'
+# Modified time
+argocd account bcrypt --password (date -u +"%Y-%m-%dT%H:%M:%SZ")
+```
 
 # Planning a file structure
 
@@ -216,3 +300,6 @@ kubectl get applications -n argocd
     --env=AWS_DEFAULT_REGION=garage \
     -- s3 rm s3://postgres-backups/postgres/base/20260404T110200/ --recursive \
     --endpoint-url http://garage.garage.svc.cluster.local:3900
+
+[declarative setup]: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/
+[the declarative way]: https://argo-cd.readthedocs.io/en/stable/operator-manual/argocd-secret-yaml/
