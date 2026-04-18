@@ -129,7 +129,7 @@ And the repo should show up in the UI or `argocd repo list`.
 ## Initial admin password
 
 Instead of letting ArgoCD generate a random password we can set the initial password explicitly.
-It's possible to do it either via the Helm chart or [the declarative way][].
+It's possible to do it either via the Helm chart or [the declarative way][], which I'll continue with.
 
 The secret should look like this:
 
@@ -165,13 +165,16 @@ argocd account bcrypt --password (date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # Planning a file structure
 
-One of the benefits of ArgoCD is that you can create any kind of file structure.
-That's also one of it's problems: it's hard to know where to start.
+[ArgoCD][] is now installed but at this point I think it's good to take a step back before we steam ahead.
+
+One of the benefits of ArgoCD is that you can create any kind of file structure and organize the repository any way you want.
+That's also one of it's problems: if you can do _anything_ it's hard to decide on a plan forward.
 
 I found the blog post [How to Structure Your Argo CD Repositories Using Application Sets][]
 illuminating and even though their setup is way overkill for my homelab I simplified their ideas into something that works fell for me.
 
-The basic idea is this:
+The basic idea is to have all applications in their own folders under `gitops/apps`, and place all bootstrap stuff under `gitops/bootstrap`.
+Borrowing the "level" terminology from the [above post][How to Structure Your Argo CD Repositories Using Application Sets] here's the basic idea:
 
 ```
 gitops
@@ -189,8 +192,12 @@ gitops
     └── ...
 ```
 
-So ArgoCD will be bootstrapped with `root.yaml`, which will load everything under `bootstrap/`.
-This includes our Cilium config we used previously, ArgoCD itself (yes, it can update itself), and `appset.yaml` which will create apps of all subfolders under `apps/`.
+1. The repository gets initiated by sourcing `root.yaml`
+2. Everything under `bootstrap/` gets loaded
+3. It in turns loads folders under `apps/`
+
+I'm considering separating infrastructure and user workloads, but for now I'm fine with having everything in the `apps/` folder.
+When the number of applications grow that's where I'll probably end up.
 
 # App-of-apps and application sets
 
@@ -226,7 +233,8 @@ spec:
 ```
 
 You're going to see lots of yaml files like this, better get used to it.
-The important bits are the name `all-apps`, it should be synced before everyone else (the `sync-wave` thing) and should load everything under `gitops/bootstrap` from my `home-ops` repo.
+The important bits are the name `all-apps`, it should be synced before everyone else (`sync-wave: -100`) and should load everything under `gitops/bootstrap` from my `home-ops` repo.
+I'll be using pruning and self-healing to tell [ArgoCD][] to keep everything in sync.
 
 ***
 
