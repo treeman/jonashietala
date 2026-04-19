@@ -304,7 +304,7 @@ spec:
 In general though I skip the `http` route as I tell Firefox to always use `https`.
 ArgoCD is still accessible via it's external IP, or you can port-forward or proxy to it:
 
-```
+```fish
 # Access via http://localhost:8001/api/v1/namespaces/argocd/services/argocd-server:80/proxy/
 kubectl proxy
 # Acess via localhost:8123

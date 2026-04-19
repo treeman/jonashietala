@@ -151,7 +151,6 @@ spec:
         app.kubernetes.io/part-of: argocd
       name: argocd-secret
       namespace: argocd
-    type: Opaque
 ```
 
 Where `password` and `passwordMtime` should be bcrypt hash. They can be generated using `argocd`:
@@ -522,26 +521,22 @@ To get Renovate setup we need to create three things:
 
 ## The secret
 
-Renovate will automatically pick up `RENOVATE_TOKEN` in secrets like so:
+Renovate will pick up `RENOVATE_TOKEN` in secrets, generated like so:
 
-{path="gitops/apps/renovate/renovate-secret.yaml"}
-```yaml
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  name: renovate-token
-  namespace: renovate
-spec:
-  encryptedData:
-    RENOVATE_TOKEN: ...
-  template:
-    metadata:
-      name: renovate-token
-      namespace: renovate
-    type: Opaque
+```fish
+kubectl create secret generic renovate-token -n renovate \
+  --from-literal=RENOVATE_TOKEN='<token>' \
+  --dry-run=client -o yaml \
+| kubeseal --cert infrastructure/sealed-secrets-cert.pem -o yaml \
+  > gitops/apps/renovate/renovate-secret.yaml
 ```
 
+We'll later add the name `renovate-token` to the main manifest.
+
 ## The configuration file
+
+[Renovate][] has a bunch of configurations you can add.
+I'm good with the defaults except to modify the ArgoCD settings to support the custom directory structure I'm using:
 
 {path="renovate.json"}
 ```json
@@ -556,51 +551,63 @@ spec:
 
 ## The manifest
 
-Token with read/write permissions.
+The Application manifest is similar to the once we've seen before:
 
-```
-kubectl create secret generic renovate-token --namespace renovate --from-literal=RENOVATE_TOKEN=<token>
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: renovate
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://docs.renovatebot.com/helm-charts
+    chart: renovate
+    targetRevision: 46.112.1
+    helm:
+      values: |
+        existingSecret: renovate-token
+        cronjob:
+          schedule: "0 1 * * *"
+        renovate:
+          config: |
+            {
+              "platform": "forgejo",
+              "endpoint": "https://git.hietala.xyz",
+              "repositories": ["tree/home-ops"],
+              "gitAuthor": "Renovate Bot <renovate@git.hietala.xyz>",
+              "automerge": false
+            }
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: renovate
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
 ```
 
-```
-kubectl get secret renovate-token -n renovate -o jsonpath='{.data.RENOVATE_TOKEN}' | base64 -d
-```
+Note that we configure the secret (`renovate-token`), how often it should run, and the repository information.
 
-Test:
+Commit and push and it should be ready to go.
+ArgoCD has a really good UI where you can see what's happening, if you made a mistake somewhere, and also trigger the cron job manually.
 
-```
+Or you can use `kubectl`, for example:
+
+```fish
+# See the health status of all applications
+kubectl get applications -A
+# Trigger the jron job
 kubectl create job -n renovate --from=cronjob/renovate renovate-manual
-```
-
-You can also see logs with:
-
-```
-tree@winterfell ~/c/home-ops> kubectl logs -n renovate -l job-name=renovate-manual -f
-```
-
-And there's also a nice UI for this.
-
-For the impatient:
-
-```
-kubectl annotate applications -n argocd --all argocd.argoproj.io/refresh=hard
-```
-
-See sync/health status:
-
-```
-kubectl get applications -n argocd
+# Watch the logs
+kubectl logs -n renovate -l job-name=renovate-manual -f
 ```
 
 [How to Structure Your Argo CD Repositories Using Application Sets]: https://codefresh.io/blog/how-to-structure-your-argo-cd-repositories-using-application-sets/
-
-
-  kubectl run s3-fix --rm -i --restart=Never -n garage --image=amazon/aws-cli \
-    --env="AWS_ACCESS_KEY_ID=$(kubectl get secret postgres-backup-s3 -n cnpg-system -o jsonpath='{.data.ACCESS_KEY_ID}' | base64 -d)" \
-    --env="AWS_SECRET_ACCESS_KEY=$(kubectl get secret postgres-backup-s3 -n cnpg-system -o jsonpath='{.data.ACCESS_SECRET_KEY}' | base64 -d)" \
-    --env=AWS_DEFAULT_REGION=garage \
-    -- s3 rm s3://postgres-backups/postgres/base/20260404T110200/ --recursive \
-    --endpoint-url http://garage.garage.svc.cluster.local:3900
-
 [declarative setup]: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/
 [the declarative way]: https://argo-cd.readthedocs.io/en/stable/operator-manual/argocd-secret-yaml/
