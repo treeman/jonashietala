@@ -97,7 +97,7 @@ kubectl create secret generic home-ops-repo \
 
 We also need to add the repository label to the generated file so it looks something like this:
 
-{path="gitops/bootstrap/argocd-repo-secret-yaml" hl="13..18"}
+{path="gitops/bootstrap/argocd-repo-secret-yaml" hl="16..18"}
 ```yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -521,6 +521,25 @@ To get Renovate setup we need to create three things:
 1. The Renovate manifest for the application itself
 
 ## The secret
+
+Renovate will automatically pick up `RENOVATE_TOKEN` in secrets like so:
+
+{path="gitops/apps/renovate/renovate-secret.yaml"}
+```yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: renovate-token
+  namespace: renovate
+spec:
+  encryptedData:
+    RENOVATE_TOKEN: ...
+  template:
+    metadata:
+      name: renovate-token
+      namespace: renovate
+    type: Opaque
+```
 
 ## The configuration file
 
