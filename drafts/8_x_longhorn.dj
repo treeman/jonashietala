@@ -1,7 +1,0 @@
----toml
-title = "Longhorn"
-tags = ["Kubernetes", "Homelab"]
-series = "kube-homelab"
----
-
-<https://oneuptime.com/blog/post/2026-02-09-longhorn-distributed-block-storage/view>

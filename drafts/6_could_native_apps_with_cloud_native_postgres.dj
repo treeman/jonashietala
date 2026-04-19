@@ -1,7 +1,272 @@
 ---toml
-title = "Apps with CloudNativePG"
+title = "Apps with Storage"
 tags = ["Kubernetes", "Homelab"]
 series = "kube-homelab"
+---
+
+We've got a functional cluster but most useful applications require some kind of storage,
+so in this post we'll setup both Postgres and [Longhorn][] together with a fully featured backup system for good measure.
+
+I was initially planning to split this into three separate posts but eh...
+
+This is the plan:
+
+1. Setup [CloudNativePG][] with backups to ZFS
+1. Setup [Longhorn][], again backed up to ZFS
+1. Add snapshots, copy them to a secondary ZFS pool and to the cloud
+
+# Postgres on Kubernetes
+
+> just because you can run PostgreSQL on Kubernetes doesn't mean you should
+> ^ [Why Running Postgres on Kubernetes Is Still a Bad Idea (And What to Do Instead)][]
+
+Meh, I do what I want.
+
+I agree with [their point][Why Running Postgres on Kubernetes Is Still a Bad Idea (And What to Do Instead)] that it's likely better to rely on a managed Postgres service but this is a Homelab so I can safely disregard any sane advice I don't like.
+
+## CloudNativePG
+
+[CloudNativePG][] is supposedly pretty great though, let's get it setup.
+
+A standard application manifest:
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudnative-pg
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://cloudnative-pg.github.io/charts
+    chart: cloudnative-pg
+    targetRevision: 0.28.0
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-system
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+```yaml
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: cnpg-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  instances: 1
+  imageName: ghcr.io/inherent-design/cloudnative-pg-timescaledb:18
+  storage:
+    storageClass: local-path
+    size: 200Gi
+  postgresql:
+    shared_preload_libraries:
+      - timescaledb
+  bootstrap:
+    initdb: {}
+```
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-ip
+  namespace: cnpg-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  type: ClusterIP
+  externalIPs:
+    - 10.1.4.50
+  selector:
+    cnpg.io/cluster: postgres
+    role: primary
+  ports:
+    - port: 5432
+      targetPort: 5432
+```
+
+## Miniflux
+
+## Backups with Garage
+
+```
+CloudNativePG (WAL + daily base backup)
+  └─► Garage S3 bucket (s3://postgres-backups/, local-path)
+        └─► [snapshots every 6h]
+              └─► NFS → /vault/garage/ on dorne (ZFS)
+```
+
+# Longhorn
+
+## Installation
+
+## Actual Budget
+
+## Backups with VolSync and Garage
+
+```
+Longhorn PVCs
+  └─► VolSync ReplicationSource (Longhorn snapshots every 6h)
+        └─► Garage S3 bucket (s3://volsync-backup/app/, local-path
+              └─► [snapshots entire hot tier every 6h]
+                    └─► NFS → /vault/garage/ on dorne (ZFS)
+```
+
+# ZFS backups
+
+```
+ZFS datasets machine 1
+  └─► Sanoid snapshots
+  └─► Syncoid → ZFS machine 2
+        └─► Kopia → Backblaze B2
+```
+
+## Snapshots
+
+## Copy to backup machine
+
+## Kopia to Backblaze
+
+
+---
+
+# Sanoid + syncoid for ZFS backups
+
+1. Data is organized into ZFS datasets
+1. Sanoid creates ZFS snapshots
+1. Syncoid syncs the snapshots to secondary machine
+
+## Sanoid
+
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sanoid
+  namespace: zfs-backup
+spec:
+  schedule: "0 0 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: sanoid
+              image: eyeruleall/sanoid@sha256:f82d0ecc3cf6d0cce81c5d2bfc85acd5395dc82314604e7defac383321f798ce
+              command:
+                - sh
+                - -c
+                - |
+                  cat /etc/sanoid/sanoid.conf | ssh root@10.1.3.1 \
+                    'mkdir -p /tmp/sanoid && cat > /tmp/sanoid/sanoid.conf &&
+                     sanoid --take-snapshots --prune-snapshots --verbose --configdir /tmp/sanoid'
+              volumeMounts:
+                - name: zfs-backup-config
+                  mountPath: /etc/sanoid/sanoid.conf
+                  subPath: sanoid.conf
+                - name: zfs-backup-ssh-config
+                  mountPath: /root/.ssh/config
+                  subPath: config
+                - name: zfs-backup-ssh-config
+                  mountPath: /root/.ssh/known_hosts
+                  subPath: known_hosts
+                - name: ssh-key
+                  mountPath: /ssh
+                  readOnly: true
+          volumes:
+            - name: zfs-backup-config
+              configMap:
+                name: zfs-backup-config
+            - name: zfs-backup-ssh-config
+              configMap:
+                name: zfs-backup-ssh-config
+            - name: ssh-key
+              secret:
+                secretName: zfs-backup-ssh-key
+                defaultMode: 0400
+```
+
+{path="sanoid.conf"}
+```conf
+[vault/garage]
+use_template = production
+recursive = no
+
+[template_production]
+frequently = 0
+hourly = 0
+daily = 7
+weekly = 4
+monthly = 3
+autosnap = yes
+autoprune = yes
+```
+
+## Syncoid
+
+
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: syncoid-garage
+  namespace: zfs-backup
+spec:
+  schedule: "0 2 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: syncoid
+              image: eyeruleall/sanoid@sha256:f82d0ecc3cf6d0cce81c5d2bfc85acd5395dc82314604e7defac383321f798ce
+              command:
+                - syncoid
+                - --no-sync-snap
+                - root@10.1.3.1:vault/garage
+                - root@10.1.1.1:bank/garage
+              volumeMounts:
+                - name: zfs-backup-ssh-config
+                  mountPath: /root/.ssh/config
+                  subPath: config
+                - name: zfs-backup-ssh-config
+                  mountPath: /root/.ssh/known_hosts
+                  subPath: known_hosts
+                - name: ssh-key
+                  mountPath: /ssh
+                  readOnly: true
+          volumes:
+            - name: zfs-backup-ssh-config
+              configMap:
+                name: zfs-backup-ssh-config
+            - name: ssh-key
+              secret:
+                secretName: zfs-backup-ssh-key
+                defaultMode: 0400
+```
+
+# Syncing to Backblaze with Kopia
+
 ---
 
 a. Local path storage
@@ -213,3 +478,5 @@ kubectl get pods -n cnpg-system
 # Connect via the pod
 kubectl exec -it -n cnpg-system postgres-tmp-1 -- psql -U postgres
 ```
+
+[Why Running Postgres on Kubernetes Is Still a Bad Idea (And What to Do Instead)]: https://devops-daily.com/posts/postgres-k8s
